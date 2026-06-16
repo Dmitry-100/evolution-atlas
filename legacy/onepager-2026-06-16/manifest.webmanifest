@@ -1,0 +1,10 @@
+{
+  "name": "Путь к человеку",
+  "short_name": "Эволюция",
+  "description": "Интерактивная временная шкала пути к человеку.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080d13",
+  "theme_color": "#080d13",
+  "icons": []
+}

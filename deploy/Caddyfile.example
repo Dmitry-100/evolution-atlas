@@ -1,0 +1,12 @@
+atlas.example.com {
+	root * /srv/evolution-atlas/dist
+	encode zstd gzip
+	file_server
+	try_files {path} /index.html
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+}

@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Интерактивная временная шкала: от ранней жизни к приматам, обезьянам и Homo sapiens.">
+  <meta name="theme-color" content="#0b0f0e">
+  <title>От кого произошли обезьяны: 4 млрд лет эволюции</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0f0e;
+      --ink: #eee8dc;
+      --muted: #a79d8d;
+      --dim: #756d61;
+      --gold: #c9a05a;
+      --gold-soft: rgba(201, 160, 90, .25);
+      --cyan: #78aeba;
+      --line: rgba(201, 160, 90, .26);
+      --panel: rgba(10, 14, 13, .72);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--sans);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(9, 13, 12, .18), rgba(9, 13, 12, .7)),
+        url("./assets/images/background-texture.png") center / cover no-repeat,
+        radial-gradient(circle at 48% 12%, rgba(201, 160, 90, .09), transparent 30rem),
+        #0b0f0e;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, transparent 0 70%, rgba(0,0,0,.18)),
+        radial-gradient(circle at 16% 8%, transparent 0 24rem, rgba(0,0,0,.2) 60rem);
+      box-shadow: inset 0 0 180px rgba(0,0,0,.42);
+    }
+
+    button, input { font: inherit; }
+    button { border: 0; }
+
+    .screen {
+      width: min(100vw, 1800px);
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: clamp(18px, 1.35vw, 28px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.68fr) minmax(410px, .92fr);
+      gap: clamp(20px, 2.15vw, 42px);
+    }
+
+    .left {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      align-content: start;
+    }
+
+    .left > * {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .kicker {
+      margin: 0 0 clamp(10px, 1.1vw, 22px);
+      color: var(--gold);
+      font-size: clamp(12px, .95vw, 21px);
+      font-weight: 850;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      width: min(980px, 100%);
+      margin: 0;
+      color: #f1eee7;
+      font-family: var(--serif);
+      font-size: clamp(48px, 4.45vw, 94px);
+      font-weight: 700;
+      line-height: .95;
+      letter-spacing: 0;
+      text-shadow: 0 2px 14px rgba(0,0,0,.34);
+    }
+
+    .lead {
+      width: min(780px, 92%);
+      margin: clamp(13px, 1.1vw, 22px) 0 clamp(9px, .9vw, 16px);
+      color: #cfc8bc;
+      font-family: var(--serif);
+      font-size: clamp(17px, 1.18vw, 25px);
+      line-height: 1.36;
+    }
+
+    .answer-strip {
+      width: min(820px, 100%);
+      margin: 0 0 clamp(12px, 1.1vw, 20px);
+      padding: clamp(9px, .75vw, 14px) 0 clamp(9px, .75vw, 14px);
+      border-top: 1px solid rgba(201, 160, 90, .36);
+      border-bottom: 1px solid rgba(201, 160, 90, .2);
+      display: grid;
+      grid-template-columns: minmax(136px, .26fr) 1fr;
+      column-gap: clamp(18px, 1.65vw, 32px);
+      row-gap: 4px;
+    }
+
+    .answer-strip span {
+      display: block;
+      margin: .25em 0 0;
+      color: #d1a463;
+      font-size: clamp(11px, .78vw, 16px);
+      font-weight: 850;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      grid-row: 1 / span 2;
+    }
+
+    .answer-strip strong {
+      display: block;
+      color: #f2eee6;
+      font-family: var(--serif);
+      font-size: clamp(19px, 1.32vw, 26px);
+      line-height: 1.08;
+    }
+
+    .answer-strip p {
+      max-width: 760px;
+      margin: .34em 0 0;
+      color: rgba(218, 209, 192, .82);
+      font-size: clamp(13px, .82vw, 16px);
+      line-height: 1.34;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(12px, 1.2vw, 24px);
+      align-items: center;
+      margin-bottom: clamp(12px, 1.2vw, 22px);
+    }
+
+    .control {
+      min-height: clamp(48px, 3.2vw, 66px);
+      border: 1px solid rgba(238, 232, 220, .18);
+      border-radius: clamp(11px, .8vw, 18px);
+      padding: 0 clamp(22px, 2vw, 44px);
+      background: rgba(9, 13, 12, .46);
+      color: #c9c3b8;
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.025),
+        0 12px 28px rgba(0,0,0,.22);
+      cursor: pointer;
+      font-size: clamp(15px, 1.05vw, 24px);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .control.is-active,
+    .control.is-pinned {
+      border-color: rgba(224, 178, 91, .78);
+      background:
+        linear-gradient(180deg, rgba(124, 99, 49, .78), rgba(73, 60, 34, .72));
+      color: #f0dfb9;
+    }
+
+    .control-icon {
+      display: inline-block;
+      margin-right: .52em;
+      color: #c9c3b8;
+      font-weight: 400;
+    }
+
+    .instruction {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      margin: 0 0 clamp(10px, 1vw, 18px);
+      color: rgba(205, 198, 185, .7);
+      font-size: clamp(15px, 1.05vw, 23px);
+    }
+
+    .hand {
+      width: clamp(30px, 2vw, 45px);
+      height: clamp(30px, 2vw, 45px);
+      flex: 0 0 auto;
+      opacity: .84;
+    }
+
+    .milestone-rail {
+      width: min(850px, 100%);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0 0 clamp(22px, 2vw, 38px);
+    }
+
+    .milestone {
+      min-width: 0;
+      min-height: clamp(86px, 6vw, 116px);
+      display: grid;
+      grid-template-columns: clamp(44px, 3.1vw, 62px) 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid rgba(201, 160, 90, .2);
+      border-radius: 8px;
+      background: rgba(8, 12, 11, .4);
+      color: #d5cab9;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .milestone img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid rgba(201, 160, 90, .25);
+      filter: saturate(.88);
+    }
+
+    .milestone small {
+      display: block;
+      color: #c89d5d;
+      font-size: clamp(10px, .72vw, 13px);
+      font-weight: 850;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .milestone strong {
+      display: block;
+      margin-top: .38em;
+      color: #eee5d4;
+      font-size: clamp(12px, .9vw, 17px);
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+
+    .milestone:hover,
+    .milestone:focus-visible,
+    .milestone.is-active {
+      border-color: rgba(222, 171, 86, .66);
+      background: rgba(40, 31, 18, .48);
+      outline: none;
+    }
+
+    .milestone.is-active {
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 233, 183, .1),
+        0 0 26px rgba(211, 156, 75, .16);
+    }
+
+    .timeline-wrap {
+      position: relative;
+      min-height: clamp(300px, 22vw, 430px);
+    }
+
+    .timeline-art {
+      position: relative;
+      width: 100%;
+      margin-top: clamp(6px, .7vw, 14px);
+      aspect-ratio: 1702 / 313;
+      overflow: visible;
+    }
+
+    .timeline-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .stage-layer {
+      position: absolute;
+      inset: 0;
+    }
+
+    .stage-dot {
+      position: absolute;
+      top: 86.8%;
+      width: clamp(7px, .55vw, 12px);
+      height: clamp(7px, .55vw, 12px);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(210, 206, 190, .48);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.35);
+      cursor: pointer;
+    }
+
+    .stage-dot.is-major {
+      background: var(--dot-color, #c9a05a);
+    }
+
+    .stage-dot.is-active {
+      width: clamp(30px, 2.2vw, 52px);
+      height: clamp(30px, 2.2vw, 52px);
+      border: clamp(7px, .48vw, 11px) solid #fff4df;
+      background: #d9a64a;
+      box-shadow:
+        0 0 0 clamp(5px, .35vw, 8px) rgba(236, 187, 92, .35),
+        0 0 40px rgba(239, 176, 76, .42);
+      z-index: 8;
+    }
+
+    .active-line {
+      position: absolute;
+      left: var(--active-x);
+      top: 4.5%;
+      bottom: 13.5%;
+      width: 2px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, transparent, rgba(226, 178, 84, .98) 26%, rgba(255, 230, 172, .95));
+      box-shadow: 0 0 18px rgba(226, 178, 84, .35);
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .callout {
+      position: absolute;
+      left: var(--active-x);
+      top: -42%;
+      width: clamp(170px, 13vw, 255px);
+      transform: translateX(-50%);
+      border: 1px solid rgba(201, 160, 90, .55);
+      border-radius: clamp(12px, .85vw, 18px);
+      padding: clamp(12px, 1vw, 20px) clamp(15px, 1.2vw, 25px);
+      background: rgba(15, 18, 17, .86);
+      box-shadow: 0 18px 48px rgba(0,0,0,.42);
+      pointer-events: none;
+      z-index: 9;
+    }
+
+    .callout::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 13px solid transparent;
+      border-right: 13px solid transparent;
+      border-top: 17px solid var(--gold);
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,.32));
+    }
+
+    .callout time {
+      display: block;
+      color: #d3a860;
+      font-size: clamp(13px, .95vw, 22px);
+      font-weight: 850;
+      line-height: 1.1;
+    }
+
+    .callout strong {
+      display: block;
+      margin-top: .45em;
+      color: #f2eee6;
+      font-size: clamp(15px, 1vw, 23px);
+      line-height: 1.16;
+    }
+
+    .era-row {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr 1fr 1.35fr 1.2fr 1.45fr 1fr;
+      margin-top: clamp(8px, .8vw, 16px);
+      border-top: 1px solid rgba(209, 165, 87, .10);
+    }
+
+    .era-cell {
+      min-height: clamp(76px, 6.1vw, 125px);
+      padding: clamp(14px, 1.25vw, 28px) clamp(10px, 1vw, 22px) 0 0;
+      border-left: 1px solid rgba(209, 165, 87, .12);
+    }
+
+    .era-cell:first-child { border-left: 0; }
+
+    .era-cell strong {
+      display: block;
+      color: #cfc8bb;
+      font-family: var(--serif);
+      font-size: clamp(18px, 1.18vw, 30px);
+      line-height: 1.08;
+    }
+
+    .era-cell.is-current strong { color: #dca15f; }
+
+    .era-cell span {
+      display: block;
+      margin-top: .65em;
+      color: #8d8578;
+      font-size: clamp(12px, .9vw, 19px);
+      line-height: 1.25;
+    }
+
+    .scrubber {
+      width: 100%;
+      margin-top: clamp(12px, 1vw, 20px);
+      accent-color: #dca65b;
+      opacity: .9;
+    }
+
+    .guide {
+      margin-top: clamp(42px, 4.6vw, 90px);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 24px;
+      align-items: start;
+      color: rgba(195, 185, 169, .65);
+    }
+
+    .guide-title {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      color: #d5aa65;
+      font-size: clamp(13px, .95vw, 20px);
+      font-weight: 850;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .guide-title::after {
+      content: "";
+      display: block;
+      width: min(62vw, 900px);
+      height: 1px;
+      background: rgba(201, 160, 90, .26);
+    }
+
+    .guide-items {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(28px, 5vw, 86px);
+    }
+
+    .guide-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 18px;
+      align-items: start;
+      font-size: clamp(14px, .98vw, 20px);
+      line-height: 1.42;
+    }
+
+    .guide-icon {
+      display: grid;
+      place-items: center;
+      width: clamp(38px, 2.5vw, 54px);
+      height: clamp(38px, 2.5vw, 54px);
+      border: 2px solid rgba(201, 160, 90, .45);
+      border-radius: 50%;
+      color: #d9ad61;
+      font-size: 22px;
+    }
+
+    .card {
+      position: sticky;
+      top: clamp(18px, 1.35vw, 28px);
+      align-self: start;
+      min-height: calc(100svh - clamp(36px, 2.7vw, 56px));
+      border: 1px solid rgba(201, 160, 90, .32);
+      border-radius: clamp(14px, 1vw, 22px);
+      background: linear-gradient(180deg, rgba(12, 16, 15, .82), rgba(7, 10, 10, .88));
+      box-shadow: 0 34px 100px rgba(0,0,0,.55);
+      overflow: hidden;
+    }
+
+    .plate-frame {
+      position: relative;
+      margin: clamp(14px, 1vw, 24px);
+      border: 1px solid rgba(201, 160, 90, .38);
+      border-radius: clamp(9px, .7vw, 16px);
+      overflow: hidden;
+      background: #161814;
+    }
+
+    .plate-frame img {
+      display: block;
+      width: 100%;
+      height: clamp(210px, 18vw, 260px);
+      object-fit: cover;
+      transition: opacity .18s ease, transform .32s ease, filter .32s ease;
+    }
+
+    .plate-frame img.is-changing {
+      opacity: .18;
+      transform: scale(1.018);
+      filter: blur(2px);
+    }
+
+    .plate-credit {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 10px 14px;
+      background: linear-gradient(180deg, transparent, rgba(8, 9, 8, .74));
+      color: rgba(239, 226, 198, .72);
+      font-size: clamp(10px, .68vw, 13px);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .card-body {
+      padding: clamp(18px, 1.35vw, 30px) clamp(22px, 1.8vw, 38px) clamp(20px, 1.6vw, 34px);
+    }
+
+    .age {
+      margin: 0 0 clamp(13px, 1.05vw, 22px);
+      color: #d4aa67;
+      font-size: clamp(13px, .95vw, 21px);
+      font-weight: 850;
+      letter-spacing: .27em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      color: #f4efe7;
+      font-family: var(--serif);
+      font-size: clamp(34px, 2.6vw, 58px);
+      font-weight: 700;
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .latin {
+      margin: .22em 0 clamp(13px, 1.05vw, 22px);
+      color: #d3c6b3;
+      font-family: var(--serif);
+      font-size: clamp(22px, 1.38vw, 31px);
+      font-style: italic;
+      line-height: 1.1;
+    }
+
+    .card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 clamp(16px, 1.25vw, 26px);
+    }
+
+    .card-meta span {
+      border: 1px solid rgba(201, 160, 90, .28);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: rgba(9, 13, 12, .42);
+      color: rgba(238, 226, 202, .86);
+      font-size: clamp(11px, .78vw, 15px);
+      font-weight: 750;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      height: 1px;
+      margin-bottom: clamp(16px, 1.15vw, 26px);
+      background: rgba(201, 160, 90, .26);
+    }
+
+    .summary {
+      margin: 0;
+      color: #d9d2c6;
+      font-size: clamp(16px, 1.02vw, 22px);
+      line-height: 1.4;
+    }
+
+    .insight {
+      margin-top: clamp(15px, 1.1vw, 24px);
+      padding-left: clamp(16px, 1.2vw, 26px);
+      border-left: 2px solid rgba(201, 160, 90, .55);
+    }
+
+    .insight span {
+      display: block;
+      margin-bottom: .5em;
+      color: #d5a765;
+      font-size: clamp(12px, .86vw, 17px);
+      font-weight: 850;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .insight p {
+      margin: 0;
+      color: rgba(236, 227, 212, .84);
+      font-size: clamp(15px, .92vw, 19px);
+      line-height: 1.42;
+    }
+
+    .inheritance {
+      margin-top: clamp(18px, 1.35vw, 30px);
+      border: 1px solid rgba(201, 160, 90, .36);
+      border-radius: clamp(10px, .8vw, 17px);
+      padding: clamp(14px, 1.05vw, 22px);
+      background: linear-gradient(135deg, rgba(80, 64, 29, .42), rgba(21, 21, 14, .6));
+    }
+
+    .inheritance-label {
+      display: block;
+      margin-bottom: clamp(12px, 1vw, 22px);
+      color: #d4a562;
+      font-size: clamp(13px, .92vw, 19px);
+      font-weight: 850;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+    }
+
+    .inheritance-content {
+      display: grid;
+      grid-template-columns: clamp(36px, 2.7vw, 56px) 1fr;
+      gap: clamp(16px, 1.3vw, 26px);
+      align-items: start;
+    }
+
+    .inheritance-icon {
+      color: #d5aa65;
+      font-size: clamp(32px, 2.5vw, 52px);
+      line-height: 1;
+    }
+
+    .inheritance strong {
+      display: block;
+      color: #f0e7d8;
+      font-size: clamp(18px, 1.16vw, 26px);
+      line-height: 1.32;
+    }
+
+    .inheritance p {
+      margin: .3em 0 0;
+      color: #c1b9aa;
+      font-size: clamp(16px, 1vw, 22px);
+      line-height: 1.38;
+    }
+
+    .source {
+      margin-top: clamp(18px, 1.4vw, 30px);
+      color: rgba(191, 183, 170, .72);
+      font-size: clamp(13px, .9vw, 18px);
+    }
+
+    .source a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .source a:hover { color: var(--gold); }
+
+    @media (max-width: 980px) {
+      .screen {
+        width: min(100% - 16px, 680px);
+        display: block;
+        padding: 14px 0 28px;
+      }
+
+      .left,
+      .screen > * {
+        min-width: 0;
+      }
+
+      .left {
+        display: block;
+      }
+
+      h1 {
+        width: 100%;
+        font-size: clamp(44px, 11vw, 72px);
+        overflow-wrap: anywhere;
+      }
+
+      .lead {
+        width: 100%;
+        font-size: 18px;
+        overflow-wrap: anywhere;
+      }
+
+      .answer-strip {
+        width: 100%;
+        display: block;
+      }
+
+      .answer-strip span {
+        margin-bottom: .55em;
+      }
+
+      .controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 10px;
+      }
+
+      .control {
+        width: 100%;
+        min-width: 0;
+        min-height: 48px;
+        padding: 0 12px;
+        font-size: 14px;
+      }
+
+      .control[data-pin-toggle] {
+        grid-column: 1 / -1;
+      }
+
+      .instruction {
+        font-size: 14px;
+      }
+
+      .milestone-rail {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .timeline-wrap {
+        min-height: 300px;
+      }
+
+      .callout {
+        top: -58%;
+      }
+
+      .era-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .era-cell {
+        min-height: 58px;
+      }
+
+      .era-cell:nth-child(4),
+      .era-cell:nth-child(7) {
+        border-left: 0;
+      }
+
+      .era-cell strong {
+        font-size: 16px;
+      }
+
+      .era-cell span {
+        font-size: 12px;
+      }
+
+      .guide {
+        display: none;
+      }
+
+      .card {
+        position: static;
+        margin-top: 18px;
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      h1 {
+        font-size: clamp(36px, 9.8vw, 50px);
+      }
+
+      .lead {
+        font-size: 16px;
+        line-height: 1.45;
+      }
+
+      .control {
+        padding: 0 10px;
+        font-size: 13px;
+      }
+
+      .milestone {
+        min-height: 74px;
+        grid-template-columns: 42px 1fr;
+        gap: 8px;
+        padding: 8px;
+      }
+
+      .milestone strong {
+        font-size: 11px;
+      }
+
+      .timeline-art {
+        width: 190%;
+        margin-left: -42%;
+      }
+
+      .callout {
+        width: 180px;
+      }
+
+      .card-body {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="screen">
+    <section class="left" aria-label="Временная шкала эволюции">
+      <div>
+        <p class="kicker">Достающее звено</p>
+        <h1>От кого произошли обезьяны?</h1>
+        <p class="lead">Все слышали про человека и обезьян. Но откуда взялись сами обезьяны? Ведите шкалу от древних клеток к приматам и человеку.</p>
+
+        <div class="answer-strip">
+          <span>Короткий ответ</span>
+          <strong>Обезьяны произошли от ранних древесных приматов.</strong>
+          <p>Ниже не лестница к человеку, а древо: млекопитающие → синапсиды → четвероногие → рыбы → хордовые → клеточные линии.</p>
+        </div>
+
+        <div class="controls" aria-label="Режимы просмотра">
+          <button class="control is-active" type="button" data-mode="full">Весь путь</button>
+          <button class="control" type="button" data-mode="primates"><span class="control-icon">⌕</span>Приматы крупно</button>
+          <button class="control" type="button" data-pin-toggle><span class="control-icon">⌖</span>Закрепить</button>
+        </div>
+
+        <p class="instruction">
+          <svg class="hand" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M18 22V9a4 4 0 0 1 8 0v10M26 20v-7a4 4 0 0 1 8 0v12M34 25v-6a4 4 0 0 1 8 0v11c0 10-7 16-17 16h-3c-6 0-11-3-14-8L3 29a4 4 0 0 1 7-4l4 6V14a4 4 0 0 1 8 0v8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Перемещайте ползунок по шкале или нажимайте на эпохи
+        </p>
+
+      </div>
+
+      <div class="timeline-wrap">
+        <div class="timeline-art" data-timeline>
+          <img src="./assets/images/timeline-river-specimens.png" alt="Иллюстрированная река времени с организмами от клеток до приматов">
+          <div class="stage-layer" data-stage-layer></div>
+          <div class="active-line" data-active-line></div>
+          <div class="callout" data-callout>
+            <time data-callout-age></time>
+            <strong data-callout-title></strong>
+          </div>
+        </div>
+
+        <div class="era-row" data-era-row></div>
+        <input class="scrubber" data-scrubber type="range" min="0" max="0" value="0" aria-label="Перемещение по этапам">
+      </div>
+
+      <div class="milestone-rail" aria-label="Ключевые повороты пути">
+        <button class="milestone" type="button" data-jump-stage="eukaryotes">
+          <img src="./assets/images/stage-plates/eukaryotes.jpg" alt="">
+          <span><small>1,8 млрд</small><strong>Сложная клетка</strong></span>
+        </button>
+        <button class="milestone" type="button" data-jump-stage="tiktaalik">
+          <img src="./assets/images/stage-plates/tiktaalik.jpg" alt="">
+          <span><small>375 млн</small><strong>Плавник становится опорой</strong></span>
+        </button>
+        <button class="milestone" type="button" data-jump-stage="early-primates">
+          <img src="./assets/images/stage-plates/early-primates.jpg" alt="">
+          <span><small>56 млн</small><strong>Руки, глаза, ветви</strong></span>
+        </button>
+        <button class="milestone" type="button" data-jump-stage="early-apes">
+          <img src="./assets/images/stage-plates/early-apes.jpg" alt="">
+          <span><small>20 млн</small><strong>Первые человекообразные</strong></span>
+        </button>
+      </div>
+
+      <div class="guide" aria-label="Как читать шкалу">
+        <div class="guide-title">Как читать шкалу</div>
+        <div class="guide-items">
+          <div class="guide-item"><span class="guide-icon">↟</span><span>Шкала — это путешествие во времени от древнейших форм жизни к человеку.</span></div>
+          <div class="guide-item"><span class="guide-icon">⊙</span><span>Перемещайте ползунок или кликайте по эпохам, чтобы узнать больше.</span></div>
+          <div class="guide-item"><span class="guide-icon">◌</span><span>Каждая точка — это не шаг к нам, а ветвь на древе жизни.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card" aria-live="polite">
+      <div class="plate-frame">
+        <img data-plate-image src="./assets/images/specimen-primate-plate.png" alt="Научная гравюра древнего примата на ветке">
+        <p class="plate-credit" data-plate-credit>Локальная пластина</p>
+      </div>
+      <div class="card-body">
+        <p class="age" data-age></p>
+        <h2 data-title></h2>
+        <p class="latin" data-latin></p>
+        <div class="card-meta">
+          <span data-stage-role></span>
+          <span data-stage-branch></span>
+        </div>
+        <div class="divider"></div>
+        <p class="summary" data-summary></p>
+        <div class="insight">
+          <span>Почему это важно</span>
+          <p data-stage-insight></p>
+        </div>
+        <div class="inheritance">
+          <span class="inheritance-label">Что мы унаследовали</span>
+          <div class="inheritance-content">
+            <span class="inheritance-icon">☝</span>
+            <div>
+              <strong data-inherited-title></strong>
+              <p data-inherited></p>
+            </div>
+          </div>
+        </div>
+        <p class="source">☰ Научные источники: <a href="https://www.visualcapitalist.com/path-of-human-evolution/" target="_blank" rel="noreferrer">Visual Capitalist</a>, Wikimedia Commons, Smithsonian, Nature</p>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const STAGES = [
+      { id: "cell-lines", title: "Клеточные линии", latin: "early cellular life", age: "4,0 млрд лет назад", x: 4.8, era: 0, major: true, summary: "Самые ранние устойчивые формы жизни были клеточными линиями, задолго до животных и растений.", inheritTitle: "Клеточная основа", inherited: "Мембраны, обмен веществ и наследуемая информация.", full: true },
+      { id: "prokaryotes", title: "Прокариоты", latin: "Bacteria and Archaea", age: "3,5 млрд лет назад", x: 8.3, era: 0, summary: "Простые одноклеточные организмы стали долговечной архитектурой жизни.", inheritTitle: "Базовая биохимия", inherited: "ДНК/РНК-механизмы, рибосомы и клеточный обмен.", full: true },
+      { id: "cyanobacteria", title: "Цианобактерии", latin: "Cyanobacteria", age: "2,7 млрд лет назад", x: 10.4, era: 0, summary: "Фотосинтез насытил океаны и атмосферу кислородом, подготовив почву для сложной жизни.", inheritTitle: "Кислородная планета", inherited: "Кислородный обмен и новые энергетические возможности клетки.", full: true },
+      { id: "oxygenation", title: "Кислородная революция", latin: "Great Oxidation Event", age: "2,4 млрд лет назад", x: 11.3, era: 0, summary: "Кислород стал глобальным фактором отбора и изменил химию планеты.", inheritTitle: "Новая среда", inherited: "Условия для будущего аэробного обмена и крупных организмов.", full: true },
+      { id: "eukaryotes", title: "Эукариоты", latin: "Eukaryota", age: "1,8 млрд лет назад", x: 12.1, era: 0, major: true, summary: "Клетки с ядром и митохондриями получили новый уровень внутренней организации.", inheritTitle: "Сложная клетка", inherited: "Ядро, митохондрии и внутренняя регуляция.", full: true },
+      { id: "choanoflagellates", title: "Родственники животных", latin: "Choanoflagellata", age: "900 млн лет назад", x: 14.0, era: 0, summary: "Одноклеточные родственники животных показывают, как могла возникнуть клеточная кооперация.", inheritTitle: "Клеточные связи", inherited: "Сигналы между клетками и зачатки совместного поведения.", full: true },
+      { id: "early-animals", title: "Первые животные", latin: "early Metazoa", age: "600 млн лет назад", x: 16.2, era: 1, summary: "Многоклеточные животные начали строить тела из специализированных тканей.", inheritTitle: "Многоклеточность", inherited: "Ткани, развитие тела и клеточная кооперация.", full: true },
+      { id: "bilaterians", title: "Двусторонние животные", latin: "Bilateria", age: "555 млн лет назад", x: 20.8, era: 1, summary: "У животных появляется перед-зад, верх-низ и более направленное движение.", inheritTitle: "План тела", inherited: "Двусторонняя симметрия и ранняя логика головы.", full: true },
+      { id: "chordates", title: "Хордовые", latin: "Chordata", age: "600 млн лет назад", x: 26.8, era: 1, major: true, summary: "Появляется хорда — внутренняя ось тела, которая позже приведет к позвоночнику.", inheritTitle: "Ось тела", inherited: "Хорда, нервная трубка и хвостовой отдел.", full: true },
+      { id: "craniates", title: "Черепные", latin: "Craniata", age: "520 млн лет назад", x: 31.2, era: 1, summary: "Передний отдел нервной системы получает защиту и усложненные органы чувств.", inheritTitle: "Голова", inherited: "Черепная коробка, сенсорные органы и координация движения.", full: true },
+      { id: "vertebrates", title: "Позвоночные", latin: "Vertebrata", age: "500 млн лет назад", x: 34.5, era: 2, summary: "Нервная система получает защиту, а движение становится активнее и точнее.", inheritTitle: "Скелетная опора", inherited: "Череп, позвоночный столб и сложные органы чувств.", full: true },
+      { id: "jawed-fish", title: "Челюстные рыбы", latin: "Gnathostomata", age: "430 млн лет назад", x: 37.2, era: 2, summary: "Челюсти открыли новый способ питания и изменили всю дальнейшую историю позвоночных.", inheritTitle: "Челюсти", inherited: "Сильный захват пищи, перестройка черепа и парные придатки.", full: true },
+      { id: "fish", title: "Рыбы", latin: "early fish", age: "420 млн лет назад", x: 39.1, era: 2, major: true, summary: "Челюсти и плавники меняют питание, движение и будущую схему конечностей.", inheritTitle: "Парные конечности", inherited: "Челюсти, парные плавники и скелетная логика рук.", full: true },
+      { id: "lobe-finned", title: "Лопастеперые", latin: "Sarcopterygii", age: "390 млн лет назад", x: 45.0, era: 2, summary: "Мясистые плавники уже несут кости, напоминающие будущую конечность.", inheritTitle: "Плечо и локоть", inherited: "Дальняя основа схемы плеча, локтя и запястья.", full: true },
+      { id: "tiktaalik", title: "Переход к суше", latin: "Tiktaalik-like forms", age: "375 млн лет назад", x: 48.0, era: 3, summary: "На мелководьях появляются формы с чертами рыб и будущих наземных позвоночных.", inheritTitle: "Запястье", inherited: "Опора на плавники, подвижная шея и дыхание воздухом.", full: true },
+      { id: "tetrapods", title: "Четвероногие", latin: "Tetrapoda", age: "360 млн лет назад", x: 50.2, era: 3, major: true, summary: "Позвоночные начинают уверенно использовать конечности на мелководьях и суше.", inheritTitle: "Четыре конечности", inherited: "Пальцы, легочное дыхание и опора тела.", full: true },
+      { id: "amniotes", title: "Амниоты", latin: "Amniota", age: "320 млн лет назад", x: 56.0, era: 3, summary: "Развитие эмбриона стало менее зависимым от водной среды.", inheritTitle: "Защищенное развитие", inherited: "Оболочки эмбриона и более сухопутный образ жизни.", full: true },
+      { id: "synapsids", title: "Синапсиды", latin: "Synapsida", age: "300 млн лет назад", x: 61.6, era: 4, major: true, summary: "Древняя линия, из которой со временем возникли млекопитающие.", inheritTitle: "Линия млекопитающих", inherited: "Особенности черепа, зубов и будущей жевательной системы.", full: true },
+      { id: "therapsids", title: "Терапсиды", latin: "Therapsida", age: "270 млн лет назад", x: 63.7, era: 4, summary: "Синапсиды становятся подвижнее, а череп и зубы все больше напоминают млекопитающих.", inheritTitle: "Жевание", inherited: "Разные типы зубов, сильные челюсти и активная поза тела.", full: true },
+      { id: "cynodonts", title: "Цинодонты", latin: "Cynodontia", age: "250 млн лет назад", x: 66.2, era: 4, summary: "В этой группе усиливаются признаки, знакомые по млекопитающим.", inheritTitle: "Активный обмен", inherited: "Дифференцированные зубы, вероятная шерсть и активность.", full: true },
+      { id: "mammals", title: "Млекопитающие", latin: "Mammalia", age: "200 млн лет назад", x: 72.1, era: 5, major: true, summary: "Небольшие ночные животные переживали эпохи гигантов и накапливали новые возможности.", inheritTitle: "Теплокровность", inherited: "Шерсть, молочные железы, слуховые косточки и забота о потомстве.", full: true },
+      { id: "placentals", title: "Плацентарные", latin: "Placentalia", age: "105 млн лет назад", x: 75.0, era: 5, summary: "Беременность внутри тела меняет стратегию развития потомства.", inheritTitle: "Плацента", inherited: "Длительное развитие эмбриона и родительская забота.", full: true },
+      { id: "after-kpg", title: "После вымирания динозавров", latin: "early Cenozoic mammals", age: "66 млн лет назад", x: 75.8, era: 5, summary: "После катастрофы мелкие млекопитающие быстро заняли новые экологические ниши.", inheritTitle: "Гибкость", inherited: "Пластичное питание, ночная активность и быстрое расселение.", full: true },
+      { id: "early-primates", title: "Ранние приматы", latin: "Primatomorpha", age: "56 млн лет назад", x: 76.3, era: 6, primates: true, summary: "Древесная жизнь усиливает хватательные конечности, зрение и координацию.", inheritTitle: "Жизнь в кронах", inherited: "Хватательные кисти, зрительная ориентация и подвижные пальцы.", full: true },
+      { id: "ancient-primates", title: "Древние приматы", latin: "Plesiadapis cookei", age: "55 млн лет назад", x: 78.0, era: 6, major: true, primates: true, summary: "Небольшие древесные млекопитающие из раннего окружения приматов. Они еще не были обезьянами, но показывают, из какой экологической сцены выросла ветвь приматов: деревья, хватание, зрение и ловкость.", inheritTitle: "Хватательные конечности", inherited: "Пятипалые конечности с подвижными пальцами, позволившие цепляться за ветви и развить ловкость.", full: true },
+      { id: "anthropoids", title: "Антропоиды", latin: "Anthropoidea", age: "40 млн лет назад", x: 80.5, era: 6, primates: true, summary: "Линия обезьян и человекообразных получает более сложное зрение и социальность.", inheritTitle: "Социальное зрение", inherited: "Фронтальное зрение, более крупный мозг и дневная активность.", full: true },
+      { id: "new-world-monkeys", title: "Широконосые обезьяны", latin: "Platyrrhini", age: "35 млн лет назад", x: 81.7, era: 6, primates: true, summary: "Одна из ветвей обезьян расселяется в Южной Америке и идет своим путем.", inheritTitle: "Ветвление", inherited: "Разные формы социальной жизни и древесной ловкости.", full: true },
+      { id: "catarrhini", title: "Узконосые обезьяны", latin: "Catarrhini", age: "25 млн лет назад", x: 83.2, era: 6, major: true, primates: true, summary: "Общая линия мартышковых и человекообразных обезьян.", inheritTitle: "Обезьяний план", inherited: "Строение носа, зубная формула и сложное социальное поведение.", full: true },
+      { id: "old-world-monkeys", title: "Мартышковые", latin: "Cercopithecoidea", age: "24 млн лет назад", x: 84.5, era: 6, primates: true, summary: "Родственная нам ветвь обезьян отделяется от линии человекообразных.", inheritTitle: "Сравнение ветвей", inherited: "Социальность и гибкое поведение, но не прямая линия человека.", full: true },
+      { id: "early-apes", title: "Ранние человекообразные", latin: "Hominoidea", age: "20 млн лет назад", x: 87.0, era: 6, major: true, primates: true, summary: "Ранние человекообразные теряют хвост и меняют плечевой пояс для движения в кронах.", inheritTitle: "Подвижное плечо", inherited: "Отсутствие хвоста, новый тип лазания и свободные плечевые суставы.", full: true },
+      { id: "great-apes", title: "Большие человекообразные", latin: "Hominidae", age: "14 млн лет назад", x: 90.3, era: 6, primates: true, summary: "Ветвь больших человекообразных объединяет орангутанов, горилл, шимпанзе и нас.", inheritTitle: "Обучение и социальность", inherited: "Крупное тело, длительное детство и развитое обучение.", full: true },
+      { id: "hominins", title: "Ранние гоминины", latin: "Hominini", age: "7 млн лет назад", x: 93.1, era: 6, major: true, primates: true, summary: "Линия человека отделяется от ближайших родственников среди человекообразных.", inheritTitle: "Прямохождение", inherited: "Изменения таза, стопы и походки.", full: true },
+      { id: "ardipithecus", title: "Ардипитеки", latin: "Ardipithecus", age: "4,4 млн лет назад", x: 94.2, era: 6, primates: true, summary: "Ранние гоминины сочетают лазание по деревьям с более уверенной двуногой походкой.", inheritTitle: "Переходная походка", inherited: "Мозаика древесных и наземных адаптаций.", full: true },
+      { id: "australopithecus", title: "Австралопитеки", latin: "Australopithecus", age: "3,2 млн лет назад", x: 95.2, era: 6, primates: true, summary: "Уверенное прямохождение сочетается с еще небольшим мозгом.", inheritTitle: "Свободные руки", inherited: "Двуногая походка и освобождение рук.", full: true },
+      { id: "early-homo", title: "Ранний Homo", latin: "early Homo", age: "2,4 млн лет назад", x: 96.5, era: 6, primates: true, summary: "Появляются ранние представители рода Homo и более системное использование орудий.", inheritTitle: "Инструменты", inherited: "Каменные орудия, рост мозга и гибкое питание.", full: true },
+      { id: "erectus", title: "Homo erectus", latin: "Homo erectus", age: "1,9 млн лет назад", x: 97.7, era: 6, major: true, primates: true, summary: "Высокое тело, дальние миграции и длительная эволюционная успешность.", inheritTitle: "Выносливость", inherited: "Дальние переходы, вероятное управление огнем и выносливость.", full: true },
+      { id: "heidelbergensis", title: "Гейдельбергский человек", latin: "Homo heidelbergensis", age: "700 тыс. лет назад", x: 98.3, era: 6, primates: true, summary: "Вероятный общий фон для нескольких поздних человеческих линий.", inheritTitle: "Охота и забота", inherited: "Крупная добыча, коллективные стратегии и забота о слабых.", full: true },
+      { id: "neanderthals", title: "Неандертальцы", latin: "Homo neanderthalensis", age: "400 тыс. лет назад", x: 98.7, era: 6, primates: true, summary: "Близкая родственная линия людей, с которой Homo sapiens частично смешивался.", inheritTitle: "Близкое родство", inherited: "Часть генетического наследия современных людей вне Африки.", full: true },
+      { id: "sapiens", title: "Homo sapiens", latin: "Homo sapiens", age: "300 тыс. лет назад", x: 99.0, era: 6, major: true, primates: true, summary: "Наш вид возникает в Африке и постепенно расселяется по планете.", inheritTitle: "Культура", inherited: "Язык, символическое мышление и коллективное обучение.", full: true }
+    ];
+
+    const ERAS = [
+      ["Клеточные<br>линии", "4,0 млрд лет назад"],
+      ["Хордовые", "600 млн лет назад"],
+      ["Рыбы", "420 млн лет назад"],
+      ["Четвероногие", "360 млн лет назад"],
+      ["Синапсиды", "320 млн лет назад"],
+      ["Млекопитающие", "200 млн лет назад"],
+      ["Приматы", "65 млн лет назад"]
+    ];
+
+    const plate = (file, alt, credit = "Wikimedia Commons / локальная обработка") => ({
+      src: `./assets/images/stage-plates/${file}.jpg`,
+      alt,
+      credit
+    });
+
+    const STAGE_VISUALS = {
+      "cell-lines": plate("protocells", "Абстрактная научная пластина протоклеток", "Локальная научная пластина"),
+      prokaryotes: plate("prokaryotes", "Микрофотография прокариот"),
+      cyanobacteria: plate("cyanobacteria", "Ископаемый строматолит"),
+      oxygenation: plate("cyanobacteria", "Строматолиты как след кислородного фотосинтеза"),
+      eukaryotes: plate("eukaryotes", "Схематическая пластина эукариотических клеток", "Локальная научная пластина"),
+      choanoflagellates: plate("choanoflagellates", "Микрофотография хоанофлагеллята"),
+      "early-animals": plate("ediacaran", "Ископаемая Dickinsonia из эдиакарской биоты"),
+      bilaterians: plate("ediacaran", "Ископаемая форма ранних двусторонних животных"),
+      chordates: plate("early-chordates", "Реконструкция раннего хордового"),
+      craniates: plate("early-vertebrates", "Пластина раннего позвоночного"),
+      vertebrates: plate("early-vertebrates", "Пластина раннего позвоночного"),
+      "jawed-fish": plate("jawed-fish", "Локальная пластина ранней челюстной рыбы", "Локальная научная пластина"),
+      fish: plate("jawed-fish", "Локальная пластина ранней рыбы", "Локальная научная пластина"),
+      "lobe-finned": plate("lobe-finned", "Реконструкция лопастеперой рыбы"),
+      tiktaalik: plate("tiktaalik", "Ископаемое Tiktaalik"),
+      tetrapods: plate("early-tetrapods", "Пластина раннего четвероногого"),
+      amniotes: plate("amniotes", "Типовой образец раннего амниота Hylonomus"),
+      synapsids: plate("synapsids", "Скелет раннего синапсида"),
+      therapsids: plate("cynodonts", "Ископаемый цинодонт"),
+      cynodonts: plate("cynodonts", "Ископаемый цинодонт"),
+      mammals: plate("early-mammals", "Череп и скелет раннего млекопитающего"),
+      placentals: plate("placentals", "Ископаемая Eomaia"),
+      "after-kpg": plate("after-kpg", "Карта района кратера Чиксулуб"),
+      "early-primates": plate("early-primates", "Реконструкция раннего примата Purgatorius"),
+      "ancient-primates": {
+        src: "./assets/images/specimen-primate-plate.png",
+        alt: "Научная гравюра древнего примата на ветке",
+        credit: "Локальная пластина по референсу"
+      },
+      anthropoids: plate("anthropoids", "Реконструкция Aegyptopithecus"),
+      "new-world-monkeys": plate("anthropoids", "Реконструкция раннего антропоида"),
+      catarrhini: plate("old-world-monkeys", "Реконструкция раннего узконосого примата"),
+      "old-world-monkeys": plate("old-world-monkeys", "Реконструкция раннего узконосого примата"),
+      "early-apes": plate("early-apes", "Скелет раннего человекообразного Proconsul"),
+      "great-apes": plate("great-apes", "Череп раннего большого человекообразного"),
+      hominins: plate("early-hominins", "Череп Sahelanthropus"),
+      ardipithecus: plate("ardipithecus", "Череп Ardipithecus"),
+      australopithecus: plate("australopithecus", "Скелет Australopithecus afarensis"),
+      "early-homo": plate("early-homo", "Череп раннего Homo"),
+      erectus: plate("homo-erectus", "Ископаемые Homo erectus"),
+      heidelbergensis: plate("heidelbergensis", "Локальная пластина черепа Homo heidelbergensis", "Локальная научная пластина"),
+      neanderthals: plate("neanderthals", "Скелет неандертальца"),
+      sapiens: plate("early-sapiens", "Полевые работы на памятнике Jebel Irhoud")
+    };
+
+    const ERA_STORY = [
+      { role: "Фундамент жизни", branch: "до животных", insight: "Здесь еще нет ни рыб, ни приматов, но уже появляются клетки, обмен веществ и наследование — без них дальнейшая история невозможна." },
+      { role: "План животного тела", branch: "ранние животные", insight: "Формируются ось тела, нервная система и координация движения — первые черты будущего позвоночного плана." },
+      { role: "Позвоночный план", branch: "рыбы", insight: "Череп, позвоночник, челюсти и парные плавники становятся заготовкой для тела наземных позвоночных." },
+      { role: "Выход на сушу", branch: "четвероногие", insight: "Конечности, пальцы и дыхание воздухом превращают водную линию в наземную историю." },
+      { role: "Линия млекопитающих", branch: "синапсиды", insight: "Эта древняя ветвь не была похожа на обезьян, но именно в ней перестраивались челюсти, зубы и обмен веществ млекопитающих." },
+      { role: "Теплокровная ветвь", branch: "млекопитающие", insight: "Шерсть, молоко, слух и забота о потомстве появились задолго до приматов и стали базой для их успеха." },
+      { role: "Приматы и люди", branch: "древесная жизнь", insight: "Хватательные конечности, зрение вперед и социальное обучение сделали возможной линию обезьян, человекообразных и человека." }
+    ];
+
+    const STAGE_STORY = {
+      "cell-lines": { role: "Начало наследования", branch: "клеточные линии", insight: "Это не предок в виде животного, а стартовый набор правил: клетка хранит информацию, копирует ее и передает дальше." },
+      eukaryotes: { role: "Сложная клетка", branch: "до животных", insight: "Ядро и митохондрии дали клеткам больше энергии и управления. Без этого не было бы крупных тел, нервной системы и органов." },
+      chordates: { role: "Ось будущего тела", branch: "хордовые", insight: "Наша спина, нервная трубка и общий план тела уходят к ранним хордовым, которые совсем не были похожи на млекопитающих." },
+      "jawed-fish": { role: "Челюсти и плавники", branch: "рыбы", insight: "Челюсти изменили питание, а парные плавники стали далеким архитектурным предком конечностей." },
+      tiktaalik: { role: "Переходная форма", branch: "вода → суша", insight: "Здесь особенно видно, что эволюция не прыгает: плавник постепенно приобретает механику опоры, а голова и шея становятся подвижнее." },
+      synapsids: { role: "Не динозавр", branch: "ветвь млекопитающих", insight: "Синапсиды внешне могли напоминать рептилий, но их линия ближе к нам, чем к динозаврам. Это один из неожиданных поворотов пути." },
+      mammals: { role: "Ночные выжившие", branch: "млекопитающие", insight: "Ранние млекопитающие были небольшими, но именно в этой ветви появились шерсть, молоко, тонкий слух и забота о детенышах." },
+      "early-primates": { role: "Первые приматы", branch: "ответ начинается здесь", insight: "Древесная жизнь отобрала хватательные кисти, ногти вместо когтей, зрение вперед и ловкость. Из таких приматов позже вышли обезьяны." },
+      "ancient-primates": { role: "Ключевой ответ", branch: "ранние приматы", insight: "Здесь и начинается ответ на вопрос: обезьяны не появились внезапно, они выросли внутри более старой древесной линии приматов." },
+      anthropoids: { role: "Линия обезьян", branch: "антропоиды", insight: "Антропоиды — это уже ветвь обезьян и человекообразных: больше зрительной информации, сложнее социальное поведение, крупнее мозг." },
+      "new-world-monkeys": { role: "Боковая ветвь", branch: "обезьяны Нового Света", insight: "Широконосые обезьяны ушли своим путем в Южной Америке. Это важное напоминание: шкала показывает родство, а не прямой марш к человеку." },
+      catarrhini: { role: "Узконосые приматы", branch: "развилка к человекообразным", insight: "Отсюда расходятся мартышковые и человекообразные. Это ближе к вопросу об обезьянах, чем привычная фраза про 'человека от обезьяны'." },
+      "old-world-monkeys": { role: "Соседняя ветвь", branch: "мартышковые", insight: "Мартышковые — родственники, но не предки человека. Наша линия пошла рядом, через человекообразных, а не через современных макак или мартышек." },
+      "early-apes": { role: "Первые человекообразные", branch: "Hominoidea", insight: "Тут появляется линия человекообразных: без хвоста, с более свободным плечом и другим способом движения в кронах." },
+      "great-apes": { role: "Общий дом", branch: "большие человекообразные", insight: "Орангутаны, гориллы, шимпанзе и люди сидят на соседних ветвях одной семьи. У нас не один современный предок, а общий древний источник." },
+      hominins: { role: "Наша ветвь", branch: "после разделения с шимпанзе", insight: "Люди не произошли от современных шимпанзе. У нас была общая древняя линия, после которой ветви разошлись." },
+      ardipithecus: { role: "Две среды", branch: "лес и земля", insight: "Ардипитеки помогают увидеть переход не как резкий выход из леса, а как мозаичную жизнь между деревьями и землей." },
+      australopithecus: { role: "Свободные руки", branch: "ранние гоминины", insight: "Двуногость появилась раньше большого мозга. Сначала изменились походка, таз и стопа; культура пришла позже." },
+      "early-homo": { role: "Орудия и мозг", branch: "род Homo", insight: "Ранние Homo показывают переход к более гибкому питанию, точному хвату и регулярному изготовлению орудий." },
+      erectus: { role: "Дальний ходок", branch: "род Homo", insight: "Homo erectus сделал человеческую линию по-настоящему подвижной: дальние миграции, выносливость и долгое присутствие в разных средах." },
+      heidelbergensis: { role: "Поздняя развилка", branch: "родственники людей", insight: "Эта область шкалы уже не про обезьян, а про близкие человеческие линии: разные виды людей существовали рядом и частично пересекались." },
+      neanderthals: { role: "Сестринская линия", branch: "не прямой предок всех людей", insight: "Неандертальцы были не тупиковой 'полуобезьяной', а близкими людьми. Часть их наследия до сих пор есть у многих современных популяций." },
+      sapiens: { role: "Молодая ветвь", branch: "Homo sapiens", insight: "Наш вид — не цель эволюции и не финальный уровень. Мы одна молодая ветвь большого дерева, просто с очень сильной культурой." }
+    };
+
+    const state = { mode: "full", activeId: "ancient-primates", pinned: false };
+    const $ = (selector) => document.querySelector(selector);
+
+    const els = {
+      layer: $("[data-stage-layer]"),
+      callout: $("[data-callout]"),
+      calloutAge: $("[data-callout-age]"),
+      calloutTitle: $("[data-callout-title]"),
+      activeLine: $("[data-active-line]"),
+      eraRow: $("[data-era-row]"),
+      scrubber: $("[data-scrubber]"),
+      age: $("[data-age]"),
+      title: $("[data-title]"),
+      latin: $("[data-latin]"),
+      summary: $("[data-summary]"),
+      inheritedTitle: $("[data-inherited-title]"),
+      inherited: $("[data-inherited]"),
+      role: $("[data-stage-role]"),
+      branch: $("[data-stage-branch]"),
+      insight: $("[data-stage-insight]"),
+      plateImage: $("[data-plate-image]"),
+      plateCredit: $("[data-plate-credit]"),
+      pin: $("[data-pin-toggle]"),
+      modeButtons: Array.from(document.querySelectorAll("[data-mode]")),
+      timeline: $("[data-timeline]")
+    };
+
+    function visibleStages() {
+      return STAGES.filter((stage) => state.mode === "full" || stage.primates);
+    }
+
+    function displayX(stage) {
+      if (state.mode !== "primates") return stage.x;
+      const primates = STAGES.filter((item) => item.primates);
+      const min = Math.min(...primates.map((item) => item.x));
+      const max = Math.max(...primates.map((item) => item.x));
+      return 5 + ((stage.x - min) / (max - min)) * 90;
+    }
+
+    function setStageVisual(stage) {
+      const visual = STAGE_VISUALS[stage.id] || STAGE_VISUALS["ancient-primates"];
+      els.plateCredit.textContent = visual.credit;
+      els.plateImage.alt = visual.alt;
+      const current = new URL(els.plateImage.getAttribute("src"), window.location.href).href;
+      const next = new URL(visual.src, window.location.href).href;
+      if (current === next) return;
+
+      els.plateImage.classList.add("is-changing");
+      const preloader = new Image();
+      preloader.onload = () => {
+        els.plateImage.src = visual.src;
+        requestAnimationFrame(() => els.plateImage.classList.remove("is-changing"));
+      };
+      preloader.onerror = () => {
+        els.plateImage.src = "./assets/images/specimen-primate-plate.png";
+        els.plateImage.alt = "Научная гравюра древнего примата на ветке";
+        els.plateCredit.textContent = "Локальная пластина";
+        els.plateImage.classList.remove("is-changing");
+      };
+      preloader.src = visual.src;
+    }
+
+    function storyFor(stage) {
+      return STAGE_STORY[stage.id] || ERA_STORY[stage.era] || ERA_STORY[0];
+    }
+
+    function setActive(id, options = {}) {
+      const stage = STAGES.find((item) => item.id === id);
+      if (!stage) return;
+      const story = storyFor(stage);
+      state.activeId = id;
+      if (typeof options.pinned === "boolean") state.pinned = options.pinned;
+      document.documentElement.style.setProperty("--active-x", displayX(stage) + "%");
+      els.calloutAge.textContent = stage.age;
+      els.calloutTitle.textContent = stage.title;
+      els.age.textContent = stage.age.toUpperCase();
+      els.title.textContent = stage.title;
+      els.latin.textContent = stage.latin;
+      els.summary.textContent = stage.summary;
+      els.inheritedTitle.textContent = stage.inheritTitle;
+      els.inherited.textContent = stage.inherited;
+      els.role.textContent = story.role;
+      els.branch.textContent = story.branch;
+      els.insight.textContent = story.insight;
+      setStageVisual(stage);
+      for (const dot of els.layer.querySelectorAll(".stage-dot")) {
+        dot.classList.toggle("is-active", dot.dataset.stageId === id);
+      }
+      const index = visibleStages().findIndex((item) => item.id === id);
+      els.scrubber.value = String(Math.max(0, index));
+      els.pin.classList.toggle("is-pinned", state.pinned);
+      els.pin.innerHTML = `<span class="control-icon">⌖</span>${state.pinned ? "Открепить" : "Закрепить"}`;
+      for (const cell of els.eraRow.children) {
+        cell.classList.toggle("is-current", Number(cell.dataset.era) === stage.era);
+      }
+      for (const milestone of document.querySelectorAll("[data-jump-stage]")) {
+        milestone.classList.toggle("is-active", milestone.dataset.jumpStage === stage.id);
+      }
+    }
+
+    function syncModeButtons() {
+      els.modeButtons.forEach((item) => item.classList.toggle("is-active", item.dataset.mode === state.mode));
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      state.pinned = false;
+      if (mode === "primates") state.activeId = "ancient-primates";
+      syncModeButtons();
+      renderDots();
+    }
+
+    function renderEras() {
+      els.eraRow.replaceChildren();
+      ERAS.forEach(([label, range], index) => {
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "era-cell";
+        cell.dataset.era = String(index);
+        cell.innerHTML = `<strong>${label}</strong><span>${range}</span>`;
+        cell.addEventListener("click", () => {
+          const stage = visibleStages().find((item) => item.era === index) || visibleStages()[0];
+          if (stage) setActive(stage.id, { pinned: true });
+        });
+        els.eraRow.append(cell);
+      });
+    }
+
+    function renderDots() {
+      const stages = visibleStages();
+      document.body.dataset.viewMode = state.mode;
+      els.layer.replaceChildren();
+      els.scrubber.max = String(Math.max(0, stages.length - 1));
+      stages.forEach((stage) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "stage-dot" + (stage.major ? " is-major" : "");
+        dot.dataset.stageId = stage.id;
+        dot.style.left = displayX(stage) + "%";
+        dot.style.setProperty("--dot-color", stage.era >= 6 ? "#c68b45" : stage.era >= 5 ? "#d2ad61" : stage.era >= 3 ? "#a8b772" : "#6c9eaa");
+        dot.setAttribute("aria-label", `${stage.title}, ${stage.age}`);
+        dot.addEventListener("mouseenter", () => {
+          if (!state.pinned) setActive(stage.id);
+        });
+        dot.addEventListener("focus", () => {
+          if (!state.pinned) setActive(stage.id);
+        });
+        dot.addEventListener("click", () => setActive(stage.id, { pinned: true }));
+        els.layer.append(dot);
+      });
+      const active = stages.find((stage) => stage.id === state.activeId) || stages[0];
+      setActive(active.id, { pinned: false });
+    }
+
+    function nearestStage(position) {
+      let best = visibleStages()[0];
+      let bestDistance = Infinity;
+      for (const stage of visibleStages()) {
+        const distance = Math.abs(displayX(stage) - position);
+        if (distance < bestDistance) {
+          best = stage;
+          bestDistance = distance;
+        }
+      }
+      return best;
+    }
+
+    els.timeline.addEventListener("pointermove", (event) => {
+      if (state.pinned || event.pointerType === "touch") return;
+      const rect = els.timeline.getBoundingClientRect();
+      const position = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+      const stage = nearestStage(position);
+      if (stage && stage.id !== state.activeId) setActive(stage.id);
+    });
+
+    els.scrubber.addEventListener("input", () => {
+      const stage = visibleStages()[Number(els.scrubber.value)];
+      if (stage) setActive(stage.id, { pinned: true });
+    });
+
+    els.pin.addEventListener("click", () => {
+      setActive(state.activeId, { pinned: !state.pinned });
+    });
+
+    els.modeButtons.forEach((button) => {
+      button.addEventListener("click", () => setMode(button.dataset.mode));
+    });
+
+    document.querySelectorAll("[data-jump-stage]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const stage = STAGES.find((item) => item.id === button.dataset.jumpStage);
+        if (!stage) return;
+        if (state.mode === "primates" && !stage.primates) setMode("full");
+        setActive(stage.id, { pinned: true });
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      const stages = visibleStages();
+      const index = Math.max(0, stages.findIndex((stage) => stage.id === state.activeId));
+      const next = event.key === "ArrowRight" ? Math.min(index + 1, stages.length - 1) : Math.max(index - 1, 0);
+      setActive(stages[next].id, { pinned: true });
+    });
+
+    renderEras();
+    renderDots();
+  </script>
+</body>
+</html>
