@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Compass, History, Search, Star } from "lucide-react";
+import { ArrowRight, BookOpen, Compass, History, Search, Star, Waves } from "lucide-react";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
 import { Button } from "../components/ui/button";
@@ -171,6 +171,20 @@ export function AtlasPage() {
           </div>
           <Link className="button button-secondary button-md" to="/theory">
             Открыть раздел
+            <ArrowRight aria-hidden="true" size={17} />
+          </Link>
+        </section>
+
+        <section className="theory-bridge-band extinction-link-band">
+          <div>
+            <Waves aria-hidden="true" size={22} />
+            <div>
+              <strong>Почему история жизни менялась рывками?</strong>
+              <p>Пять глобальных вымираний показывают, как кризисы открывали место новым ветвям эволюции.</p>
+            </div>
+          </div>
+          <Link className="button button-secondary button-md" to="/extinctions">
+            Глобальные вымирания
             <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </section>

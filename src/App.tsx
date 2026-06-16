@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 import { AtlasPage } from "./pages/AtlasPage";
 import { AboutPage } from "./pages/AboutPage";
+import { ExtinctionsPage } from "./pages/ExtinctionsPage";
 import { SourcesPage } from "./pages/SourcesPage";
 import { TheoryPage } from "./pages/TheoryPage";
 
@@ -20,6 +21,7 @@ function App() {
           <nav className="topbar-nav" aria-label="Основная навигация">
             <NavLink to="/">Атлас</NavLink>
             <NavLink to="/theory">Теория</NavLink>
+            <NavLink to="/extinctions">Вымирания</NavLink>
             <NavLink to="/sources">Источники</NavLink>
             <NavLink to="/about">О проекте</NavLink>
           </nav>
@@ -28,6 +30,7 @@ function App() {
           <Routes>
             <Route path="/" element={<AtlasPage />} />
             <Route path="/theory" element={<TheoryPage />} />
+            <Route path="/extinctions" element={<ExtinctionsPage />} />
             <Route path="/sources" element={<SourcesPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

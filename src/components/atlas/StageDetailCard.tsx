@@ -13,7 +13,10 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
   return (
     <aside className="stage-panel" aria-label="Активный вид">
       <figure className="stage-plate">
-        <img src={stage.image.src} alt={stage.image.altRu} />
+        <div className="stage-plate-media">
+          <img className="stage-plate-backdrop" src={stage.image.src} alt="" aria-hidden="true" />
+          <img className="stage-plate-main" src={stage.image.src} alt={stage.image.altRu} />
+        </div>
         <figcaption>{imageLabel}</figcaption>
       </figure>
 

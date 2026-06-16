@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import type { CSSProperties } from "react";
 import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
 import { formatAgeRu } from "../../lib/timeline";
 
@@ -9,10 +9,20 @@ type EraNavigationProps = {
   onActivate: (stage: EvolutionStage) => void;
 };
 
+const ROUTE_TITLES: Record<EvolutionEra["id"], string> = {
+  "early-life": "Клетки",
+  animals: "Хордовые",
+  fish: "Рыбы",
+  land: "Суша",
+  synapsids: "Синапсиды",
+  mammals: "Млекопит.",
+  primates: "Приматы",
+};
+
 export function EraNavigation({ eras, stages, activeStage, onActivate }: EraNavigationProps) {
   return (
-    <nav className="era-nav" aria-label="Эпохи">
-      {eras.map((era) => {
+    <nav className="era-route" aria-label="Эпохи" style={{ "--era-count": eras.length } as CSSProperties}>
+      {eras.map((era, index) => {
         const eraStages = stages.filter((stage) => stage.eraId === era.id);
         const target = eraStages[0];
         const isActive = activeStage.eraId === era.id;
@@ -21,18 +31,21 @@ export function EraNavigation({ eras, stages, activeStage, onActivate }: EraNavi
           <button
             key={era.id}
             type="button"
-            className={isActive ? "era-nav-item is-active" : "era-nav-item"}
+            className={isActive ? "era-route-item is-active" : "era-route-item"}
             onClick={() => target && onActivate(target)}
             disabled={!target}
+            aria-label={`${era.titleRu}, ${formatAgeRu(era.startsAtMa).replace(" назад", "")} - ${formatAgeRu(era.endsAtMa).replace(" назад", "")}`}
           >
-            <span className="era-swatch" style={{ background: era.color }} aria-hidden="true" />
-            <span>
-              <strong>{era.titleRu}</strong>
+            <span className="era-route-marker" aria-hidden="true">
+              <span className="era-route-node" style={{ background: era.color }} />
+            </span>
+            <span className="era-route-copy">
+              <span className="era-route-order">{String(index + 1).padStart(2, "0")}</span>
+              <strong>{ROUTE_TITLES[era.id] ?? era.titleRu}</strong>
               <small>
                 {formatAgeRu(era.startsAtMa).replace(" назад", "")} - {formatAgeRu(era.endsAtMa).replace(" назад", "")}
               </small>
             </span>
-            <ChevronRight aria-hidden="true" size={17} />
           </button>
         );
       })}
