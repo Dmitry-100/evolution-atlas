@@ -16,7 +16,8 @@
 ## Структура
 
 - `src/data/lineage.ts` - единственный источник истины по этапам, изображениям и источникам.
-- `src/lib/timeline.ts` - логарифмическая математика временной шкалы.
+- `src/data/evidence.ts` - короткий блок о научной теории и доказательствах эволюции.
+- `src/lib/timeline.ts` - математика временной шкалы, форматирование дат и доля истории до приматов.
 - `src/components/atlas/` - компоненты интерактивного атласа.
 - `src/pages/` - маршруты `/`, `/sources`, `/about`.
 - `public/assets/` - локальные изображения, доступные в сборке.
@@ -60,4 +61,4 @@ pnpm build
 
 ## Источники
 
-Базовый визуальный и смысловой референс: [Visual Capitalist: The Path of Human Evolution](https://www.visualcapitalist.com/path-of-human-evolution/). Конкретные ссылки, кредиты и лицензии изображений хранятся в `src/data/lineage.ts` и отображаются на странице `/sources`.
+Базовый визуальный и смысловой референс: [Visual Capitalist: The Path of Human Evolution](https://www.visualcapitalist.com/path-of-human-evolution/). Изображения этапов сохранены локально из открытых источников с кредитами и лицензиями; конкретные ссылки хранятся в `src/data/lineage.ts` и отображаются на странице `/sources`.

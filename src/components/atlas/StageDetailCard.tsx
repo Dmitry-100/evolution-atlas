@@ -7,7 +7,8 @@ type StageDetailCardProps = {
 };
 
 export function StageDetailCard({ stage }: StageDetailCardProps) {
-  const imageLabel = stage.image.kind === "generated-reconstruction" ? "AI-реконструкция" : "источник / локальная обработка";
+  const imageLabel =
+    stage.image.kind === "generated-reconstruction" ? "AI-реконструкция" : "изображение из открытого источника";
 
   return (
     <aside className="stage-panel" aria-label="Активный вид">

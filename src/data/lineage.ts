@@ -1,3 +1,5 @@
+import { SOURCE_IMAGES } from "./sourceImages";
+
 export type StageImageKind = "source-backed" | "generated-reconstruction" | "local-plate";
 
 export type SourceRef = {
@@ -60,16 +62,16 @@ const wiki = (label: string, slug: string): SourceRef => ({
 const plate = (
   file: string,
   altRu: string,
-  kind: StageImageKind = "generated-reconstruction",
-  credit = "Локальная музейная пластина / AI-реконструкция",
+  kind: StageImageKind = "source-backed",
+  credit = "Wikimedia Commons",
 ): StageImage => ({
-  src: `/assets/images/stage-plates/${file}.jpg`,
+  src: SOURCE_IMAGES[file]?.src ?? `/assets/images/source-backed/${file}.jpg`,
   altRu,
-  kind,
-  credit,
-  license: kind === "source-backed" ? "см. исходный источник" : "локальный проектный ассет",
-  sourceUrl: kind === "source-backed" ? visualCapitalist.url : "local://evolution-atlas/assets",
-  promptId: kind === "generated-reconstruction" ? file : undefined,
+  kind: SOURCE_IMAGES[file] ? "source-backed" : kind,
+  credit: SOURCE_IMAGES[file]?.credit ?? credit,
+  license: SOURCE_IMAGES[file]?.license ?? "см. исходный источник",
+  sourceUrl: SOURCE_IMAGES[file]?.sourceUrl ?? visualCapitalist.url,
+  promptId: undefined,
 });
 
 export const ERAS: EvolutionEra[] = [
@@ -178,7 +180,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "У животных появляется перед и зад, верх и низ, направленное движение и более выраженная логика головы.",
     whyMattersRu: "Наш план тела начинается с двусторонней симметрии: это основа для головы, нервной системы и активного движения.",
     inherited: ["двусторонняя симметрия", "передний отдел тела", "направленное движение"],
-    image: plate("ediacaran", "Ископаемые ранних двусторонних животных", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("bilaterians", "Ископаемое раннего двустороннего животного Kimberella", "source-backed"),
     sources: [wiki("Bilateria", "Bilateria")],
   },
   {
@@ -304,7 +306,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Терапсиды становятся подвижнее, а череп, зубы и поза тела все больше напоминают будущих млекопитающих.",
     whyMattersRu: "Здесь усиливаются черты активного животного: разный тип зубов, сильное жевание и более высокая подвижность.",
     inherited: ["разные типы зубов", "активная поза", "сильные челюсти"],
-    image: plate("cynodonts", "Ископаемый цинодонт", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("therapsids", "Скелет терапсида Lycaenops", "source-backed"),
     sources: [wiki("Therapsid", "Therapsid")],
   },
   {
@@ -360,7 +362,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "После катастрофы на границе мела и палеогена мелкие млекопитающие быстро заняли новые экологические ниши.",
     whyMattersRu: "Освободившиеся ниши ускорили разнообразие млекопитающих, внутри которого вскоре возникли ранние приматы.",
     inherited: ["экологическая гибкость", "быстрое расселение", "пластичное питание"],
-    image: plate("after-kpg", "Карта района кратера Чиксулуб", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("after-kpg", "Реконструкция Purgatorius после мел-палеогенового вымирания", "source-backed"),
     sources: [wiki("Cretaceous-Paleogene extinction event", "Cretaceous%E2%80%93Paleogene_extinction_event")],
   },
   {
@@ -375,7 +377,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Древесная жизнь усилила хватательные конечности, зрение вперед, ногти вместо когтей и точную координацию.",
     whyMattersRu: "Именно здесь начинается короткий ответ: обезьяны выросли внутри более старой древесной ветви приматов.",
     inherited: ["хватательные кисти", "зрение вперед", "подвижные пальцы"],
-    image: plate("early-primates", "Реконструкция раннего примата Purgatorius", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("after-kpg", "Реконструкция Purgatorius как раннего родственника приматов", "source-backed"),
     sources: [wiki("Primates", "Primate"), wiki("Purgatorius", "Purgatorius")],
   },
   {
@@ -390,14 +392,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Небольшие древесные млекопитающие из окружения ранних приматов еще не были обезьянами, но жили в той же эволюционной сцене.",
     whyMattersRu: "Они помогают объяснить, из какой среды выросла ветвь приматов: деревья, хватание, зрение и ловкость.",
     inherited: ["пятипалые конечности", "цепкий хват", "древесная ловкость"],
-    image: {
-      src: "/assets/images/specimen-primate-plate.png",
-      altRu: "Научная гравюра древнего примата на ветке",
-      kind: "local-plate",
-      credit: "Локальная музейная пластина по визуальному референсу",
-      license: "локальный проектный ассет",
-      sourceUrl: "local://evolution-atlas/assets",
-    },
+    image: plate("early-primates", "Скелет Plesiadapis как раннего родственника приматов", "source-backed"),
     sources: [wiki("Plesiadapis", "Plesiadapis"), visualCapitalist],
   },
   {
@@ -427,7 +422,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Одна из ветвей обезьян расселяется в Южной Америке и идет своим путем, сохраняя древесную ловкость.",
     whyMattersRu: "Это напоминание, что шкала показывает ветвление, а не прямой марш к человеку.",
     inherited: ["ветвление обезьян", "древесная ловкость", "социальное поведение"],
-    image: plate("anthropoids", "Реконструкция раннего антропоида"),
+    image: plate("new-world-monkeys", "Портрет широконосой обезьяны", "source-backed"),
     sources: [wiki("New World monkey", "New_World_monkey"), wiki("Platyrrhini", "Platyrrhini")],
   },
   {

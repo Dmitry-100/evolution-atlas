@@ -35,6 +35,17 @@ export function positionToAgeMa(position: number, scale = DEFAULT_TIMELINE_SCALE
   return 10 ** valueLog;
 }
 
+export function getPrePrimateShare({
+  originMa,
+  primatesMa,
+}: {
+  originMa: number;
+  primatesMa: number;
+}) {
+  if (originMa <= 0) return 0;
+  return clamp((originMa - primatesMa) / originMa, 0, 1);
+}
+
 export function findNearestStage<T extends TimelineStageLike>(
   stages: readonly T[],
   position: number,

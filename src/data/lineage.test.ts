@@ -15,6 +15,9 @@ describe("lineage data", () => {
       expect(stage.whyMattersRu.length).toBeGreaterThan(30);
       expect(stage.image.altRu.length).toBeGreaterThan(10);
       expect(stage.image.credit.length).toBeGreaterThan(2);
+      expect(stage.image.src).toMatch(/^\/assets\/images\/source-backed\//);
+      expect(stage.image.sourceUrl).toMatch(/^https?:\/\//);
+      expect(stage.image.license).not.toMatch(/локальный проектный ассет/i);
       expect(stage.sources.length).toBeGreaterThan(0);
     }
   });

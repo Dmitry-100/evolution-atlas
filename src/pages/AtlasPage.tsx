@@ -1,18 +1,18 @@
 import { useMemo, useRef, useState } from "react";
 import { BookOpen, Compass, History, Search, Star } from "lucide-react";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
-import { ageMaToPosition, formatAgeRu, type TimelineScale } from "../lib/timeline";
+import { formatAgeRu } from "../lib/timeline";
 import { Button } from "../components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
+import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
+import { EvidenceSection } from "../components/atlas/EvidenceSection";
+import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
-import { TimelineRiver } from "../components/atlas/TimelineRiver";
 
 type AtlasMode = "all" | "primates";
 
-const ALL_SCALE: TimelineScale = { minMa: 0.01, maxMa: 4000 };
-const PRIMATE_SCALE: TimelineScale = { minMa: 0.25, maxMa: 65 };
 const DEFAULT_STAGE_ID = "early-primates";
 
 function getInitialStage() {
@@ -29,7 +29,6 @@ export function AtlasPage() {
   const atlasRef = useRef<HTMLDivElement>(null);
 
   const visibleStages = mode === "primates" ? primateStages : sortedStages;
-  const scale = mode === "primates" ? PRIMATE_SCALE : ALL_SCALE;
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
   const activeStage = visibleStages.find((stage) => stage.id === activeStageId) ?? getInitialStage();
 
@@ -66,11 +65,11 @@ export function AtlasPage() {
 
         <section className="atlas-hero">
           <div className="atlas-title">
-            <p className="eyebrow">Эволюция жизни</p>
-            <h1>От кого произошли обезьяны? Путь к человеку за 4 млрд лет</h1>
+            <h1>Человек произошел от обезьяны? А от кого произошли обезьяны?</h1>
+            <p className="hero-subtitle">Как отвечает на это теория эволюции.</p>
             <p>
-              Все слышали, что человек произошел от обезьяны. Этот атлас показывает следующий вопрос: от кого
-              произошли обезьяны, приматы и вся линия, которая привела к нам.
+              Эволюция - это не лестница к человеку, а ветвящееся дерево. Почти вся история жизни прошла до
+              появления приматов; наша ветвь занимает только самый правый край шкалы.
             </p>
           </div>
 
@@ -112,14 +111,11 @@ export function AtlasPage() {
           </aside>
 
           <div className="center-stage">
-            <TimelineRiver
-              stages={visibleStages}
-              eras={visibleEras}
-              activeStage={activeStage}
-              scale={scale}
-              mode={mode}
-              onActivate={activateStage}
-            />
+            {mode === "primates" ? (
+              <PrimateAxis stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
+            ) : (
+              <DeepTimeAxis stages={visibleStages} eras={visibleEras} activeStage={activeStage} onActivate={activateStage} />
+            )}
 
             <div className="specimen-strip" aria-label="Быстрый выбор видов">
               {visibleStages.slice(-12).map((stage) => (
@@ -129,7 +125,6 @@ export function AtlasPage() {
                   className={stage.id === activeStage.id ? "specimen-chip is-active" : "specimen-chip"}
                   onClick={() => activateStage(stage)}
                 >
-                  <span style={{ left: `${ageMaToPosition(stage.ageMa, scale) * 100}%` }} aria-hidden="true" />
                   {stage.titleRu}
                 </button>
               ))}
@@ -149,6 +144,8 @@ export function AtlasPage() {
             ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
           </p>
         </section>
+
+        <EvidenceSection />
       </div>
     </TooltipProvider>
   );

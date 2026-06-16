@@ -3,6 +3,7 @@ import {
   ageMaToPosition,
   findNearestStage,
   formatAgeRu,
+  getPrePrimateShare,
   sortStagesOldestFirst,
 } from "./timeline";
 
@@ -39,5 +40,10 @@ describe("timeline math", () => {
       "sapiens",
     ]);
     expect(stages[0]?.id).toBe("sapiens");
+  });
+
+  it("shows that almost the entire deep-time story happened before primates", () => {
+    expect(getPrePrimateShare({ originMa: 4000, primatesMa: 65 })).toBeGreaterThan(0.98);
+    expect(getPrePrimateShare({ originMa: 4000, primatesMa: 65 })).toBeLessThan(0.985);
   });
 });
