@@ -1,5 +1,5 @@
-import { MoveHorizontal } from "lucide-react";
-import type { CSSProperties } from "react";
+import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
+import type { CSSProperties, KeyboardEvent } from "react";
 import type { EvolutionStage } from "../../data/lineage";
 import { formatAgeRu } from "../../lib/timeline";
 import { Slider } from "../ui/slider";
@@ -8,6 +8,9 @@ type PrimateAxisProps = {
   stages: EvolutionStage[];
   activeStage: EvolutionStage;
   onActivate: (stage: EvolutionStage) => void;
+  onStep: (delta: number) => void;
+  canStepPrevious: boolean;
+  canStepNext: boolean;
 };
 
 const EDGE_PADDING = 0.09;
@@ -25,21 +28,65 @@ function nearestPrimate(stages: EvolutionStage[], position: number) {
   }, null)?.stage;
 }
 
-export function PrimateAxis({ stages, activeStage, onActivate }: PrimateAxisProps) {
+export function PrimateAxis({
+  stages,
+  activeStage,
+  onActivate,
+  onStep,
+  canStepPrevious,
+  canStepNext,
+}: PrimateAxisProps) {
   const activeIndex = Math.max(0, stages.findIndex((stage) => stage.id === activeStage.id));
   const activePosition = displayPosition(activeIndex, stages.length) * 100;
+
+  function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "ArrowRight" && canStepNext) {
+      event.preventDefault();
+      onStep(1);
+    }
+
+    if (event.key === "ArrowLeft" && canStepPrevious) {
+      event.preventDefault();
+      onStep(-1);
+    }
+  }
 
   return (
     <section className="axis-panel primate-axis-panel" aria-label="Крупная шкала приматов">
       <div className="axis-toolbar">
-        <span>
+        <span className="axis-toolbar-copy">
           <MoveHorizontal aria-hidden="true" size={19} />
-          Приматы крупно: нажимайте портреты и ископаемые
+          Приматы крупно: нажимайте портреты или используйте стрелки
         </span>
+        <div className="axis-step-controls" aria-label="Переключение этапов">
+          <button
+            type="button"
+            className="axis-step-button"
+            aria-label="Предыдущий этап"
+            disabled={!canStepPrevious}
+            onClick={() => onStep(-1)}
+          >
+            <ArrowLeft aria-hidden="true" size={18} />
+          </button>
+          <button
+            type="button"
+            className="axis-step-button"
+            aria-label="Следующий этап"
+            disabled={!canStepNext}
+            onClick={() => onStep(1)}
+          >
+            <ArrowRight aria-hidden="true" size={18} />
+          </button>
+        </div>
         <strong>последние ~65 млн лет</strong>
       </div>
 
-      <div className="primate-portrait-axis">
+      <div
+        className="primate-portrait-axis"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        aria-label="Крупная шкала приматов. Используйте стрелки влево и вправо для перехода между этапами."
+      >
         <div
           className="primate-axis-track"
           onPointerMove={(event) => {

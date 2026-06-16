@@ -218,10 +218,13 @@ code {
   margin: 0.35rem 0 1rem;
   max-width: 980px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 4.9rem;
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: 0;
+}
+
+.atlas-title h1 {
+  font-size: 4.35rem;
 }
 
 .atlas-title p,
@@ -300,6 +303,8 @@ code {
 .tabs-trigger:focus-visible,
 .stage-dot:focus-visible,
 .deep-stage-dot:focus-visible,
+.deep-time-axis:focus-visible,
+.primate-portrait-axis:focus-visible,
 .primate-node:focus-visible,
 .era-nav-item:focus-visible,
 .specimen-chip:focus-visible,
@@ -355,16 +360,18 @@ code {
 
 .atlas-grid {
   display: grid;
-  grid-template-columns: 240px minmax(720px, 1fr) minmax(340px, 460px);
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
   gap: 1rem;
-  align-items: stretch;
+  align-items: start;
 }
 
 .left-rail,
+.era-strip-card,
 .rail-card,
 .timeline-section,
 .stage-panel,
 .takeaway-band,
+.theory-bridge-band,
 .document-page,
 .source-card,
 .about-card,
@@ -400,6 +407,23 @@ code {
 .era-nav {
   display: flex;
   flex-direction: column;
+}
+
+.era-strip-card {
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.era-strip-card .era-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+}
+
+.era-strip-card .era-nav-item {
+  min-height: 76px;
+  border-right: 1px solid rgba(218, 185, 126, 0.1);
+  border-bottom: 1px solid rgba(218, 185, 126, 0.1);
 }
 
 .era-nav-item {
@@ -452,6 +476,11 @@ code {
   min-width: 0;
 }
 
+.stage-panel {
+  position: sticky;
+  top: 92px;
+}
+
 .timeline-section {
   position: relative;
   min-height: 520px;
@@ -487,10 +516,42 @@ code {
   font-size: 0.9rem;
 }
 
-.axis-toolbar span {
+.axis-toolbar-copy {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.axis-step-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.axis-step-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(218, 185, 126, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.axis-step-button:hover:not(:disabled),
+.axis-step-button:focus-visible {
+  border-color: var(--line-strong);
+  background: rgba(217, 173, 97, 0.14);
+  color: var(--amber);
+}
+
+.axis-step-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
 }
 
 .axis-toolbar strong {
@@ -549,6 +610,7 @@ code {
 .deep-time-water {
   position: absolute;
   inset: 0;
+  z-index: 0;
   background:
     radial-gradient(circle at 12% 80%, rgba(130, 183, 179, 0.24), transparent 18rem),
     radial-gradient(circle at 84% 62%, rgba(240, 201, 120, 0.18), transparent 14rem),
@@ -556,13 +618,29 @@ code {
     linear-gradient(90deg, rgba(72, 118, 142, 0.2), rgba(111, 151, 117, 0.2), rgba(190, 131, 75, 0.16));
 }
 
+.deep-time-river-image {
+  position: absolute;
+  right: 0;
+  bottom: 3.05rem;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 205px;
+  object-fit: cover;
+  object-position: center bottom;
+  opacity: 0.86;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
 .pre-primate-field {
   position: absolute;
   inset: 0 auto 0 0;
+  z-index: 2;
   border-right: 1px solid rgba(240, 201, 120, 0.48);
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.12), rgba(158, 179, 110, 0.1), rgba(217, 173, 97, 0.1)),
-    linear-gradient(180deg, transparent 0 58%, rgba(255, 255, 255, 0.03) 58% 100%);
+    linear-gradient(90deg, rgba(130, 183, 179, 0.08), rgba(158, 179, 110, 0.07), rgba(217, 173, 97, 0.08)),
+    linear-gradient(180deg, transparent 0 62%, rgba(255, 255, 255, 0.02) 62% 100%);
 }
 
 .pre-primate-field span {
@@ -580,6 +658,7 @@ code {
 .primate-sliver {
   position: absolute;
   inset: 0 0 0 auto;
+  z-index: 3;
   min-width: 2.2rem;
   border-left: 1px solid rgba(240, 201, 120, 0.65);
   background:
@@ -607,6 +686,7 @@ code {
 .deep-era-band {
   position: absolute;
   bottom: 0;
+  z-index: 4;
   height: 4.6rem;
   opacity: 0.32;
   border-left: 1px solid rgba(255, 255, 255, 0.16);
@@ -615,17 +695,20 @@ code {
 .deep-active-line,
 .primate-active-line {
   position: absolute;
+  z-index: 6;
   top: 3.8rem;
   bottom: 0;
   width: 2px;
   transform: translateX(-50%);
   background: linear-gradient(180deg, transparent, var(--amber) 16%, var(--amber) 86%, transparent);
   box-shadow: 0 0 24px rgba(240, 201, 120, 0.72);
+  pointer-events: none;
 }
 
 .deep-active-card {
   position: absolute;
   top: 1rem;
+  z-index: 7;
   width: 210px;
   transform: translateX(-50%);
   border: 1px solid var(--line-strong);
@@ -666,6 +749,7 @@ code {
 .deep-stage-dots {
   position: absolute;
   inset: 0;
+  z-index: 8;
 }
 
 .deep-stage-dot {
@@ -1146,6 +1230,73 @@ code {
   color: var(--muted);
 }
 
+.theory-bridge-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+}
+
+.theory-bridge-band > div {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.theory-bridge-band svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.theory-bridge-band strong,
+.theory-bridge-band p {
+  display: block;
+  margin: 0;
+}
+
+.theory-bridge-band p {
+  color: var(--muted);
+}
+
+.theory-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.theory-principle {
+  border: 1px solid rgba(218, 185, 126, 0.18);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.035);
+  padding: 1.1rem;
+}
+
+.theory-principle svg {
+  color: var(--gold);
+}
+
+.theory-principle h2 {
+  margin: 0.75rem 0 0.5rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.theory-principle p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.theory-page .evidence-section {
+  margin-top: 1rem;
+}
+
 .evidence-section {
   display: grid;
   grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1fr);
@@ -1332,7 +1483,7 @@ code {
   }
 
   .atlas-grid {
-    grid-template-columns: 220px minmax(680px, 1fr) minmax(300px, 380px);
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
   }
 }
 
@@ -1376,6 +1527,10 @@ code {
     position: static;
   }
 
+  .stage-panel {
+    position: static;
+  }
+
   .era-nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1395,6 +1550,11 @@ code {
 
   .deep-time-axis {
     height: 320px;
+  }
+
+  .theory-principles,
+  .evidence-section {
+    grid-template-columns: 1fr;
   }
 
   .evidence-section {
@@ -1464,9 +1624,16 @@ code {
   .era-nav,
   .stage-panel,
   .takeaway-band,
+  .theory-bridge-band,
+  .theory-principles,
   .source-card,
   .about-grid {
     grid-template-columns: 1fr;
+  }
+
+  .theory-bridge-band {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .stage-panel {
@@ -1487,12 +1654,21 @@ code {
     flex-direction: column;
   }
 
+  .axis-step-controls {
+    margin-left: 0;
+  }
+
   .deep-time-stat {
     width: 100%;
   }
 
   .deep-time-axis {
     height: 310px;
+  }
+
+  .deep-time-river-image {
+    bottom: 3.15rem;
+    height: 165px;
   }
 
   .pre-primate-field span {

@@ -1,5 +1,5 @@
-import { useMemo, type PointerEvent } from "react";
-import { MoveHorizontal, TimerReset } from "lucide-react";
+import { useMemo, type KeyboardEvent, type PointerEvent } from "react";
+import { ArrowLeft, ArrowRight, MoveHorizontal, TimerReset } from "lucide-react";
 import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, getPrePrimateShare, sortStagesOldestFirst } from "../../lib/timeline";
 import { Slider } from "../ui/slider";
@@ -9,6 +9,9 @@ type DeepTimeAxisProps = {
   eras: EvolutionEra[];
   activeStage: EvolutionStage;
   onActivate: (stage: EvolutionStage) => void;
+  onStep: (delta: number) => void;
+  canStepPrevious: boolean;
+  canStepNext: boolean;
 };
 
 const ORIGIN_MA = 4000;
@@ -26,7 +29,15 @@ function nearestStage(stages: EvolutionStage[], position: number) {
   }, null)?.stage;
 }
 
-export function DeepTimeAxis({ stages, eras, activeStage, onActivate }: DeepTimeAxisProps) {
+export function DeepTimeAxis({
+  stages,
+  eras,
+  activeStage,
+  onActivate,
+  onStep,
+  canStepPrevious,
+  canStepNext,
+}: DeepTimeAxisProps) {
   const activePosition = linearPosition(activeStage.ageMa) * 100;
   const activeCardClass =
     activePosition > 82 ? "deep-active-card align-right" : activePosition < 18 ? "deep-active-card align-left" : "deep-active-card";
@@ -50,13 +61,45 @@ export function DeepTimeAxis({ stages, eras, activeStage, onActivate }: DeepTime
     if (nearest && nearest.id !== activeStage.id) onActivate(nearest);
   }
 
+  function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "ArrowRight" && canStepNext) {
+      event.preventDefault();
+      onStep(1);
+    }
+
+    if (event.key === "ArrowLeft" && canStepPrevious) {
+      event.preventDefault();
+      onStep(-1);
+    }
+  }
+
   return (
     <section className="axis-panel deep-time-panel" aria-label="Глубокая шкала времени">
       <div className="axis-toolbar">
-        <span>
+        <span className="axis-toolbar-copy">
           <MoveHorizontal aria-hidden="true" size={19} />
-          Наведите на ленту времени или двигайте ползунок
+          Наведите на ленту, двигайте ползунок или используйте стрелки
         </span>
+        <div className="axis-step-controls" aria-label="Переключение этапов">
+          <button
+            type="button"
+            className="axis-step-button"
+            aria-label="Предыдущий этап"
+            disabled={!canStepPrevious}
+            onClick={() => onStep(-1)}
+          >
+            <ArrowLeft aria-hidden="true" size={18} />
+          </button>
+          <button
+            type="button"
+            className="axis-step-button"
+            aria-label="Следующий этап"
+            disabled={!canStepNext}
+            onClick={() => onStep(1)}
+          >
+            <ArrowRight aria-hidden="true" size={18} />
+          </button>
+        </div>
         <strong>4 млрд лет одним взглядом</strong>
       </div>
 
@@ -68,8 +111,20 @@ export function DeepTimeAxis({ stages, eras, activeStage, onActivate }: DeepTime
         </div>
       </div>
 
-      <div className="deep-time-axis" onPointerMove={handlePointerMove}>
+      <div
+        className="deep-time-axis"
+        tabIndex={0}
+        onPointerMove={handlePointerMove}
+        onKeyDown={handleKeyDown}
+        aria-label="Шкала времени. Используйте стрелки влево и вправо для перехода между этапами."
+      >
         <div className="deep-time-water" aria-hidden="true" />
+        <img
+          className="deep-time-river-image"
+          src="/assets/images/timeline-river-specimens.png"
+          alt=""
+          aria-hidden="true"
+        />
         <div className="pre-primate-field" style={{ width: `${primateStart}%` }}>
           <span>До приматов: примерно 3,94 млрд лет</span>
         </div>

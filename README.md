@@ -19,7 +19,7 @@
 - `src/data/evidence.ts` - короткий блок о научной теории и доказательствах эволюции.
 - `src/lib/timeline.ts` - математика временной шкалы, форматирование дат и доля истории до приматов.
 - `src/components/atlas/` - компоненты интерактивного атласа.
-- `src/pages/` - маршруты `/`, `/sources`, `/about`.
+- `src/pages/` - маршруты `/`, `/theory`, `/sources`, `/about`.
 - `public/assets/` - локальные изображения, доступные в сборке.
 - `legacy/onepager-2026-06-16/` - архив старой one-page версии.
 - `deploy/` и `scripts/` - домашний статический деплой.
@@ -61,4 +61,4 @@ pnpm build
 
 ## Источники
 
-Базовый визуальный и смысловой референс: [Visual Capitalist: The Path of Human Evolution](https://www.visualcapitalist.com/path-of-human-evolution/). Изображения этапов сохранены локально из открытых источников с кредитами и лицензиями; конкретные ссылки хранятся в `src/data/lineage.ts` и отображаются на странице `/sources`.
+Базовый визуальный и смысловой референс: [Visual Capitalist: The Path of Human Evolution](https://www.visualcapitalist.com/path-of-human-evolution/). Изображения этапов сохранены локально из открытых источников с кредитами и лицензиями; конкретные ссылки хранятся в `src/data/lineage.ts` и отображаются на странице `/sources`. Объяснение научного смысла слова “теория” и доказательств эволюции вынесено на `/theory`.

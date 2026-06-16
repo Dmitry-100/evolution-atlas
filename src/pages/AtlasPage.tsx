@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
-import { BookOpen, Compass, History, Search, Star } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, BookOpen, Compass, History, Search, Star } from "lucide-react";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
 import { Button } from "../components/ui/button";
@@ -7,7 +8,6 @@ import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
 import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
-import { EvidenceSection } from "../components/atlas/EvidenceSection";
 import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
 
@@ -31,6 +31,9 @@ export function AtlasPage() {
   const visibleStages = mode === "primates" ? primateStages : sortedStages;
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
   const activeStage = visibleStages.find((stage) => stage.id === activeStageId) ?? getInitialStage();
+  const activeIndex = getStageIndex(visibleStages, activeStage.id);
+  const canStepPrevious = activeIndex > 0;
+  const canStepNext = activeIndex < visibleStages.length - 1;
 
   function activateStage(stage: EvolutionStage) {
     setActiveStageId(stage.id);
@@ -65,11 +68,11 @@ export function AtlasPage() {
 
         <section className="atlas-hero">
           <div className="atlas-title">
-            <h1>Человек произошел от обезьяны? А от кого произошли обезьяны?</h1>
-            <p className="hero-subtitle">Как отвечает на это теория эволюции.</p>
+            <h1>Человек произошел от обезьяны... а от кого произошла обезьяна?</h1>
+            <p className="hero-subtitle">Короткий ответ теории эволюции - через дерево родства, а не лестницу прогресса.</p>
             <p>
-              Эволюция - это не лестница к человеку, а ветвящееся дерево. Почти вся история жизни прошла до
-              появления приматов; наша ветвь занимает только самый правый край шкалы.
+              Почти вся история жизни прошла до появления приматов. Перемещайтесь по шкале, чтобы увидеть, как
+              клеточные линии, рыбы, четвероногие, млекопитающие и древние приматы связаны с нашей ветвью.
             </p>
           </div>
 
@@ -100,21 +103,26 @@ export function AtlasPage() {
         </section>
 
         <section className="atlas-grid">
-          <aside className="left-rail" aria-label="Навигация по эпохам">
-            <div className="rail-card">
-              <div className="rail-heading">
-                <BookOpen aria-hidden="true" size={19} />
-                <span>Маршрут</span>
-              </div>
-              <EraNavigation eras={visibleEras} stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
-            </div>
-          </aside>
-
           <div className="center-stage">
             {mode === "primates" ? (
-              <PrimateAxis stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
+              <PrimateAxis
+                stages={visibleStages}
+                activeStage={activeStage}
+                onActivate={activateStage}
+                onStep={moveActive}
+                canStepPrevious={canStepPrevious}
+                canStepNext={canStepNext}
+              />
             ) : (
-              <DeepTimeAxis stages={visibleStages} eras={visibleEras} activeStage={activeStage} onActivate={activateStage} />
+              <DeepTimeAxis
+                stages={visibleStages}
+                eras={visibleEras}
+                activeStage={activeStage}
+                onActivate={activateStage}
+                onStep={moveActive}
+                canStepPrevious={canStepPrevious}
+                canStepNext={canStepNext}
+              />
             )}
 
             <div className="specimen-strip" aria-label="Быстрый выбор видов">
@@ -128,6 +136,14 @@ export function AtlasPage() {
                   {stage.titleRu}
                 </button>
               ))}
+            </div>
+
+            <div className="era-strip-card" aria-label="Навигация по эпохам">
+              <div className="rail-heading">
+                <BookOpen aria-hidden="true" size={19} />
+                <span>Маршрут по эпохам</span>
+              </div>
+              <EraNavigation eras={visibleEras} stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
             </div>
           </div>
 
@@ -145,7 +161,19 @@ export function AtlasPage() {
           </p>
         </section>
 
-        <EvidenceSection />
+        <section className="theory-bridge-band">
+          <div>
+            <BookOpen aria-hidden="true" size={22} />
+            <div>
+              <strong>Почему эволюция называется теорией?</strong>
+              <p>Коротко о научном значении слова “теория” и о доказательствах общего происхождения.</p>
+            </div>
+          </div>
+          <Link className="button button-secondary button-md" to="/theory">
+            Открыть раздел
+            <ArrowRight aria-hidden="true" size={17} />
+          </Link>
+        </section>
       </div>
     </TooltipProvider>
   );

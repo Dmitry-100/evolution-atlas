@@ -8,11 +8,16 @@ test.describe("Evolution Atlas", () => {
     });
 
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: /Человек произошел от обезьяны/i })).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: /Человек произошел от обезьяны\.\.\. а от кого произошла обезьяна\?/i,
+      }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Теория" })).toBeVisible();
     await expect(page.locator(".deep-time-axis")).toBeVisible();
     await expect(page.getByText(/98,4% истории жизни/i)).toBeVisible();
     await expect(page.getByRole("heading", { name: /Ранние приматы/i })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).not.toBeVisible();
 
     const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
     expect(hasOverflow).toBe(false);
@@ -39,6 +44,30 @@ test.describe("Evolution Atlas", () => {
       await page.getByRole("button", { name: /Древние приматы, 55 млн лет назад/i }).hover();
     }
     await expect(page.getByRole("heading", { name: /Древние приматы/i })).toBeVisible();
+  });
+
+  test("visible and keyboard arrows move along the deep-time scale", async ({ page }) => {
+    await page.goto("/");
+    const activeHeading = page.locator(".stage-copy h2");
+    await expect(activeHeading).toHaveText("Ранние приматы");
+
+    await page.getByRole("button", { name: /Следующий этап/i }).click();
+    await expect(activeHeading).toHaveText("Древние приматы");
+
+    await page.locator(".deep-time-axis").focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(activeHeading).toHaveText("Антропоиды");
+
+    await page.getByRole("button", { name: /Предыдущий этап/i }).click();
+    await expect(activeHeading).toHaveText("Древние приматы");
+  });
+
+  test("theory route explains scientific theory and evidence", async ({ page }) => {
+    await page.goto("/theory");
+    await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Ископаемые" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Молекулярные данные" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /National Academies/i }).first()).toBeVisible();
   });
 
   test("sources route exposes image metadata and source links", async ({ page }) => {
