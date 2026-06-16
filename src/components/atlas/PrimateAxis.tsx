@@ -59,7 +59,7 @@ export function PrimateAxis({
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>
-        <strong>65 млн лет - сегодня</strong>
+        <strong>65 млн лет крупно</strong>
       </div>
 
       <div className="primate-focus-intro">
@@ -70,7 +70,7 @@ export function PrimateAxis({
       </div>
 
       <div
-        className="primate-focus-grid"
+        className="primate-focus-grid primate-photo-axis"
         tabIndex={0}
         onKeyDown={handleKeyDown}
         aria-label="Фокус на приматах. Используйте стрелки влево и вправо для перехода между этапами."
@@ -81,7 +81,7 @@ export function PrimateAxis({
             <button
               key={stage.id}
               type="button"
-              className={isActive ? "primate-focus-card is-active" : "primate-focus-card"}
+              className={isActive ? "primate-focus-card primate-photo-node is-active" : "primate-focus-card primate-photo-node"}
               aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
               aria-current={isActive ? "true" : undefined}
               onPointerEnter={() => onActivate(stage)}

@@ -20,8 +20,8 @@ function App() {
           </NavLink>
           <nav className="topbar-nav" aria-label="Основная навигация">
             <NavLink to="/">Атлас</NavLink>
-            <NavLink to="/theory">Теория</NavLink>
-            <NavLink to="/extinctions">Вымирания</NavLink>
+            <NavLink to="/theory">Теория эволюции</NavLink>
+            <NavLink to="/extinctions">Глобальные вымирания</NavLink>
             <NavLink to="/sources">Источники</NavLink>
             <NavLink to="/about">О проекте</NavLink>
           </nav>

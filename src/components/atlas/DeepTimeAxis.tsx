@@ -1,5 +1,6 @@
-import { useMemo, type KeyboardEvent, type PointerEvent } from "react";
+import { useMemo, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import { ArrowLeft, ArrowRight, MoveHorizontal, TimerReset } from "lucide-react";
+import type { MassExtinctionEvent } from "../../data/extinctions";
 import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, getPrePrimateShare, sortStagesOldestFirst } from "../../lib/timeline";
 import { Slider } from "../ui/slider";
@@ -12,6 +13,7 @@ type DeepTimeAxisProps = {
   onStep: (delta: number) => void;
   canStepPrevious: boolean;
   canStepNext: boolean;
+  extinctions?: MassExtinctionEvent[];
 };
 
 const ORIGIN_MA = 4000;
@@ -19,6 +21,10 @@ const PRIMATES_MA = 65;
 
 function linearPosition(ageMa: number) {
   return Math.max(0, Math.min(1, 1 - ageMa / ORIGIN_MA));
+}
+
+function percentRu(value: number, maximumFractionDigits = 2) {
+  return value.toLocaleString("ru-RU", { maximumFractionDigits });
 }
 
 function nearestStage(stages: EvolutionStage[], position: number) {
@@ -37,11 +43,13 @@ export function DeepTimeAxis({
   onStep,
   canStepPrevious,
   canStepNext,
+  extinctions = [],
 }: DeepTimeAxisProps) {
   const activePosition = linearPosition(activeStage.ageMa) * 100;
   const activeCardClass =
     activePosition > 82 ? "deep-active-card align-right" : activePosition < 18 ? "deep-active-card align-left" : "deep-active-card";
   const prePrimateShare = getPrePrimateShare({ originMa: ORIGIN_MA, primatesMa: PRIMATES_MA });
+  const activeElapsedShare = linearPosition(activeStage.ageMa);
   const primateStart = linearPosition(PRIMATES_MA) * 100;
 
   const eraBands = useMemo(
@@ -106,8 +114,9 @@ export function DeepTimeAxis({
       <div className="deep-time-stat">
         <TimerReset aria-hidden="true" size={24} />
         <div>
-          <span>до появления приматов прошло</span>
-          <strong>{(prePrimateShare * 100).toLocaleString("ru-RU", { maximumFractionDigits: 1 })}% истории жизни</strong>
+          <span>к выбранной точке прошло</span>
+          <strong>{percentRu(activeElapsedShare * 100)}% истории жизни</strong>
+          <small>до появления приматов - {percentRu(prePrimateShare * 100, 1)}%</small>
         </div>
       </div>
 
@@ -141,10 +150,30 @@ export function DeepTimeAxis({
           />
         ))}
 
+        <div className="extinction-markers" aria-label="Глобальные вымирания">
+          {extinctions.map((event) => {
+            const position = linearPosition(event.ageMa) * 100;
+            return (
+              <a
+                key={event.id}
+                className="extinction-marker"
+                style={{ left: `${position}%`, "--extinction-color": event.color } as CSSProperties}
+                href="/extinctions"
+                aria-label={`${event.titleRu} вымирание, ${event.windowRu}`}
+                title={`${event.titleRu}: ${event.windowRu}`}
+              >
+                <span />
+                <strong>{event.titleRu}</strong>
+              </a>
+            );
+          })}
+        </div>
+
         <span className="deep-active-line" style={{ left: `${activePosition}%` }} aria-hidden="true" />
         <div className={activeCardClass} style={{ left: `${activePosition}%` }}>
           <span>{formatAgeRu(activeStage.ageMa)}</span>
           <strong>{activeStage.titleRu}</strong>
+          <small>{percentRu(activeElapsedShare * 100)}% истории уже прошло</small>
         </div>
 
         <div className="deep-stage-dots" role="list" aria-label="Этапы на глубокой шкале">

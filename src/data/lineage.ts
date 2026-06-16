@@ -67,11 +67,11 @@ const plate = (
 ): StageImage => ({
   src: SOURCE_IMAGES[file]?.src ?? `/assets/images/source-backed/${file}.jpg`,
   altRu,
-  kind: SOURCE_IMAGES[file] ? "source-backed" : kind,
+  kind: SOURCE_IMAGES[file]?.kind ?? (SOURCE_IMAGES[file] ? "source-backed" : kind),
   credit: SOURCE_IMAGES[file]?.credit ?? credit,
   license: SOURCE_IMAGES[file]?.license ?? "см. исходный источник",
   sourceUrl: SOURCE_IMAGES[file]?.sourceUrl ?? visualCapitalist.url,
-  promptId: undefined,
+  promptId: SOURCE_IMAGES[file]?.promptId,
 });
 
 export const ERAS: EvolutionEra[] = [
@@ -250,7 +250,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "На мелководьях появляются формы с чертами рыб и будущих наземных позвоночных: подвижная шея и опора на плавники.",
     whyMattersRu: "Tiktaalik особенно хорошо показывает, что эволюция не прыгает: одна структура постепенно получает новую механику.",
     inherited: ["подвижная шея", "опора на плавники", "дыхание воздухом"],
-    image: plate("tiktaalik", "Ископаемое и реконструкция Tiktaalik", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("tiktaalik", "Реконструкция Tiktaalik в мелководной среде", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Tiktaalik", "Tiktaalik")],
   },
   {
@@ -264,7 +264,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Позвоночные начинают использовать конечности на мелководьях и суше, а пальцы становятся частью нового плана тела.",
     whyMattersRu: "Четыре конечности, пальцы и легочное дыхание открыли линию наземных позвоночных, включая нас.",
     inherited: ["четыре конечности", "пальцы", "легочное дыхание"],
-    image: plate("early-tetrapods", "Пластина раннего четвероногого", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("early-tetrapods", "Реконструкция раннего четвероногого Ichthyostega", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Tetrapod", "Tetrapod"), wiki("Acanthostega", "Acanthostega")],
   },
   {
@@ -278,7 +278,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Эмбрион получил защитные оболочки, и развитие стало меньше зависеть от водной среды вокруг организма.",
     whyMattersRu: "Амниотическое яйцо и новые стратегии развития позволили позвоночным глубже освоить сушу.",
     inherited: ["защищенное развитие", "эмбриональные оболочки", "сухопутная репродукция"],
-    image: plate("amniotes", "Ранний амниот Hylonomus", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("hylonomus-muse", "Реконструкция раннего амниота Hylonomus", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Amniote", "Amniote"), wiki("Hylonomus", "Hylonomus")],
   },
   {
@@ -292,7 +292,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Древняя ветвь, из которой со временем возникли млекопитающие, перестраивала череп, зубы и обмен веществ.",
     whyMattersRu: "Синапсиды могли выглядеть рептилиеподобно, но их линия ближе к нам, чем к динозаврам.",
     inherited: ["особое строение черепа", "жевательная система", "линия млекопитающих"],
-    image: plate("synapsids", "Скелет раннего синапсида", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("synapsids", "Реконструкция раннего синапсида Dimetrodon", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Synapsid", "Synapsid"), wiki("Dimetrodon", "Dimetrodon")],
   },
   {
@@ -306,7 +306,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Терапсиды становятся подвижнее, а череп, зубы и поза тела все больше напоминают будущих млекопитающих.",
     whyMattersRu: "Здесь усиливаются черты активного животного: разный тип зубов, сильное жевание и более высокая подвижность.",
     inherited: ["разные типы зубов", "активная поза", "сильные челюсти"],
-    image: plate("therapsids", "Скелет терапсида Lycaenops", "source-backed"),
+    image: plate("therapsids", "Реконструкция терапсида Lycaenops", "source-backed"),
     sources: [wiki("Therapsid", "Therapsid")],
   },
   {
@@ -320,7 +320,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "В этой группе усиливаются признаки млекопитающих: зубы, вероятная шерсть, активный обмен и забота о потомстве.",
     whyMattersRu: "Цинодонты помогают увидеть, как 'млекопитающее' собиралось постепенно, а не возникло за один шаг.",
     inherited: ["дифференцированные зубы", "вероятная шерсть", "активный обмен"],
-    image: plate("cynodonts", "Череп и скелет цинодонта", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("cynodonts", "Реконструкция цинодонта Thrinaxodon", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Cynodont", "Cynodontia"), wiki("Thrinaxodon", "Thrinaxodon")],
   },
   {
@@ -334,7 +334,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Небольшие ночные животные переживали эпохи гигантов и накапливали слух, шерсть, молоко и заботу о потомстве.",
     whyMattersRu: "До приматов уже появились черты, без которых невозможно представить человека: теплокровность, молоко и длительная забота.",
     inherited: ["шерсть", "молочные железы", "слуховые косточки"],
-    image: plate("early-mammals", "Череп и скелет раннего млекопитающего", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("early-mammals", "Реконструкция раннего млекопитающего Morganucodon", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Mammalia", "Mammal"), wiki("Morganucodon", "Morganucodon")],
   },
   {
@@ -348,7 +348,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Беременность внутри тела и плацентарное питание меняют стратегию развития потомства у млекопитающих.",
     whyMattersRu: "Плацента дала возможность более длительного развития до рождения и усилила связь организма матери и эмбриона.",
     inherited: ["плацента", "длительная беременность", "ранняя родительская забота"],
-    image: plate("placentals", "Ископаемая Eomaia", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("eomaia-nt", "Реконструкция раннего эутериевого млекопитающего Eomaia", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Placentalia", "Placentalia"), wiki("Eomaia", "Eomaia")],
   },
   {
@@ -377,7 +377,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Древесная жизнь усилила хватательные конечности, зрение вперед, ногти вместо когтей и точную координацию.",
     whyMattersRu: "Именно здесь начинается короткий ответ: обезьяны выросли внутри более старой древесной ветви приматов.",
     inherited: ["хватательные кисти", "зрение вперед", "подвижные пальцы"],
-    image: plate("after-kpg", "Реконструкция Purgatorius как раннего родственника приматов", "source-backed"),
+    image: plate("purgatorius-bw", "Реконструкция Purgatorius как раннего родственника приматов", "source-backed"),
     sources: [wiki("Primates", "Primate"), wiki("Purgatorius", "Purgatorius")],
   },
   {
@@ -392,7 +392,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Небольшие древесные млекопитающие из окружения ранних приматов еще не были обезьянами, но жили в той же эволюционной сцене.",
     whyMattersRu: "Они помогают объяснить, из какой среды выросла ветвь приматов: деревья, хватание, зрение и ловкость.",
     inherited: ["пятипалые конечности", "цепкий хват", "древесная ловкость"],
-    image: plate("early-primates", "Скелет Plesiadapis как раннего родственника приматов", "source-backed"),
+    image: plate("early-primates", "Реконструкция Plesiadapis как раннего родственника приматов", "source-backed"),
     sources: [wiki("Plesiadapis", "Plesiadapis"), visualCapitalist],
   },
   {
@@ -407,7 +407,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Линия обезьян и человекообразных получает более сложное зрение, крупнее мозг и социальное поведение.",
     whyMattersRu: "Это уже большая ветвь обезьян: отсюда дальше расходятся линии Нового Света, Старого Света и человекообразных.",
     inherited: ["социальное зрение", "крупнее мозг", "дневная активность"],
-    image: plate("anthropoids", "Реконструкция раннего антропоида", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("anthropoids", "Реконструкции ранних антропоидов олигоцена", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Simian", "Simian"), wiki("Aegyptopithecus", "Aegyptopithecus")],
   },
   {
@@ -437,7 +437,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Общая линия мартышковых и человекообразных обезьян получает новые черты носа, зубов и социального поведения.",
     whyMattersRu: "Это ближе к вопросу об обезьянах, чем привычная фраза про человека: тут расходятся соседние ветви.",
     inherited: ["узконосый план", "зубная формула", "социальная сложность"],
-    image: plate("old-world-monkeys", "Реконструкция раннего узконосого примата", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("aegyptopithecus-nt", "Реконструкция Aegyptopithecus как раннего антропоида", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Catarrhini", "Catarrhini"), wiki("Old World monkey", "Old_World_monkey")],
   },
   {
@@ -452,7 +452,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Мартышковые обезьяны отделяются от линии человекообразных и развивают собственные успешные стратегии жизни.",
     whyMattersRu: "Современные мартышки и макаки не являются предками человека, они наши родственники на соседней ветви.",
     inherited: ["социальность", "гибкое питание", "родственная ветвь"],
-    image: plate("old-world-monkeys", "Реконструкция раннего узконосого примата", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("old-world-monkeys", "Портрет современной мартышковой обезьяны как родственной ветви", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Cercopithecoidea", "Cercopithecoidea")],
   },
   {
@@ -467,7 +467,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Ранние человекообразные теряют хвост и меняют плечевой пояс для движения в кронах и более свободного лазания.",
     whyMattersRu: "Отсюда начинается линия человекообразных: обезьяны без хвоста, с новой механикой плеча и долгим обучением.",
     inherited: ["отсутствие хвоста", "подвижное плечо", "длительное детство"],
-    image: plate("early-apes", "Скелет раннего человекообразного Proconsul", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("proconsul-nt", "Реконструкция Proconsul как раннего человекообразного", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Ape", "Ape"), wiki("Proconsul", "Proconsul_(mammal)")],
   },
   {
@@ -482,7 +482,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Ветвь больших человекообразных объединяет орангутанов, горилл, шимпанзе и людей в одну родственную семью.",
     whyMattersRu: "У нас не один современный предок среди обезьян, а общий древний источник с соседними ветвями.",
     inherited: ["крупное тело", "длительное обучение", "сложная социальность"],
-    image: plate("great-apes", "Череп раннего большого человекообразного", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("great-apes", "Портрет большого человекообразного как близкой родственной ветви", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Hominidae", "Hominidae"), wiki("Pierolapithecus", "Pierolapithecus")],
   },
   {
@@ -497,7 +497,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Линия человека отделяется от ближайших родственников среди человекообразных, а походка начинает перестраиваться.",
     whyMattersRu: "Люди не произошли от современных шимпанзе: после общего предка ветви пошли разными путями.",
     inherited: ["изменения таза", "новая походка", "освобождение рук"],
-    image: plate("early-hominins", "Череп Sahelanthropus", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("generated-early-hominin", "AI-реконструкция раннего гоминина на границе человеческой ветви", "generated-reconstruction"),
     sources: [wiki("Hominini", "Hominini"), wiki("Sahelanthropus", "Sahelanthropus")],
   },
   {
@@ -512,7 +512,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Ардипитеки сочетают лазание по деревьям с более уверенной двуногой походкой на земле.",
     whyMattersRu: "Переход был мозаичным: не резкий выход из леса, а жизнь между деревьями и открытыми пространствами.",
     inherited: ["мозаичная походка", "лесная адаптация", "раннее прямохождение"],
-    image: plate("ardipithecus", "Череп Ardipithecus", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("generated-ardipithecus", "AI-реконструкция Ardipithecus ramidus в лесистой среде", "generated-reconstruction"),
     sources: [wiki("Ardipithecus", "Ardipithecus"), wiki("Ardipithecus ramidus", "Ardipithecus_ramidus")],
   },
   {
@@ -527,7 +527,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Уверенное прямохождение сочетается с еще небольшим мозгом и частично древесными чертами тела.",
     whyMattersRu: "Двуногость появилась раньше большого мозга: сначала изменились таз, стопа и походка.",
     inherited: ["двуногая походка", "свободные руки", "измененная стопа"],
-    image: plate("australopithecus", "Скелет Australopithecus afarensis", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("australopithecus-lucy-face", "Лицевая реконструкция Australopithecus afarensis", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Australopithecus afarensis", "Australopithecus_afarensis"), wiki("Lucy", "Lucy_(Australopithecus)")],
   },
   {
@@ -542,7 +542,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Появляются ранние представители рода Homo и более системное использование каменных орудий.",
     whyMattersRu: "Рост мозга, точный хват и гибкое питание усиливают культурную линию, которая станет ключевой для людей.",
     inherited: ["каменные орудия", "рост мозга", "точный хват"],
-    image: plate("early-homo", "Череп раннего Homo", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("early-homo", "Лицевая реконструкция раннего Homo habilis", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Homo habilis", "Homo_habilis"), wiki("Homo rudolfensis", "Homo_rudolfensis")],
   },
   {
@@ -557,7 +557,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Высокое тело, дальние миграции и длительная эволюционная успешность делают Homo erectus важнейшим этапом рода Homo.",
     whyMattersRu: "Эта линия показывает человеческую выносливость и способность жить в разных средах задолго до Homo sapiens.",
     inherited: ["выносливость", "дальние переходы", "вероятное управление огнем"],
-    image: plate("homo-erectus", "Ископаемые Homo erectus", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("homo-erectus", "Музейная реконструкция Homo erectus", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Homo erectus", "Homo_erectus"), wiki("Turkana Boy", "Turkana_Boy")],
   },
   {
@@ -572,7 +572,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Вероятный общий фон для нескольких поздних человеческих линий, связанных с охотой, заботой и крупной добычей.",
     whyMattersRu: "Поздняя часть шкалы показывает уже не обезьян, а несколько человеческих ветвей, существовавших рядом.",
     inherited: ["коллективная охота", "забота о слабых", "крупная добыча"],
-    image: plate("heidelbergensis", "Локальная пластина черепа Homo heidelbergensis"),
+    image: plate("generated-heidelbergensis", "AI-реконструкция Homo heidelbergensis", "generated-reconstruction"),
     sources: [wiki("Homo heidelbergensis", "Homo_heidelbergensis"), wiki("Kabwe 1", "Kabwe_1")],
   },
   {
@@ -587,7 +587,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Близкая родственная линия людей, с которой Homo sapiens частично смешивался в Евразии.",
     whyMattersRu: "Неандертальцы были не 'полуобезьяной', а близкими людьми; часть их наследия есть у многих современных людей.",
     inherited: ["близкое родство", "генетическое наследие", "культурное поведение"],
-    image: plate("neanderthals", "Скелет неандертальца", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("generated-neanderthal", "AI-реконструкция Homo neanderthalensis в плейстоценовой среде", "generated-reconstruction"),
     sources: [wiki("Neanderthal", "Neanderthal"), wiki("Human evolution", "Human_evolution")],
   },
   {
@@ -602,7 +602,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Наш вид возникает в Африке и постепенно расселяется по планете, создавая культуру, язык и сложные сообщества.",
     whyMattersRu: "Homo sapiens не цель эволюции, а молодая ветвь большого дерева с необычайно сильным коллективным обучением.",
     inherited: ["язык", "символическое мышление", "коллективное обучение"],
-    image: plate("early-sapiens", "Полевые работы на памятнике Jebel Irhoud", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("sapiens-paleolithic-muse", "Музейная реконструкция палеолитического Homo sapiens", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Jebel Irhoud", "Jebel_Irhoud"), wiki("Homo sapiens", "Homo_sapiens")],
   },
 ];

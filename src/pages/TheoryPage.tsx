@@ -1,4 +1,4 @@
-import { BookOpenCheck, Network, ShieldCheck } from "lucide-react";
+import { BookOpenCheck, Network, ScrollText, ShieldCheck } from "lucide-react";
 import { EvidenceSection } from "../components/atlas/EvidenceSection";
 
 const principles = [
@@ -40,6 +40,19 @@ export function TheoryPage() {
           </article>
         ))}
       </div>
+
+      <article className="theory-principle darwin-note">
+        <ScrollText aria-hidden="true" size={24} />
+        <div>
+          <h2>Дарвин: идея, которая связала факты</h2>
+          <p>
+            В 1859 году Чарльз Дарвин опубликовал “Происхождение видов” и предложил механизм естественного отбора:
+            наследуемые различия помогают одним организмам оставлять больше потомков, и популяции меняются поколение за
+            поколением. Современная теория эволюции шире Дарвина: к отбору добавились генетика, ДНК, палеонтология и
+            статистические модели родства.
+          </p>
+        </div>
+      </article>
 
       <EvidenceSection />
     </section>

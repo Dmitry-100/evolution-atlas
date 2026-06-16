@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Compass, History, Search, Star, Waves } from "lucide-react";
+import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
 import { Button } from "../components/ui/button";
@@ -117,6 +118,7 @@ export function AtlasPage() {
               <DeepTimeAxis
                 stages={visibleStages}
                 eras={visibleEras}
+                extinctions={MASS_EXTINCTIONS}
                 activeStage={activeStage}
                 onActivate={activateStage}
                 onStep={moveActive}
@@ -125,26 +127,15 @@ export function AtlasPage() {
               />
             )}
 
-            <div className="specimen-strip" aria-label="Быстрый выбор видов">
-              {visibleStages.slice(-12).map((stage) => (
-                <button
-                  key={stage.id}
-                  type="button"
-                  className={stage.id === activeStage.id ? "specimen-chip is-active" : "specimen-chip"}
-                  onClick={() => activateStage(stage)}
-                >
-                  {stage.titleRu}
-                </button>
-              ))}
-            </div>
-
-            <div className="era-strip-card" aria-label="Навигация по эпохам">
-              <div className="rail-heading">
-                <BookOpen aria-hidden="true" size={19} />
-                <span>Маршрут по эпохам</span>
+            {mode === "all" ? (
+              <div className="era-strip-card" aria-label="Навигация по эпохам">
+                <div className="rail-heading">
+                  <BookOpen aria-hidden="true" size={19} />
+                  <span>Маршрут по эпохам</span>
+                </div>
+                <EraNavigation eras={visibleEras} stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
               </div>
-              <EraNavigation eras={visibleEras} stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
-            </div>
+            ) : null}
           </div>
 
           <StageDetailCard stage={activeStage} />

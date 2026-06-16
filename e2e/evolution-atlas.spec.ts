@@ -13,12 +13,15 @@ test.describe("Evolution Atlas", () => {
         name: /Человек произошел от обезьяны\.\.\. а от кого произошла обезьяна\?/i,
       }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Теория" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Вымирания", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Теория эволюции" })).toBeVisible();
+    await expect(page.getByLabel("Основная навигация").getByRole("link", { name: "Глобальные вымирания" })).toBeVisible();
     await expect(page.locator(".deep-time-axis")).toBeVisible();
-    await expect(page.getByText(/98,4% истории жизни/i)).toBeVisible();
+    await expect(page.locator(".extinction-marker")).toHaveCount(5);
+    await expect(page.getByText(/до появления приматов - 98,4%/i)).toBeVisible();
+    await expect(page.getByText(/к выбранной точке/i)).toBeVisible();
     await expect(page.getByRole("heading", { name: /Ранние приматы/i })).toBeVisible();
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).not.toBeVisible();
+    await expect(page.locator(".specimen-strip")).toHaveCount(0);
 
     const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
     expect(hasOverflow).toBe(false);
@@ -32,14 +35,15 @@ test.describe("Evolution Atlas", () => {
     const firstSrc = await image.getAttribute("src");
     await expect(image).toHaveCSS("object-fit", "contain");
 
-    await page.getByRole("button", { name: "Homo sapiens", exact: true }).click();
+    await page.getByRole("button", { name: /Homo sapiens,/i }).click();
     await expect(page.getByRole("heading", { name: "Homo sapiens", exact: true })).toBeVisible();
     await expect(image).not.toHaveAttribute("src", firstSrc ?? "");
 
     await page.getByRole("tab", { name: /Приматы крупно/i }).click();
-    await expect(page.locator(".primate-focus-panel")).toBeVisible();
-    await expect(page.locator(".primate-portrait-axis")).toHaveCount(0);
-    await expect(page.getByText(/фокус на приматах/i)).toBeVisible();
+    await expect(page.locator(".primate-photo-axis")).toBeVisible();
+    await expect(page.locator(".primate-photo-node img").first()).toBeVisible();
+    await expect(page.getByText(/65 млн лет крупно/i)).toBeVisible();
+    await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
 
     if (testInfo.project.name === "mobile") {
       await page.getByRole("button", { name: /Древние приматы, 55 млн лет назад/i }).click();
@@ -68,6 +72,8 @@ test.describe("Evolution Atlas", () => {
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Дарвин/i })).toBeVisible();
+    await expect(page.getByText(/Происхождение видов/i)).toBeVisible();
     await expect(page.getByRole("heading", { name: "Ископаемые" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Молекулярные данные" })).toBeVisible();
     await expect(page.getByRole("link", { name: /National Academies/i }).first()).toBeVisible();
