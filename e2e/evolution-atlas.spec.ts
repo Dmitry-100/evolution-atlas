@@ -15,6 +15,7 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Теория эволюции" })).toBeVisible();
     await expect(page.getByLabel("Основная навигация").getByRole("link", { name: "Глобальные вымирания" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Материалы" })).toBeVisible();
     await expect(page.locator(".deep-time-axis")).toBeVisible();
     await expect(page.locator(".extinction-marker")).toHaveCount(5);
     await expect(page.getByText(/до появления приматов - 98,4%/i)).toBeVisible();
@@ -99,5 +100,16 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByRole("heading", { name: /Источники/i })).toBeVisible();
     await expect(page.getByText(/Wikimedia Commons|NASA|NOAA|Natural History Museum/i).first()).toBeVisible();
     await expect(page.getByRole("link", { name: /sourceUrl/i }).first()).toBeVisible();
+  });
+
+  test("materials route exposes presentations and downloads", async ({ page }) => {
+    await page.goto("/materials");
+    await expect(page.getByRole("heading", { name: /Презентации и лекции/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Путь от клетки к человеку" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Шесть апокалипсисов планеты" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "От клетки до человека: детская версия" })).toBeVisible();
+    await expect(page.locator(".material-card")).toHaveCount(5);
+    await expect(page.getByRole("link", { name: /Открыть PDF/i }).first()).toHaveAttribute("href", /\.pdf$/);
+    await expect(page.getByRole("link", { name: /Скачать PPTX/i }).first()).toHaveAttribute("href", /\.pptx$/);
   });
 });

@@ -374,6 +374,8 @@ code {
 .theory-bridge-band,
 .document-page,
 .source-card,
+.material-card,
+.materials-note,
 .about-card,
 .about-note,
 .extinction-overview article,
@@ -1649,6 +1651,110 @@ code {
   font-size: 0.84rem;
 }
 
+.materials-note {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  margin-top: 1.5rem;
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+
+.materials-note svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.materials-note p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.materials-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.material-card {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.material-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 270px;
+  object-fit: contain;
+  background: #080b0b;
+}
+
+.material-card-body {
+  min-width: 0;
+  padding: 1.2rem;
+}
+
+.material-card-kicker,
+.material-tags,
+.material-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.material-card-kicker span,
+.material-tags span {
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.035);
+  padding: 0.24rem 0.5rem;
+  font-size: 0.78rem;
+}
+
+.material-card h2 {
+  margin: 0.85rem 0 0.15rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.material-card p {
+  color: var(--muted);
+}
+
+.material-subtitle {
+  margin-top: 0;
+  color: var(--gold);
+  font-style: italic;
+}
+
+.material-use {
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.9rem;
+}
+
+.material-use strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--text);
+}
+
+.material-use ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+}
+
+.material-actions {
+  margin-top: 1.1rem;
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1890,6 +1996,15 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .material-card {
+    grid-template-columns: 1fr;
+  }
+
+  .material-card img {
+    min-height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
   .evidence-section {
     grid-template-columns: 1fr;
   }
@@ -1947,6 +2062,10 @@ code {
   .topbar-nav {
     justify-content: flex-start;
     overflow-x: auto;
+  }
+
+  .topbar-nav a.active {
+    order: -1;
   }
 
   .atlas-title h1,
@@ -2117,6 +2236,14 @@ code {
 
   .source-card > div {
     padding: 1rem;
+  }
+
+  .material-card-body {
+    padding: 1rem;
+  }
+
+  .material-card h2 {
+    font-size: 1.55rem;
   }
 
   .source-card dl {
