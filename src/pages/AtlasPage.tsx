@@ -1,5 +1,5 @@
-import { useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useMemo, useRef } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRight, BookOpen, Clock3, Compass, Dna, History, Search, Sparkles, Star, Waves } from "lucide-react";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
@@ -13,10 +13,8 @@ import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
 import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
+import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
 
-type AtlasMode = "all" | "primates";
-
-const DEFAULT_STAGE_ID = "early-primates";
 const LIFE_ORIGIN_MA = 4000;
 const PRIMATES_MA = 65;
 
@@ -35,22 +33,19 @@ function shareToClock(share: number) {
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 }
 
-function getInitialStage() {
-  return sortedStages.find((stage) => stage.id === DEFAULT_STAGE_ID) ?? sortedStages[0];
-}
-
 function getStageIndex(stages: EvolutionStage[], stageId: string) {
   return Math.max(0, stages.findIndex((stage) => stage.id === stageId));
 }
 
 export function AtlasPage() {
-  const [mode, setMode] = useState<AtlasMode>("all");
-  const [activeStageId, setActiveStageId] = useState(DEFAULT_STAGE_ID);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlState = useMemo(() => parseAtlasUrlState(searchParams), [searchParams]);
+  const mode = urlState.mode;
   const atlasRef = useRef<HTMLDivElement>(null);
 
   const visibleStages = mode === "primates" ? primateStages : sortedStages;
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
-  const activeStage = visibleStages.find((stage) => stage.id === activeStageId) ?? getInitialStage();
+  const activeStage = visibleStages.find((stage) => stage.id === urlState.stageId) ?? getDefaultAtlasStage(visibleStages);
   const activeIndex = getStageIndex(visibleStages, activeStage.id);
   const canStepPrevious = activeIndex > 0;
   const canStepNext = activeIndex < visibleStages.length - 1;
@@ -83,7 +78,13 @@ export function AtlasPage() {
   ];
 
   function activateStage(stage: EvolutionStage) {
-    setActiveStageId(stage.id);
+    setSearchParams(toAtlasSearchParams({ mode, stage }), { replace: true });
+  }
+
+  function activateMode(nextMode: AtlasUrlMode) {
+    const nextVisibleStages = nextMode === "primates" ? primateStages : sortedStages;
+    const nextStage = nextVisibleStages.find((stage) => stage.id === activeStage.id) ?? getDefaultAtlasStage(nextVisibleStages);
+    setSearchParams(toAtlasSearchParams({ mode: nextMode, stage: nextStage }), { replace: true });
   }
 
   function moveActive(delta: number) {
@@ -126,7 +127,7 @@ export function AtlasPage() {
           </div>
 
           <div className="hero-actions" aria-label="Режимы атласа">
-            <Tabs value={mode} onValueChange={(value) => setMode(value as AtlasMode)}>
+            <Tabs value={mode} onValueChange={(value) => activateMode(value as AtlasUrlMode)}>
               <TabsList>
                 <TabsTrigger value="all">
                   <Compass aria-hidden="true" size={18} />

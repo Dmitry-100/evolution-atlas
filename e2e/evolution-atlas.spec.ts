@@ -99,6 +99,19 @@ test.describe("Evolution Atlas", () => {
     await expect(activeHeading).toHaveText("Древние приматы");
   });
 
+  test("atlas URL state restores mode and selected stage", async ({ page }) => {
+    await page.goto("/?mode=primates&stage=early-apes");
+    await expect(page.getByRole("tab", { name: /Приматы крупно/i })).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("heading", { name: "Ранние человекообразные" })).toBeVisible();
+
+    await page.reload();
+    await expect(page.getByRole("heading", { name: "Ранние человекообразные" })).toBeVisible();
+
+    await page.getByRole("button", { name: /Homo sapiens/i }).click();
+    await expect(page).toHaveURL(/mode=primates&stage=homo-sapiens/);
+    await expect(page.getByRole("heading", { name: "Homo sapiens" })).toBeVisible();
+  });
+
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();
