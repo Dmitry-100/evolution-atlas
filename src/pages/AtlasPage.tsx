@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, type CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRight, BookOpen, Clock3, Compass, Dna, History, Search, Sparkles, Star, Waves } from "lucide-react";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
@@ -54,6 +54,7 @@ export function AtlasPage() {
   const cladogram = useMemo(() => buildCladogram(sortedStages), []);
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
   const activeStage = visibleStages.find((stage) => stage.id === urlState.stageId) ?? getDefaultAtlasStage(visibleStages);
+  const activeEra = ERAS.find((era) => era.id === activeStage.eraId);
   const accumulatedTraitGroups = useMemo(() => getAccumulatedTraitGroups(sortedStages, activeStage), [activeStage]);
   const activeIndex = getStageIndex(visibleStages, activeStage.id);
   const canStepPrevious = activeIndex > 0;
@@ -108,6 +109,7 @@ export function AtlasPage() {
         className="atlas"
         ref={atlasRef}
         tabIndex={0}
+        style={{ "--active-era-color": activeEra?.color ?? "#d0a35b" } as CSSProperties}
         onKeyDown={(event) => {
           if (event.key === "ArrowRight") {
             event.preventDefault();

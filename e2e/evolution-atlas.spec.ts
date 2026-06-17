@@ -181,6 +181,18 @@ test.describe("Evolution Atlas", () => {
     await expect(comparison.getByText("язык")).toBeVisible();
   });
 
+  test("active era changes the atlas ambient color token", async ({ page }) => {
+    await page.goto("/?mode=all&stage=chordates");
+    const atlas = page.locator(".atlas");
+    const earlyColor = await atlas.evaluate((element) => getComputedStyle(element).getPropertyValue("--active-era-color").trim());
+
+    await page.goto("/?mode=all&stage=homo-sapiens");
+    const lateColor = await atlas.evaluate((element) => getComputedStyle(element).getPropertyValue("--active-era-color").trim());
+
+    expect(earlyColor).not.toBe(lateColor);
+    expect(lateColor).toBe("#d0a35b");
+  });
+
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();

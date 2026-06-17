@@ -344,10 +344,28 @@ code {
 }
 
 .atlas {
+  --active-era-color: #d0a35b;
+  position: relative;
   max-width: 1860px;
   margin: 0 auto;
   padding: 1.5rem 2rem 2.5rem;
   outline: none;
+}
+
+.atlas::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 16% 12%, color-mix(in srgb, var(--active-era-color) 22%, transparent), transparent 22rem),
+    radial-gradient(circle at 84% 18%, color-mix(in srgb, var(--active-era-color) 16%, transparent), transparent 24rem),
+    linear-gradient(180deg, color-mix(in srgb, var(--active-era-color) 7%, transparent), transparent 34rem);
+  content: "";
+  opacity: 0.72;
+  pointer-events: none;
+  transition:
+    background 520ms ease,
+    opacity 520ms ease;
 }
 
 .atlas:focus-visible {
