@@ -18,6 +18,7 @@ import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
 import { DeepTimeCalendarPanel } from "../components/atlas/DeepTimeCalendarPanel";
 import { QuizPanel } from "../components/atlas/QuizPanel";
 import { StageComparisonPanel } from "../components/atlas/StageComparisonPanel";
+import { JourneyControls } from "../components/atlas/JourneyControls";
 import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
 import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
 import { buildCladogram } from "../lib/cladogram";
@@ -91,6 +92,10 @@ export function AtlasPage() {
     setSearchParams(toAtlasSearchParams({ mode, stage }), { replace: true });
   }
 
+  function activateJourneyStage(stage: EvolutionStage) {
+    setSearchParams(toAtlasSearchParams({ mode: "all", stage }), { replace: true });
+  }
+
   function activateMode(nextMode: AtlasUrlMode) {
     const nextVisibleStages = nextMode === "primates" ? primateStages : sortedStages;
     const nextStage = nextVisibleStages.find((stage) => stage.id === activeStage.id) ?? getDefaultAtlasStage(nextVisibleStages);
@@ -160,6 +165,7 @@ export function AtlasPage() {
                 Нажимайте точки на шкале, двигайте ползунок или используйте стрелки, когда атлас в фокусе.
               </TooltipContent>
             </Tooltip>
+            <JourneyControls stages={sortedStages} activeStage={activeStage} onActivate={activateJourneyStage} />
           </div>
         </section>
 

@@ -193,6 +193,20 @@ test.describe("Evolution Atlas", () => {
     expect(lateColor).toBe("#d0a35b");
   });
 
+  test("journey mode plays and pauses the atlas route", async ({ page }) => {
+    await page.goto("/");
+    const activeHeading = page.locator(".stage-copy h2");
+
+    await page.getByRole("button", { name: "Запустить путешествие" }).click();
+    await expect(activeHeading).toHaveText("Клеточные линии");
+    await expect(activeHeading).toHaveText("Прокариоты", { timeout: 2500 });
+
+    await page.getByRole("button", { name: "Пауза" }).click();
+    const pausedHeading = await activeHeading.textContent();
+    await page.waitForTimeout(1200);
+    await expect(activeHeading).toHaveText(pausedHeading ?? "");
+  });
+
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();
