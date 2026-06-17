@@ -138,6 +138,12 @@ test.describe("Evolution Atlas", () => {
     await expect(accumulator.getByText("язык")).toBeVisible();
   });
 
+  test("glossary tooltips explain evolutionary terms", async ({ page }) => {
+    await page.goto("/?mode=all&stage=chordates");
+    await page.locator(".stage-glossary-line").getByRole("button", { name: "Хордовые" }).focus();
+    await expect(page.getByRole("tooltip")).toContainText(/внутренней опорной осью/i);
+  });
+
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();

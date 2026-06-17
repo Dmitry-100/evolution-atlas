@@ -1,7 +1,9 @@
 import { GitFork, Milestone } from "lucide-react";
+import { getGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage } from "../../data/lineage";
 import type { Cladogram } from "../../lib/cladogram";
 import { formatAgeRu } from "../../lib/timeline";
+import { GlossaryTerm } from "./GlossaryTerm";
 
 type CladogramPanelProps = {
   tree: Cladogram;
@@ -10,12 +12,14 @@ type CladogramPanelProps = {
 };
 
 export function CladogramPanel({ tree, activeStage, onActivate }: CladogramPanelProps) {
+  const cladogramTerm = getGlossaryTerm("cladogram");
+
   return (
     <section className="cladogram-panel" aria-labelledby="cladogram-heading">
       <div className="cladogram-heading">
         <GitFork aria-hidden="true" size={23} />
         <div>
-          <p className="eyebrow">Кладограмма</p>
+          <div className="eyebrow">{cladogramTerm ? <GlossaryTerm term={cladogramTerm} /> : "Кладограмма"}</div>
           <h2 id="cladogram-heading">Дерево родства</h2>
           <p>
             Толстый ствол показывает нашу прямую линию, а боковые ветви — родственников, которые не являются нашими

@@ -547,6 +547,27 @@ code {
   font-size: 0.9rem;
 }
 
+.glossary-tooltip {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 340px;
+}
+
+.glossary-tooltip strong {
+  color: var(--gold);
+}
+
+.glossary-tooltip em {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.glossary-tooltip span,
+.glossary-tooltip small {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
 .atlas-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
@@ -1916,6 +1937,35 @@ code {
   gap: 0.35rem;
   color: var(--gold);
   text-decoration: none;
+}
+
+.stage-glossary-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0.35rem 0 0.75rem !important;
+  color: var(--faint) !important;
+  font-size: 0.82rem !important;
+}
+
+.glossary-term {
+  border: 1px solid rgba(240, 201, 120, 0.24);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.08);
+  color: var(--gold);
+  cursor: help;
+  padding: 0.18rem 0.48rem;
+  font: inherit;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.glossary-term:hover,
+.glossary-term:focus-visible {
+  border-color: rgba(240, 201, 120, 0.5);
+  outline: none;
+  background: rgba(240, 201, 120, 0.14);
 }
 
 .wow-facts-band {
