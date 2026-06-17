@@ -7,11 +7,13 @@ import { MaterialsPage } from "./pages/MaterialsPage";
 import { SourcesPage } from "./pages/SourcesPage";
 import { TheoryPage } from "./pages/TheoryPage";
 import { EtherealInk } from "./components/ui/ethereal-ink";
+import { ScrollProgress } from "./components/ui/scroll-progress";
 
 function App() {
   return (
     <BrowserRouter>
       <EtherealInk className="app-ethereal-background" />
+      <ScrollProgress />
       <div className="app-shell">
         <header className="topbar">
           <NavLink className="brand" to="/" aria-label="Открыть атлас">

@@ -2,6 +2,8 @@ import { ArrowLeft, ArrowRight, Search } from "lucide-react";
 import { useMemo, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import type { EvolutionStage } from "../../data/lineage";
 import { ageMaToPosition, formatAgeRu } from "../../lib/timeline";
+import { ConstellationField } from "../ui/constellation-field";
+import { FloatingPaths } from "../ui/floating-paths";
 
 type PrimateAxisProps = {
   stages: EvolutionStage[];
@@ -118,6 +120,8 @@ export function PrimateAxis({
       >
         <div className="primate-timeline-stage" onPointerMove={handlePointerMove}>
           <div className="primate-canopy" aria-hidden="true" />
+          <FloatingPaths className="primate-floating-paths" density="panel" />
+          <ConstellationField className="primate-constellation" compact />
           <div className="primate-track-line" aria-hidden="true" />
           <span className="primate-active-line" style={{ left: `${activePosition}%` }} aria-hidden="true" />
           <div className="primate-active-chip" style={{ left: `${activeChipPosition}%` }}>

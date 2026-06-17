@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, MoveHorizontal, TimerReset } from "lucide-react"
 import type { MassExtinctionEvent } from "../../data/extinctions";
 import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, getPrePrimateShare, sortStagesOldestFirst } from "../../lib/timeline";
+import { FloatingPaths } from "../ui/floating-paths";
 import { Slider } from "../ui/slider";
 
 type DeepTimeAxisProps = {
@@ -135,6 +136,7 @@ export function DeepTimeAxis({
         aria-label="Шкала времени. Используйте стрелки влево и вправо для перехода между этапами."
       >
         <div className="deep-time-water" aria-hidden="true" />
+        <FloatingPaths className="deep-time-floating-paths" density="panel" />
         <img
           className="deep-time-river-image"
           src="/assets/images/timeline-river-specimens.png"

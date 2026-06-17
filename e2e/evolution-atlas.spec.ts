@@ -20,6 +20,10 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".extinction-marker")).toHaveCount(5);
     await expect(page.locator(".app-ethereal-background")).toBeVisible();
     await expect(page.locator(".ethereal-ink-canvas, .ethereal-ink-fallback")).toHaveCount(1);
+    await expect(page.locator(".scroll-progress")).toBeVisible();
+    await expect(page.locator(".atlas-hero-paths")).toBeVisible();
+    await expect(page.locator(".atlas-hero-constellation")).toBeVisible();
+    await expect(page.locator(".deep-time-floating-paths")).toBeVisible();
     await expect(page.getByText(/до появления приматов - 98,4%/i)).toBeVisible();
     await expect(page.getByText(/к выбранной точке/i)).toBeVisible();
     await expect(page.getByRole("heading", { name: /Ранние приматы/i })).toBeVisible();
@@ -44,6 +48,8 @@ test.describe("Evolution Atlas", () => {
 
     await page.getByRole("tab", { name: /Приматы крупно/i }).click();
     await expect(page.locator(".primate-photo-axis")).toBeVisible();
+    await expect(page.locator(".primate-floating-paths")).toBeVisible();
+    await expect(page.locator(".primate-constellation")).toBeVisible();
     await expect(page.locator(".primate-photo-node img").first()).toBeVisible();
     await expect(page.getByText(/65 млн лет крупно/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);

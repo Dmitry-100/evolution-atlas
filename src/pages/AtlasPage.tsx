@@ -5,6 +5,8 @@ import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
 import { Button } from "../components/ui/button";
+import { ConstellationField } from "../components/ui/constellation-field";
+import { FloatingPaths } from "../components/ui/floating-paths";
 import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
 import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
@@ -112,6 +114,8 @@ export function AtlasPage() {
         </p>
 
         <section className="atlas-hero">
+          <FloatingPaths className="atlas-hero-paths" />
+          <ConstellationField className="atlas-hero-constellation" />
           <div className="atlas-title">
             <h1>Человек произошел от обезьяны... а от кого произошла обезьяна?</h1>
             <p className="hero-subtitle">Короткий ответ теории эволюции - через дерево родства, а не лестницу прогресса.</p>

@@ -150,6 +150,123 @@ code {
     linear-gradient(180deg, rgba(5, 7, 7, 0.36) 0%, rgba(5, 7, 7, 0.68) 74%, rgba(5, 7, 7, 0.9) 100%);
 }
 
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 80;
+  height: 3px;
+  pointer-events: none;
+}
+
+.scroll-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--teal), var(--amber), var(--gold));
+  box-shadow: 0 0 18px rgba(240, 201, 120, 0.48);
+  transition: transform 120ms linear;
+}
+
+.floating-paths,
+.constellation-field {
+  position: absolute;
+  pointer-events: none;
+}
+
+.floating-paths {
+  overflow: visible;
+}
+
+.floating-paths path {
+  fill: none;
+  stroke-width: 1.05;
+  stroke-linecap: round;
+  stroke-dasharray: 0.08 0.92;
+  stroke-dashoffset: calc(var(--path-index) * -0.12);
+  opacity: 0.56;
+  vector-effect: non-scaling-stroke;
+  animation:
+    floating-path-drift 14s ease-in-out infinite alternate,
+    floating-path-dash 18s linear infinite;
+  animation-delay: calc(var(--path-index) * -1.4s);
+}
+
+.floating-paths-panel path {
+  stroke-width: 0.72;
+  opacity: 0.34;
+}
+
+.constellation-field {
+  overflow: hidden;
+}
+
+.constellation-field svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.constellation-field polyline {
+  fill: none;
+  stroke: rgba(240, 201, 120, 0.26);
+  stroke-width: 0.28;
+  stroke-dasharray: 1.6 3.2;
+  vector-effect: non-scaling-stroke;
+}
+
+.constellation-field span {
+  position: absolute;
+  left: var(--node-left);
+  top: var(--node-top);
+  width: var(--node-size);
+  height: var(--node-size);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(240, 201, 120, 0.88);
+  box-shadow:
+    0 0 0 4px rgba(240, 201, 120, 0.08),
+    0 0 18px rgba(240, 201, 120, 0.36);
+  animation: constellation-pulse 3.6s ease-in-out infinite;
+  animation-delay: var(--node-delay);
+}
+
+.constellation-field-compact span {
+  opacity: 0.72;
+}
+
+@keyframes floating-path-drift {
+  from {
+    transform: translate3d(-1.2%, -0.8%, 0) scale(1.01);
+  }
+
+  to {
+    transform: translate3d(1.4%, 0.8%, 0) scale(1.025);
+  }
+}
+
+@keyframes floating-path-dash {
+  to {
+    stroke-dashoffset: calc(var(--path-index) * -0.12 - 1);
+  }
+}
+
+@keyframes constellation-pulse {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: translate(-50%, -50%) scale(0.86);
+  }
+
+  50% {
+    opacity: 0.92;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
 .topbar {
   position: sticky;
   top: 0;
@@ -238,14 +355,38 @@ code {
 }
 
 .atlas-hero {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 2rem;
   align-items: end;
   padding: 1rem 0 1.5rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.atlas-hero-paths {
+  right: -7vw;
+  bottom: -4rem;
+  z-index: 0;
+  width: min(980px, 76vw);
+  height: 390px;
+  opacity: 0.56;
+  filter: blur(0.1px);
+}
+
+.atlas-hero-constellation {
+  right: 2.8rem;
+  top: 0.5rem;
+  z-index: 0;
+  width: min(520px, 42vw);
+  height: 235px;
+  opacity: 0.42;
 }
 
 .atlas-title {
+  position: relative;
+  z-index: 1;
   max-width: 930px;
 }
 
@@ -290,6 +431,8 @@ code {
 }
 
 .hero-actions {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -723,6 +866,15 @@ code {
     linear-gradient(90deg, rgba(72, 118, 142, 0.2), rgba(111, 151, 117, 0.2), rgba(190, 131, 75, 0.16));
 }
 
+.deep-time-floating-paths {
+  inset: 1.2rem -2rem 4rem;
+  z-index: 1;
+  width: calc(100% + 4rem);
+  height: calc(100% - 5.2rem);
+  opacity: 0.62;
+  mix-blend-mode: screen;
+}
+
 .deep-time-river-image {
   position: absolute;
   right: 0;
@@ -1055,9 +1207,28 @@ code {
 .primate-canopy {
   position: absolute;
   inset: 0;
+  z-index: 0;
   background:
     linear-gradient(180deg, rgba(5, 8, 8, 0.12), rgba(5, 8, 8, 0.74)),
     repeating-linear-gradient(165deg, transparent 0 34px, rgba(130, 183, 179, 0.05) 35px 37px, transparent 38px 72px);
+}
+
+.primate-floating-paths {
+  inset: 1.2rem -2.5rem 4.2rem;
+  z-index: 1;
+  width: calc(100% + 5rem);
+  height: calc(100% - 5.4rem);
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+.primate-constellation {
+  right: 3.4rem;
+  top: 1.2rem;
+  z-index: 1;
+  width: min(520px, 58vw);
+  height: 190px;
+  opacity: 0.36;
 }
 
 .primate-track-line {
@@ -1065,6 +1236,7 @@ code {
   right: 2rem;
   bottom: 4.8rem;
   left: 2rem;
+  z-index: 1;
   height: 4px;
   border-radius: 999px;
   background:
@@ -2365,6 +2537,26 @@ code {
     opacity: 0.28;
   }
 
+  .scroll-progress {
+    height: 2px;
+  }
+
+  .atlas-hero-paths {
+    right: -16rem;
+    bottom: 9rem;
+    width: 820px;
+    height: 330px;
+    opacity: 0.34;
+  }
+
+  .atlas-hero-constellation {
+    right: -6rem;
+    top: 1rem;
+    width: 360px;
+    height: 160px;
+    opacity: 0.22;
+  }
+
   .brand small {
     display: none;
   }
@@ -2496,6 +2688,10 @@ code {
     height: 165px;
   }
 
+  .deep-time-floating-paths {
+    opacity: 0.42;
+  }
+
   .pre-primate-field span {
     left: 0.8rem;
     max-width: 13rem;
@@ -2507,6 +2703,11 @@ code {
     right: 0.35rem;
     bottom: 1rem;
     font-size: 0.68rem;
+  }
+
+  .primate-floating-paths,
+  .primate-constellation {
+    opacity: 0.26;
   }
 
   .deep-active-card {
@@ -2601,6 +2802,11 @@ code {
 @media (prefers-reduced-motion: reduce) {
   .app-ethereal-background {
     opacity: 0.22;
+  }
+
+  .floating-paths path,
+  .constellation-field span {
+    animation: none !important;
   }
 
   *,
