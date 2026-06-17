@@ -170,6 +170,17 @@ test.describe("Evolution Atlas", () => {
     await expect(quiz.getByText(/Ваш результат/)).toBeVisible();
   });
 
+  test("comparison panel shows differences between two stages", async ({ page }) => {
+    await page.goto("/");
+    const comparison = page.locator(".comparison-panel");
+
+    await expect(page.getByRole("heading", { name: "Сравнить два этапа" })).toBeVisible();
+    await comparison.getByLabel("Первый этап").selectOption("chordates");
+    await comparison.getByLabel("Второй этап").selectOption("sapiens");
+    await expect(comparison.getByText(/между ними появилось/i)).toBeVisible();
+    await expect(comparison.getByText("язык")).toBeVisible();
+  });
+
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();

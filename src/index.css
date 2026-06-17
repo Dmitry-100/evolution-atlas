@@ -587,6 +587,7 @@ code {
 .trait-accumulator,
 .life-year-calendar,
 .quiz-panel,
+.comparison-panel,
 .document-page,
 .source-card,
 .material-card,
@@ -2262,6 +2263,7 @@ code {
 .trait-accumulator-heading h2,
 .life-year-heading h2,
 .quiz-heading h2,
+.comparison-heading h2,
 .dinosaur-section-heading h2,
 .dinosaur-detail-card h2,
 .dinosaurs-bridge strong {
@@ -2281,6 +2283,7 @@ code {
 .trait-accumulator-heading p,
 .life-year-heading p,
 .quiz-heading p,
+.comparison-heading p,
 .dinosaur-section-heading p,
 .dinosaur-detail-card p,
 .dinosaurs-bridge p {
@@ -3521,6 +3524,121 @@ code {
   color: var(--gold);
 }
 
+.comparison-panel {
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(130, 183, 179, 0.12), transparent 17rem),
+    radial-gradient(circle at 88% 16%, rgba(240, 201, 120, 0.12), transparent 18rem),
+    var(--panel);
+}
+
+.comparison-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  border-bottom: 1px solid var(--line);
+  padding: 1.15rem 1.2rem;
+}
+
+.comparison-heading svg {
+  margin-top: 0.35rem;
+  color: var(--gold);
+}
+
+.comparison-heading p:not(.eyebrow) {
+  max-width: 870px;
+  line-height: 1.62;
+}
+
+.comparison-body {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.15rem;
+}
+
+.comparison-controls,
+.comparison-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.comparison-controls label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.comparison-controls select {
+  min-width: 0;
+  border: 1px solid rgba(218, 185, 126, 0.18);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.72);
+  color: var(--text);
+  padding: 0.75rem;
+  font: inherit;
+}
+
+.comparison-summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.comparison-summary article,
+.comparison-traits {
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.42);
+  padding: 0.85rem;
+}
+
+.comparison-summary span,
+.comparison-traits > strong {
+  color: var(--gold);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.comparison-summary strong {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.28rem;
+  line-height: 1.1;
+}
+
+.comparison-summary small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--muted);
+}
+
+.comparison-traits div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  margin-top: 0.75rem;
+}
+
+.comparison-traits span {
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.06);
+  color: var(--text);
+  padding: 0.3rem 0.52rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
 @media (max-width: 1320px) {
   .atlas-title h1 {
     font-size: 3.9rem;
@@ -3998,6 +4116,11 @@ code {
     padding: 1rem;
   }
 
+  .comparison-heading {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
   .cladogram-body {
     padding: 0.8rem;
   }
@@ -4030,6 +4153,15 @@ code {
   }
 
   .quiz-options {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-body {
+    padding: 0.9rem;
+  }
+
+  .comparison-controls,
+  .comparison-summary {
     grid-template-columns: 1fr;
   }
 
