@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Modern birds</title>
+  <desc id="desc">A vivid plate of modern birds as the living dinosaur lineage, with wings, feathers, and a bright eye.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0e2d33"/>
+      <stop offset=".5" stop-color="#536f4b"/>
+      <stop offset="1" stop-color="#16130f"/>
+    </linearGradient>
+    <radialGradient id="light" cx=".68" cy=".22" r=".5">
+      <stop offset="0" stop-color="#f0d78f" stop-opacity=".78"/>
+      <stop offset="1" stop-color="#f0d78f" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".68" numOctaves="4"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .14"/></feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#light)"/>
+  <path d="M0 612c198-80 374-79 526-22 184 68 398 50 674-40v250H0z" fill="#111811"/>
+  <g transform="translate(282 190)">
+    <path d="M278 236c-130-130-225-173-286-128 94 36 168 98 222 186z" fill="#13100c"/>
+    <path d="M400 246c156-126 288-159 396-98-132 28-238 88-318 180z" fill="#14110c"/>
+    <ellipse cx="344" cy="314" rx="132" ry="56" fill="#19120d"/>
+    <circle cx="190" cy="292" r="54" fill="#19120d"/>
+    <path d="M142 268c-82-38-150-34-202 12 66 3 122 23 168 60z" fill="#19120d"/>
+    <circle cx="178" cy="280" r="9" fill="#f6d47b"/>
+    <circle cx="181" cy="278" r="4" fill="#070707"/>
+    <path d="M464 316c118 12 210 48 276 108-98 4-185-18-262-67z" fill="#19120d"/>
+    <path d="M292 362c-48 66-70 126-66 180h-52c-6-70 16-138 66-205z" fill="#19120d"/>
+    <path d="M398 360c44 60 74 118 88 174l-52 10c-16-60-48-116-96-170z" fill="#19120d"/>
+    <g stroke="#f1c66e" stroke-width="7" stroke-linecap="round" opacity=".32">
+      <path d="M210 254c-60-70-120-110-180-120"/>
+      <path d="M248 258c-88-98-168-154-240-168"/>
+      <path d="M422 278c102-74 206-112 312-114"/>
+      <path d="M442 310c124-66 234-90 330-72"/>
+    </g>
+  </g>
+  <path d="M0 690c142-38 282-44 420-18 182 34 314 50 468 6 88-25 192-58 312-56v178H0z" fill="#0c100d" opacity=".95"/>
+  <rect width="1200" height="800" filter="url(#grain)" opacity=".45"/>
+</svg>

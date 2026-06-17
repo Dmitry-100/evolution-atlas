@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Feathered dinosaurs</title>
+  <desc id="desc">A reconstruction plate of a feathered non-avian dinosaur with long arm feathers and a balancing tail.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#12312c"/>
+      <stop offset=".58" stop-color="#855d34"/>
+      <stop offset="1" stop-color="#12110d"/>
+    </linearGradient>
+    <radialGradient id="light" cx=".34" cy=".24" r=".56">
+      <stop offset="0" stop-color="#f0d49a" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#f0d49a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .15"/></feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#light)"/>
+  <path d="M0 632c134-54 268-70 402-46 150 27 266 68 432 26 123-31 244-68 366-55v243H0z" fill="#121610"/>
+  <g transform="translate(215 315)" fill="#17110c">
+    <ellipse cx="393" cy="190" rx="174" ry="58"/>
+    <circle cx="220" cy="168" r="52"/>
+    <path d="M183 137c-72-54-138-70-198-46 55 18 101 51 139 100z"/>
+    <path d="M537 178c162-65 296-62 404 8-138-12-259 14-362 78z"/>
+    <path d="M324 184c-134-46-240-32-318 42 116-21 219-2 309 56z"/>
+    <path d="M454 179c126-46 226-32 300 42-106-18-202-1-288 52z"/>
+    <path d="M302 221c-54 55-84 116-90 184h-54c2-82 33-153 94-213z"/>
+    <path d="M430 225c52 57 86 116 102 178l-54 12c-20-67-57-126-111-176z"/>
+    <path d="M194 164c-54-44-100-64-138-59 33 31 74 51 124 61z" fill="#5d4024"/>
+    <circle cx="205" cy="155" r="5" fill="#f5d58d"/>
+  </g>
+  <g stroke="#e9c06f" stroke-width="8" stroke-linecap="round" opacity=".38">
+    <path d="M326 453c-60 34-110 73-150 116"/>
+    <path d="M392 450c-92 46-162 95-210 148"/>
+    <path d="M674 452c86 36 152 82 198 138"/>
+    <path d="M732 462c72 34 128 76 168 126"/>
+  </g>
+  <rect width="1200" height="800" filter="url(#grain)" opacity=".5"/>
+</svg>

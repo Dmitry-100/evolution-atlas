@@ -7,6 +7,7 @@ import { ExtinctionsPage } from "./pages/ExtinctionsPage";
 import { MaterialsPage } from "./pages/MaterialsPage";
 import { SourcesPage } from "./pages/SourcesPage";
 import { TheoryPage } from "./pages/TheoryPage";
+import { DinosaursPage } from "./pages/DinosaursPage";
 import { EtherealInk } from "./components/ui/ethereal-ink";
 import { ScrollProgress } from "./components/ui/scroll-progress";
 
@@ -45,6 +46,7 @@ function App() {
             <NavLink to="/">Атлас</NavLink>
             <NavLink to="/theory">Теория эволюции</NavLink>
             <NavLink to="/extinctions">Глобальные вымирания</NavLink>
+            <NavLink to="/dinosaurs">Вымерли ли динозавры</NavLink>
             <NavLink to="/materials">Материалы</NavLink>
             <NavLink to="/sources">Источники</NavLink>
             <NavLink to="/about">О проекте</NavLink>
@@ -55,6 +57,7 @@ function App() {
             <Route path="/" element={<AtlasPage />} />
             <Route path="/theory" element={<TheoryPage />} />
             <Route path="/extinctions" element={<ExtinctionsPage />} />
+            <Route path="/dinosaurs" element={<DinosaursPage />} />
             <Route path="/materials" element={<MaterialsPage />} />
             <Route path="/materials/:fileName" element={<LegacyMaterialRedirect />} />
             <Route path="/materials/covers/:fileName" element={<LegacyMaterialRedirect cover />} />

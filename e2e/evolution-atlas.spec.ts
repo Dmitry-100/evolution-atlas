@@ -16,6 +16,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByRole("link", { name: "Теория эволюции" })).toBeVisible();
     await expect(page.getByLabel("Основная навигация").getByRole("link", { name: "Глобальные вымирания" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Материалы" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Вымерли ли динозавры" })).toBeVisible();
     await expect(page.locator(".deep-time-axis")).toBeVisible();
     await expect(page.locator(".extinction-marker")).toHaveCount(5);
     await expect(page.locator(".app-ethereal-background")).toBeVisible();
@@ -148,6 +149,24 @@ test.describe("Evolution Atlas", () => {
       "href",
       /^\/assets\/materials\/.+\.pptx$/,
     );
+  });
+
+  test("dinosaurs route separates shared animal ancestors from the bird branch", async ({ page }) => {
+    await page.goto("/dinosaurs");
+    await expect(page.getByRole("heading", { name: "Вымерли ли динозавры" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Общая животная линия" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Динозавры → птицы" })).toBeVisible();
+    await expect(page.locator(".dinosaur-branch-card")).toHaveCount(9);
+    await expect(page.getByRole("heading", { name: "Первые животные" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Современные птицы" })).not.toBeVisible();
+
+    await page.getByRole("button", { name: /Современные птицы/i }).click();
+    await expect(page.getByRole("heading", { name: "Современные птицы" })).toBeVisible();
+    await expect(
+      page
+        .locator(".dinosaur-branch-section.is-dinosaurs .dinosaur-detail-copy")
+        .getByText(/птицы — живая динозавровая ветвь/i),
+    ).toBeVisible();
   });
 
 });
