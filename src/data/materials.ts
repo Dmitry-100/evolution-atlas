@@ -12,6 +12,8 @@ export type PortalMaterial = {
   tags: string[];
 };
 
+const MATERIAL_ASSET_ROOT = "/assets/materials";
+
 export const PORTAL_MATERIALS: PortalMaterial[] = [
   {
     id: "path-from-cell-to-human",
@@ -19,9 +21,9 @@ export const PORTAL_MATERIALS: PortalMaterial[] = [
     subtitleRu: "Базовая лекция о большой линии эволюции",
     audienceRu: "для коллег и взрослых без биологической подготовки",
     slideCount: 18,
-    coverSrc: "/materials/covers/path-from-cell-to-human.jpg",
-    pdfHref: "/materials/path-from-cell-to-human.pdf",
-    pptxHref: "/materials/path-from-cell-to-human.pptx",
+    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/path-from-cell-to-human.jpg`,
+    pdfHref: `${MATERIAL_ASSET_ROOT}/path-from-cell-to-human.pdf`,
+    pptxHref: `${MATERIAL_ASSET_ROOT}/path-from-cell-to-human.pptx`,
     summaryRu:
       "Самый близкий к атласу материал: 4 млрд лет истории жизни, кислородная революция, выход на сушу, млекопитающие, приматы и Homo sapiens.",
     portalUseRu: [
@@ -37,9 +39,9 @@ export const PORTAL_MATERIALS: PortalMaterial[] = [
     subtitleRu: "Глобальные вымирания, причины и последствия",
     audienceRu: "для раздела о кризисах биосферы",
     slideCount: 18,
-    coverSrc: "/materials/covers/six-planet-apocalypses.jpg",
-    pdfHref: "/materials/six-planet-apocalypses.pdf",
-    pptxHref: "/materials/six-planet-apocalypses.pptx",
+    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/six-planet-apocalypses.jpg`,
+    pdfHref: `${MATERIAL_ASSET_ROOT}/six-planet-apocalypses.pdf`,
+    pptxHref: `${MATERIAL_ASSET_ROOT}/six-planet-apocalypses.pptx`,
     summaryRu:
       "Готовая лекция для усиления страницы о вымираниях: ордовикское, девонское, пермское, триасово-юрское, мел-палеогеновое и современный кризис биоразнообразия.",
     portalUseRu: [
@@ -55,9 +57,9 @@ export const PORTAL_MATERIALS: PortalMaterial[] = [
     subtitleRu: "Простое объяснение для детей и новичков",
     audienceRu: "для детей примерно 12 лет и семейного просмотра",
     slideCount: 12,
-    coverSrc: "/materials/covers/cell-to-human-kids.jpg",
-    pdfHref: "/materials/cell-to-human-kids.pdf",
-    pptxHref: "/materials/cell-to-human-kids.pptx",
+    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/cell-to-human-kids.jpg`,
+    pdfHref: `${MATERIAL_ASSET_ROOT}/cell-to-human-kids.pdf`,
+    pptxHref: `${MATERIAL_ASSET_ROOT}/cell-to-human-kids.pptx`,
     summaryRu:
       "Самый доступный материал: клетки, митохондрии, Tiktaalik, рептилии, млекопитающие, приматы, первые Homo и культурное наследие.",
     portalUseRu: [
@@ -73,9 +75,9 @@ export const PORTAL_MATERIALS: PortalMaterial[] = [
     subtitleRu: "Продвинутый слой о молекулярной и когнитивной эволюции",
     audienceRu: "для подготовленной аудитории",
     slideCount: 18,
-    coverSrc: "/materials/covers/homo-luca-sapiens.jpg",
-    pdfHref: "/materials/homo-luca-sapiens.pdf",
-    pptxHref: "/materials/homo-luca-sapiens.pptx",
+    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/homo-luca-sapiens.jpg`,
+    pdfHref: `${MATERIAL_ASSET_ROOT}/homo-luca-sapiens.pdf`,
+    pptxHref: `${MATERIAL_ASSET_ROOT}/homo-luca-sapiens.pptx`,
     summaryRu:
       "Плотная научная презентация: симбиогенез, генетическая регуляция, неокортекс, диета, язык, когнитивные функции и будущее Homo sapiens.",
     portalUseRu: [
@@ -91,9 +93,9 @@ export const PORTAL_MATERIALS: PortalMaterial[] = [
     subtitleRu: "Родственный отбор, мемы, фенотип и поведение",
     audienceRu: "для отдельной лекции после базового атласа",
     slideCount: 12,
-    coverSrc: "/materials/covers/evolutionary-advantage-genes-behavior.jpg",
-    pdfHref: "/materials/evolutionary-advantage-genes-behavior.pdf",
-    pptxHref: "/materials/evolutionary-advantage-genes-behavior.pptx",
+    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/evolutionary-advantage-genes-behavior.jpg`,
+    pdfHref: `${MATERIAL_ASSET_ROOT}/evolutionary-advantage-genes-behavior.pdf`,
+    pptxHref: `${MATERIAL_ASSET_ROOT}/evolutionary-advantage-genes-behavior.pptx`,
     summaryRu:
       "Материал про эволюционную логику поведения: репликаторы, альтруизм, родственный отбор, расширенный фенотип, культурная эволюция и ограничения геноцентризма.",
     portalUseRu: [

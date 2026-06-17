@@ -1,5 +1,6 @@
 import "./App.css";
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, NavLink, Route, Routes, useParams } from "react-router-dom";
 import { AtlasPage } from "./pages/AtlasPage";
 import { AboutPage } from "./pages/AboutPage";
 import { ExtinctionsPage } from "./pages/ExtinctionsPage";
@@ -8,6 +9,23 @@ import { SourcesPage } from "./pages/SourcesPage";
 import { TheoryPage } from "./pages/TheoryPage";
 import { EtherealInk } from "./components/ui/ethereal-ink";
 import { ScrollProgress } from "./components/ui/scroll-progress";
+
+function LegacyMaterialRedirect({ cover = false }: { cover?: boolean }) {
+  const { fileName } = useParams();
+  const assetPath = fileName ? `/assets/materials/${cover ? "covers/" : ""}${fileName}` : "/materials";
+
+  useEffect(() => {
+    window.location.replace(assetPath);
+  }, [assetPath]);
+
+  return (
+    <section className="document-page">
+      <p>
+        Открываем файл: <a href={assetPath}>{assetPath}</a>
+      </p>
+    </section>
+  );
+}
 
 function App() {
   return (
@@ -38,6 +56,8 @@ function App() {
             <Route path="/theory" element={<TheoryPage />} />
             <Route path="/extinctions" element={<ExtinctionsPage />} />
             <Route path="/materials" element={<MaterialsPage />} />
+            <Route path="/materials/:fileName" element={<LegacyMaterialRedirect />} />
+            <Route path="/materials/covers/:fileName" element={<LegacyMaterialRedirect cover />} />
             <Route path="/sources" element={<SourcesPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>

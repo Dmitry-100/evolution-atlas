@@ -140,7 +140,14 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByRole("heading", { name: "Шесть апокалипсисов планеты" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "От клетки до человека: детская версия" })).toBeVisible();
     await expect(page.locator(".material-card")).toHaveCount(5);
-    await expect(page.getByRole("link", { name: /Открыть PDF/i }).first()).toHaveAttribute("href", /\.pdf$/);
-    await expect(page.getByRole("link", { name: /Скачать PPTX/i }).first()).toHaveAttribute("href", /\.pptx$/);
+    await expect(page.getByRole("link", { name: /Открыть PDF/i }).first()).toHaveAttribute(
+      "href",
+      /^\/assets\/materials\/.+\.pdf$/,
+    );
+    await expect(page.getByRole("link", { name: /Скачать PPTX/i }).first()).toHaveAttribute(
+      "href",
+      /^\/assets\/materials\/.+\.pptx$/,
+    );
   });
+
 });
