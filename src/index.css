@@ -1844,7 +1844,8 @@ code {
 }
 
 .stage-plate-main {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 2;
   box-sizing: border-box;
   object-fit: contain;
@@ -1853,6 +1854,47 @@ code {
     drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32))
     saturate(0.98)
     contrast(1.03);
+}
+
+.stage-plate-current {
+  animation:
+    stage-image-in 520ms ease both,
+    stage-image-drift 10s ease-out both;
+}
+
+.stage-plate-previous {
+  z-index: 1;
+  opacity: 0;
+  animation: stage-image-out 520ms ease both;
+}
+
+@keyframes stage-image-in {
+  from {
+    opacity: 0;
+    transform: scale(1.025);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes stage-image-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes stage-image-drift {
+  from {
+    transform: scale(1.015) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.045) translate3d(0.35rem, -0.25rem, 0);
+  }
 }
 
 .stage-plate figcaption {

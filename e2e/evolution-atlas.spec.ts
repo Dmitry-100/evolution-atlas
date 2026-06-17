@@ -39,7 +39,7 @@ test.describe("Evolution Atlas", () => {
   test("click and primate mode update the active species card without hover tracking", async ({ page }) => {
     await page.goto("/");
 
-    const image = page.locator(".stage-plate-main");
+    const image = page.locator(".stage-plate-current");
     const firstSrc = await image.getAttribute("src");
     await expect(image).toHaveCSS("object-fit", "contain");
 

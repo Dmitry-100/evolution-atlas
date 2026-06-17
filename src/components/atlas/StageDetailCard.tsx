@@ -23,7 +23,12 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             <FloatingPaths className="stage-plate-paths" density="panel" />
             <ConstellationField className="stage-plate-constellation" compact />
           </div>
-          <img className="stage-plate-main" src={stage.image.src} alt={stage.image.altRu} />
+          <img
+            key={stage.image.src}
+            className="stage-plate-main stage-plate-current"
+            src={stage.image.src}
+            alt={stage.image.altRu}
+          />
         </div>
         <figcaption>{imageLabel}</figcaption>
       </figure>
