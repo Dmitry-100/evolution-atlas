@@ -1,10 +1,11 @@
-import { useMemo, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
+import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
 import { ArrowLeft, ArrowRight, MoveHorizontal, TimerReset } from "lucide-react";
 import type { MassExtinctionEvent } from "../../data/extinctions";
 import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, getPrePrimateShare, sortStagesOldestFirst } from "../../lib/timeline";
 import { FloatingPaths } from "../ui/floating-paths";
 import { Slider } from "../ui/slider";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 type DeepTimeAxisProps = {
   stages: EvolutionStage[];
@@ -70,13 +71,6 @@ export function DeepTimeAxis({
     [eras],
   );
 
-  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const position = (event.clientX - rect.left) / rect.width;
-    const nearest = nearestStage(stages, position);
-    if (nearest && nearest.id !== activeStage.id) onActivate(nearest);
-  }
-
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.key === "ArrowRight" && canStepNext) {
       event.preventDefault();
@@ -94,7 +88,7 @@ export function DeepTimeAxis({
       <div className="axis-toolbar">
         <span className="axis-toolbar-copy">
           <MoveHorizontal aria-hidden="true" size={19} />
-          Наведите на ленту, двигайте ползунок или используйте стрелки
+          Нажимайте точки, двигайте ползунок или используйте стрелки
         </span>
         <div className="axis-step-controls" aria-label="Переключение этапов">
           <button
@@ -131,7 +125,6 @@ export function DeepTimeAxis({
       <div
         className="deep-time-axis"
         tabIndex={0}
-        onPointerMove={handlePointerMove}
         onKeyDown={handleKeyDown}
         aria-label="Шкала времени. Используйте стрелки влево и вправо для перехода между этапами."
       >
@@ -164,25 +157,34 @@ export function DeepTimeAxis({
             const position = linearPosition(event.ageMa) * 100;
             const offset = (index - (extinctions.length - 1) / 2) * 66;
             return (
-              <a
-                key={event.id}
-                className="extinction-marker"
-                style={
-                  {
-                    left: `${position}%`,
-                    "--extinction-color": event.color,
-                    "--marker-offset": `${offset}px`,
-                    "--marker-y": `${22 + (index % 2) * 72}px`,
-                  } as CSSProperties
-                }
-                href="/extinctions"
-                aria-label={`${event.titleRu} вымирание, ${event.windowRu}`}
-                title={`${event.titleRu}: ${event.windowRu}`}
-              >
-                <span aria-hidden="true" />
-                <strong>{extinctionLabels[event.id] ?? event.titleRu}</strong>
-                <small>{formatAgeRu(event.ageMa)}</small>
-              </a>
+              <Tooltip key={event.id}>
+                <TooltipTrigger asChild>
+                  <a
+                    className="extinction-marker"
+                    style={
+                      {
+                        left: `${position}%`,
+                        "--extinction-color": event.color,
+                        "--marker-offset": `${offset}px`,
+                        "--marker-y": `${22 + (index % 2) * 72}px`,
+                      } as CSSProperties
+                    }
+                    href="/extinctions"
+                    aria-label={`${event.titleRu} вымирание, ${event.windowRu}`}
+                  >
+                    <span aria-hidden="true" />
+                    <strong>{extinctionLabels[event.id] ?? event.titleRu}</strong>
+                    <small>{formatAgeRu(event.ageMa)}</small>
+                  </a>
+                </TooltipTrigger>
+                <TooltipContent className="tooltip-content extinction-tooltip">
+                  <img src={event.image.src} alt="" aria-hidden="true" />
+                  <span>{event.windowRu}</span>
+                  <strong>{event.titleRu}</strong>
+                  <p>{event.lossPercentRu}: {event.snapshotRu}</p>
+                  <small>{event.keyFactsRu[0]}</small>
+                </TooltipContent>
+              </Tooltip>
             );
           })}
         </div>
@@ -206,8 +208,6 @@ export function DeepTimeAxis({
                 type="button"
                 aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
                 aria-current={isActive ? "true" : undefined}
-                onPointerEnter={() => onActivate(stage)}
-                onFocus={() => onActivate(stage)}
                 onClick={() => onActivate(stage)}
               >
                 <span />

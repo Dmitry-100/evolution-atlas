@@ -1,6 +1,8 @@
 import { ExternalLink, Fingerprint, Sparkles } from "lucide-react";
 import type { EvolutionStage } from "../../data/lineage";
 import { formatAgeRu } from "../../lib/timeline";
+import { ConstellationField } from "../ui/constellation-field";
+import { FloatingPaths } from "../ui/floating-paths";
 
 type StageDetailCardProps = {
   stage: EvolutionStage;
@@ -14,7 +16,10 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
     <aside className="stage-panel" aria-label="Активный вид">
       <figure className="stage-plate">
         <div className="stage-plate-media">
-          <img className="stage-plate-backdrop" src={stage.image.src} alt="" aria-hidden="true" />
+          <div className="stage-plate-backdrop" aria-hidden="true">
+            <FloatingPaths className="stage-plate-paths" density="panel" />
+            <ConstellationField className="stage-plate-constellation" compact />
+          </div>
           <img className="stage-plate-main" src={stage.image.src} alt={stage.image.altRu} />
         </div>
         <figcaption>{imageLabel}</figcaption>

@@ -35,7 +35,7 @@ test.describe("Evolution Atlas", () => {
     expect(consoleErrors).toEqual([]);
   });
 
-  test("hover, click and primate mode update the active species card", async ({ page }, testInfo) => {
+  test("click and primate mode update the active species card without hover tracking", async ({ page }) => {
     await page.goto("/");
 
     const image = page.locator(".stage-plate-main");
@@ -54,12 +54,32 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByText(/65 млн лет крупно/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
 
-    if (testInfo.project.name === "mobile") {
-      await page.getByRole("button", { name: /Древние приматы, 55 млн лет назад/i }).click();
-    } else {
-      await page.getByRole("button", { name: /Древние приматы, 55 млн лет назад/i }).hover();
-    }
+    await page.getByRole("button", { name: /Древние приматы, 55 млн лет назад/i }).click();
     await expect(page.getByRole("heading", { name: /Древние приматы/i })).toBeVisible();
+  });
+
+  test("moving the mouse over the deep-time axis does not change the active stage", async ({ page }) => {
+    await page.goto("/");
+    const activeHeading = page.locator(".stage-copy h2");
+    await expect(activeHeading).toHaveText("Ранние приматы");
+
+    const box = await page.locator(".deep-time-axis").boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+
+    await page.mouse.move(box.x + box.width * 0.08, box.y + box.height * 0.5);
+    await page.mouse.move(box.x + box.width * 0.52, box.y + box.height * 0.35);
+    await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.62);
+    await expect(activeHeading).toHaveText("Ранние приматы");
+  });
+
+  test("mass extinction markers show event callouts on hover", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Hover callouts are a desktop interaction.");
+    await page.goto("/");
+    await page.locator(".extinction-marker").nth(2).hover();
+    await expect(page.locator(".extinction-tooltip")).toBeVisible();
+    await expect(page.locator(".extinction-tooltip")).toContainText(/Пермское/i);
+    await expect(page.locator(".extinction-tooltip img").first()).toBeVisible();
   });
 
   test("visible and keyboard arrows move along the deep-time scale", async ({ page }) => {
@@ -93,6 +113,9 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByRole("heading", { name: /Глобальные вымирания/i })).toBeVisible();
     await expect(page.getByRole("heading", { name: /Пермское/i })).toBeVisible();
     await expect(page.getByRole("heading", { name: /Мел-палеогеновое/i })).toBeVisible();
+    await expect(page.locator(".extinction-stat-grid strong", { hasText: /до 90-96% морских видов/i })).toBeVisible();
+    await expect(page.locator(".extinction-stat-grid strong", { hasText: /примерно 75% видов/i })).toBeVisible();
+    await expect(page.locator(".extinction-visual img")).toHaveCount(5);
     await expect(page.getByText(/млекопитающим/i).first()).toBeVisible();
   });
 

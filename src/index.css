@@ -852,7 +852,7 @@ code {
   background:
     linear-gradient(180deg, rgba(5, 7, 7, 0.22), rgba(5, 7, 7, 0.68)),
     #070b0b;
-  cursor: crosshair;
+  cursor: default;
 }
 
 .deep-time-water {
@@ -952,7 +952,7 @@ code {
 .extinction-markers {
   position: absolute;
   inset: 0 0 3.9rem;
-  z-index: 5;
+  z-index: 9;
   pointer-events: none;
 }
 
@@ -1050,6 +1050,57 @@ code {
   font-size: 0.52rem;
   letter-spacing: 0.08em;
   text-transform: none;
+}
+
+.extinction-tooltip {
+  width: min(360px, calc(100vw - 2rem));
+  padding: 0;
+  overflow: hidden;
+}
+
+.extinction-tooltip img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(218, 185, 126, 0.18);
+}
+
+.extinction-tooltip span,
+.extinction-tooltip strong,
+.extinction-tooltip p,
+.extinction-tooltip small {
+  display: block;
+  margin-inline: 0.85rem;
+}
+
+.extinction-tooltip span {
+  margin-top: 0.75rem;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.extinction-tooltip strong {
+  margin-top: 0.18rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.18rem;
+}
+
+.extinction-tooltip p {
+  margin-top: 0.4rem;
+  color: var(--text);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.extinction-tooltip small {
+  margin-top: 0.5rem;
+  margin-bottom: 0.8rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
 }
 
 .extinction-marker:hover strong,
@@ -1201,7 +1252,7 @@ code {
   position: relative;
   min-width: 100%;
   height: 470px;
-  cursor: crosshair;
+  cursor: default;
 }
 
 .primate-canopy {
@@ -1695,12 +1746,14 @@ code {
   position: relative;
   aspect-ratio: 1.22;
   overflow: hidden;
+  isolation: isolate;
   background:
-    linear-gradient(135deg, rgba(130, 183, 179, 0.08), rgba(240, 201, 120, 0.08)),
+    radial-gradient(circle at 16% 18%, rgba(130, 183, 179, 0.28), transparent 13rem),
+    radial-gradient(circle at 82% 18%, rgba(240, 201, 120, 0.18), transparent 12rem),
+    linear-gradient(135deg, rgba(130, 183, 179, 0.1), rgba(240, 201, 120, 0.06)),
     #080b0b;
 }
 
-.stage-plate-backdrop,
 .stage-plate-main {
   width: 100%;
   height: 100%;
@@ -1709,18 +1762,67 @@ code {
 .stage-plate-backdrop {
   position: absolute;
   inset: 0;
-  object-fit: cover;
-  opacity: 0.25;
-  filter: blur(18px) saturate(0.75) contrast(1.05);
-  transform: scale(1.08);
+  z-index: 0;
+  overflow: hidden;
+  background:
+    repeating-radial-gradient(circle at 28% 72%, rgba(240, 201, 120, 0.075) 0 1px, transparent 1px 18px),
+    linear-gradient(160deg, rgba(130, 183, 179, 0.18), transparent 34%, rgba(217, 173, 97, 0.12) 72%, transparent);
+}
+
+.stage-plate-backdrop::before,
+.stage-plate-backdrop::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.stage-plate-backdrop::before {
+  inset: 9% 8% 14%;
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 30%, rgba(130, 183, 179, 0.08) 31% 32%, transparent 33% 100%),
+    conic-gradient(from 18deg, transparent 0 19%, rgba(240, 201, 120, 0.1) 20% 21%, transparent 22% 52%, rgba(130, 183, 179, 0.12) 53% 54%, transparent 55% 100%);
+  filter: blur(0.2px);
+  opacity: 0.72;
+  transform: rotate(-8deg);
+}
+
+.stage-plate-backdrop::after {
+  right: -7%;
+  bottom: -18%;
+  width: 62%;
+  height: 62%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 173, 97, 0.18), transparent 65%);
+}
+
+.stage-plate-paths {
+  inset: 5% -14% 8%;
+  width: 128%;
+  height: 88%;
+  opacity: 0.6;
+  mix-blend-mode: screen;
+}
+
+.stage-plate-constellation {
+  right: 5%;
+  top: 8%;
+  width: 62%;
+  height: 42%;
+  opacity: 0.32;
 }
 
 .stage-plate-main {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   box-sizing: border-box;
   object-fit: contain;
   padding: 0.62rem;
+  filter:
+    drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32))
+    saturate(0.98)
+    contrast(1.03);
 }
 
 .stage-plate figcaption {
@@ -2301,10 +2403,14 @@ code {
 
 .extinction-card {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(420px, 0.74fr) minmax(0, 1fr);
+  gap: 1rem;
   margin-left: 2.6rem;
   border-left-width: 5px;
   border-radius: var(--radius);
-  padding: 1.25rem;
+  overflow: hidden;
+  padding: 0;
 }
 
 .extinction-card::before {
@@ -2322,6 +2428,54 @@ code {
     0 0 28px rgba(240, 201, 120, 0.18);
 }
 
+.extinction-visual {
+  position: relative;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #080b0b;
+}
+
+.extinction-visual img {
+  width: 100%;
+  height: 100%;
+  min-height: 310px;
+  box-sizing: border-box;
+  object-fit: contain;
+  object-position: center top;
+  padding: 0.45rem;
+  background:
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--extinction-color) 16%, transparent), transparent 14rem),
+    #080b0b;
+  filter: saturate(0.9) contrast(1.04);
+}
+
+.extinction-visual::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(8, 11, 11, 0.12) 55%, rgba(8, 11, 11, 0.72) 100%),
+    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--extinction-color) 22%, transparent), transparent 18rem);
+  content: "";
+  pointer-events: none;
+}
+
+.extinction-visual figcaption {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.65rem;
+  left: 0.7rem;
+  z-index: 1;
+  color: rgba(235, 228, 212, 0.72);
+  font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+.extinction-card-body {
+  min-width: 0;
+  padding: 1.25rem 1.25rem 1.25rem 0;
+}
+
 .extinction-card-date {
   color: var(--extinction-color);
   font-size: 0.78rem;
@@ -2335,6 +2489,48 @@ code {
   margin-top: 0.65rem !important;
   color: var(--text) !important;
   font-size: 1.02rem;
+}
+
+.extinction-stat-grid {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.5fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.extinction-stat-grid > div {
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--extinction-color) 18%, transparent), transparent 8rem),
+    rgba(255, 255, 255, 0.035);
+  padding: 0.85rem;
+}
+
+.extinction-stat-grid svg {
+  color: var(--extinction-color);
+}
+
+.extinction-stat-grid span,
+.extinction-stat-grid strong {
+  display: block;
+}
+
+.extinction-stat-grid span {
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.extinction-stat-grid strong {
+  margin-top: 0.22rem;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+  line-height: 1.18;
 }
 
 .extinction-causes {
@@ -2371,6 +2567,30 @@ code {
   color: var(--text);
   padding: 0.34rem 0.62rem;
   font-size: 0.84rem;
+}
+
+.extinction-facts {
+  margin: 1rem 0;
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.32);
+  padding: 0.95rem 1rem;
+}
+
+.extinction-facts strong {
+  display: block;
+  color: var(--gold);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.extinction-facts ul {
+  display: grid;
+  gap: 0.46rem;
+  margin: 0.75rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
 }
 
 .extinction-card p + p {
@@ -2491,6 +2711,19 @@ code {
 
   .material-card {
     grid-template-columns: 1fr;
+  }
+
+  .extinction-card {
+    grid-template-columns: 1fr;
+  }
+
+  .extinction-card-body {
+    padding: 1rem 1.1rem 1.2rem;
+  }
+
+  .extinction-visual img {
+    min-height: auto;
+    aspect-ratio: 16 / 9;
   }
 
   .material-card img {
@@ -2692,6 +2925,11 @@ code {
     opacity: 0.42;
   }
 
+  .extinction-markers,
+  .extinction-marker {
+    pointer-events: none;
+  }
+
   .pre-primate-field span {
     left: 0.8rem;
     max-width: 13rem;
@@ -2791,6 +3029,10 @@ code {
 
   .extinction-card::before {
     left: -2.34rem;
+  }
+
+  .extinction-stat-grid {
+    grid-template-columns: 1fr;
   }
 
   .extinction-bridge {

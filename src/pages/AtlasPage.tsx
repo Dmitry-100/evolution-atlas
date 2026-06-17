@@ -145,7 +145,7 @@ export function AtlasPage() {
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                Наведите на шкалу, нажимайте точки или используйте стрелки, когда атлас в фокусе.
+                Нажимайте точки на шкале, двигайте ползунок или используйте стрелки, когда атлас в фокусе.
               </TooltipContent>
             </Tooltip>
           </div>

@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, Search } from "lucide-react";
-import { useMemo, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
+import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
 import type { EvolutionStage } from "../../data/lineage";
 import { ageMaToPosition, formatAgeRu } from "../../lib/timeline";
 import { ConstellationField } from "../ui/constellation-field";
@@ -35,14 +35,6 @@ function makeReadablePositions(stages: EvolutionStage[]) {
   return positions.map((position) => Math.max(6, Math.min(94, position)));
 }
 
-function nearestStage(stages: EvolutionStage[], positions: number[], position: number) {
-  return stages.reduce<{ stage: EvolutionStage; distance: number } | null>((nearest, stage, index) => {
-    const distance = Math.abs((positions[index] ?? 0) / 100 - position);
-    if (!nearest || distance < nearest.distance) return { stage, distance };
-    return nearest;
-  }, null)?.stage;
-}
-
 export function PrimateAxis({
   stages,
   activeStage,
@@ -66,13 +58,6 @@ export function PrimateAxis({
       event.preventDefault();
       onStep(-1);
     }
-  }
-
-  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const position = (event.clientX - rect.left) / rect.width;
-    const nearest = nearestStage(stages, positions, position);
-    if (nearest && nearest.id !== activeStage.id) onActivate(nearest);
   }
 
   return (
@@ -118,7 +103,7 @@ export function PrimateAxis({
         onKeyDown={handleKeyDown}
         aria-label="Фокус на приматах. Используйте стрелки влево и вправо для перехода между этапами."
       >
-        <div className="primate-timeline-stage" onPointerMove={handlePointerMove}>
+        <div className="primate-timeline-stage">
           <div className="primate-canopy" aria-hidden="true" />
           <FloatingPaths className="primate-floating-paths" density="panel" />
           <ConstellationField className="primate-constellation" compact />
@@ -148,8 +133,6 @@ export function PrimateAxis({
                 style={style}
                 aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
                 aria-current={isActive ? "true" : undefined}
-                onPointerEnter={() => onActivate(stage)}
-                onFocus={() => onActivate(stage)}
                 onClick={() => onActivate(stage)}
               >
                 <span className="primate-node-image">

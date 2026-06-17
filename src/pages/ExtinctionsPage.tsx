@@ -1,4 +1,4 @@
-import { ArrowRight, Flame, RefreshCw, Waves } from "lucide-react";
+import { ArrowRight, BarChart3, Flame, RefreshCw, Sparkles, Waves } from "lucide-react";
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
@@ -41,35 +41,64 @@ export function ExtinctionsPage() {
             className="extinction-card"
             style={{ borderColor: event.color, "--extinction-color": event.color } as CSSProperties}
           >
-            <div className="extinction-card-date">{event.windowRu}</div>
-            <h2>{event.titleRu}</h2>
-            <p className="extinction-loss">{event.lossRu}</p>
+            <figure className="extinction-visual">
+              <img src={event.image.src} alt={event.image.altRu} />
+              <figcaption>{event.image.creditRu}</figcaption>
+            </figure>
 
-            <div className="extinction-causes">
-              <strong>
-                <Flame aria-hidden="true" size={16} />
-                Возможные причины
-              </strong>
-              <ul>
-                {event.likelyCausesRu.map((cause) => (
-                  <li key={cause}>{cause}</li>
+            <div className="extinction-card-body">
+              <div className="extinction-card-date">{event.windowRu}</div>
+              <h2>{event.titleRu}</h2>
+              <p className="extinction-loss">{event.lossRu}</p>
+
+              <div className="extinction-stat-grid">
+                <div>
+                  <BarChart3 aria-hidden="true" size={18} />
+                  <span>масштаб потерь</span>
+                  <strong>{event.lossPercentRu}</strong>
+                </div>
+                <div>
+                  <Sparkles aria-hidden="true" size={18} />
+                  <span>что произошло</span>
+                  <strong>{event.snapshotRu}</strong>
+                </div>
+              </div>
+
+              <div className="extinction-causes">
+                <strong>
+                  <Flame aria-hidden="true" size={16} />
+                  Возможные причины
+                </strong>
+                <ul>
+                  {event.likelyCausesRu.map((cause) => (
+                    <li key={cause}>{cause}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="extinction-facts">
+                <strong>Что важно запомнить</strong>
+                <ul>
+                  {event.keyFactsRu.map((fact) => (
+                    <li key={fact}>{fact}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <p>
+                <strong>После:</strong> {event.afterRu}
+              </p>
+              <p>
+                <strong>Связь с нашей ветвью:</strong> {event.relationRu}
+              </p>
+
+              <div className="extinction-sources">
+                {event.sources.map((item) => (
+                  <a key={item.url} href={item.url} target="_blank" rel="noreferrer">
+                    {item.label}
+                  </a>
                 ))}
-              </ul>
-            </div>
-
-            <p>
-              <strong>После:</strong> {event.afterRu}
-            </p>
-            <p>
-              <strong>Связь с нашей ветвью:</strong> {event.relationRu}
-            </p>
-
-            <div className="extinction-sources">
-              {event.sources.map((item) => (
-                <a key={item.url} href={item.url} target="_blank" rel="noreferrer">
-                  {item.label}
-                </a>
-              ))}
+              </div>
             </div>
           </article>
         ))}
