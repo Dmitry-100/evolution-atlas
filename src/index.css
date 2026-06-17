@@ -562,6 +562,7 @@ code {
 .takeaway-band,
 .theory-bridge-band,
 .wow-facts-band article,
+.cladogram-panel,
 .document-page,
 .source-card,
 .material-card,
@@ -2204,6 +2205,7 @@ code {
 .extinction-overview h2,
 .extinction-card h2,
 .extinction-bridge strong,
+.cladogram-heading h2,
 .dinosaur-section-heading h2,
 .dinosaur-detail-card h2,
 .dinosaurs-bridge strong {
@@ -2219,6 +2221,7 @@ code {
 .extinction-overview p,
 .extinction-card p,
 .extinction-bridge p,
+.cladogram-heading p,
 .dinosaur-section-heading p,
 .dinosaur-detail-card p,
 .dinosaurs-bridge p {
@@ -2972,6 +2975,151 @@ code {
   padding: 1.2rem;
 }
 
+.cladogram-panel {
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(130, 183, 179, 0.14), transparent 18rem),
+    radial-gradient(circle at 88% 0%, rgba(208, 163, 91, 0.12), transparent 18rem),
+    var(--panel);
+}
+
+.cladogram-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+  border-bottom: 1px solid var(--line);
+  padding: 1.15rem 1.2rem;
+}
+
+.cladogram-heading svg {
+  margin-top: 0.35rem;
+  color: var(--gold);
+}
+
+.cladogram-heading p:not(.eyebrow) {
+  max-width: 940px;
+  line-height: 1.62;
+}
+
+.cladogram-body {
+  display: grid;
+  gap: 0.95rem;
+  padding: 1rem;
+}
+
+.cladogram-trunk {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(19, minmax(132px, 1fr));
+  gap: 0.55rem;
+  overflow-x: auto;
+  padding: 0.35rem 0.2rem 0.6rem;
+}
+
+.cladogram-trunk::before {
+  position: absolute;
+  right: 1rem;
+  left: 1rem;
+  top: 2.42rem;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(130, 183, 179, 0.7), rgba(240, 201, 120, 0.76), rgba(208, 163, 91, 0.7));
+  content: "";
+  opacity: 0.74;
+}
+
+.cladogram-node,
+.cladogram-branch {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.55);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.cladogram-node {
+  display: grid;
+  grid-template-rows: auto auto minmax(2.2rem, 1fr) auto;
+  gap: 0.34rem;
+  min-height: 128px;
+  padding: 0.68rem;
+}
+
+.cladogram-node:hover,
+.cladogram-branch:hover,
+.cladogram-node.is-active,
+.cladogram-branch.is-active {
+  transform: translateY(-2px);
+  border-color: rgba(240, 201, 120, 0.5);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(240, 201, 120, 0.18), transparent 4.8rem),
+    rgba(34, 30, 20, 0.72);
+}
+
+.cladogram-node-number {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.cladogram-node-dot {
+  width: 17px;
+  height: 17px;
+  border: 3px solid rgba(8, 11, 11, 0.84);
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow:
+    0 0 0 2px rgba(240, 201, 120, 0.18),
+    0 0 20px rgba(240, 201, 120, 0.2);
+}
+
+.cladogram-node strong,
+.cladogram-branch strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.12;
+}
+
+.cladogram-node small,
+.cladogram-branch small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.22;
+}
+
+.cladogram-branches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem;
+}
+
+.cladogram-branch {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: start;
+  min-height: 76px;
+  padding: 0.7rem;
+}
+
+.cladogram-branch svg {
+  margin-top: 0.12rem;
+  color: var(--gold);
+}
+
 @media (max-width: 1320px) {
   .atlas-title h1 {
     font-size: 3.9rem;
@@ -3121,6 +3269,10 @@ code {
     grid-template-columns: repeat(9, minmax(142px, 170px));
     overflow-x: auto;
     padding-bottom: 0.45rem;
+  }
+
+  .cladogram-trunk {
+    grid-template-columns: repeat(19, minmax(132px, 160px));
   }
 }
 
@@ -3415,6 +3567,40 @@ code {
 
   .dinosaur-section-heading {
     grid-template-columns: 1fr;
+  }
+
+  .cladogram-heading {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .cladogram-body {
+    padding: 0.8rem;
+  }
+
+  .cladogram-trunk {
+    grid-template-columns: 1fr;
+    overflow-x: visible;
+  }
+
+  .cladogram-trunk::before {
+    top: 1.15rem;
+    bottom: 1.15rem;
+    right: auto;
+    left: 1.35rem;
+    width: 4px;
+    height: auto;
+  }
+
+  .cladogram-node {
+    grid-template-columns: 2rem 1.6rem minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    min-height: 86px;
+  }
+
+  .cladogram-node-number,
+  .cladogram-node-dot {
+    grid-row: 1 / span 2;
   }
 
   .dinosaur-branch-route {

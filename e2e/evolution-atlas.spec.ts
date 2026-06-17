@@ -107,9 +107,21 @@ test.describe("Evolution Atlas", () => {
     await page.reload();
     await expect(page.getByRole("heading", { name: "Ранние человекообразные" })).toBeVisible();
 
-    await page.getByRole("button", { name: /Homo sapiens/i }).click();
+    await page.locator(".primate-photo-axis").getByRole("button", { name: /Homo sapiens/i }).click();
     await expect(page).toHaveURL(/mode=primates&stage=homo-sapiens/);
     await expect(page.getByRole("heading", { name: "Homo sapiens" })).toBeVisible();
+  });
+
+  test("cladogram branch clicks sync with the stage card and URL", async ({ page }) => {
+    await page.goto("/");
+    const cladogram = page.locator(".cladogram-panel");
+
+    await expect(page.getByRole("heading", { name: "Дерево родства" })).toBeVisible();
+    await expect(cladogram.getByRole("button", { name: /Неандертальцы/i })).toBeVisible();
+
+    await cladogram.getByRole("button", { name: /Неандертальцы/i }).click();
+    await expect(page.locator(".stage-copy h2")).toHaveText("Неандертальцы");
+    await expect(page).toHaveURL(/mode=all&stage=neanderthals/);
   });
 
   test("theory route explains scientific theory and evidence", async ({ page }) => {

@@ -13,7 +13,9 @@ import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
 import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
+import { CladogramPanel } from "../components/atlas/CladogramPanel";
 import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
+import { buildCladogram } from "../lib/cladogram";
 
 const LIFE_ORIGIN_MA = 4000;
 const PRIMATES_MA = 65;
@@ -44,6 +46,7 @@ export function AtlasPage() {
   const atlasRef = useRef<HTMLDivElement>(null);
 
   const visibleStages = mode === "primates" ? primateStages : sortedStages;
+  const cladogram = useMemo(() => buildCladogram(sortedStages), []);
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
   const activeStage = visibleStages.find((stage) => stage.id === urlState.stageId) ?? getDefaultAtlasStage(visibleStages);
   const activeIndex = getStageIndex(visibleStages, activeStage.id);
@@ -187,8 +190,10 @@ export function AtlasPage() {
             ) : null}
           </div>
 
-          <StageDetailCard stage={activeStage} />
+        <StageDetailCard stage={activeStage} />
         </section>
+
+        <CladogramPanel tree={cladogram} activeStage={activeStage} onActivate={activateStage} />
 
         <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
           {wowFacts.map(({ icon: Icon, label, value, text }) => (
