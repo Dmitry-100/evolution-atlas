@@ -1,0 +1,18 @@
+import { QuizPanel } from "../components/atlas/QuizPanel";
+
+export function QuizPage() {
+  return (
+    <section className="quiz-page">
+      <div className="document-header">
+        <p className="eyebrow">Мини-квиз</p>
+        <h1>Мини-квиз</h1>
+        <p>
+          Несколько коротких вопросов, чтобы закрепить главную мысль: эволюция - это дерево родства, а не лестница к
+          человеку.
+        </p>
+      </div>
+
+      <QuizPanel />
+    </section>
+  );
+}

@@ -17,6 +17,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByLabel("Основная навигация").getByRole("link", { name: "Глобальные вымирания" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Материалы" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Вымерли ли динозавры" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Проверь себя" })).toBeVisible();
     await expect(page.locator(".deep-time-axis")).toBeVisible();
     await expect(page.locator(".extinction-marker")).toHaveCount(5);
     await expect(page.locator(".app-ethereal-background")).toBeVisible();
@@ -30,6 +31,17 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByRole("heading", { name: /Ранние приматы/i })).toBeVisible();
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).not.toBeVisible();
     await expect(page.locator(".specimen-strip")).toHaveCount(0);
+    await expect(page.locator(".life-year-calendar")).toHaveCount(0);
+    await expect(page.locator(".quiz-panel")).toHaveCount(0);
+
+    const factsBox = await page.locator(".wow-facts-band").boundingBox();
+    const atlasGridBox = await page.locator(".atlas-grid").boundingBox();
+    expect(factsBox).not.toBeNull();
+    expect(atlasGridBox).not.toBeNull();
+    if (factsBox && atlasGridBox) {
+      expect(factsBox.y).toBeLessThan(atlasGridBox.y);
+      expect(atlasGridBox.y - (factsBox.y + factsBox.height)).toBeGreaterThanOrEqual(24);
+    }
 
     const hasOverflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
     expect(hasOverflow).toBe(false);
@@ -144,27 +156,20 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByRole("tooltip")).toContainText(/внутренней опорной осью/i);
   });
 
-  test("deep-time calendar maps active stages into a single year", async ({ page }) => {
-    await page.goto("/?mode=all&stage=early-primates");
-    const calendar = page.locator(".life-year-calendar");
-
-    await expect(page.getByRole("heading", { name: "4 млрд лет как один год" })).toBeVisible();
-    await expect(calendar.locator(".life-year-marker.is-active").getByText(/Ранние приматы/)).toBeVisible();
-    await expect(calendar.locator(".life-year-marker.is-active").getByText(/декабря/)).toBeVisible();
-
-    await page.goto("/?mode=all&stage=homo-sapiens");
-    await expect(calendar.locator(".life-year-marker.is-active").getByText(/Homo sapiens/)).toBeVisible();
-    await expect(calendar.locator(".life-year-marker.is-active").getByText(/31 декабря/)).toBeVisible();
-  });
-
   test("quiz runs through questions to a result", async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/quiz");
     const quiz = page.locator(".quiz-panel");
 
     await expect(page.getByRole("heading", { name: "Проверь себя" })).toBeVisible();
-    for (let index = 0; index < 4; index += 1) {
+    const progress = await quiz.locator(".quiz-progress").innerText();
+    const totalQuestions = Number(progress.match(/из\s+(\d+)/i)?.[1]);
+    expect(totalQuestions).toBeGreaterThanOrEqual(36);
+
+    for (let index = 0; index < totalQuestions; index += 1) {
       await quiz.locator(".quiz-option").first().click();
-      await quiz.getByRole("button", { name: index === 3 ? "Показать результат" : "Следующий вопрос" }).click();
+      await quiz
+        .getByRole("button", { name: index === totalQuestions - 1 ? "Показать результат" : "Следующий вопрос" })
+        .click();
     }
 
     await expect(quiz.getByText(/Ваш результат/)).toBeVisible();

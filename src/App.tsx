@@ -8,6 +8,7 @@ import { MaterialsPage } from "./pages/MaterialsPage";
 import { SourcesPage } from "./pages/SourcesPage";
 import { TheoryPage } from "./pages/TheoryPage";
 import { DinosaursPage } from "./pages/DinosaursPage";
+import { QuizPage } from "./pages/QuizPage";
 import { EtherealInk } from "./components/ui/ethereal-ink";
 import { ScrollProgress } from "./components/ui/scroll-progress";
 
@@ -44,6 +45,7 @@ function App() {
           </NavLink>
           <nav className="topbar-nav" aria-label="Основная навигация">
             <NavLink to="/">Атлас</NavLink>
+            <NavLink to="/quiz">Проверь себя</NavLink>
             <NavLink to="/theory">Теория эволюции</NavLink>
             <NavLink to="/extinctions">Глобальные вымирания</NavLink>
             <NavLink to="/dinosaurs">Вымерли ли динозавры</NavLink>
@@ -55,6 +57,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<AtlasPage />} />
+            <Route path="/quiz" element={<QuizPage />} />
             <Route path="/theory" element={<TheoryPage />} />
             <Route path="/extinctions" element={<ExtinctionsPage />} />
             <Route path="/dinosaurs" element={<DinosaursPage />} />

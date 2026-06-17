@@ -15,8 +15,6 @@ import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
 import { CladogramPanel } from "../components/atlas/CladogramPanel";
 import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
-import { DeepTimeCalendarPanel } from "../components/atlas/DeepTimeCalendarPanel";
-import { QuizPanel } from "../components/atlas/QuizPanel";
 import { StageComparisonPanel } from "../components/atlas/StageComparisonPanel";
 import { JourneyControls } from "../components/atlas/JourneyControls";
 import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
@@ -169,6 +167,17 @@ export function AtlasPage() {
           </div>
         </section>
 
+        <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
+          {wowFacts.map(({ icon: Icon, label, value, text }) => (
+            <article key={label}>
+              <Icon aria-hidden="true" size={21} />
+              <span>{label}</span>
+              <strong>{value}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </section>
+
         <section className="atlas-grid">
           <div className="center-stage">
             {mode === "primates" ? (
@@ -204,29 +213,14 @@ export function AtlasPage() {
             ) : null}
           </div>
 
-        <StageDetailCard stage={activeStage} />
+          <StageDetailCard stage={activeStage} />
         </section>
 
         <CladogramPanel tree={cladogram} activeStage={activeStage} onActivate={activateStage} />
 
         <TraitAccumulator groups={accumulatedTraitGroups} />
 
-        <DeepTimeCalendarPanel activeStage={activeStage} />
-
-        <QuizPanel />
-
         <StageComparisonPanel />
-
-        <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
-          {wowFacts.map(({ icon: Icon, label, value, text }) => (
-            <article key={label}>
-              <Icon aria-hidden="true" size={21} />
-              <span>{label}</span>
-              <strong>{value}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </section>
 
         <section className="theory-bridge-band atlas-note-band">
           <div>

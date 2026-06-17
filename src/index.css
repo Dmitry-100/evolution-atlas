@@ -611,7 +611,6 @@ code {
 .wow-facts-band article,
 .cladogram-panel,
 .trait-accumulator,
-.life-year-calendar,
 .quiz-panel,
 .comparison-panel,
 .document-page,
@@ -2045,7 +2044,7 @@ code {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.85rem;
-  margin-top: 1rem;
+  margin: 1rem 0 2rem;
 }
 
 .wow-facts-band article {
@@ -2289,6 +2288,15 @@ code {
   padding: 2rem;
 }
 
+.quiz-page {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 2rem auto;
+}
+
+.quiz-page .document-header {
+  margin-bottom: 1.15rem;
+}
+
 .document-header h1 {
   font-size: 3.6rem;
 }
@@ -2331,7 +2339,6 @@ code {
 .extinction-bridge strong,
 .cladogram-heading h2,
 .trait-accumulator-heading h2,
-.life-year-heading h2,
 .quiz-heading h2,
 .comparison-heading h2,
 .dinosaur-section-heading h2,
@@ -2351,7 +2358,6 @@ code {
 .extinction-bridge p,
 .cladogram-heading p,
 .trait-accumulator-heading p,
-.life-year-heading p,
 .quiz-heading p,
 .comparison-heading p,
 .dinosaur-section-heading p,
@@ -3336,135 +3342,6 @@ code {
   line-height: 1.2;
 }
 
-.life-year-calendar {
-  margin-top: 1rem;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(130, 183, 179, 0.12), transparent 17rem),
-    radial-gradient(circle at 82% 12%, rgba(240, 201, 120, 0.12), transparent 18rem),
-    var(--panel);
-}
-
-.life-year-heading {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.85rem;
-  align-items: start;
-  border-bottom: 1px solid var(--line);
-  padding: 1.15rem 1.2rem;
-}
-
-.life-year-heading svg {
-  margin-top: 0.35rem;
-  color: var(--gold);
-}
-
-.life-year-heading p:not(.eyebrow) {
-  max-width: 940px;
-  line-height: 1.62;
-}
-
-.life-year-track {
-  padding: 1.15rem 1rem 1.4rem;
-}
-
-.life-year-months {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  border: 1px solid rgba(218, 185, 126, 0.13);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
-.life-year-months span {
-  min-width: 0;
-  border-right: 1px solid rgba(218, 185, 126, 0.11);
-  background: rgba(8, 11, 11, 0.42);
-  color: var(--muted);
-  padding: 0.5rem 0.3rem;
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-align: center;
-}
-
-.life-year-months span:last-child {
-  border-right: 0;
-}
-
-.life-year-line {
-  position: relative;
-  min-height: 150px;
-  margin-top: 0.9rem;
-  border-radius: var(--radius);
-  background:
-    linear-gradient(90deg, rgba(106, 168, 173, 0.24), rgba(240, 201, 120, 0.16), rgba(208, 163, 91, 0.25)),
-    rgba(8, 11, 11, 0.38);
-  overflow: hidden;
-}
-
-.life-year-line::before {
-  position: absolute;
-  right: 1rem;
-  left: 1rem;
-  top: 50%;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(240, 201, 120, 0.55);
-  content: "";
-}
-
-.life-year-marker {
-  position: absolute;
-  left: clamp(1.2rem, var(--calendar-position), calc(100% - 1.2rem));
-  top: 50%;
-  display: grid;
-  gap: 0.24rem;
-  width: min(180px, 36vw);
-  transform: translate(-50%, -50%);
-  color: var(--muted);
-  text-align: center;
-}
-
-.life-year-marker::before {
-  justify-self: center;
-  width: 16px;
-  height: 16px;
-  border: 3px solid rgba(8, 11, 11, 0.9);
-  border-radius: 50%;
-  background: var(--gold);
-  box-shadow:
-    0 0 0 2px rgba(240, 201, 120, 0.18),
-    0 0 22px rgba(240, 201, 120, 0.2);
-  content: "";
-}
-
-.life-year-marker strong {
-  color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.98rem;
-  line-height: 1.1;
-}
-
-.life-year-marker small {
-  color: var(--muted);
-  font-size: 0.74rem;
-}
-
-.life-year-marker.is-active {
-  z-index: 2;
-  color: var(--text);
-}
-
-.life-year-marker.is-active::before {
-  width: 22px;
-  height: 22px;
-  background: #f4cf82;
-  box-shadow:
-    0 0 0 4px rgba(240, 201, 120, 0.2),
-    0 0 34px rgba(240, 201, 120, 0.38);
-}
-
 .quiz-panel {
   margin-top: 1rem;
   border-radius: var(--radius);
@@ -4109,6 +3986,11 @@ code {
     padding: 1rem;
   }
 
+  .quiz-page {
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto 1rem;
+  }
+
   .source-card > div {
     padding: 1rem;
   }
@@ -4176,11 +4058,6 @@ code {
     width: 4.2rem;
   }
 
-  .life-year-heading {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-
   .quiz-heading {
     grid-template-columns: 1fr;
     padding: 1rem;
@@ -4198,23 +4075,6 @@ code {
   .trait-groups {
     grid-template-columns: 1fr;
     padding: 0.8rem;
-  }
-
-  .life-year-track {
-    padding: 0.85rem;
-  }
-
-  .life-year-months {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
-  .life-year-line {
-    min-height: 190px;
-  }
-
-  .life-year-marker {
-    width: 130px;
-    font-size: 0.86rem;
   }
 
   .quiz-body,
