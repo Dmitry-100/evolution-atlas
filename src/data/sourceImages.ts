@@ -43,12 +43,12 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Here we see a Paramecium (stained with safranin) undergoing cyst formation in an extremely dehydrating environment as onlooking gram +ve bacteria look on"
   },
   "choanoflagellates": {
-    "src": "/assets/images/source-backed/choanoflagellates.png",
+    "src": "/assets/images/source-backed/choanoflagellates-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:PhysRevLett.116.038102-Fig1.png",
-    "credit": "Julius B. Kirkegaard, Alan O. Marron, Raymond E. Goldstein / Wikimedia Commons",
+    "credit": "Julius B. Kirkegaard, Alan O. Marron, Raymond E. Goldstein / Wikimedia Commons / локальная музейная обработка",
     "license": "CC BY 3.0",
     "commonsTitle": "File:PhysRevLett.116.038102-Fig1.png",
-    "description": "The choanoflagellate Salpingoeca rosetta . (a) Bright field image (5 μm scale) and (b) schematics of ‘slow-swimmer’ single cell, base angle θ, and rosette colony."
+    "description": "The choanoflagellate Salpingoeca rosetta, placed on a local museum-style background."
   },
   "ediacaran": {
     "src": "/assets/images/source-backed/ediacaran-diorama-nmnh.jpg",
@@ -67,12 +67,12 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Life reconstruction of Kimberella, an early bilaterian-like animal."
   },
   "early-chordates": {
-    "src": "/assets/images/source-backed/early-chordates.png",
+    "src": "/assets/images/source-backed/early-chordates-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Schematic_anatomical_reconstruction_of_Pikaia_flipped.png",
-    "credit": "Giovanni Mussini, M. Paul Smith, Jakob Vinther, Imran A. Rahman, Duncan J.E. Murdock, David A.T. Harper, Frances S. Dunn / Wikimedia Commons",
+    "credit": "Giovanni Mussini, M. Paul Smith, Jakob Vinther, Imran A. Rahman, Duncan J.E. Murdock, David A.T. Harper, Frances S. Dunn / Wikimedia Commons / локальная музейная обработка",
     "license": "CC BY 4.0",
     "commonsTitle": "File:Schematic anatomical reconstruction of Pikaia flipped.png",
-    "description": "Schematic reconstruction of the anterior region of Pikaia under the new anatomical interpretation, showing the anterior appendages as dorsally directed gills."
+    "description": "Schematic reconstruction of Pikaia, placed on a local museum-style background."
   },
   "early-vertebrates": {
     "src": "/assets/images/source-backed/early-vertebrates.png",
@@ -203,12 +203,14 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Life restoration of Plesiadapis, placed on a local museum-style background."
   },
   "anthropoids": {
-    "src": "/assets/images/source-backed/oligocene-primates-scene.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Oligocene_primates.jpg",
-    "credit": "Wikimedia Commons",
-    "license": "см. исходный источник",
-    "commonsTitle": "File:Oligocene primates.jpg, cropped scene",
-    "description": "Cropped habitat and life reconstruction scene from an Oligocene primates panel."
+    "src": "/assets/images/source-backed/generated-anthropoid-primate.jpg",
+    "sourceUrl": "https://openai.com/",
+    "credit": "OpenAI image generation / локальная реконструкция",
+    "license": "AI-реконструкция; не исходное научное изображение",
+    "commonsTitle": "generated-anthropoid-primate",
+    "description": "Generated museum paleoart reconstruction of an early Oligocene anthropoid primate.",
+    "kind": "generated-reconstruction",
+    "promptId": "early-oligocene-anthropoid-paleoart-2026-06-17"
   },
   "new-world-monkeys": {
     "src": "/assets/images/source-backed/capuchin-branch.jpg",
