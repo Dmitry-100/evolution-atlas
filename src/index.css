@@ -52,6 +52,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
   background:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 4px),
@@ -100,8 +101,53 @@ code {
 
 .app-shell {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   min-height: 100svh;
+}
+
+.ethereal-ink {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(130, 183, 179, 0.18), transparent 32rem),
+    radial-gradient(circle at 82% 4%, rgba(217, 173, 97, 0.16), transparent 29rem),
+    #070908;
+}
+
+.app-ethereal-background {
+  position: fixed;
+  z-index: 0;
+  opacity: 0.38;
+  pointer-events: none;
+}
+
+.ethereal-ink-canvas,
+.ethereal-ink-fallback,
+.ethereal-ink-scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.ethereal-ink-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: saturate(0.88) contrast(1.08) brightness(0.82);
+}
+
+.ethereal-ink-fallback {
+  background:
+    radial-gradient(circle at 24% 38%, rgba(130, 183, 179, 0.22), transparent 28rem),
+    radial-gradient(circle at 76% 28%, rgba(240, 201, 120, 0.18), transparent 24rem),
+    repeating-linear-gradient(132deg, transparent 0 24px, rgba(130, 183, 179, 0.035) 25px 27px, transparent 28px 54px),
+    #070908;
+}
+
+.ethereal-ink-scrim {
+  background:
+    radial-gradient(circle at 52% 42%, transparent 0, rgba(5, 7, 7, 0.16) 34rem, rgba(5, 7, 7, 0.72) 100%),
+    linear-gradient(180deg, rgba(5, 7, 7, 0.36) 0%, rgba(5, 7, 7, 0.68) 74%, rgba(5, 7, 7, 0.9) 100%);
 }
 
 .topbar {
@@ -2315,6 +2361,10 @@ code {
     font-size: 15px;
   }
 
+  .app-ethereal-background {
+    opacity: 0.28;
+  }
+
   .brand small {
     display: none;
   }
@@ -2549,6 +2599,10 @@ code {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .app-ethereal-background {
+    opacity: 0.22;
+  }
+
   *,
   *::before,
   *::after {

@@ -18,6 +18,8 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByRole("link", { name: "Материалы" })).toBeVisible();
     await expect(page.locator(".deep-time-axis")).toBeVisible();
     await expect(page.locator(".extinction-marker")).toHaveCount(5);
+    await expect(page.locator(".app-ethereal-background")).toBeVisible();
+    await expect(page.locator(".ethereal-ink-canvas, .ethereal-ink-fallback")).toHaveCount(1);
     await expect(page.getByText(/до появления приматов - 98,4%/i)).toBeVisible();
     await expect(page.getByText(/к выбранной точке/i)).toBeVisible();
     await expect(page.getByRole("heading", { name: /Ранние приматы/i })).toBeVisible();

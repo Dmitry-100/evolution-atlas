@@ -6,10 +6,12 @@ import { ExtinctionsPage } from "./pages/ExtinctionsPage";
 import { MaterialsPage } from "./pages/MaterialsPage";
 import { SourcesPage } from "./pages/SourcesPage";
 import { TheoryPage } from "./pages/TheoryPage";
+import { EtherealInk } from "./components/ui/ethereal-ink";
 
 function App() {
   return (
     <BrowserRouter>
+      <EtherealInk className="app-ethereal-background" />
       <div className="app-shell">
         <header className="topbar">
           <NavLink className="brand" to="/" aria-label="Открыть атлас">
