@@ -144,6 +144,19 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByRole("tooltip")).toContainText(/внутренней опорной осью/i);
   });
 
+  test("deep-time calendar maps active stages into a single year", async ({ page }) => {
+    await page.goto("/?mode=all&stage=early-primates");
+    const calendar = page.locator(".life-year-calendar");
+
+    await expect(page.getByRole("heading", { name: "4 млрд лет как один год" })).toBeVisible();
+    await expect(calendar.locator(".life-year-marker.is-active").getByText(/Ранние приматы/)).toBeVisible();
+    await expect(calendar.locator(".life-year-marker.is-active").getByText(/декабря/)).toBeVisible();
+
+    await page.goto("/?mode=all&stage=homo-sapiens");
+    await expect(calendar.locator(".life-year-marker.is-active").getByText(/Homo sapiens/)).toBeVisible();
+    await expect(calendar.locator(".life-year-marker.is-active").getByText(/31 декабря/)).toBeVisible();
+  });
+
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();
