@@ -563,6 +563,7 @@ code {
 .theory-bridge-band,
 .wow-facts-band article,
 .cladogram-panel,
+.trait-accumulator,
 .document-page,
 .source-card,
 .material-card,
@@ -2206,6 +2207,7 @@ code {
 .extinction-card h2,
 .extinction-bridge strong,
 .cladogram-heading h2,
+.trait-accumulator-heading h2,
 .dinosaur-section-heading h2,
 .dinosaur-detail-card h2,
 .dinosaurs-bridge strong {
@@ -2222,6 +2224,7 @@ code {
 .extinction-card p,
 .extinction-bridge p,
 .cladogram-heading p,
+.trait-accumulator-heading p,
 .dinosaur-section-heading p,
 .dinosaur-detail-card p,
 .dinosaurs-bridge p {
@@ -3120,6 +3123,90 @@ code {
   color: var(--gold);
 }
 
+.trait-accumulator {
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(240, 201, 120, 0.12), transparent 16rem),
+    radial-gradient(circle at 86% 18%, rgba(130, 183, 179, 0.1), transparent 18rem),
+    var(--panel);
+}
+
+.trait-accumulator-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: start;
+  border-bottom: 1px solid var(--line);
+  padding: 1.15rem 1.2rem;
+}
+
+.trait-accumulator-heading svg {
+  margin-top: 0.35rem;
+  color: var(--gold);
+}
+
+.trait-accumulator-heading p:not(.eyebrow) {
+  max-width: 930px;
+  line-height: 1.62;
+}
+
+.trait-total {
+  display: grid;
+  place-items: center;
+  min-width: 4.2rem;
+  min-height: 4.2rem;
+  border: 1px solid rgba(240, 201, 120, 0.34);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(240, 201, 120, 0.22), rgba(8, 11, 11, 0.7)),
+    rgba(8, 11, 11, 0.58);
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.trait-groups {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.trait-group {
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.42);
+  padding: 0.85rem;
+}
+
+.trait-group h3 {
+  margin: 0 0 0.7rem;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.trait-group div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.trait-group span {
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.06);
+  color: var(--text);
+  padding: 0.3rem 0.52rem;
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
 @media (max-width: 1320px) {
   .atlas-title h1 {
     font-size: 3.9rem;
@@ -3273,6 +3360,10 @@ code {
 
   .cladogram-trunk {
     grid-template-columns: repeat(19, minmax(132px, 160px));
+  }
+
+  .trait-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -3574,7 +3665,21 @@ code {
     padding: 1rem;
   }
 
+  .trait-accumulator-heading {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .trait-total {
+    width: 4.2rem;
+  }
+
   .cladogram-body {
+    padding: 0.8rem;
+  }
+
+  .trait-groups {
+    grid-template-columns: 1fr;
     padding: 0.8rem;
   }
 

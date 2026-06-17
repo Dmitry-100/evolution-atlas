@@ -14,7 +14,9 @@ import { EraNavigation } from "../components/atlas/EraNavigation";
 import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
 import { CladogramPanel } from "../components/atlas/CladogramPanel";
+import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
 import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
+import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
 import { buildCladogram } from "../lib/cladogram";
 
 const LIFE_ORIGIN_MA = 4000;
@@ -49,6 +51,7 @@ export function AtlasPage() {
   const cladogram = useMemo(() => buildCladogram(sortedStages), []);
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
   const activeStage = visibleStages.find((stage) => stage.id === urlState.stageId) ?? getDefaultAtlasStage(visibleStages);
+  const accumulatedTraitGroups = useMemo(() => getAccumulatedTraitGroups(sortedStages, activeStage), [activeStage]);
   const activeIndex = getStageIndex(visibleStages, activeStage.id);
   const canStepPrevious = activeIndex > 0;
   const canStepNext = activeIndex < visibleStages.length - 1;
@@ -194,6 +197,8 @@ export function AtlasPage() {
         </section>
 
         <CladogramPanel tree={cladogram} activeStage={activeStage} onActivate={activateStage} />
+
+        <TraitAccumulator groups={accumulatedTraitGroups} />
 
         <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
           {wowFacts.map(({ icon: Icon, label, value, text }) => (

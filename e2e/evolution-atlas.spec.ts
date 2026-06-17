@@ -124,6 +124,20 @@ test.describe("Evolution Atlas", () => {
     await expect(page).toHaveURL(/mode=all&stage=neanderthals/);
   });
 
+  test("trait accumulator grows as the route reaches Homo sapiens", async ({ page }) => {
+    await page.goto("/?mode=all&stage=chordates");
+    const accumulator = page.locator(".trait-accumulator");
+    await expect(page.getByRole("heading", { name: "К этому моменту вы уже унаследовали" })).toBeVisible();
+    const earlyCount = Number(await accumulator.getAttribute("data-trait-count"));
+
+    await page.goto("/?mode=all&stage=homo-sapiens");
+    await expect(page.getByRole("heading", { name: "Homo sapiens" })).toBeVisible();
+    const lateCount = Number(await accumulator.getAttribute("data-trait-count"));
+
+    expect(lateCount).toBeGreaterThan(earlyCount);
+    await expect(accumulator.getByText("язык")).toBeVisible();
+  });
+
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();
