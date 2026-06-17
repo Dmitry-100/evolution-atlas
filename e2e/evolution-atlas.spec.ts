@@ -144,7 +144,7 @@ test.describe("Evolution Atlas", () => {
   test("trait accumulator grows as the route reaches Homo sapiens", async ({ page }) => {
     await page.goto("/?mode=all&stage=chordates");
     const accumulator = page.locator(".trait-accumulator");
-    await expect(page.getByRole("heading", { name: "К этому моменту вы уже унаследовали" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Унаследованные признаки" })).toBeVisible();
     const earlyCount = Number(await accumulator.getAttribute("data-trait-count"));
 
     await page.goto("/?mode=all&stage=homo-sapiens");
@@ -152,7 +152,14 @@ test.describe("Evolution Atlas", () => {
     const lateCount = Number(await accumulator.getAttribute("data-trait-count"));
 
     expect(lateCount).toBeGreaterThan(earlyCount);
-    await expect(accumulator.getByText("язык")).toBeVisible();
+    await expect(accumulator.locator(".trait-compact-body")).toBeVisible();
+    await expect(accumulator.locator(".trait-featured-chips")).toBeVisible();
+    await expect(accumulator.locator(".trait-group-details")).toHaveCount(5);
+    await expect(accumulator.locator(".trait-group-details[open]")).toHaveCount(0);
+
+    const brainGroup = accumulator.locator(".trait-group-details", { hasText: "Мозг и социальность" });
+    await brainGroup.locator("summary").click();
+    await expect(brainGroup.getByText("язык")).toBeVisible();
   });
 
   test("glossary tooltips explain evolutionary terms", async ({ page }) => {

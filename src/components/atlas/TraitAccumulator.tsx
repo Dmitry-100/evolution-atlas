@@ -1,12 +1,16 @@
-import { Layers3 } from "lucide-react";
+import { ChevronDown, Layers3 } from "lucide-react";
 import type { AccumulatedTraitGroup } from "../../lib/accumulatedTraits";
 
 type TraitAccumulatorProps = {
   groups: AccumulatedTraitGroup[];
 };
 
+const FEATURED_TRAIT_COUNT = 8;
+const GROUP_PREVIEW_COUNT = 3;
+
 export function TraitAccumulator({ groups }: TraitAccumulatorProps) {
   const traitCount = groups.reduce((sum, group) => sum + group.traits.length, 0);
+  const featuredTraits = groups.flatMap((group) => group.traits).slice(-FEATURED_TRAIT_COUNT);
 
   return (
     <section className="trait-accumulator" data-trait-count={traitCount} aria-labelledby="trait-accumulator-heading">
@@ -14,26 +18,55 @@ export function TraitAccumulator({ groups }: TraitAccumulatorProps) {
         <Layers3 aria-hidden="true" size={23} />
         <div>
           <p className="eyebrow">Накопитель признаков</p>
-          <h2 id="trait-accumulator-heading">К этому моменту вы уже унаследовали</h2>
-          <p>
-            Двигайтесь по шкале: список растет, потому что новые признаки не заменяют старые, а надстраиваются поверх
-            древнего клеточного, телесного и поведенческого наследия.
-          </p>
+          <h2 id="trait-accumulator-heading">Унаследованные признаки</h2>
+          <p>Новые признаки не заменяют старые, а надстраиваются поверх древнего наследия.</p>
         </div>
-        <strong className="trait-total">{traitCount}</strong>
+        <strong className="trait-total">
+          <span>{traitCount}</span>
+          <small>признаков</small>
+        </strong>
       </div>
 
-      <div className="trait-groups">
-        {groups.map((group) => (
-          <article key={group.id} className="trait-group">
-            <h3>{group.titleRu}</h3>
-            <div>
-              {group.traits.map((trait) => (
-                <span key={trait}>{trait}</span>
-              ))}
-            </div>
-          </article>
-        ))}
+      <div className="trait-compact-body">
+        <div className="trait-featured">
+          <span>Ключевые сейчас</span>
+          <div className="trait-featured-chips">
+            {featuredTraits.map((trait) => (
+              <span key={trait}>{trait}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="trait-groups" aria-label="Группы унаследованных признаков">
+          {groups.map((group) => {
+            const previewTraits = group.traits.slice(0, GROUP_PREVIEW_COUNT);
+            const hiddenCount = Math.max(0, group.traits.length - previewTraits.length);
+
+            return (
+              <details key={group.id} className="trait-group-details">
+                <summary>
+                  <span className="trait-group-title">
+                    <strong>{group.titleRu}</strong>
+                    <small>{group.traits.length} признаков</small>
+                  </span>
+                  <span className="trait-group-preview" aria-hidden="true">
+                    {previewTraits.map((trait) => (
+                      <span key={trait}>{trait}</span>
+                    ))}
+                    {hiddenCount > 0 ? <em>+{hiddenCount}</em> : null}
+                  </span>
+                  <ChevronDown aria-hidden="true" size={17} />
+                </summary>
+
+                <div className="trait-detail-chips">
+                  {group.traits.map((trait) => (
+                    <span key={trait}>{trait}</span>
+                  ))}
+                </div>
+              </details>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

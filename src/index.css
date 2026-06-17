@@ -3392,57 +3392,148 @@ code {
 
 .trait-total {
   display: grid;
+  gap: 0.08rem;
   place-items: center;
-  min-width: 4.2rem;
-  min-height: 4.2rem;
+  min-width: 5.6rem;
   border: 1px solid rgba(240, 201, 120, 0.34);
-  border-radius: 50%;
+  border-radius: 999px;
   background:
-    radial-gradient(circle, rgba(240, 201, 120, 0.22), rgba(8, 11, 11, 0.7)),
+    radial-gradient(circle at 50% 0%, rgba(240, 201, 120, 0.22), rgba(8, 11, 11, 0.7)),
     rgba(8, 11, 11, 0.58);
+  padding: 0.48rem 0.86rem;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 2rem;
   line-height: 1;
 }
 
-.trait-groups {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.7rem;
-  padding: 1rem;
+.trait-total span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.65rem;
 }
 
-.trait-group {
-  border: 1px solid rgba(218, 185, 126, 0.13);
-  border-radius: var(--radius);
-  background: rgba(8, 11, 11, 0.42);
-  padding: 0.85rem;
-}
-
-.trait-group h3 {
-  margin: 0 0 0.7rem;
-  color: var(--gold);
-  font-size: 0.78rem;
+.trait-total small {
+  color: var(--muted);
+  font-size: 0.62rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.trait-group div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.42rem;
+.trait-compact-body {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 0.85rem;
+  padding: 0.9rem 1rem 1rem;
 }
 
-.trait-group span {
+.trait-featured,
+.trait-group-details {
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.42);
+}
+
+.trait-featured {
+  align-self: start;
+  padding: 0.85rem;
+}
+
+.trait-featured > span,
+.trait-group-title small {
+  display: block;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.trait-featured-chips,
+.trait-group-preview,
+.trait-detail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.trait-featured-chips {
+  margin-top: 0.7rem;
+}
+
+.trait-featured-chips span,
+.trait-group-preview span,
+.trait-group-preview em,
+.trait-detail-chips span {
   border: 1px solid rgba(218, 185, 126, 0.15);
   border-radius: 999px;
   background: rgba(240, 201, 120, 0.06);
   color: var(--text);
-  padding: 0.3rem 0.52rem;
-  font-size: 0.78rem;
-  line-height: 1.2;
+  padding: 0.28rem 0.5rem;
+  font-size: 0.76rem;
+  font-style: normal;
+  line-height: 1.18;
+}
+
+.trait-group-preview em {
+  color: var(--gold);
+  font-weight: 900;
+}
+
+.trait-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  padding: 0;
+}
+
+.trait-group-details {
+  overflow: clip;
+}
+
+.trait-group-details summary {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr) auto;
+  gap: 0.65rem;
+  align-items: center;
+  min-height: 70px;
+  cursor: pointer;
+  list-style: none;
+  padding: 0.72rem;
+}
+
+.trait-group-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.trait-group-details summary svg {
+  color: var(--gold);
+  transition: transform 160ms ease;
+}
+
+.trait-group-details[open] summary {
+  border-bottom: 1px solid rgba(218, 185, 126, 0.12);
+}
+
+.trait-group-details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.trait-group-title {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.trait-group-title strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  line-height: 1.08;
+}
+
+.trait-detail-chips {
+  max-height: 10.5rem;
+  overflow: auto;
+  padding: 0.75rem;
 }
 
 .quiz-panel {
@@ -3840,8 +3931,13 @@ code {
     padding-bottom: 0.45rem;
   }
 
+  .trait-compact-body,
   .trait-groups {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trait-compact-body {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -4181,12 +4277,37 @@ code {
   }
 
   .trait-accumulator-heading {
-    grid-template-columns: 1fr;
-    padding: 1rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.65rem;
+    padding: 0.85rem;
+  }
+
+  .trait-accumulator-heading svg {
+    margin-top: 0.25rem;
+  }
+
+  .trait-accumulator-heading h2 {
+    margin-bottom: 0;
+    font-size: 1.55rem;
+    line-height: 1.05;
+  }
+
+  .trait-accumulator-heading p:not(.eyebrow) {
+    display: none;
   }
 
   .trait-total {
-    width: 4.2rem;
+    justify-self: start;
+    min-width: 4.6rem;
+    padding: 0.42rem 0.72rem;
+  }
+
+  .trait-total span {
+    font-size: 1.35rem;
+  }
+
+  .trait-total small {
+    font-size: 0.56rem;
   }
 
   .quiz-heading {
@@ -4205,7 +4326,35 @@ code {
 
   .trait-groups {
     grid-template-columns: 1fr;
-    padding: 0.8rem;
+  }
+
+  .trait-compact-body {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    padding: 0.65rem;
+  }
+
+  .trait-featured {
+    padding: 0.72rem;
+  }
+
+  .trait-featured-chips span:nth-child(n + 5) {
+    display: none;
+  }
+
+  .trait-group-details summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: auto;
+    padding: 0.68rem 0.72rem;
+  }
+
+  .trait-group-preview {
+    display: none;
+  }
+
+  .trait-detail-chips {
+    max-height: 9rem;
+    padding: 0.65rem;
   }
 
   .quiz-body,
