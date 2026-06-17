@@ -18,6 +18,13 @@ type DeepTimeAxisProps = {
 
 const ORIGIN_MA = 4000;
 const PRIMATES_MA = 65;
+const extinctionLabels: Record<string, string> = {
+  "ordovician-silurian": "Ордовик",
+  "late-devonian": "Девон",
+  "permian-triassic": "Пермь",
+  "triassic-jurassic": "Триас",
+  "cretaceous-paleogene": "K-Pg",
+};
 
 function linearPosition(ageMa: number) {
   return Math.max(0, Math.min(1, 1 - ageMa / ORIGIN_MA));
@@ -151,19 +158,28 @@ export function DeepTimeAxis({
         ))}
 
         <div className="extinction-markers" aria-label="Глобальные вымирания">
-          {extinctions.map((event) => {
+          {extinctions.map((event, index) => {
             const position = linearPosition(event.ageMa) * 100;
+            const offset = (index - (extinctions.length - 1) / 2) * 66;
             return (
               <a
                 key={event.id}
                 className="extinction-marker"
-                style={{ left: `${position}%`, "--extinction-color": event.color } as CSSProperties}
+                style={
+                  {
+                    left: `${position}%`,
+                    "--extinction-color": event.color,
+                    "--marker-offset": `${offset}px`,
+                    "--marker-y": `${22 + (index % 2) * 72}px`,
+                  } as CSSProperties
+                }
                 href="/extinctions"
                 aria-label={`${event.titleRu} вымирание, ${event.windowRu}`}
                 title={`${event.titleRu}: ${event.windowRu}`}
               >
-                <span />
-                <strong>{event.titleRu}</strong>
+                <span aria-hidden="true" />
+                <strong>{extinctionLabels[event.id] ?? event.titleRu}</strong>
+                <small>{formatAgeRu(event.ageMa)}</small>
               </a>
             );
           })}

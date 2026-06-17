@@ -51,20 +51,20 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "The choanoflagellate Salpingoeca rosetta . (a) Bright field image (5 μm scale) and (b) schematics of ‘slow-swimmer’ single cell, base angle θ, and rosette colony."
   },
   "ediacaran": {
-    "src": "/assets/images/source-backed/ediacaran.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dickinsonia_fossil_and_restoration.jpg",
-    "credit": "Ghedoghedo / Wikimedia Commons",
-    "license": "CC BY-SA 4.0",
-    "commonsTitle": "File:Dickinsonia fossil and restoration.jpg",
-    "description": "Fossil and restoration of Dickinsonia- Took the picture at Museum am Lowentor, Stuttgard"
+    "src": "/assets/images/source-backed/ediacaran-diorama-nmnh.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ediacaran_ecosystem_diorama_NMNH.jpg",
+    "credit": "Smithsonian National Museum of Natural History / Wikimedia Commons",
+    "license": "см. исходный источник",
+    "commonsTitle": "File:Ediacaran ecosystem diorama NMNH.jpg",
+    "description": "Museum diorama of an Ediacaran ecosystem."
   },
   "bilaterians": {
-    "src": "/assets/images/source-backed/bilaterians.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kimberella_quadrata_001A.jpg",
-    "credit": "Masahiro miyasaka / Wikimedia Commons",
-    "license": "CC BY-SA 4.0",
-    "commonsTitle": "File:Kimberella quadrata 001A.jpg",
-    "description": "Kimberella quadrata Fossil"
+    "src": "/assets/images/source-backed/kimberella-life.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kimberella.jpg",
+    "credit": "Wikimedia Commons",
+    "license": "см. исходный источник",
+    "commonsTitle": "File:Kimberella.jpg",
+    "description": "Life reconstruction of Kimberella, an early bilaterian-like animal."
   },
   "early-chordates": {
     "src": "/assets/images/source-backed/early-chordates.png",
@@ -107,12 +107,12 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Life restoration of Tiktaalik roseae , a transitional fossil (\"missing link\") between sarcopterygian fishes and tetrapods from the late Devonian period of North America. New research has provided the first detailed look at the internal head skeleton of Tiktaalik roseae , the 375-million-year-old fossil animal that represents an important intermediate step in the evolutionary transition from fish to animals that walked on land. This is an artist's conception of the species. The image has frequently been used in Internet meme templates. [1]"
   },
   "early-tetrapods": {
-    "src": "/assets/images/source-backed/ichthyostega.png",
+    "src": "/assets/images/source-backed/early-tetrapods.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ichthyostega_stensioei.png",
-    "credit": "Wikimedia Commons",
+    "credit": "Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Ichthyostega stensioei.png",
-    "description": "Life reconstruction of Ichthyostega, an early tetrapod."
+    "description": "Life reconstruction of Ichthyostega, an early tetrapod, placed on a local museum-style background."
   },
   "amniotes": {
     "src": "/assets/images/source-backed/amniotes.jpg",
@@ -123,12 +123,12 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Hylonomus lyelli"
   },
   "hylonomus-muse": {
-    "src": "/assets/images/source-backed/hylonomus-muse-cutout.png",
+    "src": "/assets/images/source-backed/hylonomus-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hylonomus_lyelli_-_MUSE.jpg",
-    "credit": "MUSE - Museo delle Scienze / Wikimedia Commons",
+    "credit": "MUSE - Museo delle Scienze / Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Hylonomus lyelli - MUSE.jpg",
-    "description": "Life reconstruction of Hylonomus, an early amniote."
+    "description": "Life reconstruction of Hylonomus, an early amniote, placed on a local museum-style background."
   },
   "synapsids": {
     "src": "/assets/images/source-backed/dimetrodon-life.jpg",
@@ -139,28 +139,28 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Life restoration of Dimetrodon, an early synapsid."
   },
   "therapsids": {
-    "src": "/assets/images/source-backed/lycaenops-life-cutout.png",
+    "src": "/assets/images/source-backed/lycaenops-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lycaenops_life_restoration.jpg",
-    "credit": "Wikimedia Commons",
+    "credit": "Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Lycaenops life restoration.jpg",
-    "description": "Life restoration of Lycaenops, a predatory therapsid."
+    "description": "Life restoration of Lycaenops, a predatory therapsid, placed on a local museum-style background."
   },
   "cynodonts": {
-    "src": "/assets/images/source-backed/thrinaxodon-life-cutout.png",
+    "src": "/assets/images/source-backed/thrinaxodon-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Thrinaxodon_BW.jpg",
-    "credit": "Nobu Tamura / Wikimedia Commons",
+    "credit": "Nobu Tamura / Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Thrinaxodon BW.jpg",
-    "description": "Life restoration of Thrinaxodon, a cynodont close to the mammal line."
+    "description": "Life restoration of Thrinaxodon, a cynodont close to the mammal line, placed on a local museum-style background."
   },
   "early-mammals": {
-    "src": "/assets/images/source-backed/early-mammals-cutout.png",
+    "src": "/assets/images/source-backed/morganucodon-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Morganucodon.jpg",
-    "credit": "FunkMonk / Wikimedia Commons",
+    "credit": "FunkMonk / Wikimedia Commons / локальная музейная обработка",
     "license": "CC BY-SA 3.0",
     "commonsTitle": "File:Morganucodon.jpg",
-    "description": "Life restoration of Morganucodon oehleri based on skeletal diagrams."
+    "description": "Life restoration of Morganucodon oehleri based on skeletal diagrams, placed on a local museum-style background."
   },
   "placentals": {
     "src": "/assets/images/source-backed/placentals.jpg",
@@ -171,12 +171,12 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Fossil of Eomaia, an extinct mammal- Took the photo at Musee d'Histoire Naturelle, Paris"
   },
   "eomaia-nt": {
-    "src": "/assets/images/source-backed/eomaia-nt-cutout.png",
+    "src": "/assets/images/source-backed/eomaia-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eomaia_NT.jpg",
-    "credit": "Nobu Tamura / Wikimedia Commons",
+    "credit": "Nobu Tamura / Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Eomaia NT.jpg",
-    "description": "Life restoration of Eomaia, an early eutherian mammal."
+    "description": "Life restoration of Eomaia, an early eutherian mammal, placed on a local museum-style background."
   },
   "after-kpg": {
     "src": "/assets/images/source-backed/after-kpg.jpg",
@@ -187,20 +187,20 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Purgatorius , from the Late Paleocene of North America, believed to be the earliest primate. Fossil ankles show that Purgatorius lived in trees."
   },
   "purgatorius-bw": {
-    "src": "/assets/images/source-backed/purgatorius-bw-cutout.png",
+    "src": "/assets/images/source-backed/purgatorius-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Purgatorius_BW.jpg",
-    "credit": "Nobu Tamura / Wikimedia Commons",
+    "credit": "Nobu Tamura / Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Purgatorius BW.jpg",
-    "description": "Life restoration of Purgatorius, an early primate relative."
+    "description": "Life restoration of Purgatorius, an early primate relative, placed on a local museum-style background."
   },
   "early-primates": {
-    "src": "/assets/images/source-backed/plesiadapis-life-cutout.png",
+    "src": "/assets/images/source-backed/plesiadapis-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Plesiadapis_NT.jpg",
-    "credit": "Nobu Tamura / Wikimedia Commons",
+    "credit": "Nobu Tamura / Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Plesiadapis NT.jpg",
-    "description": "Life restoration of Plesiadapis."
+    "description": "Life restoration of Plesiadapis, placed on a local museum-style background."
   },
   "anthropoids": {
     "src": "/assets/images/source-backed/oligocene-primates-scene.jpg",
@@ -211,20 +211,20 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Cropped habitat and life reconstruction scene from an Oligocene primates panel."
   },
   "new-world-monkeys": {
-    "src": "/assets/images/source-backed/new-world-monkeys.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:White-headed_Capuchin_(Cebus_capucinus)_(28175852037).jpg",
-    "credit": "gailhampshire from Cradley, Malvern, U.K / Wikimedia Commons",
-    "license": "CC BY 2.0",
-    "commonsTitle": "File:White-headed Capuchin (Cebus capucinus) (28175852037).jpg",
-    "description": "Soberania Forest, Canal zone, Panama City"
+    "src": "/assets/images/source-backed/capuchin-branch.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:White-faced_Capuchin_Monkey_(49549848091).jpg",
+    "credit": "Wikimedia Commons",
+    "license": "см. исходный источник",
+    "commonsTitle": "File:White-faced Capuchin Monkey (49549848091).jpg",
+    "description": "Portrait of a white-faced capuchin monkey, used as a clear modern example of a New World monkey branch."
   },
   "old-world-monkeys": {
-    "src": "/assets/images/source-backed/old-world-monkeys.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Macaca_nigra_self-portrait_(rotated_and_cropped).jpg",
-    "credit": "Self-portrait by the depicted Macaca nigra female; rotated and cropped by David Slater. See article . / Wikimedia Commons",
-    "license": "Public domain",
-    "commonsTitle": "File:Macaca nigra self-portrait (rotated and cropped).jpg",
-    "description": "Portrait of a female Macaca nigra (Celebes crested macaque) in North Sulawesi, Indonesia , who triggered photographer David Slater's camera ."
+    "src": "/assets/images/source-backed/douc-langur-head.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pygathrix_Nemaeus_head.JPG",
+    "credit": "Wikimedia Commons",
+    "license": "см. исходный источник",
+    "commonsTitle": "File:Pygathrix Nemaeus head.JPG",
+    "description": "Portrait of a douc langur, used as a clear modern example of an Old World monkey branch."
   },
   "catarrhine-figure": {
     "src": "/assets/images/source-backed/oligocene-primate-figure.jpg",
@@ -235,12 +235,12 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Cropped early catarrhine-like primate figure from an Oligocene primates panel."
   },
   "aegyptopithecus-nt": {
-    "src": "/assets/images/source-backed/aegyptopithecus-nt-cutout.png",
+    "src": "/assets/images/source-backed/aegyptopithecus-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aegyptopithecus_NT.jpg",
-    "credit": "Nobu Tamura / Wikimedia Commons",
+    "credit": "Nobu Tamura / Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Aegyptopithecus NT.jpg",
-    "description": "Life restoration of Aegyptopithecus, an Oligocene anthropoid primate."
+    "description": "Life restoration of Aegyptopithecus, an Oligocene anthropoid primate, placed on a local museum-style background."
   },
   "early-apes": {
     "src": "/assets/images/source-backed/proconsul-figure.jpg",
@@ -251,20 +251,20 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Cropped Proconsul reconstruction from an ape evolution panel."
   },
   "proconsul-nt": {
-    "src": "/assets/images/source-backed/proconsul-nt-cutout.png",
+    "src": "/assets/images/source-backed/proconsul-museum.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Proconsul_NT.jpg",
-    "credit": "Nobu Tamura / Wikimedia Commons",
+    "credit": "Nobu Tamura / Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Proconsul NT.jpg",
-    "description": "Life restoration of Proconsul, an early ape."
+    "description": "Life restoration of Proconsul, an early ape, placed on a local museum-style background."
   },
   "great-apes": {
-    "src": "/assets/images/source-backed/great-apes.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jos_Schippers_-_Portrait_of_a_chimpanzee.jpg",
-    "credit": "Jos Schippers / Wikimedia Commons",
-    "license": "Public domain",
-    "commonsTitle": "File:Jos Schippers - Portrait of a chimpanzee.jpg",
-    "description": "Jos Schippers - Portrait of a chimpanzee.jpg"
+    "src": "/assets/images/source-backed/chimpanzees-branch.jpg",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:2006-12-09_Chipanzees_D_Bruyere.JPG",
+    "credit": "D. Bruyere / Wikimedia Commons",
+    "license": "см. исходный источник",
+    "commonsTitle": "File:2006-12-09 Chipanzees D Bruyere.JPG",
+    "description": "Chimpanzees used as a clear modern example of the great ape family branch."
   },
   "early-hominins": {
     "src": "/assets/images/source-backed/early-hominins.jpg",
@@ -327,20 +327,20 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Forensic facial reconstruction of Homo habilis."
   },
   "homo-erectus": {
-    "src": "/assets/images/source-backed/homo-erectus-reconstruction.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Homo_erectus_reconstruction,_Natural_History_Museum,_London.jpg",
-    "credit": "Wikimedia Commons",
+    "src": "/assets/images/source-backed/smithsonian-homo-erectus.jpg",
+    "sourceUrl": "https://humanorigins.si.edu/multimedia/slideshows/reconstructed-faces",
+    "credit": "Smithsonian Human Origins Program / reconstruction by John Gurche",
     "license": "см. исходный источник",
-    "commonsTitle": "File:Homo erectus reconstruction, Natural History Museum, London.jpg",
-    "description": "Museum reconstruction of Homo erectus."
+    "commonsTitle": "Smithsonian reconstructed faces: Homo erectus",
+    "description": "Museum facial reconstruction of Homo erectus."
   },
   "heidelbergensis": {
-    "src": "/assets/images/source-backed/heidelbergensis.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Homo_heidelbergensis_(43665477172).jpg",
-    "credit": "Thomas Quine / Wikimedia Commons",
-    "license": "CC BY 2.0",
-    "commonsTitle": "File:Homo heidelbergensis (43665477172).jpg",
-    "description": "Redpath Museum, McGill University, Montreal, Québec, Canada, 2017"
+    "src": "/assets/images/source-backed/smithsonian-heidelbergensis.jpg",
+    "sourceUrl": "https://humanorigins.si.edu/multimedia/slideshows/reconstructed-faces",
+    "credit": "Smithsonian Human Origins Program / reconstruction by John Gurche",
+    "license": "см. исходный источник",
+    "commonsTitle": "Smithsonian reconstructed faces: Homo heidelbergensis",
+    "description": "Museum facial reconstruction of Homo heidelbergensis."
   },
   "generated-heidelbergensis": {
     "src": "/assets/images/source-backed/generated-heidelbergensis.png",
@@ -353,12 +353,12 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "promptId": "homo-heidelbergensis-paleoart-2026-06-17"
   },
   "neanderthals": {
-    "src": "/assets/images/source-backed/neanderthals.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neanderthal_skull_from_Forbes%27_Quarry.jpg",
-    "credit": "AquilaGib / Wikimedia Commons",
-    "license": "CC BY-SA 3.0",
-    "commonsTitle": "File:Neanderthal skull from Forbes' Quarry.jpg",
-    "description": "Neanderthal skull from Forbes' Quarry, Gibraltar. Discovered 1848"
+    "src": "/assets/images/source-backed/smithsonian-neanderthal.jpg",
+    "sourceUrl": "https://humanorigins.si.edu/multimedia/slideshows/reconstructed-faces",
+    "credit": "Smithsonian Human Origins Program / reconstruction by John Gurche",
+    "license": "см. исходный источник",
+    "commonsTitle": "Smithsonian reconstructed faces: Homo neanderthalensis",
+    "description": "Museum facial reconstruction of Homo neanderthalensis."
   },
   "generated-neanderthal": {
     "src": "/assets/images/source-backed/generated-neanderthal.png",
@@ -379,11 +379,11 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Homo sapiens skull cast (Jebel Irhoud-1) on display at the Smithsonian's National Museum of Natural History."
   },
   "sapiens-paleolithic-muse": {
-    "src": "/assets/images/source-backed/sapiens-paleolithic-muse.jpg",
+    "src": "/assets/images/source-backed/sapiens-museum-dark.jpg",
     "sourceUrl": "https://commons.wikimedia.org/wiki/File:Homo_sapiens_-_Paleolithic_-_reconstruction_-_MUSE.jpg",
-    "credit": "MUSE - Museo delle Scienze / Wikimedia Commons",
+    "credit": "MUSE - Museo delle Scienze / Wikimedia Commons / локальная музейная обработка",
     "license": "см. исходный источник",
     "commonsTitle": "File:Homo sapiens - Paleolithic - reconstruction - MUSE.jpg",
-    "description": "Paleolithic Homo sapiens reconstruction."
+    "description": "Paleolithic Homo sapiens reconstruction, placed on a local museum-style background."
   }
 };

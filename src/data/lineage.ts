@@ -572,7 +572,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Вероятный общий фон для нескольких поздних человеческих линий, связанных с охотой, заботой и крупной добычей.",
     whyMattersRu: "Поздняя часть шкалы показывает уже не обезьян, а несколько человеческих ветвей, существовавших рядом.",
     inherited: ["коллективная охота", "забота о слабых", "крупная добыча"],
-    image: plate("generated-heidelbergensis", "AI-реконструкция Homo heidelbergensis", "generated-reconstruction"),
+    image: plate("heidelbergensis", "Музейная лицевая реконструкция Homo heidelbergensis"),
     sources: [wiki("Homo heidelbergensis", "Homo_heidelbergensis"), wiki("Kabwe 1", "Kabwe_1")],
   },
   {
@@ -587,7 +587,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Близкая родственная линия людей, с которой Homo sapiens частично смешивался в Евразии.",
     whyMattersRu: "Неандертальцы были не 'полуобезьяной', а близкими людьми; часть их наследия есть у многих современных людей.",
     inherited: ["близкое родство", "генетическое наследие", "культурное поведение"],
-    image: plate("generated-neanderthal", "AI-реконструкция Homo neanderthalensis в плейстоценовой среде", "generated-reconstruction"),
+    image: plate("neanderthals", "Музейная лицевая реконструкция Homo neanderthalensis"),
     sources: [wiki("Neanderthal", "Neanderthal"), wiki("Human evolution", "Human_evolution")],
   },
   {

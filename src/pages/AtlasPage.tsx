@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Compass, History, Search, Star, Waves } from "lucide-react";
+import { ArrowRight, BookOpen, Clock3, Compass, Dna, History, Search, Sparkles, Star, Waves } from "lucide-react";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
@@ -15,6 +15,23 @@ import { StageDetailCard } from "../components/atlas/StageDetailCard";
 type AtlasMode = "all" | "primates";
 
 const DEFAULT_STAGE_ID = "early-primates";
+const LIFE_ORIGIN_MA = 4000;
+const PRIMATES_MA = 65;
+
+function percentRu(value: number, maximumFractionDigits = 2) {
+  return value.toLocaleString("ru-RU", { maximumFractionDigits });
+}
+
+function elapsedShare(ageMa: number) {
+  return Math.max(0, Math.min(1, (LIFE_ORIGIN_MA - ageMa) / LIFE_ORIGIN_MA));
+}
+
+function shareToClock(share: number) {
+  const totalMinutes = Math.round(share * 24 * 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+}
 
 function getInitialStage() {
   return sortedStages.find((stage) => stage.id === DEFAULT_STAGE_ID) ?? sortedStages[0];
@@ -35,6 +52,33 @@ export function AtlasPage() {
   const activeIndex = getStageIndex(visibleStages, activeStage.id);
   const canStepPrevious = activeIndex > 0;
   const canStepNext = activeIndex < visibleStages.length - 1;
+  const activeElapsedShare = elapsedShare(activeStage.ageMa);
+  const wowFacts = [
+    {
+      icon: Clock3,
+      label: "До приматов",
+      value: `${percentRu(elapsedShare(PRIMATES_MA) * 100, 1)}%`,
+      text: "истории жизни уже прошло, прежде чем появились ранние приматы.",
+    },
+    {
+      icon: Dna,
+      label: "Млекопитающие",
+      value: "95%",
+      text: "пути уже было позади к моменту появления первых млекопитающих.",
+    },
+    {
+      icon: Sparkles,
+      label: "24 часа жизни",
+      value: shareToClock(elapsedShare(PRIMATES_MA)),
+      text: "примерное время появления приматов, если всю историю жизни сжать в один день.",
+    },
+    {
+      icon: Star,
+      label: "Выбранная точка",
+      value: `${percentRu(activeElapsedShare * 100)}%`,
+      text: `истории жизни прошло к этапу “${activeStage.titleRu}”.`,
+    },
+  ];
 
   function activateStage(stage: EvolutionStage) {
     setActiveStageId(stage.id);
@@ -141,15 +185,28 @@ export function AtlasPage() {
           <StageDetailCard stage={activeStage} />
         </section>
 
-        <section className="takeaway-band">
+        <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
+          {wowFacts.map(({ icon: Icon, label, value, text }) => (
+            <article key={label}>
+              <Icon aria-hidden="true" size={21} />
+              <span>{label}</span>
+              <strong>{value}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </section>
+
+        <section className="theory-bridge-band atlas-note-band">
           <div>
-            <Star aria-hidden="true" size={20} />
-            <strong>Главная мысль</strong>
+            <Star aria-hidden="true" size={22} />
+            <div>
+              <strong>Главная мысль</strong>
+              <p>
+                Эволюция не лестница к человеку, а ветвящееся дерево. На шкале показаны не “ступеньки прогресса”, а
+                ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
+              </p>
+            </div>
           </div>
-          <p>
-            Эволюция не лестница к человеку, а ветвящееся дерево. На шкале показаны не “ступеньки прогресса”, а
-            ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
-          </p>
         </section>
 
         <section className="theory-bridge-band">
