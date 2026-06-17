@@ -16,6 +16,7 @@ import { StageDetailCard } from "../components/atlas/StageDetailCard";
 import { CladogramPanel } from "../components/atlas/CladogramPanel";
 import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
 import { DeepTimeCalendarPanel } from "../components/atlas/DeepTimeCalendarPanel";
+import { QuizPanel } from "../components/atlas/QuizPanel";
 import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
 import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
 import { buildCladogram } from "../lib/cladogram";
@@ -202,6 +203,8 @@ export function AtlasPage() {
         <TraitAccumulator groups={accumulatedTraitGroups} />
 
         <DeepTimeCalendarPanel activeStage={activeStage} />
+
+        <QuizPanel />
 
         <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
           {wowFacts.map(({ icon: Icon, label, value, text }) => (

@@ -586,6 +586,7 @@ code {
 .cladogram-panel,
 .trait-accumulator,
 .life-year-calendar,
+.quiz-panel,
 .document-page,
 .source-card,
 .material-card,
@@ -2260,6 +2261,7 @@ code {
 .cladogram-heading h2,
 .trait-accumulator-heading h2,
 .life-year-heading h2,
+.quiz-heading h2,
 .dinosaur-section-heading h2,
 .dinosaur-detail-card h2,
 .dinosaurs-bridge strong {
@@ -2278,6 +2280,7 @@ code {
 .cladogram-heading p,
 .trait-accumulator-heading p,
 .life-year-heading p,
+.quiz-heading p,
 .dinosaur-section-heading p,
 .dinosaur-detail-card p,
 .dinosaurs-bridge p {
@@ -3389,6 +3392,135 @@ code {
     0 0 34px rgba(240, 201, 120, 0.38);
 }
 
+.quiz-panel {
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(240, 201, 120, 0.12), transparent 17rem),
+    radial-gradient(circle at 86% 16%, rgba(130, 183, 179, 0.1), transparent 18rem),
+    var(--panel);
+}
+
+.quiz-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  border-bottom: 1px solid var(--line);
+  padding: 1.15rem 1.2rem;
+}
+
+.quiz-heading svg {
+  margin-top: 0.35rem;
+  color: var(--gold);
+}
+
+.quiz-heading p:not(.eyebrow) {
+  max-width: 860px;
+  line-height: 1.62;
+}
+
+.quiz-body,
+.quiz-result {
+  padding: 1.15rem;
+}
+
+.quiz-progress {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.quiz-body h3 {
+  max-width: 850px;
+  margin: 0.45rem 0 1rem;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.quiz-option {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 70px;
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.48);
+  color: var(--text);
+  cursor: pointer;
+  padding: 0.85rem;
+  text-align: left;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.quiz-option:hover,
+.quiz-option.is-selected {
+  transform: translateY(-1px);
+  border-color: rgba(240, 201, 120, 0.45);
+  background: rgba(34, 30, 20, 0.72);
+}
+
+.quiz-option.is-correct {
+  border-color: rgba(145, 169, 106, 0.65);
+}
+
+.quiz-option.is-wrong {
+  border-color: rgba(196, 105, 89, 0.62);
+}
+
+.quiz-option svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.quiz-explanation {
+  margin-bottom: 1rem;
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.36);
+  padding: 0.85rem;
+}
+
+.quiz-explanation strong,
+.quiz-result strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+}
+
+.quiz-explanation p,
+.quiz-result p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+
+.quiz-result {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+
+.quiz-result svg {
+  color: var(--gold);
+}
+
 @media (max-width: 1320px) {
   .atlas-title h1 {
     font-size: 3.9rem;
@@ -3861,6 +3993,11 @@ code {
     padding: 1rem;
   }
 
+  .quiz-heading {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
   .cladogram-body {
     padding: 0.8rem;
   }
@@ -3885,6 +4022,15 @@ code {
   .life-year-marker {
     width: 130px;
     font-size: 0.86rem;
+  }
+
+  .quiz-body,
+  .quiz-result {
+    padding: 0.9rem;
+  }
+
+  .quiz-options {
+    grid-template-columns: 1fr;
   }
 
   .cladogram-trunk {

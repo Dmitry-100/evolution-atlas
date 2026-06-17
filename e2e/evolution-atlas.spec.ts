@@ -157,6 +157,19 @@ test.describe("Evolution Atlas", () => {
     await expect(calendar.locator(".life-year-marker.is-active").getByText(/31 декабря/)).toBeVisible();
   });
 
+  test("quiz runs through questions to a result", async ({ page }) => {
+    await page.goto("/");
+    const quiz = page.locator(".quiz-panel");
+
+    await expect(page.getByRole("heading", { name: "Проверь себя" })).toBeVisible();
+    for (let index = 0; index < 4; index += 1) {
+      await quiz.locator(".quiz-option").first().click();
+      await quiz.getByRole("button", { name: index === 3 ? "Показать результат" : "Следующий вопрос" }).click();
+    }
+
+    await expect(quiz.getByText(/Ваш результат/)).toBeVisible();
+  });
+
   test("theory route explains scientific theory and evidence", async ({ page }) => {
     await page.goto("/theory");
     await expect(page.getByRole("heading", { name: /Что значит.*теория/i })).toBeVisible();
