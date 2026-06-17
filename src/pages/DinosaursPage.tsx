@@ -32,7 +32,7 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
   return (
     <article className="dinosaur-detail-card" aria-live="polite">
       <figure className="dinosaur-detail-visual">
-        <img src={image.src} alt={image.altRu} loading="lazy" />
+        <img src={image.src} alt={image.altRu} loading="lazy" decoding="async" />
         <figcaption>
           {image.credit}
           <span>{image.kind === "local-plate" ? "локальная иллюстрация" : image.license}</span>

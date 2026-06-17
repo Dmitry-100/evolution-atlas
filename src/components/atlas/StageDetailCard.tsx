@@ -1,6 +1,8 @@
 import { ExternalLink, Fingerprint, Sparkles } from "lucide-react";
+import type { CSSProperties } from "react";
 import { getStageGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage } from "../../data/lineage";
+import { getImagePlaceholder } from "../../lib/imagePlaceholders";
 import { formatAgeRu } from "../../lib/timeline";
 import { ConstellationField } from "../ui/constellation-field";
 import { FloatingPaths } from "../ui/floating-paths";
@@ -14,11 +16,12 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
   const imageLabel =
     stage.image.kind === "generated-reconstruction" ? "AI-реконструкция" : "изображение из открытого источника";
   const glossaryTerm = getStageGlossaryTerm(stage.id);
+  const imagePlaceholder = getImagePlaceholder(stage.image.kind);
 
   return (
     <aside className="stage-panel" aria-label="Активный вид">
       <figure className="stage-plate">
-        <div className="stage-plate-media">
+        <div className="stage-plate-media" style={{ "--stage-placeholder": imagePlaceholder } as CSSProperties}>
           <div className="stage-plate-backdrop" aria-hidden="true">
             <FloatingPaths className="stage-plate-paths" density="panel" />
             <ConstellationField className="stage-plate-constellation" compact />
@@ -28,6 +31,8 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             className="stage-plate-main stage-plate-current"
             src={stage.image.src}
             alt={stage.image.altRu}
+            decoding="async"
+            fetchPriority="high"
           />
         </div>
         <figcaption>{imageLabel}</figcaption>

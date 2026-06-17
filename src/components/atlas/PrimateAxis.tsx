@@ -136,7 +136,7 @@ export function PrimateAxis({
                 onClick={() => onActivate(stage)}
               >
                 <span className="primate-node-image">
-                  <img src={stage.image.src} alt="" aria-hidden="true" />
+                  <img src={stage.image.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                 </span>
                 <span className="primate-node-copy">
                   <strong>{stage.titleRu}</strong>

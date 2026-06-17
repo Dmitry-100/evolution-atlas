@@ -135,6 +135,8 @@ export function DeepTimeAxis({
           src="/assets/images/timeline-river-specimens.png"
           alt=""
           aria-hidden="true"
+          loading="eager"
+          decoding="async"
         />
         <div className="pre-primate-field" style={{ width: `${primateStart}%` }}>
           <span>До приматов: примерно 3,94 млрд лет</span>
@@ -178,7 +180,7 @@ export function DeepTimeAxis({
                   </a>
                 </TooltipTrigger>
                 <TooltipContent className="tooltip-content extinction-tooltip">
-                  <img src={event.image.src} alt="" aria-hidden="true" />
+                    <img src={event.image.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                   <span>{event.windowRu}</span>
                   <strong>{event.titleRu}</strong>
                   <p>{event.lossPercentRu}: {event.snapshotRu}</p>

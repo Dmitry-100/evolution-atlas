@@ -42,7 +42,7 @@ export function ExtinctionsPage() {
             style={{ borderColor: event.color, "--extinction-color": event.color } as CSSProperties}
           >
             <figure className="extinction-visual">
-              <img src={event.image.src} alt={event.image.altRu} />
+              <img src={event.image.src} alt={event.image.altRu} loading="lazy" decoding="async" />
               <figcaption>{event.image.creditRu}</figcaption>
             </figure>
 

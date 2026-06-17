@@ -1799,14 +1799,16 @@ code {
 }
 
 .stage-plate-media {
+  --stage-placeholder:
+    radial-gradient(circle at 16% 18%, rgba(130, 183, 179, 0.28), transparent 13rem),
+    linear-gradient(135deg, rgba(130, 183, 179, 0.1), rgba(240, 201, 120, 0.06));
   position: relative;
   aspect-ratio: 1.22;
   overflow: hidden;
   isolation: isolate;
   background:
-    radial-gradient(circle at 16% 18%, rgba(130, 183, 179, 0.28), transparent 13rem),
+    var(--stage-placeholder),
     radial-gradient(circle at 82% 18%, rgba(240, 201, 120, 0.18), transparent 12rem),
-    linear-gradient(135deg, rgba(130, 183, 179, 0.1), rgba(240, 201, 120, 0.06)),
     #080b0b;
 }
 
