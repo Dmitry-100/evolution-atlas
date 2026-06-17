@@ -3144,29 +3144,102 @@ code {
 
 .cladogram-body {
   display: grid;
-  gap: 0.95rem;
-  padding: 1rem;
+  gap: 1rem;
+  padding: 1.05rem;
 }
 
-.cladogram-trunk {
+.cladogram-reader-guide {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.cladogram-reader-guide span {
+  display: flex;
+  gap: 0.48rem;
+  align-items: center;
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.42);
+  color: var(--text);
+  padding: 0.72rem 0.85rem;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.cladogram-reader-guide svg {
+  color: var(--gold);
+}
+
+.cladogram-map {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.cladogram-row {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.cladogram-trunk-cell {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(19, minmax(132px, 1fr));
-  gap: 0.55rem;
-  overflow-x: auto;
-  padding: 0.35rem 0.2rem 0.6rem;
 }
 
-.cladogram-trunk::before {
+.cladogram-row:not(:first-child) .cladogram-trunk-cell::before,
+.cladogram-row:not(:last-child) .cladogram-trunk-cell::after {
   position: absolute;
-  right: 1rem;
-  left: 1rem;
-  top: 2.42rem;
-  height: 4px;
+  left: 3.2rem;
+  z-index: 0;
+  width: 4px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(130, 183, 179, 0.7), rgba(240, 201, 120, 0.76), rgba(208, 163, 91, 0.7));
+  background: linear-gradient(180deg, rgba(130, 183, 179, 0.52), rgba(240, 201, 120, 0.68));
   content: "";
-  opacity: 0.74;
+}
+
+.cladogram-row:not(:first-child) .cladogram-trunk-cell::before {
+  top: -0.5rem;
+  height: 0.75rem;
+}
+
+.cladogram-row:not(:last-child) .cladogram-trunk-cell::after {
+  bottom: -0.5rem;
+  height: 0.75rem;
+}
+
+.cladogram-branch-cell {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  min-height: 78px;
+}
+
+.cladogram-row.has-branches .cladogram-branch-cell::before {
+  position: absolute;
+  left: -1rem;
+  top: 50%;
+  width: 1rem;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.55);
+  content: "";
+}
+
+.cladogram-row.has-branches .cladogram-branch-cell::after {
+  position: absolute;
+  left: -1.1rem;
+  top: calc(50% - 4px);
+  width: 9px;
+  height: 9px;
+  border: 2px solid rgba(8, 11, 11, 0.9);
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 18px rgba(240, 201, 120, 0.28);
+  content: "";
 }
 
 .cladogram-node,
@@ -3187,10 +3260,11 @@ code {
 
 .cladogram-node {
   display: grid;
-  grid-template-rows: auto auto minmax(2.2rem, 1fr) auto;
-  gap: 0.34rem;
-  min-height: 128px;
-  padding: 0.68rem;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  gap: 0.55rem;
+  align-items: center;
+  min-height: 78px;
+  padding: 0.72rem;
 }
 
 .cladogram-node:hover,
@@ -3212,6 +3286,8 @@ code {
 }
 
 .cladogram-node-dot {
+  position: relative;
+  z-index: 1;
   width: 17px;
   height: 17px;
   border: 3px solid rgba(8, 11, 11, 0.84);
@@ -3220,6 +3296,13 @@ code {
   box-shadow:
     0 0 0 2px rgba(240, 201, 120, 0.18),
     0 0 20px rgba(240, 201, 120, 0.2);
+}
+
+.cladogram-node-copy,
+.cladogram-branch span {
+  display: grid;
+  gap: 0.16rem;
+  min-width: 0;
 }
 
 .cladogram-node strong,
@@ -3233,29 +3316,49 @@ code {
 .cladogram-node small,
 .cladogram-branch small {
   display: block;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1.22;
+  text-transform: uppercase;
+}
+
+.cladogram-node em,
+.cladogram-branch em {
   color: var(--muted);
   font-size: 0.74rem;
+  font-style: normal;
   line-height: 1.22;
 }
 
-.cladogram-branches {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.6rem;
-}
-
 .cladogram-branch {
+  flex: 1 1 240px;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0.55rem;
-  align-items: start;
-  min-height: 76px;
-  padding: 0.7rem;
+  align-items: center;
+  min-height: 72px;
+  padding: 0.72rem;
+  background:
+    linear-gradient(90deg, rgba(240, 201, 120, 0.08), transparent 54%),
+    rgba(8, 11, 11, 0.48);
 }
 
 .cladogram-branch svg {
-  margin-top: 0.12rem;
   color: var(--gold);
+}
+
+.cladogram-active-badge {
+  border: 1px solid rgba(240, 201, 120, 0.38);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.12);
+  color: var(--gold);
+  padding: 0.22rem 0.44rem;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 
 .trait-accumulator {
@@ -3737,10 +3840,6 @@ code {
     padding-bottom: 0.45rem;
   }
 
-  .cladogram-trunk {
-    grid-template-columns: repeat(19, minmax(132px, 160px));
-  }
-
   .trait-groups {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -4011,6 +4110,38 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .cladogram-reader-guide,
+  .cladogram-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cladogram-row {
+    gap: 0.35rem;
+  }
+
+  .cladogram-row:not(:first-child) .cladogram-trunk-cell::before,
+  .cladogram-row:not(:last-child) .cladogram-trunk-cell::after {
+    left: 3.05rem;
+  }
+
+  .cladogram-branch-cell {
+    min-height: auto;
+    padding-left: 3.05rem;
+  }
+
+  .cladogram-row.has-branches .cladogram-branch-cell::before {
+    left: 3.05rem;
+    top: -0.35rem;
+    width: 3px;
+    height: calc(100% + 0.35rem);
+    background: rgba(240, 201, 120, 0.38);
+  }
+
+  .cladogram-row.has-branches .cladogram-branch-cell::after {
+    left: 2.75rem;
+    top: 1.5rem;
+  }
+
   .evidence-intro h2 {
     font-size: 2rem;
   }
@@ -4095,29 +4226,23 @@ code {
     grid-template-columns: 1fr;
   }
 
-  .cladogram-trunk {
-    grid-template-columns: 1fr;
-    overflow-x: visible;
-  }
-
-  .cladogram-trunk::before {
-    top: 1.15rem;
-    bottom: 1.15rem;
-    right: auto;
-    left: 1.35rem;
-    width: 4px;
-    height: auto;
-  }
-
   .cladogram-node {
-    grid-template-columns: 2rem 1.6rem minmax(0, 1fr);
-    grid-template-rows: auto auto;
+    grid-template-columns: auto auto minmax(0, 1fr);
     min-height: 86px;
   }
 
-  .cladogram-node-number,
-  .cladogram-node-dot {
-    grid-row: 1 / span 2;
+  .cladogram-branch {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .cladogram-node .cladogram-active-badge {
+    grid-column: 3;
+    justify-self: start;
+  }
+
+  .cladogram-branch .cladogram-active-badge {
+    grid-column: 2;
+    justify-self: start;
   }
 
   .dinosaur-branch-route {

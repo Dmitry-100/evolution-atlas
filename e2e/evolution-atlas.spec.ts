@@ -129,6 +129,11 @@ test.describe("Evolution Atlas", () => {
     const cladogram = page.locator(".cladogram-panel");
 
     await expect(page.getByRole("heading", { name: "Дерево родства" })).toBeVisible();
+    await expect(cladogram.getByText(/Читайте сверху вниз/i)).toBeVisible();
+    await expect(cladogram.locator(".cladogram-reader-guide").getByText("Главный ствол к человеку")).toBeVisible();
+    await expect(cladogram.locator(".cladogram-reader-guide").getByText("Боковая ветвь")).toBeVisible();
+    await expect(cladogram.locator(".cladogram-map")).toBeVisible();
+    await expect(cladogram.locator(".cladogram-row.has-branches")).not.toHaveCount(0);
     await expect(cladogram.getByRole("button", { name: /Неандертальцы/i })).toBeVisible();
 
     await cladogram.getByRole("button", { name: /Неандертальцы/i }).click();
