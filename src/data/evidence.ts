@@ -43,8 +43,8 @@ export const EVIDENCE_MODULES: EvidenceModule[] = [
       "ДНК хранит историю родства: близкие виды имеют больше общих последовательностей, а независимые гены обычно дают согласующееся дерево происхождения.",
     exampleRu: "Геномы человека и других человекообразных обезьян совпадают настолько близко, как и предсказывает общее происхождение.",
     source: {
-      label: "Evidence of common descent",
-      url: "https://en.wikipedia.org/wiki/Evidence_of_common_descent",
+      label: "Understanding Evolution: Lines of Evidence",
+      url: "https://evolution.berkeley.edu/lines-of-evidence/",
     },
     icon: Dna,
   },
@@ -55,8 +55,8 @@ export const EVIDENCE_MODULES: EvidenceModule[] = [
       "Одни и те же планы строения повторяются в разных линиях: кости нашей руки соответствуют костям крыла, плавника или лапы, хотя функции различаются.",
     exampleRu: "Плечо, предплечье, запястье и пальцы у позвоночных менялись, но сохраняли общий план.",
     source: {
-      label: "Khan Academy: Evidence for evolution",
-      url: "https://www.khanacademy.org/science/ap-biology/natural-selection/common-ancestry-and-continuing-evolution/v/evidence-for-evolution",
+      label: "Understanding Evolution: Lines of Evidence",
+      url: "https://evolution.berkeley.edu/lines-of-evidence/",
     },
     icon: Eye,
   },
@@ -67,8 +67,8 @@ export const EVIDENCE_MODULES: EvidenceModule[] = [
       "Раннее развитие показывает глубоко общие программы построения тела: родственные животные используют похожие гены и этапы, затем расходятся в деталях.",
     exampleRu: "У позвоночных в развитии повторяются дуги, сегментация и общие осевые структуры.",
     source: {
-      label: "Introduction to evolution",
-      url: "https://en.wikipedia.org/wiki/Introduction_to_evolution",
+      label: "Understanding Evolution: Lines of Evidence",
+      url: "https://evolution.berkeley.edu/lines-of-evidence/",
     },
     icon: FlaskConical,
   },
@@ -79,8 +79,8 @@ export const EVIDENCE_MODULES: EvidenceModule[] = [
       "Распределение видов по планете несет след истории материков, островов и расселения: близкие виды часто живут рядом или на связанных территориях.",
     exampleRu: "Островные фауны часто образуют локальные ветви, похожие на ближайших материковых родственников.",
     source: {
-      label: "Introduction to evolution: Biogeography",
-      url: "https://en.wikipedia.org/wiki/Introduction_to_evolution#Evidence_for_evolution",
+      label: "Understanding Evolution: Lines of Evidence",
+      url: "https://evolution.berkeley.edu/lines-of-evidence/",
     },
     icon: Globe2,
   },

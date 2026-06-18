@@ -12,3 +12,15 @@ const placeholders: Record<StageImageKind, string> = {
 export function getImagePlaceholder(kind: StageImageKind) {
   return placeholders[kind];
 }
+
+export function getOptimizedImageSrc(src: string) {
+  if (!src.startsWith("/assets/images/")) {
+    return null;
+  }
+
+  if (!/\.(jpe?g|png)$/i.test(src)) {
+    return null;
+  }
+
+  return src.replace(/\.(jpe?g|png)$/i, ".avif");
+}

@@ -184,7 +184,7 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "credit": "Patrick Lynch/Yale University / Wikimedia Commons",
     "license": "Attribution",
     "commonsTitle": "File:Purgatorius PNAS.jpg",
-    "description": "Purgatorius , from the Late Paleocene of North America, believed to be the earliest primate. Fossil ankles show that Purgatorius lived in trees."
+    "description": "Purgatorius, from the latest Cretaceous and Paleocene of North America, treated here as an early primate relative close to the base of the primate line."
   },
   "purgatorius-bw": {
     "src": "/assets/images/source-backed/purgatorius-museum.jpg",

@@ -9,16 +9,27 @@ import { GlossaryTerm } from "./GlossaryTerm";
 type CladogramPanelProps = {
   tree: Cladogram;
   activeStage: EvolutionStage;
+  activeBranch: CladogramBranch | null;
   onActivate: (stage: EvolutionStage) => void;
+  onInspectBranch: (branch: CladogramBranch) => void;
 };
 
-export function CladogramPanel({ tree, activeStage, onActivate }: CladogramPanelProps) {
+export function CladogramPanel({
+  tree,
+  activeStage,
+  activeBranch,
+  onActivate,
+  onInspectBranch,
+}: CladogramPanelProps) {
   const cladogramTerm = getGlossaryTerm("cladogram");
   const branchesByParent = useMemo(() => {
     const groups = new Map<string, CladogramBranch[]>();
 
     for (const branch of tree.branches) {
-      groups.set(branch.parent.id, [...(groups.get(branch.parent.id) ?? []), branch]);
+      groups.set(branch.parent.id, [
+        ...(groups.get(branch.parent.id) ?? []),
+        branch,
+      ]);
     }
 
     return groups;
@@ -29,17 +40,26 @@ export function CladogramPanel({ tree, activeStage, onActivate }: CladogramPanel
       <div className="cladogram-heading">
         <GitFork aria-hidden="true" size={23} />
         <div>
-          <div className="eyebrow">{cladogramTerm ? <GlossaryTerm term={cladogramTerm} /> : "Кладограмма"}</div>
+          <div className="eyebrow">
+            {cladogramTerm ? (
+              <GlossaryTerm term={cladogramTerm} />
+            ) : (
+              "Кладограмма"
+            )}
+          </div>
           <h2 id="cladogram-heading">Дерево родства</h2>
           <p>
-            Читайте сверху вниз: толстый ствол ведет к Homo sapiens, а карточки справа отходят от конкретных узлов как
-            боковые ветви родства.
+            Читайте сверху вниз: толстый ствол ведет к Homo sapiens, а карточки
+            справа отходят от конкретных узлов как боковые ветви родства.
           </p>
         </div>
       </div>
 
       <div className="cladogram-body">
-        <div className="cladogram-reader-guide" aria-label="Как читать дерево родства">
+        <div
+          className="cladogram-reader-guide"
+          aria-label="Как читать дерево родства"
+        >
           <span>
             <ArrowDown aria-hidden="true" size={17} />
             Главный ствол к человеку
@@ -54,11 +74,18 @@ export function CladogramPanel({ tree, activeStage, onActivate }: CladogramPanel
           </span>
         </div>
 
-        <div className="cladogram-map" aria-label="Дерево родства: сверху вниз идет наша линия, вправо отходят боковые ветви">
+        <div
+          className="cladogram-map"
+          aria-label="Дерево родства: сверху вниз идет наша линия, вправо отходят боковые ветви"
+        >
           {tree.trunk.map((stage, index) => {
             const branches = branchesByParent.get(stage.id) ?? [];
             const isActive = stage.id === activeStage.id;
-            const hasActiveBranch = branches.some((branch) => branch.stage.id === activeStage.id);
+            const hasActiveBranch = branches.some(
+              (branch) =>
+                branch.stage?.id === activeStage.id ||
+                branch.id === activeBranch?.id,
+            );
             const rowClassName = [
               "cladogram-row",
               branches.length > 0 ? "has-branches" : "",
@@ -72,40 +99,72 @@ export function CladogramPanel({ tree, activeStage, onActivate }: CladogramPanel
                 <div className="cladogram-trunk-cell">
                   <button
                     type="button"
-                    className={isActive ? "cladogram-node is-active" : "cladogram-node"}
+                    className={
+                      isActive ? "cladogram-node is-active" : "cladogram-node"
+                    }
                     aria-current={isActive ? "true" : undefined}
                     onClick={() => onActivate(stage)}
                   >
-                    <span className="cladogram-node-number">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="cladogram-node-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                     <span className="cladogram-node-dot" aria-hidden="true" />
                     <span className="cladogram-node-copy">
                       <small>ствол к человеку</small>
                       <strong>{stage.titleRu}</strong>
                       <em>{formatAgeRu(stage.ageMa)}</em>
                     </span>
-                    {isActive ? <span className="cladogram-active-badge">выбрано</span> : null}
+                    {isActive ? (
+                      <span className="cladogram-active-badge">выбрано</span>
+                    ) : null}
                   </button>
                 </div>
 
                 <div className="cladogram-branch-cell">
-                  {branches.map(({ stage: branchStage, parent }) => {
-                    const branchIsActive = branchStage.id === activeStage.id;
+                  {branches.map((branch) => {
+                    const branchIsActive =
+                      branch.stage?.id === activeStage.id ||
+                      branch.id === activeBranch?.id;
+                    const branchClassName = [
+                      "cladogram-branch",
+                      branch.kind === "context" ? "is-context" : "",
+                      branchIsActive ? "is-active" : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ");
 
                     return (
                       <button
-                        key={branchStage.id}
+                        key={branch.id}
                         type="button"
-                        className={branchIsActive ? "cladogram-branch is-active" : "cladogram-branch"}
+                        className={branchClassName}
                         aria-current={branchIsActive ? "true" : undefined}
-                        onClick={() => onActivate(branchStage)}
+                        onClick={() =>
+                          branch.stage
+                            ? onActivate(branch.stage)
+                            : onInspectBranch(branch)
+                        }
                       >
                         <Milestone aria-hidden="true" size={17} />
                         <span>
-                          <small>боковая ветвь от {parent.titleRu}</small>
-                          <strong>{branchStage.titleRu}</strong>
-                          <em>{formatAgeRu(branchStage.ageMa)}</em>
+                          <small>
+                            {branch.kind === "context"
+                              ? "куда ушла ветвь от"
+                              : "боковая ветвь от"}{" "}
+                            {branch.parent.titleRu}
+                          </small>
+                          <strong>{branch.titleRu}</strong>
+                          <em>
+                            {branch.ageMa
+                              ? formatAgeRu(branch.ageMa)
+                              : "возраст узла уточняется"}
+                          </em>
                         </span>
-                        {branchIsActive ? <span className="cladogram-active-badge">выбрано</span> : null}
+                        {branchIsActive ? (
+                          <span className="cladogram-active-badge">
+                            выбрано
+                          </span>
+                        ) : null}
                       </button>
                     );
                   })}

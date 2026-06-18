@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { birdDinosaurBranch, sharedAnimalBranch } from "./dinosaurLineage";
+import {
+  birdDinosaurBranch,
+  dinosaurCommonAncestor,
+  sharedAnimalBranch,
+} from "./dinosaurLineage";
 
 describe("dinosaur and bird lineage data", () => {
   it("reuses the shared animal ancestors from the human lineage without duplicating them", () => {
@@ -40,5 +44,12 @@ describe("dinosaur and bird lineage data", () => {
       expect(stage.evidenceRu.length).toBeGreaterThan(20);
       expect(stage.sources.length).toBeGreaterThan(0);
     }
+  });
+
+  it("names the shared ancestor with birds as early amniotes", () => {
+    expect(dinosaurCommonAncestor.titleRu).toBe("Ранние амниоты");
+    expect(dinosaurCommonAncestor.ageMa).toBe(320);
+    expect(dinosaurCommonAncestor.humanBranchRu).toMatch(/млекопитающие/);
+    expect(dinosaurCommonAncestor.dinosaurBranchRu).toMatch(/птицы/);
   });
 });

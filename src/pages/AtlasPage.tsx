@@ -13,16 +13,13 @@ import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
 import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
-import { CladogramPanel } from "../components/atlas/CladogramPanel";
 import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
-import { StageComparisonPanel } from "../components/atlas/StageComparisonPanel";
 import { JourneyControls } from "../components/atlas/JourneyControls";
 import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
 import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
-import { buildCladogram } from "../lib/cladogram";
 
 const LIFE_ORIGIN_MA = 4000;
-const PRIMATES_MA = 65;
+const PRIMATES_MA = 66;
 
 function percentRu(value: number, maximumFractionDigits = 2) {
   return value.toLocaleString("ru-RU", { maximumFractionDigits });
@@ -50,7 +47,6 @@ export function AtlasPage() {
   const atlasRef = useRef<HTMLDivElement>(null);
 
   const visibleStages = mode === "primates" ? primateStages : sortedStages;
-  const cladogram = useMemo(() => buildCladogram(sortedStages), []);
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
   const activeStage = visibleStages.find((stage) => stage.id === urlState.stageId) ?? getDefaultAtlasStage(visibleStages);
   const activeEra = ERAS.find((era) => era.id === activeStage.eraId);
@@ -216,11 +212,7 @@ export function AtlasPage() {
           <StageDetailCard stage={activeStage} />
         </section>
 
-        <CladogramPanel tree={cladogram} activeStage={activeStage} onActivate={activateStage} />
-
         <TraitAccumulator groups={accumulatedTraitGroups} />
-
-        <StageComparisonPanel />
 
         <section className="theory-bridge-band atlas-note-band">
           <div>
@@ -237,6 +229,20 @@ export function AtlasPage() {
 
         <section className="theory-bridge-band">
           <div>
+            <Dna aria-hidden="true" size={22} />
+            <div>
+              <strong>Дерево родства</strong>
+              <p>Отдельная кладограмма показывает ствол к Homo sapiens и боковые ветви, которые отходят от разных узлов.</p>
+            </div>
+          </div>
+          <Link className="button button-secondary button-md" to="/cladogram">
+            Открыть дерево
+            <ArrowRight aria-hidden="true" size={17} />
+          </Link>
+        </section>
+
+        <section className="theory-bridge-band">
+          <div>
             <BookOpen aria-hidden="true" size={22} />
             <div>
               <strong>Почему эволюция называется теорией?</strong>
@@ -245,6 +251,20 @@ export function AtlasPage() {
           </div>
           <Link className="button button-secondary button-md" to="/theory">
             Открыть раздел
+            <ArrowRight aria-hidden="true" size={17} />
+          </Link>
+        </section>
+
+        <section className="theory-bridge-band">
+          <div>
+            <Dna aria-hidden="true" size={22} />
+            <div>
+              <strong>Как это видно в ДНК?</strong>
+              <p>РНК, ДНК, мутации и сравнение геномов показывают родство как код, а не только как форму тела.</p>
+            </div>
+          </div>
+          <Link className="button button-secondary button-md" to="/genetics">
+            РНК/ДНК
             <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </section>

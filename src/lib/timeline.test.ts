@@ -43,7 +43,7 @@ describe("timeline math", () => {
   });
 
   it("shows that almost the entire deep-time story happened before primates", () => {
-    expect(getPrePrimateShare({ originMa: 4000, primatesMa: 65 })).toBeGreaterThan(0.98);
-    expect(getPrePrimateShare({ originMa: 4000, primatesMa: 65 })).toBeLessThan(0.985);
+    expect(getPrePrimateShare({ originMa: 4000, primatesMa: 66 })).toBeGreaterThan(0.98);
+    expect(getPrePrimateShare({ originMa: 4000, primatesMa: 66 })).toBeLessThan(0.985);
   });
 });

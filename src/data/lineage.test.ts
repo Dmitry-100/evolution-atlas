@@ -22,10 +22,10 @@ describe("lineage data", () => {
     }
   });
 
-  it("uses corrected chordate dating instead of the legacy 600 Ma label", () => {
+  it("uses early Cambrian chordate dating instead of the legacy 600 Ma label", () => {
     const chordates = getStageById("chordates");
-    expect(chordates?.ageMa).toBeGreaterThanOrEqual(520);
-    expect(chordates?.ageMa).toBeLessThanOrEqual(540);
+    expect(chordates?.ageMa).toBeGreaterThanOrEqual(505);
+    expect(chordates?.ageMa).toBeLessThanOrEqual(520);
   });
 
   it("marks primate-focused stages for the zoomed mode", () => {

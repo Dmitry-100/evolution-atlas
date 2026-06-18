@@ -1,7 +1,7 @@
 import { ExternalLink, Fingerprint, Sparkles } from "lucide-react";
-import type { CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { getStageGlossaryTerm } from "../../data/glossary";
-import type { EvolutionStage } from "../../data/lineage";
+import type { EvolutionStage, StageImage } from "../../data/lineage";
 import { getImagePlaceholder } from "../../lib/imagePlaceholders";
 import { formatAgeRu } from "../../lib/timeline";
 import { ConstellationField } from "../ui/constellation-field";
@@ -13,26 +13,81 @@ type StageDetailCardProps = {
 };
 
 export function StageDetailCard({ stage }: StageDetailCardProps) {
+  const imageRef = useRef<HTMLImageElement>(null);
+  const previousImageRef = useRef<StageImage>(stage.image);
+  const [previousImage, setPreviousImage] = useState<StageImage | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
   const imageLabel =
-    stage.image.kind === "generated-reconstruction" ? "AI-реконструкция" : "изображение из открытого источника";
+    stage.image.kind === "generated-reconstruction"
+      ? "AI-реконструкция"
+      : "изображение из открытого источника";
   const glossaryTerm = getStageGlossaryTerm(stage.id);
   const imagePlaceholder = getImagePlaceholder(stage.image.kind);
+
+  useEffect(() => {
+    const lastImage = previousImageRef.current;
+    if (lastImage.src !== stage.image.src) {
+      setPreviousImage(lastImage);
+      setIsLoaded(false);
+    }
+    previousImageRef.current = stage.image;
+  }, [stage.image]);
+
+  useEffect(() => {
+    const image = imageRef.current;
+
+    if (image?.complete && image.naturalWidth > 0) {
+      setIsLoaded(true);
+    }
+  }, [stage.image.src]);
+
+  useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setPreviousImage(null);
+    }, 560);
+
+    return () => window.clearTimeout(timeout);
+  }, [isLoaded, stage.image.src]);
 
   return (
     <aside className="stage-panel" aria-label="Активный вид">
       <figure className="stage-plate">
-        <div className="stage-plate-media" style={{ "--stage-placeholder": imagePlaceholder } as CSSProperties}>
+        <div
+          className="stage-plate-media"
+          data-image-state={isLoaded ? "loaded" : "loading"}
+          style={{ "--stage-placeholder": imagePlaceholder } as CSSProperties}
+        >
           <div className="stage-plate-backdrop" aria-hidden="true">
             <FloatingPaths className="stage-plate-paths" density="panel" />
             <ConstellationField className="stage-plate-constellation" compact />
           </div>
+          {previousImage ? (
+            <img
+              className="stage-plate-main stage-plate-previous"
+              src={previousImage.src}
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+            />
+          ) : null}
           <img
             key={stage.image.src}
-            className="stage-plate-main stage-plate-current"
+            ref={imageRef}
+            className={
+              isLoaded
+                ? "stage-plate-main stage-plate-current is-loaded"
+                : "stage-plate-main stage-plate-current"
+            }
             src={stage.image.src}
             alt={stage.image.altRu}
             decoding="async"
             fetchPriority="high"
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setIsLoaded(true)}
           />
         </div>
         <figcaption>{imageLabel}</figcaption>

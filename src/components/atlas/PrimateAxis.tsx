@@ -87,7 +87,7 @@ export function PrimateAxis({
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>
-        <strong>65 млн лет крупно</strong>
+        <strong>66 млн лет крупно</strong>
       </div>
 
       <div className="primate-focus-intro">

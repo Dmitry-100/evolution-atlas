@@ -17,7 +17,13 @@
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
   --radius: 8px;
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   font-size: 16px;
   line-height: 1.5;
   font-synthesis: none;
@@ -43,8 +49,16 @@ body {
   min-height: 100svh;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 18% 10%, rgba(130, 183, 179, 0.16), transparent 28rem),
-    radial-gradient(circle at 80% 2%, rgba(217, 173, 97, 0.13), transparent 26rem),
+    radial-gradient(
+      circle at 18% 10%,
+      rgba(130, 183, 179, 0.16),
+      transparent 28rem
+    ),
+    radial-gradient(
+      circle at 80% 2%,
+      rgba(217, 173, 97, 0.13),
+      transparent 26rem
+    ),
     linear-gradient(180deg, #070908 0%, #0b0e0d 42%, #090b0b 100%);
 }
 
@@ -55,8 +69,16 @@ body::before {
   z-index: 1;
   pointer-events: none;
   background:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(90deg, rgba(235, 198, 124, 0.012) 0 1px, transparent 1px 7px);
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.018) 0 1px,
+      transparent 1px 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(235, 198, 124, 0.012) 0 1px,
+      transparent 1px 7px
+    );
   opacity: 0.34;
   mix-blend-mode: soft-light;
 }
@@ -110,8 +132,16 @@ code {
   inset: 0;
   overflow: hidden;
   background:
-    radial-gradient(circle at 18% 12%, rgba(130, 183, 179, 0.18), transparent 32rem),
-    radial-gradient(circle at 82% 4%, rgba(217, 173, 97, 0.16), transparent 29rem),
+    radial-gradient(
+      circle at 18% 12%,
+      rgba(130, 183, 179, 0.18),
+      transparent 32rem
+    ),
+    radial-gradient(
+      circle at 82% 4%,
+      rgba(217, 173, 97, 0.16),
+      transparent 29rem
+    ),
     #070908;
 }
 
@@ -138,16 +168,39 @@ code {
 
 .ethereal-ink-fallback {
   background:
-    radial-gradient(circle at 24% 38%, rgba(130, 183, 179, 0.22), transparent 28rem),
-    radial-gradient(circle at 76% 28%, rgba(240, 201, 120, 0.18), transparent 24rem),
-    repeating-linear-gradient(132deg, transparent 0 24px, rgba(130, 183, 179, 0.035) 25px 27px, transparent 28px 54px),
+    radial-gradient(
+      circle at 24% 38%,
+      rgba(130, 183, 179, 0.22),
+      transparent 28rem
+    ),
+    radial-gradient(
+      circle at 76% 28%,
+      rgba(240, 201, 120, 0.18),
+      transparent 24rem
+    ),
+    repeating-linear-gradient(
+      132deg,
+      transparent 0 24px,
+      rgba(130, 183, 179, 0.035) 25px 27px,
+      transparent 28px 54px
+    ),
     #070908;
 }
 
 .ethereal-ink-scrim {
   background:
-    radial-gradient(circle at 52% 42%, transparent 0, rgba(5, 7, 7, 0.16) 34rem, rgba(5, 7, 7, 0.72) 100%),
-    linear-gradient(180deg, rgba(5, 7, 7, 0.36) 0%, rgba(5, 7, 7, 0.68) 74%, rgba(5, 7, 7, 0.9) 100%);
+    radial-gradient(
+      circle at 52% 42%,
+      transparent 0,
+      rgba(5, 7, 7, 0.16) 34rem,
+      rgba(5, 7, 7, 0.72) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 7, 7, 0.36) 0%,
+      rgba(5, 7, 7, 0.68) 74%,
+      rgba(5, 7, 7, 0.9) 100%
+    );
 }
 
 .scroll-progress {
@@ -298,7 +351,12 @@ code {
   border-radius: 50%;
   background:
     radial-gradient(circle at 48% 48%, var(--amber) 0 3px, transparent 4px),
-    conic-gradient(from 90deg, rgba(130, 183, 179, 0.18), rgba(217, 173, 97, 0.7), rgba(158, 179, 110, 0.24));
+    conic-gradient(
+      from 90deg,
+      rgba(130, 183, 179, 0.18),
+      rgba(217, 173, 97, 0.7),
+      rgba(158, 179, 110, 0.24)
+    );
   box-shadow: 0 0 28px rgba(217, 173, 97, 0.18);
 }
 
@@ -322,7 +380,9 @@ code {
 
 .topbar-nav {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.25rem;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -357,9 +417,21 @@ code {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at 16% 12%, color-mix(in srgb, var(--active-era-color) 22%, transparent), transparent 22rem),
-    radial-gradient(circle at 84% 18%, color-mix(in srgb, var(--active-era-color) 16%, transparent), transparent 24rem),
-    linear-gradient(180deg, color-mix(in srgb, var(--active-era-color) 7%, transparent), transparent 34rem);
+    radial-gradient(
+      circle at 16% 12%,
+      color-mix(in srgb, var(--active-era-color) 22%, transparent),
+      transparent 22rem
+    ),
+    radial-gradient(
+      circle at 84% 18%,
+      color-mix(in srgb, var(--active-era-color) 16%, transparent),
+      transparent 24rem
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--active-era-color) 7%, transparent),
+      transparent 34rem
+    );
   content: "";
   opacity: 0.72;
   pointer-events: none;
@@ -375,10 +447,10 @@ code {
 .atlas-hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 2rem;
-  align-items: end;
-  padding: 1rem 0 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 0.65rem 0 1rem;
   overflow: hidden;
   isolation: isolate;
 }
@@ -405,7 +477,7 @@ code {
 .atlas-title {
   position: relative;
   z-index: 1;
-  max-width: 930px;
+  max-width: 1120px;
 }
 
 .eyebrow,
@@ -429,22 +501,23 @@ code {
 }
 
 .atlas-title h1 {
-  font-size: 4.35rem;
+  font-size: 3.25rem;
+  line-height: 1.03;
 }
 
 .atlas-title p,
 .document-header p {
   margin: 0;
-  max-width: 790px;
+  max-width: 920px;
   color: var(--muted);
-  font-size: 1.18rem;
+  font-size: 1.08rem;
 }
 
 .hero-subtitle {
   margin: -0.35rem 0 0.9rem !important;
   color: var(--amber) !important;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.7rem !important;
+  font-size: 1.38rem !important;
   font-style: italic;
 }
 
@@ -454,7 +527,7 @@ code {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 0.75rem;
 }
 
@@ -463,6 +536,45 @@ code {
   flex-wrap: wrap;
   gap: 0.45rem;
   align-items: center;
+  max-width: min(100%, 560px);
+}
+
+.journey-meter {
+  display: grid;
+  gap: 0.32rem;
+  min-width: min(100%, 250px);
+  padding: 0.18rem 0.2rem;
+}
+
+.journey-status {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.journey-progress {
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.journey-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--teal),
+    var(--active-era-color, var(--gold))
+  );
+  transition: width 420ms ease;
 }
 
 .tabs-list {
@@ -609,10 +721,11 @@ code {
 .takeaway-band,
 .theory-bridge-band,
 .wow-facts-band article,
+.dinosaur-facts-band article,
 .cladogram-panel,
+.cladogram-inspector,
 .trait-accumulator,
 .quiz-panel,
-.comparison-panel,
 .document-page,
 .source-card,
 .material-card,
@@ -624,8 +737,12 @@ code {
 .extinction-bridge,
 .dinosaurs-answer-card,
 .dinosaur-branch-section,
+.dinosaur-axis-section,
 .dinosaur-detail-card,
-.dinosaurs-bridge {
+.dinosaurs-bridge,
+.origin-answer-card,
+.origin-hypothesis-card,
+.origin-note {
   border: 1px solid var(--line);
   background: var(--panel);
   box-shadow: var(--shadow);
@@ -676,7 +793,12 @@ code {
   top: 2.05rem;
   height: 2px;
   border-radius: 99px;
-  background: linear-gradient(90deg, rgba(130, 183, 179, 0.45), rgba(240, 201, 120, 0.72), rgba(208, 163, 91, 0.45));
+  background: linear-gradient(
+    90deg,
+    rgba(130, 183, 179, 0.45),
+    rgba(240, 201, 120, 0.72),
+    rgba(208, 163, 91, 0.45)
+  );
   opacity: 0.66;
 }
 
@@ -691,7 +813,11 @@ code {
   border: 1px solid transparent;
   border-radius: var(--radius);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.035),
+      rgba(255, 255, 255, 0.012)
+    ),
     rgba(8, 11, 11, 0.2);
   color: var(--text);
   cursor: pointer;
@@ -708,7 +834,11 @@ code {
   transform: translateY(-1px);
   border-color: rgba(240, 201, 120, 0.42);
   background:
-    radial-gradient(circle at 50% 0%, rgba(240, 201, 120, 0.15), transparent 4.8rem),
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 201, 120, 0.15),
+      transparent 4.8rem
+    ),
     rgba(217, 173, 97, 0.08);
 }
 
@@ -791,7 +921,11 @@ code {
   overflow: hidden;
   padding: 1rem;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.01)
+    ),
     rgba(12, 16, 15, 0.9);
 }
 
@@ -803,7 +937,11 @@ code {
   overflow: hidden;
   padding: 1rem;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.012)
+    ),
     rgba(12, 16, 15, 0.92);
   box-shadow: var(--shadow);
 }
@@ -905,8 +1043,7 @@ code {
   border-radius: var(--radius);
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(5, 7, 7, 0.22), rgba(5, 7, 7, 0.68)),
-    #070b0b;
+    linear-gradient(180deg, rgba(5, 7, 7, 0.22), rgba(5, 7, 7, 0.68)), #070b0b;
   cursor: default;
 }
 
@@ -915,10 +1052,28 @@ code {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(circle at 12% 80%, rgba(130, 183, 179, 0.24), transparent 18rem),
-    radial-gradient(circle at 84% 62%, rgba(240, 201, 120, 0.18), transparent 14rem),
-    repeating-linear-gradient(168deg, transparent 0 20px, rgba(130, 183, 179, 0.055) 21px 23px, transparent 24px 44px),
-    linear-gradient(90deg, rgba(72, 118, 142, 0.2), rgba(111, 151, 117, 0.2), rgba(190, 131, 75, 0.16));
+    radial-gradient(
+      circle at 12% 80%,
+      rgba(130, 183, 179, 0.24),
+      transparent 18rem
+    ),
+    radial-gradient(
+      circle at 84% 62%,
+      rgba(240, 201, 120, 0.18),
+      transparent 14rem
+    ),
+    repeating-linear-gradient(
+      168deg,
+      transparent 0 20px,
+      rgba(130, 183, 179, 0.055) 21px 23px,
+      transparent 24px 44px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(72, 118, 142, 0.2),
+      rgba(111, 151, 117, 0.2),
+      rgba(190, 131, 75, 0.16)
+    );
 }
 
 .deep-time-floating-paths {
@@ -951,8 +1106,17 @@ code {
   z-index: 2;
   border-right: 1px solid rgba(240, 201, 120, 0.48);
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.08), rgba(158, 179, 110, 0.07), rgba(217, 173, 97, 0.08)),
-    linear-gradient(180deg, transparent 0 62%, rgba(255, 255, 255, 0.02) 62% 100%);
+    linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.08),
+      rgba(158, 179, 110, 0.07),
+      rgba(217, 173, 97, 0.08)
+    ),
+    linear-gradient(
+      180deg,
+      transparent 0 62%,
+      rgba(255, 255, 255, 0.02) 62% 100%
+    );
 }
 
 .pre-primate-field span {
@@ -974,8 +1138,16 @@ code {
   min-width: 2.2rem;
   border-left: 1px solid rgba(240, 201, 120, 0.65);
   background:
-    radial-gradient(circle at 0% 54%, rgba(240, 201, 120, 0.48), transparent 8rem),
-    linear-gradient(180deg, rgba(240, 201, 120, 0.18), rgba(240, 201, 120, 0.06));
+    radial-gradient(
+      circle at 0% 54%,
+      rgba(240, 201, 120, 0.48),
+      transparent 8rem
+    ),
+    linear-gradient(
+      180deg,
+      rgba(240, 201, 120, 0.18),
+      rgba(240, 201, 120, 0.06)
+    );
   box-shadow: -18px 0 44px rgba(240, 201, 120, 0.16);
 }
 
@@ -1037,7 +1209,12 @@ code {
   width: 1px;
   height: 112px;
   transform: translateX(-50%);
-  background: linear-gradient(180deg, transparent, var(--extinction-color), transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--extinction-color),
+    transparent
+  );
   content: "";
   opacity: 0.7;
 }
@@ -1051,7 +1228,8 @@ code {
   transform: translateX(-50%) rotate(45deg);
   border: 1px solid rgba(255, 255, 255, 0.7);
   background: var(--extinction-color);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--extinction-color) 18%, transparent);
+  box-shadow: 0 0 0 4px
+    color-mix(in srgb, var(--extinction-color) 18%, transparent);
   content: "";
 }
 
@@ -1172,7 +1350,13 @@ code {
   bottom: 0;
   width: 2px;
   transform: translateX(-50%);
-  background: linear-gradient(180deg, transparent, var(--amber) 16%, var(--amber) 86%, transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--amber) 16%,
+    var(--amber) 86%,
+    transparent
+  );
   box-shadow: 0 0 24px rgba(240, 201, 120, 0.72);
   pointer-events: none;
 }
@@ -1277,7 +1461,11 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.13);
   border-radius: var(--radius);
   background:
-    radial-gradient(circle at 90% 0%, rgba(240, 201, 120, 0.14), transparent 12rem),
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(240, 201, 120, 0.14),
+      transparent 12rem
+    ),
     rgba(255, 255, 255, 0.035);
   padding: 0.95rem 1rem;
 }
@@ -1295,9 +1483,21 @@ code {
   border-radius: var(--radius);
   overflow: hidden;
   background:
-    radial-gradient(circle at 18% 28%, rgba(130, 183, 179, 0.18), transparent 16rem),
-    radial-gradient(circle at 88% 34%, rgba(240, 201, 120, 0.18), transparent 16rem),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    radial-gradient(
+      circle at 18% 28%,
+      rgba(130, 183, 179, 0.18),
+      transparent 16rem
+    ),
+    radial-gradient(
+      circle at 88% 34%,
+      rgba(240, 201, 120, 0.18),
+      transparent 16rem
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    ),
     #090d0c;
   overflow-x: auto;
   overflow-y: hidden;
@@ -1316,7 +1516,12 @@ code {
   z-index: 0;
   background:
     linear-gradient(180deg, rgba(5, 8, 8, 0.12), rgba(5, 8, 8, 0.74)),
-    repeating-linear-gradient(165deg, transparent 0 34px, rgba(130, 183, 179, 0.05) 35px 37px, transparent 38px 72px);
+    repeating-linear-gradient(
+      165deg,
+      transparent 0 34px,
+      rgba(130, 183, 179, 0.05) 35px 37px,
+      transparent 38px 72px
+    );
 }
 
 .primate-floating-paths {
@@ -1346,7 +1551,12 @@ code {
   height: 4px;
   border-radius: 999px;
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.84), rgba(145, 169, 106, 0.84), rgba(217, 173, 97, 0.92)),
+    linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.84),
+      rgba(145, 169, 106, 0.84),
+      rgba(217, 173, 97, 0.92)
+    ),
     rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 28px rgba(240, 201, 120, 0.2);
 }
@@ -1365,7 +1575,11 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.2);
   border-radius: 18px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.016)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.016)
+    ),
     rgba(8, 11, 11, 0.78);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
   overflow: visible;
@@ -1429,7 +1643,11 @@ code {
   overflow: hidden;
   border-radius: 17px;
   background:
-    linear-gradient(135deg, rgba(130, 183, 179, 0.09), rgba(240, 201, 120, 0.08)),
+    linear-gradient(
+      135deg,
+      rgba(130, 183, 179, 0.09),
+      rgba(240, 201, 120, 0.08)
+    ),
     #080b0b;
 }
 
@@ -1618,8 +1836,18 @@ code {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(88, 128, 166, 0.16), rgba(130, 183, 179, 0.12), rgba(158, 179, 110, 0.18), rgba(217, 173, 97, 0.24)),
-    radial-gradient(circle at 70% 62%, rgba(217, 173, 97, 0.26), transparent 23rem);
+    linear-gradient(
+      90deg,
+      rgba(88, 128, 166, 0.16),
+      rgba(130, 183, 179, 0.12),
+      rgba(158, 179, 110, 0.18),
+      rgba(217, 173, 97, 0.24)
+    ),
+    radial-gradient(
+      circle at 70% 62%,
+      rgba(217, 173, 97, 0.26),
+      transparent 23rem
+    );
 }
 
 .era-band {
@@ -1636,7 +1864,13 @@ code {
   bottom: 0.55rem;
   width: 2px;
   transform: translateX(-50%);
-  background: linear-gradient(180deg, transparent, var(--amber) 16%, var(--amber) 86%, transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--amber) 16%,
+    var(--amber) 86%,
+    transparent
+  );
   box-shadow: 0 0 24px rgba(240, 201, 120, 0.65);
 }
 
@@ -1799,7 +2033,11 @@ code {
 
 .stage-plate-media {
   --stage-placeholder:
-    radial-gradient(circle at 16% 18%, rgba(130, 183, 179, 0.28), transparent 13rem),
+    radial-gradient(
+      circle at 16% 18%,
+      rgba(130, 183, 179, 0.28),
+      transparent 13rem
+    ),
     linear-gradient(135deg, rgba(130, 183, 179, 0.1), rgba(240, 201, 120, 0.06));
   position: relative;
   aspect-ratio: 1.22;
@@ -1807,8 +2045,40 @@ code {
   isolation: isolate;
   background:
     var(--stage-placeholder),
-    radial-gradient(circle at 82% 18%, rgba(240, 201, 120, 0.18), transparent 12rem),
+    radial-gradient(
+      circle at 82% 18%,
+      rgba(240, 201, 120, 0.18),
+      transparent 12rem
+    ),
     #080b0b;
+}
+
+.stage-plate-media::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      110deg,
+      transparent 0 34%,
+      rgba(240, 201, 120, 0.12) 48%,
+      transparent 62% 100%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.05),
+      transparent 58%
+    );
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-18%);
+  transition: opacity 240ms ease;
+}
+
+.stage-plate-media[data-image-state="loading"]::after {
+  animation: stage-placeholder-sheen 1.35s ease-in-out infinite;
+  opacity: 0.42;
 }
 
 .stage-plate-main {
@@ -1822,8 +2092,18 @@ code {
   z-index: 0;
   overflow: hidden;
   background:
-    repeating-radial-gradient(circle at 28% 72%, rgba(240, 201, 120, 0.075) 0 1px, transparent 1px 18px),
-    linear-gradient(160deg, rgba(130, 183, 179, 0.18), transparent 34%, rgba(217, 173, 97, 0.12) 72%, transparent);
+    repeating-radial-gradient(
+      circle at 28% 72%,
+      rgba(240, 201, 120, 0.075) 0 1px,
+      transparent 1px 18px
+    ),
+    linear-gradient(
+      160deg,
+      rgba(130, 183, 179, 0.18),
+      transparent 34%,
+      rgba(217, 173, 97, 0.12) 72%,
+      transparent
+    );
 }
 
 .stage-plate-backdrop::before,
@@ -1838,8 +2118,20 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.14);
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 50%, transparent 0 30%, rgba(130, 183, 179, 0.08) 31% 32%, transparent 33% 100%),
-    conic-gradient(from 18deg, transparent 0 19%, rgba(240, 201, 120, 0.1) 20% 21%, transparent 22% 52%, rgba(130, 183, 179, 0.12) 53% 54%, transparent 55% 100%);
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0 30%,
+      rgba(130, 183, 179, 0.08) 31% 32%,
+      transparent 33% 100%
+    ),
+    conic-gradient(
+      from 18deg,
+      transparent 0 19%,
+      rgba(240, 201, 120, 0.1) 20% 21%,
+      transparent 22% 52%,
+      rgba(130, 183, 179, 0.12) 53% 54%,
+      transparent 55% 100%
+    );
   filter: blur(0.2px);
   opacity: 0.72;
   transform: rotate(-8deg);
@@ -1851,7 +2143,11 @@ code {
   width: 62%;
   height: 62%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(217, 173, 97, 0.18), transparent 65%);
+  background: radial-gradient(
+    circle,
+    rgba(217, 173, 97, 0.18),
+    transparent 65%
+  );
 }
 
 .stage-plate-paths {
@@ -1876,33 +2172,48 @@ code {
   z-index: 2;
   box-sizing: border-box;
   object-fit: contain;
+  opacity: 0;
   padding: 0.62rem;
-  filter:
-    drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32))
-    saturate(0.98)
-    contrast(1.03);
+  filter: blur(12px) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32)) saturate(0.88)
+    contrast(0.98);
+  transform: scale(1.025);
+  transition:
+    opacity 420ms ease,
+    filter 560ms ease,
+    transform 900ms ease;
 }
 
 .stage-plate-current {
-  animation:
-    stage-image-in 520ms ease both,
-    stage-image-drift 10s ease-out both;
+  will-change: opacity, filter, transform;
+}
+
+.stage-plate-current.is-loaded {
+  opacity: 1;
+  filter: blur(0) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32)) saturate(0.98)
+    contrast(1.03);
+  animation: stage-image-drift 10s ease-out both;
 }
 
 .stage-plate-previous {
   z-index: 1;
-  opacity: 0;
+  opacity: 1;
+  filter: blur(0) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.28)) saturate(0.92)
+    contrast(1);
+  transform: scale(1.018);
   animation: stage-image-out 520ms ease both;
 }
 
-@keyframes stage-image-in {
+@keyframes stage-placeholder-sheen {
   from {
-    opacity: 0;
-    transform: scale(1.025);
+    transform: translateX(-32%);
   }
+
+  50% {
+    transform: translateX(18%);
+  }
+
   to {
-    opacity: 1;
-    transform: scale(1);
+    transform: translateX(42%);
   }
 }
 
@@ -2050,7 +2361,11 @@ code {
 .wow-facts-band article {
   border-radius: var(--radius);
   background:
-    radial-gradient(circle at 92% 0%, rgba(240, 201, 120, 0.11), transparent 9rem),
+    radial-gradient(
+      circle at 92% 0%,
+      rgba(240, 201, 120, 0.11),
+      transparent 9rem
+    ),
     var(--panel);
   padding: 1rem;
 }
@@ -2145,13 +2460,21 @@ code {
 
 .extinction-link-band {
   background:
-    radial-gradient(circle at 8% 50%, rgba(130, 183, 179, 0.14), transparent 18rem),
+    radial-gradient(
+      circle at 8% 50%,
+      rgba(130, 183, 179, 0.14),
+      transparent 18rem
+    ),
     var(--panel);
 }
 
 .atlas-note-band {
   background:
-    radial-gradient(circle at 6% 50%, rgba(240, 201, 120, 0.12), transparent 16rem),
+    radial-gradient(
+      circle at 6% 50%,
+      rgba(240, 201, 120, 0.12),
+      transparent 16rem
+    ),
     var(--panel);
 }
 
@@ -2340,10 +2663,11 @@ code {
 .cladogram-heading h2,
 .trait-accumulator-heading h2,
 .quiz-heading h2,
-.comparison-heading h2,
 .dinosaur-section-heading h2,
 .dinosaur-detail-card h2,
-.dinosaurs-bridge strong {
+.dinosaurs-bridge strong,
+.origin-hypothesis-card h2,
+.origin-note h2 {
   margin: 0.25rem 0 0.4rem;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.65rem;
@@ -2359,10 +2683,11 @@ code {
 .cladogram-heading p,
 .trait-accumulator-heading p,
 .quiz-heading p,
-.comparison-heading p,
 .dinosaur-section-heading p,
 .dinosaur-detail-card p,
-.dinosaurs-bridge p {
+.dinosaurs-bridge p,
+.origin-hypothesis-card p,
+.origin-note p {
   margin: 0;
   color: var(--muted);
 }
@@ -2548,7 +2873,12 @@ code {
   bottom: 1rem;
   width: 2px;
   border-radius: 99px;
-  background: linear-gradient(180deg, rgba(130, 183, 179, 0.72), rgba(240, 201, 120, 0.62), rgba(145, 169, 106, 0.72));
+  background: linear-gradient(
+    180deg,
+    rgba(130, 183, 179, 0.72),
+    rgba(240, 201, 120, 0.62),
+    rgba(145, 169, 106, 0.72)
+  );
   opacity: 0.52;
 }
 
@@ -2596,7 +2926,11 @@ code {
   object-position: center top;
   padding: 0.45rem;
   background:
-    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--extinction-color) 16%, transparent), transparent 14rem),
+    radial-gradient(
+      circle at 18% 0%,
+      color-mix(in srgb, var(--extinction-color) 16%, transparent),
+      transparent 14rem
+    ),
     #080b0b;
   filter: saturate(0.9) contrast(1.04);
 }
@@ -2605,8 +2939,17 @@ code {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, transparent 0%, rgba(8, 11, 11, 0.12) 55%, rgba(8, 11, 11, 0.72) 100%),
-    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--extinction-color) 22%, transparent), transparent 18rem);
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(8, 11, 11, 0.12) 55%,
+      rgba(8, 11, 11, 0.72) 100%
+    ),
+    radial-gradient(
+      circle at 20% 0%,
+      color-mix(in srgb, var(--extinction-color) 22%, transparent),
+      transparent 18rem
+    );
   content: "";
   pointer-events: none;
 }
@@ -2653,7 +2996,11 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.15);
   border-radius: var(--radius);
   background:
-    radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--extinction-color) 18%, transparent), transparent 8rem),
+    radial-gradient(
+      circle at 90% 0%,
+      color-mix(in srgb, var(--extinction-color) 18%, transparent),
+      transparent 8rem
+    ),
     rgba(255, 255, 255, 0.035);
   padding: 0.85rem;
 }
@@ -2777,8 +3124,16 @@ code {
 
 .dinosaurs-page {
   background:
-    radial-gradient(circle at 18% 0%, rgba(88, 142, 115, 0.16), transparent 21rem),
-    radial-gradient(circle at 88% 8%, rgba(208, 163, 91, 0.12), transparent 22rem),
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(88, 142, 115, 0.16),
+      transparent 21rem
+    ),
+    radial-gradient(
+      circle at 88% 8%,
+      rgba(208, 163, 91, 0.12),
+      transparent 22rem
+    ),
     rgba(10, 13, 12, 0.88);
 }
 
@@ -2812,7 +3167,11 @@ code {
   gap: 0.8rem;
   border-radius: var(--radius);
   background:
-    radial-gradient(circle at 76% 0%, rgba(240, 201, 120, 0.18), transparent 9rem),
+    radial-gradient(
+      circle at 76% 0%,
+      rgba(240, 201, 120, 0.18),
+      transparent 9rem
+    ),
     rgba(18, 22, 19, 0.88);
   padding: 1.35rem;
 }
@@ -2832,6 +3191,926 @@ code {
   color: var(--muted);
 }
 
+.dinosaurs-map-note {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.08), transparent 54%),
+    rgba(8, 11, 11, 0.42);
+  padding: 0.85rem 1rem;
+}
+
+.dinosaurs-map-note svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.dinosaurs-map-note p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.dinosaur-facts-band {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.dinosaur-facts-band article {
+  min-height: 180px;
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      circle at 86% 0%,
+      rgba(240, 201, 120, 0.13),
+      transparent 9rem
+    ),
+    rgba(8, 11, 11, 0.54);
+  padding: 0.95rem;
+}
+
+.dinosaur-facts-band svg {
+  color: var(--gold);
+}
+
+.dinosaur-facts-band span,
+.dinosaur-facts-band strong,
+.dinosaur-facts-band p {
+  display: block;
+}
+
+.dinosaur-facts-band span {
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dinosaur-facts-band strong {
+  margin-top: 0.25rem;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.18rem, 1.6vw, 1.55rem);
+  line-height: 1.05;
+}
+
+.dinosaur-facts-band p {
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.42;
+}
+
+.dinosaur-common-ancestor {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.58fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-top: 1rem;
+  border: 1px solid rgba(218, 185, 126, 0.2);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      circle at 14% 8%,
+      rgba(130, 183, 179, 0.16),
+      transparent 13rem
+    ),
+    linear-gradient(100deg, rgba(18, 25, 22, 0.84), rgba(12, 12, 9, 0.64));
+  padding: 1rem;
+}
+
+.dinosaur-common-ancestor__lead {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.dinosaur-common-ancestor__lead svg {
+  margin-top: 0.2rem;
+  color: var(--gold);
+}
+
+.dinosaur-common-ancestor h2 {
+  margin: 0.15rem 0 0.55rem;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2.1vw, 2.1rem);
+  line-height: 1.08;
+}
+
+.dinosaur-common-ancestor p {
+  max-width: 940px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.dinosaur-common-ancestor__split {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.dinosaur-common-ancestor__split article {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: calc(var(--radius) - 4px);
+  background:
+    linear-gradient(90deg, rgba(208, 163, 91, 0.14), transparent 66%),
+    rgba(6, 9, 8, 0.52);
+  padding: 0.85rem 0.9rem 0.85rem 1rem;
+}
+
+.dinosaur-common-ancestor__split article::before {
+  position: absolute;
+  top: 1.1rem;
+  left: 0;
+  width: 4px;
+  height: calc(100% - 2.2rem);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold), rgba(130, 183, 179, 0.8));
+  content: "";
+}
+
+.dinosaur-common-ancestor__split span,
+.dinosaur-common-ancestor__split strong {
+  display: block;
+}
+
+.dinosaur-common-ancestor__split span {
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.dinosaur-common-ancestor__split strong {
+  margin-top: 0.35rem;
+  color: var(--text);
+  font-size: 0.96rem;
+  line-height: 1.4;
+}
+
+.dinosaur-axis-section {
+  position: relative;
+  margin-top: 1.25rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  padding: 1.15rem;
+}
+
+.dinosaurs-page .dinosaur-axis-section {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  padding: 0;
+}
+
+.dinosaur-axis-section::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(109, 155, 148, 0.09), transparent 46%),
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(130, 183, 179, 0.16),
+      transparent 13rem
+    );
+  content: "";
+  pointer-events: none;
+}
+
+.dinosaurs-page .dinosaur-axis-section::before {
+  content: none;
+}
+
+.dinosaur-axis-section.is-dinosaurs::before {
+  background:
+    linear-gradient(90deg, rgba(208, 163, 91, 0.11), transparent 46%),
+    radial-gradient(
+      circle at 12% 0%,
+      rgba(240, 201, 120, 0.16),
+      transparent 13rem
+    ),
+    radial-gradient(
+      circle at 94% 20%,
+      rgba(145, 169, 106, 0.13),
+      transparent 16rem
+    );
+}
+
+.dinosaur-atlas-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+  gap: 1rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+.dinosaur-atlas-grid .dinosaur-time-panel {
+  margin: 0;
+}
+
+.dinosaur-route-card {
+  margin-top: 1rem;
+}
+
+.dinosaur-route .era-route-item strong {
+  font-size: 0.76rem;
+  overflow-wrap: normal;
+  white-space: nowrap;
+}
+
+.dinosaur-route .era-route-item small {
+  font-size: 0.66rem;
+}
+
+.dinosaur-atlas-grid .dinosaur-detail-card {
+  position: sticky;
+  top: 92px;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0;
+  background: var(--panel-strong);
+}
+
+.dinosaur-atlas-grid .dinosaur-detail-visual {
+  min-height: 0;
+  border-bottom: 1px solid var(--line);
+  aspect-ratio: 1.22;
+}
+
+.dinosaur-atlas-grid .dinosaur-detail-visual img {
+  min-height: 0;
+}
+
+.dinosaur-atlas-grid .dinosaur-detail-copy {
+  padding: 1.25rem;
+}
+
+.dinosaur-atlas-grid .dinosaur-detail-copy h2 {
+  font-size: clamp(2rem, 3.2vw, 3rem);
+}
+
+.dinosaur-axis-shell {
+  position: relative;
+  z-index: 1;
+  margin: 1.05rem 0;
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.46);
+  overflow-x: auto;
+  overflow-y: hidden;
+  outline: none;
+}
+
+.dinosaur-axis-shell:focus-visible {
+  box-shadow: 0 0 0 2px rgba(240, 201, 120, 0.34);
+}
+
+.dinosaur-axis-toolbar {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  border-bottom: 1px solid rgba(218, 185, 126, 0.12);
+  background:
+    linear-gradient(90deg, rgba(8, 11, 11, 0.9), rgba(8, 11, 11, 0.66)),
+    rgba(8, 11, 11, 0.72);
+  padding: 0.78rem 0.9rem;
+}
+
+.dinosaur-axis-toolbar span {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.dinosaur-axis-toolbar svg {
+  color: var(--gold);
+}
+
+.dinosaur-axis-toolbar .axis-step-controls {
+  margin-left: auto;
+}
+
+.dinosaur-axis-toolbar strong {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dinosaur-photo-axis {
+  position: relative;
+  min-width: 2200px;
+  height: 410px;
+  overflow: hidden;
+}
+
+.dinosaur-axis-backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 18% 50%,
+      rgba(91, 142, 130, 0.26),
+      transparent 22rem
+    ),
+    radial-gradient(
+      ellipse at 76% 46%,
+      rgba(208, 163, 91, 0.2),
+      transparent 24rem
+    ),
+    linear-gradient(120deg, rgba(12, 30, 27, 0.78), rgba(35, 29, 18, 0.72));
+}
+
+.dinosaur-axis-stream {
+  position: absolute;
+  right: 4%;
+  left: 4%;
+  top: 50%;
+  height: 108px;
+  border: 1px solid rgba(240, 201, 120, 0.1);
+  border-radius: 999px 38% 999px 42%;
+  background:
+    repeating-linear-gradient(
+      173deg,
+      rgba(240, 201, 120, 0.06) 0 1px,
+      transparent 1px 14px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.3),
+      rgba(240, 201, 120, 0.36),
+      rgba(145, 169, 106, 0.24)
+    );
+  box-shadow: inset 0 0 38px rgba(8, 11, 11, 0.42);
+  opacity: 0.78;
+  transform: translateY(-50%) rotate(-1.4deg);
+}
+
+.dinosaur-axis-stream::after {
+  position: absolute;
+  right: 2rem;
+  left: 2rem;
+  top: 50%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(130, 183, 179, 0.55),
+    rgba(240, 201, 120, 0.88)
+  );
+  box-shadow: 0 0 26px rgba(240, 201, 120, 0.22);
+  content: "";
+}
+
+.dinosaur-axis-zones {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 1.25rem;
+  z-index: 2;
+  height: 2.25rem;
+}
+
+.dinosaur-axis-zones span {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  min-width: 9rem;
+  height: 100%;
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.13),
+      rgba(240, 201, 120, 0.12)
+    ),
+    rgba(8, 11, 11, 0.62);
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.dinosaur-active-line {
+  position: absolute;
+  z-index: 2;
+  top: 4.25rem;
+  bottom: 3.2rem;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(240, 201, 120, 0.95),
+    transparent
+  );
+  box-shadow: 0 0 24px rgba(240, 201, 120, 0.26);
+}
+
+.dinosaur-axis-callout {
+  position: absolute;
+  top: 1rem;
+  z-index: 3;
+  display: grid;
+  gap: 0.25rem;
+  max-width: 240px;
+  border: 1px solid rgba(240, 201, 120, 0.32);
+  border-radius: 14px;
+  background: rgba(8, 11, 11, 0.76);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+  padding: 0.7rem 0.82rem;
+  transform: translateX(-50%);
+}
+
+.dinosaur-axis-callout.align-left {
+  transform: translateX(0);
+}
+
+.dinosaur-axis-callout.align-right {
+  transform: translateX(-100%);
+}
+
+.dinosaur-axis-callout span {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dinosaur-axis-callout strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  line-height: 1.08;
+}
+
+.dinosaur-axis-nodes {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.dinosaur-axis-node {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  gap: 0.3rem;
+  justify-items: center;
+  width: 116px;
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: 16px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 201, 120, 0.16),
+      transparent 5.5rem
+    ),
+    rgba(8, 11, 11, 0.66);
+  color: var(--text);
+  cursor: pointer;
+  padding: 0.46rem 0.45rem 0.54rem;
+  text-align: center;
+  transform: translate(-50%, var(--node-y));
+  transition:
+    transform 170ms ease,
+    border-color 170ms ease,
+    background 170ms ease;
+}
+
+.dinosaur-axis-node:hover,
+.dinosaur-axis-node.is-active {
+  border-color: rgba(240, 201, 120, 0.55);
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 201, 120, 0.25),
+      transparent 6rem
+    ),
+    rgba(34, 30, 20, 0.82);
+  transform: translate(-50%, calc(var(--node-y) - 4px));
+}
+
+.dinosaur-axis-index {
+  justify-self: start;
+  color: var(--gold);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+}
+
+.dinosaur-axis-node img {
+  width: 76px;
+  height: 76px;
+  border: 2px solid rgba(240, 201, 120, 0.28);
+  border-radius: 50%;
+  background: rgba(8, 11, 11, 0.9);
+  object-fit: cover;
+  object-position: center;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+
+.dinosaur-axis-title {
+  overflow: hidden;
+  width: 100%;
+  min-height: 2.1em;
+  color: var(--text);
+  display: -webkit-box;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.05;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.dinosaur-time-panel {
+  position: relative;
+  z-index: 1;
+  margin: 1.05rem 0;
+}
+
+.dinosaur-time-stat {
+  max-width: 420px;
+}
+
+.dinosaur-time-stat small {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dinosaur-deep-axis {
+  height: 390px;
+}
+
+.dinosaur-time-water {
+  background:
+    radial-gradient(
+      circle at 14% 76%,
+      rgba(130, 183, 179, 0.24),
+      transparent 18rem
+    ),
+    radial-gradient(
+      circle at 78% 58%,
+      rgba(240, 201, 120, 0.2),
+      transparent 17rem
+    ),
+    repeating-linear-gradient(
+      168deg,
+      transparent 0 20px,
+      rgba(130, 183, 179, 0.055) 21px 23px,
+      transparent 24px 44px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(72, 118, 142, 0.22),
+      rgba(111, 151, 117, 0.21),
+      rgba(190, 131, 75, 0.2)
+    );
+}
+
+.dinosaur-time-floating-paths {
+  opacity: 0.52;
+}
+
+.dinosaur-axis-specimens {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.dinosaur-axis-specimens img {
+  position: absolute;
+  bottom: 5.1rem;
+  width: clamp(120px, 14vw, 220px);
+  height: 128px;
+  transform: translateX(-50%);
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0.54;
+  filter: saturate(0.92) contrast(1.05)
+    drop-shadow(0 24px 28px rgba(0, 0, 0, 0.34));
+  mix-blend-mode: screen;
+}
+
+.dinosaur-axis-specimens img:nth-child(2) {
+  height: 154px;
+  opacity: 0.66;
+}
+
+.dinosaur-axis-specimens img:nth-child(3) {
+  height: 150px;
+  opacity: 0.7;
+}
+
+.dinosaur-axis-specimens img:nth-child(4) {
+  height: 170px;
+  opacity: 0.76;
+}
+
+.dinosaur-zone-bands {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.dinosaur-zone-bands span {
+  position: absolute;
+  top: 5.45rem;
+  display: grid;
+  place-items: center;
+  height: 2.2rem;
+  border: 1px solid rgba(218, 185, 126, 0.11);
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.1), rgba(240, 201, 120, 0.09)),
+    rgba(8, 11, 11, 0.28);
+  color: rgba(235, 228, 212, 0.82);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.dinosaur-stage-dots .deep-stage-dot {
+  bottom: 4.55rem;
+}
+
+.dinosaur-time-ticks span {
+  flex: 1 1 auto;
+}
+
+.cladogram-page {
+  background:
+    radial-gradient(
+      circle at 14% 0%,
+      rgba(130, 183, 179, 0.14),
+      transparent 22rem
+    ),
+    radial-gradient(
+      circle at 88% 8%,
+      rgba(240, 201, 120, 0.1),
+      transparent 20rem
+    ),
+    rgba(10, 13, 12, 0.88);
+}
+
+.cladogram-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.cladogram-page-grid .cladogram-panel {
+  margin-top: 0;
+}
+
+.cladogram-page-grid .cladogram-inspector {
+  position: sticky;
+  top: 6.5rem;
+  max-height: calc(100vh - 7.5rem);
+  overflow: auto;
+}
+
+.cladogram-inspector {
+  display: grid;
+  align-self: start;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 80% 0%,
+      rgba(240, 201, 120, 0.12),
+      transparent 15rem
+    ),
+    radial-gradient(
+      circle at 0% 20%,
+      rgba(130, 183, 179, 0.1),
+      transparent 13rem
+    ),
+    rgba(10, 14, 13, 0.93);
+}
+
+.cladogram-inspector-media {
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(130, 183, 179, 0.18),
+      rgba(240, 201, 120, 0.08)
+    ),
+    rgba(11, 14, 13, 0.9);
+}
+
+.cladogram-inspector-media img {
+  display: block;
+  width: 100%;
+  height: 170px;
+  padding: 0.75rem;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.42));
+}
+
+.cladogram-inspector-media figcaption {
+  border-top: 1px solid rgba(218, 185, 126, 0.12);
+  color: var(--muted);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.76rem;
+}
+
+.cladogram-inspector-copy,
+.cladogram-inspector {
+  min-width: 0;
+}
+
+.cladogram-inspector-copy {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.95rem;
+}
+
+.cladogram-inspector h2 {
+  margin: 0;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.7rem, 3vw, 2.45rem);
+  line-height: 1.02;
+}
+
+.cladogram-inspector .latin {
+  margin: -0.2rem 0 0;
+  color: var(--text-soft);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.cladogram-inspector .lead {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.cladogram-inspector-marker {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  color: var(--gold);
+  padding: 0.95rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cladogram-inspector > .kicker {
+  margin: 0;
+  padding: 0.95rem 0.95rem 0;
+}
+
+.cladogram-inspector > h2,
+.cladogram-inspector > .latin,
+.cladogram-inspector > .lead {
+  padding-inline: 0.95rem;
+}
+
+.cladogram-inspector > .lead {
+  padding-bottom: 0.25rem;
+}
+
+.cladogram-inspector-note,
+.cladogram-inspector-traits {
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.44);
+}
+
+.cladogram-inspector-note {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0.2rem 0.95rem 0;
+  padding: 0.78rem 0.85rem;
+}
+
+.cladogram-inspector-note span {
+  color: var(--gold);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cladogram-inspector-note strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+}
+
+.cladogram-inspector-note small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.cladogram-inspector > .button {
+  margin: 0.85rem 0.95rem 0.95rem;
+}
+
+.cladogram-inspector-traits {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.62rem;
+  padding: 0.75rem;
+}
+
+.cladogram-inspector-traits svg {
+  color: var(--gold);
+  margin-top: 0.15rem;
+}
+
+.cladogram-inspector-traits strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--gold);
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.cladogram-inspector-traits ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cladogram-inspector-traits li {
+  border: 1px solid rgba(218, 185, 126, 0.17);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.08);
+  color: var(--text-soft);
+  padding: 0.28rem 0.52rem;
+  font-size: 0.74rem;
+}
+
+.cladogram-inspector-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.cladogram-inspector-actions .button {
+  flex: 1 1 auto;
+}
+
+.cladogram-inspector-actions > a[aria-label] {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2.45rem;
+  height: 2.45rem;
+  border: 1px solid rgba(218, 185, 126, 0.22);
+  border-radius: 999px;
+  color: var(--gold);
+  background: rgba(8, 11, 11, 0.42);
+}
+
 .dinosaur-branch-section {
   position: relative;
   margin-top: 1.25rem;
@@ -2845,7 +4124,11 @@ code {
   inset: 0;
   background:
     linear-gradient(90deg, rgba(109, 155, 148, 0.08), transparent 42%),
-    radial-gradient(circle at 8% 0%, rgba(130, 183, 179, 0.15), transparent 12rem);
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(130, 183, 179, 0.15),
+      transparent 12rem
+    );
   content: "";
   pointer-events: none;
 }
@@ -2853,7 +4136,11 @@ code {
 .dinosaur-branch-section.is-dinosaurs::before {
   background:
     linear-gradient(90deg, rgba(208, 163, 91, 0.1), transparent 42%),
-    radial-gradient(circle at 12% 0%, rgba(240, 201, 120, 0.16), transparent 13rem);
+    radial-gradient(
+      circle at 12% 0%,
+      rgba(240, 201, 120, 0.16),
+      transparent 13rem
+    );
 }
 
 .dinosaur-section-heading {
@@ -2891,13 +4178,22 @@ code {
   top: 2.15rem;
   height: 2px;
   border-radius: 99px;
-  background: linear-gradient(90deg, rgba(130, 183, 179, 0.62), rgba(240, 201, 120, 0.68));
+  background: linear-gradient(
+    90deg,
+    rgba(130, 183, 179, 0.62),
+    rgba(240, 201, 120, 0.68)
+  );
   content: "";
   opacity: 0.54;
 }
 
 .dinosaur-branch-route.is-dinosaur::before {
-  background: linear-gradient(90deg, rgba(208, 163, 91, 0.45), rgba(240, 201, 120, 0.78), rgba(145, 169, 106, 0.55));
+  background: linear-gradient(
+    90deg,
+    rgba(208, 163, 91, 0.45),
+    rgba(240, 201, 120, 0.78),
+    rgba(145, 169, 106, 0.55)
+  );
 }
 
 .shared-branch-card,
@@ -2911,7 +4207,11 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.15);
   border-radius: var(--radius);
   background:
-    radial-gradient(circle at 50% 0%, rgba(240, 201, 120, 0.12), transparent 4.2rem),
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 201, 120, 0.12),
+      transparent 4.2rem
+    ),
     rgba(8, 11, 11, 0.58);
   color: var(--text);
   cursor: pointer;
@@ -2930,7 +4230,11 @@ code {
   transform: translateY(-2px);
   border-color: rgba(240, 201, 120, 0.48);
   background:
-    radial-gradient(circle at 50% 0%, rgba(240, 201, 120, 0.2), transparent 4.8rem),
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 201, 120, 0.2),
+      transparent 4.8rem
+    ),
     rgba(34, 30, 20, 0.74);
 }
 
@@ -2985,7 +4289,11 @@ code {
   margin: 0;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 58% 16%, rgba(240, 201, 120, 0.18), transparent 14rem),
+    radial-gradient(
+      ellipse at 58% 16%,
+      rgba(240, 201, 120, 0.18),
+      transparent 14rem
+    ),
     linear-gradient(135deg, rgba(21, 48, 42, 0.7), rgba(61, 43, 29, 0.68)),
     #080b0b;
 }
@@ -2994,8 +4302,17 @@ code {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, transparent 0%, rgba(8, 11, 11, 0.08) 55%, rgba(8, 11, 11, 0.66) 100%),
-    repeating-linear-gradient(172deg, rgba(240, 201, 120, 0.04) 0 1px, transparent 1px 14px);
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(8, 11, 11, 0.08) 55%,
+      rgba(8, 11, 11, 0.66) 100%
+    ),
+    repeating-linear-gradient(
+      172deg,
+      rgba(240, 201, 120, 0.04) 0 1px,
+      transparent 1px 14px
+    );
   content: "";
   pointer-events: none;
 }
@@ -3113,13 +4430,676 @@ code {
   padding: 1.2rem;
 }
 
+.origin-page {
+  background:
+    radial-gradient(
+      circle at 14% 0%,
+      rgba(130, 183, 179, 0.14),
+      transparent 21rem
+    ),
+    radial-gradient(
+      circle at 88% 10%,
+      rgba(240, 201, 120, 0.12),
+      transparent 20rem
+    ),
+    rgba(10, 13, 12, 0.88);
+}
+
+.origin-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.origin-hero h1 {
+  max-width: 900px;
+  margin: 0.25rem 0 0.75rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.35rem, 5.5vw, 4.8rem);
+  line-height: 0.99;
+  letter-spacing: 0;
+}
+
+.origin-hero p {
+  max-width: 900px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.72;
+}
+
+.origin-answer-card {
+  display: grid;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background:
+    radial-gradient(
+      circle at 76% 0%,
+      rgba(130, 183, 179, 0.22),
+      transparent 10rem
+    ),
+    rgba(18, 22, 19, 0.88);
+}
+
+.origin-answer-card svg {
+  color: var(--gold);
+}
+
+.origin-answer-card strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.6rem;
+}
+
+.origin-answer-card span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.origin-map {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.08),
+      rgba(240, 201, 120, 0.08)
+    ),
+    rgba(8, 11, 11, 0.42);
+  padding: 0.9rem;
+}
+
+.origin-map::before {
+  position: absolute;
+  right: 2rem;
+  left: 2rem;
+  top: 50%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(130, 183, 179, 0.55),
+    rgba(240, 201, 120, 0.7)
+  );
+  content: "";
+  opacity: 0.5;
+}
+
+.origin-map span {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 58px;
+  place-items: center;
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: 999px;
+  background: rgba(8, 11, 11, 0.72);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.origin-hypotheses-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.origin-hypothesis-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  background:
+    radial-gradient(
+      circle at 12% 0%,
+      rgba(240, 201, 120, 0.12),
+      transparent 11rem
+    ),
+    rgba(8, 11, 11, 0.54);
+}
+
+.origin-hypothesis-card::after {
+  position: absolute;
+  right: -2rem;
+  bottom: -3rem;
+  width: 11rem;
+  height: 11rem;
+  border: 1px solid rgba(130, 183, 179, 0.16);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(130, 183, 179, 0.12), transparent 62%),
+    transparent;
+  content: "";
+  pointer-events: none;
+}
+
+.origin-card-heading {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.origin-card-heading svg {
+  margin-top: 0.22rem;
+  color: var(--gold);
+}
+
+.origin-card-heading span {
+  display: block;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.origin-card-heading h2 {
+  margin-top: 0.18rem;
+}
+
+.origin-hypothesis-card > p,
+.origin-hypothesis-card dl {
+  position: relative;
+  z-index: 1;
+}
+
+.origin-hypothesis-card dl {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0.9rem 0 0;
+}
+
+.origin-hypothesis-card dl div {
+  border: 1px solid rgba(218, 185, 126, 0.1);
+  border-radius: calc(var(--radius) - 2px);
+  background: rgba(8, 11, 11, 0.34);
+  padding: 0.7rem;
+}
+
+.origin-hypothesis-card dt {
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.origin-hypothesis-card dd {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  line-height: 1.52;
+}
+
+.origin-note {
+  margin-top: 1rem;
+  padding: 1.05rem;
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.09), transparent 52%),
+    rgba(8, 11, 11, 0.48);
+}
+
+.origin-note p {
+  max-width: 980px;
+}
+
+.origin-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.origin-sources a {
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.07);
+  color: var(--gold);
+  padding: 0.45rem 0.7rem;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.genetics-page {
+  background:
+    radial-gradient(
+      circle at 12% 2%,
+      rgba(130, 183, 179, 0.16),
+      transparent 22rem
+    ),
+    radial-gradient(
+      circle at 84% 0%,
+      rgba(240, 201, 120, 0.13),
+      transparent 21rem
+    ),
+    linear-gradient(120deg, rgba(8, 11, 11, 0.9), rgba(15, 18, 15, 0.88));
+}
+
+.genetics-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(290px, 420px);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.genetics-hero h1 {
+  max-width: 980px;
+  margin: 0.25rem 0 0.75rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.35rem, 5.4vw, 4.9rem);
+  line-height: 0.99;
+  letter-spacing: 0;
+}
+
+.genetics-hero p {
+  max-width: 940px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.72;
+}
+
+.genetics-answer-card,
+.genome-comparison-card,
+.genetics-evidence-card,
+.codon-lab,
+.genetics-note,
+.genetics-bridge {
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.genetics-answer-card {
+  display: grid;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background:
+    radial-gradient(
+      circle at 74% 0%,
+      rgba(130, 183, 179, 0.24),
+      transparent 10rem
+    ),
+    rgba(18, 22, 19, 0.88);
+}
+
+.genetics-answer-card svg,
+.genetics-section-heading svg,
+.genetics-note > svg,
+.genetics-bridge svg {
+  color: var(--gold);
+}
+
+.genetics-answer-card strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.65rem;
+}
+
+.genetics-answer-card span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.genetics-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.08),
+      rgba(240, 201, 120, 0.09)
+    ),
+    rgba(8, 11, 11, 0.42);
+  padding: 0.8rem;
+}
+
+.genetics-flow article {
+  position: relative;
+  display: grid;
+  gap: 0.35rem;
+  min-height: 86px;
+  align-content: center;
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: calc(var(--radius) - 2px);
+  background: rgba(8, 11, 11, 0.68);
+  padding: 0.8rem;
+}
+
+.genetics-flow article:not(:last-child)::after {
+  position: absolute;
+  right: -0.55rem;
+  top: 50%;
+  width: 0.55rem;
+  height: 2px;
+  background: rgba(240, 201, 120, 0.48);
+  content: "";
+}
+
+.genetics-flow strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+}
+
+.genetics-flow span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.codon-lab {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.85fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1.1rem;
+  background:
+    linear-gradient(125deg, rgba(130, 183, 179, 0.08), transparent 52%),
+    rgba(8, 11, 11, 0.56);
+}
+
+.codon-lab-copy h2,
+.genetics-section-heading h2,
+.genetics-note h2 {
+  margin: 0.25rem 0 0.55rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.9rem;
+  letter-spacing: 0;
+}
+
+.codon-lab-copy p,
+.genetics-section-heading p,
+.genetics-note p,
+.genetics-bridge p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.codon-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.codon-buttons button {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 5.2rem;
+  border: 1px solid rgba(218, 185, 126, 0.18);
+  border-radius: 999px;
+  background: rgba(8, 11, 11, 0.72);
+  color: var(--text);
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+}
+
+.codon-buttons button.is-active {
+  border-color: rgba(240, 201, 120, 0.72);
+  background: rgba(240, 201, 120, 0.16);
+}
+
+.codon-buttons span {
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.codon-buttons small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.codon-reader {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 0.7rem;
+  align-items: center;
+  border: 1px solid rgba(130, 183, 179, 0.2);
+  border-radius: calc(var(--radius) - 2px);
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(240, 201, 120, 0.14),
+      transparent 10rem
+    ),
+    rgba(8, 11, 11, 0.58);
+  padding: 1rem;
+}
+
+.codon-reader div {
+  display: grid;
+  gap: 0.3rem;
+  min-height: 92px;
+  place-items: center;
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: calc(var(--radius) - 3px);
+  background: rgba(255, 255, 255, 0.035);
+  text-align: center;
+}
+
+.codon-reader span {
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.codon-reader strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+}
+
+.codon-reader > svg {
+  color: var(--gold);
+  opacity: 0.8;
+}
+
+.codon-reader p {
+  grid-column: 1 / -1;
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  line-height: 1.52;
+}
+
+.genetics-section-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  margin-top: 1.25rem;
+}
+
+.genome-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.genome-comparison-card {
+  display: grid;
+  gap: 0.65rem;
+  align-content: start;
+  min-height: 315px;
+  padding: 1rem;
+  background:
+    linear-gradient(180deg, rgba(240, 201, 120, 0.08), transparent 42%),
+    rgba(8, 11, 11, 0.56);
+}
+
+.genome-comparison-card > span,
+.genetics-evidence-card a,
+.genetics-sources a {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.genome-comparison-card > strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.45rem;
+  line-height: 0.98;
+}
+
+.genome-comparison-card p,
+.genome-comparison-card small,
+.genetics-evidence-card p,
+.genetics-evidence-card strong {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.52;
+}
+
+.genome-comparison-card div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.5rem;
+  border: 1px solid rgba(218, 185, 126, 0.11);
+  border-radius: calc(var(--radius) - 3px);
+  background: rgba(255, 255, 255, 0.025);
+  padding: 0.7rem;
+}
+
+.genome-comparison-card div svg {
+  color: var(--gold);
+}
+
+.genome-comparison-card small {
+  color: var(--faint);
+}
+
+.genetics-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.genetics-evidence-card {
+  display: grid;
+  gap: 0.65rem;
+  align-content: start;
+  padding: 1rem;
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(130, 183, 179, 0.12),
+      transparent 10rem
+    ),
+    rgba(8, 11, 11, 0.52);
+}
+
+.genetics-evidence-card > svg {
+  color: var(--gold);
+}
+
+.genetics-evidence-card h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.45rem;
+  letter-spacing: 0;
+}
+
+.genetics-evidence-card strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.genetics-evidence-card a {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  justify-self: start;
+  text-decoration: none;
+}
+
+.genetics-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+  margin-top: 1rem;
+  padding: 1.1rem;
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.1), transparent 56%),
+    rgba(8, 11, 11, 0.52);
+}
+
+.genetics-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.genetics-sources a {
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.07);
+  padding: 0.45rem 0.7rem;
+  text-decoration: none;
+}
+
+.genetics-bridge {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(8, 11, 11, 0.52);
+}
+
+.genetics-bridge > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.genetics-bridge strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+}
+
 .cladogram-panel {
   margin-top: 1rem;
   border-radius: var(--radius);
   overflow: hidden;
   background:
-    radial-gradient(circle at 12% 0%, rgba(130, 183, 179, 0.14), transparent 18rem),
-    radial-gradient(circle at 88% 0%, rgba(208, 163, 91, 0.12), transparent 18rem),
+    radial-gradient(
+      circle at 12% 0%,
+      rgba(130, 183, 179, 0.14),
+      transparent 18rem
+    ),
+    radial-gradient(
+      circle at 88% 0%,
+      rgba(208, 163, 91, 0.12),
+      transparent 18rem
+    ),
     var(--panel);
 }
 
@@ -3195,7 +5175,11 @@ code {
   z-index: 0;
   width: 4px;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(130, 183, 179, 0.52), rgba(240, 201, 120, 0.68));
+  background: linear-gradient(
+    180deg,
+    rgba(130, 183, 179, 0.52),
+    rgba(240, 201, 120, 0.68)
+  );
   content: "";
 }
 
@@ -3213,7 +5197,7 @@ code {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.52rem;
   align-items: center;
   min-height: 78px;
 }
@@ -3274,7 +5258,11 @@ code {
   transform: translateY(-2px);
   border-color: rgba(240, 201, 120, 0.5);
   background:
-    radial-gradient(circle at 50% 0%, rgba(240, 201, 120, 0.18), transparent 4.8rem),
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 201, 120, 0.18),
+      transparent 4.8rem
+    ),
     rgba(34, 30, 20, 0.72);
 }
 
@@ -3333,20 +5321,31 @@ code {
 }
 
 .cladogram-branch {
-  flex: 1 1 240px;
+  flex: 1 1 210px;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0.55rem;
   align-items: center;
-  min-height: 72px;
-  padding: 0.72rem;
+  min-height: 68px;
+  padding: 0.68rem;
   background:
     linear-gradient(90deg, rgba(240, 201, 120, 0.08), transparent 54%),
     rgba(8, 11, 11, 0.48);
 }
 
+.cladogram-branch.is-context {
+  border-color: rgba(130, 183, 179, 0.17);
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.12), transparent 58%),
+    rgba(8, 11, 11, 0.44);
+}
+
 .cladogram-branch svg {
   color: var(--gold);
+}
+
+.cladogram-branch.is-context svg {
+  color: var(--cyan);
 }
 
 .cladogram-active-badge {
@@ -3366,8 +5365,16 @@ code {
   border-radius: var(--radius);
   overflow: hidden;
   background:
-    radial-gradient(circle at 8% 0%, rgba(240, 201, 120, 0.12), transparent 16rem),
-    radial-gradient(circle at 86% 18%, rgba(130, 183, 179, 0.1), transparent 18rem),
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(240, 201, 120, 0.12),
+      transparent 16rem
+    ),
+    radial-gradient(
+      circle at 86% 18%,
+      rgba(130, 183, 179, 0.1),
+      transparent 18rem
+    ),
     var(--panel);
 }
 
@@ -3398,7 +5405,11 @@ code {
   border: 1px solid rgba(240, 201, 120, 0.34);
   border-radius: 999px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(240, 201, 120, 0.22), rgba(8, 11, 11, 0.7)),
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 201, 120, 0.22),
+      rgba(8, 11, 11, 0.7)
+    ),
     rgba(8, 11, 11, 0.58);
   padding: 0.48rem 0.86rem;
   color: var(--text);
@@ -3541,8 +5552,16 @@ code {
   border-radius: var(--radius);
   overflow: hidden;
   background:
-    radial-gradient(circle at 12% 0%, rgba(240, 201, 120, 0.12), transparent 17rem),
-    radial-gradient(circle at 86% 16%, rgba(130, 183, 179, 0.1), transparent 18rem),
+    radial-gradient(
+      circle at 12% 0%,
+      rgba(240, 201, 120, 0.12),
+      transparent 17rem
+    ),
+    radial-gradient(
+      circle at 86% 16%,
+      rgba(130, 183, 179, 0.1),
+      transparent 18rem
+    ),
     var(--panel);
 }
 
@@ -3665,127 +5684,16 @@ code {
   color: var(--gold);
 }
 
-.comparison-panel {
-  margin-top: 1rem;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(130, 183, 179, 0.12), transparent 17rem),
-    radial-gradient(circle at 88% 16%, rgba(240, 201, 120, 0.12), transparent 18rem),
-    var(--panel);
-}
-
-.comparison-heading {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.85rem;
-  align-items: start;
-  border-bottom: 1px solid var(--line);
-  padding: 1.15rem 1.2rem;
-}
-
-.comparison-heading svg {
-  margin-top: 0.35rem;
-  color: var(--gold);
-}
-
-.comparison-heading p:not(.eyebrow) {
-  max-width: 870px;
-  line-height: 1.62;
-}
-
-.comparison-body {
-  display: grid;
-  gap: 0.9rem;
-  padding: 1.15rem;
-}
-
-.comparison-controls,
-.comparison-summary {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
-}
-
-.comparison-controls label {
-  display: grid;
-  gap: 0.35rem;
-  color: var(--gold);
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.comparison-controls select {
-  min-width: 0;
-  border: 1px solid rgba(218, 185, 126, 0.18);
-  border-radius: var(--radius);
-  background: rgba(8, 11, 11, 0.72);
-  color: var(--text);
-  padding: 0.75rem;
-  font: inherit;
-}
-
-.comparison-summary {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.comparison-summary article,
-.comparison-traits {
-  border: 1px solid rgba(218, 185, 126, 0.13);
-  border-radius: var(--radius);
-  background: rgba(8, 11, 11, 0.42);
-  padding: 0.85rem;
-}
-
-.comparison-summary span,
-.comparison-traits > strong {
-  color: var(--gold);
-  font-size: 0.76rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.comparison-summary strong {
-  display: block;
-  margin-top: 0.4rem;
-  color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.28rem;
-  line-height: 1.1;
-}
-
-.comparison-summary small {
-  display: block;
-  margin-top: 0.25rem;
-  color: var(--muted);
-}
-
-.comparison-traits div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.42rem;
-  margin-top: 0.75rem;
-}
-
-.comparison-traits span {
-  border: 1px solid rgba(218, 185, 126, 0.15);
-  border-radius: 999px;
-  background: rgba(240, 201, 120, 0.06);
-  color: var(--text);
-  padding: 0.3rem 0.52rem;
-  font-size: 0.78rem;
-  line-height: 1.2;
-}
-
 @media (max-width: 1320px) {
   .atlas-title h1 {
     font-size: 3.9rem;
   }
 
   .atlas-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  }
+
+  .dinosaur-atlas-grid {
     grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
   }
 }
@@ -3812,7 +5720,8 @@ code {
   }
 
   .atlas-hero,
-  .atlas-grid {
+  .atlas-grid,
+  .dinosaur-atlas-grid {
     grid-template-columns: 1fr;
   }
 
@@ -3831,6 +5740,10 @@ code {
   }
 
   .stage-panel {
+    position: static;
+  }
+
+  .dinosaur-atlas-grid .dinosaur-detail-card {
     position: static;
   }
 
@@ -3917,7 +5830,20 @@ code {
   }
 
   .dinosaurs-hero,
-  .dinosaur-detail-card {
+  .genetics-hero,
+  .origin-hero,
+  .dinosaur-detail-card,
+  .cladogram-page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .genetics-flow,
+  .genome-comparison-grid,
+  .genetics-evidence-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .codon-lab {
     grid-template-columns: 1fr;
   }
 
@@ -3938,6 +5864,23 @@ code {
 
   .trait-compact-body {
     grid-template-columns: 1fr;
+  }
+
+  .origin-hypotheses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dinosaur-facts-band {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dinosaur-common-ancestor {
+    grid-template-columns: 1fr;
+  }
+
+  .cladogram-page-grid .cladogram-inspector {
+    position: static;
+    max-height: none;
   }
 }
 
@@ -4025,13 +5968,21 @@ code {
 
   .era-route,
   .stage-panel,
+  .dinosaur-atlas-grid,
   .takeaway-band,
   .wow-facts-band,
   .theory-bridge-band,
   .theory-principles,
   .extinction-overview,
   .dinosaurs-hero,
+  .genetics-hero,
+  .origin-hero,
   .dinosaur-detail-card,
+  .codon-lab,
+  .genetics-flow,
+  .genome-comparison-grid,
+  .genetics-evidence-grid,
+  .origin-hypotheses-grid,
   .source-card,
   .about-grid {
     grid-template-columns: 1fr;
@@ -4096,6 +6047,10 @@ code {
 
   .deep-time-axis {
     height: 310px;
+  }
+
+  .dinosaur-deep-axis {
+    height: 330px;
   }
 
   .deep-time-river-image {
@@ -4259,6 +6214,38 @@ code {
     flex-direction: column;
   }
 
+  .genetics-hero h1 {
+    font-size: 2.25rem;
+  }
+
+  .genetics-flow article:not(:last-child)::after {
+    display: none;
+  }
+
+  .codon-reader {
+    grid-template-columns: 1fr;
+  }
+
+  .codon-reader > svg {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+
+  .genome-comparison-card {
+    min-height: auto;
+  }
+
+  .genetics-note,
+  .genetics-bridge > div,
+  .genetics-section-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .genetics-bridge {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .dinosaurs-answer-card strong {
     font-size: 1.35rem;
   }
@@ -4267,8 +6254,78 @@ code {
     padding: 0.85rem;
   }
 
+  .dinosaur-axis-section {
+    padding: 0.85rem;
+  }
+
+  .dinosaur-facts-band {
+    grid-template-columns: 1fr;
+  }
+
+  .dinosaur-facts-band article {
+    min-height: auto;
+  }
+
+  .dinosaur-common-ancestor,
+  .dinosaur-common-ancestor__lead {
+    grid-template-columns: 1fr;
+  }
+
   .dinosaur-section-heading {
     grid-template-columns: 1fr;
+  }
+
+  .dinosaur-axis-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dinosaur-axis-toolbar .axis-step-controls {
+    margin-left: 0;
+  }
+
+  .dinosaur-photo-axis {
+    min-width: 1700px;
+    height: 370px;
+  }
+
+  .dinosaur-axis-specimens img {
+    bottom: 4.5rem;
+    height: 92px;
+    opacity: 0.48;
+  }
+
+  .dinosaur-axis-specimens img:nth-child(n) {
+    height: 104px;
+  }
+
+  .dinosaur-zone-bands span {
+    top: 4.65rem;
+    height: 2rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.11em;
+  }
+
+  .dinosaur-axis-node {
+    width: 104px;
+  }
+
+  .dinosaur-axis-node img {
+    width: 66px;
+    height: 66px;
+  }
+
+  .origin-map {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .origin-map::before {
+    display: none;
+  }
+
+  .origin-map span {
+    min-height: 50px;
+    font-size: 0.72rem;
   }
 
   .cladogram-heading {
@@ -4311,11 +6368,6 @@ code {
   }
 
   .quiz-heading {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-
-  .comparison-heading {
     grid-template-columns: 1fr;
     padding: 1rem;
   }
@@ -4363,15 +6415,6 @@ code {
   }
 
   .quiz-options {
-    grid-template-columns: 1fr;
-  }
-
-  .comparison-body {
-    padding: 0.9rem;
-  }
-
-  .comparison-controls,
-  .comparison-summary {
     grid-template-columns: 1fr;
   }
 

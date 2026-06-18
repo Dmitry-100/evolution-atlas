@@ -19,7 +19,7 @@ type DeepTimeAxisProps = {
 };
 
 const ORIGIN_MA = 4000;
-const PRIMATES_MA = 65;
+const PRIMATES_MA = 66;
 const extinctionLabels: Record<string, string> = {
   "ordovician-silurian": "Ордовик",
   "late-devonian": "Девон",
@@ -139,10 +139,10 @@ export function DeepTimeAxis({
           decoding="async"
         />
         <div className="pre-primate-field" style={{ width: `${primateStart}%` }}>
-          <span>До приматов: примерно 3,94 млрд лет</span>
+          <span>До приматов: примерно 3,93 млрд лет</span>
         </div>
         <div className="primate-sliver" style={{ left: `${primateStart}%` }}>
-          <span>Приматы ~65 млн лет</span>
+          <span>Приматы ~66 млн лет</span>
         </div>
 
         {eraBands.map((era) => (
@@ -237,7 +237,7 @@ export function DeepTimeAxis({
         <span>1 млрд</span>
         <span>600 млн</span>
         <span>200 млн</span>
-        <span>65 млн</span>
+        <span>66 млн</span>
         <span>сегодня</span>
       </div>
     </section>
