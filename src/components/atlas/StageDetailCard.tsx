@@ -1,4 +1,4 @@
-import { ExternalLink, Fingerprint, Sparkles } from "lucide-react";
+import { Fingerprint, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { getStageGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage, StageImage } from "../../data/lineage";
@@ -18,9 +18,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
   const [previousImage, setPreviousImage] = useState<StageImage | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const imageLabel =
-    stage.image.kind === "generated-reconstruction"
-      ? "AI-реконструкция"
-      : "изображение из открытого источника";
+    stage.image.kind === "generated-reconstruction" ? "AI-реконструкция" : null;
   const glossaryTerm = getStageGlossaryTerm(stage.id);
   const imagePlaceholder = getImagePlaceholder(stage.image.kind);
 
@@ -90,7 +88,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             onError={() => setIsLoaded(true)}
           />
         </div>
-        <figcaption>{imageLabel}</figcaption>
+        {imageLabel ? <figcaption>{imageLabel}</figcaption> : null}
       </figure>
 
       <div className="stage-copy">
@@ -119,14 +117,6 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
         <div className="why-box">
           <Sparkles aria-hidden="true" size={18} />
           <p>{stage.whyMattersRu}</p>
-        </div>
-
-        <div className="source-strip">
-          <span>{stage.image.credit}</span>
-          <a href={stage.image.sourceUrl} target="_blank" rel="noreferrer">
-            license: {stage.image.license}
-            <ExternalLink aria-hidden="true" size={14} />
-          </a>
         </div>
       </div>
     </aside>

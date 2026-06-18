@@ -48,10 +48,22 @@ function App() {
       <div className="app-shell">
         <header className="topbar">
           <NavLink className="brand" to="/" aria-label="Открыть атлас">
-            <span className="brand-mark" aria-hidden="true" />
-            <span>
-              <strong>Достающее звено</strong>
-              <small>интерактивный атлас эволюции</small>
+            <img
+              className="brand-wordmark"
+              src="/assets/brand/portal-logo.png"
+              alt=""
+              aria-hidden="true"
+            />
+            <span className="brand-compact" aria-hidden="true">
+              <img
+                className="brand-mark"
+                src="/assets/brand/portal-logo-mark.png"
+                alt=""
+              />
+              <span>
+                <strong>Достающее звено</strong>
+                <small>интерактивный атлас эволюции</small>
+              </span>
             </span>
           </NavLink>
           <nav className="topbar-nav" aria-label="Основная навигация">

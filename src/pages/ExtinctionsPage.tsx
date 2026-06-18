@@ -1,4 +1,4 @@
-import { ArrowRight, BarChart3, Flame, RefreshCw, Sparkles, Waves } from "lucide-react";
+import { ArrowRight, BarChart3, FileText, Flame, RefreshCw, Sparkles, Waves } from "lucide-react";
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
@@ -34,7 +34,27 @@ export function ExtinctionsPage() {
         </article>
       </div>
 
-      <div className="extinction-timeline" aria-label="Пять крупных вымираний">
+      <div className="extinction-material-link">
+        <FileText aria-hidden="true" size={22} />
+        <div>
+          <strong>Связанная презентация</strong>
+          <p>
+            В материалах есть лекция “Шесть апокалипсисов планеты”: она
+            раскрывает те же шесть кризисов с диаграммами и слайдами.
+          </p>
+        </div>
+        <a
+          className="button button-secondary button-md"
+          href="/assets/materials/six-planet-apocalypses.pdf"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Открыть PDF
+          <ArrowRight aria-hidden="true" size={17} />
+        </a>
+      </div>
+
+      <div className="extinction-timeline" aria-label="Шесть крупных кризисов биоразнообразия">
         {MASS_EXTINCTIONS.map((event) => (
           <article
             key={event.id}
@@ -43,7 +63,6 @@ export function ExtinctionsPage() {
           >
             <figure className="extinction-visual">
               <img src={event.image.src} alt={event.image.altRu} loading="lazy" decoding="async" />
-              <figcaption>{event.image.creditRu}</figcaption>
             </figure>
 
             <div className="extinction-card-body">

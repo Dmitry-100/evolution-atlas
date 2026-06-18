@@ -164,4 +164,44 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
       source("Wikipedia: Cretaceous-Paleogene extinction event", "https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene_extinction_event"),
     ],
   },
+  {
+    id: "holocene-anthropocene",
+    titleRu: "Современный кризис биоразнообразия",
+    ageMa: 0,
+    windowRu: "сейчас",
+    lossRu:
+      "Это не один удар астероида, а ускоренное исчезновение популяций и видов под давлением человека.",
+    lossPercentRu:
+      "около 1 млн видов находятся под угрозой исчезновения по оценке IPBES",
+    snapshotRu:
+      "изменение землепользования, прямое изъятие организмов, климат, загрязнение и инвазивные виды одновременно давят на биосферу.",
+    keyFactsRu: [
+      "В отличие от древних кризисов, этот происходит при нас: главные драйверы можно измерять и менять политикой, технологиями и поведением.",
+      "IPBES оценивает, что около 1 млн видов животных и растений находятся под угрозой исчезновения.",
+      "Это не доказательство “конца жизни”, но сильный сигнал: разнообразие ветвей может резко сократиться за исторически короткое время.",
+    ],
+    image: {
+      src: "/assets/images/extinctions/holocene-anthropocene.jpg",
+      altRu:
+        "Слайд о шестом глобальном вымирании: человеческий фактор, драйверы и темпы исчезновения видов",
+      creditRu: "Презентация “Шесть апокалипсисов планеты”, слайд 14",
+    },
+    color: "#d87c63",
+    likelyCausesRu: [
+      "изменение землепользования",
+      "эксплуатация видов",
+      "климат",
+      "загрязнение",
+      "инвазивные виды",
+    ],
+    afterRu:
+      "Будущее этого кризиса не завершено: в отличие от древних вымираний, часть причин зависит от решений современных обществ.",
+    relationRu:
+      "Наша ветвь стала геологической силой: Homo sapiens впервые не только проходит через кризис, но и сам его усиливает или может ослабить.",
+    sources: [
+      source("IPBES: Global Assessment", "https://www.ipbes.net/global-assessment"),
+      source("Natural History Museum: are we facing the sixth mass extinction?", "https://www.nhm.ac.uk/discover/what-is-mass-extinction-and-are-we-facing-a-sixth-one.html"),
+      source("IUCN Red List", "https://www.iucnredlist.org/"),
+    ],
+  },
 ];

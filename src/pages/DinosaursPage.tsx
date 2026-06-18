@@ -24,7 +24,7 @@ import {
   sharedAnimalBranch,
   type DinosaurLineageStage,
 } from "../data/dinosaurLineage";
-import type { EvolutionStage, SourceRef, StageImage } from "../data/lineage";
+import type { EvolutionStage, StageImage } from "../data/lineage";
 
 type BranchItem = EvolutionStage | DinosaurLineageStage;
 
@@ -44,33 +44,6 @@ const dinosaurJourneyZones = [
     label: "динозавры → птицы",
     fromId: "diapsids",
     toId: "modern-birds",
-  },
-];
-
-const dinosaurSpecimens = [
-  {
-    id: "fish",
-    src: "/assets/images/source-backed/lobe-finned.jpg",
-    alt: "",
-    left: 39,
-  },
-  {
-    id: "eoraptor",
-    src: "/assets/images/dinosaurs/early-dinosaurs.jpg",
-    alt: "",
-    left: 60,
-  },
-  {
-    id: "archaeopteryx",
-    src: "/assets/images/dinosaurs/archaeopteryx.jpg",
-    alt: "",
-    left: 74,
-  },
-  {
-    id: "bird",
-    src: "/assets/images/dinosaurs/modern-birds.jpg",
-    alt: "",
-    left: 94,
   },
 ];
 
@@ -177,7 +150,6 @@ const formatAge = (ageMa: number) => {
 };
 
 const getImage = (stage: BranchItem): StageImage => stage.image;
-const getSources = (stage: BranchItem): SourceRef[] => stage.sources;
 const getWhyMatters = (stage: BranchItem) =>
   "whyMattersRu" in stage
     ? stage.whyMattersRu
@@ -228,7 +200,6 @@ function getStepTarget(stages: BranchItem[], activeId: string, delta: number) {
 
 function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
   const image = getImage(stage);
-  const sources = getSources(stage);
 
   return (
     <article className="dinosaur-detail-card" aria-live="polite">
@@ -239,14 +210,9 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
           loading="lazy"
           decoding="async"
         />
-        <figcaption>
-          {image.credit}
-          <span>
-            {image.kind === "local-plate"
-              ? "локальная иллюстрация"
-              : image.license}
-          </span>
-        </figcaption>
+        {image.kind === "generated-reconstruction" ? (
+          <figcaption>AI-реконструкция</figcaption>
+        ) : null}
       </figure>
 
       <div className="dinosaur-detail-copy">
@@ -278,18 +244,6 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
           ))}
         </div>
 
-        <div className="dinosaur-sources">
-          {sources.map((source) => (
-            <a
-              key={source.url}
-              href={source.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {source.label}
-            </a>
-          ))}
-        </div>
       </div>
     </article>
   );
@@ -386,19 +340,14 @@ function DinosaurTimelineAxis({
           className="deep-time-floating-paths dinosaur-time-floating-paths"
           density="panel"
         />
-
-        <div className="dinosaur-axis-specimens" aria-hidden="true">
-          {dinosaurSpecimens.map((specimen) => (
-            <img
-              key={specimen.id}
-              src={specimen.src}
-              alt={specimen.alt}
-              style={{ left: `${specimen.left}%` }}
-              loading="lazy"
-              decoding="async"
-            />
-          ))}
-        </div>
+        <img
+          className="dinosaur-timeline-river-image"
+          src="/assets/images/dinosaurs/dinosaur-timeline-river.png"
+          alt=""
+          aria-hidden="true"
+          loading="eager"
+          decoding="async"
+        />
 
         <div className="dinosaur-zone-bands" aria-hidden="true">
           {dinosaurJourneyZones.map((zone) => {
@@ -632,6 +581,14 @@ export function DinosaursPage() {
             <p>{dinosaurCommonAncestor.summaryRu}</p>
           </div>
         </div>
+        <figure className="dinosaur-common-ancestor__media">
+          <img
+            src="/assets/images/source-backed/amniotes.jpg"
+            alt="Реконструкция раннего амниота — близкого образа нашего общего предка с птицами."
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
         <div className="dinosaur-common-ancestor__split" aria-label="Две ветви после ранних амниот">
           <article>
             <span>Наша линия</span>

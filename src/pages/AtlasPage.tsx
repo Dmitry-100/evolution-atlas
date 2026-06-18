@@ -1,6 +1,6 @@
 import { useMemo, useRef, type CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowRight, BookOpen, Clock3, Compass, Dna, History, Search, Sparkles, Star, Waves } from "lucide-react";
+import { ArrowRight, BookOpen, Clock3, Compass, Dna, Fingerprint, History, Search, Sparkles, Star, Waves } from "lucide-react";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
@@ -55,30 +55,31 @@ export function AtlasPage() {
   const canStepPrevious = activeIndex > 0;
   const canStepNext = activeIndex < visibleStages.length - 1;
   const activeElapsedShare = elapsedShare(activeStage.ageMa);
+  const traitCount = accumulatedTraitGroups.reduce((sum, group) => sum + group.traits.length, 0);
   const wowFacts = [
     {
       icon: Clock3,
-      label: "До приматов",
-      value: `${percentRu(elapsedShare(PRIMATES_MA) * 100, 1)}%`,
-      text: "истории жизни уже прошло, прежде чем появились ранние приматы.",
-    },
-    {
-      icon: Dna,
-      label: "Млекопитающие",
-      value: "95%",
-      text: "пути уже было позади к моменту появления первых млекопитающих.",
+      label: "К выбранной точке",
+      value: `${percentRu(activeElapsedShare * 100)}%`,
+      text: `истории жизни прошло к этапу “${activeStage.titleRu}”.`,
     },
     {
       icon: Sparkles,
-      label: "24 часа жизни",
-      value: shareToClock(elapsedShare(PRIMATES_MA)),
-      text: "примерное время появления приматов, если всю историю жизни сжать в один день.",
+      label: "Один день жизни",
+      value: shareToClock(activeElapsedShare),
+      text: "время выбранного этапа, если 4 млрд лет сжать в 24 часа.",
+    },
+    {
+      icon: Fingerprint,
+      label: "Накоплено признаков",
+      value: traitCount.toLocaleString("ru-RU"),
+      text: "унаследованных признаков уже собрано к этой точке маршрута.",
     },
     {
       icon: Star,
-      label: "Выбранная точка",
-      value: `${percentRu(activeElapsedShare * 100)}%`,
-      text: `истории жизни прошло к этапу “${activeStage.titleRu}”.`,
+      label: "До приматов",
+      value: `${percentRu(elapsedShare(PRIMATES_MA) * 100, 1)}%`,
+      text: "до появления приматов - 98,4% истории жизни уже было позади.",
     },
   ];
 
@@ -145,7 +146,7 @@ export function AtlasPage() {
                 </TabsTrigger>
                 <TabsTrigger value="primates">
                   <Search aria-hidden="true" size={18} />
-                  Приматы крупно
+                  Приматы → человек
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -160,6 +161,19 @@ export function AtlasPage() {
               </TooltipContent>
             </Tooltip>
             <JourneyControls stages={sortedStages} activeStage={activeStage} onActivate={activateJourneyStage} />
+          </div>
+        </section>
+
+        <section className="theory-bridge-band atlas-note-band">
+          <div>
+            <Star aria-hidden="true" size={22} />
+            <div>
+              <strong>Главная мысль</strong>
+              <p>
+                Эволюция не лестница к человеку, а ветвящееся дерево. На шкале показаны не “ступеньки прогресса”, а
+                ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
+              </p>
+            </div>
           </div>
         </section>
 
@@ -214,19 +228,6 @@ export function AtlasPage() {
 
         <TraitAccumulator groups={accumulatedTraitGroups} />
 
-        <section className="theory-bridge-band atlas-note-band">
-          <div>
-            <Star aria-hidden="true" size={22} />
-            <div>
-              <strong>Главная мысль</strong>
-              <p>
-                Эволюция не лестница к человеку, а ветвящееся дерево. На шкале показаны не “ступеньки прогресса”, а
-                ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
-              </p>
-            </div>
-          </div>
-        </section>
-
         <section className="theory-bridge-band">
           <div>
             <Dna aria-hidden="true" size={22} />
@@ -274,7 +275,7 @@ export function AtlasPage() {
             <Waves aria-hidden="true" size={22} />
             <div>
               <strong>Почему история жизни менялась рывками?</strong>
-              <p>Пять глобальных вымираний показывают, как кризисы открывали место новым ветвям эволюции.</p>
+              <p>Шесть крупных кризисов показывают, как вымирания меняли сцену жизни и освобождали ниши для новых ветвей.</p>
             </div>
           </div>
           <Link className="button button-secondary button-md" to="/extinctions">

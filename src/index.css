@@ -331,33 +331,46 @@ code {
   min-height: 70px;
   padding: 0.85rem 2rem;
   border-bottom: 1px solid var(--line);
-  background: rgba(8, 11, 11, 0.78);
+  background: #0a0a0a;
   backdrop-filter: blur(18px);
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.85rem;
-  min-width: 0;
+  flex: 0 0 auto;
+  gap: 0.8rem;
   text-decoration: none;
 }
 
-.brand-mark {
-  width: 38px;
-  height: 38px;
+.brand-wordmark {
+  display: block;
+  width: clamp(156px, 11vw, 184px);
+  max-width: none;
+  height: auto;
   flex: 0 0 auto;
-  border: 1px solid rgba(235, 198, 124, 0.42);
+  border-radius: 6px;
+  filter: drop-shadow(0 0 18px rgba(217, 173, 97, 0.12));
+}
+
+.brand-compact {
+  display: none;
+}
+
+.brand-compact {
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 48% 48%, var(--amber) 0 3px, transparent 4px),
-    conic-gradient(
-      from 90deg,
-      rgba(130, 183, 179, 0.18),
-      rgba(217, 173, 97, 0.7),
-      rgba(158, 179, 110, 0.24)
-    );
-  box-shadow: 0 0 28px rgba(217, 173, 97, 0.18);
+  object-fit: cover;
+  box-shadow:
+    0 0 0 1px rgba(235, 198, 124, 0.32),
+    0 0 28px rgba(217, 173, 97, 0.2);
 }
 
 .brand strong,
@@ -394,8 +407,10 @@ code {
   border-radius: 999px;
   color: var(--muted);
   font-size: 0.9rem;
-  padding: 0.48rem 0.8rem;
+  min-width: max-content;
+  padding: 0.48rem 0.6rem;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .topbar-nav a.active {
@@ -1342,8 +1357,7 @@ code {
   transform: translateY(-2px);
 }
 
-.deep-active-line,
-.primate-active-line {
+.deep-active-line {
   position: absolute;
   z-index: 6;
   top: 3.8rem;
@@ -1453,337 +1467,125 @@ code {
 }
 
 .primate-focus-panel {
-  min-height: 0;
+  min-height: 520px;
 }
 
-.primate-focus-intro {
-  margin-top: 1rem;
-  border: 1px solid rgba(218, 185, 126, 0.13);
-  border-radius: var(--radius);
-  background:
-    radial-gradient(
-      circle at 90% 0%,
-      rgba(240, 201, 120, 0.14),
-      transparent 12rem
-    ),
-    rgba(255, 255, 255, 0.035);
-  padding: 0.95rem 1rem;
+.primate-time-stat {
+  max-width: 430px;
 }
 
-.primate-focus-intro p {
-  margin: 0;
-  max-width: 820px;
-  color: var(--muted);
-}
-
-.primate-photo-axis {
-  position: relative;
-  margin-top: 1rem;
-  border: 1px solid rgba(218, 185, 126, 0.18);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background:
-    radial-gradient(
-      circle at 18% 28%,
-      rgba(130, 183, 179, 0.18),
-      transparent 16rem
-    ),
-    radial-gradient(
-      circle at 88% 34%,
-      rgba(240, 201, 120, 0.18),
-      transparent 16rem
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.045),
-      rgba(255, 255, 255, 0.012)
-    ),
-    #090d0c;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.primate-timeline-stage {
-  position: relative;
-  min-width: 100%;
-  height: 470px;
-  cursor: default;
-}
-
-.primate-canopy {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    linear-gradient(180deg, rgba(5, 8, 8, 0.12), rgba(5, 8, 8, 0.74)),
-    repeating-linear-gradient(
-      165deg,
-      transparent 0 34px,
-      rgba(130, 183, 179, 0.05) 35px 37px,
-      transparent 38px 72px
-    );
-}
-
-.primate-floating-paths {
-  inset: 1.2rem -2.5rem 4.2rem;
-  z-index: 1;
-  width: calc(100% + 5rem);
-  height: calc(100% - 5.4rem);
-  opacity: 0.7;
-  mix-blend-mode: screen;
-}
-
-.primate-constellation {
-  right: 3.4rem;
-  top: 1.2rem;
-  z-index: 1;
-  width: min(520px, 58vw);
-  height: 190px;
-  opacity: 0.36;
-}
-
-.primate-track-line {
-  position: absolute;
-  right: 2rem;
-  bottom: 4.8rem;
-  left: 2rem;
-  z-index: 1;
-  height: 4px;
-  border-radius: 999px;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(130, 183, 179, 0.84),
-      rgba(145, 169, 106, 0.84),
-      rgba(217, 173, 97, 0.92)
-    ),
-    rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 28px rgba(240, 201, 120, 0.2);
-}
-
-.primate-photo-node {
-  position: absolute;
-  top: var(--node-top);
-  z-index: 2;
+.primate-time-stat small {
   display: block;
-  width: 64px;
-  height: 64px;
-  transform: translateX(-50%);
-  color: var(--text);
-  cursor: pointer;
-  padding: 0;
-  border: 1px solid rgba(218, 185, 126, 0.2);
-  border-radius: 18px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.016)
-    ),
-    rgba(8, 11, 11, 0.78);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
-  overflow: visible;
-  text-align: left;
-  transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.primate-photo-node::before {
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  width: 1px;
-  height: var(--node-line-height);
-  min-height: 22px;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, rgba(240, 201, 120, 0.46), transparent);
-  content: "";
-}
-
-.primate-photo-node::after {
-  position: absolute;
-  left: 50%;
-  top: calc(100% + var(--node-line-height) - 5px);
-  width: 11px;
-  height: 11px;
-  transform: translateX(-50%);
-  border: 2px solid rgba(8, 11, 11, 0.72);
-  border-radius: 50%;
-  background: rgba(232, 211, 164, 0.82);
-  box-shadow: 0 0 0 3px rgba(232, 211, 164, 0.14);
-  content: "";
-}
-
-.primate-photo-node:hover,
-.primate-photo-node.is-active {
-  transform: translateX(-50%) translateY(-4px);
-  border-color: var(--amber);
-  box-shadow:
-    0 0 0 3px rgba(240, 201, 120, 0.12),
-    0 22px 60px rgba(0, 0, 0, 0.32);
-}
-
-.primate-photo-node.is-active::after {
-  width: 24px;
-  height: 24px;
-  border: 4px solid rgba(255, 255, 255, 0.84);
-  background: var(--amber);
-  box-shadow:
-    0 0 0 5px rgba(240, 201, 120, 0.24),
-    0 0 34px rgba(240, 201, 120, 0.68);
-}
-
-.primate-node-image {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 17px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(130, 183, 179, 0.09),
-      rgba(240, 201, 120, 0.08)
-    ),
-    #080b0b;
-}
-
-.primate-node-image img {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  object-fit: contain;
-  padding: 0.28rem;
-  filter: saturate(0.88) contrast(1.04);
-  transition: transform 240ms ease;
-}
-
-.primate-photo-node:hover .primate-node-image img,
-.primate-photo-node.is-active .primate-node-image img {
-  transform: scale(1.035);
-}
-
-.primate-node-copy {
-  position: absolute;
-  left: 50%;
-  top: calc(100% + 0.55rem);
-  z-index: 5;
-  display: block;
-  width: 138px;
-  border: 1px solid rgba(218, 185, 126, 0.28);
-  border-radius: 10px;
-  background: rgba(8, 11, 11, 0.92);
-  box-shadow: var(--shadow);
-  opacity: 0;
-  padding: 0.58rem 0.62rem;
-  pointer-events: none;
-  transform: translateX(-50%) translateY(0.35rem);
-  transition:
-    opacity 160ms ease,
-    transform 160ms ease;
-}
-
-.primate-photo-node.align-left .primate-node-copy {
-  left: 0;
-  transform: translateY(0.35rem);
-}
-
-.primate-photo-node.align-right .primate-node-copy {
-  right: 0;
-  left: auto;
-  transform: translateY(0.35rem);
-}
-
-.primate-node-copy strong,
-.primate-node-copy small {
-  display: block;
-}
-
-.primate-node-copy strong {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.88rem;
-  line-height: 1.06;
-}
-
-.primate-node-copy small {
-  margin-top: 0.32rem;
-  color: var(--muted);
-  font-size: 0.68rem;
-  line-height: 1.15;
-}
-
-.primate-photo-node.is-active .primate-node-copy small {
-  color: var(--gold);
-}
-
-.primate-photo-node:hover .primate-node-copy,
-.primate-photo-node:focus-visible .primate-node-copy,
-.primate-photo-node.is-active .primate-node-copy {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-.primate-photo-node.align-left:hover .primate-node-copy,
-.primate-photo-node.align-left:focus-visible .primate-node-copy,
-.primate-photo-node.align-left.is-active .primate-node-copy,
-.primate-photo-node.align-right:hover .primate-node-copy,
-.primate-photo-node.align-right:focus-visible .primate-node-copy,
-.primate-photo-node.align-right.is-active .primate-node-copy {
-  transform: translateY(0);
-}
-
-.primate-active-line {
-  top: auto;
-  bottom: 4.8rem;
-  height: 325px;
-}
-
-.primate-active-chip {
-  position: absolute;
-  right: auto;
-  bottom: 1rem;
-  z-index: 4;
-  width: 170px;
-  transform: translateX(-50%);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  background: rgba(8, 11, 11, 0.86);
-  box-shadow: var(--shadow);
-  padding: 0.58rem 0.68rem;
-  pointer-events: none;
-}
-
-.primate-active-chip span,
-.primate-active-chip strong {
-  display: block;
-}
-
-.primate-active-chip span {
+  margin-top: 0.2rem;
   color: var(--gold);
   font-size: 0.68rem;
-  font-weight: 800;
+  font-weight: 900;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.primate-active-chip strong {
-  margin-top: 0.16rem;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
-  line-height: 1.1;
+.primate-deep-axis {
+  height: 390px;
 }
 
-.primate-axis-ticks {
+.primate-time-water {
+  background:
+    radial-gradient(
+      circle at 15% 72%,
+      rgba(130, 183, 179, 0.24),
+      transparent 18rem
+    ),
+    radial-gradient(
+      circle at 82% 62%,
+      rgba(240, 201, 120, 0.2),
+      transparent 17rem
+    ),
+    repeating-linear-gradient(
+      168deg,
+      transparent 0 20px,
+      rgba(130, 183, 179, 0.05) 21px 23px,
+      transparent 24px 44px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(49, 93, 96, 0.25),
+      rgba(72, 118, 84, 0.22),
+      rgba(190, 131, 75, 0.2)
+    );
+}
+
+.primate-time-floating-paths {
+  opacity: 0.44;
+}
+
+.primate-timeline-river-image {
   position: absolute;
-  right: 1.8rem;
-  bottom: 2.2rem;
-  left: 1.8rem;
-  display: flex;
-  justify-content: space-between;
-  color: var(--faint);
-  font-size: 0.72rem;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.78;
+  filter: saturate(0.98) contrast(1.03);
+  pointer-events: none;
+}
+
+.primate-deep-axis::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4, 7, 7, 0.48),
+      rgba(4, 7, 7, 0.14) 32%,
+      rgba(4, 7, 7, 0.38) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(4, 7, 7, 0.35),
+      transparent 42%,
+      rgba(4, 7, 7, 0.36)
+    );
+  content: "";
+  pointer-events: none;
+}
+
+.primate-zone-bands {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.primate-zone-bands span {
+  position: absolute;
+  top: 6.35rem;
+  display: grid;
+  place-items: center;
+  min-height: 2rem;
+  border: 1px solid rgba(218, 185, 126, 0.11);
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.11), rgba(240, 201, 120, 0.09)),
+    rgba(8, 11, 11, 0.28);
+  color: rgba(235, 228, 212, 0.82);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  line-height: 1.15;
+  padding: 0.25rem 0.55rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.primate-stage-dots .deep-stage-dot {
+  bottom: 4.55rem;
+}
+
+.primate-time-ticks span {
+  flex: 1 1 auto;
 }
 
 .timeline-toolbar {
@@ -2605,23 +2407,89 @@ code {
 }
 
 .document-page {
-  width: min(1180px, calc(100% - 2rem));
-  margin: 2rem auto;
+  position: relative;
+  width: 100%;
+  max-width: 1860px;
+  margin: 0 auto;
   border-radius: var(--radius);
-  padding: 2rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 1.5rem 2rem 2.5rem;
+  outline: none;
 }
 
 .quiz-page {
-  width: min(1180px, calc(100% - 2rem));
-  margin: 2rem auto;
+  position: relative;
+  width: 100%;
+  max-width: 1860px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 2.5rem;
 }
 
-.quiz-page .document-header {
-  margin-bottom: 1.15rem;
+.document-page::before,
+.quiz-page::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      circle at 15% 12%,
+      rgba(130, 183, 179, 0.12),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 86% 16%,
+      rgba(240, 201, 120, 0.11),
+      transparent 25rem
+    ),
+    linear-gradient(180deg, rgba(240, 201, 120, 0.04), transparent 34rem);
+  content: "";
+  pointer-events: none;
+}
+
+.document-header {
+  position: relative;
+  isolation: isolate;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  padding: 0.65rem 0 1.5rem;
+}
+
+.document-header::after,
+.dinosaurs-hero::after,
+.origin-hero::after,
+.genetics-hero::after {
+  position: absolute;
+  right: -8vw;
+  bottom: -5rem;
+  z-index: -1;
+  width: min(880px, 74vw);
+  height: 360px;
+  border-radius: 999px;
+  background:
+    radial-gradient(
+      ellipse at 50% 54%,
+      rgba(240, 201, 120, 0.12),
+      transparent 58%
+    ),
+    repeating-linear-gradient(
+      166deg,
+      rgba(130, 183, 179, 0.08) 0 1px,
+      transparent 1px 34px
+    );
+  content: "";
+  opacity: 0.62;
+  pointer-events: none;
 }
 
 .document-header h1 {
-  font-size: 3.6rem;
+  font-size: clamp(3rem, 5.7vw, 5.8rem);
+  line-height: 0.98;
+}
+
+.document-header p {
+  line-height: 1.6;
 }
 
 .source-list {
@@ -2799,19 +2667,19 @@ code {
   font-style: italic;
 }
 
-.material-use {
+.material-highlights {
   margin-top: 1rem;
   border-top: 1px solid var(--line);
   padding-top: 0.9rem;
 }
 
-.material-use strong {
+.material-highlights strong {
   display: block;
   margin-bottom: 0.45rem;
   color: var(--text);
 }
 
-.material-use ul {
+.material-highlights ul {
   margin: 0;
   padding-left: 1.1rem;
   color: var(--muted);
@@ -2819,6 +2687,139 @@ code {
 
 .material-actions {
   margin-top: 1.1rem;
+}
+
+.materials-recommendations {
+  margin-top: 2rem;
+}
+
+.materials-section-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.materials-section-heading svg {
+  margin-top: 0.25rem;
+  color: var(--gold);
+}
+
+.materials-section-heading h2 {
+  margin: 0.25rem 0 0.45rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 3vw, 2.45rem);
+  letter-spacing: 0;
+}
+
+.materials-section-heading p {
+  max-width: 980px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.reading-grid,
+.watch-grid {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.reading-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.watch-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.reading-card,
+.watch-card,
+.extinction-material-link {
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(130, 183, 179, 0.12),
+      transparent 12rem
+    ),
+    rgba(8, 11, 11, 0.48);
+  box-shadow: var(--shadow);
+}
+
+.reading-card,
+.watch-card {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  padding: 1rem;
+}
+
+.reading-card {
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.reading-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  align-self: start;
+  border: 1px solid rgba(240, 201, 120, 0.18);
+  border-radius: calc(var(--radius) - 0.25rem);
+  background: rgba(240, 201, 120, 0.08);
+  box-shadow: 0 1rem 2.6rem rgba(0, 0, 0, 0.28);
+  object-fit: cover;
+}
+
+.reading-card-copy {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  min-width: 0;
+}
+
+.reading-card-copy > span,
+.watch-card > span {
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.reading-card h3,
+.watch-card h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.42rem;
+  letter-spacing: 0;
+  line-height: 1.12;
+}
+
+.reading-card strong {
+  color: var(--text-soft);
+}
+
+.reading-card p,
+.reading-card small,
+.watch-card p,
+.watch-card small {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.48;
+}
+
+.reading-card small,
+.watch-card small {
+  color: var(--text-soft);
+}
+
+.reading-card .button,
+.watch-card .button {
+  justify-self: start;
+  margin-top: 0.3rem;
 }
 
 .about-grid {
@@ -2856,6 +2857,29 @@ code {
 
 .extinction-overview svg {
   color: var(--gold);
+}
+
+.extinction-material-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.extinction-material-link svg {
+  color: var(--gold);
+}
+
+.extinction-material-link strong {
+  color: var(--text);
+}
+
+.extinction-material-link p {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
 .extinction-timeline {
@@ -3138,10 +3162,14 @@ code {
 }
 
 .dinosaurs-hero {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
   gap: 1rem;
   align-items: stretch;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0.65rem 0 1rem;
 }
 
 .dinosaurs-hero h1 {
@@ -3271,7 +3299,9 @@ code {
 
 .dinosaur-common-ancestor {
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.58fr);
+  grid-template-columns:
+    minmax(0, 0.96fr) minmax(210px, 0.34fr)
+    minmax(320px, 0.58fr);
   gap: 1rem;
   align-items: stretch;
   margin-top: 1rem;
@@ -3312,6 +3342,31 @@ code {
   margin: 0;
   color: var(--muted);
   line-height: 1.58;
+}
+
+.dinosaur-common-ancestor__media {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: calc(var(--radius) - 3px);
+  background:
+    radial-gradient(
+      circle at 48% 20%,
+      rgba(240, 201, 120, 0.16),
+      transparent 8rem
+    ),
+    rgba(8, 11, 11, 0.58);
+}
+
+.dinosaur-common-ancestor__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  object-fit: contain;
+  padding: 0.45rem;
+  filter: saturate(0.96) contrast(1.04)
+    drop-shadow(0 18px 24px rgba(0, 0, 0, 0.28));
 }
 
 .dinosaur-common-ancestor__split {
@@ -3801,40 +3856,38 @@ code {
   opacity: 0.52;
 }
 
-.dinosaur-axis-specimens {
+.dinosaur-timeline-river-image {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.72;
+  filter: saturate(0.98) contrast(1.02);
   pointer-events: none;
 }
 
-.dinosaur-axis-specimens img {
+.dinosaur-deep-axis::after {
   position: absolute;
-  bottom: 5.1rem;
-  width: clamp(120px, 14vw, 220px);
-  height: 128px;
-  transform: translateX(-50%);
-  object-fit: contain;
-  object-position: center bottom;
-  opacity: 0.54;
-  filter: saturate(0.92) contrast(1.05)
-    drop-shadow(0 24px 28px rgba(0, 0, 0, 0.34));
-  mix-blend-mode: screen;
-}
-
-.dinosaur-axis-specimens img:nth-child(2) {
-  height: 154px;
-  opacity: 0.66;
-}
-
-.dinosaur-axis-specimens img:nth-child(3) {
-  height: 150px;
-  opacity: 0.7;
-}
-
-.dinosaur-axis-specimens img:nth-child(4) {
-  height: 170px;
-  opacity: 0.76;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4, 7, 7, 0.42),
+      transparent 28%,
+      rgba(4, 7, 7, 0.34) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(4, 7, 7, 0.44),
+      transparent 38%,
+      rgba(4, 7, 7, 0.42)
+    );
+  content: "";
+  pointer-events: none;
 }
 
 .dinosaur-zone-bands {
@@ -3898,9 +3951,10 @@ code {
 
 .cladogram-page-grid .cladogram-inspector {
   position: sticky;
-  top: 6.5rem;
-  max-height: calc(100vh - 7.5rem);
-  overflow: auto;
+  top: 1rem;
+  max-height: calc(100dvh - 2rem);
+  overflow: hidden auto;
+  overscroll-behavior: contain;
 }
 
 .cladogram-inspector {
@@ -3937,7 +3991,7 @@ code {
 .cladogram-inspector-media img {
   display: block;
   width: 100%;
-  height: 170px;
+  height: clamp(135px, 19dvh, 180px);
   padding: 0.75rem;
   object-fit: contain;
   filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.42));
@@ -4045,7 +4099,8 @@ code {
   font-size: 0.78rem;
 }
 
-.cladogram-inspector > .button {
+.cladogram-inspector > .button,
+.cladogram-inspector > .cladogram-inspector-actions {
   margin: 0.85rem 0.95rem 0.95rem;
 }
 
@@ -4446,10 +4501,14 @@ code {
 }
 
 .origin-hero {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
   gap: 1rem;
   align-items: stretch;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0.65rem 0 1rem;
 }
 
 .origin-hero h1 {
@@ -4496,6 +4555,131 @@ code {
 .origin-answer-card span {
   color: var(--muted);
   line-height: 1.55;
+}
+
+.origin-hero-panel,
+.genetics-hero-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.origin-hero-image,
+.genetics-hero-image,
+.origin-hypothesis-media,
+.genetics-evidence-media,
+.molecule-card {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      circle at 72% 16%,
+      rgba(240, 201, 120, 0.1),
+      transparent 12rem
+    ),
+    rgba(8, 11, 11, 0.62);
+  box-shadow: var(--shadow);
+}
+
+.origin-hero-image img,
+.genetics-hero-image img {
+  display: block;
+  width: 100%;
+  min-height: 230px;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+.genetics-hero-image img {
+  object-fit: contain;
+  padding: 0.8rem;
+}
+
+.origin-hero-image figcaption,
+.genetics-hero-image figcaption,
+.origin-hypothesis-media figcaption,
+.genetics-evidence-media figcaption {
+  border-top: 1px solid rgba(218, 185, 126, 0.12);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.42;
+  padding: 0.62rem 0.76rem;
+}
+
+.origin-section-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  margin-top: 1.15rem;
+}
+
+.origin-section-heading svg {
+  margin-top: 0.2rem;
+  color: var(--gold);
+}
+
+.origin-section-heading h2 {
+  margin: 0.25rem 0 0.45rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.9rem;
+  letter-spacing: 0;
+}
+
+.origin-section-heading p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.origin-story-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.origin-story-card {
+  overflow: hidden;
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(240, 201, 120, 0.07), transparent 46%),
+    rgba(8, 11, 11, 0.56);
+}
+
+.origin-story-card img {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.origin-story-card div {
+  display: grid;
+  gap: 0.34rem;
+  padding: 0.82rem;
+}
+
+.origin-story-card span {
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.origin-story-card strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.35rem;
+}
+
+.origin-story-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.48;
 }
 
 .origin-map {
@@ -4580,6 +4764,23 @@ code {
     transparent;
   content: "";
   pointer-events: none;
+}
+
+.origin-hypothesis-media {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0.9rem;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.origin-hypothesis-media img,
+.genetics-evidence-media img {
+  display: block;
+  width: 100%;
+  height: 174px;
+  object-fit: contain;
+  background: rgba(3, 5, 5, 0.55);
+  padding: 0.5rem;
 }
 
 .origin-card-heading {
@@ -4687,10 +4888,14 @@ code {
 }
 
 .genetics-hero {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(290px, 420px);
   gap: 1rem;
   align-items: stretch;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0.65rem 0 1rem;
 }
 
 .genetics-hero h1 {
@@ -4751,6 +4956,16 @@ code {
 .genetics-answer-card span {
   color: var(--muted);
   line-height: 1.55;
+}
+
+.genetics-hero-image {
+  background:
+    radial-gradient(
+      circle at 22% 22%,
+      rgba(130, 183, 179, 0.14),
+      transparent 11rem
+    ),
+    rgba(8, 11, 11, 0.66);
 }
 
 .genetics-flow {
@@ -4929,6 +5144,61 @@ code {
   margin-top: 1.25rem;
 }
 
+.molecule-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.molecule-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(130, 183, 179, 0.13),
+      transparent 11rem
+    ),
+    rgba(8, 11, 11, 0.54);
+}
+
+.molecule-card img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: contain;
+  background: rgba(3, 5, 5, 0.58);
+  padding: 0.7rem;
+}
+
+.molecule-card div {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem;
+}
+
+.molecule-card span {
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.molecule-card h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+  letter-spacing: 0;
+}
+
+.molecule-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.48;
+}
+
 .genome-comparison-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -4964,6 +5234,12 @@ code {
   line-height: 0.98;
 }
 
+.genome-comparison-card > b {
+  color: var(--text-soft);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
 .genome-comparison-card p,
 .genome-comparison-card small,
 .genetics-evidence-card p,
@@ -4973,7 +5249,26 @@ code {
   line-height: 1.52;
 }
 
-.genome-comparison-card div {
+.genome-comparison-meter {
+  overflow: hidden;
+  height: 0.62rem;
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.genome-comparison-meter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(130, 183, 179, 0.92),
+    rgba(240, 201, 120, 0.92)
+  );
+}
+
+.genome-comparison-proof {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0.5rem;
@@ -4983,7 +5278,7 @@ code {
   padding: 0.7rem;
 }
 
-.genome-comparison-card div svg {
+.genome-comparison-proof svg {
   color: var(--gold);
 }
 
@@ -5014,6 +5309,15 @@ code {
 
 .genetics-evidence-card > svg {
   color: var(--gold);
+}
+
+.genetics-evidence-media {
+  border-radius: calc(var(--radius) - 2px);
+  box-shadow: none;
+}
+
+.genetics-evidence-media img {
+  height: 142px;
 }
 
 .genetics-evidence-card h3 {
@@ -5287,7 +5591,7 @@ code {
 }
 
 .cladogram-node-copy,
-.cladogram-branch span {
+.cladogram-branch-copy {
   display: grid;
   gap: 0.16rem;
   min-width: 0;
@@ -5321,16 +5625,45 @@ code {
 }
 
 .cladogram-branch {
-  flex: 1 1 210px;
+  flex: 1 1 270px;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 0.55rem;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  gap: 0.62rem;
   align-items: center;
-  min-height: 68px;
-  padding: 0.68rem;
+  min-height: 86px;
+  padding: 0.58rem;
   background:
     linear-gradient(90deg, rgba(240, 201, 120, 0.08), transparent 54%),
     rgba(8, 11, 11, 0.48);
+}
+
+.cladogram-branch-thumb {
+  display: block;
+  width: 58px;
+  height: 58px;
+  overflow: hidden;
+  border: 1px solid rgba(218, 185, 126, 0.24);
+  border-radius: 0.55rem;
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(240, 201, 120, 0.15),
+      transparent 4rem
+    ),
+    rgba(8, 11, 11, 0.62);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+}
+
+.cladogram-branch-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cladogram-branch-icon {
+  align-self: center;
+  opacity: 0.72;
 }
 
 .cladogram-branch.is-context {
@@ -5346,6 +5679,11 @@ code {
 
 .cladogram-branch.is-context svg {
   color: var(--cyan);
+}
+
+.cladogram-branch .cladogram-active-badge {
+  grid-column: 2 / -1;
+  justify-self: start;
 }
 
 .cladogram-active-badge {
@@ -5726,7 +6064,10 @@ code {
   }
 
   .atlas-title h1,
-  .document-header h1 {
+  .document-header h1,
+  .dinosaurs-hero h1,
+  .genetics-hero h1,
+  .origin-hero h1 {
     font-size: 2.7rem;
     line-height: 1.04;
   }
@@ -5767,10 +6108,6 @@ code {
 
   .deep-time-axis {
     height: 320px;
-  }
-
-  .primate-timeline-stage {
-    min-width: 100%;
   }
 
   .theory-principles,
@@ -5839,7 +6176,9 @@ code {
 
   .genetics-flow,
   .genome-comparison-grid,
-  .genetics-evidence-grid {
+  .genetics-evidence-grid,
+  .origin-story-grid,
+  .molecule-gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -5913,6 +6252,14 @@ code {
     opacity: 0.22;
   }
 
+  .brand-wordmark {
+    display: none;
+  }
+
+  .brand-compact {
+    display: inline-flex;
+  }
+
   .brand small {
     display: none;
   }
@@ -5929,25 +6276,29 @@ code {
   .topbar-nav a {
     flex: 0 0 auto;
     font-size: 0.84rem;
-    padding-inline: 0.45rem;
+    padding-inline: 0.78rem;
   }
 
   .topbar-nav {
+    border-radius: 28px;
     justify-content: flex-start;
     overflow-x: auto;
-  }
-
-  .topbar-nav a.active {
-    order: -1;
+    padding-inline: 0.9rem 0.45rem;
   }
 
   .atlas-title h1,
-  .document-header h1 {
+  .document-header h1,
+  .dinosaurs-hero h1,
+  .genetics-hero h1,
+  .origin-hero h1 {
     font-size: 2rem;
   }
 
   .atlas-title p,
-  .document-header p {
+  .document-header p,
+  .dinosaurs-hero p,
+  .genetics-hero p,
+  .origin-hero p {
     font-size: 1rem;
   }
 
@@ -5982,7 +6333,11 @@ code {
   .genetics-flow,
   .genome-comparison-grid,
   .genetics-evidence-grid,
+  .origin-story-grid,
   .origin-hypotheses-grid,
+  .molecule-gallery-grid,
+  .reading-grid,
+  .watch-grid,
   .source-card,
   .about-grid {
     grid-template-columns: 1fr;
@@ -6012,6 +6367,11 @@ code {
   .theory-bridge-band {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .reading-card {
+    grid-template-columns: 86px minmax(0, 1fr);
+    gap: 0.8rem;
   }
 
   .stage-panel {
@@ -6049,7 +6409,8 @@ code {
     height: 310px;
   }
 
-  .dinosaur-deep-axis {
+  .dinosaur-deep-axis,
+  .primate-deep-axis {
     height: 330px;
   }
 
@@ -6078,11 +6439,6 @@ code {
     right: 0.35rem;
     bottom: 1rem;
     font-size: 0.68rem;
-  }
-
-  .primate-floating-paths,
-  .primate-constellation {
-    opacity: 0.26;
   }
 
   .deep-active-card {
@@ -6131,14 +6487,15 @@ code {
   }
 
   .document-page {
-    width: calc(100% - 1rem);
-    margin: 0.5rem auto 1rem;
-    padding: 1rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0.75rem 0.75rem 1.5rem;
   }
 
   .quiz-page {
-    width: calc(100% - 1rem);
-    margin: 0.5rem auto 1rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0.75rem 0.75rem 1.5rem;
   }
 
   .source-card > div {
@@ -6237,8 +6594,22 @@ code {
 
   .genetics-note,
   .genetics-bridge > div,
+  .origin-section-heading,
   .genetics-section-heading {
     grid-template-columns: 1fr;
+  }
+
+  .origin-hero-image img,
+  .genetics-hero-image img {
+    min-height: 190px;
+    max-height: 250px;
+  }
+
+  .origin-story-card img,
+  .molecule-card img,
+  .origin-hypothesis-media img,
+  .genetics-evidence-media img {
+    height: 170px;
   }
 
   .genetics-bridge {
@@ -6267,6 +6638,7 @@ code {
   }
 
   .dinosaur-common-ancestor,
+  .dinosaur-common-ancestor__media,
   .dinosaur-common-ancestor__lead {
     grid-template-columns: 1fr;
   }
@@ -6287,16 +6659,6 @@ code {
   .dinosaur-photo-axis {
     min-width: 1700px;
     height: 370px;
-  }
-
-  .dinosaur-axis-specimens img {
-    bottom: 4.5rem;
-    height: 92px;
-    opacity: 0.48;
-  }
-
-  .dinosaur-axis-specimens img:nth-child(n) {
-    height: 104px;
   }
 
   .dinosaur-zone-bands span {
@@ -6424,7 +6786,7 @@ code {
   }
 
   .cladogram-branch {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: 54px minmax(0, 1fr);
   }
 
   .cladogram-node .cladogram-active-badge {
@@ -6435,6 +6797,15 @@ code {
   .cladogram-branch .cladogram-active-badge {
     grid-column: 2;
     justify-self: start;
+  }
+
+  .cladogram-branch-thumb {
+    width: 54px;
+    height: 54px;
+  }
+
+  .cladogram-branch-icon {
+    display: none;
   }
 
   .dinosaur-branch-route {

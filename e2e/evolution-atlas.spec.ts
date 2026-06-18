@@ -41,6 +41,11 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: "Дерево родства" }),
     ).toBeVisible();
+    await expect(page.locator(".brand-wordmark")).toBeVisible();
+    await expect(page.locator(".brand-wordmark")).toHaveAttribute(
+      "src",
+      "/assets/brand/portal-logo.png",
+    );
     await expect
       .poll(() =>
         page
@@ -64,7 +69,7 @@ test.describe("Evolution Atlas", () => {
         "Проверь себя",
       ]);
     await expect(page.locator(".deep-time-axis")).toBeVisible();
-    await expect(page.locator(".extinction-marker")).toHaveCount(5);
+    await expect(page.locator(".extinction-marker")).toHaveCount(6);
     await expect(page.locator(".app-ethereal-background")).toBeVisible();
     await expect(
       page.locator(".ethereal-ink-canvas, .ethereal-ink-fallback"),
@@ -87,13 +92,26 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".life-year-calendar")).toHaveCount(0);
     await expect(page.locator(".quiz-panel")).toHaveCount(0);
     await expect(page.locator(".cladogram-panel")).toHaveCount(0);
+    await expect(page.locator(".atlas-note-band")).toHaveCount(1);
+    await expect(page.locator(".atlas-note-band")).toContainText(
+      "Главная мысль",
+    );
 
+    const heroBox = await page.locator(".atlas-hero").boundingBox();
+    const noteBox = await page.locator(".atlas-note-band").boundingBox();
     const factsBox = await page.locator(".wow-facts-band").boundingBox();
     const atlasGridBox = await page.locator(".atlas-grid").boundingBox();
+    expect(heroBox).not.toBeNull();
+    expect(noteBox).not.toBeNull();
     expect(factsBox).not.toBeNull();
     expect(atlasGridBox).not.toBeNull();
-    if (factsBox && atlasGridBox) {
+    if (heroBox && noteBox && factsBox && atlasGridBox) {
+      expect(heroBox.y).toBeLessThan(noteBox.y);
+      expect(noteBox.y).toBeLessThan(factsBox.y);
       expect(factsBox.y).toBeLessThan(atlasGridBox.y);
+      expect(factsBox.y - (noteBox.y + noteBox.height)).toBeGreaterThanOrEqual(
+        12,
+      );
       expect(
         atlasGridBox.y - (factsBox.y + factsBox.height),
       ).toBeGreaterThanOrEqual(24);
@@ -147,12 +165,13 @@ test.describe("Evolution Atlas", () => {
       )
       .toBe(true);
 
-    await page.getByRole("tab", { name: /Приматы крупно/i }).click();
-    await expect(page.locator(".primate-photo-axis")).toBeVisible();
-    await expect(page.locator(".primate-floating-paths")).toBeVisible();
-    await expect(page.locator(".primate-constellation")).toBeVisible();
-    await expect(page.locator(".primate-photo-node img").first()).toBeVisible();
-    await expect(page.getByText(/66 млн лет крупно/i)).toBeVisible();
+    await page.getByRole("tab", { name: /Приматы.*человек/i }).click();
+    await expect(page.locator(".primate-deep-axis")).toBeVisible();
+    await expect(page.locator(".primate-timeline-river-image")).toBeVisible();
+    await expect(page.locator(".primate-time-floating-paths")).toBeVisible();
+    await expect(page.locator(".primate-stage-dots .deep-stage-dot")).toHaveCount(16);
+    await expect(page.locator(".primate-zone-bands span")).toHaveCount(4);
+    await expect(page.getByText(/66 млн лет назад.*сегодня/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
 
     await page
@@ -217,7 +236,7 @@ test.describe("Evolution Atlas", () => {
   test("atlas URL state restores mode and selected stage", async ({ page }) => {
     await page.goto("/?mode=primates&stage=early-apes");
     await expect(
-      page.getByRole("tab", { name: /Приматы крупно/i }),
+      page.getByRole("tab", { name: /Приматы.*человек/i }),
     ).toHaveAttribute("aria-selected", "true");
     await expect(
       page.getByRole("heading", { name: "Ранние человекообразные" }),
@@ -229,7 +248,7 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
 
     await page
-      .locator(".primate-photo-axis")
+      .locator(".primate-deep-axis")
       .getByRole("button", { name: /Homo sapiens/i })
       .click();
     await expect(page).toHaveURL(/mode=primates&stage=homo-sapiens/);
@@ -254,7 +273,7 @@ test.describe("Evolution Atlas", () => {
         .getByText("Главный ствол к человеку"),
     ).toBeVisible();
     await expect(
-      cladogram.locator(".cladogram-reader-guide").getByText("Боковая ветвь"),
+      cladogram.locator(".cladogram-reader-guide").getByText("Общий предок"),
     ).toBeVisible();
     await expect(cladogram.locator(".cladogram-map")).toBeVisible();
     await expect(
@@ -280,6 +299,33 @@ test.describe("Evolution Atlas", () => {
       cladogram.locator(".cladogram-row.has-branches"),
     ).not.toHaveCount(0);
     await expect(
+      cladogram.locator(".cladogram-branch-thumb img").first(),
+    ).toBeVisible();
+    await expect
+      .poll(() =>
+        cladogram
+          .locator(".cladogram-branch-thumb img")
+          .evaluateAll((images) =>
+            images.every((node) => {
+              const image = node as HTMLImageElement;
+              return image.getAttribute("src")?.startsWith("/assets/images/");
+            }),
+          ),
+      )
+      .toBe(true);
+    await expect
+      .poll(() =>
+        cladogram
+          .locator(".cladogram-branch-thumb img")
+          .evaluateAll((images) =>
+            images.some((node) => {
+              const image = node as HTMLImageElement;
+              return image.complete && image.naturalWidth > 0;
+            }),
+          ),
+      )
+      .toBe(true);
+    await expect(
       cladogram.getByRole("button", { name: /Неандертальцы/i }),
     ).toBeVisible();
     await expect(page.locator(".stage-panel")).toHaveCount(0);
@@ -302,8 +348,17 @@ test.describe("Evolution Atlas", () => {
       /Диапсиды/,
     );
     await expect(page.locator(".cladogram-inspector")).toContainText(
-      "контекстная ветвь",
+      "общий предок",
     );
+    await expect(page.locator(".cladogram-inspector-media img")).toBeVisible();
+    await expect
+      .poll(() =>
+        page.locator(".cladogram-inspector-media img").evaluate((node) => {
+          const image = node as HTMLImageElement;
+          return image.complete && image.naturalWidth > 0;
+        }),
+      )
+      .toBe(true);
 
     await cladogram
       .locator(".cladogram-branch")
@@ -480,7 +535,15 @@ test.describe("Evolution Atlas", () => {
         hasText: /примерно 75% видов/i,
       }),
     ).toBeVisible();
-    await expect(page.locator(".extinction-visual img")).toHaveCount(5);
+    await expect(page.locator(".extinction-visual img")).toHaveCount(6);
+    await expect(
+      page.getByRole("heading", {
+        name: /Современный кризис биоразнообразия/i,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Открыть PDF/i }),
+    ).toHaveAttribute("href", "/assets/materials/six-planet-apocalypses.pdf");
     await expect(page.getByText(/млекопитающим/i).first()).toBeVisible();
   });
 
@@ -537,8 +600,41 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("link", { name: /Открыть PDF/i }).first(),
     ).toHaveAttribute("href", /^\/assets\/materials\/.+\.pdf$/);
     await expect(
-      page.getByRole("link", { name: /Скачать PPTX/i }).first(),
-    ).toHaveAttribute("href", /^\/assets\/materials\/.+\.pptx$/);
+      page.getByRole("link", { name: /Открыть PDF/i }),
+    ).toHaveCount(5);
+    await expect(page.getByRole("link", { name: /Скачать PPTX/i })).toHaveCount(
+      0,
+    );
+    await expect(page.getByText(/PPTX/i)).toHaveCount(0);
+    await expect(page.getByText("Как использовать на портале")).toHaveCount(0);
+    await expect(page.getByText("Что внутри").first()).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Книги, которые хорошо продолжают портал",
+      }),
+    ).toBeVisible();
+    await expect(page.locator(".reading-card")).toHaveCount(11);
+    await expect(page.locator(".reading-card img")).toHaveCount(11);
+    await expect(
+      page.getByRole("link", { name: /Страница издательства/i }),
+    ).toHaveCount(11);
+    await page.locator(".reading-card").last().scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        page.locator(".reading-card img").evaluateAll((images) =>
+          images.every((image) => {
+            const img = image as HTMLImageElement;
+            return img.complete && img.naturalWidth > 0;
+          }),
+        ),
+      )
+      .toBe(true);
+    await expect(
+      page.getByRole("heading", {
+        name: "Видео и лекции для следующего шага",
+      }),
+    ).toBeVisible();
+    await expect(page.locator(".watch-card")).toHaveCount(3);
   });
 
   test("dinosaurs route separates shared animal ancestors from the bird branch", async ({
@@ -580,6 +676,10 @@ test.describe("Evolution Atlas", () => {
       page.locator(".dinosaur-atlas-grid .dinosaur-detail-card"),
     ).toBeVisible();
     await expect(page.locator(".dinosaur-deep-axis")).toHaveCount(1);
+    await expect(page.locator(".dinosaur-timeline-river-image")).toBeVisible();
+    await expect(
+      page.locator(".dinosaur-common-ancestor__media img"),
+    ).toBeVisible();
     await expect(page.locator(".dinosaur-photo-axis")).toHaveCount(0);
     await expect(page.locator(".dinosaur-branch-card")).toHaveCount(0);
     await expect(
@@ -617,7 +717,22 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("heading", { name: "Панспермия" }),
     ).toBeVisible();
+    await expect(page.locator(".origin-hero-image img")).toBeVisible();
+    await expect(page.locator(".origin-story-card img")).toHaveCount(4);
     await expect(page.locator(".origin-hypothesis-card")).toHaveCount(6);
+    await expect(page.locator(".origin-hypothesis-media img")).toHaveCount(6);
+    await page
+      .locator(".origin-hypothesis-media img")
+      .first()
+      .scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        page.locator(".origin-hypothesis-media img").first().evaluate((node) => {
+          const image = node as HTMLImageElement;
+          return image.complete && image.naturalWidth > 0;
+        }),
+      )
+      .toBe(true);
   });
 
   test("genetics route explains RNA, DNA, genome similarity, and molecular evidence", async ({
@@ -628,8 +743,15 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { name: "РНК/ДНК: родство записано в коде" }),
     ).toBeVisible();
     await expect(page.locator(".genetics-flow article")).toHaveCount(5);
-    await expect(page.locator(".genome-comparison-card")).toHaveCount(4);
+    await expect(page.locator(".genetics-hero-image img")).toBeVisible();
+    await expect(page.locator(".molecule-card img")).toHaveCount(3);
+    await expect(page.locator(".genome-comparison-card")).toHaveCount(5);
+    await expect(page.locator(".genome-comparison-meter")).toHaveCount(5);
+    await expect(
+      page.locator(".genome-comparison-card", { hasText: "Человек и банан" }),
+    ).toBeVisible();
     await expect(page.locator(".genetics-evidence-card")).toHaveCount(6);
+    await expect(page.locator(".genetics-evidence-media img")).toHaveCount(6);
     await expect(
       page.locator(".genome-comparison-card > strong", { hasText: "98,8%" }),
     ).toBeVisible();
@@ -643,5 +765,17 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: /Открыть дерево/i }),
     ).toBeVisible();
+    await page
+      .locator(".genetics-evidence-media img")
+      .first()
+      .scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        page.locator(".genetics-evidence-media img").first().evaluate((node) => {
+          const image = node as HTMLImageElement;
+          return image.complete && image.naturalWidth > 0;
+        }),
+      )
+      .toBe(true);
   });
 });

@@ -1,6 +1,5 @@
 import {
   ArrowRight,
-  ExternalLink,
   Fingerprint,
   GitFork,
   Milestone,
@@ -40,9 +39,18 @@ function CladogramInspector({
         className="cladogram-inspector"
         aria-label="Выбранная ветвь дерева"
       >
+        <figure className="cladogram-inspector-media">
+          <img
+            src={branch.image.src}
+            alt={branch.image.altRu}
+            loading="eager"
+            decoding="async"
+          />
+        </figure>
+
         <div className="cladogram-inspector-marker">
           <Milestone aria-hidden="true" size={22} />
-          <span>контекстная ветвь</span>
+          <span>общий предок</span>
         </div>
         <p className="kicker">
           от узла: <strong>{branch.parent.titleRu}</strong>
@@ -57,14 +65,16 @@ function CladogramInspector({
           <small>{formatAgeRu(branch.parent.ageMa)}</small>
         </div>
 
-        <button
-          type="button"
-          className="button button-secondary button-md"
-          onClick={() => onSelectStage(branch.parent)}
-        >
-          Показать узел-родитель
-          <ArrowRight aria-hidden="true" size={16} />
-        </button>
+        <div className="cladogram-inspector-actions">
+          <button
+            type="button"
+            className="button button-secondary button-md"
+            onClick={() => onSelectStage(branch.parent)}
+          >
+            Показать узел-родитель
+            <ArrowRight aria-hidden="true" size={16} />
+          </button>
+        </div>
       </aside>
     );
   }
@@ -78,11 +88,9 @@ function CladogramInspector({
           loading="eager"
           decoding="async"
         />
-        <figcaption>
-          {stage.image.kind === "generated-reconstruction"
-            ? "AI-реконструкция"
-            : "изображение"}
-        </figcaption>
+        {stage.image.kind === "generated-reconstruction" ? (
+          <figcaption>AI-реконструкция</figcaption>
+        ) : null}
       </figure>
 
       <div className="cladogram-inspector-copy">
@@ -111,14 +119,6 @@ function CladogramInspector({
             Открыть в Атласе
             <ArrowRight aria-hidden="true" size={16} />
           </Link>
-          <a
-            href={stage.image.sourceUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Источник изображения"
-          >
-            <ExternalLink aria-hidden="true" size={17} />
-          </a>
         </div>
       </div>
     </aside>
@@ -149,7 +149,7 @@ export function CladogramPage() {
           <p>
             Это отдельный взгляд на тот же материал: не линия времени, а
             ветвящееся родство. Толстый ствол ведет к Homo sapiens, а боковые
-            ветви показывают родственников, которые помогают понять развилки.
+            линии показывают, от каких общих предков расходились родственники.
           </p>
         </div>
 
@@ -174,8 +174,9 @@ export function CladogramPage() {
             <div>
               <strong>Как читать дерево</strong>
               <p>
-                Сначала найдите главный ствол, затем смотрите, от какого узла
-                вправо отходит каждая боковая ветвь.
+                Сначала найдите главный ствол, затем смотрите на подписи
+                “общий предок”: они показывают, от какого узла расходятся
+                родственные линии.
               </p>
             </div>
           </div>

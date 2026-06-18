@@ -55,6 +55,10 @@ describe("cladogram builder", () => {
     ).toMatchObject({
       kind: "context",
       titleRu: expect.stringContaining("Диапсиды"),
+      image: expect.objectContaining({
+        src: expect.stringMatching(/^\/assets\/images\//),
+        altRu: expect.any(String),
+      }),
       parent: expect.objectContaining({ id: "amniotes" }),
     });
     expect(
@@ -64,5 +68,16 @@ describe("cladogram builder", () => {
       titleRu: "Шимпанзе и бонобо",
       parent: expect.objectContaining({ id: "hominins" }),
     });
+  });
+
+  it("keeps every branch visually inspectable", () => {
+    const tree = buildCladogram(STAGES);
+
+    expect(tree.branches).not.toHaveLength(0);
+    for (const branch of tree.branches) {
+      expect(branch.image.src, branch.titleRu).toMatch(/^\/assets\/images\//);
+      expect(branch.image.altRu, branch.titleRu).toBeTruthy();
+      expect(branch.image.sourceUrl, branch.titleRu).toMatch(/^https?:\/\//);
+    }
   });
 });

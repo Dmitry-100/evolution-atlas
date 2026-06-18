@@ -14,6 +14,30 @@ type CladogramPanelProps = {
   onInspectBranch: (branch: CladogramBranch) => void;
 };
 
+const ancestorScopeByStageId: Record<string, string> = {
+  "cell-lines": "всё живое",
+  eukaryotes: "все эукариоты",
+  "early-animals": "все животные",
+  bilaterians: "двусторонние животные",
+  chordates: "хордовые",
+  vertebrates: "позвоночные",
+  "jawed-fish": "челюстные позвоночные",
+  "lobe-finned": "лопастеперые",
+  tetrapods: "четвероногие",
+  amniotes: "амниоты",
+  mammals: "млекопитающие",
+  placentals: "плацентарные",
+  "early-primates": "приматы",
+  anthropoids: "обезьяны",
+  catarrhini: "узконосые обезьяны",
+  hominins: "гоминины",
+  heidelbergensis: "Homo heidelbergensis",
+};
+
+function getAncestorScope(stage: EvolutionStage) {
+  return ancestorScopeByStageId[stage.id] ?? stage.titleRu.toLowerCase();
+}
+
 export function CladogramPanel({
   tree,
   activeStage,
@@ -50,7 +74,8 @@ export function CladogramPanel({
           <h2 id="cladogram-heading">Дерево родства</h2>
           <p>
             Читайте сверху вниз: толстый ствол ведет к Homo sapiens, а карточки
-            справа отходят от конкретных узлов как боковые ветви родства.
+            справа показывают, какие линии расходятся от конкретных общих
+            предков.
           </p>
         </div>
       </div>
@@ -70,13 +95,13 @@ export function CladogramPanel({
           </span>
           <span>
             <Milestone aria-hidden="true" size={17} />
-            Боковая ветвь
+            Общий предок
           </span>
         </div>
 
         <div
           className="cladogram-map"
-          aria-label="Дерево родства: сверху вниз идет наша линия, вправо отходят боковые ветви"
+          aria-label="Дерево родства: сверху вниз идет наша линия, вправо показаны линии от общих предков"
         >
           {tree.trunk.map((stage, index) => {
             const branches = branchesByParent.get(stage.id) ?? [];
@@ -145,13 +170,17 @@ export function CladogramPanel({
                             : onInspectBranch(branch)
                         }
                       >
-                        <Milestone aria-hidden="true" size={17} />
-                        <span>
+                        <span className="cladogram-branch-thumb">
+                          <img
+                            src={branch.image.src}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </span>
+                        <span className="cladogram-branch-copy">
                           <small>
-                            {branch.kind === "context"
-                              ? "куда ушла ветвь от"
-                              : "боковая ветвь от"}{" "}
-                            {branch.parent.titleRu}
+                            общий предок: {getAncestorScope(branch.parent)}
                           </small>
                           <strong>{branch.titleRu}</strong>
                           <em>
@@ -160,6 +189,11 @@ export function CladogramPanel({
                               : "возраст узла уточняется"}
                           </em>
                         </span>
+                        <Milestone
+                          className="cladogram-branch-icon"
+                          aria-hidden="true"
+                          size={17}
+                        />
                         {branchIsActive ? (
                           <span className="cladogram-active-badge">
                             выбрано

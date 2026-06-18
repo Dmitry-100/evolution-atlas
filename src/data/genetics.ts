@@ -40,6 +40,7 @@ export const GENETICS_SOURCES: SourceRef[] = [
   source("Genome.gov: Chromosomes 2 and 4", "https://www.genome.gov/13514624/2005-release-scientists-analyze-chromosomes-2-and-4"),
   source("PNAS: origin of human chromosome 2", "https://pmc.ncbi.nlm.nih.gov/articles/PMC52649/"),
   source("NCBI Bookshelf: human endogenous retroviruses", "https://www.ncbi.nlm.nih.gov/books/NBK6235/"),
+  source("Dessimoz Lab: The Banana Conjecture", "https://lab.dessimoz.org/blog/2020/12/08/human-banana-orthologs"),
 ];
 
 export const GENOME_COMPARISONS: GenomeComparison[] = [
@@ -86,6 +87,17 @@ export const GENOME_COMPARISONS: GenomeComparison[] = [
     cautionRu:
       "Это не '60% одинакового генома', а доля генов с узнаваемым общим происхождением в конкретном сравнении.",
     source: GENETICS_SOURCES[3],
+  },
+  {
+    id: "human-banana",
+    titleRu: "Человек и банан",
+    valueRu: "17-25%",
+    metricRu: "оценка доли человеческих белок-кодирующих генов с ортологами у банана в сравнении OMA/ортологов",
+    meaningRu:
+      "Даже у растений и животных остаются древние общие гены клеточной жизни: копирование ДНК, обмен веществ, работа белков и базовая регуляция.",
+    cautionRu:
+      "Это не '50% одинаковой ДНК' и не сходство всего генома: речь только о распознаваемых родственных белок-кодирующих генах.",
+    source: GENETICS_SOURCES[11],
   },
 ];
 

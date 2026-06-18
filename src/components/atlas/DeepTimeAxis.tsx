@@ -1,8 +1,8 @@
 import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
-import { ArrowLeft, ArrowRight, MoveHorizontal, TimerReset } from "lucide-react";
+import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
 import type { MassExtinctionEvent } from "../../data/extinctions";
 import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
-import { formatAgeRu, getPrePrimateShare, sortStagesOldestFirst } from "../../lib/timeline";
+import { formatAgeRu, sortStagesOldestFirst } from "../../lib/timeline";
 import { FloatingPaths } from "../ui/floating-paths";
 import { Slider } from "../ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
@@ -26,14 +26,15 @@ const extinctionLabels: Record<string, string> = {
   "permian-triassic": "Пермь",
   "triassic-jurassic": "Триас",
   "cretaceous-paleogene": "K-Pg",
+  "holocene-anthropocene": "Сегодня",
 };
 
 function linearPosition(ageMa: number) {
   return Math.max(0, Math.min(1, 1 - ageMa / ORIGIN_MA));
 }
 
-function percentRu(value: number, maximumFractionDigits = 2) {
-  return value.toLocaleString("ru-RU", { maximumFractionDigits });
+function formatExtinctionAge(event: MassExtinctionEvent) {
+  return event.ageMa <= 0 ? "сегодня" : formatAgeRu(event.ageMa);
 }
 
 function nearestStage(stages: EvolutionStage[], position: number) {
@@ -57,8 +58,6 @@ export function DeepTimeAxis({
   const activePosition = linearPosition(activeStage.ageMa) * 100;
   const activeCardClass =
     activePosition > 82 ? "deep-active-card align-right" : activePosition < 18 ? "deep-active-card align-left" : "deep-active-card";
-  const prePrimateShare = getPrePrimateShare({ originMa: ORIGIN_MA, primatesMa: PRIMATES_MA });
-  const activeElapsedShare = linearPosition(activeStage.ageMa);
   const primateStart = linearPosition(PRIMATES_MA) * 100;
 
   const eraBands = useMemo(
@@ -111,15 +110,6 @@ export function DeepTimeAxis({
           </button>
         </div>
         <strong>4 млрд лет одним взглядом</strong>
-      </div>
-
-      <div className="deep-time-stat">
-        <TimerReset aria-hidden="true" size={24} />
-        <div>
-          <span>к выбранной точке прошло</span>
-          <strong>{percentRu(activeElapsedShare * 100)}% истории жизни</strong>
-          <small>до появления приматов - {percentRu(prePrimateShare * 100, 1)}%</small>
-        </div>
       </div>
 
       <div
@@ -176,7 +166,7 @@ export function DeepTimeAxis({
                   >
                     <span aria-hidden="true" />
                     <strong>{extinctionLabels[event.id] ?? event.titleRu}</strong>
-                    <small>{formatAgeRu(event.ageMa)}</small>
+                    <small>{formatExtinctionAge(event)}</small>
                   </a>
                 </TooltipTrigger>
                 <TooltipContent className="tooltip-content extinction-tooltip">
@@ -195,7 +185,6 @@ export function DeepTimeAxis({
         <div className={activeCardClass} style={{ left: `${activePosition}%` }}>
           <span>{formatAgeRu(activeStage.ageMa)}</span>
           <strong>{activeStage.titleRu}</strong>
-          <small>{percentRu(activeElapsedShare * 100)}% истории уже прошло</small>
         </div>
 
         <div className="deep-stage-dots" role="list" aria-label="Этапы на глубокой шкале">
