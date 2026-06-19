@@ -34,7 +34,8 @@ function LegacyMaterialRedirect({ cover = false }: { cover?: boolean }) {
   return (
     <section className="document-page">
       <p>
-        Открываем файл: <a href={assetPath}>{assetPath}</a>
+        Открываем материал. Если переход не сработал,{" "}
+        <a href={assetPath}>откройте его вручную</a>.
       </p>
     </section>
   );
@@ -67,17 +68,20 @@ function App() {
             </span>
           </NavLink>
           <nav className="topbar-nav" aria-label="Основная навигация">
-            <NavLink to="/">Атлас</NavLink>
-            <NavLink to="/theory">Теория эволюции</NavLink>
-            <NavLink to="/origin-of-life">Зарождение жизни</NavLink>
-            <NavLink to="/genetics">РНК/ДНК</NavLink>
-            <NavLink to="/cladogram">Дерево родства</NavLink>
-            <NavLink to="/extinctions">Глобальные вымирания</NavLink>
-            <NavLink to="/dinosaurs">Вымерли ли динозавры</NavLink>
-            <NavLink to="/materials">Материалы</NavLink>
-            <NavLink to="/sources">Источники</NavLink>
-            <NavLink to="/about">О проекте</NavLink>
-            <NavLink to="/quiz">Проверь себя</NavLink>
+            <div className="topbar-nav-row topbar-nav-primary">
+              <NavLink to="/">Атлас</NavLink>
+              <NavLink to="/theory">Теория эволюции</NavLink>
+              <NavLink to="/origin-of-life">Зарождение жизни</NavLink>
+              <NavLink to="/genetics">РНК/ДНК</NavLink>
+              <NavLink to="/cladogram">Дерево родства</NavLink>
+              <NavLink to="/extinctions">Глобальные вымирания</NavLink>
+              <NavLink to="/dinosaurs">Вымерли ли динозавры</NavLink>
+            </div>
+            <div className="topbar-nav-row topbar-nav-secondary">
+              <NavLink to="/materials">Дополнительные материалы</NavLink>
+              <NavLink to="/about">О проекте</NavLink>
+              <NavLink to="/quiz">Проверь себя</NavLink>
+            </div>
           </nav>
         </header>
         <main>

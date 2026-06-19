@@ -10,7 +10,6 @@ import {
   MoveHorizontal,
   ShieldAlert,
   Sparkles,
-  TimerReset,
   Waves,
 } from "lucide-react";
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
@@ -317,15 +316,6 @@ function DinosaurTimelineAxis({
         <strong>575 млн лет назад → сегодня</strong>
       </div>
 
-      <div className="deep-time-stat dinosaur-time-stat">
-        <TimerReset aria-hidden="true" size={24} />
-        <div>
-          <span>выбранная точка</span>
-          <strong>{formatAge(activeStage.ageMa)}</strong>
-          <small>{getJourneyLabel(activeStage)}</small>
-        </div>
-      </div>
-
       <div
         className="deep-time-axis dinosaur-deep-axis"
         tabIndex={0}
@@ -583,8 +573,8 @@ export function DinosaursPage() {
         </div>
         <figure className="dinosaur-common-ancestor__media">
           <img
-            src="/assets/images/source-backed/amniotes.jpg"
-            alt="Реконструкция раннего амниота — близкого образа нашего общего предка с птицами."
+            src="/assets/images/dinosaurs/common-ancestor-amniote-generated.jpg"
+            alt="AI-реконструкция раннего амниота — близкого образа нашего общего предка с птицами."
             loading="lazy"
             decoding="async"
           />

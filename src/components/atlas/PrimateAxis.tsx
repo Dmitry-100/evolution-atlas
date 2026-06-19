@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, MoveHorizontal, TimerReset } from "lucide-react";
+import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
 import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
 import type { EvolutionStage } from "../../data/lineage";
 import { ageMaToPosition, formatAgeRu } from "../../lib/timeline";
@@ -113,15 +113,6 @@ export function PrimateAxis({
           </button>
         </div>
         <strong>66 млн лет назад → сегодня</strong>
-      </div>
-
-      <div className="deep-time-stat primate-time-stat">
-        <TimerReset aria-hidden="true" size={24} />
-        <div>
-          <span>выбранная точка</span>
-          <strong>{formatAgeRu(activeStage.ageMa)}</strong>
-          <small>{activeStage.titleRu}</small>
-        </div>
       </div>
 
       <div

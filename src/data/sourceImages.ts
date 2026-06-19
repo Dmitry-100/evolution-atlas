@@ -67,12 +67,14 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Life reconstruction of Kimberella, an early bilaterian-like animal."
   },
   "early-chordates": {
-    "src": "/assets/images/source-backed/early-chordates-museum.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Schematic_anatomical_reconstruction_of_Pikaia_flipped.png",
-    "credit": "Giovanni Mussini, M. Paul Smith, Jakob Vinther, Imran A. Rahman, Duncan J.E. Murdock, David A.T. Harper, Frances S. Dunn / Wikimedia Commons / локальная музейная обработка",
-    "license": "CC BY 4.0",
-    "commonsTitle": "File:Schematic anatomical reconstruction of Pikaia flipped.png",
-    "description": "Schematic reconstruction of Pikaia, placed on a local museum-style background."
+    "src": "/assets/images/source-backed/generated-early-chordates.png",
+    "sourceUrl": "https://openai.com/",
+    "credit": "AI-реконструкция / локальный визуальный слот",
+    "license": "AI-реконструкция; визуальная иллюстрация",
+    "kind": "generated-reconstruction",
+    "promptId": "timeline-river-evolution-crop-early-chordates-2026-06-19",
+    "commonsTitle": "generated-early-chordates",
+    "description": "Generated museum-style scene for early chordates, designed as a replaceable visual slot."
   },
   "early-vertebrates": {
     "src": "/assets/images/source-backed/early-vertebrates.png",
@@ -123,12 +125,14 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "description": "Hylonomus lyelli"
   },
   "hylonomus-muse": {
-    "src": "/assets/images/source-backed/hylonomus-museum.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hylonomus_lyelli_-_MUSE.jpg",
-    "credit": "MUSE - Museo delle Scienze / Wikimedia Commons / локальная музейная обработка",
-    "license": "см. исходный источник",
-    "commonsTitle": "File:Hylonomus lyelli - MUSE.jpg",
-    "description": "Life reconstruction of Hylonomus, an early amniote, placed on a local museum-style background."
+    "src": "/assets/images/source-backed/generated-amniote-common-ancestor.png",
+    "sourceUrl": "https://openai.com/",
+    "credit": "AI-реконструкция / локальный визуальный слот",
+    "license": "AI-реконструкция; визуальная иллюстрация",
+    "kind": "generated-reconstruction",
+    "promptId": "common-ancestor-with-dinosaurs-2026-06-19",
+    "commonsTitle": "generated-amniote-common-ancestor",
+    "description": "Generated museum-style reconstruction of an early amniote-like common ancestor."
   },
   "synapsids": {
     "src": "/assets/images/source-backed/dimetrodon-life.jpg",
@@ -379,6 +383,16 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "license": "CC BY-SA 4.0",
     "commonsTitle": "File:Jebel Irhoud-1 NMNH.jpg",
     "description": "Homo sapiens skull cast (Jebel Irhoud-1) on display at the Smithsonian's National Museum of Natural History."
+  },
+  "generated-homo-sapiens": {
+    "src": "/assets/images/source-backed/generated-homo-sapiens.jpg",
+    "sourceUrl": "https://openai.com/",
+    "credit": "OpenAI image generation / локальная реконструкция",
+    "license": "AI-реконструкция; не исходное научное изображение",
+    "commonsTitle": "generated-homo-sapiens",
+    "description": "Generated paleoart portrait of early Homo sapiens in an African landscape.",
+    "kind": "generated-reconstruction",
+    "promptId": "homo-sapiens-african-landscape-2026-06-18"
   },
   "sapiens-paleolithic-muse": {
     "src": "/assets/images/source-backed/sapiens-museum-dark.jpg",

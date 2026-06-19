@@ -11,10 +11,13 @@ import {
   Microscope,
   MousePointer2,
   Network,
+  Maximize2,
   ScanSearch,
   Sparkles,
+  Star,
+  X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   CODON_DEMO,
@@ -25,22 +28,35 @@ import {
 
 const evidenceIcons = [Binary, Braces, Sparkles, Network, Fingerprint, Microscope];
 
-const geneticsVisuals = {
+type GeneticsVisual = {
+  src: string;
+  alt: string;
+  caption: string;
+  sourceUrl: string;
+};
+
+const geneticsVisuals: Record<string, GeneticsVisual> = {
   dna: {
-    src: "/assets/images/education/genetics-dna.png",
-    alt: "Схема связи хромосомы, ДНК и гена.",
+    src: "/assets/images/education/genetics-dna-generated.jpg",
+    alt: "AI-визуализация двойной спирали ДНК и генетической записи.",
     caption: "ДНК хранит наследственную информацию в последовательности оснований.",
     sourceUrl: "https://en.wikipedia.org/wiki/DNA",
   },
+  rna: {
+    src: "/assets/images/education/genetics-rna-generated.jpg",
+    alt: "AI-визуализация молекулы РНК как рабочей копии генетического кода.",
+    caption: "РНК переносит, читает и иногда сама выполняет работу в клетке.",
+    sourceUrl: "https://en.wikipedia.org/wiki/RNA",
+  },
   rnaDna: {
-    src: "/assets/images/education/genetics-rna-dna.png",
-    alt: "Сравнение структуры РНК и ДНК с разными основаниями.",
+    src: "/assets/images/education/genetics-rna-dna-generated.jpg",
+    alt: "AI-визуализация связи РНК и ДНК в общем химическом языке наследования.",
     caption: "РНК и ДНК используют похожий химический язык, но играют разные роли.",
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Difference_DNA_RNA-EN.svg",
   },
   ribosome: {
-    src: "/assets/images/education/genetics-ribosome.png",
-    alt: "Трехмерная форма рибосомы.",
+    src: "/assets/images/education/genetics-ribosome-generated.jpg",
+    alt: "AI-визуализация рибосомы, читающей РНК и собирающей белок.",
     caption: "Рибосома читает РНК и собирает белки.",
     sourceUrl: "https://en.wikipedia.org/wiki/Ribosome",
   },
@@ -56,6 +72,42 @@ const geneticsVisuals = {
     caption: "Мутации создают наследуемую изменчивость.",
     sourceUrl: "https://en.wikipedia.org/wiki/Mutation",
   },
+  evidenceCode: {
+    src: "/assets/images/education/genetics-evidence-code.png",
+    alt: "Схема: ДНК переписывается в РНК, а кодоны переводятся в аминокислоты.",
+    caption: "ДНК -> РНК -> аминокислоты: общий принцип генетического кода.",
+    sourceUrl: "https://www.genome.gov/genetics-glossary/Codon",
+  },
+  evidenceRibosome: {
+    src: "/assets/images/education/genetics-evidence-ribosome.png",
+    alt: "Схема трансляции: мРНК, тРНК и рибосома собирают белок.",
+    caption: "Рибосома читает мРНК и собирает белок из аминокислот.",
+    sourceUrl: "https://www.genome.gov/about-genomics/fact-sheets/RNA-Fact-Sheet",
+  },
+  evidenceMutations: {
+    src: "/assets/images/education/genetics-evidence-mutations.png",
+    alt: "Схема мутаций ДНК и эволюционных фильтров в популяции.",
+    caption: "Мутации создают варианты, а отбор, дрейф и миграция меняют их частоты.",
+    sourceUrl: "https://evolution.berkeley.edu/dna-and-mutations/causes-of-mutations/",
+  },
+  evidenceComparison: {
+    src: "/assets/images/education/genetics-evidence-comparison.png",
+    alt: "Схема сравнения последовательностей ДНК и построения эволюционного дерева.",
+    caption: "Сходство последовательностей помогает восстанавливать родство.",
+    sourceUrl: "https://evolution.berkeley.edu/lines-of-evidence/molecular-biology/",
+  },
+  evidenceChromosome2: {
+    src: "/assets/images/education/genetics-evidence-chromosome-2.png",
+    alt: "Схема слияния двух древних хромосом в хромосому 2 человека.",
+    caption: "Хромосома 2 несет след слияния двух предковых хромосом.",
+    sourceUrl: "https://en.wikipedia.org/wiki/Chromosome_2",
+  },
+  evidenceViralInsertions: {
+    src: "/assets/images/education/genetics-evidence-viral-insertions.png",
+    alt: "Схема вирусной вставки как общего генетического маркера родственных линий.",
+    caption: "Общая вирусная вставка в одном месте генома работает как редкая метка родства.",
+    sourceUrl: "https://evolution.berkeley.edu/lines-of-evidence/molecular-biology/",
+  },
 };
 
 const moleculeGallery = [
@@ -69,7 +121,7 @@ const moleculeGallery = [
     title: "РНК",
     subtitle: "рабочая копия",
     text: "передает, регулирует и иногда ускоряет реакции",
-    visual: geneticsVisuals.rnaDna,
+    visual: geneticsVisuals.rna,
   },
   {
     title: "Рибосома",
@@ -87,19 +139,41 @@ const comparisonVisuals: Record<string, { percent: number; label: string }> = {
   "human-banana": { percent: 25, label: "следы глубокой клеточной родни" },
 };
 
-const evidenceVisuals: Record<string, (typeof geneticsVisuals)[keyof typeof geneticsVisuals]> = {
-  "shared-code": geneticsVisuals.rnaDna,
-  "rna-translation": geneticsVisuals.ribosome,
-  "mutation-variation": geneticsVisuals.mutation,
-  "comparative-genomics": geneticsVisuals.dna,
-  "chromosome-2": geneticsVisuals.chromosome2,
-  "viral-fossils": geneticsVisuals.mutation,
+const evidenceVisuals: Record<string, GeneticsVisual> = {
+  "shared-code": geneticsVisuals.evidenceCode,
+  "rna-translation": geneticsVisuals.evidenceRibosome,
+  "mutation-variation": geneticsVisuals.evidenceMutations,
+  "comparative-genomics": geneticsVisuals.evidenceComparison,
+  "chromosome-2": geneticsVisuals.evidenceChromosome2,
+  "viral-fossils": geneticsVisuals.evidenceViralInsertions,
 };
 
 export function GeneticsPage() {
   const [activeCodonId, setActiveCodonId] = useState(CODON_DEMO[0]?.id ?? "start");
+  const [expandedVisual, setExpandedVisual] = useState<GeneticsVisual | null>(null);
   const activeCodon =
     CODON_DEMO.find((codon) => codon.id === activeCodonId) ?? CODON_DEMO[0];
+
+  useEffect(() => {
+    if (!expandedVisual) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setExpandedVisual(null);
+      }
+    };
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [expandedVisual]);
 
   return (
     <section className="document-page genetics-page">
@@ -113,24 +187,21 @@ export function GeneticsPage() {
             можно строить родственные деревья.
           </p>
         </div>
-        <div className="genetics-hero-panel">
-          <figure className="genetics-hero-image">
-            <img
-              src="/assets/images/education/genetics-rna-dna.png"
-              alt="Сравнение молекулярной структуры РНК и ДНК."
-            />
-            <figcaption>общий химический язык наследования</figcaption>
-          </figure>
-          <div className="genetics-answer-card">
-            <Dna aria-hidden="true" size={34} />
+      </div>
+
+      <section className="theory-bridge-band atlas-note-band">
+        <div>
+          <Star aria-hidden="true" size={22} />
+          <div>
             <strong>Главная мысль</strong>
-            <span>
-              Чем ближе родство, тем больше совпадений в ДНК; редкие общие метки в одних и тех же местах особенно трудно
-              объяснить без общего происхождения.
-            </span>
+            <p>
+              Чем ближе родство, тем больше совпадений в ДНК; редкие общие метки
+              в одних и тех же местах особенно трудно объяснить без общего
+              происхождения.
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
       <div className="genetics-flow" aria-label="От ДНК к признакам">
         {[
@@ -274,7 +345,18 @@ export function GeneticsPage() {
               <article key={item.id} className="genetics-evidence-card">
                 {visual ? (
                   <figure className="genetics-evidence-media">
-                    <img src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />
+                    <button
+                      type="button"
+                      className="genetics-evidence-zoom"
+                      onClick={() => setExpandedVisual(visual)}
+                      aria-label={`Увеличить схему: ${visual.caption}`}
+                    >
+                      <img src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />
+                      <span>
+                        <Maximize2 aria-hidden="true" size={15} />
+                        Увеличить
+                      </span>
+                    </button>
                     <figcaption>{visual.caption}</figcaption>
                   </figure>
                 ) : null}
@@ -326,6 +408,29 @@ export function GeneticsPage() {
           <ArrowRight aria-hidden="true" size={17} />
         </Link>
       </div>
+
+      {expandedVisual ? (
+        <div
+          className="image-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Увеличенная схема"
+          onClick={() => setExpandedVisual(null)}
+        >
+          <div className="image-lightbox-panel" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              className="image-lightbox-close"
+              onClick={() => setExpandedVisual(null)}
+              aria-label="Закрыть увеличенную схему"
+            >
+              <X aria-hidden="true" size={20} />
+            </button>
+            <img src={expandedVisual.src} alt={expandedVisual.alt} />
+            <p>{expandedVisual.caption}</p>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

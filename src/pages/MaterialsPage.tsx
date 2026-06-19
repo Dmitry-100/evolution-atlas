@@ -1,23 +1,15 @@
-import { BookOpen, ExternalLink, FileText, PlayCircle, Sparkles } from "lucide-react";
+import { BookOpen, ExternalLink, FileText, PlayCircle } from "lucide-react";
 import { PORTAL_MATERIALS, READING_RECOMMENDATIONS, WATCH_RECOMMENDATIONS } from "../data/materials";
 
 export function MaterialsPage() {
   return (
     <section className="document-page materials-page">
       <div className="document-header">
-        <p className="eyebrow">Материалы</p>
-        <h1>Презентации и лекции</h1>
+        <p className="eyebrow">Дополнительные материалы</p>
+        <h1>Презентации, книги и видео</h1>
         <p>
           Эти материалы можно читать как самостоятельные лекции или использовать как второй слой атласа. PDF открываются
           прямо в браузере и подходят для самостоятельного просмотра.
-        </p>
-      </div>
-
-      <div className="materials-note">
-        <Sparkles aria-hidden="true" size={22} />
-        <p>
-          В презентациях слайды хранятся как цельные изображения. Поэтому их лучше публиковать целиком, а для нативных
-          страниц портала переносить идеи и факты отдельными карточками, схемами и текстом.
         </p>
       </div>
 
@@ -111,14 +103,20 @@ export function MaterialsPage() {
         <div className="watch-grid">
           {WATCH_RECOMMENDATIONS.map((item) => (
             <article key={item.id} className="watch-card">
-              <span>{item.formatRu}</span>
-              <h3>{item.titleRu}</h3>
-              <p>{item.descriptionRu}</p>
-              <small>{item.whyWatchRu}</small>
-              <a className="button button-secondary button-sm" href={item.href} target="_blank" rel="noreferrer">
-                Открыть
-                <ExternalLink aria-hidden="true" size={14} />
+              <a className="watch-card-media" href={item.href} target="_blank" rel="noreferrer" aria-label={item.titleRu}>
+                <img src={item.imageSrc} alt={item.imageAltRu} loading="lazy" decoding="async" />
+                <PlayCircle aria-hidden="true" size={32} />
               </a>
+              <div className="watch-card-copy">
+                <span>{item.formatRu}</span>
+                <h3>{item.titleRu}</h3>
+                <p>{item.descriptionRu}</p>
+                <small>{item.whyWatchRu}</small>
+                <a className="button button-secondary button-sm" href={item.href} target="_blank" rel="noreferrer">
+                  Открыть
+                  <ExternalLink aria-hidden="true" size={14} />
+                </a>
+              </div>
             </article>
           ))}
         </div>

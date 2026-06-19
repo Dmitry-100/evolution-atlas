@@ -5,6 +5,7 @@ import {
   Network,
   Orbit,
   Sparkles,
+  Star,
   Waves,
 } from "lucide-react";
 import { ORIGIN_HYPOTHESES, ORIGIN_SOURCES } from "../data/originHypotheses";
@@ -21,40 +22,64 @@ const originVisuals: Record<
   }
 > = {
   "primordial-soup": {
-    src: "/assets/images/education/origin-miller-urey.png",
-    alt: "Схема эксперимента Миллера-Юри с колбами, электродами и циркуляцией газов.",
-    caption: "Эксперименты с ранней атмосферой показывают, что органика может возникать из простой химии.",
-    sourceUrl: "https://en.wikipedia.org/wiki/Miller%E2%80%93Urey_experiment",
+    src: "/assets/images/education/origin-primordial-soup-generated.jpg",
+    alt: "AI-визуализация первичного океана: молнии, вулканы, минералы и органические молекулы в ранней химической среде.",
+    caption: "Первичный бульон: энергия ранней Земли могла собирать простые вещества в органические молекулы.",
+    sourceUrl: "generated",
   },
   "rna-world": {
-    src: "/assets/images/education/origin-rna-world.jpg",
-    alt: "Трехмерная ленточная модель РНК-рибопереключателя.",
-    caption: "РНК может быть не только носителем информации, но и рабочей молекулой.",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:G_riboswitch_RNA_ribbon.jpg",
+    src: "/assets/images/education/origin-rna-world-generated.jpg",
+    alt: "AI-визуализация РНК-мира: молекулы РНК внутри протоклеточной оболочки и каталитические реакции.",
+    caption: "РНК-мир: одна молекула могла хранить информацию и ускорять реакции.",
+    sourceUrl: "generated",
   },
   "hydrothermal-vents": {
-    src: "/assets/images/education/origin-hydrothermal-vent.jpg",
-    alt: "Черный гидротермальный источник на океаническом дне.",
-    caption: "Гидротермальные источники дают энергию, минералы и естественные микрокамеры.",
-    sourceUrl: "https://en.wikipedia.org/wiki/Hydrothermal_vent",
+    src: "/assets/images/education/origin-hydrothermal-vent-generated.jpg",
+    alt: "AI-визуализация гидротермального источника на океаническом дне с минеральными трубами и потоками горячей воды.",
+    caption: "Гидротермальные источники: энергия, минералы и микрокамеры на дне океана.",
+    sourceUrl: "generated",
+  },
+  "step-energy": {
+    src: "/assets/images/education/origin-step-energy-generated.jpg",
+    alt: "AI-визуализация ранней Земли: гидротермальный источник, вулканы, молнии и потоки энергии в океане.",
+    caption: "Энергия ранней Земли могла запускать химические реакции.",
+    sourceUrl: "generated",
+  },
+  "step-organics": {
+    src: "/assets/images/education/origin-step-organics-generated.jpg",
+    alt: "AI-визуализация образования органических молекул в океане рядом с вулканами, молниями и гидротермальными источниками.",
+    caption: "Простая химия могла собираться в более сложные органические молекулы.",
+    sourceUrl: "generated",
+  },
+  "step-membranes": {
+    src: "/assets/images/education/origin-step-membranes-generated.jpg",
+    alt: "AI-визуализация липидного пузырька, который удерживает молекулы внутри протоклеточной оболочки.",
+    caption: "Оболочки отделяют внутреннюю химию от внешней среды.",
+    sourceUrl: "generated",
+  },
+  "step-inheritance": {
+    src: "/assets/images/education/origin-step-inheritance-generated.jpg",
+    alt: "AI-визуализация протоклетки с молекулами РНК внутри и стрелками копирования наследственной информации.",
+    caption: "Наследование начинается, когда удачные молекулярные варианты могут копироваться.",
+    sourceUrl: "generated",
   },
   "metabolism-first": {
-    src: "/assets/images/source-backed/protocells.jpg",
-    alt: "Гидротермальный источник как геохимическая среда для ранних реакций.",
-    caption: "Минеральные поверхности могли работать как первые геохимические реакторы.",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Hydrothermal_vent,_Mid-Cayman_Rise_(Expl6955_9664075828).jpg",
+    src: "/assets/images/education/origin-metabolism-first-generated.jpg",
+    alt: "AI-визуализация пористых минеральных поверхностей как сети микрореакторов для ранних химических циклов.",
+    caption: "Метаболизм сначала: минеральные поры могли поддерживать устойчивые сети реакций.",
+    sourceUrl: "generated",
   },
   "lipid-world": {
-    src: "/assets/images/education/origin-liposome.png",
-    alt: "Схема липосомы с двойным липидным слоем.",
-    caption: "Мембранные пузырьки отделяют внутреннюю химию от внешней среды.",
-    sourceUrl: "https://en.wikipedia.org/wiki/Liposome",
+    src: "/assets/images/education/origin-lipid-protocells-generated.jpg",
+    alt: "AI-визуализация липидной протоклетки: мембранный пузырек удерживает органические молекулы внутри.",
+    caption: "Липидные протоклетки: мембранные пузырьки могли удерживать внутреннюю химию вместе.",
+    sourceUrl: "generated",
   },
   panspermia: {
-    src: "/assets/images/education/origin-meteorite.jpg",
-    alt: "Фрагмент углистого хондрита, похожего на метеорит Мерчисон.",
-    caption: "Метеориты могли доставлять органические молекулы, но не заменяют объяснение происхождения жизни.",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Carbonaceous_chondrite_(Murchison_Meteorite)_(14601493358).jpg",
+    src: "/assets/images/education/origin-panspermia-generated.jpg",
+    alt: "AI-визуализация метеоритного потока над молодой Землей с океаном, вулканами и раскаленными обломками.",
+    caption: "Панспермия: метеориты и кометы могли доставлять органику на молодую Землю.",
+    sourceUrl: "generated",
   },
 };
 
@@ -62,22 +87,22 @@ const originJourney = [
   {
     title: "Энергия",
     text: "молнии, ультрафиолет, вулканы и гидротермальные источники",
-    visual: originVisuals["hydrothermal-vents"],
+    visual: originVisuals["step-energy"],
   },
   {
     title: "Органика",
     text: "аминокислоты, сахара и азотистые основания как химические заготовки",
-    visual: originVisuals["primordial-soup"],
+    visual: originVisuals["step-organics"],
   },
   {
     title: "Оболочки",
     text: "липидные пузырьки удерживают молекулы рядом друг с другом",
-    visual: originVisuals["lipid-world"],
+    visual: originVisuals["step-membranes"],
   },
   {
     title: "Наследование",
     text: "молекулы вроде РНК дают шанс копировать удачные варианты",
-    visual: originVisuals["rna-world"],
+    visual: originVisuals["step-inheritance"],
   },
 ];
 
@@ -95,24 +120,20 @@ export function OriginOfLifePage() {
             наследование и первые самоподдерживающиеся реакции.
           </p>
         </div>
-        <div className="origin-hero-panel">
-          <figure className="origin-hero-image">
-            <img
-              src="/assets/images/education/origin-hydrothermal-vent.jpg"
-              alt="Гидротермальный источник в глубине океана."
-            />
-            <figcaption>одна из сред, где химия могла получить постоянный источник энергии</figcaption>
-          </figure>
-          <div className="origin-answer-card">
-            <Sparkles aria-hidden="true" size={30} />
+      </div>
+
+      <section className="theory-bridge-band atlas-note-band">
+        <div>
+          <Star aria-hidden="true" size={22} />
+          <div>
             <strong>Главная мысль</strong>
-            <span>
-              Скорее всего, первой была не “готовая клетка”, а серия химических
-              шагов: строительные блоки → оболочки → наследование → отбор.
-            </span>
+            <p>
+              Скорее всего, первой была не “готовая клетка”, а серия химических шагов:
+              строительные блоки → оболочки → наследование → отбор.
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
       <section className="origin-visual-story" aria-labelledby="origin-visual-story-title">
         <div className="origin-section-heading">

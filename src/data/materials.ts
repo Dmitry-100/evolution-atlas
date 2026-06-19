@@ -28,12 +28,15 @@ export type WatchRecommendation = {
   titleRu: string;
   formatRu: string;
   href: string;
+  imageSrc: string;
+  imageAltRu: string;
   descriptionRu: string;
   whyWatchRu: string;
 };
 
 const MATERIAL_ASSET_ROOT = "/assets/materials";
 const BOOK_ASSET_ROOT = "/assets/images/books";
+const WATCH_ASSET_ROOT = "/assets/images/watch";
 
 export const PORTAL_MATERIALS: PortalMaterial[] = [
   {
@@ -275,6 +278,8 @@ export const WATCH_RECOMMENDATIONS: WatchRecommendation[] = [
     titleRu: "Photon",
     formatRu: "фильм, 2017, Norman Leto",
     href: "https://www.youtube.com/watch?v=-FJVCrldAfM&ab_channel=%D0%97%D0%B0%D0%BD%D1%83%D0%B4%D0%B0-Zanuda",
+    imageSrc: `${WATCH_ASSET_ROOT}/photon-2017.jpg`,
+    imageAltRu: "Превью фильма Photon с абстрактным космическим объектом на темном фоне.",
     descriptionRu:
       "Экспериментальный нон-фикшн: от космологии и химии к эволюции, поведению, культуре и будущему человека. Вместо говорящих голов — CGI, плотный звук и почти гипнотическая подача.",
     whyWatchRu:
@@ -285,6 +290,8 @@ export const WATCH_RECOMMENDATIONS: WatchRecommendation[] = [
     titleRu: "Nick Lane — жизнь как химическая закономерность",
     formatRu: "интервью Dwarkesh Patel",
     href: "https://www.dwarkesh.com/p/nick-lane",
+    imageSrc: `${WATCH_ASSET_ROOT}/nick-lane-dwarkesh.jpg`,
+    imageAltRu: "Превью интервью Dwarkesh Patel с Nick Lane.",
     descriptionRu:
       "Разговор о том, почему жизнь может быть естественным продолжением геохимии: гидротермальные источники, протонные градиенты, митохондрии и главный барьер на пути к сложной клетке.",
     whyWatchRu:
@@ -295,6 +302,8 @@ export const WATCH_RECOMMENDATIONS: WatchRecommendation[] = [
     titleRu: "Лекции Станислава Дробышевского",
     formatRu: "плейлист YouTube",
     href: "https://www.youtube.com/playlist?list=PLu9XBMrQghEENqWKlcIXcHDCN-o5CWKMe",
+    imageSrc: `${WATCH_ASSET_ROOT}/drobyshevsky-lectures.jpg`,
+    imageAltRu: "Превью плейлиста лекций Станислава Дробышевского об эволюции.",
     descriptionRu:
       "Большая серия лекций об антропогенезе, ископаемых людях, приматах, поведении и том, как палеоантропологи собирают историю человека из фрагментов.",
     whyWatchRu:

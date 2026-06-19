@@ -200,7 +200,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Ранние хордовые получили внутреннюю ось тела и нервную трубку — черты, которые позже приведут к позвоночным.",
     whyMattersRu: "Это раннекембрийская точка: Pikaia и Metaspriggina известны позже, около 508-505 млн лет назад, поэтому здесь показан широкий узел ранних хордовых.",
     inherited: ["хорда", "нервная трубка", "сегментированные мышцы"],
-    image: plate("early-chordates", "Реконструкция раннего хордового", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("early-chordates", "AI-реконструкция ранних хордовых на фоне кембрийской среды"),
     sources: [
       wiki("Chordate", "Chordate"),
       source("Royal Ontario Museum: Pikaia", "https://burgess-shale.rom.on.ca/fossils/pikaia-gracilens/"),
@@ -288,7 +288,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Эмбрион получил защитные оболочки, и развитие стало меньше зависеть от водной среды вокруг организма.",
     whyMattersRu: "Амниотическое яйцо и новые стратегии развития позволили позвоночным глубже освоить сушу.",
     inherited: ["защищенное развитие", "эмбриональные оболочки", "сухопутная репродукция"],
-    image: plate("hylonomus-muse", "Реконструкция раннего амниота Hylonomus", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("hylonomus-muse", "AI-реконструкция раннего амниотического предка в каменноугольном лесу"),
     sources: [wiki("Amniote", "Amniote"), wiki("Hylonomus", "Hylonomus")],
   },
   {
@@ -616,7 +616,7 @@ export const STAGES: EvolutionStage[] = [
     summaryRu: "Наш вид возникает в Африке и постепенно расселяется по планете, создавая культуру, язык и сложные сообщества.",
     whyMattersRu: "Homo sapiens не цель эволюции, а молодая ветвь большого дерева с необычайно сильным коллективным обучением.",
     inherited: ["язык", "символическое мышление", "коллективное обучение"],
-    image: plate("sapiens-paleolithic-muse", "Музейная реконструкция палеолитического Homo sapiens", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate("generated-homo-sapiens", "AI-реконструкция раннего Homo sapiens в африканском ландшафте", "generated-reconstruction"),
     sources: [wiki("Jebel Irhoud", "Jebel_Irhoud"), wiki("Homo sapiens", "Homo_sapiens")],
   },
 ];

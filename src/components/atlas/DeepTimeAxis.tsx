@@ -122,7 +122,7 @@ export function DeepTimeAxis({
         <FloatingPaths className="deep-time-floating-paths" density="panel" />
         <img
           className="deep-time-river-image"
-          src="/assets/images/timeline-river-specimens.png"
+          src="/assets/images/timeline-river-evolution.jpg"
           alt=""
           aria-hidden="true"
           loading="eager"
