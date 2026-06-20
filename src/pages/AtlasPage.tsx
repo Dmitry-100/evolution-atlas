@@ -1,14 +1,12 @@
 import { useMemo, useRef, type CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowRight, BookOpen, Clock3, Compass, Dna, Fingerprint, History, Search, Sparkles, Star, Waves } from "lucide-react";
+import { ArrowRight, BookOpen, Clock3, Compass, Dna, Fingerprint, Search, Sparkles, Star, Waves } from "lucide-react";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
-import { Button } from "../components/ui/button";
 import { ConstellationField } from "../components/ui/constellation-field";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
 import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
 import { PrimateAxis } from "../components/atlas/PrimateAxis";
@@ -104,26 +102,25 @@ export function AtlasPage() {
   }
 
   return (
-    <TooltipProvider delayDuration={160}>
-      <div
-        className="atlas"
-        ref={atlasRef}
-        tabIndex={0}
-        style={{ "--active-era-color": activeEra?.color ?? "#d0a35b" } as CSSProperties}
-        onKeyDown={(event) => {
-          if (event.key === "ArrowRight") {
-            event.preventDefault();
-            moveActive(1);
-          }
-          if (event.key === "ArrowLeft") {
-            event.preventDefault();
-            moveActive(-1);
-          }
-        }}
-      >
-        <p className="sr-only" aria-live="polite">
-          Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
-        </p>
+    <div
+      className="atlas"
+      ref={atlasRef}
+      tabIndex={0}
+      style={{ "--active-era-color": activeEra?.color ?? "#d0a35b" } as CSSProperties}
+      onKeyDown={(event) => {
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          moveActive(1);
+        }
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          moveActive(-1);
+        }
+      }}
+    >
+      <p className="sr-only" aria-live="polite">
+        Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
+      </p>
 
         <section className="atlas-hero">
           <FloatingPaths className="atlas-hero-paths" />
@@ -150,16 +147,6 @@ export function AtlasPage() {
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Подсказка по управлению">
-                  <History aria-hidden="true" size={19} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                Нажимайте точки на шкале, двигайте ползунок или используйте стрелки, когда атлас в фокусе.
-              </TooltipContent>
-            </Tooltip>
             <JourneyControls stages={sortedStages} activeStage={activeStage} onActivate={activateJourneyStage} />
           </div>
         </section>
@@ -283,7 +270,6 @@ export function AtlasPage() {
             <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </section>
-      </div>
-    </TooltipProvider>
+    </div>
   );
 }

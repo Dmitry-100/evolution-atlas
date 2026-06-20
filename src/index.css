@@ -17,13 +17,8 @@
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
   --radius: 8px;
   --font-body:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
   --font-display: Georgia, "Times New Roman", serif;
   --display-title-size: clamp(1.75rem, 3.7vw, 3.6rem);
   --display-title-line: 1;
@@ -1069,7 +1064,7 @@ code {
 
 .deep-time-axis {
   position: relative;
-  height: 340px;
+  height: clamp(360px, 31vw, 560px);
   margin-top: 1rem;
   border: 1px solid rgba(218, 185, 126, 0.14);
   border-radius: var(--radius);
@@ -1080,6 +1075,7 @@ code {
 }
 
 .deep-time-water {
+  display: none;
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -1109,6 +1105,7 @@ code {
 }
 
 .deep-time-floating-paths {
+  display: none;
   inset: 1.2rem -2rem 4rem;
   z-index: 1;
   width: calc(100% + 4rem);
@@ -1119,16 +1116,13 @@ code {
 
 .deep-time-river-image {
   position: absolute;
-  right: 0;
-  bottom: 3.05rem;
-  left: 0;
+  inset: 0;
   z-index: 1;
   width: 100%;
-  height: 205px;
+  height: 100%;
   object-fit: cover;
-  object-position: center bottom;
-  opacity: 0.86;
-  mix-blend-mode: screen;
+  object-position: center center;
+  opacity: 1;
   pointer-events: none;
 }
 
@@ -1603,7 +1597,11 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.11);
   border-radius: 999px;
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.11), rgba(240, 201, 120, 0.09)),
+    linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.11),
+      rgba(240, 201, 120, 0.09)
+    ),
     rgba(8, 11, 11, 0.28);
   color: rgba(235, 228, 212, 0.82);
   font-size: 0.66rem;
@@ -2824,7 +2822,11 @@ code {
   content: "";
   background:
     linear-gradient(180deg, transparent 48%, rgba(5, 7, 7, 0.58)),
-    radial-gradient(circle at 12% 8%, rgba(240, 201, 120, 0.14), transparent 9rem);
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(240, 201, 120, 0.14),
+      transparent 9rem
+    );
   pointer-events: none;
 }
 
@@ -5154,10 +5156,10 @@ code {
 .molecule-card img {
   display: block;
   width: 100%;
-  height: 190px;
-  object-fit: contain;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: cover;
   background: rgba(3, 5, 5, 0.58);
-  padding: 0.7rem;
 }
 
 .molecule-card div {
@@ -6535,7 +6537,7 @@ code {
   }
 
   .deep-time-axis {
-    height: 310px;
+    height: 360px;
   }
 
   .dinosaur-deep-axis,
@@ -6544,8 +6546,7 @@ code {
   }
 
   .deep-time-river-image {
-    bottom: 3.15rem;
-    height: 165px;
+    height: 100%;
   }
 
   .deep-time-floating-paths {
@@ -6725,7 +6726,6 @@ code {
   }
 
   .origin-story-card img,
-  .molecule-card img,
   .genetics-evidence-media img {
     height: 170px;
   }

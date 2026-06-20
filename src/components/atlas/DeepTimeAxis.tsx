@@ -3,7 +3,6 @@ import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
 import type { MassExtinctionEvent } from "../../data/extinctions";
 import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, sortStagesOldestFirst } from "../../lib/timeline";
-import { FloatingPaths } from "../ui/floating-paths";
 import { Slider } from "../ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
@@ -20,6 +19,17 @@ type DeepTimeAxisProps = {
 
 const ORIGIN_MA = 4000;
 const PRIMATES_MA = 66;
+const VISUAL_TIME_ANCHORS = [
+  { ageMa: 4000, position: 0 },
+  { ageMa: 3000, position: 1 / 7 },
+  { ageMa: 2000, position: 2 / 7 },
+  { ageMa: 1000, position: 3 / 7 },
+  { ageMa: 600, position: 4 / 7 },
+  { ageMa: 200, position: 5 / 7 },
+  { ageMa: 66, position: 6 / 7 },
+  { ageMa: 0, position: 1 },
+] as const;
+
 const extinctionLabels: Record<string, string> = {
   "ordovician-silurian": "Ордовик",
   "late-devonian": "Девон",
@@ -29,8 +39,21 @@ const extinctionLabels: Record<string, string> = {
   "holocene-anthropocene": "Сегодня",
 };
 
-function linearPosition(ageMa: number) {
-  return Math.max(0, Math.min(1, 1 - ageMa / ORIGIN_MA));
+function visualTimePosition(ageMa: number) {
+  const clampedAge = Math.max(0, Math.min(ORIGIN_MA, ageMa));
+
+  for (let index = 0; index < VISUAL_TIME_ANCHORS.length - 1; index += 1) {
+    const older = VISUAL_TIME_ANCHORS[index];
+    const younger = VISUAL_TIME_ANCHORS[index + 1];
+
+    if (clampedAge <= older.ageMa && clampedAge >= younger.ageMa) {
+      const span = older.ageMa - younger.ageMa;
+      const progress = span === 0 ? 0 : (older.ageMa - clampedAge) / span;
+      return older.position + progress * (younger.position - older.position);
+    }
+  }
+
+  return clampedAge <= 0 ? 1 : 0;
 }
 
 function formatExtinctionAge(event: MassExtinctionEvent) {
@@ -38,8 +61,11 @@ function formatExtinctionAge(event: MassExtinctionEvent) {
 }
 
 function nearestStage(stages: EvolutionStage[], position: number) {
-  return sortStagesOldestFirst(stages).reduce<{ stage: EvolutionStage; distance: number } | null>((nearest, stage) => {
-    const distance = Math.abs(linearPosition(stage.ageMa) - position);
+  return sortStagesOldestFirst(stages).reduce<{
+    stage: EvolutionStage;
+    distance: number;
+  } | null>((nearest, stage) => {
+    const distance = Math.abs(visualTimePosition(stage.ageMa) - position);
     if (!nearest || distance < nearest.distance) return { stage, distance };
     return nearest;
   }, null)?.stage;
@@ -55,16 +81,24 @@ export function DeepTimeAxis({
   canStepNext,
   extinctions = [],
 }: DeepTimeAxisProps) {
-  const activePosition = linearPosition(activeStage.ageMa) * 100;
+  const activePosition = visualTimePosition(activeStage.ageMa) * 100;
   const activeCardClass =
-    activePosition > 82 ? "deep-active-card align-right" : activePosition < 18 ? "deep-active-card align-left" : "deep-active-card";
-  const primateStart = linearPosition(PRIMATES_MA) * 100;
+    activePosition > 82
+      ? "deep-active-card align-right"
+      : activePosition < 18
+        ? "deep-active-card align-left"
+        : "deep-active-card";
+  const primateStart = visualTimePosition(PRIMATES_MA) * 100;
+  const visibleExtinctions = useMemo(
+    () => extinctions.filter((event) => event.ageMa > 0),
+    [extinctions],
+  );
 
   const eraBands = useMemo(
     () =>
       eras.map((era) => {
-        const left = linearPosition(era.startsAtMa) * 100;
-        const right = linearPosition(era.endsAtMa) * 100;
+        const left = visualTimePosition(era.startsAtMa) * 100;
+        const right = visualTimePosition(era.endsAtMa) * 100;
         return { ...era, left, width: Math.max(0.5, right - left) };
       }),
     [eras],
@@ -83,7 +117,10 @@ export function DeepTimeAxis({
   }
 
   return (
-    <section className="axis-panel deep-time-panel" aria-label="Глубокая шкала времени">
+    <section
+      className="axis-panel deep-time-panel"
+      aria-label="Глубокая шкала времени"
+    >
       <div className="axis-toolbar">
         <span className="axis-toolbar-copy">
           <MoveHorizontal aria-hidden="true" size={19} />
@@ -118,17 +155,18 @@ export function DeepTimeAxis({
         onKeyDown={handleKeyDown}
         aria-label="Шкала времени. Используйте стрелки влево и вправо для перехода между этапами."
       >
-        <div className="deep-time-water" aria-hidden="true" />
-        <FloatingPaths className="deep-time-floating-paths" density="panel" />
         <img
           className="deep-time-river-image"
-          src="/assets/images/timeline-river-evolution.jpg"
+          src="/assets/images/timeline-river-evolution-21-9.png"
           alt=""
           aria-hidden="true"
           loading="eager"
           decoding="async"
         />
-        <div className="pre-primate-field" style={{ width: `${primateStart}%` }}>
+        <div
+          className="pre-primate-field"
+          style={{ width: `${primateStart}%` }}
+        >
           <span>До приматов: примерно 3,93 млрд лет</span>
         </div>
         <div className="primate-sliver" style={{ left: `${primateStart}%` }}>
@@ -139,15 +177,20 @@ export function DeepTimeAxis({
           <span
             key={era.id}
             className="deep-era-band"
-            style={{ left: `${era.left}%`, width: `${era.width}%`, background: era.color }}
+            style={{
+              left: `${era.left}%`,
+              width: `${era.width}%`,
+              background: era.color,
+            }}
             title={era.titleRu}
           />
         ))}
 
         <div className="extinction-markers" aria-label="Глобальные вымирания">
-          {extinctions.map((event, index) => {
-            const position = linearPosition(event.ageMa) * 100;
-            const offset = (index - (extinctions.length - 1) / 2) * 66;
+          {visibleExtinctions.map((event, index) => {
+            const position = visualTimePosition(event.ageMa) * 100;
+            const offset =
+              index === visibleExtinctions.length - 1 ? 0 : (index - 1.5) * 58;
             return (
               <Tooltip key={event.id}>
                 <TooltipTrigger asChild>
@@ -158,22 +201,32 @@ export function DeepTimeAxis({
                         left: `${position}%`,
                         "--extinction-color": event.color,
                         "--marker-offset": `${offset}px`,
-                        "--marker-y": `${22 + (index % 2) * 72}px`,
+                        "--marker-y": `${24 + (index % 2) * 76}px`,
                       } as CSSProperties
                     }
                     href="/extinctions"
                     aria-label={`${event.titleRu} вымирание, ${event.windowRu}`}
                   >
                     <span aria-hidden="true" />
-                    <strong>{extinctionLabels[event.id] ?? event.titleRu}</strong>
+                    <strong>
+                      {extinctionLabels[event.id] ?? event.titleRu}
+                    </strong>
                     <small>{formatExtinctionAge(event)}</small>
                   </a>
                 </TooltipTrigger>
                 <TooltipContent className="tooltip-content extinction-tooltip">
-                    <img src={event.image.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                  <img
+                    src={event.image.src}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span>{event.windowRu}</span>
                   <strong>{event.titleRu}</strong>
-                  <p>{event.lossPercentRu}: {event.snapshotRu}</p>
+                  <p>
+                    {event.lossPercentRu}: {event.snapshotRu}
+                  </p>
                   <small>{event.keyFactsRu[0]}</small>
                 </TooltipContent>
               </Tooltip>
@@ -181,20 +234,30 @@ export function DeepTimeAxis({
           })}
         </div>
 
-        <span className="deep-active-line" style={{ left: `${activePosition}%` }} aria-hidden="true" />
+        <span
+          className="deep-active-line"
+          style={{ left: `${activePosition}%` }}
+          aria-hidden="true"
+        />
         <div className={activeCardClass} style={{ left: `${activePosition}%` }}>
           <span>{formatAgeRu(activeStage.ageMa)}</span>
           <strong>{activeStage.titleRu}</strong>
         </div>
 
-        <div className="deep-stage-dots" role="list" aria-label="Этапы на глубокой шкале">
+        <div
+          className="deep-stage-dots"
+          role="list"
+          aria-label="Этапы на глубокой шкале"
+        >
           {stages.map((stage) => {
-            const position = linearPosition(stage.ageMa) * 100;
+            const position = visualTimePosition(stage.ageMa) * 100;
             const isActive = stage.id === activeStage.id;
             return (
               <button
                 key={stage.id}
-                className={isActive ? "deep-stage-dot is-active" : "deep-stage-dot"}
+                className={
+                  isActive ? "deep-stage-dot is-active" : "deep-stage-dot"
+                }
                 style={{ left: `${position}%` }}
                 type="button"
                 aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}

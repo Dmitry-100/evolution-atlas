@@ -28,14 +28,10 @@ const generatedAtlasImage = (
 };
 
 export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
-  "protocells": {
-    "src": "/assets/images/source-backed/protocells.jpg",
-    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hydrothermal_vent,_Mid-Cayman_Rise_(Expl6955_9664075828).jpg",
-    "credit": "NOAA Photo Library / Wikimedia Commons",
-    "license": "CC BY 2.0",
-    "commonsTitle": "File:Hydrothermal vent, Mid-Cayman Rise (Expl6955 9664075828).jpg",
-    "description": "Huge 3-foot orifice of hydrothermal vent at the Von Damm vent site. By comparison, by one measure the Old Faithful orifice is 3-feet across. Image ID: expl6955, Voyage To Inner Space - Exploring the Seas With NOAA Collect Location: Caribbean Sea, Mid-Cayman Rise Photo Date: 2011 August 7 Credit: NOAA Okeanos Explorer Program, Mid-Cayman Rise Expedition 2011"
-  },
+  "protocells": generatedAtlasImage(
+    "cell-lines.png",
+    "AI-визуализация ранней Земли, где энергия, вода, минералы и простые органические молекулы создают предпосылки клеточных линий.",
+  ),
   "prokaryotes": generatedAtlasImage("prokaryotes.jpg", "AI-реконструкция ранней прокариотической жизни и микробной среды."),
   "cyanobacteria": generatedAtlasImage("cyanobacteria.jpg", "AI-реконструкция цианобактериальных матов и древних кислородных экосистем."),
   "eukaryotes": generatedAtlasImage("eukaryotes.jpg", "AI-реконструкция ранних эукариотических клеток."),
