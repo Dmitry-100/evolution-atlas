@@ -49,6 +49,15 @@ const dinoImage = (
   sourceUrl,
 });
 
+const generatedDinoImage = (fileName: string, altRu: string): StageImage =>
+  dinoImage(
+    `generated-branch/${fileName}`,
+    altRu,
+    "AI-реконструкция / локальный визуальный слот",
+    "https://openai.com/",
+    "generated-reconstruction",
+  );
+
 const getSharedStage = (id: (typeof sharedAnimalBranchIds)[number]) => {
   const stage = STAGES.find((candidate) => candidate.id === id);
   if (!stage) {
@@ -70,12 +79,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Птицы не ответвляются от нашей линии млекопитающих: их путь начинается рядом с амниотами, но дальше уходит в диапсидную сторону.",
     evidenceRu: "Диапсидный череп с двумя височными окнами показывает отдельную ветку амниот, отличную от синапсидной линии млекопитающих.",
     inherited: ["амниотическое развитие", "диапсидный череп", "сухопутная линия позвоночных"],
-    image: dinoImage(
-      "generated-diapsids.png",
+    image: generatedDinoImage(
+      "diapsids.jpg",
       "AI-реконструкция ранней диапсидной ветви в музейной сцене",
-      "AI-реконструкция / локальный визуальный слот",
-      "https://openai.com/",
-      "generated-reconstruction",
     ),
     sources: [wiki("Diapsid", "Diapsid"), wiki("Amniote", "Amniote")],
   },
@@ -89,12 +95,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Это развилка, где будущая птичья линия отделяется от большинства других рептилий и приближается к динозаврам.",
     evidenceRu: "Общие черты черепа, зубов, голеностопа и строения конечностей связывают архозавров с крокодилами, птерозаврами и динозаврами.",
     inherited: ["архозавровая походка", "измененный череп", "ветвь к динозаврам"],
-    image: dinoImage(
-      "generated-archosaurs.png",
+    image: generatedDinoImage(
+      "archosaurs.jpg",
       "AI-реконструкция архозавровой ветви в лесной мезозойской сцене",
-      "AI-реконструкция / локальный визуальный слот",
-      "https://openai.com/",
-      "generated-reconstruction",
     ),
     sources: [wiki("Archosaur", "Archosaur"), wiki("Avemetatarsalia", "Avemetatarsalia")],
   },
@@ -127,11 +130,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Если вопрос звучит 'вымерли ли динозавры?', ключ нужно искать здесь: птицы являются живыми тероподами.",
     evidenceRu: "Кладистические анализы связывают птиц с манирапторными тероподами по строению кисти, вилочки, таза, стопы, перьев и дыхательной системы.",
     inherited: ["двуногость", "легкий скелет", "трехпалая конечность"],
-    image: dinoImage(
+    image: generatedDinoImage(
       "theropods.jpg",
-      "Реконструкция пернатого велоцираптора как тероподной ветви птиц",
-      "Wikimedia Commons: Velociraptor restoration",
-      "https://commons.wikimedia.org/wiki/File:Velociraptor_Restoration.png",
+      "AI-реконструкция тероподов как динозавровой линии, ведущей к птицам",
     ),
     sources: [wiki("Theropoda", "Theropoda"), wiki("Maniraptora", "Maniraptora")],
   },
@@ -145,11 +146,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Пернатые динозавры ломают привычную картинку: многие признаки птиц появились ещё у нептичьих родственников.",
     evidenceRu: "Ископаемые из лагерштеттов Китая сохранили отпечатки перьев у Anchiornis, Microraptor, Sinosauropteryx и других динозавров.",
     inherited: ["перья", "теплоизоляция", "визуальные сигналы"],
-    image: dinoImage(
+    image: generatedDinoImage(
       "feathered-dinosaurs.jpg",
-      "Иллюстрация пернатого нептичьего динозавра с длинными перьями на конечностях",
-      "Wikimedia Commons: Anchiornis life restoration",
-      "https://commons.wikimedia.org/wiki/File:Anchiornis_life_restoration_(single_model)_by_Sebastian_Brandt_(Reco-Brandt).jpg",
+      "AI-реконструкция пернатых нептичьих динозавров",
     ),
     sources: [wiki("Feathered dinosaur", "Feathered_dinosaur"), wiki("Anchiornis", "Anchiornis")],
   },
@@ -163,11 +162,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Это не 'первая птица' в школьном смысле, а яркая переходная форма, где видно, как смешаны старые и новые признаки.",
     evidenceRu: "Сольнхофенские окаменелости сохранили отпечатки перьев и скелетные признаки, связывающие Archaeopteryx с манирапторными тероподами.",
     inherited: ["крылья", "маховые перья", "сочетание птичьих и динозавровых черт"],
-    image: dinoImage(
+    image: generatedDinoImage(
       "archaeopteryx.jpg",
-      "Иллюстрация Archaeopteryx с крыльями, когтями и длинным хвостом",
-      "Wikimedia Commons: Archaeopteryx by durbed",
-      "https://commons.wikimedia.org/wiki/File:Archaeopteryx_lithographica_by_durbed.jpg",
+      "AI-реконструкция Archaeopteryx с крыльями, когтями и длинным хвостом",
     ),
     sources: [wiki("Archaeopteryx", "Archaeopteryx"), dinoSource("Natural History Museum: Archaeopteryx", "https://www.nhm.ac.uk/discover/dino-directory/archaeopteryx.html")],
   },
@@ -181,11 +178,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Птицы не возникли одной внезапной вспышкой: это целая ветвь экспериментов внутри динозавровой истории.",
     evidenceRu: "Находки Confuciusornis, Enantiornithes и других ранних птиц показывают постепенную перестройку хвоста, грудного пояса, клюва и полета.",
     inherited: ["развитые крылья", "укорочение хвоста", "птичья ветвь"],
-    image: dinoImage(
+    image: generatedDinoImage(
       "early-birds.jpg",
-      "Иллюстрация ранних меловых птиц над водой и хвойным лесом",
-      "Wikimedia Commons: Confuciusornis restoration",
-      "https://commons.wikimedia.org/wiki/File:Confuciusornis_2.png",
+      "AI-реконструкция ранних птиц мелового периода",
     ),
     sources: [wiki("Avialae", "Avialae"), wiki("Confuciusornis", "Confuciusornis")],
   },
@@ -199,12 +194,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Здесь рождается точный ответ: нептичьи динозавры вымерли, но часть птичьей ветви пережила кризис.",
     evidenceRu: "Иридиевый слой, кратер Чиксулуб, резкая смена фауны и исчезновение многих групп показывают глобальный кризис на границе мела и палеогена.",
     inherited: ["пережившая птичья линия", "малый размер", "адаптация к новым экосистемам"],
-    image: dinoImage(
+    image: generatedDinoImage(
       "kpg-survivors.jpg",
-      "Иллюстрация астероидного удара и кризиса на границе мела и палеогена",
-      "Локальный ассет раздела о вымираниях",
-      "https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene_extinction_event",
-      "local-plate",
+      "AI-реконструкция рубежа K-Pg и выжившей птичьей линии",
     ),
     sources: [wiki("Cretaceous-Paleogene extinction event", "Cretaceous%E2%80%93Paleogene_extinction_event"), wiki("Chicxulub crater", "Chicxulub_crater")],
   },
@@ -218,11 +210,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Когда вы видите птицу, вы видите не 'потомка рядом с динозаврами', а одну из выживших ветвей динозавров.",
     evidenceRu: "Молекулярные данные, кладистические признаки скелета, перья, яйца, дыхательная система и ископаемые переходные формы объединяют птиц с тероподами.",
     inherited: ["перья", "клюв", "птичья дыхательная система", "живое динозавровое наследие"],
-    image: dinoImage(
+    image: generatedDinoImage(
       "modern-birds.jpg",
-      "Фотография китоглава как современной птицы с выразительным динозавровым силуэтом",
-      "Wikimedia Commons: Balaeniceps rex",
-      "https://commons.wikimedia.org/wiki/File:Balaeniceps_rex.jpg",
+      "AI-реконструкция современных птиц как живой динозавровой ветви",
     ),
     sources: [
       wiki("Bird", "Bird"),

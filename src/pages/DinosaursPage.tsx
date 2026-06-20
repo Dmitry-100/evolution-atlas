@@ -170,17 +170,47 @@ function agePosition(stages: BranchItem[], ageMa: number) {
   return ((oldest - ageMa) / (oldest - youngest)) * 100;
 }
 
-function nearestStage(stages: BranchItem[], position: number) {
+function nearestStageByPosition(
+  stages: BranchItem[],
+  positions: number[],
+  target: number,
+) {
   return stages.reduce<{ stage: BranchItem; distance: number } | null>(
-    (nearest, stage) => {
-      const distance = Math.abs(
-        agePosition(stages, stage.ageMa) / 100 - position,
-      );
+    (nearest, stage, index) => {
+      const position = (positions[index] ?? 0) / 100;
+      const distance = Math.abs(position - target);
       if (!nearest || distance < nearest.distance) return { stage, distance };
       return nearest;
     },
     null,
   )?.stage;
+}
+
+function makeReadablePositions(stages: BranchItem[]) {
+  const raw = stages.map((stage) =>
+    Math.max(4, Math.min(96, agePosition(stages, stage.ageMa))),
+  );
+  const minimumGap = 4.85;
+  const positions = raw.map((position) => position);
+
+  for (let index = 1; index < positions.length; index += 1) {
+    positions[index] = Math.max(
+      positions[index],
+      positions[index - 1] + minimumGap,
+    );
+  }
+
+  if ((positions[positions.length - 1] ?? 0) > 96) {
+    positions[positions.length - 1] = 96;
+    for (let index = positions.length - 2; index >= 0; index -= 1) {
+      positions[index] = Math.min(
+        positions[index],
+        positions[index + 1] - minimumGap,
+      );
+    }
+  }
+
+  return positions.map((position) => Math.max(4, Math.min(96, position)));
 }
 
 function getStepTarget(stages: BranchItem[], activeId: string, delta: number) {
@@ -263,13 +293,23 @@ function DinosaurTimelineAxis({
   canStepPrevious: boolean;
   canStepNext: boolean;
 }) {
-  const activePosition = agePosition(stages, activeStage.ageMa);
+  const positions = useMemo(() => makeReadablePositions(stages), [stages]);
+  const activeIndex = Math.max(
+    0,
+    stages.findIndex((stage) => stage.id === activeStage.id),
+  );
+  const activeDisplayPosition = positions[activeIndex] ?? 4;
   const activeCardClass =
-    activePosition > 82
+    activeDisplayPosition > 82
       ? "deep-active-card align-right"
-      : activePosition < 18
+      : activeDisplayPosition < 18
         ? "deep-active-card align-left"
         : "deep-active-card";
+  const positionById = useMemo(() => {
+    const map = new Map<string, number>();
+    stages.forEach((stage, index) => map.set(stage.id, positions[index] ?? 0));
+    return map;
+  }, [positions, stages]);
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.key === "ArrowRight" && canStepNext) {
@@ -341,18 +381,11 @@ function DinosaurTimelineAxis({
 
         <div className="dinosaur-zone-bands" aria-hidden="true">
           {dinosaurJourneyZones.map((zone) => {
-            const fromStage = stages.find((stage) => stage.id === zone.fromId);
-            const toStage = stages.find((stage) => stage.id === zone.toId);
-            if (!fromStage || !toStage) return null;
-
-            const left = Math.min(
-              agePosition(stages, fromStage.ageMa),
-              agePosition(stages, toStage.ageMa),
-            );
-            const right = Math.max(
-              agePosition(stages, fromStage.ageMa),
-              agePosition(stages, toStage.ageMa),
-            );
+            const from = positionById.get(zone.fromId);
+            const to = positionById.get(zone.toId);
+            if (from === undefined || to === undefined) return null;
+            const left = Math.min(from, to);
+            const right = Math.max(from, to);
             return (
               <span
                 key={zone.id}
@@ -369,10 +402,10 @@ function DinosaurTimelineAxis({
 
         <span
           className="deep-active-line"
-          style={{ left: `${activePosition}%` }}
+          style={{ left: `${activeDisplayPosition}%` }}
           aria-hidden="true"
         />
-        <div className={activeCardClass} style={{ left: `${activePosition}%` }}>
+        <div className={activeCardClass} style={{ left: `${activeDisplayPosition}%` }}>
           <span>{formatAge(activeStage.ageMa)}</span>
           <strong>{activeStage.titleRu}</strong>
           <small>{getJourneyLabel(activeStage)}</small>
@@ -383,8 +416,8 @@ function DinosaurTimelineAxis({
           role="list"
           aria-label="Этапы на шкале динозавровой ветви"
         >
-          {stages.map((stage) => {
-            const position = agePosition(stages, stage.ageMa);
+          {stages.map((stage, index) => {
+            const position = positions[index] ?? 4;
             const isActive = stage.id === activeStage.id;
             return (
               <button
@@ -396,6 +429,10 @@ function DinosaurTimelineAxis({
                 type="button"
                 aria-label={`${stage.titleRu}, ${formatAge(stage.ageMa)}`}
                 aria-current={isActive ? "true" : undefined}
+                onPointerDown={() => onSelect(stage)}
+                onMouseDown={() => onSelect(stage)}
+                onTouchStart={() => onSelect(stage)}
+                onFocus={() => onSelect(stage)}
                 onClick={() => onSelect(stage)}
               >
                 <span />
@@ -409,9 +446,13 @@ function DinosaurTimelineAxis({
         max={1000}
         min={0}
         step={1}
-        value={[activePosition * 10]}
+        value={[activeDisplayPosition * 10]}
         onValueChange={([value]) => {
-          const stage = nearestStage(stages, (value ?? 0) / 1000);
+          const stage = nearestStageByPosition(
+            stages,
+            positions,
+            (value ?? 0) / 1000,
+          );
           if (stage) onSelect(stage);
         }}
       />

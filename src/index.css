@@ -1442,8 +1442,8 @@ code {
 .deep-stage-dot {
   position: absolute;
   bottom: 4.7rem;
-  width: 24px;
-  height: 64px;
+  width: 36px;
+  height: 78px;
   transform: translateX(-50%);
   border: 0;
   background: transparent;
@@ -1617,6 +1617,8 @@ code {
 
 .primate-stage-dots .deep-stage-dot {
   bottom: 4.55rem;
+  width: 16px;
+  height: 64px;
 }
 
 .primate-time-ticks span {
@@ -3985,7 +3987,14 @@ code {
 }
 
 .dinosaur-stage-dots .deep-stage-dot {
-  bottom: 4.55rem;
+  bottom: 4.1rem;
+  width: 44px;
+  height: 44px;
+}
+
+.dinosaur-stage-dots .deep-stage-dot span {
+  bottom: 50%;
+  transform: translate(-50%, 50%);
 }
 
 .dinosaur-time-ticks span {

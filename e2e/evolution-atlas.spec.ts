@@ -720,10 +720,15 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { name: "Современные птицы" }),
     ).not.toBeVisible();
 
-    await page.getByRole("button", { name: /Современные птицы/i }).click();
+    const nextDinosaurStage = page.getByRole("button", {
+      name: "Следующий этап",
+    });
+    for (let index = 1; index < 18; index += 1) {
+      await nextDinosaurStage.click();
+    }
     await expect(
-      page.getByRole("heading", { name: "Современные птицы" }),
-    ).toBeVisible();
+      page.locator(".dinosaur-axis-section .dinosaur-detail-copy h2"),
+    ).toHaveText("Современные птицы");
     await expect(
       page
         .locator(".dinosaur-axis-section .dinosaur-detail-copy")

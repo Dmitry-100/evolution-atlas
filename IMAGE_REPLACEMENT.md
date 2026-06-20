@@ -17,12 +17,57 @@
 - `public/assets/images/timeline-river-evolution.jpg` — фон шкалы “Весь путь”.
 - `public/assets/images/primate-timeline-river.jpg` — фон шкалы “От обезьян к человеку”.
 - `public/assets/images/dinosaurs/dinosaur-timeline-river.png` — фон шкалы динозавров.
+- `public/assets/images/source-backed/generated-atlas/` — массовые AI-реконструкции для основной линии Атласа.
+- `public/assets/images/dinosaurs/generated-branch/` — массовые AI-реконструкции для ветки “динозавры → птицы”.
 - `public/assets/images/source-backed/generated-early-chordates.png` — ранние хордовые.
 - `public/assets/images/source-backed/generated-amniote-common-ancestor.png` — ранние амниоты / общий предок с птицами.
 - `public/assets/images/source-backed/generated-homo-sapiens.jpg` — Homo sapiens.
-- `public/assets/images/dinosaurs/generated-diapsids.png` — диапсиды.
-- `public/assets/images/dinosaurs/generated-archosaurs.png` — архозавры.
 - `public/assets/images/dinosaurs/generated-early-dinosaurs.png` — ранние динозавры.
+
+## Основной Атлас: имена файлов для массовой замены
+
+Если нужно обновить весь визуальный ряд основной шкалы, кладите новые изображения в `public/assets/images/source-backed/generated-atlas/` с такими именами:
+
+- `prokaryotes.jpg`
+- `cyanobacteria.jpg`
+- `eukaryotes.jpg`
+- `choanoflagellates.jpg`
+- `early-animals.jpg`
+- `bilaterians.jpg`
+- `early-chordates.jpg`
+- `early-vertebrates.jpg`
+- `jawed-fish.jpg`
+- `lobe-finned.jpg`
+- `tiktaalik.jpg`
+- `early-tetrapods.jpg`
+- `synapsids.jpg`
+- `therapsids.jpg`
+- `cynodonts.jpg`
+- `early-mammals.jpg`
+- `early-eutherians.jpg`
+- `after-kpg.jpg`
+- `early-primates.jpg`
+- `ancient-primates.jpg`
+- `new-world-monkeys.jpg`
+- `old-world-monkeys.jpg`
+- `catarrhini.jpg`
+- `early-apes.jpg`
+- `great-apes.jpg`
+
+## Динозавры: имена файлов для массовой замены
+
+Ветка “динозавры → птицы” берет новые изображения из `public/assets/images/dinosaurs/generated-branch/`:
+
+- `diapsids.jpg`
+- `archosaurs.jpg`
+- `theropods.jpg`
+- `feathered-dinosaurs.jpg`
+- `archaeopteryx.jpg`
+- `early-birds.jpg`
+- `kpg-survivors.jpg`
+- `modern-birds.jpg`
+
+Для этапа “Ранние динозавры” пока используется отдельный слот `public/assets/images/dinosaurs/generated-early-dinosaurs.png`; если появится новая картинка, проще заменить этот файл тем же именем.
 
 ## Если нужен новый файл, а не замена старого
 
