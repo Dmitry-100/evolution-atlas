@@ -15,7 +15,7 @@ export const OptimizedImage = forwardRef<
   HTMLImageElement,
   OptimizedImageProps
 >(function OptimizedImage(
-  { pictureClassName, preferOptimized = true, src, alt = "", onError, ...imageProps },
+  { pictureClassName, preferOptimized = false, src, alt = "", onError, ...imageProps },
   ref,
 ) {
   const optimizedSrc = src ? getOptimizedImageSrc(src) : null;
