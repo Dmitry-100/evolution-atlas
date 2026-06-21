@@ -199,7 +199,7 @@ const contextBranches: ContextBranchSeed[] = [
     latin: "Actinopterygii",
     ageMa: 420,
     descriptionRu:
-      "Большинство современных рыб относится к лучеперым; наша линия выбрала другую ветвь - лопастеперых.",
+      "Большинство современных рыб относится к лучеперым; ветвь, ведущая к наземным позвоночным, проходит через лопастеперых.",
     image: cladogramImage(
       "branch-ray-finned-fish.jpg",
       "Common lion fish Pterois volitans 2.jpg",

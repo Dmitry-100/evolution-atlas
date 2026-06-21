@@ -34,6 +34,56 @@ function usePrefersReducedMotion() {
   return reducedMotion;
 }
 
+function useDocumentVisible() {
+  const [isVisible, setIsVisible] = useState(() =>
+    typeof document === "undefined"
+      ? true
+      : document.visibilityState === "visible",
+  );
+
+  useEffect(() => {
+    const updateVisibility = () => {
+      setIsVisible(document.visibilityState === "visible");
+    };
+
+    updateVisibility();
+    document.addEventListener("visibilitychange", updateVisibility);
+    return () =>
+      document.removeEventListener("visibilitychange", updateVisibility);
+  }, []);
+
+  return isVisible;
+}
+
+function useDeferredShaderReady() {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    const schedule: (
+      callback: IdleRequestCallback,
+      options?: IdleRequestOptions,
+    ) => number =
+      window.requestIdleCallback?.bind(window) ??
+      ((callback) =>
+        window.setTimeout(
+          () =>
+            callback({
+              didTimeout: false,
+              timeRemaining: () => 0,
+            }),
+          180,
+        ));
+    const cancel: (handle: number) => void =
+      window.cancelIdleCallback?.bind(window) ??
+      ((handle) => window.clearTimeout(handle));
+
+    const handle = schedule(() => setIsReady(true), { timeout: 1200 });
+    return () => cancel(handle);
+  }, []);
+
+  return isReady;
+}
+
 function useThrottledCallback<T extends (...args: never[]) => void>(callback: T, delay: number) {
   const timeoutRef = useRef<number | null>(null);
   const callbackRef = useRef(callback);
@@ -319,17 +369,23 @@ export const EtherealInk = memo(function EtherealInk({
   interactive = true,
 }: EtherealInkProps) {
   const reducedMotion = usePrefersReducedMotion();
+  const isVisible = useDocumentVisible();
+  const isShaderReady = useDeferredShaderReady();
 
   return (
     <div className={cn("ethereal-ink", className)} aria-hidden="true">
-      <ShaderCanvas
-        complexity={complexity}
-        hue={hue}
-        intensity={intensity}
-        interactive={interactive}
-        paused={reducedMotion}
-        speed={speed}
-      />
+      {isShaderReady ? (
+        <ShaderCanvas
+          complexity={complexity}
+          hue={hue}
+          intensity={intensity}
+          interactive={interactive}
+          paused={reducedMotion || !isVisible}
+          speed={speed}
+        />
+      ) : (
+        <div className="ethereal-ink-fallback" />
+      )}
       <div className="ethereal-ink-scrim" />
     </div>
   );

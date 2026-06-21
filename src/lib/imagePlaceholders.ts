@@ -14,7 +14,7 @@ export function getImagePlaceholder(kind: StageImageKind) {
 }
 
 export function getOptimizedImageSrc(src: string) {
-  if (!src.startsWith("/assets/images/")) {
+  if (!src.startsWith("/assets/images/") && !src.startsWith("/assets/brand/")) {
     return null;
   }
 

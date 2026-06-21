@@ -19,6 +19,11 @@ describe("image placeholders", () => {
         "/assets/images/source-backed/generated-neanderthal.png",
       ),
     ).toBe("/assets/images/source-backed/generated-neanderthal.avif");
+    expect(getOptimizedImageSrc("/assets/brand/portal-logo-mark.png")).toBe(
+      "/assets/brand/portal-logo-mark.avif",
+    );
+    expect(getOptimizedImageSrc("/assets/brand/icon.svg")).toBeNull();
+    expect(getOptimizedImageSrc("/assets/materials/example-cover.jpg")).toBeNull();
     expect(getOptimizedImageSrc("https://example.com/specimen.jpg")).toBeNull();
   });
 });

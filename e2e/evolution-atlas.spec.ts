@@ -1,5 +1,18 @@
 import { expect, test } from "@playwright/test";
 
+const navItems = [
+  "Атлас",
+  "Теория эволюции",
+  "Зарождение жизни",
+  "РНК/ДНК",
+  "Дерево родства",
+  "Глобальные вымирания",
+  "Вымерли ли динозавры",
+  "Дополнительные материалы",
+  "О проекте",
+  "Проверь себя",
+];
+
 test.describe("Evolution Atlas", () => {
   test("renders the atlas without console errors or horizontal overflow", async ({
     page,
@@ -43,17 +56,12 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: "Дерево родства" }),
     ).toBeVisible();
-    await expect(page.locator(".brand-wordmark")).toHaveAttribute(
+    await expect(page.locator(".brand-wordmark")).toHaveCount(0);
+    await expect(page.locator(".brand-mark")).toHaveAttribute(
       "src",
-      "/assets/brand/portal-logo.png",
+      "/assets/brand/portal-logo-mark.png",
     );
-    await expect
-      .poll(() =>
-        page.locator(".brand-wordmark, .brand-compact").evaluateAll((nodes) =>
-          nodes.some((node) => node.getClientRects().length > 0),
-        ),
-      )
-      .toBe(true);
+    await expect(page.locator(".brand-mark")).toBeVisible();
     await expect
       .poll(() =>
         page
@@ -63,18 +71,25 @@ test.describe("Evolution Atlas", () => {
             links.map((link) => link.textContent?.trim() ?? ""),
           ),
       )
-      .toEqual([
-        "Атлас",
-        "Теория эволюции",
-        "Зарождение жизни",
-        "РНК/ДНК",
-        "Дерево родства",
-        "Глобальные вымирания",
-        "Вымерли ли динозавры",
-        "Дополнительные материалы",
-        "О проекте",
-        "Проверь себя",
-      ]);
+      .toEqual(navItems);
+    const visibleNavItems = await page
+      .getByLabel("Основная навигация")
+      .getByRole("link")
+      .evaluateAll((links) =>
+        links.map((link) => {
+          const rect = link.getBoundingClientRect();
+          return {
+            text: link.textContent?.trim() ?? "",
+            visible:
+              rect.width > 0 &&
+              rect.height > 0 &&
+              getComputedStyle(link).visibility !== "hidden",
+          };
+        }),
+      );
+    expect(visibleNavItems).toEqual(
+      navItems.map((text) => ({ text, visible: true })),
+    );
     await expect(page.locator(".deep-time-axis")).toBeVisible();
     await expect(page.locator(".extinction-marker")).toHaveCount(5);
     await expect(page.locator(".app-ethereal-background")).toBeVisible();
@@ -90,7 +105,9 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
     await expect(page.getByText(/к выбранной точке/i)).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: /Ранние приматы/i }),
+      page.getByRole("heading", {
+        name: /Ранние родственники приматов/i,
+      }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /Что значит.*теория/i }),
@@ -131,6 +148,25 @@ test.describe("Evolution Atlas", () => {
     expect(consoleErrors).toEqual([]);
   });
 
+  test("top navigation supports cyclic keyboard arrow navigation", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const nav = page.getByLabel("Основная навигация");
+
+    await nav.getByRole("link", { name: "Атлас" }).focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(page).toHaveURL(/\/theory$/);
+
+    await nav.getByRole("link", { name: "Теория эволюции" }).focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(page).toHaveURL(/\/$/);
+
+    await nav.getByRole("link", { name: "Атлас" }).focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(page).toHaveURL(/\/quiz$/);
+  });
+
   test("click and primate mode update the active species card without hover tracking", async ({
     page,
   }) => {
@@ -145,7 +181,7 @@ test.describe("Evolution Atlas", () => {
     );
     await expect(
       page.locator(".stage-plate-media source[type='image/avif']"),
-    ).toHaveCount(0);
+    ).toHaveCount(1);
 
     await page.getByRole("button", { name: /Homo sapiens,/i }).click();
     await expect(
@@ -194,7 +230,7 @@ test.describe("Evolution Atlas", () => {
   }) => {
     await page.goto("/");
     const activeHeading = page.locator(".stage-copy h2");
-    await expect(activeHeading).toHaveText("Ранние приматы");
+    await expect(activeHeading).toHaveText("Ранние родственники приматов");
 
     const box = await page.locator(".deep-time-axis").boundingBox();
     expect(box).not.toBeNull();
@@ -203,7 +239,7 @@ test.describe("Evolution Atlas", () => {
     await page.mouse.move(box.x + box.width * 0.08, box.y + box.height * 0.5);
     await page.mouse.move(box.x + box.width * 0.52, box.y + box.height * 0.35);
     await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.62);
-    await expect(activeHeading).toHaveText("Ранние приматы");
+    await expect(activeHeading).toHaveText("Ранние родственники приматов");
   });
 
   test("mass extinction markers show event callouts on hover", async ({
@@ -227,7 +263,7 @@ test.describe("Evolution Atlas", () => {
   }) => {
     await page.goto("/");
     const activeHeading = page.locator(".stage-copy h2");
-    await expect(activeHeading).toHaveText("Ранние приматы");
+    await expect(activeHeading).toHaveText("Ранние родственники приматов");
 
     await page.getByRole("button", { name: /Следующий этап/i }).click();
     await expect(activeHeading).toHaveText("Древние приматы");
@@ -273,11 +309,13 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Дерево родства" }),
     ).toBeVisible();
-    await expect(cladogram.getByText(/Читайте сверху вниз/i)).toBeVisible();
+    await expect(
+      cladogram.getByText(/Выбранный маршрут показывает ветвь/i),
+    ).toBeVisible();
     await expect(
       cladogram
         .locator(".cladogram-reader-guide")
-        .getByText("Главный ствол к человеку"),
+        .getByText("Ветвь Homo sapiens"),
     ).toBeVisible();
     await expect(
       cladogram.locator(".cladogram-reader-guide").getByText("Общий предок"),
@@ -811,7 +849,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".genetics-evidence-media img")).toHaveCount(6);
     await expect(page.locator(".genetics-evidence-zoom")).toHaveCount(6);
     await expect(
-      page.locator(".genome-comparison-card > strong", { hasText: "98,8%" }),
+      page.locator(".genome-comparison-card > strong", { hasText: "98-99%" }),
     ).toBeVisible();
     await expect(page.getByText(/не та же метрика/i)).toBeVisible();
 

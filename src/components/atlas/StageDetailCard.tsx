@@ -6,6 +6,7 @@ import { getImagePlaceholder } from "../../lib/imagePlaceholders";
 import { formatAgeRu } from "../../lib/timeline";
 import { ConstellationField } from "../ui/constellation-field";
 import { FloatingPaths } from "../ui/floating-paths";
+import { OptimizedImage } from "../ui/optimized-image";
 import { GlossaryTerm } from "./GlossaryTerm";
 
 type StageDetailCardProps = {
@@ -64,7 +65,8 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             <ConstellationField className="stage-plate-constellation" compact />
           </div>
           {previousImage ? (
-            <img
+            <OptimizedImage
+              pictureClassName="stage-plate-picture"
               className="stage-plate-main stage-plate-previous"
               src={previousImage.src}
               alt=""
@@ -72,9 +74,10 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
               decoding="async"
             />
           ) : null}
-          <img
+          <OptimizedImage
             key={stage.image.src}
             ref={imageRef}
+            pictureClassName="stage-plate-picture"
             className={
               isLoaded
                 ? "stage-plate-main stage-plate-current is-loaded"

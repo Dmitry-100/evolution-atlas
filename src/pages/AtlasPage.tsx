@@ -219,7 +219,7 @@ export function AtlasPage() {
             <Dna aria-hidden="true" size={22} />
             <div>
               <strong>Дерево родства</strong>
-              <p>Отдельная кладограмма показывает ствол к Homo sapiens и боковые ветви, которые отходят от разных узлов.</p>
+              <p>Отдельная кладограмма показывает ветвь, на которой находится Homo sapiens, и соседние линии, которые отходят от разных узлов.</p>
             </div>
           </div>
           <Link className="button button-secondary button-md" to="/cladogram">

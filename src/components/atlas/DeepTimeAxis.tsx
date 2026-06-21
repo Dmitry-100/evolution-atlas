@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
 import type { MassExtinctionEvent } from "../../data/extinctions";
 import type { EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, sortStagesOldestFirst } from "../../lib/timeline";
+import { OptimizedImage } from "../ui/optimized-image";
 import { Slider } from "../ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
@@ -184,13 +185,13 @@ export function DeepTimeAxis({
         onKeyDown={handleKeyDown}
         aria-label="Шкала времени. Используйте стрелки влево и вправо для перехода между этапами."
       >
-        <img
+        <OptimizedImage
           className="deep-time-river-image"
           src="/assets/images/timeline-river-evolution-21-9.png"
           alt=""
           aria-hidden="true"
-          loading="eager"
           decoding="async"
+          fetchPriority="high"
         />
         <div className="deep-time-region-labels" aria-hidden="true">
           {TIME_REGION_LABELS.map((region) => (
