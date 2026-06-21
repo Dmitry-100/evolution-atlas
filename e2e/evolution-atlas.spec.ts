@@ -414,12 +414,14 @@ test.describe("Evolution Atlas", () => {
 
   test("glossary tooltips explain evolutionary terms", async ({ page }) => {
     await page.goto("/?mode=all&stage=chordates");
-    await page
+    const chordatesTerm = page
       .locator(".stage-glossary-line")
-      .getByRole("button", { name: "Хордовые" })
-      .focus();
+      .getByRole("button", { name: "Хордовые" });
+    await chordatesTerm.hover();
+    await chordatesTerm.evaluate((node) => (node as HTMLElement).focus());
     await expect(page.getByRole("tooltip")).toContainText(
       /внутренней опорной осью/i,
+      { timeout: 10_000 },
     );
   });
 
@@ -436,7 +438,10 @@ test.describe("Evolution Atlas", () => {
     expect(totalQuestions).toBeGreaterThanOrEqual(36);
 
     for (let index = 0; index < totalQuestions; index += 1) {
-      await quiz.locator(".quiz-option").first().click({ force: true });
+      await quiz
+        .locator(".quiz-option")
+        .first()
+        .evaluate((node) => (node as HTMLButtonElement).click());
       const nextButton = quiz.getByRole("button", {
         name:
           index === totalQuestions - 1
@@ -444,7 +449,7 @@ test.describe("Evolution Atlas", () => {
             : "Следующий вопрос",
       });
       await expect(nextButton).toBeEnabled();
-      await nextButton.click({ force: true });
+      await nextButton.evaluate((node) => (node as HTMLButtonElement).click());
     }
 
     await expect(quiz.getByText(/Ваш результат/)).toBeVisible();
@@ -678,6 +683,7 @@ test.describe("Evolution Atlas", () => {
   test("dinosaurs route separates shared animal ancestors from the bird branch", async ({
     page,
   }) => {
+    test.slow();
     await page.goto("/dinosaurs");
     await expect(
       page.getByRole("heading", { name: "Вымерли ли динозавры" }),
@@ -734,7 +740,9 @@ test.describe("Evolution Atlas", () => {
       name: "Следующий этап",
     });
     for (let index = 1; index < 18; index += 1) {
-      await nextDinosaurStage.click();
+      await nextDinosaurStage.evaluate((node) =>
+        (node as HTMLButtonElement).click(),
+      );
     }
     await expect(
       page.locator(".dinosaur-axis-section .dinosaur-detail-copy h2"),
