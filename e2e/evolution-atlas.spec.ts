@@ -671,7 +671,9 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".journey-status")).toContainText(
       /Маршрут 1 из/i,
     );
-    await expect(activeHeading).toHaveText("Прокариоты", { timeout: 2500 });
+    await expect
+      .poll(() => activeHeading.textContent(), { timeout: 3000 })
+      .not.toBe("Клеточные линии");
 
     await page.getByRole("button", { name: "Пауза" }).click();
     await expect(

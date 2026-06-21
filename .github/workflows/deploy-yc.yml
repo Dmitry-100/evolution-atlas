@@ -1,0 +1,81 @@
+name: Deploy to Yandex Object Storage
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-yc
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.24.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Install s3cmd
+        run: pipx install s3cmd
+
+      - name: Configure s3cmd for Yandex Object Storage
+        env:
+          ACCESS_KEY: ${{ secrets.YC_S3_ACCESS_KEY_ID }}
+          SECRET_KEY: ${{ secrets.YC_S3_SECRET_ACCESS_KEY }}
+        run: |
+          cat > "$HOME/.s3cfg" <<EOF
+          [default]
+          access_key = ${ACCESS_KEY}
+          secret_key = ${SECRET_KEY}
+          host_base = storage.yandexcloud.net
+          host_bucket = %(bucket)s.storage.yandexcloud.net
+          bucket_location = ru-central1
+          use_https = True
+          signature_v2 = False
+          EOF
+
+      - name: Upload dist to bucket
+        run: |
+          s3cmd sync ./dist/ s3://evolution-atlas/ \
+            --acl-public --guess-mime-type --no-mime-magic --delete-removed
+
+      - name: Fix AVIF content-type + long cache
+        run: |
+          s3cmd modify --recursive --acl-public \
+            --mime-type=image/avif \
+            --add-header='Cache-Control:public, max-age=31536000, immutable' \
+            --exclude='*' --include='*.avif' s3://evolution-atlas/ || true
+
+      - name: index.html must not be cached
+        run: |
+          s3cmd modify --acl-public \
+            --add-header='Cache-Control:no-cache, must-revalidate' \
+            s3://evolution-atlas/index.html
