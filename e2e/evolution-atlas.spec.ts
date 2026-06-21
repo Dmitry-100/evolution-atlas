@@ -76,7 +76,7 @@ test.describe("Evolution Atlas", () => {
         "Проверь себя",
       ]);
     await expect(page.locator(".deep-time-axis")).toBeVisible();
-    await expect(page.locator(".extinction-marker")).toHaveCount(6);
+    await expect(page.locator(".extinction-marker")).toHaveCount(5);
     await expect(page.locator(".app-ethereal-background")).toBeVisible();
     await expect(
       page.locator(".ethereal-ink-canvas, .ethereal-ink-fallback"),
@@ -84,7 +84,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".scroll-progress")).toBeVisible();
     await expect(page.locator(".atlas-hero-paths")).toBeVisible();
     await expect(page.locator(".atlas-hero-constellation")).toBeVisible();
-    await expect(page.locator(".deep-time-floating-paths")).toBeVisible();
+    await expect(page.locator(".deep-time-region-label")).toHaveCount(5);
     await expect(
       page.getByText(/до появления приматов - 98,4%/i),
     ).toBeVisible();
@@ -175,7 +175,7 @@ test.describe("Evolution Atlas", () => {
     await page.getByRole("tab", { name: /Приматы.*человек/i }).click();
     await expect(page.locator(".primate-deep-axis")).toBeVisible();
     await expect(page.locator(".primate-timeline-river-image")).toBeVisible();
-    await expect(page.locator(".primate-time-floating-paths")).toBeVisible();
+    await expect(page.locator(".primate-time-floating-paths")).toHaveCount(1);
     await expect(page.locator(".primate-stage-dots .deep-stage-dot")).toHaveCount(16);
     await expect(page.locator(".primate-zone-bands span")).toHaveCount(4);
     await expect(page.getByText(/66 млн лет назад.*сегодня/i)).toBeVisible();
@@ -508,7 +508,12 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("heading", { name: /Что значит.*теория/i }),
     ).toBeVisible();
-    await expect(page.getByRole("heading", { name: /Дарвин/i })).toBeVisible();
+    await expect(page.getByText(/Дарвин: идея/i)).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: /Не лестница прогресса, а дерево родства/i,
+      }),
+    ).toBeVisible();
     await expect(page.getByText(/Происхождение видов/i)).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Ископаемые" }),
