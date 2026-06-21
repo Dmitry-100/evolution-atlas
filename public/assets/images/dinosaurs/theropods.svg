@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Theropods</title>
+  <desc id="desc">A dramatic reconstruction plate of a running theropod lineage, the dinosaur branch that later produced birds.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#142126"/>
+      <stop offset=".54" stop-color="#6f5032"/>
+      <stop offset="1" stop-color="#090d0e"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".58" cy=".32" r=".5">
+      <stop offset="0" stop-color="#efc36e" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#efc36e" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".62" numOctaves="4"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .16"/></feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#glow)"/>
+  <path d="M0 626c210-82 404-73 574-30 198 50 392 24 626-44v248H0z" fill="#11150f"/>
+  <g transform="translate(235 382)" fill="#0d0e0b">
+    <ellipse cx="372" cy="133" rx="226" ry="74"/>
+    <path d="M172 116C88 78 24 80-18 122c72-9 132 3 184 50z"/>
+    <path d="M558 98c150-98 270-116 362-55-112 18-212 64-306 138z"/>
+    <path d="M470 98c-3-72 20-126 70-161 3 62-11 118-43 168z"/>
+    <path d="M216 160c-74 66-116 141-126 225h-62c8-96 49-180 124-252z"/>
+    <path d="M392 180c66 65 112 136 137 214l-62 13c-28-78-76-148-145-210z"/>
+    <path d="M289 88c-44-54-86-87-126-99 26 54 63 96 110 128z"/>
+    <circle cx="112" cy="108" r="44"/>
+    <path d="M72 83c-70-53-133-68-189-44 54 18 98 48 132 91z"/>
+    <circle cx="95" cy="98" r="5" fill="#f6d98d"/>
+    <path d="M80 132c-26 19-55 30-86 33 38 18 73 16 105-8z" fill="#261b12"/>
+  </g>
+  <g stroke="#f4c778" stroke-width="2" opacity=".22">
+    <path d="M98 629c180-54 346-62 498-25"/>
+    <path d="M658 589c124-34 250-44 378-24"/>
+  </g>
+  <rect width="1200" height="800" filter="url(#grain)" opacity=".48"/>
+</svg>

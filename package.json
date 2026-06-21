@@ -12,6 +12,7 @@
     "test": "node ./node_modules/vitest/vitest.mjs run",
     "test:watch": "node ./node_modules/vitest/vitest.mjs",
     "e2e": "playwright test",
+    "optimize:images": "node scripts/optimize-images.mjs",
     "check": "npm run lint && npm run test && npm run build"
   },
   "dependencies": {

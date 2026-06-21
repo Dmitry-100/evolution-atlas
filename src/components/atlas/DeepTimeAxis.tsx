@@ -1,15 +1,13 @@
 import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
-import { ArrowLeft, ArrowRight, MoveHorizontal, TimerReset } from "lucide-react";
+import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
 import type { MassExtinctionEvent } from "../../data/extinctions";
-import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
-import { formatAgeRu, getPrePrimateShare, sortStagesOldestFirst } from "../../lib/timeline";
-import { FloatingPaths } from "../ui/floating-paths";
+import type { EvolutionStage } from "../../data/lineage";
+import { formatAgeRu, sortStagesOldestFirst } from "../../lib/timeline";
 import { Slider } from "../ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 type DeepTimeAxisProps = {
   stages: EvolutionStage[];
-  eras: EvolutionEra[];
   activeStage: EvolutionStage;
   onActivate: (stage: EvolutionStage) => void;
   onStep: (delta: number) => void;
@@ -19,26 +17,96 @@ type DeepTimeAxisProps = {
 };
 
 const ORIGIN_MA = 4000;
-const PRIMATES_MA = 65;
+const VISUAL_TIME_ANCHORS = [
+  { ageMa: 4000, position: 0 },
+  { ageMa: 3000, position: 1 / 7 },
+  { ageMa: 2000, position: 2 / 7 },
+  { ageMa: 1000, position: 3 / 7 },
+  { ageMa: 600, position: 4 / 7 },
+  { ageMa: 200, position: 5 / 7 },
+  { ageMa: 66, position: 6 / 7 },
+  { ageMa: 0, position: 1 },
+] as const;
+
 const extinctionLabels: Record<string, string> = {
   "ordovician-silurian": "Ордовик",
   "late-devonian": "Девон",
   "permian-triassic": "Пермь",
   "triassic-jurassic": "Триас",
   "cretaceous-paleogene": "K-Pg",
+  "holocene-anthropocene": "Сегодня",
 };
 
-function linearPosition(ageMa: number) {
-  return Math.max(0, Math.min(1, 1 - ageMa / ORIGIN_MA));
+const TIME_REGION_LABELS = [
+  {
+    id: "cellular",
+    ageMa: 2400,
+    title: "Клеточная жизнь",
+    detail: "миллиарды лет до животных",
+    color: "#6aa8ad",
+    align: "center",
+  },
+  {
+    id: "vertebrates",
+    ageMa: 430,
+    title: "Хордовые и рыбы",
+    detail: "скелет, хорда, челюсти",
+    color: "#7aaed2",
+    align: "center",
+  },
+  {
+    id: "land",
+    ageMa: 320,
+    title: "Суша и амниоты",
+    detail: "выход из воды",
+    color: "#d0a35b",
+    align: "center",
+  },
+  {
+    id: "mammals",
+    ageMa: 120,
+    title: "Млекопитающие",
+    detail: "теплокровность и забота",
+    color: "#b87f59",
+    align: "center",
+  },
+  {
+    id: "primates",
+    ageMa: 66,
+    title: "Приматы и Homo",
+    detail: "самый конец шкалы",
+    color: "#9eb36e",
+    align: "right",
+  },
+] as const;
+
+function visualTimePosition(ageMa: number) {
+  const clampedAge = Math.max(0, Math.min(ORIGIN_MA, ageMa));
+
+  for (let index = 0; index < VISUAL_TIME_ANCHORS.length - 1; index += 1) {
+    const older = VISUAL_TIME_ANCHORS[index];
+    const younger = VISUAL_TIME_ANCHORS[index + 1];
+
+    if (clampedAge <= older.ageMa && clampedAge >= younger.ageMa) {
+      const span = older.ageMa - younger.ageMa;
+      const progress = span === 0 ? 0 : (older.ageMa - clampedAge) / span;
+      return older.position + progress * (younger.position - older.position);
+    }
+  }
+
+  return clampedAge <= 0 ? 1 : 0;
 }
 
-function percentRu(value: number, maximumFractionDigits = 2) {
-  return value.toLocaleString("ru-RU", { maximumFractionDigits });
+function formatExtinctionAge(event: MassExtinctionEvent) {
+  return event.ageMa <= 0 ? "сегодня" : formatAgeRu(event.ageMa);
 }
 
 function nearestStage(stages: EvolutionStage[], position: number) {
-  return sortStagesOldestFirst(stages).reduce<{ stage: EvolutionStage; distance: number } | null>((nearest, stage) => {
-    const distance = Math.abs(linearPosition(stage.ageMa) - position);
+  return sortStagesOldestFirst(stages).reduce<{
+    stage: EvolutionStage;
+    distance: number;
+  } | null>((nearest, stage) => {
+    const distance = Math.abs(visualTimePosition(stage.ageMa) - position);
     if (!nearest || distance < nearest.distance) return { stage, distance };
     return nearest;
   }, null)?.stage;
@@ -46,7 +114,6 @@ function nearestStage(stages: EvolutionStage[], position: number) {
 
 export function DeepTimeAxis({
   stages,
-  eras,
   activeStage,
   onActivate,
   onStep,
@@ -54,21 +121,16 @@ export function DeepTimeAxis({
   canStepNext,
   extinctions = [],
 }: DeepTimeAxisProps) {
-  const activePosition = linearPosition(activeStage.ageMa) * 100;
+  const activePosition = visualTimePosition(activeStage.ageMa) * 100;
   const activeCardClass =
-    activePosition > 82 ? "deep-active-card align-right" : activePosition < 18 ? "deep-active-card align-left" : "deep-active-card";
-  const prePrimateShare = getPrePrimateShare({ originMa: ORIGIN_MA, primatesMa: PRIMATES_MA });
-  const activeElapsedShare = linearPosition(activeStage.ageMa);
-  const primateStart = linearPosition(PRIMATES_MA) * 100;
-
-  const eraBands = useMemo(
-    () =>
-      eras.map((era) => {
-        const left = linearPosition(era.startsAtMa) * 100;
-        const right = linearPosition(era.endsAtMa) * 100;
-        return { ...era, left, width: Math.max(0.5, right - left) };
-      }),
-    [eras],
+    activePosition > 82
+      ? "deep-active-card align-right"
+      : activePosition < 18
+        ? "deep-active-card align-left"
+        : "deep-active-card";
+  const visibleExtinctions = useMemo(
+    () => extinctions.filter((event) => event.ageMa > 0),
+    [extinctions],
   );
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -84,7 +146,10 @@ export function DeepTimeAxis({
   }
 
   return (
-    <section className="axis-panel deep-time-panel" aria-label="Глубокая шкала времени">
+    <section
+      className="axis-panel deep-time-panel"
+      aria-label="Глубокая шкала времени"
+    >
       <div className="axis-toolbar">
         <span className="axis-toolbar-copy">
           <MoveHorizontal aria-hidden="true" size={19} />
@@ -113,49 +178,43 @@ export function DeepTimeAxis({
         <strong>4 млрд лет одним взглядом</strong>
       </div>
 
-      <div className="deep-time-stat">
-        <TimerReset aria-hidden="true" size={24} />
-        <div>
-          <span>к выбранной точке прошло</span>
-          <strong>{percentRu(activeElapsedShare * 100)}% истории жизни</strong>
-          <small>до появления приматов - {percentRu(prePrimateShare * 100, 1)}%</small>
-        </div>
-      </div>
-
       <div
         className="deep-time-axis"
         tabIndex={0}
         onKeyDown={handleKeyDown}
         aria-label="Шкала времени. Используйте стрелки влево и вправо для перехода между этапами."
       >
-        <div className="deep-time-water" aria-hidden="true" />
-        <FloatingPaths className="deep-time-floating-paths" density="panel" />
         <img
           className="deep-time-river-image"
-          src="/assets/images/timeline-river-specimens.png"
+          src="/assets/images/timeline-river-evolution-21-9.png"
           alt=""
           aria-hidden="true"
+          loading="eager"
+          decoding="async"
         />
-        <div className="pre-primate-field" style={{ width: `${primateStart}%` }}>
-          <span>До приматов: примерно 3,94 млрд лет</span>
+        <div className="deep-time-region-labels" aria-hidden="true">
+          {TIME_REGION_LABELS.map((region) => (
+            <span
+              key={region.id}
+              className={`deep-time-region-label align-${region.align}`}
+              style={
+                {
+                  left: `${visualTimePosition(region.ageMa) * 100}%`,
+                  "--region-color": region.color,
+                } as CSSProperties
+              }
+            >
+              <strong>{region.title}</strong>
+              <small>{region.detail}</small>
+            </span>
+          ))}
         </div>
-        <div className="primate-sliver" style={{ left: `${primateStart}%` }}>
-          <span>Приматы ~65 млн лет</span>
-        </div>
-
-        {eraBands.map((era) => (
-          <span
-            key={era.id}
-            className="deep-era-band"
-            style={{ left: `${era.left}%`, width: `${era.width}%`, background: era.color }}
-            title={era.titleRu}
-          />
-        ))}
 
         <div className="extinction-markers" aria-label="Глобальные вымирания">
-          {extinctions.map((event, index) => {
-            const position = linearPosition(event.ageMa) * 100;
-            const offset = (index - (extinctions.length - 1) / 2) * 66;
+          {visibleExtinctions.map((event, index) => {
+            const position = visualTimePosition(event.ageMa) * 100;
+            const offset =
+              index === visibleExtinctions.length - 1 ? 0 : (index - 1.5) * 58;
             return (
               <Tooltip key={event.id}>
                 <TooltipTrigger asChild>
@@ -166,22 +225,32 @@ export function DeepTimeAxis({
                         left: `${position}%`,
                         "--extinction-color": event.color,
                         "--marker-offset": `${offset}px`,
-                        "--marker-y": `${22 + (index % 2) * 72}px`,
+                        "--marker-y": `${24 + (index % 2) * 76}px`,
                       } as CSSProperties
                     }
                     href="/extinctions"
                     aria-label={`${event.titleRu} вымирание, ${event.windowRu}`}
                   >
                     <span aria-hidden="true" />
-                    <strong>{extinctionLabels[event.id] ?? event.titleRu}</strong>
-                    <small>{formatAgeRu(event.ageMa)}</small>
+                    <strong>
+                      {extinctionLabels[event.id] ?? event.titleRu}
+                    </strong>
+                    <small>{formatExtinctionAge(event)}</small>
                   </a>
                 </TooltipTrigger>
                 <TooltipContent className="tooltip-content extinction-tooltip">
-                  <img src={event.image.src} alt="" aria-hidden="true" />
+                  <img
+                    src={event.image.src}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span>{event.windowRu}</span>
                   <strong>{event.titleRu}</strong>
-                  <p>{event.lossPercentRu}: {event.snapshotRu}</p>
+                  <p>
+                    {event.lossPercentRu}: {event.snapshotRu}
+                  </p>
                   <small>{event.keyFactsRu[0]}</small>
                 </TooltipContent>
               </Tooltip>
@@ -189,21 +258,30 @@ export function DeepTimeAxis({
           })}
         </div>
 
-        <span className="deep-active-line" style={{ left: `${activePosition}%` }} aria-hidden="true" />
+        <span
+          className="deep-active-line"
+          style={{ left: `${activePosition}%` }}
+          aria-hidden="true"
+        />
         <div className={activeCardClass} style={{ left: `${activePosition}%` }}>
           <span>{formatAgeRu(activeStage.ageMa)}</span>
           <strong>{activeStage.titleRu}</strong>
-          <small>{percentRu(activeElapsedShare * 100)}% истории уже прошло</small>
         </div>
 
-        <div className="deep-stage-dots" role="list" aria-label="Этапы на глубокой шкале">
+        <div
+          className="deep-stage-dots"
+          role="list"
+          aria-label="Этапы на глубокой шкале"
+        >
           {stages.map((stage) => {
-            const position = linearPosition(stage.ageMa) * 100;
+            const position = visualTimePosition(stage.ageMa) * 100;
             const isActive = stage.id === activeStage.id;
             return (
               <button
                 key={stage.id}
-                className={isActive ? "deep-stage-dot is-active" : "deep-stage-dot"}
+                className={
+                  isActive ? "deep-stage-dot is-active" : "deep-stage-dot"
+                }
                 style={{ left: `${position}%` }}
                 type="button"
                 aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
@@ -235,7 +313,7 @@ export function DeepTimeAxis({
         <span>1 млрд</span>
         <span>600 млн</span>
         <span>200 млн</span>
-        <span>65 млн</span>
+        <span>66 млн</span>
         <span>сегодня</span>
       </div>
     </section>

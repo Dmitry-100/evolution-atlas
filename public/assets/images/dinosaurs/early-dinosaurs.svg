@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Early dinosaurs</title>
+  <desc id="desc">A museum-style reconstruction plate of small early dinosaurs moving through a Triassic landscape.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#2b3127"/>
+      <stop offset=".5" stop-color="#7a6240"/>
+      <stop offset="1" stop-color="#171a16"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".72" cy=".24" r=".44">
+      <stop offset="0" stop-color="#f0c879" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#f0c879" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".78" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <rect width="1200" height="800" fill="url(#sun)"/>
+  <path d="M0 604c172-78 280-74 410-44 112 26 190 56 330 26 158-34 276-96 460-54v268H0z" fill="#121713"/>
+  <path d="M0 654c260-70 462-54 636-18 172 36 344 20 564-60v224H0z" fill="#222318" opacity=".92"/>
+  <g fill="#d0a35b" opacity=".16">
+    <path d="M64 616c108-18 208-16 300 7"/>
+    <path d="M692 618c136-42 280-56 438-20"/>
+  </g>
+  <g transform="translate(185 472)" fill="#11110d">
+    <ellipse cx="200" cy="62" rx="124" ry="48"/>
+    <path d="M92 45c-52-18-85-14-104 9 41-3 74 7 101 30z"/>
+    <path d="M309 38c74-72 138-88 194-46-55 16-104 42-147 80z"/>
+    <path d="M289 83c40 34 70 74 89 120l-44 8c-18-48-46-86-84-114z"/>
+    <path d="M153 93c-34 46-55 92-63 138l-46-2c6-55 26-107 62-156z"/>
+    <path d="M242 98c20 46 31 92 31 139h-43c-2-48-12-91-31-129z"/>
+    <circle cx="12" cy="43" r="29"/>
+    <path d="M-12 25c-32-28-64-38-96-30 26 12 49 29 68 52z"/>
+  </g>
+  <g transform="translate(720 520) scale(.62)" fill="#19150f" opacity=".95">
+    <ellipse cx="200" cy="62" rx="124" ry="48"/>
+    <path d="M92 45c-52-18-85-14-104 9 41-3 74 7 101 30z"/>
+    <path d="M309 38c74-72 138-88 194-46-55 16-104 42-147 80z"/>
+    <path d="M289 83c40 34 70 74 89 120l-44 8c-18-48-46-86-84-114z"/>
+    <path d="M153 93c-34 46-55 92-63 138l-46-2c6-55 26-107 62-156z"/>
+    <circle cx="12" cy="43" r="29"/>
+  </g>
+  <rect width="1200" height="800" filter="url(#grain)" opacity=".45"/>
+</svg>

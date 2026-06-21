@@ -1,24 +1,23 @@
-import { useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Clock3, Compass, Dna, History, Search, Sparkles, Star, Waves } from "lucide-react";
+import { useMemo, useRef, type CSSProperties } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { ArrowRight, BookOpen, Clock3, Compass, Dna, Fingerprint, Search, Sparkles, Star, Waves } from "lucide-react";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
-import { Button } from "../components/ui/button";
 import { ConstellationField } from "../components/ui/constellation-field";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
 import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
 import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
+import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
+import { JourneyControls } from "../components/atlas/JourneyControls";
+import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
+import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
 
-type AtlasMode = "all" | "primates";
-
-const DEFAULT_STAGE_ID = "early-primates";
 const LIFE_ORIGIN_MA = 4000;
-const PRIMATES_MA = 65;
+const PRIMATES_MA = 66;
 
 function percentRu(value: number, maximumFractionDigits = 2) {
   return value.toLocaleString("ru-RU", { maximumFractionDigits });
@@ -35,55 +34,65 @@ function shareToClock(share: number) {
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 }
 
-function getInitialStage() {
-  return sortedStages.find((stage) => stage.id === DEFAULT_STAGE_ID) ?? sortedStages[0];
-}
-
 function getStageIndex(stages: EvolutionStage[], stageId: string) {
   return Math.max(0, stages.findIndex((stage) => stage.id === stageId));
 }
 
 export function AtlasPage() {
-  const [mode, setMode] = useState<AtlasMode>("all");
-  const [activeStageId, setActiveStageId] = useState(DEFAULT_STAGE_ID);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlState = useMemo(() => parseAtlasUrlState(searchParams), [searchParams]);
+  const mode = urlState.mode;
   const atlasRef = useRef<HTMLDivElement>(null);
 
   const visibleStages = mode === "primates" ? primateStages : sortedStages;
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
-  const activeStage = visibleStages.find((stage) => stage.id === activeStageId) ?? getInitialStage();
+  const activeStage = visibleStages.find((stage) => stage.id === urlState.stageId) ?? getDefaultAtlasStage(visibleStages);
+  const activeEra = ERAS.find((era) => era.id === activeStage.eraId);
+  const accumulatedTraitGroups = useMemo(() => getAccumulatedTraitGroups(sortedStages, activeStage), [activeStage]);
   const activeIndex = getStageIndex(visibleStages, activeStage.id);
   const canStepPrevious = activeIndex > 0;
   const canStepNext = activeIndex < visibleStages.length - 1;
   const activeElapsedShare = elapsedShare(activeStage.ageMa);
+  const traitCount = accumulatedTraitGroups.reduce((sum, group) => sum + group.traits.length, 0);
   const wowFacts = [
     {
       icon: Clock3,
-      label: "До приматов",
-      value: `${percentRu(elapsedShare(PRIMATES_MA) * 100, 1)}%`,
-      text: "истории жизни уже прошло, прежде чем появились ранние приматы.",
-    },
-    {
-      icon: Dna,
-      label: "Млекопитающие",
-      value: "95%",
-      text: "пути уже было позади к моменту появления первых млекопитающих.",
+      label: "К выбранной точке",
+      value: `${percentRu(activeElapsedShare * 100)}%`,
+      text: `истории жизни прошло к этапу “${activeStage.titleRu}”.`,
     },
     {
       icon: Sparkles,
-      label: "24 часа жизни",
-      value: shareToClock(elapsedShare(PRIMATES_MA)),
-      text: "примерное время появления приматов, если всю историю жизни сжать в один день.",
+      label: "Один день жизни",
+      value: shareToClock(activeElapsedShare),
+      text: "время выбранного этапа, если 4 млрд лет сжать в 24 часа.",
+    },
+    {
+      icon: Fingerprint,
+      label: "Накоплено признаков",
+      value: traitCount.toLocaleString("ru-RU"),
+      text: "унаследованных признаков уже собрано к этой точке маршрута.",
     },
     {
       icon: Star,
-      label: "Выбранная точка",
-      value: `${percentRu(activeElapsedShare * 100)}%`,
-      text: `истории жизни прошло к этапу “${activeStage.titleRu}”.`,
+      label: "До приматов",
+      value: `${percentRu(elapsedShare(PRIMATES_MA) * 100, 1)}%`,
+      text: "до появления приматов - 98,4% истории жизни уже было позади.",
     },
   ];
 
   function activateStage(stage: EvolutionStage) {
-    setActiveStageId(stage.id);
+    setSearchParams(toAtlasSearchParams({ mode, stage }), { replace: true });
+  }
+
+  function activateJourneyStage(stage: EvolutionStage) {
+    setSearchParams(toAtlasSearchParams({ mode: "all", stage }), { replace: true });
+  }
+
+  function activateMode(nextMode: AtlasUrlMode) {
+    const nextVisibleStages = nextMode === "primates" ? primateStages : sortedStages;
+    const nextStage = nextVisibleStages.find((stage) => stage.id === activeStage.id) ?? getDefaultAtlasStage(nextVisibleStages);
+    setSearchParams(toAtlasSearchParams({ mode: nextMode, stage: nextStage }), { replace: true });
   }
 
   function moveActive(delta: number) {
@@ -93,25 +102,25 @@ export function AtlasPage() {
   }
 
   return (
-    <TooltipProvider delayDuration={160}>
-      <div
-        className="atlas"
-        ref={atlasRef}
-        tabIndex={0}
-        onKeyDown={(event) => {
-          if (event.key === "ArrowRight") {
-            event.preventDefault();
-            moveActive(1);
-          }
-          if (event.key === "ArrowLeft") {
-            event.preventDefault();
-            moveActive(-1);
-          }
-        }}
-      >
-        <p className="sr-only" aria-live="polite">
-          Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
-        </p>
+    <div
+      className="atlas"
+      ref={atlasRef}
+      tabIndex={0}
+      style={{ "--active-era-color": activeEra?.color ?? "#d0a35b" } as CSSProperties}
+      onKeyDown={(event) => {
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          moveActive(1);
+        }
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          moveActive(-1);
+        }
+      }}
+    >
+      <p className="sr-only" aria-live="polite">
+        Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
+      </p>
 
         <section className="atlas-hero">
           <FloatingPaths className="atlas-hero-paths" />
@@ -126,7 +135,7 @@ export function AtlasPage() {
           </div>
 
           <div className="hero-actions" aria-label="Режимы атласа">
-            <Tabs value={mode} onValueChange={(value) => setMode(value as AtlasMode)}>
+            <Tabs value={mode} onValueChange={(value) => activateMode(value as AtlasUrlMode)}>
               <TabsList>
                 <TabsTrigger value="all">
                   <Compass aria-hidden="true" size={18} />
@@ -134,21 +143,36 @@ export function AtlasPage() {
                 </TabsTrigger>
                 <TabsTrigger value="primates">
                   <Search aria-hidden="true" size={18} />
-                  Приматы крупно
+                  Приматы → человек
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Подсказка по управлению">
-                  <History aria-hidden="true" size={19} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                Нажимайте точки на шкале, двигайте ползунок или используйте стрелки, когда атлас в фокусе.
-              </TooltipContent>
-            </Tooltip>
+            <JourneyControls stages={sortedStages} activeStage={activeStage} onActivate={activateJourneyStage} />
           </div>
+        </section>
+
+        <section className="theory-bridge-band atlas-note-band">
+          <div>
+            <Star aria-hidden="true" size={22} />
+            <div>
+              <strong>Главная мысль</strong>
+              <p>
+                Эволюция не лестница к человеку, а ветвящееся дерево. На шкале показаны не “ступеньки прогресса”, а
+                ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
+          {wowFacts.map(({ icon: Icon, label, value, text }) => (
+            <article key={label}>
+              <Icon aria-hidden="true" size={21} />
+              <span>{label}</span>
+              <strong>{value}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
         </section>
 
         <section className="atlas-grid">
@@ -165,7 +189,6 @@ export function AtlasPage() {
             ) : (
               <DeepTimeAxis
                 stages={visibleStages}
-                eras={visibleEras}
                 extinctions={MASS_EXTINCTIONS}
                 activeStage={activeStage}
                 onActivate={activateStage}
@@ -189,28 +212,20 @@ export function AtlasPage() {
           <StageDetailCard stage={activeStage} />
         </section>
 
-        <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
-          {wowFacts.map(({ icon: Icon, label, value, text }) => (
-            <article key={label}>
-              <Icon aria-hidden="true" size={21} />
-              <span>{label}</span>
-              <strong>{value}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </section>
+        <TraitAccumulator groups={accumulatedTraitGroups} />
 
-        <section className="theory-bridge-band atlas-note-band">
+        <section className="theory-bridge-band">
           <div>
-            <Star aria-hidden="true" size={22} />
+            <Dna aria-hidden="true" size={22} />
             <div>
-              <strong>Главная мысль</strong>
-              <p>
-                Эволюция не лестница к человеку, а ветвящееся дерево. На шкале показаны не “ступеньки прогресса”, а
-                ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
-              </p>
+              <strong>Дерево родства</strong>
+              <p>Отдельная кладограмма показывает ствол к Homo sapiens и боковые ветви, которые отходят от разных узлов.</p>
             </div>
           </div>
+          <Link className="button button-secondary button-md" to="/cladogram">
+            Открыть дерево
+            <ArrowRight aria-hidden="true" size={17} />
+          </Link>
         </section>
 
         <section className="theory-bridge-band">
@@ -227,12 +242,26 @@ export function AtlasPage() {
           </Link>
         </section>
 
+        <section className="theory-bridge-band">
+          <div>
+            <Dna aria-hidden="true" size={22} />
+            <div>
+              <strong>Как это видно в ДНК?</strong>
+              <p>РНК, ДНК, мутации и сравнение геномов показывают родство как код, а не только как форму тела.</p>
+            </div>
+          </div>
+          <Link className="button button-secondary button-md" to="/genetics">
+            РНК/ДНК
+            <ArrowRight aria-hidden="true" size={17} />
+          </Link>
+        </section>
+
         <section className="theory-bridge-band extinction-link-band">
           <div>
             <Waves aria-hidden="true" size={22} />
             <div>
               <strong>Почему история жизни менялась рывками?</strong>
-              <p>Пять глобальных вымираний показывают, как кризисы открывали место новым ветвям эволюции.</p>
+              <p>Шесть крупных кризисов показывают, как вымирания меняли сцену жизни и освобождали ниши для новых ветвей.</p>
             </div>
           </div>
           <Link className="button button-secondary button-md" to="/extinctions">
@@ -240,7 +269,6 @@ export function AtlasPage() {
             <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </section>
-      </div>
-    </TooltipProvider>
+    </div>
   );
 }

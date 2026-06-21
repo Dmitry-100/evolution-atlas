@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Archaeopteryx</title>
+  <desc id="desc">A luminous fossil-and-reconstruction plate of Archaeopteryx, showing a winged animal with teeth, claws, and a long tail.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#1e211e"/>
+      <stop offset=".5" stop-color="#7f6a48"/>
+      <stop offset="1" stop-color="#0e1111"/>
+    </linearGradient>
+    <radialGradient id="halo" cx=".55" cy=".4" r=".48">
+      <stop offset="0" stop-color="#f4d491" stop-opacity=".68"/>
+      <stop offset="1" stop-color="#f4d491" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="4"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .17"/></feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect width="1200" height="800" fill="url(#halo)"/>
+  <g transform="translate(230 158)">
+    <path d="M360 214c-150-112-270-118-360-18 122-21 230 10 324 95z" fill="#221910"/>
+    <path d="M452 214c158-102 292-94 402 24-128-28-248-6-358 72z" fill="#20170f"/>
+    <ellipse cx="420" cy="285" rx="132" ry="46" fill="#12100c"/>
+    <path d="M542 284c96 16 176 48 240 96-93 10-173-10-240-60z" fill="#12100c"/>
+    <path d="M298 300c-94 43-164 98-210 166 102-24 178-66 228-126z" fill="#12100c"/>
+    <circle cx="282" cy="270" r="35" fill="#12100c"/>
+    <path d="M252 252c-52-38-99-47-142-28 40 12 73 34 98 66z" fill="#12100c"/>
+    <path d="M344 316c-36 63-54 124-54 184l-48-4c-1-71 18-138 57-201z" fill="#12100c"/>
+    <path d="M442 316c38 58 64 118 77 180l-48 8c-14-66-43-126-86-181z" fill="#12100c"/>
+    <circle cx="272" cy="259" r="5" fill="#f2d58d"/>
+    <g stroke="#f0c779" stroke-width="5" stroke-linecap="round" opacity=".36">
+      <path d="M122 205c96 12 178 48 246 108"/>
+      <path d="M62 238c130 18 232 58 306 120"/>
+      <path d="M492 308c98-62 198-82 300-60"/>
+      <path d="M504 348c122-54 226-62 312-24"/>
+    </g>
+  </g>
+  <path d="M0 682c220-48 420-47 600 4 190 54 390 48 600-20v134H0z" fill="#10130f" opacity=".96"/>
+  <rect width="1200" height="800" filter="url(#grain)" opacity=".52"/>
+</svg>

@@ -1,4 +1,5 @@
 import { Compass, Eye, Network } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const cards = [
   {
@@ -46,6 +47,17 @@ export function AboutPage() {
           Точки на шкале - не “ступени совершенства”. Это удобные ориентиры: группы, формы и близкие родственники,
           через которые становится понятнее, как теория эволюции объясняет происхождение нашей линии.
         </p>
+      </div>
+
+      <div className="about-note about-sources-entry">
+        <h2>Источники и изображения</h2>
+        <p>
+          Отдельная страница с ссылками на изображения, лицензии и научные источники остается доступной здесь, чтобы
+          проверить визуальный ряд и первичные материалы без перегруза главного меню.
+        </p>
+        <Link className="button button-secondary button-md" to="/sources">
+          Открыть источники
+        </Link>
       </div>
     </section>
   );
