@@ -125,7 +125,7 @@ export function PrimateAxis({
         <FloatingPaths className="deep-time-floating-paths primate-time-floating-paths" density="panel" />
         <img
           className="primate-timeline-river-image"
-          src="/assets/images/primate-timeline-river.jpg"
+          src="/assets/images/timelines/primates-timeline-21-9.png"
           alt=""
           aria-hidden="true"
           loading="eager"

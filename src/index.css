@@ -830,6 +830,7 @@ code {
 }
 
 .era-route-item {
+  --era-color: var(--gold);
   position: relative;
   z-index: 1;
   display: grid;
@@ -837,9 +838,14 @@ code {
   gap: 0.45rem;
   min-height: 146px;
   width: 100%;
-  border: 1px solid transparent;
+  border: 1px solid color-mix(in srgb, var(--era-color) 20%, transparent);
   border-radius: var(--radius);
   background:
+    radial-gradient(
+      circle at 16% 0%,
+      color-mix(in srgb, var(--era-color) 12%, transparent),
+      transparent 5.8rem
+    ),
     linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.035),
@@ -856,17 +862,38 @@ code {
     background 180ms ease;
 }
 
+.era-route-item::after {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.56rem;
+  left: 0.7rem;
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--era-color) 72%, transparent),
+    transparent
+  );
+  content: "";
+  opacity: 0.38;
+}
+
 .era-route-item:hover,
 .era-route-item.is-active {
   transform: translateY(-1px);
-  border-color: rgba(240, 201, 120, 0.42);
+  border-color: color-mix(in srgb, var(--era-color) 64%, rgba(240, 201, 120, 0.42));
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(240, 201, 120, 0.15),
+      color-mix(in srgb, var(--era-color) 28%, transparent),
       transparent 4.8rem
     ),
-    rgba(217, 173, 97, 0.08);
+    color-mix(in srgb, var(--era-color) 10%, rgba(8, 11, 11, 0.22));
+}
+
+.era-route-item.is-active::after {
+  opacity: 0.74;
 }
 
 .era-route-item:disabled {
@@ -886,8 +913,8 @@ code {
   border: 3px solid rgba(8, 11, 11, 0.82);
   border-radius: 50%;
   box-shadow:
-    0 0 0 2px rgba(240, 201, 120, 0.18),
-    0 0 24px rgba(240, 201, 120, 0.14);
+    0 0 0 2px color-mix(in srgb, var(--era-color) 34%, transparent),
+    0 0 24px color-mix(in srgb, var(--era-color) 26%, transparent);
 }
 
 .era-route-copy {
@@ -928,8 +955,8 @@ code {
   height: 24px;
   border-color: rgba(255, 255, 255, 0.82);
   box-shadow:
-    0 0 0 4px rgba(240, 201, 120, 0.18),
-    0 0 34px rgba(240, 201, 120, 0.48);
+    0 0 0 4px color-mix(in srgb, var(--era-color) 28%, transparent),
+    0 0 34px color-mix(in srgb, var(--era-color) 58%, transparent);
 }
 
 .center-stage {
@@ -1120,86 +1147,65 @@ code {
   z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center center;
+  object-fit: fill;
+  object-position: 0 0;
   opacity: 1;
   pointer-events: none;
 }
 
-.pre-primate-field {
+.deep-time-region-labels {
   position: absolute;
-  inset: 0 auto 0 0;
-  z-index: 2;
-  border-right: 1px solid rgba(240, 201, 120, 0.48);
+  inset: 1rem 1rem auto;
+  z-index: 5;
+  height: 7.25rem;
+  pointer-events: none;
+}
+
+.deep-time-region-label {
+  --region-color: var(--gold);
+  position: absolute;
+  top: 0;
+  display: grid;
+  width: max-content;
+  max-width: 13rem;
+  gap: 0.12rem;
+  padding: 0.42rem 0.62rem;
+  border: 1px solid color-mix(in srgb, var(--region-color) 40%, rgba(255, 255, 255, 0.1));
+  border-radius: 999px;
   background:
     linear-gradient(
       90deg,
-      rgba(130, 183, 179, 0.08),
-      rgba(158, 179, 110, 0.07),
-      rgba(217, 173, 97, 0.08)
-    ),
-    linear-gradient(
-      180deg,
-      transparent 0 62%,
-      rgba(255, 255, 255, 0.02) 62% 100%
+      color-mix(in srgb, var(--region-color) 18%, rgba(4, 7, 7, 0.72)),
+      rgba(5, 8, 8, 0.48)
     );
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+  color: rgba(244, 235, 216, 0.88);
+  transform: translateX(-50%);
 }
 
-.pre-primate-field span {
-  position: absolute;
-  left: 50%;
-  top: 4.3rem;
-  transform: translateX(-50%);
-  color: rgba(235, 228, 212, 0.86);
-  font-weight: 800;
-  letter-spacing: 0.22em;
+.deep-time-region-label:nth-child(2),
+.deep-time-region-label:nth-child(4) {
+  top: 3.6rem;
+}
+
+.deep-time-region-label.align-right {
+  transform: translateX(-100%);
+}
+
+.deep-time-region-label strong {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.primate-sliver {
-  position: absolute;
-  inset: 0 0 0 auto;
-  z-index: 3;
-  min-width: 2.2rem;
-  border-left: 1px solid rgba(240, 201, 120, 0.65);
-  background:
-    radial-gradient(
-      circle at 0% 54%,
-      rgba(240, 201, 120, 0.48),
-      transparent 8rem
-    ),
-    linear-gradient(
-      180deg,
-      rgba(240, 201, 120, 0.18),
-      rgba(240, 201, 120, 0.06)
-    );
-  box-shadow: -18px 0 44px rgba(240, 201, 120, 0.16);
-}
-
-.primate-sliver span {
-  position: absolute;
-  right: 0.32rem;
-  bottom: 1.1rem;
-  width: auto;
-  color: var(--amber);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  text-transform: uppercase;
-  transform: rotate(180deg);
-  writing-mode: vertical-rl;
-}
-
-.deep-era-band {
-  position: absolute;
-  bottom: 0;
-  z-index: 4;
-  height: 4.6rem;
-  opacity: 0.32;
-  border-left: 1px solid rgba(255, 255, 255, 0.16);
+.deep-time-region-label small {
+  color: rgba(228, 219, 199, 0.68);
+  font-size: 0.62rem;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
 .extinction-markers {
@@ -2346,15 +2352,106 @@ code {
   color: var(--muted);
 }
 
-.darwin-note {
-  display: flex;
+.darwin-spotlight {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.58fr) minmax(0, 1fr);
   gap: 1rem;
-  align-items: flex-start;
   margin-top: 1rem;
+  border: 1px solid rgba(218, 185, 126, 0.2);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 16% 20%, rgba(240, 201, 120, 0.14), transparent 20rem),
+    linear-gradient(135deg, rgba(106, 168, 173, 0.08), rgba(208, 163, 91, 0.09)),
+    rgba(255, 255, 255, 0.032);
+  overflow: hidden;
 }
 
-.darwin-note h2 {
-  margin-top: 0;
+.darwin-portrait {
+  position: relative;
+  min-height: 430px;
+  margin: 0;
+  border-right: 1px solid rgba(218, 185, 126, 0.18);
+  background: #050706;
+  overflow: hidden;
+}
+
+.darwin-portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 46%, rgba(5, 7, 6, 0.88)),
+    radial-gradient(circle at 50% 26%, transparent 0 10rem, rgba(5, 7, 6, 0.16) 20rem);
+  pointer-events: none;
+}
+
+.darwin-portrait img {
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
+  filter: sepia(0.14) contrast(1.05);
+}
+
+.darwin-portrait figcaption {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  color: var(--text);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.darwin-copy {
+  display: grid;
+  align-content: center;
+  gap: 0.95rem;
+  padding: clamp(1.1rem, 3vw, 2rem);
+}
+
+.darwin-copy h2 {
+  max-width: 12em;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.darwin-copy p {
+  max-width: 62rem;
+  margin: 0;
+  color: var(--muted);
+}
+
+.darwin-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 0.35rem;
+}
+
+.darwin-flow span {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  min-height: 9rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: calc(var(--radius) * 0.65);
+  background: rgba(0, 0, 0, 0.24);
+  color: var(--muted);
+}
+
+.darwin-flow strong {
+  color: var(--gold);
+  font-size: 0.84rem;
+  letter-spacing: 0.16em;
 }
 
 .theory-page .evidence-section {
@@ -4023,6 +4120,7 @@ code {
   grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
   gap: 1rem;
   align-items: start;
+  overflow: visible;
 }
 
 .cladogram-page-grid .cladogram-panel {
@@ -4031,10 +4129,11 @@ code {
 
 .cladogram-page-grid .cladogram-inspector {
   position: sticky;
-  top: 1rem;
-  max-height: calc(100dvh - 2rem);
+  top: clamp(0.8rem, 2vw, 1.25rem);
+  max-height: calc(100dvh - clamp(1.6rem, 4vw, 2.5rem));
   overflow: hidden auto;
   overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 .cladogram-inspector {
@@ -4057,7 +4156,10 @@ code {
 }
 
 .cladogram-inspector-media {
+  position: relative;
+  display: grid;
   margin: 0;
+  min-height: clamp(240px, 30dvh, 360px);
   border-bottom: 1px solid var(--line);
   background:
     linear-gradient(
@@ -4071,17 +4173,27 @@ code {
 .cladogram-inspector-media img {
   display: block;
   width: 100%;
-  height: clamp(135px, 19dvh, 180px);
-  padding: 0.75rem;
-  object-fit: contain;
-  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.42));
+  height: 100%;
+  min-height: inherit;
+  padding: 0;
+  object-fit: cover;
+  object-position: center;
 }
 
 .cladogram-inspector-media figcaption {
-  border-top: 1px solid rgba(218, 185, 126, 0.12);
-  color: var(--muted);
-  padding: 0.5rem 0.75rem;
-  font-size: 0.76rem;
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  border: 1px solid rgba(218, 185, 126, 0.22);
+  border-radius: 999px;
+  background: rgba(6, 8, 8, 0.78);
+  color: var(--gold);
+  padding: 0.34rem 0.58rem;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
 }
 
 .cladogram-inspector-copy,
@@ -5745,13 +5857,13 @@ code {
 }
 
 .cladogram-branch {
-  flex: 1 1 270px;
+  flex: 1 1 320px;
   display: grid;
-  grid-template-columns: 58px minmax(0, 1fr) auto;
-  gap: 0.62rem;
+  grid-template-columns: clamp(82px, 7vw, 112px) minmax(0, 1fr) auto;
+  gap: 0.78rem;
   align-items: center;
-  min-height: 86px;
-  padding: 0.58rem;
+  min-height: clamp(112px, 9vw, 136px);
+  padding: 0.72rem;
   background:
     linear-gradient(90deg, rgba(240, 201, 120, 0.08), transparent 54%),
     rgba(8, 11, 11, 0.48);
@@ -5759,11 +5871,11 @@ code {
 
 .cladogram-branch-thumb {
   display: block;
-  width: 58px;
-  height: 58px;
+  width: clamp(82px, 7vw, 112px);
+  height: clamp(82px, 7vw, 112px);
   overflow: hidden;
   border: 1px solid rgba(218, 185, 126, 0.24);
-  border-radius: 0.55rem;
+  border-radius: 0.7rem;
   background:
     radial-gradient(
       circle at 50% 20%,
@@ -6237,8 +6349,25 @@ code {
   }
 
   .theory-principles,
+  .darwin-spotlight,
   .evidence-section {
     grid-template-columns: 1fr;
+  }
+
+  .darwin-portrait {
+    min-height: 340px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(218, 185, 126, 0.18);
+  }
+
+  .darwin-portrait img {
+    min-height: 340px;
+    max-height: 520px;
+    object-position: center 14%;
+  }
+
+  .darwin-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .material-card {
@@ -6349,6 +6478,20 @@ code {
   }
 }
 
+@media (min-width: 960px) and (max-width: 1200px) {
+  .cladogram-page-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+    align-items: start;
+  }
+
+  .cladogram-page-grid .cladogram-inspector {
+    position: sticky;
+    top: 0.85rem;
+    max-height: calc(100dvh - 1.7rem);
+    overflow: hidden auto;
+  }
+}
+
 @media (max-width: 720px) {
   :root {
     font-size: 15px;
@@ -6431,6 +6574,23 @@ code {
   .genetics-hero p,
   .origin-hero p {
     font-size: 1rem;
+  }
+
+  .darwin-portrait,
+  .darwin-portrait img {
+    min-height: 300px;
+  }
+
+  .darwin-copy {
+    padding: 1rem;
+  }
+
+  .darwin-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .darwin-flow span {
+    min-height: auto;
   }
 
   .hero-subtitle {
@@ -6549,6 +6709,30 @@ code {
     height: 100%;
   }
 
+  .deep-time-region-labels {
+    inset: 0.85rem 0.7rem auto;
+    height: 5.4rem;
+  }
+
+  .deep-time-region-label {
+    max-width: 9.4rem;
+    padding: 0.34rem 0.5rem;
+  }
+
+  .deep-time-region-label:nth-child(2),
+  .deep-time-region-label:nth-child(4) {
+    top: 2.85rem;
+  }
+
+  .deep-time-region-label strong {
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+  }
+
+  .deep-time-region-label small {
+    display: none;
+  }
+
   .deep-time-floating-paths {
     opacity: 0.42;
   }
@@ -6556,19 +6740,6 @@ code {
   .extinction-markers,
   .extinction-marker {
     pointer-events: none;
-  }
-
-  .pre-primate-field span {
-    left: 0.8rem;
-    max-width: 13rem;
-    transform: none;
-    white-space: normal;
-  }
-
-  .primate-sliver span {
-    right: 0.35rem;
-    bottom: 1rem;
-    font-size: 0.68rem;
   }
 
   .deep-active-card {
@@ -6908,7 +7079,8 @@ code {
   }
 
   .cladogram-branch {
-    grid-template-columns: 54px minmax(0, 1fr);
+    grid-template-columns: 74px minmax(0, 1fr);
+    min-height: 98px;
   }
 
   .cladogram-node .cladogram-active-badge {
@@ -6922,8 +7094,12 @@ code {
   }
 
   .cladogram-branch-thumb {
-    width: 54px;
-    height: 54px;
+    width: 74px;
+    height: 74px;
+  }
+
+  .cladogram-inspector-media {
+    min-height: 220px;
   }
 
   .cladogram-branch-icon {

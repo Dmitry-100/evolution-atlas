@@ -32,6 +32,7 @@ export function EraNavigation({ eras, stages, activeStage, onActivate }: EraNavi
             key={era.id}
             type="button"
             className={isActive ? "era-route-item is-active" : "era-route-item"}
+            style={{ "--era-color": era.color } as CSSProperties}
             onClick={() => target && onActivate(target)}
             disabled={!target}
             aria-label={`${era.titleRu}, ${formatAgeRu(era.startsAtMa).replace(" назад", "")} - ${formatAgeRu(era.endsAtMa).replace(" назад", "")}`}

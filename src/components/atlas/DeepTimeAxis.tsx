@@ -1,14 +1,13 @@
 import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
 import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
 import type { MassExtinctionEvent } from "../../data/extinctions";
-import type { EvolutionEra, EvolutionStage } from "../../data/lineage";
+import type { EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, sortStagesOldestFirst } from "../../lib/timeline";
 import { Slider } from "../ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 type DeepTimeAxisProps = {
   stages: EvolutionStage[];
-  eras: EvolutionEra[];
   activeStage: EvolutionStage;
   onActivate: (stage: EvolutionStage) => void;
   onStep: (delta: number) => void;
@@ -18,7 +17,6 @@ type DeepTimeAxisProps = {
 };
 
 const ORIGIN_MA = 4000;
-const PRIMATES_MA = 66;
 const VISUAL_TIME_ANCHORS = [
   { ageMa: 4000, position: 0 },
   { ageMa: 3000, position: 1 / 7 },
@@ -38,6 +36,49 @@ const extinctionLabels: Record<string, string> = {
   "cretaceous-paleogene": "K-Pg",
   "holocene-anthropocene": "Сегодня",
 };
+
+const TIME_REGION_LABELS = [
+  {
+    id: "cellular",
+    ageMa: 2400,
+    title: "Клеточная жизнь",
+    detail: "миллиарды лет до животных",
+    color: "#6aa8ad",
+    align: "center",
+  },
+  {
+    id: "vertebrates",
+    ageMa: 430,
+    title: "Хордовые и рыбы",
+    detail: "скелет, хорда, челюсти",
+    color: "#7aaed2",
+    align: "center",
+  },
+  {
+    id: "land",
+    ageMa: 320,
+    title: "Суша и амниоты",
+    detail: "выход из воды",
+    color: "#d0a35b",
+    align: "center",
+  },
+  {
+    id: "mammals",
+    ageMa: 120,
+    title: "Млекопитающие",
+    detail: "теплокровность и забота",
+    color: "#b87f59",
+    align: "center",
+  },
+  {
+    id: "primates",
+    ageMa: 66,
+    title: "Приматы и Homo",
+    detail: "самый конец шкалы",
+    color: "#9eb36e",
+    align: "right",
+  },
+] as const;
 
 function visualTimePosition(ageMa: number) {
   const clampedAge = Math.max(0, Math.min(ORIGIN_MA, ageMa));
@@ -73,7 +114,6 @@ function nearestStage(stages: EvolutionStage[], position: number) {
 
 export function DeepTimeAxis({
   stages,
-  eras,
   activeStage,
   onActivate,
   onStep,
@@ -88,20 +128,9 @@ export function DeepTimeAxis({
       : activePosition < 18
         ? "deep-active-card align-left"
         : "deep-active-card";
-  const primateStart = visualTimePosition(PRIMATES_MA) * 100;
   const visibleExtinctions = useMemo(
     () => extinctions.filter((event) => event.ageMa > 0),
     [extinctions],
-  );
-
-  const eraBands = useMemo(
-    () =>
-      eras.map((era) => {
-        const left = visualTimePosition(era.startsAtMa) * 100;
-        const right = visualTimePosition(era.endsAtMa) * 100;
-        return { ...era, left, width: Math.max(0.5, right - left) };
-      }),
-    [eras],
   );
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -163,28 +192,23 @@ export function DeepTimeAxis({
           loading="eager"
           decoding="async"
         />
-        <div
-          className="pre-primate-field"
-          style={{ width: `${primateStart}%` }}
-        >
-          <span>До приматов: примерно 3,93 млрд лет</span>
+        <div className="deep-time-region-labels" aria-hidden="true">
+          {TIME_REGION_LABELS.map((region) => (
+            <span
+              key={region.id}
+              className={`deep-time-region-label align-${region.align}`}
+              style={
+                {
+                  left: `${visualTimePosition(region.ageMa) * 100}%`,
+                  "--region-color": region.color,
+                } as CSSProperties
+              }
+            >
+              <strong>{region.title}</strong>
+              <small>{region.detail}</small>
+            </span>
+          ))}
         </div>
-        <div className="primate-sliver" style={{ left: `${primateStart}%` }}>
-          <span>Приматы ~66 млн лет</span>
-        </div>
-
-        {eraBands.map((era) => (
-          <span
-            key={era.id}
-            className="deep-era-band"
-            style={{
-              left: `${era.left}%`,
-              width: `${era.width}%`,
-              background: era.color,
-            }}
-            title={era.titleRu}
-          />
-        ))}
 
         <div className="extinction-markers" aria-label="Глобальные вымирания">
           {visibleExtinctions.map((event, index) => {

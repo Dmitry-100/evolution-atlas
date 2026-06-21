@@ -189,7 +189,6 @@ export function AtlasPage() {
             ) : (
               <DeepTimeAxis
                 stages={visibleStages}
-                eras={visibleEras}
                 extinctions={MASS_EXTINCTIONS}
                 activeStage={activeStage}
                 onActivate={activateStage}
