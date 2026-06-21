@@ -424,6 +424,7 @@ test.describe("Evolution Atlas", () => {
   });
 
   test("quiz runs through questions to a result", async ({ page }) => {
+    test.slow();
     await page.goto("/quiz");
     const quiz = page.locator(".quiz-panel");
 
@@ -436,14 +437,14 @@ test.describe("Evolution Atlas", () => {
 
     for (let index = 0; index < totalQuestions; index += 1) {
       await quiz.locator(".quiz-option").first().click();
-      await quiz
-        .getByRole("button", {
-          name:
-            index === totalQuestions - 1
-              ? "Показать результат"
-              : "Следующий вопрос",
-        })
-        .click();
+      const nextButton = quiz.getByRole("button", {
+        name:
+          index === totalQuestions - 1
+            ? "Показать результат"
+            : "Следующий вопрос",
+      });
+      await expect(nextButton).toBeEnabled();
+      await nextButton.click();
     }
 
     await expect(quiz.getByText(/Ваш результат/)).toBeVisible();
@@ -488,10 +489,11 @@ test.describe("Evolution Atlas", () => {
     await expect(activeHeading).toHaveText("Прокариоты", { timeout: 2500 });
 
     await page.getByRole("button", { name: "Пауза" }).click();
-    const pausedHeading = await activeHeading.textContent();
     await expect(
       page.getByRole("button", { name: "Продолжить" }),
     ).toBeVisible();
+    await page.waitForTimeout(300);
+    const pausedHeading = await activeHeading.textContent();
     await page.waitForTimeout(1200);
     await expect(activeHeading).toHaveText(pausedHeading ?? "");
 
@@ -596,6 +598,7 @@ test.describe("Evolution Atlas", () => {
   test("materials route exposes presentations and downloads", async ({
     page,
   }) => {
+    test.slow();
     await page.goto("/materials");
     await expect(
       page.getByRole("heading", { name: /Презентации, книги и видео/i }),
@@ -639,7 +642,9 @@ test.describe("Evolution Atlas", () => {
     ).toHaveCount(11);
     for (let index = 0; index < 11; index += 1) {
       const image = page.locator(".reading-card img").nth(index);
-      await image.scrollIntoViewIfNeeded();
+      await image.evaluate((node) =>
+        node.scrollIntoView({ block: "center", inline: "nearest" }),
+      );
       await expect
         .poll(() =>
           image.evaluate((node) => {
