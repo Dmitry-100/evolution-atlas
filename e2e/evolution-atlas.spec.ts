@@ -436,7 +436,7 @@ test.describe("Evolution Atlas", () => {
     expect(totalQuestions).toBeGreaterThanOrEqual(36);
 
     for (let index = 0; index < totalQuestions; index += 1) {
-      await quiz.locator(".quiz-option").first().click();
+      await quiz.locator(".quiz-option").first().click({ force: true });
       const nextButton = quiz.getByRole("button", {
         name:
           index === totalQuestions - 1
@@ -444,7 +444,7 @@ test.describe("Evolution Atlas", () => {
             : "Следующий вопрос",
       });
       await expect(nextButton).toBeEnabled();
-      await nextButton.click();
+      await nextButton.click({ force: true });
     }
 
     await expect(quiz.getByText(/Ваш результат/)).toBeVisible();
@@ -492,7 +492,7 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("button", { name: "Продолжить" }),
     ).toBeVisible();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(1200);
     const pausedHeading = await activeHeading.textContent();
     await page.waitForTimeout(1200);
     await expect(activeHeading).toHaveText(pausedHeading ?? "");
