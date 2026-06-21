@@ -1,11 +1,13 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync, statSync } from "node:fs";
-import { extname, join } from "node:path";
+import { extname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const imagesDir = fileURLToPath(
-  new URL("../public/assets/images", import.meta.url),
-);
+const repoRoot = fileURLToPath(new URL("..", import.meta.url));
+const defaultRoots = [
+  fileURLToPath(new URL("../public/assets/images", import.meta.url)),
+  fileURLToPath(new URL("../public/assets/brand", import.meta.url)),
+];
 const maxDimension = 1400;
 const rasterExtensions = new Set([".jpg", ".jpeg", ".png"]);
 
@@ -31,10 +33,20 @@ function isFresh(source, target) {
   );
 }
 
+function resolveRequestedPath(arg) {
+  return isAbsolute(arg) ? arg : resolve(repoRoot, arg);
+}
+
+const requestedSources = process.argv.slice(2).map(resolveRequestedPath);
+const sources =
+  requestedSources.length > 0
+    ? requestedSources.filter(isRaster)
+    : defaultRoots.flatMap(walk).filter(isRaster);
+
 let converted = 0;
 let skipped = 0;
 
-for (const source of walk(imagesDir).filter(isRaster)) {
+for (const source of sources) {
   const target = avifPathFor(source);
   if (isFresh(source, target)) {
     skipped += 1;

@@ -3,6 +3,7 @@ import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
 import type { EvolutionStage } from "../../data/lineage";
 import { ageMaToPosition, formatAgeRu } from "../../lib/timeline";
 import { FloatingPaths } from "../ui/floating-paths";
+import { OptimizedImage } from "../ui/optimized-image";
 import { Slider } from "../ui/slider";
 
 type PrimateAxisProps = {
@@ -123,12 +124,11 @@ export function PrimateAxis({
       >
         <div className="deep-time-water primate-time-water" aria-hidden="true" />
         <FloatingPaths className="deep-time-floating-paths primate-time-floating-paths" density="panel" />
-        <img
+        <OptimizedImage
           className="primate-timeline-river-image"
           src="/assets/images/timelines/primates-timeline-21-9.png"
           alt=""
           aria-hidden="true"
-          loading="eager"
           decoding="async"
         />
 

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export function ScrollProgress() {
-  const [progress, setProgress] = useState(0);
+  const barRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -10,7 +10,11 @@ export function ScrollProgress() {
       frame = 0;
       const root = document.documentElement;
       const scrollableHeight = Math.max(1, root.scrollHeight - window.innerHeight);
-      setProgress(Math.min(1, Math.max(0, window.scrollY / scrollableHeight)));
+      const progress = Math.min(1, Math.max(0, window.scrollY / scrollableHeight));
+
+      if (barRef.current) {
+        barRef.current.style.transform = `scaleX(${progress})`;
+      }
     };
 
     const requestUpdate = () => {
@@ -31,8 +35,7 @@ export function ScrollProgress() {
 
   return (
     <div className="scroll-progress" aria-hidden="true">
-      <span style={{ transform: `scaleX(${progress})` }} />
+      <span ref={barRef} style={{ transform: "scaleX(0)" }} />
     </div>
   );
 }
-

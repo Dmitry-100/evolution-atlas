@@ -15,6 +15,7 @@ import {
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 import { FloatingPaths } from "../components/ui/floating-paths";
+import { OptimizedImage } from "../components/ui/optimized-image";
 import { Slider } from "../components/ui/slider";
 import {
   birdDinosaurBranch,
@@ -370,12 +371,12 @@ function DinosaurTimelineAxis({
           className="deep-time-floating-paths dinosaur-time-floating-paths"
           density="panel"
         />
-        <img
+        <OptimizedImage
           className="dinosaur-timeline-river-image"
           src="/assets/images/dinosaurs/dinosaur-timeline-river.png"
           alt=""
           aria-hidden="true"
-          loading="eager"
+          loading="lazy"
           decoding="async"
         />
 

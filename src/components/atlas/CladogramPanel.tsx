@@ -73,8 +73,8 @@ export function CladogramPanel({
           </div>
           <h2 id="cladogram-heading">Дерево родства</h2>
           <p>
-            Читайте сверху вниз: толстый ствол ведет к Homo sapiens, а карточки
-            справа показывают, какие линии расходятся от конкретных общих
+            Выбранный маршрут показывает ветвь, на которой находится Homo
+            sapiens; карточки справа показывают соседние линии от общих
             предков.
           </p>
         </div>
@@ -87,7 +87,7 @@ export function CladogramPanel({
         >
           <span>
             <ArrowDown aria-hidden="true" size={17} />
-            Главный ствол к человеку
+            Ветвь Homo sapiens
           </span>
           <span>
             <GitFork aria-hidden="true" size={17} />
@@ -135,7 +135,7 @@ export function CladogramPanel({
                     </span>
                     <span className="cladogram-node-dot" aria-hidden="true" />
                     <span className="cladogram-node-copy">
-                      <small>ствол к человеку</small>
+                      <small>ветвь Homo sapiens</small>
                       <strong>{stage.titleRu}</strong>
                       <em>{formatAgeRu(stage.ageMa)}</em>
                     </span>
