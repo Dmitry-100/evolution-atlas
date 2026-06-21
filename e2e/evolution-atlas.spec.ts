@@ -268,7 +268,7 @@ test.describe("Evolution Atlas", () => {
     );
     await expect(
       page.locator(".stage-plate-media source[type='image/avif']"),
-    ).toHaveCount(1);
+    ).toHaveCount(0);
 
     await page.getByRole("button", { name: /Homo sapiens,/i }).click();
     await expect(

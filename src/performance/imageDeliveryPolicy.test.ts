@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import appSource from "../App.tsx?raw";
 import cladogramPanelSource from "../components/atlas/CladogramPanel.tsx?raw";
 import deepTimeAxisSource from "../components/atlas/DeepTimeAxis.tsx?raw";
+import mobileStageDetailSource from "../components/atlas/mobile/MobileStageDetail.tsx?raw";
 import primateAxisSource from "../components/atlas/PrimateAxis.tsx?raw";
 import stageDetailCardSource from "../components/atlas/StageDetailCard.tsx?raw";
 import cladogramPageSource from "../pages/CladogramPage.tsx?raw";
@@ -18,6 +19,10 @@ const sourceFiles = [
   ["src/App.tsx", appSource],
   ["src/components/atlas/CladogramPanel.tsx", cladogramPanelSource],
   ["src/components/atlas/DeepTimeAxis.tsx", deepTimeAxisSource],
+  [
+    "src/components/atlas/mobile/MobileStageDetail.tsx",
+    mobileStageDetailSource,
+  ],
   ["src/components/atlas/PrimateAxis.tsx", primateAxisSource],
   ["src/components/atlas/StageDetailCard.tsx", stageDetailCardSource],
   ["src/pages/CladogramPage.tsx", cladogramPageSource],
@@ -37,5 +42,13 @@ describe("image delivery policy", () => {
       .map(([file]) => file);
 
     expect(plainImageFiles).toEqual([]);
+  });
+
+  it("does not force optimized raster sources from app surfaces", () => {
+    const forcedOptimizedFiles = sourceFiles
+      .filter(([, source]) => source.includes("preferOptimized"))
+      .map(([file]) => file);
+
+    expect(forcedOptimizedFiles).toEqual([]);
   });
 });

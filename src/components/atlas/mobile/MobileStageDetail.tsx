@@ -1,5 +1,6 @@
 import type { EvolutionStage } from "../../../data/lineage";
 import { formatAgeRu } from "../../../lib/timeline";
+import { OptimizedImage } from "../../ui/optimized-image";
 
 type MobileStageDetailProps = {
   stage: EvolutionStage;
@@ -10,11 +11,12 @@ export function MobileStageDetail({ stage }: MobileStageDetailProps) {
 
   return (
     <div className="mobile-stage-detail">
-      <img
+      <OptimizedImage
         src={stage.image.src}
         alt={stage.image.altRu}
-        loading="lazy"
+        loading="eager"
         decoding="async"
+        fetchPriority="high"
       />
       <div className="mobile-stage-detail-copy">
         <span>{formatAgeRu(stage.ageMa)}</span>

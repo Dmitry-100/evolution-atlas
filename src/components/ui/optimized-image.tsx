@@ -11,6 +11,9 @@ type OptimizedImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   preferOptimized?: boolean;
 };
 
+const optimizedImageDeliveryEnabled =
+  import.meta.env.VITE_ENABLE_OPTIMIZED_IMAGES === "true";
+
 export const OptimizedImage = forwardRef<
   HTMLImageElement,
   OptimizedImageProps
@@ -20,12 +23,17 @@ export const OptimizedImage = forwardRef<
 ) {
   const optimizedSrc = src ? getOptimizedImageSrc(src) : null;
   const [useOptimizedSource, setUseOptimizedSource] = useState(true);
+  const shouldUseOptimizedSource =
+    optimizedImageDeliveryEnabled &&
+    preferOptimized &&
+    optimizedSrc &&
+    useOptimizedSource;
 
   useEffect(() => {
     setUseOptimizedSource(true);
   }, [optimizedSrc]);
 
-  if (!src || !preferOptimized || !optimizedSrc || !useOptimizedSource) {
+  if (!src || !shouldUseOptimizedSource) {
     return (
       <img ref={ref} src={src} alt={alt} onError={onError} {...imageProps} />
     );
@@ -38,7 +46,10 @@ export const OptimizedImage = forwardRef<
         ref={ref}
         src={src}
         alt={alt}
-        onError={() => setUseOptimizedSource(false)}
+        onError={(event) => {
+          setUseOptimizedSource(false);
+          onError?.(event);
+        }}
         {...imageProps}
       />
     </picture>
