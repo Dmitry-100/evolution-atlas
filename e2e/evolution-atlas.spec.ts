@@ -750,7 +750,7 @@ test.describe("Evolution Atlas", () => {
 
   test("about route is reader-facing, not technical deploy notes", async ({
     page,
-  }) => {
+  }, testInfo) => {
     await page.goto("/about");
     await expect(
       page.getByRole("heading", { name: /Зачем нужен этот атлас/i }),
@@ -762,6 +762,51 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: "Открыть источники" }),
     ).toHaveAttribute("href", "/sources");
+    await expect(
+      page.getByRole("heading", { name: /Как появился проект/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Как с помощью ИИ за вечер погрузиться в любую тему/i),
+    ).toBeVisible();
+    await expect(page.getByText(/Сотников Дмитрий/i)).toBeVisible();
+    await expect(
+      page.getByRole("img", { name: /Сотников Дмитрий/i }),
+    ).toHaveAttribute("src", "/assets/images/about/dmitry-sotnikov.jpg");
+
+    const originLayout = await page
+      .locator(".about-origin-story")
+      .evaluate((story) => {
+        const media = story.querySelector(".about-author");
+        const copy = story.querySelector(".about-origin-story__copy");
+        const mediaRect = media?.getBoundingClientRect();
+        const copyRect = copy?.getBoundingClientRect();
+
+        return {
+          copyLeft: copyRect?.left ?? null,
+          copyTop: copyRect?.top ?? null,
+          hasCopy: Boolean(copyRect),
+          hasMedia: Boolean(mediaRect),
+          mediaRight: mediaRect?.right ?? null,
+          mediaTop: mediaRect?.top ?? null,
+        };
+      });
+
+    expect(originLayout.hasMedia).toBe(true);
+    expect(originLayout.hasCopy).toBe(true);
+
+    if (testInfo.project.name === "desktop") {
+      expect(originLayout.mediaRight).not.toBeNull();
+      expect(originLayout.copyLeft).not.toBeNull();
+      expect(originLayout.mediaRight as number).toBeLessThan(
+        originLayout.copyLeft as number,
+      );
+    } else {
+      expect(originLayout.mediaTop).not.toBeNull();
+      expect(originLayout.copyTop).not.toBeNull();
+      expect(originLayout.mediaTop as number).toBeLessThan(
+        originLayout.copyTop as number,
+      );
+    }
   });
 
   test("sources route exposes image metadata and source links", async ({
