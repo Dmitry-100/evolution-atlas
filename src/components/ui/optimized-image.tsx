@@ -8,13 +8,14 @@ import { getOptimizedImageSrc } from "../../lib/imagePlaceholders";
 
 type OptimizedImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   pictureClassName?: string;
+  preferOptimized?: boolean;
 };
 
 export const OptimizedImage = forwardRef<
   HTMLImageElement,
   OptimizedImageProps
 >(function OptimizedImage(
-  { pictureClassName, src, alt = "", onError, ...imageProps },
+  { pictureClassName, preferOptimized = true, src, alt = "", onError, ...imageProps },
   ref,
 ) {
   const optimizedSrc = src ? getOptimizedImageSrc(src) : null;
@@ -24,7 +25,7 @@ export const OptimizedImage = forwardRef<
     setUseOptimizedSource(true);
   }, [optimizedSrc]);
 
-  if (!src || !optimizedSrc || !useOptimizedSource) {
+  if (!src || !preferOptimized || !optimizedSrc || !useOptimizedSource) {
     return (
       <img ref={ref} src={src} alt={alt} onError={onError} {...imageProps} />
     );

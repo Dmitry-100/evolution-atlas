@@ -187,6 +187,7 @@ export function DeepTimeAxis({
       >
         <OptimizedImage
           className="deep-time-river-image"
+          preferOptimized={false}
           src="/assets/images/timeline-river-evolution-21-9.png"
           alt=""
           aria-hidden="true"

@@ -373,6 +373,7 @@ function DinosaurTimelineAxis({
         />
         <OptimizedImage
           className="dinosaur-timeline-river-image"
+          preferOptimized={false}
           src="/assets/images/dinosaurs/dinosaur-timeline-river.png"
           alt=""
           aria-hidden="true"

@@ -68,6 +68,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             <OptimizedImage
               pictureClassName="stage-plate-picture"
               className="stage-plate-main stage-plate-previous"
+              preferOptimized={false}
               src={previousImage.src}
               alt=""
               aria-hidden="true"
@@ -78,6 +79,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             key={stage.image.src}
             ref={imageRef}
             pictureClassName="stage-plate-picture"
+            preferOptimized={false}
             className={
               isLoaded
                 ? "stage-plate-main stage-plate-current is-loaded"
