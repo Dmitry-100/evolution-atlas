@@ -2051,8 +2051,9 @@ code {
   inset: 0;
   z-index: 2;
   box-sizing: border-box;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0;
+  padding: 0.62rem;
   filter: blur(12px) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32)) brightness(1.06) saturate(0.96)
     contrast(1.02);
   transform: scale(1.025);

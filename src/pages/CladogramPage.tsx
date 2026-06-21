@@ -7,6 +7,7 @@ import {
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CladogramPanel } from "../components/atlas/CladogramPanel";
+import { OptimizedImage } from "../components/ui/optimized-image";
 import { TooltipProvider } from "../components/ui/tooltip";
 import { sortedStages, type EvolutionStage } from "../data/lineage";
 import { buildCladogram, type CladogramBranch } from "../lib/cladogram";
@@ -40,7 +41,7 @@ function CladogramInspector({
         aria-label="Выбранная ветвь дерева"
       >
         <figure className="cladogram-inspector-media">
-          <img
+          <OptimizedImage
             src={branch.image.src}
             alt={branch.image.altRu}
             loading="eager"
@@ -82,7 +83,7 @@ function CladogramInspector({
   return (
     <aside className="cladogram-inspector" aria-label="Выбранный узел дерева">
       <figure className="cladogram-inspector-media">
-        <img
+        <OptimizedImage
           src={stage.image.src}
           alt={stage.image.altRu}
           loading="eager"

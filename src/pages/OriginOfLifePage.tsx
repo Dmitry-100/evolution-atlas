@@ -8,6 +8,7 @@ import {
   Star,
   Waves,
 } from "lucide-react";
+import { OptimizedImage } from "../components/ui/optimized-image";
 import { ORIGIN_HYPOTHESES, ORIGIN_SOURCES } from "../data/originHypotheses";
 
 const icons = [FlaskConical, Atom, Waves, Network, CircleDot, Orbit];
@@ -151,7 +152,7 @@ export function OriginOfLifePage() {
         <div className="origin-story-grid">
           {originJourney.map((step, index) => (
             <article key={step.title} className="origin-story-card">
-              <img src={step.visual.src} alt={step.visual.alt} loading="lazy" decoding="async" />
+              <OptimizedImage src={step.visual.src} alt={step.visual.alt} loading="lazy" decoding="async" />
               <div>
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <strong>{step.title}</strong>
@@ -179,7 +180,7 @@ export function OriginOfLifePage() {
             <article key={hypothesis.id} className="origin-hypothesis-card">
               {visual ? (
                 <figure className="origin-hypothesis-media">
-                  <img src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />
+                  <OptimizedImage src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />
                   <figcaption>{visual.caption}</figcaption>
                 </figure>
               ) : null}

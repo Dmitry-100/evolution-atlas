@@ -7,6 +7,7 @@ const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 const defaultRoots = [
   fileURLToPath(new URL("../public/assets/images", import.meta.url)),
   fileURLToPath(new URL("../public/assets/brand", import.meta.url)),
+  fileURLToPath(new URL("../public/assets/materials", import.meta.url)),
 ];
 const maxDimension = 1400;
 const rasterExtensions = new Set([".jpg", ".jpeg", ".png"]);

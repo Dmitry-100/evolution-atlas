@@ -187,7 +187,6 @@ export function DeepTimeAxis({
       >
         <OptimizedImage
           className="deep-time-river-image"
-          preferOptimized={false}
           src="/assets/images/timeline-river-evolution-21-9.png"
           alt=""
           aria-hidden="true"
@@ -241,7 +240,7 @@ export function DeepTimeAxis({
                   </a>
                 </TooltipTrigger>
                 <TooltipContent className="tooltip-content extinction-tooltip">
-                  <img
+                  <OptimizedImage
                     src={event.image.src}
                     alt=""
                     aria-hidden="true"

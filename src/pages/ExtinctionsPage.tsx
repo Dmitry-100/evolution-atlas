@@ -1,6 +1,7 @@
 import { ArrowRight, BarChart3, FileText, Flame, RefreshCw, Sparkles, Waves } from "lucide-react";
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
+import { OptimizedImage } from "../components/ui/optimized-image";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
 
 export function ExtinctionsPage() {
@@ -62,7 +63,7 @@ export function ExtinctionsPage() {
             style={{ borderColor: event.color, "--extinction-color": event.color } as CSSProperties}
           >
             <figure className="extinction-visual">
-              <img src={event.image.src} alt={event.image.altRu} loading="lazy" decoding="async" />
+              <OptimizedImage src={event.image.src} alt={event.image.altRu} loading="lazy" decoding="async" />
             </figure>
 
             <div className="extinction-card-body">

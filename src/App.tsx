@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { AtlasPage } from "./pages/AtlasPage";
 import { EtherealInk } from "./components/ui/ethereal-ink";
+import { OptimizedImage } from "./components/ui/optimized-image";
 import { ScrollProgress } from "./components/ui/scroll-progress";
 import { TooltipProvider } from "./components/ui/tooltip";
 
@@ -147,7 +148,7 @@ function AppHeader() {
   return (
     <header className="topbar">
       <NavLink className="brand" to="/" aria-label="Открыть атлас">
-        <img
+        <OptimizedImage
           className="brand-mark"
           src="/assets/brand/portal-logo-mark.png"
           alt=""

@@ -234,7 +234,7 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
   return (
     <article className="dinosaur-detail-card" aria-live="polite">
       <figure className="dinosaur-detail-visual">
-        <img
+        <OptimizedImage
           src={image.src}
           alt={image.altRu}
           loading="lazy"
@@ -373,7 +373,6 @@ function DinosaurTimelineAxis({
         />
         <OptimizedImage
           className="dinosaur-timeline-river-image"
-          preferOptimized={false}
           src="/assets/images/dinosaurs/dinosaur-timeline-river.png"
           alt=""
           aria-hidden="true"
@@ -615,7 +614,7 @@ export function DinosaursPage() {
           </div>
         </div>
         <figure className="dinosaur-common-ancestor__media">
-          <img
+          <OptimizedImage
             src="/assets/images/dinosaurs/common-ancestor-amniote-generated.jpg"
             alt="AI-реконструкция раннего амниота — близкого образа нашего общего предка с птицами."
             loading="lazy"

@@ -1,5 +1,6 @@
 import { BookOpenCheck, Network, ScrollText, ShieldCheck } from "lucide-react";
 import { EvidenceSection } from "../components/atlas/EvidenceSection";
+import { OptimizedImage } from "../components/ui/optimized-image";
 
 const principles = [
   {
@@ -43,7 +44,7 @@ export function TheoryPage() {
 
       <article className="darwin-spotlight">
         <figure className="darwin-portrait">
-          <img
+          <OptimizedImage
             src="/assets/images/theory/charles-darwin-portrait.jpg"
             alt="Портрет Чарльза Дарвина"
             loading="lazy"

@@ -4,6 +4,7 @@ import { getGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage } from "../../data/lineage";
 import type { Cladogram, CladogramBranch } from "../../lib/cladogram";
 import { formatAgeRu } from "../../lib/timeline";
+import { OptimizedImage } from "../ui/optimized-image";
 import { GlossaryTerm } from "./GlossaryTerm";
 
 type CladogramPanelProps = {
@@ -171,7 +172,7 @@ export function CladogramPanel({
                         }
                       >
                         <span className="cladogram-branch-thumb">
-                          <img
+                          <OptimizedImage
                             src={branch.image.src}
                             alt=""
                             loading="lazy"

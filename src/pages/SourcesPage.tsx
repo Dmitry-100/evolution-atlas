@@ -1,4 +1,5 @@
 import { ExternalLink } from "lucide-react";
+import { OptimizedImage } from "../components/ui/optimized-image";
 import { sortedStages } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
 
@@ -32,7 +33,7 @@ export function SourcesPage() {
       <div className="source-list">
         {sortedStages.map((stage) => (
           <article key={stage.id} className="source-card">
-            <img src={stage.image.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <OptimizedImage src={stage.image.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <div>
               <p className="kicker">{formatAgeRu(stage.ageMa)}</p>
               <h2>{stage.titleRu}</h2>

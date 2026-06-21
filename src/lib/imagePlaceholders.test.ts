@@ -23,7 +23,9 @@ describe("image placeholders", () => {
       "/assets/brand/portal-logo-mark.avif",
     );
     expect(getOptimizedImageSrc("/assets/brand/icon.svg")).toBeNull();
-    expect(getOptimizedImageSrc("/assets/materials/example-cover.jpg")).toBeNull();
+    expect(getOptimizedImageSrc("/assets/materials/example-cover.jpg")).toBe(
+      "/assets/materials/example-cover.avif",
+    );
     expect(getOptimizedImageSrc("https://example.com/specimen.jpg")).toBeNull();
   });
 });

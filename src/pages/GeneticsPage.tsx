@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { OptimizedImage } from "../components/ui/optimized-image";
 import {
   CODON_DEMO,
   GENETICS_EVIDENCE,
@@ -233,7 +234,7 @@ export function GeneticsPage() {
         <div className="molecule-gallery-grid">
           {moleculeGallery.map((item) => (
             <article key={item.title} className="molecule-card">
-              <img src={item.visual.src} alt={item.visual.alt} loading="lazy" decoding="async" />
+              <OptimizedImage src={item.visual.src} alt={item.visual.alt} loading="lazy" decoding="async" />
               <div>
                 <span>{item.subtitle}</span>
                 <h3>{item.title}</h3>
@@ -351,7 +352,7 @@ export function GeneticsPage() {
                       onClick={() => setExpandedVisual(visual)}
                       aria-label={`Увеличить схему: ${visual.caption}`}
                     >
-                      <img src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />
+                      <OptimizedImage src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />
                       <span>
                         <Maximize2 aria-hidden="true" size={15} />
                         Увеличить
@@ -426,7 +427,7 @@ export function GeneticsPage() {
             >
               <X aria-hidden="true" size={20} />
             </button>
-            <img src={expandedVisual.src} alt={expandedVisual.alt} />
+            <OptimizedImage src={expandedVisual.src} alt={expandedVisual.alt} />
             <p>{expandedVisual.caption}</p>
           </div>
         </div>

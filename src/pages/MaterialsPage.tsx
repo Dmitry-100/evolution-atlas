@@ -1,4 +1,5 @@
 import { BookOpen, ExternalLink, FileText, PlayCircle } from "lucide-react";
+import { OptimizedImage } from "../components/ui/optimized-image";
 import { PORTAL_MATERIALS, READING_RECOMMENDATIONS, WATCH_RECOMMENDATIONS } from "../data/materials";
 
 export function MaterialsPage() {
@@ -16,7 +17,7 @@ export function MaterialsPage() {
       <div className="materials-grid">
         {PORTAL_MATERIALS.map((material) => (
           <article key={material.id} className="material-card">
-            <img src={material.coverSrc} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <OptimizedImage src={material.coverSrc} alt="" aria-hidden="true" loading="lazy" decoding="async" />
             <div className="material-card-body">
               <div className="material-card-kicker">
                 <span>{material.slideCount} слайдов</span>
@@ -69,7 +70,7 @@ export function MaterialsPage() {
         <div className="reading-grid">
           {READING_RECOMMENDATIONS.map((book) => (
             <article key={book.id} className="reading-card">
-              <img src={book.coverSrc} alt={book.coverAltRu} loading="lazy" decoding="async" />
+              <OptimizedImage src={book.coverSrc} alt={book.coverAltRu} loading="lazy" decoding="async" />
               <div className="reading-card-copy">
                 <span>{book.themeRu}</span>
                 <h3>{book.titleRu}</h3>
@@ -104,7 +105,7 @@ export function MaterialsPage() {
           {WATCH_RECOMMENDATIONS.map((item) => (
             <article key={item.id} className="watch-card">
               <a className="watch-card-media" href={item.href} target="_blank" rel="noreferrer" aria-label={item.titleRu}>
-                <img src={item.imageSrc} alt={item.imageAltRu} loading="lazy" decoding="async" />
+                <OptimizedImage src={item.imageSrc} alt={item.imageAltRu} loading="lazy" decoding="async" />
                 <PlayCircle aria-hidden="true" size={32} />
               </a>
               <div className="watch-card-copy">
