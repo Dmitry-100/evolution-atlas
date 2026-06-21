@@ -1,5 +1,5 @@
 import "./App.css";
-import { Suspense, lazy, useEffect, type KeyboardEvent } from "react";
+import { Suspense, lazy, useEffect, useState, type KeyboardEvent } from "react";
 import {
   BrowserRouter,
   NavLink,
@@ -8,6 +8,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import { AtlasPage } from "./pages/AtlasPage";
 import { EtherealInk } from "./components/ui/ethereal-ink";
 import { OptimizedImage } from "./components/ui/optimized-image";
@@ -132,6 +133,7 @@ function getNavIndex(pathname: string) {
 
 function AppHeader() {
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleNavKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
@@ -146,7 +148,7 @@ function AppHeader() {
   };
 
   return (
-    <header className="topbar">
+    <header className={isMenuOpen ? "topbar is-menu-open" : "topbar"}>
       <NavLink className="brand" to="/" aria-label="Открыть атлас">
         <OptimizedImage
           className="brand-mark"
@@ -159,7 +161,22 @@ function AppHeader() {
           <small>интерактивный атлас эволюции</small>
         </span>
       </NavLink>
+      <button
+        type="button"
+        className="mobile-menu-button"
+        aria-controls="primary-navigation"
+        aria-expanded={isMenuOpen}
+        aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
+        onClick={() => setIsMenuOpen((current) => !current)}
+      >
+        {isMenuOpen ? (
+          <X aria-hidden="true" size={24} />
+        ) : (
+          <Menu aria-hidden="true" size={24} />
+        )}
+      </button>
       <nav
+        id="primary-navigation"
         className="topbar-nav"
         aria-label="Основная навигация"
         onKeyDown={handleNavKeyDown}
@@ -169,6 +186,7 @@ function AppHeader() {
             <NavLink
               key={item.to}
               to={item.to}
+              onClick={() => setIsMenuOpen(false)}
               onFocus={() => preloadRoute(item.to)}
               onMouseEnter={() => preloadRoute(item.to)}
             >
@@ -181,6 +199,7 @@ function AppHeader() {
             <NavLink
               key={item.to}
               to={item.to}
+              onClick={() => setIsMenuOpen(false)}
               onFocus={() => preloadRoute(item.to)}
               onMouseEnter={() => preloadRoute(item.to)}
             >

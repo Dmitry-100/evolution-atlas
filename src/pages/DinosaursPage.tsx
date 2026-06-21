@@ -25,6 +25,7 @@ import {
   type DinosaurLineageStage,
 } from "../data/dinosaurLineage";
 import type { EvolutionStage, StageImage } from "../data/lineage";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 type BranchItem = EvolutionStage | DinosaurLineageStage;
 
@@ -279,6 +280,112 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
   );
 }
 
+function MobileDinosaurStageDetail({ stage }: { stage: BranchItem }) {
+  const image = getImage(stage);
+
+  return (
+    <div className="mobile-dinosaur-stage-detail">
+      <OptimizedImage
+        src={image.src}
+        alt={image.altRu}
+        loading="lazy"
+        decoding="async"
+      />
+      <div className="mobile-dinosaur-stage-copy">
+        <span>{formatAge(stage.ageMa)}</span>
+        <h3>{stage.titleRu}</h3>
+        <p className="latin-name">{stage.latin}</p>
+        <p>{stage.summaryRu}</p>
+        <div className="mobile-dinosaur-traits" aria-label="Ключевые признаки">
+          {stage.inherited.slice(0, 4).map((trait) => (
+            <span key={trait}>{trait}</span>
+          ))}
+        </div>
+        <p className="mobile-dinosaur-why">{getWhyMatters(stage)}</p>
+      </div>
+    </div>
+  );
+}
+
+function MobileDinosaurJourney({
+  stages,
+  activeStage,
+  activeIndex,
+  onSelect,
+  onStep,
+  canStepPrevious,
+  canStepNext,
+}: {
+  stages: BranchItem[];
+  activeStage: BranchItem;
+  activeIndex: number;
+  onSelect: (stage: BranchItem) => void;
+  onStep: (delta: number) => void;
+  canStepPrevious: boolean;
+  canStepNext: boolean;
+}) {
+  return (
+    <section
+      className="mobile-dinosaur-journey"
+      aria-label="Мобильная вертикальная ось динозавровой ветви"
+    >
+      <div className="mobile-dinosaur-stepper" aria-label="Переключение этапов">
+        <button
+          type="button"
+          aria-label="Предыдущий этап"
+          disabled={!canStepPrevious}
+          onClick={() => onStep(-1)}
+        >
+          <ArrowLeft aria-hidden="true" size={20} />
+        </button>
+        <span aria-live="polite">
+          {activeIndex + 1} из {stages.length}: {activeStage.titleRu}
+        </span>
+        <button
+          type="button"
+          aria-label="Следующий этап"
+          disabled={!canStepNext}
+          onClick={() => onStep(1)}
+        >
+          <ArrowRight aria-hidden="true" size={20} />
+        </button>
+      </div>
+
+      <div className="mobile-dinosaur-stage-map">
+        {stages.map((stage, index) => {
+          const isActive = stage.id === activeStage.id;
+          const isBirdBranch = birdDinosaurBranch.some(
+            (candidate) => candidate.id === stage.id,
+          );
+
+          return (
+            <article
+              key={stage.id}
+              className={
+                isActive
+                  ? "mobile-dinosaur-stage-row is-active"
+                  : "mobile-dinosaur-stage-row"
+              }
+            >
+              <button
+                type="button"
+                aria-current={isActive ? "true" : undefined}
+                onClick={() => onSelect(stage)}
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{stage.titleRu}</strong>
+                <small>{formatAge(stage.ageMa)}</small>
+                <em>{isBirdBranch ? "динозавры → птицы" : "общая линия"}</em>
+              </button>
+              {isActive ? <MobileDinosaurStageDetail stage={stage} /> : null}
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function DinosaurTimelineAxis({
   stages,
   activeStage,
@@ -529,6 +636,7 @@ function DinosaurRouteNavigation({
 }
 
 export function DinosaursPage() {
+  const isMobileDinosaurAxis = useMediaQuery("(max-width: 720px)");
   const [activeJourneyId, setActiveJourneyId] = useState(
     dinosaurJourney[0]?.id ?? "early-animals",
   );
@@ -579,7 +687,7 @@ export function DinosaursPage() {
       <div className="dinosaurs-map-note">
         <Camera aria-hidden="true" size={21} />
         <p>
-          Смотрите как в Атласе: двигайтесь по одной оси слева направо. До
+          Смотрите как в Атласе: двигайтесь по одной оси. До
           амниот это общий фундамент, после диапсид начинается маршрут
           динозавровой ветви к птицам.
         </p>
@@ -652,35 +760,47 @@ export function DinosaursPage() {
           </div>
         </div>
 
-        <div className="dinosaur-atlas-grid">
-          <div className="center-stage">
-            <DinosaurTimelineAxis
-              stages={dinosaurJourney}
-              activeStage={activeJourneyStage}
-              onSelect={(stage) => setActiveJourneyId(stage.id)}
-              onStep={moveActive}
-              canStepPrevious={canStepPrevious}
-              canStepNext={canStepNext}
-            />
-
-            <div className="era-strip-card dinosaur-route-card" aria-label="Навигация по ветви динозавров">
-              <div className="rail-heading">
-                <BookOpen aria-hidden="true" size={19} />
-                <span>Маршрут по ветви</span>
-              </div>
-              <DinosaurRouteNavigation
+        {isMobileDinosaurAxis ? (
+          <MobileDinosaurJourney
+            stages={dinosaurJourney}
+            activeStage={activeJourneyStage}
+            activeIndex={activeIndex}
+            onSelect={(stage) => setActiveJourneyId(stage.id)}
+            onStep={moveActive}
+            canStepPrevious={canStepPrevious}
+            canStepNext={canStepNext}
+          />
+        ) : (
+          <div className="dinosaur-atlas-grid">
+            <div className="center-stage">
+              <DinosaurTimelineAxis
                 stages={dinosaurJourney}
                 activeStage={activeJourneyStage}
                 onSelect={(stage) => setActiveJourneyId(stage.id)}
+                onStep={moveActive}
+                canStepPrevious={canStepPrevious}
+                canStepNext={canStepNext}
               />
-            </div>
-          </div>
 
-          <BranchDetail
-            stage={activeJourneyStage}
-            label={getJourneyLabel(activeJourneyStage)}
-          />
-        </div>
+              <div className="era-strip-card dinosaur-route-card" aria-label="Навигация по ветви динозавров">
+                <div className="rail-heading">
+                  <BookOpen aria-hidden="true" size={19} />
+                  <span>Маршрут по ветви</span>
+                </div>
+                <DinosaurRouteNavigation
+                  stages={dinosaurJourney}
+                  activeStage={activeJourneyStage}
+                  onSelect={(stage) => setActiveJourneyId(stage.id)}
+                />
+              </div>
+            </div>
+
+            <BranchDetail
+              stage={activeJourneyStage}
+              label={getJourneyLabel(activeJourneyStage)}
+            />
+          </div>
+        )}
       </section>
 
       <div className="dinosaurs-bridge">

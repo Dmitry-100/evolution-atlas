@@ -17,7 +17,9 @@ export function MaterialsPage() {
       <div className="materials-grid">
         {PORTAL_MATERIALS.map((material) => (
           <article key={material.id} className="material-card">
-            <OptimizedImage src={material.coverSrc} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <div className="material-card-media" aria-hidden="true">
+              <OptimizedImage src={material.coverSrc} alt="" loading="lazy" decoding="async" />
+            </div>
             <div className="material-card-body">
               <div className="material-card-kicker">
                 <span>{material.slideCount} слайдов</span>

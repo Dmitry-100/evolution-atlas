@@ -33,8 +33,10 @@ export function SourcesPage() {
       <div className="source-list">
         {sortedStages.map((stage) => (
           <article key={stage.id} className="source-card">
-            <OptimizedImage src={stage.image.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-            <div>
+            <figure className="source-card-media" aria-hidden="true">
+              <OptimizedImage src={stage.image.src} alt="" loading="lazy" decoding="async" />
+            </figure>
+            <div className="source-card-copy">
               <p className="kicker">{formatAgeRu(stage.ageMa)}</p>
               <h2>{stage.titleRu}</h2>
               <p>{stage.image.altRu}</p>

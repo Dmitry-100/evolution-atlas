@@ -235,7 +235,9 @@ test.describe("Evolution Atlas", () => {
 
   test("top navigation supports cyclic keyboard arrow navigation", async ({
     page,
-  }) => {
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop top navigation.");
+
     await page.goto("/");
     const nav = page.getByLabel("Основная навигация");
 
@@ -250,6 +252,43 @@ test.describe("Evolution Atlas", () => {
     await nav.getByRole("link", { name: "Атлас" }).focus();
     await page.keyboard.press("ArrowLeft");
     await expect(page).toHaveURL(/\/quiz$/);
+  });
+
+  test("mobile header keeps a larger sticky brand and opens quick navigation", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile header only.");
+
+    await page.goto("/dinosaurs");
+    const topbar = page.locator(".topbar");
+    const brandMark = page.locator(".brand-mark");
+
+    await expect(page.locator(".mobile-dinosaur-journey")).toBeVisible();
+    await expect(page.locator(".mobile-menu-button")).toBeVisible();
+    await expect(page.getByLabel("Основная навигация")).toBeHidden();
+
+    const initialTop = await topbar.evaluate(
+      (node) => Math.round(node.getBoundingClientRect().top),
+    );
+    await page.evaluate(() => window.scrollTo(0, 900));
+    await expect
+      .poll(() =>
+        topbar.evaluate((node) => Math.round(node.getBoundingClientRect().top)),
+      )
+      .toBe(initialTop);
+
+    const brandHeight = await brandMark.evaluate((node) =>
+      Math.round(node.getBoundingClientRect().height),
+    );
+    expect(brandHeight).toBeGreaterThanOrEqual(60);
+
+    await page.locator(".mobile-menu-button").click();
+    await expect(page.getByLabel("Основная навигация")).toBeVisible();
+    await expect(
+      page.getByLabel("Основная навигация").getByRole("link", {
+        name: "Дополнительные материалы",
+      }),
+    ).toBeVisible();
   });
 
   test("click and primate mode update the active species card without hover tracking", async ({
@@ -741,6 +780,41 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByText(/sourceUrl|датасет|локальная музейная обработка/i)).toHaveCount(0);
   });
 
+  test("mobile sources cards keep image media separate from metadata", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile sources layout.");
+
+    await page.goto("/sources");
+    const firstCard = page.locator(".source-card").first();
+    const media = firstCard.locator(".source-card-media");
+    const copy = firstCard.locator(".source-card-copy");
+
+    await expect(media).toBeVisible();
+    await expect(copy).toBeVisible();
+
+    const boxes = await firstCard.evaluate((card) => {
+      const mediaBox = card
+        .querySelector(".source-card-media")
+        ?.getBoundingClientRect();
+      const copyBox = card
+        .querySelector(".source-card-copy")
+        ?.getBoundingClientRect();
+
+      return mediaBox && copyBox
+        ? {
+            mediaBottom: mediaBox.bottom,
+            mediaHeight: mediaBox.height,
+            copyTop: copyBox.top,
+          }
+        : null;
+    });
+
+    expect(boxes).not.toBeNull();
+    expect(boxes?.mediaHeight).toBeLessThanOrEqual(230);
+    expect(boxes?.copyTop).toBeGreaterThanOrEqual(boxes?.mediaBottom ?? 0);
+  });
+
   test("materials route exposes presentations and downloads", async ({
     page,
   }) => {
@@ -821,9 +895,46 @@ test.describe("Evolution Atlas", () => {
     }
   });
 
+  test("mobile materials cards use compact media without copy overlap", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile materials layout.");
+
+    await page.goto("/materials");
+    const firstCard = page.locator(".material-card").first();
+    const media = firstCard.locator(".material-card-media");
+    const copy = firstCard.locator(".material-card-body");
+
+    await expect(media).toBeVisible();
+    await expect(copy).toBeVisible();
+
+    const boxes = await firstCard.evaluate((card) => {
+      const mediaBox = card
+        .querySelector(".material-card-media")
+        ?.getBoundingClientRect();
+      const copyBox = card
+        .querySelector(".material-card-body")
+        ?.getBoundingClientRect();
+
+      return mediaBox && copyBox
+        ? {
+            mediaBottom: mediaBox.bottom,
+            mediaHeight: mediaBox.height,
+            copyTop: copyBox.top,
+          }
+        : null;
+    });
+
+    expect(boxes).not.toBeNull();
+    expect(boxes?.mediaHeight).toBeLessThanOrEqual(230);
+    expect(boxes?.copyTop).toBeGreaterThanOrEqual(boxes?.mediaBottom ?? 0);
+  });
+
   test("dinosaurs route separates shared animal ancestors from the bird branch", async ({
     page,
-  }) => {
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop dinosaur axis layout.");
+
     test.slow();
     await page.goto("/dinosaurs");
     await expect(
@@ -893,6 +1004,37 @@ test.describe("Evolution Atlas", () => {
         .locator(".dinosaur-axis-section .dinosaur-detail-copy")
         .getByText(/птицы — живая динозавровая ветвь/i),
     ).toBeVisible();
+  });
+
+  test("mobile dinosaurs route uses a vertical scroll map", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile dinosaur layout.");
+
+    await page.goto("/dinosaurs");
+    await expect(
+      page.getByRole("heading", { name: "Вымерли ли динозавры" }),
+    ).toBeVisible();
+    await expect(page.locator(".mobile-dinosaur-journey")).toBeVisible();
+    await expect(page.locator(".dinosaur-deep-axis")).toHaveCount(0);
+    await expect(page.locator(".mobile-dinosaur-stage-row")).toHaveCount(18);
+    await expect(page.locator(".mobile-dinosaur-stage-detail")).toHaveCount(1);
+
+    await page
+      .locator(".mobile-dinosaur-stage-row")
+      .filter({ hasText: "Современные птицы" })
+      .getByRole("button")
+      .click();
+    await expect(
+      page.locator(".mobile-dinosaur-stage-detail").getByRole("heading", {
+        name: "Современные птицы",
+      }),
+    ).toBeVisible();
+
+    const hasOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(hasOverflow).toBe(false);
   });
 
   test("origin of life route explains competing hypotheses", async ({
