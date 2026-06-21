@@ -15,6 +15,8 @@ import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
 import { JourneyControls } from "../components/atlas/JourneyControls";
 import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
 import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
+import { useMediaQuery } from "../hooks/useMediaQuery";
+import { MobileAtlas } from "../components/atlas/mobile/MobileAtlas";
 
 const LIFE_ORIGIN_MA = 4000;
 const PRIMATES_MA = 66;
@@ -38,11 +40,16 @@ function getStageIndex(stages: EvolutionStage[], stageId: string) {
   return Math.max(0, stages.findIndex((stage) => stage.id === stageId));
 }
 
+type AtlasNavigationOptions = {
+  replace?: boolean;
+};
+
 export function AtlasPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const urlState = useMemo(() => parseAtlasUrlState(searchParams), [searchParams]);
   const mode = urlState.mode;
   const atlasRef = useRef<HTMLDivElement>(null);
+  const isMobileAtlas = useMediaQuery("(max-width: 720px)");
 
   const visibleStages = mode === "primates" ? primateStages : sortedStages;
   const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
@@ -81,24 +88,72 @@ export function AtlasPage() {
     },
   ];
 
-  function activateStage(stage: EvolutionStage) {
-    setSearchParams(toAtlasSearchParams({ mode, stage }), { replace: true });
+  function activateStage(
+    stage: EvolutionStage,
+    options: AtlasNavigationOptions = {},
+  ) {
+    setSearchParams(toAtlasSearchParams({ mode, stage }), {
+      replace: options.replace ?? true,
+    });
   }
 
   function activateJourneyStage(stage: EvolutionStage) {
     setSearchParams(toAtlasSearchParams({ mode: "all", stage }), { replace: true });
   }
 
-  function activateMode(nextMode: AtlasUrlMode) {
+  function activateMode(
+    nextMode: AtlasUrlMode,
+    options: AtlasNavigationOptions = {},
+  ) {
     const nextVisibleStages = nextMode === "primates" ? primateStages : sortedStages;
     const nextStage = nextVisibleStages.find((stage) => stage.id === activeStage.id) ?? getDefaultAtlasStage(nextVisibleStages);
-    setSearchParams(toAtlasSearchParams({ mode: nextMode, stage: nextStage }), { replace: true });
+    setSearchParams(toAtlasSearchParams({ mode: nextMode, stage: nextStage }), {
+      replace: options.replace ?? true,
+    });
   }
 
-  function moveActive(delta: number) {
+  function moveActive(delta: number, options: AtlasNavigationOptions = {}) {
     const currentIndex = getStageIndex(visibleStages, activeStage.id);
     const nextIndex = Math.min(visibleStages.length - 1, Math.max(0, currentIndex + delta));
-    activateStage(visibleStages[nextIndex]);
+    activateStage(visibleStages[nextIndex], options);
+  }
+
+  if (isMobileAtlas) {
+    return (
+      <div
+        className="atlas atlas-mobile-shell"
+        ref={atlasRef}
+        tabIndex={0}
+        style={{ "--active-era-color": activeEra?.color ?? "#d0a35b" } as CSSProperties}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            moveActive(1, { replace: false });
+          }
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            moveActive(-1, { replace: false });
+          }
+        }}
+      >
+        <p className="sr-only" aria-live="polite">
+          Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
+        </p>
+        <MobileAtlas
+          mode={mode}
+          stages={visibleStages}
+          eras={visibleEras}
+          activeStage={activeStage}
+          activeIndex={activeIndex}
+          canStepPrevious={canStepPrevious}
+          canStepNext={canStepNext}
+          accumulatedTraitGroups={accumulatedTraitGroups}
+          onActivateMode={(nextMode) => activateMode(nextMode, { replace: false })}
+          onActivateStage={(stage) => activateStage(stage, { replace: false })}
+          onStep={(delta) => moveActive(delta, { replace: false })}
+        />
+      </div>
+    );
   }
 
   return (

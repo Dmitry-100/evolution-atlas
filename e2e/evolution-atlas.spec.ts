@@ -16,7 +16,9 @@ const navItems = [
 test.describe("Evolution Atlas", () => {
   test("renders the atlas without console errors or horizontal overflow", async ({
     page,
-  }) => {
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop Atlas layout.");
+
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
       if (message.type() === "error") consoleErrors.push(message.text());
@@ -148,6 +150,89 @@ test.describe("Evolution Atlas", () => {
     expect(consoleErrors).toEqual([]);
   });
 
+  test("mobile renders a vertical atlas instead of the desktop timeline", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile Atlas is mobile-only.");
+
+    await page.goto("/");
+    await expect(page.locator(".mobile-atlas")).toBeVisible();
+    await expect(page.locator(".deep-time-axis")).toHaveCount(0);
+    await expect(page.locator(".stage-panel")).toHaveCount(0);
+    await expect(
+      page.getByRole("tab", { name: /Весь путь/i }),
+    ).toHaveAttribute("aria-selected", "true");
+
+    await expect(page.locator(".mobile-stage-row").first()).toBeVisible();
+    await expect(page.locator(".mobile-stage-detail")).toHaveCount(1);
+
+    const hasOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(hasOverflow).toBe(false);
+  });
+
+  test("mobile mode and stage interactions preserve shared atlas URL state", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile Atlas is mobile-only.");
+
+    await page.goto("/");
+
+    await page.getByRole("tab", { name: /Приматы.*человек/i }).click();
+    await expect(page).toHaveURL(/mode=primates/);
+    await expect(page.locator(".mobile-stage-row")).toHaveCount(16);
+
+    await page
+      .locator(".mobile-stage-row")
+      .filter({ hasText: "Ранние человекообразные" })
+      .getByRole("button")
+      .click();
+    await expect(page).toHaveURL(/mode=primates&stage=early-apes/);
+    await expect(
+      page.locator(".mobile-stage-detail").getByRole("heading", {
+        name: "Ранние человекообразные",
+      }),
+    ).toBeVisible();
+
+    await page.goBack();
+    await expect(page).toHaveURL(/mode=primates&stage=early-primates/);
+    await expect(
+      page.locator(".mobile-stage-detail").getByRole("heading", {
+        name: "Ранние родственники приматов",
+      }),
+    ).toBeVisible();
+
+    await page.goForward();
+    await expect(page).toHaveURL(/mode=primates&stage=early-apes/);
+    await expect(
+      page.locator(".mobile-stage-detail").getByRole("heading", {
+        name: "Ранние человекообразные",
+      }),
+    ).toBeVisible();
+  });
+
+  test("mobile atlas controls and rows meet touch target height", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile Atlas is mobile-only.");
+
+    await page.goto("/");
+
+    const targetHeights = await page
+      .locator(
+        ".mobile-atlas-tabs button, .mobile-atlas-stepper button, .mobile-stage-row > button",
+      )
+      .evaluateAll((nodes) =>
+        nodes.map((node) => Math.round(node.getBoundingClientRect().height)),
+      );
+
+    expect(targetHeights.length).toBeGreaterThan(10);
+    for (const height of targetHeights) {
+      expect(height).toBeGreaterThanOrEqual(44);
+    }
+  });
+
   test("top navigation supports cyclic keyboard arrow navigation", async ({
     page,
   }) => {
@@ -169,7 +254,9 @@ test.describe("Evolution Atlas", () => {
 
   test("click and primate mode update the active species card without hover tracking", async ({
     page,
-  }) => {
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop Atlas layout.");
+
     await page.goto("/");
 
     const image = page.locator(".stage-plate-current");
@@ -227,7 +314,9 @@ test.describe("Evolution Atlas", () => {
 
   test("moving the mouse over the deep-time axis does not change the active stage", async ({
     page,
-  }) => {
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop Atlas layout.");
+
     await page.goto("/");
     const activeHeading = page.locator(".stage-copy h2");
     await expect(activeHeading).toHaveText("Ранние родственники приматов");
@@ -260,7 +349,9 @@ test.describe("Evolution Atlas", () => {
 
   test("visible and keyboard arrows move along the deep-time scale", async ({
     page,
-  }) => {
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop Atlas layout.");
+
     await page.goto("/");
     const activeHeading = page.locator(".stage-copy h2");
     await expect(activeHeading).toHaveText("Ранние родственники приматов");
@@ -276,7 +367,11 @@ test.describe("Evolution Atlas", () => {
     await expect(activeHeading).toHaveText("Древние приматы");
   });
 
-  test("atlas URL state restores mode and selected stage", async ({ page }) => {
+  test("atlas URL state restores mode and selected stage", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop Atlas layout.");
+
     await page.goto("/?mode=primates&stage=early-apes");
     await expect(
       page.getByRole("tab", { name: /Приматы.*человек/i }),
@@ -450,7 +545,11 @@ test.describe("Evolution Atlas", () => {
     await expect(brainGroup.getByText("язык")).toBeVisible();
   });
 
-  test("glossary tooltips explain evolutionary terms", async ({ page }) => {
+  test("glossary tooltips explain evolutionary terms", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop stage card.");
+
     await page.goto("/?mode=all&stage=chordates");
     const chordatesTerm = page
       .locator(".stage-glossary-line")
@@ -520,7 +619,11 @@ test.describe("Evolution Atlas", () => {
     expect(lateColor).toBe("#d0a35b");
   });
 
-  test("journey mode plays and pauses the atlas route", async ({ page }) => {
+  test("journey mode plays and pauses the atlas route", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop JourneyControls.");
+
     await page.goto("/");
     const activeHeading = page.locator(".stage-copy h2");
 

@@ -775,6 +775,218 @@ code {
   align-items: start;
 }
 
+.atlas-mobile-shell {
+  padding: 1rem;
+}
+
+.mobile-atlas {
+  display: grid;
+  gap: 1rem;
+}
+
+.mobile-atlas-hero {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.mobile-atlas-hero h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  line-height: 1.05;
+}
+
+.mobile-atlas-hero p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.mobile-atlas-tabs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+}
+
+.mobile-atlas-tabs .tabs-trigger {
+  min-height: 44px;
+  justify-content: center;
+}
+
+.mobile-atlas-stepper {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(10, 10, 10, 0.72);
+}
+
+.mobile-atlas-stepper button {
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--amber);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.mobile-atlas-stepper button:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.mobile-atlas-stepper span {
+  min-width: 0;
+  color: var(--text);
+  font-weight: 700;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.mobile-stage-map {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.mobile-era-group {
+  border-left: 3px solid var(--mobile-era-color, var(--amber));
+  padding-left: 0.75rem;
+}
+
+.mobile-era-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-era-heading span {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.mobile-era-heading small {
+  color: var(--muted);
+  text-align: right;
+}
+
+.mobile-era-stages {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.mobile-stage-row {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.mobile-stage-row.is-active {
+  border-color: var(--mobile-era-color, var(--amber));
+  background: rgba(217, 173, 97, 0.08);
+}
+
+.mobile-stage-row > button {
+  width: 100%;
+  min-height: 56px;
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+}
+
+.mobile-stage-row > button span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.mobile-stage-row > button strong {
+  min-width: 0;
+  color: var(--text);
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.mobile-stage-detail {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0 0.75rem 0.85rem;
+}
+
+.mobile-stage-detail img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.mobile-stage-detail-copy {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.mobile-stage-detail-copy h3,
+.mobile-stage-detail-copy p {
+  margin: 0;
+}
+
+.mobile-stage-detail-copy > span,
+.mobile-stage-detail-copy .latin {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.mobile-stage-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.mobile-stage-traits span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.28rem 0.55rem;
+  color: var(--amber);
+  font-size: 0.85rem;
+}
+
+.mobile-stage-why {
+  color: var(--muted);
+}
+
+.mobile-stage-row > button:focus-visible,
+.mobile-atlas-stepper button:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+@media (min-width: 721px) {
+  .atlas-mobile-shell,
+  .mobile-atlas {
+    display: none;
+  }
+}
+
 .left-rail,
 .era-strip-card,
 .rail-card,

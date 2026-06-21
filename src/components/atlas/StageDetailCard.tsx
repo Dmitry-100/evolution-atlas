@@ -72,6 +72,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
               alt=""
               aria-hidden="true"
               decoding="async"
+              preferOptimized
             />
           ) : null}
           <OptimizedImage
@@ -87,6 +88,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             alt={stage.image.altRu}
             decoding="async"
             fetchPriority="high"
+            preferOptimized
             onLoad={() => setIsLoaded(true)}
             onError={() => setIsLoaded(true)}
           />
