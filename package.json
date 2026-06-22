@@ -12,8 +12,9 @@
     "test": "node ./node_modules/vitest/vitest.mjs run",
     "test:watch": "node ./node_modules/vitest/vitest.mjs",
     "e2e": "playwright test",
+    "test:css-compat": "node scripts/assert-css-compat.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
-    "check": "npm run lint && npm run test && npm run build"
+    "check": "npm run lint && npm run test && npm run build && npm run test:css-compat"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

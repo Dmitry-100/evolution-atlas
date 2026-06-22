@@ -39,14 +39,14 @@
 
 html {
   background: var(--bg);
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100svh;
-  overflow-x: clip;
+  overflow-x: hidden;
   background:
     radial-gradient(
       circle at 18% 10%,
@@ -124,7 +124,15 @@ code {
   position: relative;
   z-index: 2;
   min-height: 100svh;
-  overflow-x: clip;
+  overflow-x: hidden;
+}
+
+@supports (overflow-x: clip) {
+  html,
+  body,
+  .app-shell {
+    overflow-x: clip;
+  }
 }
 
 .route-loading {
