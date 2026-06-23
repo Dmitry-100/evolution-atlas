@@ -69,6 +69,23 @@
 
 Для этапа “Ранние динозавры” пока используется отдельный слот `public/assets/images/dinosaurs/generated-early-dinosaurs.png`; если появится новая картинка, проще заменить этот файл тем же именем.
 
+## Глобальные вымирания: имена файлов для замены
+
+Страница “Глобальные вымирания” берет вертикальные изображения из `public/assets/images/extinctions/portrait/`. Эти файлы используются только на странице `/extinctions`; общие изображения в `public/assets/images/extinctions/` остаются отдельными слотами для будущих горизонтальных версий. Кладите новые JPG с теми же именами:
+
+- `ordovician-silurian.jpg`
+- `late-devonian.jpg`
+- `permian-triassic.jpg`
+- `triassic-jurassic.jpg`
+- `cretaceous-paleogene.jpg`
+- `holocene-anthropocene.jpg`
+
+Промпты для всех шести сцен лежат в `docs/extinction-image-prompts.md`. После замены JPG обновите AVIF-пары командой:
+
+```bash
+node scripts/optimize-images.mjs public/assets/images/extinctions/portrait/<file-name>.jpg
+```
+
 ## Если нужен новый файл, а не замена старого
 
 1. Положить изображение в подходящую папку.
