@@ -1,6 +1,8 @@
 import { BookOpenCheck, Network, ScrollText, ShieldCheck } from "lucide-react";
 import { EvidenceSection } from "../components/atlas/EvidenceSection";
+import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { OptimizedImage } from "../components/ui/optimized-image";
+import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 
 const principles = [
   {
@@ -88,6 +90,14 @@ export function TheoryPage() {
           </div>
         </div>
       </article>
+
+      <CuriosityFacts
+        factIds={CURIOSITY_FACT_PAGE_GROUPS.theory}
+        eyebrow="Масштаб времени"
+        title="Человек появляется почти у полуночи"
+        description="Глубокое время помогает почувствовать, почему эволюция не сводится к человеческой истории."
+        headingId="theory-curiosity-facts"
+      />
 
       <EvidenceSection />
     </section>

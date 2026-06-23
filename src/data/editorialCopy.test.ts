@@ -9,6 +9,9 @@ import geneticsCopy from "./genetics.ts?raw";
 import lineageCopy from "./lineage.ts?raw";
 import materialsCopy from "./materials.ts?raw";
 import quizCopy from "./quiz.ts?raw";
+import curiosityFactsCopy from "./curiosityFacts.ts?raw";
+import humanOriginsCopy from "./humanOrigins.ts?raw";
+import lucaCopy from "./luca.ts?raw";
 import cladogramCopy from "../lib/cladogram.ts?raw";
 
 function readActiveCopy() {
@@ -19,6 +22,9 @@ function readActiveCopy() {
     lineageCopy,
     materialsCopy,
     quizCopy,
+    curiosityFactsCopy,
+    humanOriginsCopy,
+    lucaCopy,
     cladogramCopy,
     atlasPageCopy,
     cladogramPageCopy,
@@ -39,6 +45,8 @@ describe("editorial science copy", () => {
     expect(copy).not.toContain("Единый язык кодонов");
     expect(copy).not.toContain("Ранние приматы");
     expect(copy).not.toContain("Вероятный общий фон");
+    expect(copy).not.toContain("единственный сад Эдема");
+    expect(copy).not.toContain("один сад Эдема, где возник Homo sapiens");
 
     expect(copy).toContain("примерно 99,6-99,9%");
     expect(copy).toContain("напрямую сравнимых участках ДНК");
@@ -48,5 +56,7 @@ describe("editorial science copy", () => {
     expect(copy).toContain("Один из главных кандидатов");
     expect(copy).toContain("Выбранный маршрут показывает ветвь");
     expect(copy).toContain("Почти общий язык кодонов");
+    expect(copy).toContain("не первый организм");
+    expect(copy).toContain("не один сад Эдема");
   });
 });

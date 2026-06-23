@@ -1139,7 +1139,11 @@ code {
 .era-route-item:hover,
 .era-route-item.is-active {
   transform: translateY(-1px);
-  border-color: color-mix(in srgb, var(--era-color) 64%, rgba(240, 201, 120, 0.42));
+  border-color: color-mix(
+    in srgb,
+    var(--era-color) 64%,
+    rgba(240, 201, 120, 0.42)
+  );
   background:
     radial-gradient(
       circle at 50% 0%,
@@ -1427,14 +1431,14 @@ code {
   max-width: 13rem;
   gap: 0.12rem;
   padding: 0.42rem 0.62rem;
-  border: 1px solid color-mix(in srgb, var(--region-color) 40%, rgba(255, 255, 255, 0.1));
+  border: 1px solid
+    color-mix(in srgb, var(--region-color) 40%, rgba(255, 255, 255, 0.1));
   border-radius: 999px;
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--region-color) 18%, rgba(4, 7, 7, 0.72)),
-      rgba(5, 8, 8, 0.48)
-    );
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--region-color) 18%, rgba(4, 7, 7, 0.72)),
+    rgba(5, 8, 8, 0.48)
+  );
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
   color: rgba(244, 235, 216, 0.88);
   transform: translateX(-50%);
@@ -2278,8 +2282,8 @@ code {
   object-fit: contain;
   opacity: 0;
   padding: 0.62rem;
-  filter: blur(12px) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32)) brightness(1.06) saturate(0.96)
-    contrast(1.02);
+  filter: blur(12px) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32))
+    brightness(1.06) saturate(0.96) contrast(1.02);
   transform: scale(1.025);
   transition:
     opacity 420ms ease,
@@ -2293,16 +2297,16 @@ code {
 
 .stage-plate-current.is-loaded {
   opacity: 1;
-  filter: blur(0) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32)) brightness(1.08) saturate(1.04)
-    contrast(1.08);
+  filter: blur(0) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.32)) brightness(1.08)
+    saturate(1.04) contrast(1.08);
   animation: stage-image-drift 10s ease-out both;
 }
 
 .stage-plate-previous {
   z-index: 1;
   opacity: 1;
-  filter: blur(0) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.28)) brightness(1.04) saturate(0.98)
-    contrast(1.04);
+  filter: blur(0) drop-shadow(0 22px 32px rgba(0, 0, 0, 0.28)) brightness(1.04)
+    saturate(0.98) contrast(1.04);
   transform: scale(1.018);
   animation: stage-image-out 520ms ease both;
 }
@@ -2621,8 +2625,16 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.2);
   border-radius: var(--radius);
   background:
-    radial-gradient(circle at 16% 20%, rgba(240, 201, 120, 0.14), transparent 20rem),
-    linear-gradient(135deg, rgba(106, 168, 173, 0.08), rgba(208, 163, 91, 0.09)),
+    radial-gradient(
+      circle at 16% 20%,
+      rgba(240, 201, 120, 0.14),
+      transparent 20rem
+    ),
+    linear-gradient(
+      135deg,
+      rgba(106, 168, 173, 0.08),
+      rgba(208, 163, 91, 0.09)
+    ),
     rgba(255, 255, 255, 0.032);
   overflow: hidden;
 }
@@ -2642,7 +2654,11 @@ code {
   inset: 0;
   background:
     linear-gradient(180deg, transparent 46%, rgba(5, 7, 6, 0.88)),
-    radial-gradient(circle at 50% 26%, transparent 0 10rem, rgba(5, 7, 6, 0.16) 20rem);
+    radial-gradient(
+      circle at 50% 26%,
+      transparent 0 10rem,
+      rgba(5, 7, 6, 0.16) 20rem
+    );
   pointer-events: none;
 }
 
@@ -3413,7 +3429,7 @@ code {
 
 .extinction-overview {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
   margin-top: 2rem;
 }
@@ -3503,28 +3519,24 @@ code {
 
 .extinction-visual {
   position: relative;
-  min-height: 100%;
+  align-self: start;
+  aspect-ratio: 9 / 16;
+  min-height: 0;
   margin: 0;
   overflow: hidden;
   background: #080b0b;
 }
 
 .extinction-visual img {
+  display: block;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  min-height: 310px;
-  box-sizing: border-box;
-  object-fit: contain;
-  object-position: center top;
-  padding: 0.45rem;
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      color-mix(in srgb, var(--extinction-color) 16%, transparent),
-      transparent 14rem
-    ),
-    #080b0b;
-  filter: saturate(0.9) contrast(1.04);
+  min-height: 0;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.95) contrast(1.05);
 }
 
 .extinction-visual::after {
@@ -3595,6 +3607,10 @@ code {
     ),
     rgba(255, 255, 255, 0.035);
   padding: 0.85rem;
+}
+
+.extinction-tempo-stat {
+  grid-column: 1 / -1;
 }
 
 .extinction-stat-grid svg {
@@ -4684,6 +4700,53 @@ code {
   font-size: 0.78rem;
 }
 
+.cladogram-inspector-note p {
+  margin: 0.32rem 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.48;
+}
+
+.cladogram-inspector-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 0.2rem 0.95rem 0;
+}
+
+.cladogram-inspector-split span {
+  display: grid;
+  gap: 0.22rem;
+  border: 1px solid rgba(130, 183, 179, 0.16);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.36);
+  padding: 0.68rem 0.72rem;
+}
+
+.cladogram-inspector-split strong {
+  color: var(--gold);
+  font-size: 0.7rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.cladogram-inspector-split small {
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.cladogram-inspector-relationship {
+  margin: 0.2rem 0.95rem 0;
+  border: 1px solid rgba(240, 201, 120, 0.17);
+  border-radius: var(--radius);
+  background: rgba(240, 201, 120, 0.07);
+  color: var(--text-soft);
+  padding: 0.72rem 0.8rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 .cladogram-inspector > .button,
 .cladogram-inspector > .cladogram-inspector-actions {
   margin: 0.85rem 0.95rem 0.95rem;
@@ -5408,6 +5471,553 @@ code {
   text-decoration: none;
 }
 
+.confidence-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(218, 185, 126, 0.22);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.08);
+  color: var(--gold);
+  padding: 0.28rem 0.52rem;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.confidence-badge--solid {
+  border-color: rgba(130, 183, 179, 0.34);
+  background: rgba(130, 183, 179, 0.1);
+  color: var(--cyan);
+}
+
+.confidence-badge--likely {
+  border-color: rgba(240, 201, 120, 0.28);
+}
+
+.confidence-badge--debated {
+  border-color: rgba(216, 124, 99, 0.34);
+  background: rgba(216, 124, 99, 0.1);
+  color: #e59b86;
+}
+
+.luca-exhibit,
+.africa-origin,
+.curiosity-facts,
+.molecular-scars,
+.science-sources {
+  margin-top: 1rem;
+  scroll-margin-top: 6rem;
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      circle at 12% 0%,
+      rgba(130, 183, 179, 0.12),
+      transparent 18rem
+    ),
+    radial-gradient(
+      circle at 88% 10%,
+      rgba(240, 201, 120, 0.1),
+      transparent 18rem
+    ),
+    rgba(8, 11, 11, 0.52);
+  box-shadow: var(--shadow);
+}
+
+.luca-exhibit-heading,
+.africa-origin-heading,
+.curiosity-facts-heading,
+.science-sources-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.78rem;
+  align-items: start;
+  border-bottom: 1px solid rgba(218, 185, 126, 0.13);
+  padding: 1.1rem;
+}
+
+.luca-exhibit-heading > svg,
+.africa-origin-heading > svg,
+.curiosity-facts-heading > svg,
+.science-sources-heading > svg {
+  margin-top: 0.3rem;
+  color: var(--gold);
+}
+
+.luca-exhibit-heading h2,
+.africa-origin-heading h2,
+.curiosity-facts-heading h2,
+.science-sources-heading h2,
+.luca-detail h3,
+.africa-site-detail h3,
+.curiosity-card h3,
+.molecular-scar-card h3,
+.science-source-card-heading a {
+  margin: 0.22rem 0 0.42rem;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+.luca-exhibit-heading p:not(.eyebrow),
+.africa-origin-heading p:not(.eyebrow),
+.curiosity-facts-heading p:not(.eyebrow),
+.science-sources-heading p:not(.eyebrow) {
+  max-width: 980px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.luca-acronym {
+  margin-top: 0.55rem;
+  color: var(--text);
+  font-size: 0.92rem;
+}
+
+.luca-acronym span {
+  color: var(--gold);
+  font-weight: 800;
+}
+
+.luca-exhibit-grid,
+.africa-origin-grid {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+}
+
+.luca-exhibit-grid {
+  grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1fr);
+}
+
+.africa-origin-grid {
+  grid-template-columns: minmax(0, 1.45fr) minmax(290px, 0.7fr);
+}
+
+.luca-tree,
+.luca-detail,
+.africa-map-panel,
+.africa-site-detail,
+.migration-route-detail,
+.curiosity-card,
+.molecular-scar-card,
+.science-source-card {
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.48);
+}
+
+.luca-tree {
+  display: grid;
+  gap: 0.8rem;
+  align-content: center;
+  min-height: 320px;
+  padding: 1rem;
+}
+
+.luca-root,
+.luca-branch {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.68);
+  color: inherit;
+  cursor: pointer;
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.luca-root {
+  justify-items: center;
+  text-align: center;
+}
+
+.luca-root svg,
+.luca-branch svg,
+.luca-detail a,
+.africa-site-detail a,
+.migration-route-detail a,
+.curiosity-card-actions a,
+.molecular-scar-card a,
+.science-source-links a svg {
+  color: var(--gold);
+}
+
+.luca-root strong,
+.luca-branch strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.18rem;
+}
+
+.luca-root span,
+.luca-branch span,
+.luca-detail-kicker span,
+.africa-site-meta span,
+.molecular-scar-card > span {
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.luca-root.is-active,
+.luca-branch.is-active,
+.africa-site.is-active {
+  border-color: rgba(240, 201, 120, 0.56);
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(240, 201, 120, 0.16),
+      transparent 5rem
+    ),
+    rgba(34, 30, 20, 0.72);
+}
+
+.luca-branches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.luca-detail,
+.africa-site-detail,
+.migration-route-detail {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  padding: 1rem;
+}
+
+.luca-detail-kicker,
+.africa-site-meta,
+.curiosity-card-top,
+.molecular-scar-card > div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.luca-detail p,
+.africa-site-detail p,
+.migration-route-detail p,
+.curiosity-card p,
+.curiosity-card small,
+.molecular-scar-card p,
+.science-source-card p,
+.science-source-links small {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.luca-detail h3,
+.africa-site-detail h3,
+.migration-route-detail h3,
+.curiosity-card h3,
+.molecular-scar-card h3 {
+  font-size: 1.55rem;
+}
+
+.luca-inheritance {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.luca-inheritance strong,
+.africa-site-detail > strong,
+.migration-route-detail > strong {
+  color: var(--text);
+}
+
+.luca-inheritance div,
+.curiosity-card-actions,
+.luca-note div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.luca-inheritance span {
+  border: 1px solid rgba(218, 185, 126, 0.15);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.06);
+  color: var(--text);
+  padding: 0.28rem 0.52rem;
+  font-size: 0.78rem;
+}
+
+.luca-detail a,
+.africa-site-detail a,
+.migration-route-detail a,
+.curiosity-card-actions a,
+.molecular-scar-card a,
+.luca-note a {
+  display: inline-flex;
+  gap: 0.32rem;
+  align-items: center;
+  justify-self: start;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.luca-note {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(218, 185, 126, 0.13);
+  padding: 0.9rem 1rem 1rem;
+}
+
+.luca-note p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.africa-map-panel {
+  position: relative;
+  min-height: 440px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 52% 42%,
+      rgba(240, 201, 120, 0.13),
+      transparent 17rem
+    ),
+    linear-gradient(145deg, rgba(23, 50, 55, 0.42), rgba(8, 11, 11, 0.74));
+}
+
+.human-migration-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.map-graticule line {
+  stroke: rgba(218, 185, 126, 0.08);
+  stroke-width: 1;
+}
+
+.world-land {
+  fill: rgba(122, 139, 126, 0.34);
+  stroke: rgba(218, 185, 126, 0.12);
+  stroke-width: 0.8;
+}
+
+.africa-land-highlight {
+  fill: rgba(240, 201, 120, 0.22);
+  stroke: rgba(240, 201, 120, 0.42);
+  stroke-width: 1.1;
+}
+
+.migration-route {
+  fill: none;
+  stroke: rgba(240, 201, 120, 0.42);
+  stroke-dasharray: 7 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+  opacity: 0.55;
+}
+
+.migration-route.is-active {
+  stroke: var(--gold);
+  stroke-dasharray: none;
+  stroke-width: 3.5;
+  opacity: 0.96;
+  filter: drop-shadow(0 0 8px rgba(240, 201, 120, 0.22));
+}
+
+.human-migration-map marker path {
+  fill: var(--gold);
+}
+
+.africa-site {
+  position: absolute;
+  left: var(--site-x);
+  top: var(--site-y);
+  display: inline-flex;
+  gap: 0.28rem;
+  align-items: center;
+  max-width: 10rem;
+  border: 1px solid rgba(240, 201, 120, 0.3);
+  border-radius: 999px;
+  background: rgba(3, 5, 5, 0.78);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 0.42rem 0.55rem;
+  transform: translate(-50%, -50%);
+}
+
+.africa-site svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.human-origin-side {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.migration-route-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  border-top: 1px solid rgba(218, 185, 126, 0.13);
+  padding: 1rem;
+}
+
+.migration-route-button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.25rem 0.5rem;
+  align-items: start;
+  border: 1px solid rgba(218, 185, 126, 0.13);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.42);
+  color: var(--text);
+  cursor: pointer;
+  padding: 0.78rem;
+  text-align: left;
+}
+
+.migration-route-button svg {
+  grid-row: span 2;
+  color: var(--gold);
+  margin-top: 0.1rem;
+}
+
+.migration-route-button span {
+  font-weight: 850;
+}
+
+.migration-route-button small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.migration-route-button.is-active {
+  border-color: rgba(240, 201, 120, 0.48);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(240, 201, 120, 0.13), transparent 7rem),
+    rgba(34, 30, 20, 0.64);
+}
+
+.curiosity-facts-grid,
+.molecular-scars-grid,
+.science-source-grid {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.curiosity-facts-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.molecular-scars-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.molecular-scars .genetics-section-heading {
+  margin-top: 0;
+  border-bottom: 1px solid rgba(218, 185, 126, 0.13);
+  padding: 1.1rem;
+}
+
+.science-source-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.curiosity-card,
+.molecular-scar-card,
+.science-source-card {
+  display: grid;
+  gap: 0.65rem;
+  align-content: start;
+  padding: 1rem;
+}
+
+.curiosity-card > small {
+  color: var(--faint);
+}
+
+.molecular-scar-card {
+  background:
+    radial-gradient(
+      circle at 14% 0%,
+      rgba(130, 183, 179, 0.12),
+      transparent 9rem
+    ),
+    rgba(8, 11, 11, 0.48);
+}
+
+.molecular-scar-card > div svg,
+.curiosity-card-top svg {
+  color: var(--gold);
+}
+
+.science-source-card-heading a {
+  display: inline-block;
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  text-decoration: none;
+}
+
+.science-source-links {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.science-source-links a {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.18rem 0.55rem;
+  border: 1px solid rgba(218, 185, 126, 0.12);
+  border-radius: calc(var(--radius) - 2px);
+  background: rgba(8, 11, 11, 0.38);
+  padding: 0.72rem;
+  text-decoration: none;
+}
+
+.science-source-links span {
+  grid-column: 1 / -1;
+  color: var(--gold);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.science-source-links strong {
+  color: var(--text);
+}
+
+.science-source-links small {
+  grid-column: 1 / -1;
+}
+
 .genetics-page {
   background:
     radial-gradient(
@@ -6057,6 +6667,40 @@ code {
   padding: 1.05rem;
 }
 
+.cladogram-mode-toggle {
+  display: inline-flex;
+  gap: 0.18rem;
+  justify-self: start;
+  border: 1px solid rgba(218, 185, 126, 0.16);
+  border-radius: var(--radius);
+  background: rgba(8, 11, 11, 0.42);
+  padding: 0.2rem;
+}
+
+.cladogram-mode-toggle button {
+  min-height: 2.2rem;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.46rem 0.72rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.cladogram-mode-toggle button[aria-pressed="true"] {
+  border-color: rgba(240, 201, 120, 0.36);
+  background: rgba(240, 201, 120, 0.12);
+  color: var(--gold);
+}
+
+.cladogram-mode-toggle button:hover,
+.cladogram-mode-toggle button:focus-visible {
+  color: var(--text);
+}
+
 .cladogram-reader-guide {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6090,6 +6734,10 @@ code {
   grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
   gap: 1rem;
   align-items: stretch;
+}
+
+.cladogram-root-row {
+  margin-bottom: 0.25rem;
 }
 
 .cladogram-trunk-cell {
@@ -6129,6 +6777,28 @@ code {
   gap: 0.52rem;
   align-items: center;
   min-height: 78px;
+}
+
+.cladogram-root-copy {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: center;
+  border: 1px solid rgba(130, 183, 179, 0.18);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.12), transparent 62%),
+    rgba(8, 11, 11, 0.38);
+  color: var(--muted);
+  padding: 0.75rem 0.85rem;
+}
+
+.cladogram-root-copy svg {
+  color: var(--cyan);
+}
+
+.cladogram-root-copy p {
+  margin: 0;
+  line-height: 1.45;
 }
 
 .cladogram-row.has-branches .cladogram-branch-cell::before {
@@ -6176,8 +6846,16 @@ code {
   grid-template-columns: auto auto minmax(0, 1fr) auto;
   gap: 0.55rem;
   align-items: center;
+  align-self: start;
   min-height: 78px;
   padding: 0.72rem;
+}
+
+.cladogram-root-node {
+  cursor: default;
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.13), transparent 62%),
+    rgba(8, 11, 11, 0.58);
 }
 
 .cladogram-node:hover,
@@ -6193,6 +6871,26 @@ code {
       transparent 4.8rem
     ),
     rgba(34, 30, 20, 0.72);
+}
+
+.cladogram-root-node:hover {
+  transform: none;
+}
+
+.cladogram-row.is-in-active-path .cladogram-node {
+  border-color: rgba(130, 183, 179, 0.38);
+  background:
+    linear-gradient(90deg, rgba(130, 183, 179, 0.12), transparent 64%),
+    rgba(9, 17, 16, 0.68);
+}
+
+.cladogram-row.is-in-active-path .cladogram-trunk-cell::before,
+.cladogram-row.is-in-active-path .cladogram-trunk-cell::after {
+  background: linear-gradient(
+    180deg,
+    rgba(130, 183, 179, 0.9),
+    rgba(240, 201, 120, 0.9)
+  );
 }
 
 .cladogram-node-number {
@@ -6298,6 +6996,10 @@ code {
     rgba(8, 11, 11, 0.44);
 }
 
+.cladogram-branch.is-living {
+  border-color: rgba(240, 201, 120, 0.24);
+}
+
 .cladogram-branch svg {
   color: var(--gold);
 }
@@ -6309,6 +7011,20 @@ code {
 .cladogram-branch .cladogram-active-badge {
   grid-column: 2 / -1;
   justify-self: start;
+}
+
+.cladogram-living-badge {
+  justify-self: start;
+  border: 1px solid rgba(130, 183, 179, 0.28);
+  border-radius: 999px;
+  background: rgba(130, 183, 179, 0.1);
+  color: var(--cyan);
+  padding: 0.2rem 0.42rem;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 .cladogram-active-badge {
@@ -6782,8 +7498,7 @@ code {
   }
 
   .extinction-visual img {
-    min-height: auto;
-    aspect-ratio: 16 / 9;
+    min-height: 0;
   }
 
   .material-card-media img {
@@ -7655,6 +8370,15 @@ code {
     padding: 0.8rem;
   }
 
+  .cladogram-mode-toggle {
+    justify-self: stretch;
+  }
+
+  .cladogram-mode-toggle button {
+    flex: 1 1 0;
+    padding-inline: 0.55rem;
+  }
+
   .trait-groups {
     grid-template-columns: 1fr;
   }
@@ -7707,6 +8431,11 @@ code {
     min-height: 98px;
   }
 
+  .cladogram-root-copy {
+    grid-template-columns: 1fr;
+    padding-left: 3.05rem;
+  }
+
   .cladogram-node .cladogram-active-badge {
     grid-column: 3;
     justify-self: start;
@@ -7724,6 +8453,10 @@ code {
 
   .cladogram-inspector-media {
     min-height: 220px;
+  }
+
+  .cladogram-inspector-split {
+    grid-template-columns: 1fr;
   }
 
   .cladogram-branch-icon {
@@ -7792,5 +8525,97 @@ code {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .curiosity-facts-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .migration-route-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .science-source-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  .luca-exhibit-heading,
+  .africa-origin-heading,
+  .curiosity-facts-heading,
+  .science-sources-heading {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .luca-exhibit-heading .confidence-badge {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .luca-exhibit-grid,
+  .africa-origin-grid,
+  .molecular-scars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .luca-note {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .africa-map-panel {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 560px) {
+  .luca-branches,
+  .curiosity-facts-grid,
+  .migration-route-list {
+    grid-template-columns: 1fr;
+  }
+
+  .luca-exhibit-heading,
+  .africa-origin-heading,
+  .curiosity-facts-heading,
+  .science-sources-heading,
+  .luca-exhibit-grid,
+  .africa-origin-grid,
+  .curiosity-facts-grid,
+  .molecular-scars-grid,
+  .science-source-grid,
+  .migration-route-list {
+    padding-inline: 0.75rem;
+  }
+
+  .africa-site {
+    width: 2rem;
+    height: 2rem;
+    justify-content: center;
+    max-width: 7.5rem;
+    font-size: 0.68rem;
+    padding: 0.34rem;
+  }
+
+  .africa-site span {
+    display: none;
+  }
+
+  .africa-site.is-active {
+    width: auto;
+    height: auto;
+    justify-content: flex-start;
+    padding-inline: 0.44rem;
+  }
+
+  .africa-site.is-active span {
+    display: inline;
+  }
+
+  .science-source-links a {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

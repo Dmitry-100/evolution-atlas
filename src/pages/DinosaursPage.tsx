@@ -14,9 +14,11 @@ import {
 } from "lucide-react";
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
+import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { Slider } from "../components/ui/slider";
+import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 import {
   birdDinosaurBranch,
   dinosaurCommonAncestor,
@@ -706,6 +708,14 @@ export function DinosaursPage() {
           </article>
         ))}
       </section>
+
+      <CuriosityFacts
+        factIds={CURIOSITY_FACT_PAGE_GROUPS.dinosaurs}
+        eyebrow="Неожиданный признак"
+        title="Перья старше полноценного полета"
+        description="Птичьи признаки не появились одним скачком: часть из них сначала работала в других задачах."
+        headingId="dinosaurs-curiosity-facts"
+      />
 
       <section
         className="dinosaur-common-ancestor"

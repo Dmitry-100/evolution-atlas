@@ -7,8 +7,10 @@ import {
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { CladogramPanel } from "../components/atlas/CladogramPanel";
+import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { TooltipProvider } from "../components/ui/tooltip";
+import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 import { sortedStages, type EvolutionStage } from "../data/lineage";
 import { buildCladogram, type CladogramBranch } from "../lib/cladogram";
 import { formatAgeRu } from "../lib/timeline";
@@ -169,6 +171,14 @@ export function CladogramPage() {
             onSelectStage={activateStage}
           />
         </div>
+
+        <CuriosityFacts
+          factIds={CURIOSITY_FACT_PAGE_GROUPS.cladogram}
+          eyebrow="Неожиданные переходы"
+          title="Старые детали получают новые роли"
+          description="Дерево родства интересно тем, что крупные изменения часто собираются из уже существующих структур."
+          headingId="cladogram-curiosity-facts"
+        />
 
         <div className="theory-bridge-band">
           <div>

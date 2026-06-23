@@ -52,6 +52,7 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     afterRu: "Морские экосистемы постепенно перестроились, а позвоночные продолжили путь к будущему разнообразию.",
     relationRu: "Наша линия тогда была далека от приматов: речь идет о ранних хордовых и позвоночных в океане.",
     sources: [
+      source("NPS: Mass extinctions through geologic time", "https://www.nps.gov/subjects/fossils/mass-extinctions-through-geologic-time.htm"),
       source("Britannica: mass extinction", "https://www.britannica.com/science/mass-extinction"),
       source("Wikipedia: Ordovician-Silurian extinction events", "https://en.wikipedia.org/wiki/Ordovician%E2%80%93Silurian_extinction_events"),
     ],
@@ -79,6 +80,7 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     afterRu: "После кризиса меняется состав рыб и усиливается значение форм, связанных с будущим выходом позвоночных на сушу.",
     relationRu: "Это фон эпохи, в которой появляются переходные формы вроде Tiktaalik и ранние четвероногие.",
     sources: [
+      source("NPS: Mass extinctions through geologic time", "https://www.nps.gov/subjects/fossils/mass-extinctions-through-geologic-time.htm"),
       source("Natural History Museum: mass extinctions", "https://www.nhm.ac.uk/discover/what-is-mass-extinction-and-are-we-facing-a-sixth-one.html"),
       source("Wikipedia: Late Devonian extinction", "https://en.wikipedia.org/wiki/Late_Devonian_extinction"),
     ],
@@ -107,6 +109,7 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     relationRu: "Линия млекопитающих прошла через этот кризис в составе древних синапсид, задолго до настоящих млекопитающих.",
     sources: [
       source("Smithsonian: End-Permian extinction", "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time/end-permian-extinction"),
+      source("NPS: Mass extinctions through geologic time", "https://www.nps.gov/subjects/fossils/mass-extinctions-through-geologic-time.htm"),
       source("Wikipedia: Permian-Triassic extinction event", "https://en.wikipedia.org/wiki/Permian%E2%80%93Triassic_extinction_event"),
     ],
   },
@@ -133,6 +136,7 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     afterRu: "Динозавры получили больше пространства, а ранние млекопитающие продолжили существовать небольшими ночными формами.",
     relationRu: "Для нашей линии это важный фильтр выживания: млекопитающие не стали главными сразу, но сохранились.",
     sources: [
+      source("NPS: Mass extinctions through geologic time", "https://www.nps.gov/subjects/fossils/mass-extinctions-through-geologic-time.htm"),
       source("National Geographic: mass extinctions", "https://education.nationalgeographic.org/resource/mass-extinction/"),
       source("Wikipedia: Triassic-Jurassic extinction event", "https://en.wikipedia.org/wiki/Triassic%E2%80%93Jurassic_extinction_event"),
     ],
@@ -161,6 +165,7 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     relationRu: "Именно после этого кризиса начинается тот мир, где приматы получают шанс стать заметной ветвью.",
     sources: [
       source("NASA: Chicxulub impact", "https://science.nasa.gov/solar-system/asteroids/chicxulub-impact-event/"),
+      source("NASA: Deep impact and mass extinction", "https://science.nasa.gov/solar-system/asteroids/chicxulub-impact-event/"),
       source("Wikipedia: Cretaceous-Paleogene extinction event", "https://en.wikipedia.org/wiki/Cretaceous%E2%80%93Paleogene_extinction_event"),
     ],
   },

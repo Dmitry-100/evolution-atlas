@@ -8,7 +8,10 @@ import {
   Star,
   Waves,
 } from "lucide-react";
+import { CuriosityFacts } from "../components/education/CuriosityFacts";
+import { LucaExhibit } from "../components/education/LucaExhibit";
 import { OptimizedImage } from "../components/ui/optimized-image";
+import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 import { ORIGIN_HYPOTHESES, ORIGIN_SOURCES } from "../data/originHypotheses";
 
 const icons = [FlaskConical, Atom, Waves, Network, CircleDot, Orbit];
@@ -171,6 +174,16 @@ export function OriginOfLifePage() {
         <span>отбор</span>
         <span>жизнь</span>
       </div>
+
+      <LucaExhibit />
+
+      <CuriosityFacts
+        factIds={CURIOSITY_FACT_PAGE_GROUPS.origin}
+        eyebrow="Неожиданный поворот"
+        title="Жизнь изменила планету раньше животных"
+        description="Иногда эволюционная инновация сначала выглядит как кризис для старого мира, а уже потом становится ресурсом для нового."
+        headingId="origin-curiosity-facts"
+      />
 
       <div className="origin-hypotheses-grid">
         {ORIGIN_HYPOTHESES.map((hypothesis, index) => {

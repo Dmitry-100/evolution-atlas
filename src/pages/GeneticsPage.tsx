@@ -19,7 +19,10 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { CuriosityFacts } from "../components/education/CuriosityFacts";
+import { MolecularScars } from "../components/education/MolecularScars";
 import { OptimizedImage } from "../components/ui/optimized-image";
+import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 import {
   CODON_DEMO,
   GENETICS_EVIDENCE,
@@ -324,6 +327,16 @@ export function GeneticsPage() {
           ))}
         </div>
       </section>
+
+      <MolecularScars />
+
+      <CuriosityFacts
+        factIds={CURIOSITY_FACT_PAGE_GROUPS.genetics}
+        eyebrow="Молекулярные сюрпризы"
+        title="Геном хранит старые события"
+        description="Некоторые следы родства похожи не на общее сходство, а на редкие метки: симбиоз, слияния и наследуемые вставки."
+        headingId="genetics-curiosity-facts"
+      />
 
       <section className="genetics-evidence-section" aria-labelledby="genetics-evidence-title">
         <div className="genetics-section-heading">

@@ -131,7 +131,11 @@ export const STAGES: EvolutionStage[] = [
     whyMattersRu: "Без кислородной революции сложные тела, активное движение и крупный мозг были бы практически невозможны.",
     inherited: ["кислородная атмосфера", "аэробная энергетика", "фотосинтетические экосистемы"],
     image: plate("cyanobacteria", "Строматолиты как след древней микробной жизни", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Cyanobacteria", "Cyanobacteria"), wiki("Great Oxidation Event", "Great_Oxidation_Event")],
+    sources: [
+      source("ASM: Great Oxidation Event", "https://asm.org/articles/2022/february/the-great-oxidation-event-how-cyanobacteria-change"),
+      wiki("Cyanobacteria", "Cyanobacteria"),
+      wiki("Great Oxidation Event", "Great_Oxidation_Event"),
+    ],
   },
   {
     id: "eukaryotes",
@@ -145,7 +149,11 @@ export const STAGES: EvolutionStage[] = [
     whyMattersRu: "Митохондрии дали больше энергии, а ядро и внутренняя регуляция сделали возможными крупные многоклеточные тела.",
     inherited: ["ядро", "митохондрии", "сложная регуляция клетки"],
     image: plate("eukaryotes", "Схема эукариотических клеток в музейной пластине"),
-    sources: [wiki("Eukaryote", "Eukaryote"), wiki("Symbiogenesis", "Symbiogenesis")],
+    sources: [
+      source("Nature Scitable: origin of mitochondria", "https://www.nature.com/scitable/topicpage/the-origin-of-mitochondria-14232356/"),
+      wiki("Eukaryote", "Eukaryote"),
+      wiki("Symbiogenesis", "Symbiogenesis"),
+    ],
   },
   {
     id: "choanoflagellates",
@@ -261,7 +269,11 @@ export const STAGES: EvolutionStage[] = [
     whyMattersRu: "Tiktaalik особенно хорошо показывает, что эволюция не прыгает: одна структура постепенно получает новую механику.",
     inherited: ["подвижная шея", "опора на плавники", "дыхание воздухом"],
     image: plate("tiktaalik", "Реконструкция Tiktaalik в мелководной среде", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Tiktaalik", "Tiktaalik")],
+    sources: [
+      source("Shubin Lab: Tiktaalik", "https://shubinlab.uchicago.edu/research-2-2/"),
+      source("Understanding Evolution: Tiktaalik", "https://evolution.berkeley.edu/evo-news/what-has-the-head-of-a-crocodile-and-the-gills-of-a-fish/"),
+      wiki("Tiktaalik", "Tiktaalik"),
+    ],
   },
   {
     id: "tetrapods",
@@ -345,7 +357,11 @@ export const STAGES: EvolutionStage[] = [
     whyMattersRu: "До приматов уже появились черты, без которых невозможно представить человека: теплокровность, молоко и длительная забота.",
     inherited: ["шерсть", "молочные железы", "слуховые косточки"],
     image: plate("early-mammals", "Реконструкция раннего млекопитающего Morganucodon", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Mammalia", "Mammal"), wiki("Morganucodon", "Morganucodon")],
+    sources: [
+      source("UCMP Berkeley: Mammalia", "https://ucmp.berkeley.edu/mammal/mammal.html"),
+      wiki("Mammalia", "Mammal"),
+      wiki("Morganucodon", "Morganucodon"),
+    ],
   },
   {
     id: "placentals",
@@ -617,7 +633,13 @@ export const STAGES: EvolutionStage[] = [
     whyMattersRu: "Homo sapiens не цель эволюции, а молодая ветвь большого дерева с необычайно сильным коллективным обучением.",
     inherited: ["язык", "символическое мышление", "коллективное обучение"],
     image: plate("generated-homo-sapiens", "AI-реконструкция раннего Homo sapiens в африканском ландшафте", "generated-reconstruction"),
-    sources: [wiki("Jebel Irhoud", "Jebel_Irhoud"), wiki("Homo sapiens", "Homo_sapiens")],
+    sources: [
+      source("Smithsonian: Homo sapiens", "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens"),
+      source("Smithsonian: Jebel Irhoud", "https://humanorigins.si.edu/research/whats-hot-human-origins/our-species-arose-least-300000-years-ago"),
+      source("Nature: new fossils from Jebel Irhoud", "https://www.nature.com/articles/nature22336"),
+      wiki("Jebel Irhoud", "Jebel_Irhoud"),
+      wiki("Homo sapiens", "Homo_sapiens"),
+    ],
   },
 ];
 

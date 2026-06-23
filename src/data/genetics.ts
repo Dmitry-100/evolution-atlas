@@ -1,4 +1,5 @@
 import type { SourceRef } from "./lineage";
+import type { ConfidenceLevel } from "./confidence";
 
 export type GeneticsEvidence = {
   id: string;
@@ -26,6 +27,15 @@ export type CodonDemo = {
   noteRu: string;
 };
 
+export type MolecularMarker = {
+  id: string;
+  titleRu: string;
+  markerRu: string;
+  explanationRu: string;
+  confidence: ConfidenceLevel;
+  source: SourceRef;
+};
+
 const source = (label: string, url: string): SourceRef => ({ label, url });
 
 export const GENETICS_SOURCES: SourceRef[] = [
@@ -41,6 +51,7 @@ export const GENETICS_SOURCES: SourceRef[] = [
   source("PNAS: origin of human chromosome 2", "https://pmc.ncbi.nlm.nih.gov/articles/PMC52649/"),
   source("NCBI Bookshelf: human endogenous retroviruses", "https://www.ncbi.nlm.nih.gov/books/NBK6235/"),
   source("Dessimoz Lab: The Banana Conjecture", "https://lab.dessimoz.org/blog/2020/12/08/human-banana-orthologs"),
+  source("AMNH: Comparing humans and chimps", "https://www.amnh.org/exhibitions/permanent/human-origins/understanding-our-past/dna-comparing-humans-and-chimps"),
 ];
 
 export const GENOME_COMPARISONS: GenomeComparison[] = [
@@ -156,6 +167,36 @@ export const GENETICS_EVIDENCE: GeneticsEvidence[] = [
       "Эндогенные ретровирусы - древние вставки вирусного происхождения, которые могут наследоваться вместе с геномом.",
     whyItMattersRu:
       "Когда редкие вставки сравнивают между линиями, они работают как молекулярные метки происхождения и помогают уточнять ветвление.",
+    source: GENETICS_SOURCES[10],
+  },
+];
+
+export const MOLECULAR_MARKERS: MolecularMarker[] = [
+  {
+    id: "shared-code",
+    titleRu: "Почти общий кодонный язык",
+    markerRu: "64 кодона читаются по почти общей логике",
+    explanationRu:
+      "Генетический код у разных ветвей жизни в основном общий. Исключения существуют, но общий принцип перевода выглядит как глубокое наследство от древнего источника.",
+    confidence: "solid",
+    source: GENETICS_SOURCES[4],
+  },
+  {
+    id: "chromosome-2",
+    titleRu: "Хромосома 2",
+    markerRu: "след слияния двух предковых хромосом",
+    explanationRu:
+      "У человека 23 пары хромосом, у других больших человекообразных - 24. Хромосома 2 несет признаки, ожидаемые от слияния двух древних хромосом.",
+    confidence: "solid",
+    source: GENETICS_SOURCES[9],
+  },
+  {
+    id: "viral-fossils",
+    titleRu: "Вирусные вставки",
+    markerRu: "редкие наследуемые метки в геноме",
+    explanationRu:
+      "Эндогенные ретровирусы могут наследоваться вместе с геномом. Совпадение редких вставок в одних и тех же местах помогает проверять родство линий.",
+    confidence: "solid",
     source: GENETICS_SOURCES[10],
   },
 ];

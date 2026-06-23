@@ -1,6 +1,7 @@
 import { ExternalLink } from "lucide-react";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { sortedStages } from "../data/lineage";
+import { SCIENCE_SOURCE_GROUPS, SCIENCE_SOURCE_KIND_LABELS } from "../data/scienceSources";
 import { formatAgeRu } from "../lib/timeline";
 
 const cleanCredit = (value: string) =>
@@ -29,6 +30,38 @@ export function SourcesPage() {
           атласа. Если для этапа использована реконструкция, она помечена отдельно.
         </p>
       </div>
+
+      <section className="science-sources" aria-labelledby="science-sources-title">
+        <div className="science-sources-heading">
+          <p className="eyebrow">Научный слой</p>
+          <h2 id="science-sources-title">Фактологическая база по разделам</h2>
+          <p>
+            Здесь собраны обзорные, музейные и первичные источники, которые поддерживают основные утверждения портала.
+            Ниже отдельно остаются лицензии и происхождение изображений.
+          </p>
+        </div>
+
+        <div className="science-source-grid">
+          {SCIENCE_SOURCE_GROUPS.map((group) => (
+            <article key={group.id} className="science-source-card">
+              <div className="science-source-card-heading">
+                <a href={group.routeHref}>{group.titleRu}</a>
+                <p>{group.noteRu}</p>
+              </div>
+              <div className="science-source-links">
+                {group.sources.map((source) => (
+                  <a key={source.id} href={source.url} target="_blank" rel="noreferrer">
+                    <span>{SCIENCE_SOURCE_KIND_LABELS[source.kind]}</span>
+                    <strong>{source.label}</strong>
+                    <small>{source.noteRu}</small>
+                    <ExternalLink aria-hidden="true" size={14} />
+                  </a>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <div className="source-list">
         {sortedStages.map((stage) => (

@@ -5,6 +5,7 @@ import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
 import { ConstellationField } from "../components/ui/constellation-field";
+import { AfricaOriginMap } from "../components/education/AfricaOriginMap";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
@@ -268,6 +269,8 @@ export function AtlasPage() {
         </section>
 
         <TraitAccumulator groups={accumulatedTraitGroups} />
+
+        <AfricaOriginMap />
 
         <section className="theory-bridge-band">
           <div>

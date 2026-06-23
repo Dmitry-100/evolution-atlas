@@ -134,7 +134,11 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
       "theropods.jpg",
       "AI-реконструкция тероподов как динозавровой линии, ведущей к птицам",
     ),
-    sources: [wiki("Theropoda", "Theropoda"), wiki("Maniraptora", "Maniraptora")],
+    sources: [
+      dinoSource("UCMP Berkeley: The Origin of Birds", "https://ucmp.berkeley.edu/diapsids/avians.html"),
+      wiki("Theropoda", "Theropoda"),
+      wiki("Maniraptora", "Maniraptora"),
+    ],
   },
   {
     id: "feathered-dinosaurs",
@@ -150,7 +154,11 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
       "feathered-dinosaurs.jpg",
       "AI-реконструкция пернатых нептичьих динозавров",
     ),
-    sources: [wiki("Feathered dinosaur", "Feathered_dinosaur"), wiki("Anchiornis", "Anchiornis")],
+    sources: [
+      dinoSource("Natural History Museum: dinosaurs to birds", "https://www.nhm.ac.uk/discover/how-dinosaurs-evolved-into-birds.html"),
+      wiki("Feathered dinosaur", "Feathered_dinosaur"),
+      wiki("Anchiornis", "Anchiornis"),
+    ],
   },
   {
     id: "archaeopteryx",
@@ -166,7 +174,11 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
       "archaeopteryx.jpg",
       "AI-реконструкция Archaeopteryx с крыльями, когтями и длинным хвостом",
     ),
-    sources: [wiki("Archaeopteryx", "Archaeopteryx"), dinoSource("Natural History Museum: Archaeopteryx", "https://www.nhm.ac.uk/discover/dino-directory/archaeopteryx.html")],
+    sources: [
+      dinoSource("Natural History Museum: Archaeopteryx", "https://www.nhm.ac.uk/discover/dino-directory/archaeopteryx.html"),
+      dinoSource("UCMP Berkeley: The Origin of Birds", "https://ucmp.berkeley.edu/diapsids/avians.html"),
+      wiki("Archaeopteryx", "Archaeopteryx"),
+    ],
   },
   {
     id: "early-birds",
@@ -217,6 +229,7 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     sources: [
       wiki("Bird", "Bird"),
       wiki("Origin of birds", "Origin_of_birds"),
+      dinoSource("Natural History Museum: dinosaurs to birds", "https://www.nhm.ac.uk/discover/how-dinosaurs-evolved-into-birds.html"),
       dinoSource("UCMP Berkeley: The Origin of Birds", "https://ucmp.berkeley.edu/diapsids/avians.html"),
     ],
   },

@@ -4,6 +4,7 @@ import {
   GENETICS_EVIDENCE,
   GENETICS_SOURCES,
   GENOME_COMPARISONS,
+  MOLECULAR_MARKERS,
 } from "./genetics";
 
 describe("genetics education data", () => {
@@ -38,5 +39,21 @@ describe("genetics education data", () => {
     expect(CODON_DEMO.some((codon) => codon.rnaRu === "AUG")).toBe(true);
     expect(CODON_DEMO.some((codon) => codon.aminoAcidRu.includes("стоп"))).toBe(true);
     expect(GENETICS_SOURCES.length).toBeGreaterThanOrEqual(8);
+  });
+
+  it("highlights molecular scars as concrete evidence markers", () => {
+    expect(MOLECULAR_MARKERS.map((item) => item.id)).toEqual([
+      "shared-code",
+      "chromosome-2",
+      "viral-fossils",
+    ]);
+
+    for (const marker of MOLECULAR_MARKERS) {
+      expect(marker.titleRu.length).toBeGreaterThan(5);
+      expect(marker.markerRu.length).toBeGreaterThan(12);
+      expect(marker.explanationRu.length).toBeGreaterThan(60);
+      expect(marker.confidence).toMatch(/solid|likely|debated/);
+      expect(marker.source.url).toMatch(/^https?:\/\//);
+    }
   });
 });

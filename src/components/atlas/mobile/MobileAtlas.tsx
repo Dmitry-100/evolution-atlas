@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight, Compass, Search } from "lucide-react";
+import { AfricaOriginMap } from "../../education/AfricaOriginMap";
 import type { EvolutionEra, EvolutionStage } from "../../../data/lineage";
 import type { AccumulatedTraitGroup } from "../../../lib/accumulatedTraits";
 import type { AtlasUrlMode } from "../../../lib/atlasUrlState";
@@ -90,6 +91,8 @@ export function MobileAtlas({
       />
 
       <TraitAccumulator groups={accumulatedTraitGroups} />
+
+      <AfricaOriginMap />
     </section>
   );
 }
