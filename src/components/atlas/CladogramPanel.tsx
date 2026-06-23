@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ArrowDown, GitFork, Milestone } from "lucide-react";
+import { ArrowDown, GitFork, Milestone, Sparkles } from "lucide-react";
 import { getGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage } from "../../data/lineage";
 import type { Cladogram, CladogramBranch } from "../../lib/cladogram";
@@ -7,50 +7,51 @@ import { formatAgeRu } from "../../lib/timeline";
 import { OptimizedImage } from "../ui/optimized-image";
 import { GlossaryTerm } from "./GlossaryTerm";
 
+export type CladogramBranchMode = "all" | "living";
+
 type CladogramPanelProps = {
   tree: Cladogram;
   activeStage: EvolutionStage;
   activeBranch: CladogramBranch | null;
+  branchMode: CladogramBranchMode;
+  onChangeBranchMode: (mode: CladogramBranchMode) => void;
   onActivate: (stage: EvolutionStage) => void;
   onInspectBranch: (branch: CladogramBranch) => void;
 };
-
-const ancestorScopeByStageId: Record<string, string> = {
-  "cell-lines": "всё живое",
-  eukaryotes: "все эукариоты",
-  "early-animals": "все животные",
-  bilaterians: "двусторонние животные",
-  chordates: "хордовые",
-  vertebrates: "позвоночные",
-  "jawed-fish": "челюстные позвоночные",
-  "lobe-finned": "лопастеперые",
-  tetrapods: "четвероногие",
-  amniotes: "амниоты",
-  mammals: "млекопитающие",
-  placentals: "плацентарные",
-  "early-primates": "приматы",
-  anthropoids: "обезьяны",
-  catarrhini: "узконосые обезьяны",
-  hominins: "гоминины",
-  heidelbergensis: "Homo heidelbergensis",
-};
-
-function getAncestorScope(stage: EvolutionStage) {
-  return ancestorScopeByStageId[stage.id] ?? stage.titleRu.toLowerCase();
-}
 
 export function CladogramPanel({
   tree,
   activeStage,
   activeBranch,
+  branchMode,
+  onChangeBranchMode,
   onActivate,
   onInspectBranch,
 }: CladogramPanelProps) {
   const cladogramTerm = getGlossaryTerm("cladogram");
+  const visibleBranches =
+    branchMode === "living" ? tree.livingBranches : tree.branches;
+  const displayedTrunk = useMemo(() => {
+    if (branchMode === "all") {
+      return tree.trunk;
+    }
+
+    const livingParentIds = new Set(
+      tree.livingBranches.map((branch) => branch.parent.id),
+    );
+    const sapiensId = tree.trunk.at(-1)?.id;
+
+    return tree.trunk.filter(
+      (stage) => livingParentIds.has(stage.id) || stage.id === sapiensId,
+    );
+  }, [branchMode, tree.livingBranches, tree.trunk]);
+  const activeBranchParentIndex = activeBranch
+    ? tree.trunk.findIndex((stage) => stage.id === activeBranch.parent.id)
+    : -1;
   const branchesByParent = useMemo(() => {
     const groups = new Map<string, CladogramBranch[]>();
 
-    for (const branch of tree.branches) {
+    for (const branch of visibleBranches) {
       groups.set(branch.parent.id, [
         ...(groups.get(branch.parent.id) ?? []),
         branch,
@@ -58,7 +59,7 @@ export function CladogramPanel({
     }
 
     return groups;
-  }, [tree.branches]);
+  }, [visibleBranches]);
 
   return (
     <section className="cladogram-panel" aria-labelledby="cladogram-heading">
@@ -75,13 +76,34 @@ export function CladogramPanel({
           <h2 id="cladogram-heading">Дерево родства</h2>
           <p>
             Выбранный маршрут показывает ветвь, на которой находится Homo
-            sapiens; карточки справа показывают соседние линии от общих
-            предков.
+            sapiens; карточки справа отвечают, какой общий предок с нами есть у
+            соседних живущих и ископаемых линий.
           </p>
         </div>
       </div>
 
       <div className="cladogram-body">
+        <div
+          className="cladogram-mode-toggle"
+          role="group"
+          aria-label="Режим отображения ветвей"
+        >
+          <button
+            type="button"
+            aria-pressed={branchMode === "all"}
+            onClick={() => onChangeBranchMode("all")}
+          >
+            Все ветви
+          </button>
+          <button
+            type="button"
+            aria-pressed={branchMode === "living"}
+            onClick={() => onChangeBranchMode("living")}
+          >
+            Живущие сегодня
+          </button>
+        </div>
+
         <div
           className="cladogram-reader-guide"
           aria-label="Как читать дерево родства"
@@ -96,7 +118,7 @@ export function CladogramPanel({
           </span>
           <span>
             <Milestone aria-hidden="true" size={17} />
-            Общий предок
+            Общий предок с нами
           </span>
         </div>
 
@@ -104,17 +126,47 @@ export function CladogramPanel({
           className="cladogram-map"
           aria-label="Дерево родства: сверху вниз идет наша линия, вправо показаны линии от общих предков"
         >
-          {tree.trunk.map((stage, index) => {
+          <div
+            className={[
+              "cladogram-row",
+              "cladogram-root-row",
+              activeBranch ? "is-in-active-path" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            <div className="cladogram-trunk-cell">
+              <div className="cladogram-node cladogram-root-node">
+                <span className="cladogram-node-number">00</span>
+                <span className="cladogram-node-dot" aria-hidden="true" />
+                <span className="cladogram-node-copy">
+                  <small>корень дерева</small>
+                  <strong>{tree.root.titleRu}</strong>
+                  <em>около {formatAgeRu(tree.root.ageMa)}</em>
+                </span>
+              </div>
+            </div>
+            <div className="cladogram-branch-cell cladogram-root-copy">
+              <Sparkles aria-hidden="true" size={18} />
+              <p>{tree.root.descriptionRu}</p>
+            </div>
+          </div>
+
+          {displayedTrunk.map((stage) => {
+            const index = tree.trunk.findIndex((item) => item.id === stage.id);
             const branches = branchesByParent.get(stage.id) ?? [];
             const isActive = stage.id === activeStage.id;
+            const isInActivePath =
+              activeBranchParentIndex >= 0 && index <= activeBranchParentIndex;
             const hasActiveBranch = branches.some(
               (branch) =>
-                branch.stage?.id === activeStage.id ||
+                (branchMode === "all" && branch.stage?.id === activeStage.id) ||
                 branch.id === activeBranch?.id,
             );
             const rowClassName = [
               "cladogram-row",
               branches.length > 0 ? "has-branches" : "",
+              isInActivePath ? "is-in-active-path" : "",
               isActive || hasActiveBranch ? "is-active-row" : "",
             ]
               .filter(Boolean)
@@ -154,6 +206,7 @@ export function CladogramPanel({
                     const branchClassName = [
                       "cladogram-branch",
                       branch.kind === "context" ? "is-context" : "",
+                      branch.isLivingComparison ? "is-living" : "",
                       branchIsActive ? "is-active" : "",
                     ]
                       .filter(Boolean)
@@ -166,7 +219,7 @@ export function CladogramPanel({
                         className={branchClassName}
                         aria-current={branchIsActive ? "true" : undefined}
                         onClick={() =>
-                          branch.stage
+                          branch.stage && branchMode === "all"
                             ? onActivate(branch.stage)
                             : onInspectBranch(branch)
                         }
@@ -181,14 +234,18 @@ export function CladogramPanel({
                         </span>
                         <span className="cladogram-branch-copy">
                           <small>
-                            общий предок: {getAncestorScope(branch.parent)}
+                            общий предок с нами:{" "}
+                            {branch.commonAncestor.titleRu}
                           </small>
                           <strong>{branch.titleRu}</strong>
                           <em>
-                            {branch.ageMa
-                              ? formatAgeRu(branch.ageMa)
-                              : "возраст узла уточняется"}
+                            {formatAgeRu(branch.commonAncestor.ageMa)}
                           </em>
+                          {branch.isLivingComparison ? (
+                            <span className="cladogram-living-badge">
+                              живут сегодня
+                            </span>
+                          ) : null}
                         </span>
                         <Milestone
                           className="cladogram-branch-icon"

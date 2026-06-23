@@ -6,7 +6,10 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { CladogramPanel } from "../components/atlas/CladogramPanel";
+import {
+  CladogramPanel,
+  type CladogramBranchMode,
+} from "../components/atlas/CladogramPanel";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { TooltipProvider } from "../components/ui/tooltip";
@@ -36,7 +39,7 @@ function CladogramInspector({
   branch,
   onSelectStage,
 }: CladogramInspectorProps) {
-  if (branch && !branch.stage) {
+  if (branch) {
     return (
       <aside
         className="cladogram-inspector"
@@ -53,30 +56,65 @@ function CladogramInspector({
 
         <div className="cladogram-inspector-marker">
           <Milestone aria-hidden="true" size={22} />
-          <span>общий предок</span>
+          <span>
+            {branch.isLivingComparison ? "общий предок с нами" : "общий предок"}
+          </span>
         </div>
         <p className="kicker">
-          от узла: <strong>{branch.parent.titleRu}</strong>
+          ветвь: <strong>{branch.titleRu}</strong>
         </p>
         <h2>{branch.titleRu}</h2>
         {branch.latin ? <p className="latin">{branch.latin}</p> : null}
         <p className="lead">{branch.descriptionRu}</p>
 
         <div className="cladogram-inspector-note">
-          <span>Точка развилки</span>
-          <strong>{branch.parent.titleRu}</strong>
-          <small>{formatAgeRu(branch.parent.ageMa)}</small>
+          <span>Наш общий предок</span>
+          <strong>{branch.commonAncestor.titleRu}</strong>
+          <small>{formatAgeRu(branch.commonAncestor.ageMa)}</small>
+          <p>{branch.commonAncestor.relationRu}</p>
         </div>
 
+        <div
+          className="cladogram-inspector-split"
+          aria-label="Две ветви после общего предка"
+        >
+          <span>
+            <strong>Наша ветвь</strong>
+            <small>{branch.commonAncestor.titleRu} → Homo sapiens</small>
+          </span>
+          <span>
+            <strong>Их ветвь</strong>
+            <small>
+              {branch.commonAncestor.titleRu} → {branch.titleRu}
+            </small>
+          </span>
+        </div>
+
+        {branch.isLivingComparison ? (
+          <p className="cladogram-inspector-relationship">
+            Это не предок человека, а современная соседняя ветвь.
+          </p>
+        ) : null}
+
         <div className="cladogram-inspector-actions">
-          <button
-            type="button"
-            className="button button-secondary button-md"
-            onClick={() => onSelectStage(branch.parent)}
-          >
-            Показать узел-родитель
-            <ArrowRight aria-hidden="true" size={16} />
-          </button>
+          {branch.stage ? (
+            <Link
+              className="button button-secondary button-md"
+              to={`/?mode=all&stage=${branch.stage.slug}`}
+            >
+              Открыть в Атласе
+              <ArrowRight aria-hidden="true" size={16} />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="button button-secondary button-md"
+              onClick={() => onSelectStage(branch.parent)}
+            >
+              Показать узел-родитель
+              <ArrowRight aria-hidden="true" size={16} />
+            </button>
+          )}
         </div>
       </aside>
     );
@@ -133,12 +171,36 @@ export function CladogramPage() {
   const [activeBranch, setActiveBranch] = useState<CladogramBranch | null>(
     null,
   );
+  const [branchMode, setBranchMode] = useState<CladogramBranchMode>("all");
   const tree = useMemo(() => buildCladogram(sortedStages), []);
   const activeStage = getStageFromParams(searchParams.get("stage"));
 
   function activateStage(stage: EvolutionStage) {
     setActiveBranch(null);
     setSearchParams({ stage: stage.slug }, { replace: true });
+  }
+
+  function changeBranchMode(mode: CladogramBranchMode) {
+    setBranchMode(mode);
+
+    if (mode === "all") {
+      return;
+    }
+
+    if (activeBranch && !activeBranch.isLivingComparison) {
+      setActiveBranch(null);
+    }
+
+    const activeStageIsVisible =
+      tree.trunk.some((stage) => stage.id === activeStage.id) ||
+      tree.livingBranches.some((branch) => branch.stage?.id === activeStage.id);
+
+    if (!activeStageIsVisible) {
+      const sapiens = tree.trunk.at(-1);
+      if (sapiens) {
+        activateStage(sapiens);
+      }
+    }
   }
 
   if (!activeStage) return null;
@@ -152,8 +214,8 @@ export function CladogramPage() {
           <p>
             Это отдельный взгляд на тот же материал: не линия времени, а
             ветвящееся родство. Выбранный маршрут показывает ветвь, на которой
-            находится Homo sapiens, а боковые линии показывают, от каких общих
-            предков расходились родственники.
+            находится Homo sapiens, а боковые линии показывают, какой общий
+            предок с нами есть у современных и ископаемых родственников.
           </p>
         </div>
 
@@ -162,6 +224,8 @@ export function CladogramPage() {
             tree={tree}
             activeStage={activeStage}
             activeBranch={activeBranch}
+            branchMode={branchMode}
+            onChangeBranchMode={changeBranchMode}
             onActivate={activateStage}
             onInspectBranch={setActiveBranch}
           />
@@ -187,8 +251,8 @@ export function CladogramPage() {
               <strong>Как читать дерево</strong>
               <p>
                 Сначала найдите выбранную ветвь, затем смотрите на подписи
-                “общий предок”: они показывают, от какого узла расходятся
-                родственные линии.
+                “общий предок с нами”: они показывают, от какого узла
+                расходятся родственные линии.
               </p>
             </div>
           </div>

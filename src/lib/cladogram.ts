@@ -1,5 +1,20 @@
 import type { EvolutionStage, StageImage } from "../data/lineage";
 
+export type CladogramRoot = {
+  id: "luca";
+  titleRu: string;
+  latin: string;
+  ageMa: number;
+  descriptionRu: string;
+};
+
+export type CladogramCommonAncestor = {
+  titleRu: string;
+  ageMa: number;
+  scopeRu: string;
+  relationRu: string;
+};
+
 export type CladogramBranch = {
   id: string;
   titleRu: string;
@@ -9,16 +24,32 @@ export type CladogramBranch = {
   image: StageImage;
   kind: "stage" | "context";
   parent: EvolutionStage;
+  commonAncestor: CladogramCommonAncestor;
+  isLivingComparison: boolean;
   stage?: EvolutionStage;
 };
 
 export type Cladogram = {
+  root: CladogramRoot;
   trunk: EvolutionStage[];
   branches: CladogramBranch[];
+  livingBranches: CladogramBranch[];
 };
 
-type ContextBranchSeed = Omit<CladogramBranch, "kind" | "parent" | "stage"> & {
-  parentId: string;
+type ContextBranchSeed = Omit<
+  CladogramBranch,
+  "kind" | "parent" | "stage" | "commonAncestor" | "isLivingComparison"
+> & { parentId: string };
+
+type CommonAncestorSeed = Partial<CladogramCommonAncestor>;
+
+const cladogramRoot: CladogramRoot = {
+  id: "luca",
+  titleRu: "LUCA — общий предок всей современной жизни",
+  latin: "last universal common ancestor",
+  ageMa: 3800,
+  descriptionRu:
+    "LUCA - реконструируемый узел, от которого расходятся современные клеточные линии: бактерии, археи и линия эукариот.",
 };
 
 const filePage = (fileName: string) =>
@@ -78,6 +109,182 @@ const branchRoles = new Set<EvolutionStage["lineageRole"]>([
   "side-branch",
   "close-relative",
 ]);
+
+const livingComparisonBranchIds = new Set([
+  "prokaryotes",
+  "cyanobacteria",
+  "choanoflagellates",
+  "branch-plants-algae",
+  "branch-fungi",
+  "branch-sponges",
+  "branch-arthropods",
+  "branch-mollusks-worms",
+  "branch-tunicates-lancelets",
+  "branch-jawless-fish",
+  "branch-cartilaginous-fish",
+  "branch-ray-finned-fish",
+  "branch-living-sarcopterygians",
+  "branch-amphibians",
+  "branch-diapsids",
+  "branch-monotremes",
+  "branch-marsupials",
+  "branch-laurasiatheria",
+  "branch-rodents",
+  "branch-lemurs-lorises",
+  "branch-tarsiers",
+  "new-world-monkeys",
+  "old-world-monkeys",
+  "branch-gibbons",
+  "branch-orangutans",
+  "branch-gorillas",
+  "branch-chimpanzees",
+]);
+
+const ancestorTitleByStageId: Record<string, string> = {
+  "cell-lines": "Ранние клеточные линии",
+  eukaryotes: "Эукариотический предок",
+  "early-animals": "Ранний животный предок",
+  bilaterians: "Двусторонний животный предок",
+  chordates: "Ранний хордовый предок",
+  vertebrates: "Ранний позвоночный предок",
+  "jawed-fish": "Челюстной позвоночный предок",
+  "lobe-finned": "Лопастеперый предок",
+  tetrapods: "Ранний четвероногий",
+  amniotes: "Ранний амниот",
+  mammals: "Раннее млекопитающее",
+  placentals: "Ранний плацентарный предок",
+  "early-primates": "Ранний приматный предок",
+  anthropoids: "Предок антропоидов",
+  catarrhini: "Предок узконосых обезьян",
+  "early-apes": "Предок человекообразных",
+  "great-apes": "Предок больших человекообразных",
+  hominins: "Предок линии Homo-Pan",
+  heidelbergensis: "Предковый круг поздних Homo",
+};
+
+const ancestorScopeByStageId: Record<string, string> = {
+  "cell-lines": "вся современная клеточная жизнь",
+  eukaryotes: "эукариоты",
+  "early-animals": "животные",
+  bilaterians: "двусторонние животные",
+  chordates: "хордовые",
+  vertebrates: "позвоночные",
+  "jawed-fish": "челюстные позвоночные",
+  "lobe-finned": "лопастеперые",
+  tetrapods: "четвероногие",
+  amniotes: "амниоты",
+  mammals: "млекопитающие",
+  placentals: "плацентарные",
+  "early-primates": "приматы",
+  anthropoids: "обезьяны",
+  catarrhini: "узконосые обезьяны",
+  "early-apes": "человекообразные",
+  "great-apes": "большие человекообразные",
+  hominins: "линии Homo и Pan",
+  heidelbergensis: "поздние человеческие линии",
+};
+
+const commonAncestorOverrides: Record<string, CommonAncestorSeed> = {
+  prokaryotes: {
+    titleRu: "LUCA",
+    ageMa: cladogramRoot.ageMa,
+    scopeRu: "вся современная клеточная жизнь",
+    relationRu:
+      "общий предок с нами, бактериями и археями - LUCA; после него клеточные линии пошли разными путями.",
+  },
+  "branch-plants-algae": {
+    titleRu: "Эукариотический предок",
+    relationRu:
+      "общий предок с нами, растениями и водорослями - ранний эукариот с ядром и сложной клеточной организацией.",
+  },
+  "branch-fungi": {
+    titleRu: "Эукариотический предок",
+    relationRu:
+      "общий предок с нами и грибами находится среди ранних эукариот; дальше животная и грибная линии разделились.",
+  },
+  "branch-arthropods": {
+    titleRu: "Двусторонний животный предок",
+    relationRu:
+      "общий предок с нами и членистоногими - раннее двустороннее животное; дальше одна ветвь пошла к хордовой линии, другая к членистоногим.",
+  },
+  "branch-ray-finned-fish": {
+    titleRu: "Челюстной позвоночный предок",
+    relationRu:
+      "общий предок с нами и большинством современных рыб - ранний челюстной позвоночный.",
+  },
+  "branch-amphibians": {
+    titleRu: "Ранний четвероногий",
+    relationRu:
+      "общий предок с нами и земноводными - ранний четвероногий; наша линия дальше пошла через амниот.",
+  },
+  "branch-diapsids": {
+    titleRu: "Ранний амниот",
+    relationRu:
+      "общий предок с нами, птицами и рептилиями - ранний амниот; после этой развилки наша линия идет к синапсидам.",
+  },
+  "branch-monotremes": {
+    titleRu: "Раннее млекопитающее",
+    relationRu:
+      "общий предок с нами и однопроходными - раннее млекопитающее, от которого отделилась яйцекладущая ветвь.",
+  },
+  "branch-marsupials": {
+    titleRu: "Раннее млекопитающее",
+    relationRu:
+      "общий предок с нами и сумчатыми - раннее млекопитающее; плацентарная линия пошла дальше отдельно.",
+  },
+  "branch-rodents": {
+    titleRu: "Ранний плацентарный предок",
+    relationRu:
+      "общий предок с нами и грызунами находится среди ранних плацентарных млекопитающих.",
+  },
+  "branch-laurasiatheria": {
+    titleRu: "Ранний плацентарный предок",
+    relationRu:
+      "общий предок с нами, китами, копытными, летучими мышами и хищными находится среди ранних плацентарных млекопитающих.",
+  },
+  "branch-lemurs-lorises": {
+    titleRu: "Ранний приматный предок",
+    relationRu:
+      "общий предок с нами, лемурами и лори - ранний приматный предок; дальше мокроносые приматы и наша линия разошлись.",
+  },
+  "old-world-monkeys": {
+    titleRu: "Предок узконосых обезьян",
+    relationRu:
+      "общий предок с нами и мартышковыми - предок узконосых обезьян; человекообразные и мартышковые затем разошлись.",
+  },
+  "branch-orangutans": {
+    titleRu: "Предок больших человекообразных",
+    relationRu:
+      "общий предок с нами и орангутанами - ранний большой человекообразный; орангутаны не предки человека, а современная соседняя ветвь.",
+  },
+  "branch-gorillas": {
+    titleRu: "Африканский человекообразный предок",
+    ageMa: 9,
+    scopeRu: "африканские человекообразные",
+    relationRu:
+      "общий предок с нами и гориллами - африканский человекообразный предок; ветви горилл и Homo-Pan затем разделились.",
+  },
+  "branch-chimpanzees": {
+    titleRu: "Предок линии Homo-Pan",
+    relationRu:
+      "общий предок с нами, шимпанзе и бонобо - предок линии Homo-Pan; современные шимпанзе не являются нашими предками.",
+  },
+};
+
+const livingStageImageOverrides: Record<string, StageImage> = {
+  "new-world-monkeys": localSourceImage(
+    "/assets/images/source-backed/capuchin-branch.jpg",
+    "https://en.wikipedia.org/wiki/White-headed_capuchin",
+    "Живой капуцин на ветке как представитель широконосых обезьян.",
+    "Wikimedia Commons / локальная обработка",
+  ),
+  "old-world-monkeys": localSourceImage(
+    "/assets/images/source-backed/douc-langur-head.jpg",
+    "https://en.wikipedia.org/wiki/Red-shanked_douc",
+    "Живой дук крупным планом как представитель мартышковых обезьян.",
+    "Wikimedia Commons / локальная обработка",
+  ),
+};
 
 const contextBranches: ContextBranchSeed[] = [
   {
@@ -426,21 +633,58 @@ function stageToBranch(
   stage: EvolutionStage,
   parent: EvolutionStage,
 ): CladogramBranch {
-  return {
+  const branch = {
     id: stage.id,
     titleRu: stage.titleRu,
     latin: stage.latin,
     ageMa: stage.ageMa,
     descriptionRu: stage.summaryRu,
-    image: stage.image,
+    image: livingStageImageOverrides[stage.id] ?? stage.image,
     kind: "stage",
     parent,
     stage,
+  } satisfies Omit<
+    CladogramBranch,
+    "commonAncestor" | "isLivingComparison"
+  >;
+
+  return {
+    ...branch,
+    commonAncestor: getCommonAncestor(branch, parent),
+    isLivingComparison: livingComparisonBranchIds.has(branch.id),
   };
 }
 
 function branchAge(branch: CladogramBranch) {
   return branch.ageMa ?? branch.parent.ageMa;
+}
+
+function getAncestorTitle(stage: EvolutionStage) {
+  return ancestorTitleByStageId[stage.id] ?? stage.titleRu;
+}
+
+function getAncestorScope(stage: EvolutionStage) {
+  return ancestorScopeByStageId[stage.id] ?? stage.titleRu.toLowerCase();
+}
+
+function getCommonAncestor(
+  branch: Pick<CladogramBranch, "id" | "titleRu">,
+  parent: EvolutionStage,
+): CladogramCommonAncestor {
+  const override = commonAncestorOverrides[branch.id];
+  const titleRu = override?.titleRu ?? getAncestorTitle(parent);
+  const ageMa = override?.ageMa ?? parent.ageMa;
+  const scopeRu = override?.scopeRu ?? getAncestorScope(parent);
+  const relationRu =
+    override?.relationRu ??
+    `общий предок с нами: ${titleRu}; отсюда расходится ветвь «${branch.titleRu}».`;
+
+  return {
+    titleRu,
+    ageMa,
+    scopeRu,
+    relationRu,
+  };
 }
 
 export function buildCladogram(stages: EvolutionStage[]): Cladogram {
@@ -476,7 +720,7 @@ export function buildCladogram(stages: EvolutionStage[]): Cladogram {
         return acc;
       }
 
-      acc.push({
+      const hydratedBranch = {
         id: branch.id,
         titleRu: branch.titleRu,
         latin: branch.latin,
@@ -485,18 +729,30 @@ export function buildCladogram(stages: EvolutionStage[]): Cladogram {
         image: branch.image,
         kind: "context",
         parent,
+      } satisfies Omit<
+        CladogramBranch,
+        "commonAncestor" | "isLivingComparison" | "stage"
+      >;
+
+      acc.push({
+        ...hydratedBranch,
+        commonAncestor: getCommonAncestor(hydratedBranch, parent),
+        isLivingComparison: livingComparisonBranchIds.has(hydratedBranch.id),
       });
 
       return acc;
     },
     [],
   );
+  const allBranches = [...branches, ...explanatoryBranches].sort(
+    (a, b) =>
+      branchAge(b) - branchAge(a) || a.titleRu.localeCompare(b.titleRu, "ru"),
+  );
 
   return {
+    root: cladogramRoot,
     trunk,
-    branches: [...branches, ...explanatoryBranches].sort(
-      (a, b) =>
-        branchAge(b) - branchAge(a) || a.titleRu.localeCompare(b.titleRu, "ru"),
-    ),
+    branches: allBranches,
+    livingBranches: allBranches.filter((branch) => branch.isLivingComparison),
   };
 }

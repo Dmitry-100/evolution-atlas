@@ -452,7 +452,16 @@ test.describe("Evolution Atlas", () => {
         .getByText("Ветвь Homo sapiens"),
     ).toBeVisible();
     await expect(
-      cladogram.locator(".cladogram-reader-guide").getByText("Общий предок"),
+      cladogram
+        .locator(".cladogram-reader-guide")
+        .getByText("Общий предок с нами"),
+    ).toBeVisible();
+    await expect(cladogram.getByText(/LUCA/i).first()).toBeVisible();
+    await expect(
+      cladogram.getByRole("button", { name: "Все ветви" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      cladogram.getByRole("button", { name: "Живущие сегодня" }),
     ).toBeVisible();
     await expect(cladogram.locator(".cladogram-map")).toBeVisible();
     await expect(
@@ -547,6 +556,57 @@ test.describe("Evolution Atlas", () => {
       "Неандертальцы",
     );
     await expect(page).toHaveURL(/stage=neanderthals/);
+
+    await cladogram.getByRole("button", { name: "Живущие сегодня" }).click();
+    await expect(
+      cladogram.getByRole("button", { name: "Живущие сегодня" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      cladogram
+        .locator(".cladogram-branch")
+        .filter({ hasText: "живут сегодня" })
+        .first(),
+    ).toBeVisible();
+    await expect(
+      cladogram
+        .locator(".cladogram-branch")
+        .filter({ hasText: "Киты, копытные, летучие мыши и хищные" }),
+    ).toBeVisible();
+    await expect(
+      cladogram.locator(".cladogram-branch").filter({ hasText: "Лемуры и лори" }),
+    ).toBeVisible();
+    const newWorldMonkeyCard = cladogram
+      .locator(".cladogram-branch")
+      .filter({ hasText: "Широконосые обезьяны" });
+    const oldWorldMonkeyCard = cladogram
+      .locator(".cladogram-branch")
+      .filter({ hasText: "Мартышковые" });
+    await expect(
+      newWorldMonkeyCard.locator(".cladogram-branch-thumb img"),
+    ).toHaveAttribute("src", "/assets/images/source-backed/capuchin-branch.jpg");
+    await expect(
+      oldWorldMonkeyCard.locator(".cladogram-branch-thumb img"),
+    ).toHaveAttribute(
+      "src",
+      "/assets/images/source-backed/douc-langur-head.jpg",
+    );
+    await expect(
+      cladogram.getByRole("button", { name: /Неандертальцы/i }),
+    ).toHaveCount(0);
+
+    await cladogram
+      .locator(".cladogram-branch")
+      .filter({ hasText: "Шимпанзе и бонобо" })
+      .click();
+    await expect(page.locator(".cladogram-inspector")).toContainText(
+      "общий предок с нами",
+    );
+    await expect(page.locator(".cladogram-inspector")).toContainText(
+      "Предок линии Homo-Pan",
+    );
+    await expect(page.locator(".cladogram-inspector")).toContainText(
+      "не предок человека, а современная соседняя ветвь",
+    );
   });
 
   test("trait accumulator grows as the route reaches Homo sapiens", async ({
