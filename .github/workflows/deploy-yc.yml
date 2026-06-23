@@ -67,6 +67,30 @@ jobs:
           s3cmd sync ./dist/ s3://evolution-atlas/ \
             --acl-public --guess-mime-type --no-mime-magic --delete-removed
 
+      - name: Upload SPA route fallbacks
+        run: |
+          for route in \
+            theory \
+            origin-of-life \
+            genetics \
+            cladogram \
+            extinctions \
+            dinosaurs \
+            materials \
+            sources \
+            about \
+            quiz
+          do
+            s3cmd put ./dist/index.html "s3://evolution-atlas/${route}" \
+              --acl-public \
+              --mime-type=text/html \
+              --add-header='Cache-Control:no-cache, must-revalidate'
+            s3cmd put ./dist/index.html "s3://evolution-atlas/${route}/index.html" \
+              --acl-public \
+              --mime-type=text/html \
+              --add-header='Cache-Control:no-cache, must-revalidate'
+          done
+
       - name: Fix AVIF content-type + long cache
         run: |
           s3cmd modify --recursive --acl-public \
