@@ -1,6 +1,9 @@
 import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
 import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
-import type { MassExtinctionEvent } from "../../data/extinctions";
+import {
+  formatExtinctionTitleRu,
+  type MassExtinctionEvent,
+} from "../../data/extinctions";
 import type { EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, sortStagesOldestFirst } from "../../lib/timeline";
 import { OptimizedImage } from "../ui/optimized-image";
@@ -248,7 +251,7 @@ export function DeepTimeAxis({
                     decoding="async"
                   />
                   <span>{event.windowRu}</span>
-                  <strong>{event.titleRu}</strong>
+                  <strong>{formatExtinctionTitleRu(event.titleRu)}</strong>
                   <p>
                     {event.lossPercentRu}: {event.snapshotRu}
                   </p>

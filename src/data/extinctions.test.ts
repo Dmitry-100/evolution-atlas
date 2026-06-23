@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MASS_EXTINCTIONS } from "./extinctions";
+import { formatExtinctionTitleRu, MASS_EXTINCTIONS } from "./extinctions";
 
 describe("mass extinction data", () => {
   it("tracks six biodiversity crises and keeps the modern crisis sourced", () => {
@@ -26,6 +26,24 @@ describe("mass extinction data", () => {
       expect(event.image.src).not.toContain("/portrait/");
       expect(event.pageImage.altRu).toContain("Вертикальная AI-реконструкция");
     }
+  });
+
+  it("formats display titles as explicit extinction names", () => {
+    expect(formatExtinctionTitleRu("Ордовикско-силурийское")).toBe(
+      "Ордовикско-силурийское вымирание",
+    );
+    expect(formatExtinctionTitleRu("Современный кризис биоразнообразия")).toBe(
+      "Современный кризис биоразнообразия: шестое вымирание",
+    );
+  });
+
+  it("names the K-Pg impact as a meteorite strike in summaries", () => {
+    const event = MASS_EXTINCTIONS.find(
+      (candidate) => candidate.id === "cretaceous-paleogene",
+    );
+
+    expect(event?.snapshotRu).toContain("удар метеорита");
+    expect(event?.snapshotRu).toContain("Чиксулуб");
   });
 
   it("marks the available replacement art as generated scene reconstructions", () => {

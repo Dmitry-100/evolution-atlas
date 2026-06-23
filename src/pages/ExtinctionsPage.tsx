@@ -11,7 +11,7 @@ import {
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { OptimizedImage } from "../components/ui/optimized-image";
-import { MASS_EXTINCTIONS } from "../data/extinctions";
+import { formatExtinctionTitleRu, MASS_EXTINCTIONS } from "../data/extinctions";
 
 export function ExtinctionsPage() {
   return (
@@ -105,7 +105,7 @@ export function ExtinctionsPage() {
 
               <div className="extinction-card-body">
                 <div className="extinction-card-date">{event.windowRu}</div>
-                <h2>{event.titleRu}</h2>
+                <h2>{formatExtinctionTitleRu(event.titleRu)}</h2>
                 <p className="extinction-loss">{event.lossRu}</p>
 
                 <div className="extinction-stat-grid">

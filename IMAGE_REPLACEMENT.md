@@ -71,7 +71,7 @@
 
 ## Глобальные вымирания: имена файлов для замены
 
-Страница “Глобальные вымирания” берет вертикальные изображения из `public/assets/images/extinctions/portrait/`. Эти файлы используются только на странице `/extinctions`; общие изображения в `public/assets/images/extinctions/` остаются отдельными слотами для будущих горизонтальных версий. Кладите новые JPG с теми же именами:
+Страница “Глобальные вымирания” берет вертикальные изображения из `public/assets/images/extinctions/portrait/`. Эти файлы используются только на странице `/extinctions`; остальные разделы берут горизонтальные изображения из `public/assets/images/extinctions/`. Кладите новые JPG с теми же именами:
 
 - `ordovician-silurian.jpg`
 - `late-devonian.jpg`
@@ -83,7 +83,7 @@
 Промпты для всех шести сцен лежат в `docs/extinction-image-prompts.md`. После замены JPG обновите AVIF-пары командой:
 
 ```bash
-node scripts/optimize-images.mjs public/assets/images/extinctions/portrait/<file-name>.jpg
+node scripts/optimize-images.mjs public/assets/images/extinctions/<file-name>.jpg
 ```
 
 ## Если нужен новый файл, а не замена старого

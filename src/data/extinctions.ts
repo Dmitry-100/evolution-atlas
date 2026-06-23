@@ -39,6 +39,15 @@ const portraitImage = (fileName: string, altRu: string): ExtinctionImage => ({
   creditRu: "AI-реконструкция / вертикальный слот страницы вымираний",
 });
 
+export function formatExtinctionTitleRu(titleRu: string) {
+  if (titleRu.includes("вымирание")) return titleRu;
+  if (titleRu === "Современный кризис биоразнообразия") {
+    return `${titleRu}: шестое вымирание`;
+  }
+
+  return `${titleRu} вымирание`;
+}
+
 export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
   {
     id: "ordovician-silurian",
@@ -257,7 +266,7 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     lossRu: "Исчезли нептичьи динозавры и множество морских и наземных видов.",
     lossPercentRu: "примерно 75% видов",
     snapshotRu:
-      "удар Чиксулуба и последующая глобальная тьма оборвали многие пищевые цепи, но открыли ниши для млекопитающих.",
+      "удар метеорита, оставивший кратер Чиксулуб, и последующая глобальная тьма оборвали многие пищевые цепи, но открыли ниши для млекопитающих.",
     tempoRu:
       "самый резкий старт: удар был одномоментным, но вымирание и экологический коллапс разворачивались от месяцев и лет до тысячелетий.",
     keyFactsRu: [
