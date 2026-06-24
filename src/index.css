@@ -3163,7 +3163,8 @@ code {
   gap: 1rem;
 }
 
-.reading-card img {
+.reading-card img,
+.reading-card-cover-placeholder {
   width: 100%;
   aspect-ratio: 2 / 3;
   align-self: start;
@@ -3172,6 +3173,32 @@ code {
   background: rgba(240, 201, 120, 0.08);
   box-shadow: 0 1rem 2.6rem rgba(0, 0, 0, 0.28);
   object-fit: cover;
+}
+
+.reading-card-cover-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.85rem;
+  background:
+    linear-gradient(160deg, rgba(240, 201, 120, 0.18), rgba(8, 11, 11, 0.92)),
+    rgba(240, 201, 120, 0.08);
+  color: var(--text);
+}
+
+.reading-card-cover-placeholder span {
+  color: var(--gold);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.reading-card-cover-placeholder strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  line-height: 1.12;
 }
 
 .reading-card-copy {

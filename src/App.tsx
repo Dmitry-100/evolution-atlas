@@ -14,6 +14,7 @@ import { EtherealInk } from "./components/ui/ethereal-ink";
 import { OptimizedImage } from "./components/ui/optimized-image";
 import { ScrollProgress } from "./components/ui/scroll-progress";
 import { TooltipProvider } from "./components/ui/tooltip";
+import { DarwinGuide } from "./components/ai/DarwinGuide";
 
 const pageLoaders = {
   about: () =>
@@ -251,6 +252,7 @@ function App() {
               </Routes>
             </Suspense>
           </main>
+          <DarwinGuide />
         </div>
       </TooltipProvider>
     </BrowserRouter>

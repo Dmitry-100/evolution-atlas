@@ -1,0 +1,270 @@
+.darwin-guide {
+  position: fixed;
+  right: clamp(1rem, 2vw, 1.5rem);
+  bottom: clamp(1rem, 2vw, 1.5rem);
+  z-index: 60;
+  display: grid;
+  justify-items: end;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.darwin-guide button,
+.darwin-guide a,
+.darwin-guide textarea {
+  pointer-events: auto;
+}
+
+.darwin-guide-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 46px;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(232, 202, 140, 0.52);
+  border-radius: 8px;
+  color: var(--bg);
+  background: linear-gradient(135deg, #f0c970, #c9953d);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  font: 800 0.93rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+
+.darwin-guide-panel {
+  width: min(430px, calc(100vw - 2rem));
+  max-height: min(720px, calc(100vh - 6rem));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 1px solid rgba(214, 175, 105, 0.28);
+  border-radius: 8px;
+  color: var(--text);
+  background:
+    linear-gradient(180deg, rgba(34, 32, 28, 0.96), rgba(16, 17, 17, 0.97)),
+    var(--panel);
+  box-shadow: 0 26px 74px rgba(0, 0, 0, 0.48);
+  pointer-events: auto;
+}
+
+.darwin-guide-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1rem 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.darwin-guide-header h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.22rem;
+  line-height: 1.15;
+}
+
+.darwin-guide-header p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.darwin-guide-icon-button {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.darwin-guide-thread {
+  display: grid;
+  gap: 0.9rem;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.darwin-guide-empty {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(232, 202, 140, 0.22);
+  border-radius: 8px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.darwin-guide-empty svg {
+  color: var(--gold);
+}
+
+.darwin-guide-empty p,
+.darwin-guide-entry p {
+  margin: 0;
+}
+
+.darwin-guide-entry {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.darwin-guide-question {
+  justify-self: end;
+  max-width: 88%;
+  padding: 0.7rem 0.78rem;
+  border-radius: 8px;
+  color: #1b1710;
+  background: #e5bd69;
+  font-size: 0.92rem;
+  line-height: 1.42;
+}
+
+.darwin-guide-answer {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.055);
+  font-size: 0.92rem;
+  line-height: 1.48;
+}
+
+.darwin-guide-answer h3 {
+  margin: 0 0 0.3rem;
+  color: var(--gold);
+  font: 800 0.78rem/1.2 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.darwin-guide-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.darwin-guide-badges span {
+  padding: 0.28rem 0.46rem;
+  border: 1px solid rgba(232, 202, 140, 0.24);
+  border-radius: 8px;
+  color: #f1d99e;
+  background: rgba(232, 202, 140, 0.08);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.darwin-guide-sources,
+.darwin-guide-links {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.darwin-guide-sources a,
+.darwin-guide-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  color: #f3cf82;
+  font-size: 0.84rem;
+  text-decoration: none;
+}
+
+.darwin-guide-sources a:hover,
+.darwin-guide-links a:hover {
+  text-decoration: underline;
+}
+
+.darwin-guide-error {
+  padding: 0.75rem;
+  border: 1px solid rgba(236, 141, 104, 0.35);
+  border-radius: 8px;
+  color: #ffd0bd;
+  background: rgba(131, 53, 33, 0.22);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.darwin-guide-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.darwin-guide-loading svg,
+.darwin-guide-form button svg {
+  animation: darwin-guide-spin 1s linear infinite;
+}
+
+.darwin-guide-form {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.85rem 1rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.darwin-guide-form label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.darwin-guide-form textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 76px;
+  max-height: 160px;
+  padding: 0.72rem 0.78rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.065);
+  font: 0.94rem/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.darwin-guide-form textarea:focus-visible,
+.darwin-guide-trigger:focus-visible,
+.darwin-guide-icon-button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.darwin-guide-form button {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.darwin-guide-form button:not(:disabled) svg {
+  animation: none;
+}
+
+@keyframes darwin-guide-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .darwin-guide {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .darwin-guide-panel {
+    width: calc(100vw - 1.5rem);
+    max-height: calc(100vh - 5rem);
+  }
+
+  .darwin-guide-trigger {
+    min-height: 44px;
+    padding: 0.68rem 0.86rem;
+  }
+}

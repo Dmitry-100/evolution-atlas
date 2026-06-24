@@ -11,7 +11,7 @@
 - Vitest для unit-тестов
 - Playwright для e2e
 
-Сайт не требует серверного runtime. Production-сборка лежит в `dist/` и может отдаваться Caddy, nginx, GitHub Pages или любым static server.
+Базовый сайт не требует серверного runtime. Production-сборка лежит в `dist/` и может отдаваться Caddy, nginx, GitHub Pages или любым static server. AI-гид “Спросить Дарвина” работает через опциональный serverless endpoint `/api/ask-darwin`; настройка описана в `docs/ai-guide-yandex-cloud.md`.
 
 ## Структура
 
@@ -23,6 +23,7 @@
 - `src/components/atlas/` - компоненты интерактивного атласа.
 - `src/pages/` - маршруты `/`, `/genetics`, `/theory`, `/extinctions`, `/sources`, `/about`.
 - `public/assets/` - локальные изображения, доступные в сборке.
+- `cloud-functions/ask-darwin/` - Yandex Cloud Function для AI-гида.
 - `legacy/onepager-2026-06-16/` - архив старой one-page версии.
 - `deploy/` и `scripts/` - домашний статический деплой.
 

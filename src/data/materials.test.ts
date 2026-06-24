@@ -33,10 +33,15 @@ describe("portal materials", () => {
         book.titleRu.includes("Достающее звено"),
       ),
     ).toBe(true);
+    expect(READING_RECOMMENDATIONS.map((book) => book.id)).toEqual(
+      expect.arrayContaining(["darwin-origin-species", "darwin-descent-man"]),
+    );
 
     for (const book of READING_RECOMMENDATIONS) {
-      expect(book.coverSrc).toMatch(/^\/assets\/images\/books\/.+\.jpg$/);
-      expect(book.coverAltRu).toMatch(/Обложка/i);
+      if (book.coverSrc) {
+        expect(book.coverSrc).toMatch(/^\/assets\/images\/books\/.+\.jpg$/);
+        expect(book.coverAltRu).toMatch(/Обложка/i);
+      }
       expect(book.publisherHref).toMatch(/^https?:\/\//);
     }
 

@@ -254,6 +254,65 @@ test.describe("Evolution Atlas", () => {
     await expect(page).toHaveURL(/\/quiz$/);
   });
 
+  test("Darwin guide asks the backend with atlas context and renders sourced answer", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop AI guide flow.");
+
+    const requests: unknown[] = [];
+    await page.route("**/api/ask-darwin", async (route) => {
+      const requestBody = route.request().postDataJSON();
+      requests.push(requestBody);
+
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: true,
+          data: {
+            darwinAnswerRu:
+              "Я бы начал с родства: человек не произошел от современной обезьяны, а делит с ней общего предка.",
+            modernNoteRu:
+              "Современные данные уточняют это через ДНК, ископаемые и ветвящееся дерево родства.",
+            citations: [
+              {
+                label: "Understanding Evolution: Lines of evidence",
+                url: "https://evolution.berkeley.edu/lines-of-evidence/",
+              },
+            ],
+            relatedLinks: [
+              { labelRu: "Открыть дерево родства", href: "/cladogram" },
+            ],
+            confidence: "solid",
+            grounding: "site",
+          },
+        }),
+      });
+    });
+
+    await page.goto("/?mode=primates&stage=homo-sapiens");
+    await page.getByRole("button", { name: /Спросить Дарвина/i }).click();
+    await expect(page.getByRole("dialog", { name: /Спросить Дарвина/i })).toBeVisible();
+
+    await page
+      .getByLabel("Вопрос для Дарвина")
+      .fill("От кого произошел человек?");
+    await page.getByRole("button", { name: "Задать вопрос" }).click();
+
+    await expect(page.getByText(/человек не произошел от современной обезьяны/i)).toBeVisible();
+    await expect(page.getByText(/Современная научная заметка/i)).toBeVisible();
+    await expect(page.getByRole("link", { name: /Lines of evidence/i })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Открыть дерево родства" })).toHaveAttribute("href", "/cladogram");
+
+    expect(requests).toHaveLength(1);
+    expect(requests[0]).toMatchObject({
+      message: "От кого произошел человек?",
+      pagePath: "/?mode=primates&stage=homo-sapiens",
+      stageId: "sapiens",
+      atlasMode: "primates",
+    });
+  });
+
   test("mobile header keeps a larger sticky brand and opens quick navigation", async ({
     page,
   }, testInfo) => {

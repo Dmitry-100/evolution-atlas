@@ -72,7 +72,14 @@ export function MaterialsPage() {
         <div className="reading-grid">
           {READING_RECOMMENDATIONS.map((book) => (
             <article key={book.id} className="reading-card">
-              <OptimizedImage src={book.coverSrc} alt={book.coverAltRu} loading="lazy" decoding="async" />
+              {book.coverSrc ? (
+                <OptimizedImage src={book.coverSrc} alt={book.coverAltRu ?? ""} loading="lazy" decoding="async" />
+              ) : (
+                <div className="reading-card-cover-placeholder" aria-hidden="true">
+                  <span>{book.authorRu}</span>
+                  <strong>{book.titleRu}</strong>
+                </div>
+              )}
               <div className="reading-card-copy">
                 <span>{book.themeRu}</span>
                 <h3>{book.titleRu}</h3>
@@ -80,7 +87,7 @@ export function MaterialsPage() {
                 <p>{book.descriptionRu}</p>
                 <small>{book.whyReadRu}</small>
                 <a className="button button-secondary button-sm" href={book.publisherHref} target="_blank" rel="noreferrer">
-                  Страница издательства
+                  {book.linkLabelRu ?? "Страница издательства"}
                   <ExternalLink aria-hidden="true" size={14} />
                 </a>
               </div>

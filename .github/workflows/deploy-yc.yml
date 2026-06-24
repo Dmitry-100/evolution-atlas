@@ -12,6 +12,7 @@ concurrency:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  VITE_AI_API_BASE_URL: https://d5dlcp0j3qccddl8n119.628pfjdx.apigw.yandexcloud.net
 
 permissions:
   contents: read

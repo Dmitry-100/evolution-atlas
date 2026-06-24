@@ -16,9 +16,10 @@ export type ReadingRecommendation = {
   titleRu: string;
   authorRu: string;
   themeRu: string;
-  coverSrc: string;
-  coverAltRu: string;
+  coverSrc?: string;
+  coverAltRu?: string;
   publisherHref: string;
+  linkLabelRu?: string;
   descriptionRu: string;
   whyReadRu: string;
 };
@@ -256,6 +257,30 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
       "Цельный обзор жизни как системы уровней: от молекул и клеток до организмов, популяций и эволюционного дерева.",
     whyReadRu:
       "Хороший вход для тех, кто хочет связать РНК/ДНК, клетки, эволюцию и дерево родства в одну картину.",
+  },
+  {
+    id: "darwin-origin-species",
+    titleRu: "Происхождение видов",
+    authorRu: "Чарльз Дарвин",
+    themeRu: "естественный отбор",
+    publisherHref: "https://www.gutenberg.org/ebooks/1228",
+    linkLabelRu: "Открыть текст",
+    descriptionRu:
+      "Главный труд 1859 года, обосновывающий теорию эволюции посредством естественного отбора. Часто называется “философией биологии”.",
+    whyReadRu:
+      "Фундаментальная точка входа в историю идеи: помогает увидеть, как Дарвин собрал наблюдения, селекцию, географию и ископаемые в единое объяснение.",
+  },
+  {
+    id: "darwin-descent-man",
+    titleRu: "Происхождение человека и половой отбор",
+    authorRu: "Чарльз Дарвин",
+    themeRu: "антропогенез",
+    publisherHref: "https://www.gutenberg.org/ebooks/2300",
+    linkLabelRu: "Открыть текст",
+    descriptionRu:
+      "Исследование 1871 года, доказывающее родство человека с высшими обезьянами и объясняющее движущие силы антропогенеза.",
+    whyReadRu:
+      "Хорошо читать рядом с разделами о приматах и Homo sapiens: здесь эволюционная идея применяется прямо к происхождению человека.",
   },
   {
     id: "drobyshevsky-botanika",
