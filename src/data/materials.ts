@@ -263,6 +263,8 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
     titleRu: "Происхождение видов",
     authorRu: "Чарльз Дарвин",
     themeRu: "естественный отбор",
+    coverSrc: `${BOOK_ASSET_ROOT}/darwin-origin-species.jpg`,
+    coverAltRu: "Титульная страница книги “Происхождение видов” Чарльза Дарвина",
     publisherHref: "https://www.gutenberg.org/ebooks/1228",
     linkLabelRu: "Открыть текст",
     descriptionRu:
@@ -275,6 +277,9 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
     titleRu: "Происхождение человека и половой отбор",
     authorRu: "Чарльз Дарвин",
     themeRu: "антропогенез",
+    coverSrc: `${BOOK_ASSET_ROOT}/darwin-descent-man.jpg`,
+    coverAltRu:
+      "Титульная страница книги “Происхождение человека и половой отбор” Чарльза Дарвина",
     publisherHref: "https://www.gutenberg.org/ebooks/2300",
     linkLabelRu: "Открыть текст",
     descriptionRu:

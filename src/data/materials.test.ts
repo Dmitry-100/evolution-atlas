@@ -40,7 +40,7 @@ describe("portal materials", () => {
     for (const book of READING_RECOMMENDATIONS) {
       if (book.coverSrc) {
         expect(book.coverSrc).toMatch(/^\/assets\/images\/books\/.+\.jpg$/);
-        expect(book.coverAltRu).toMatch(/Обложка/i);
+        expect(book.coverAltRu).toMatch(/Обложка|Титульная страница/i);
       }
       expect(book.publisherHref).toMatch(/^https?:\/\//);
     }
