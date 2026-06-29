@@ -58,6 +58,7 @@ export function PrimatesPage() {
     return (
       <div
         className="atlas atlas-mobile-shell"
+        data-tour-stop-id="page-primates"
         ref={atlasRef}
         tabIndex={0}
         style={{ "--active-era-color": activeEra?.color ?? "#d0a35b" } as CSSProperties}
@@ -142,7 +143,7 @@ export function PrimatesPage() {
         </div>
       </section>
 
-      <section className="atlas-grid">
+      <section className="atlas-grid" data-tour-stop-id="page-primates">
         <div className="center-stage">
           <PrimateAxis
             stages={visibleStages}

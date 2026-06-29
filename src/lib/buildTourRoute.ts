@@ -46,43 +46,40 @@ const ROUTE_STOP_IDS: Record<Exclude<TourIntent, "custom" | "browse">, string[]>
   overview: [
     "stage-cell-lines",
     "page-theory",
+    "page-origin-of-life",
     "stage-cyanobacteria",
     "stage-eukaryotes",
-    "page-origin-of-life",
-    "stage-early-animals",
     "page-genetics",
-    "stage-chordates",
-    "stage-tetrapods",
     "page-cladogram",
-    "stage-mammals",
     "page-body-map",
-    "stage-early-primates",
+    "stage-chordates",
+    "stage-mammals",
+    "page-primates",
     "page-extinctions",
     "page-dinosaurs",
+    "page-materials",
     "page-quiz",
   ],
   skeptical: [
     "page-theory",
     "page-genetics",
     "page-cladogram",
+    "page-body-map",
     "stage-cell-lines",
     "stage-eukaryotes",
     "stage-chordates",
     "stage-vertebrates",
     "stage-tetrapods",
     "stage-mammals",
-    "stage-early-primates",
-    "stage-early-apes",
-    "stage-australopithecus",
-    "stage-early-homo",
+    "page-primates",
     "stage-sapiens",
     "page-extinctions",
     "page-sources",
+    "page-quiz",
   ],
   ancestors: [
     "stage-cell-lines",
     "page-genetics",
-    "stage-prokaryotes",
     "stage-eukaryotes",
     "stage-early-animals",
     "stage-chordates",
@@ -92,8 +89,8 @@ const ROUTE_STOP_IDS: Record<Exclude<TourIntent, "custom" | "browse">, string[]>
     "page-extinctions",
     "stage-mammals",
     "stage-placentals",
+    "page-primates",
     "stage-early-primates",
-    "stage-early-apes",
     "stage-early-homo",
     "stage-sapiens",
   ],
@@ -108,10 +105,9 @@ const ROUTE_STOP_IDS: Record<Exclude<TourIntent, "custom" | "browse">, string[]>
     "stage-placentals",
     "page-extinctions",
     "page-body-map",
+    "page-primates",
     "stage-early-primates",
     "stage-anthropoids",
-    "stage-early-apes",
-    "stage-australopithecus",
     "stage-early-homo",
     "stage-sapiens",
   ],
@@ -139,13 +135,13 @@ const ROUTE_STOP_IDS: Record<Exclude<TourIntent, "custom" | "browse">, string[]>
     "stage-tetrapods",
     "stage-amniotes",
     "page-genetics",
+    "page-body-map",
     "stage-synapsids",
     "stage-mammals",
     "page-extinctions",
-    "stage-placentals",
     "stage-after-kpg",
+    "page-primates",
     "stage-early-primates",
-    "stage-early-apes",
     "stage-early-homo",
     "stage-sapiens",
   ],
@@ -155,16 +151,91 @@ const ROUTE_STOP_IDS: Record<Exclude<TourIntent, "custom" | "browse">, string[]>
     "page-origin-of-life",
     "page-cladogram",
     "stage-cell-lines",
-    "stage-eukaryotes",
     "page-genetics",
-    "stage-early-animals",
-    "page-extinctions",
     "page-body-map",
+    "page-extinctions",
     "page-dinosaurs",
+    "page-primates",
     "page-materials",
     "stage-mammals",
     "stage-sapiens",
     "page-sources",
+    "page-quiz",
+  ],
+};
+
+const BASE_ROUTE_STOP_IDS: Record<
+  Exclude<TourIntent, "custom" | "browse">,
+  string[]
+> = {
+  overview: [
+    "stage-cell-lines",
+    "page-theory",
+    "page-origin-of-life",
+    "page-genetics",
+    "page-cladogram",
+    "page-body-map",
+    "page-primates",
+    "page-quiz",
+  ],
+  skeptical: [
+    "page-theory",
+    "page-genetics",
+    "page-cladogram",
+    "page-body-map",
+    "stage-chordates",
+    "page-primates",
+    "page-extinctions",
+    "page-sources",
+  ],
+  ancestors: [
+    "stage-cell-lines",
+    "page-genetics",
+    "stage-chordates",
+    "page-body-map",
+    "page-extinctions",
+    "stage-mammals",
+    "page-primates",
+    "stage-sapiens",
+  ],
+  child: [
+    "stage-cell-lines",
+    "stage-eukaryotes",
+    "stage-early-animals",
+    "stage-tetrapods",
+    "stage-mammals",
+    "page-body-map",
+    "page-primates",
+    "stage-sapiens",
+  ],
+  origin: [
+    "page-origin-of-life",
+    "page-origin-energy",
+    "page-origin-organics",
+    "page-origin-membranes",
+    "page-origin-inheritance",
+    "page-origin-rna-world",
+    "stage-cell-lines",
+    "page-genetics",
+  ],
+  dinosaurs: [
+    "page-dinosaurs",
+    "stage-tetrapods",
+    "stage-amniotes",
+    "page-genetics",
+    "page-extinctions",
+    "stage-after-kpg",
+    "page-primates",
+    "stage-sapiens",
+  ],
+  presenter: [
+    "page-about",
+    "page-theory",
+    "stage-cell-lines",
+    "page-genetics",
+    "page-body-map",
+    "page-materials",
+    "page-primates",
     "page-quiz",
   ],
 };
@@ -174,6 +245,7 @@ const CUSTOM_TOPIC_ROUTES: { pattern: RegExp; ids: string[] }[] = [
     pattern: /признак|тела|анатом|скелет|кости|череп|мозг|рук|ног/i,
     ids: [
       "page-body-map",
+      "page-primates",
       "stage-cell-lines",
       "stage-chordates",
       "stage-vertebrates",
@@ -190,6 +262,7 @@ const CUSTOM_TOPIC_ROUTES: { pattern: RegExp; ids: string[] }[] = [
     pattern: /днк|dna|рнк|rna|ген|генет/i,
     ids: [
       "page-genetics",
+      "page-body-map",
       "stage-cell-lines",
       "stage-prokaryotes",
       "stage-eukaryotes",
@@ -198,6 +271,7 @@ const CUSTOM_TOPIC_ROUTES: { pattern: RegExp; ids: string[] }[] = [
       "stage-vertebrates",
       "stage-tetrapods",
       "stage-mammals",
+      "page-primates",
       "stage-early-primates",
       "stage-early-apes",
       "stage-australopithecus",
@@ -300,7 +374,7 @@ function routeTitle(answers: GuidedTourAnswers) {
 function introFor(answers: GuidedTourAnswers) {
   switch (answers.intent) {
     case "overview":
-      return "Сначала пройдем портал как карту с несколькими дверями. Я покажу, где здесь сама шкала жизни, где доказательства, где осторожный разговор о происхождении жизни, где дерево родства, кризисы и динозавры, а в конце оставлю короткую тропу для продолжения.";
+      return "Сначала пройдем портал как карту с несколькими дверями. Я покажу, где здесь сама шкала жизни, где доказательства, где осторожный разговор о происхождении жизни, где карта признаков, где отдельная ось приматов, кризисы и материалы для продолжения.";
     case "skeptical":
       return "Я не буду просить вас верить мне на слово. Пойдем как натуралисты: посмотрим, что в эволюции можно проверить, где разные линии доказательств сходятся, а где честнее сказать “мы знаем не все”.";
     case "ancestors":
@@ -323,11 +397,11 @@ function introFor(answers: GuidedTourAnswers) {
 function pitchFor(answers: GuidedTourAnswers) {
   switch (answers.intent) {
     case "overview":
-      return "Короткая экскурсия по всему порталу: от главной шкалы и теории к происхождению жизни, ДНК, дереву родства, вымираниям, динозаврам и проверке себя. Хороший первый проход, если хочется понять, где что лежит.";
+      return "Короткая экскурсия по всему порталу: от главной шкалы и теории к происхождению жизни, ДНК, дереву родства, карте признаков, отдельной ветви приматов и проверке себя. Хороший первый проход, если хочется понять, где что лежит.";
     case "skeptical":
       return "Эта экскурсия не спорит с вами, а собирает доказательства как полевой дневник: научная теория, ДНК, дерево родства и ископаемые оказываются разными окнами в одну историю.";
     case "ancestors":
-      return "Маршрут ведет по вашей глубокой родословной: от первых клеточных линий к позвоночным, млекопитающим, приматам и Homo sapiens. Это не лестница прогресса, а семейный альбом с очень древними страницами.";
+      return "Маршрут ведет по вашей глубокой родословной: от первых клеточных линий к позвоночным, млекопитающим, карте признаков, отдельной оси приматов и Homo sapiens. Это не лестница прогресса, а семейный альбом с очень древними страницами.";
     case "child":
       return answers.childAge
         ? `Экскурсия для ${answers.childAge}-летнего слушателя идет через понятные образы: клетка как мастерская, тело как команда, родство как ветвящееся дерево. Названия останутся на втором плане, а история будет держаться за картинки и сравнения.`
@@ -337,7 +411,7 @@ function pitchFor(answers: GuidedTourAnswers) {
     case "dinosaurs":
       return "Маршрут про динозавров не превращается в отдельную лекцию о вымираниях: кризис здесь нужен как поворот сюжета. Птицы, K-Pg-катастрофа и млекопитающие показывают, что эволюция не идет к победителю, а ветвится после смены условий.";
     case "presenter":
-      return "Маршрут для тех, кто хочет объяснить эволюцию другому человеку: сначала идея проекта и теория, затем Атлас, ДНК, вымирания, материалы, источники и быстрый квиз для закрепления.";
+      return "Маршрут для тех, кто хочет объяснить эволюцию другому человеку: сначала идея проекта и теория, затем Атлас, ДНК, карта признаков, приматы крупным планом, материалы, источники и быстрый квиз для закрепления.";
     case "browse":
       return "Свободный режим без обязательной экскурсии: я предложу несколько входов в атлас, а дальше вы сами выбираете, куда идти.";
     case "custom":
@@ -563,6 +637,8 @@ const SKEPTICAL_NARRATION_BY_ID: Record<string, string> = {
     "Дерево родства полезно именно потому, что оно не просит верить в красивую картинку. Если анатомия, ископаемые и молекулярные данные снова и снова дают похожие ветвления, объяснение становится сильнее любого отдельного аргумента.",
   "page-body-map":
     "Карта признаков переводит дерево родства в язык тела. Здесь видно, что человек не собран из одной поздней новинки: клетка, позвоночник, пальцы, слух, мозг и социальность пришли из разных древних узлов одной длинной линии.",
+  "page-primates":
+    "Теперь приблизим ту часть дерева, где чаще всего возникает путаница. Отдельная ось приматов показывает не “обезьяна стала человеком”, а молодую сеть родственных ветвей: антропоиды, человекообразные, гоминины и Homo расходятся от общих предков.",
   "stage-early-primates":
     "На этой ветви сомнение “почему обезьяны не становятся людьми?” обычно распадается само. Современные обезьяны не наши родители; у нас с ними были более древние родственники, а разные ветви после расхождения менялись каждая по-своему.",
   "stage-sapiens":
@@ -594,6 +670,8 @@ const ANCESTOR_NARRATION_BY_ID: Record<string, string> = {
     "Наш вид входит в историю совсем недавно. Мы наследуем древнее тело, но усиливаем его речью, воображением и культурой: теперь знания начинают передаваться быстрее, чем меняются гены.",
   "page-body-map":
     "Теперь соберем признаки не по времени, а по телу. Один слой показывает клеточные механизмы, другой - скелет и ось, третий - движение, затем чувства, мозг и социальность. Это почти семейный альбом, только вместо лиц - детали нашего организма.",
+  "page-primates":
+    "После длинной дороги полезно взять увеличительное стекло. Раздел приматов показывает последние 66 млн лет отдельно: ранние древесные родственники, антропоиды, человекообразные, гоминины, Homo и карта раннего расселения оказываются не хвостиком Атласа, а самостоятельной поздней главой.",
 };
 
 const ORIGIN_NARRATION_BY_ID: Record<string, string> = {
@@ -646,6 +724,8 @@ const PAGE_NARRATION_BY_ID: Record<string, string> = {
     "Квиз нужен не для экзамена, а как короткая развилка после прогулки. Если ответы даются легко, значит дерево родства, ДНК, глубокое время и роль среды уже начали складываться в одну картину. Если где-то неуверенно - это хороший повод вернуться к остановке.",
   "page-body-map":
     "Карта признаков показывает наследование как набор слоев: древняя клеточная химия, позвоночный план, движение, органы чувств и поздняя социальность не заменяют друг друга, а складываются в нас одновременно.",
+  "page-primates":
+    "Раздел приматов работает как крупный план последних 66 млн лет. Он убирает старую школьную путаницу: современные обезьяны не стоят “до человека” на одной лестнице, а живут на соседних ветвях с собственными историями.",
 };
 
 const DEFAULT_NARRATION_BY_ID: Record<string, string> = {
@@ -700,6 +780,8 @@ function revealFor(stop: TourStop, answers: GuidedTourAnswers) {
       "Хорошее дерево родства не рисуют по вкусу: его проверяют множеством признаков и уточняют, когда появляются новые данные.",
     "page-body-map":
       "Карта признаков важна тем, что связывает абстрактные узлы дерева с конкретными деталями тела: каждая точка говорит не “это был один дедушка”, а “эта черта закрепляется на такой ветви”.",
+    "page-primates":
+      "Раздел приматов важен как увеличение масштаба: в общей шкале эта история кажется короткой, но внутри нее много развилок, соседних ветвей и поздних человеческих линий.",
     "page-origin-of-life":
       "Вопрос происхождения жизни честнее держать в зоне проверяемых гипотез: уверенность здесь должна расти вместе с экспериментами.",
     "page-origin-energy":
@@ -802,6 +884,8 @@ function lookAtFor(stop: TourStop) {
       "Смотрите на подсвеченное дерево и выбранный узел: ветвление здесь важнее привычной прямой линии.",
     "page-body-map":
       "Смотрите на активный слой карты и выбранную точку: справа видно, с каким предковым узлом связан признак.",
+    "page-primates":
+      "Смотрите на отдельную ось приматов и активную карточку: здесь последние 66 млн лет развернуты крупнее, чем на общей шкале.",
     "page-extinctions":
       "Смотрите на подсвеченную шкалу кризисов: она показывает, как вымирания меняли условия для выживших ветвей.",
     "page-dinosaurs":
@@ -844,9 +928,10 @@ function customRouteIds(freeText = "") {
   return match?.ids ?? ROUTE_STOP_IDS.ancestors;
 }
 
-function routeIdsFor(answers: GuidedTourAnswers) {
+function routeIdsFor(answers: GuidedTourAnswers, budgetMin: TourBudgetMin) {
   if (answers.intent === "custom") return customRouteIds(answers.freeText);
   if (answers.intent === "browse") return [];
+  if (budgetMin === 5) return BASE_ROUTE_STOP_IDS[answers.intent];
   return ROUTE_STOP_IDS[answers.intent];
 }
 
@@ -872,6 +957,8 @@ function childNarrationFor(
       `${stop.titleRu} делают древнюю историю почти семейной. После огромных древних сцен появляются теплые зверьки с шерстью, молоком и заботой о детенышах. Важным становится не только выжить самому, но и дольше растить потомство, учиться и беречь.`,
     "stage-placentals":
       `${stop.titleRu} показывают, что детство начинается еще до рождения. Потомство дольше развивается внутри матери, а значит на свет выходит более подготовленным. Для детского рассказа это хорошая сцена о заботе, которая стала частью биологии.`,
+    "page-primates":
+      `Здесь мы будто достаем лупу и смотрим на самую молодую часть большой семейной ветки. ${capitalize(ageHint)} можно сказать так: современные обезьяны не были нашими мамами и папами; у нас с ними были общие древние родственники, а потом каждая ветка пошла своей дорогой.`,
     "stage-early-primates":
       `${stop.titleRu} переносят нас на ветки. Маленькие древесные родственники приматов смотрят вперед, хватаются лапами и живут в мире, где важно точно прыгнуть, заметить плод и не промахнуться. Здесь удобно объяснить: обезьяны не “стали людьми”, а у нас с ними есть более древняя родственная ветвь.`,
     "stage-anthropoids":
@@ -907,6 +994,8 @@ function childRevealFor(stop: TourStop) {
       "Главная мысль: наша линия выросла среди древесных родственников приматов. Современные обезьяны - не наши родители, а наши родственники.",
     "stage-early-apes":
       "Главная мысль: человекообразные - это ветвь с особым телом и долгим обучением, но не ступенька, созданная специально для человека.",
+    "page-primates":
+      "Главная мысль: приматы и человек лучше понятны как ветвящееся семейное дерево. У соседних веток есть общие предки, но ни одна современная ветка не обязана превращаться в другую.",
     "stage-sapiens":
       "Главная мысль: человек - часть дерева жизни. Мы необычны, но не отделены от родства с другими живыми существами.",
   };
@@ -926,7 +1015,7 @@ export function buildTourRoute(answers: GuidedTourAnswers): TourPlan {
   const stopIds =
     answers.intent === "browse"
       ? []
-      : limitIds(routeIdsFor(answers), budgetMin ?? 5);
+      : limitIds(routeIdsFor(answers, budgetMin ?? 5), budgetMin ?? 5);
   const steps = stopsFromIds(stopIds).map((stop) => ({
     ...stop,
     narrationRu: narrationFor(stop, answers),

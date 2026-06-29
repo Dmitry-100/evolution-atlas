@@ -562,7 +562,9 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("link", { name: "Дерево родства" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Карта признаков" }),
+      page
+        .getByLabel("Основная навигация")
+        .getByRole("link", { name: "Карта признаков" }),
     ).toBeVisible();
     await expect(page.locator(".brand-wordmark")).toHaveCount(0);
     await expect(page.locator(".brand-mark")).toHaveAttribute(
@@ -1434,7 +1436,19 @@ test.describe("Evolution Atlas", () => {
         .evaluateAll((links) =>
           links.map((link) => (link as HTMLAnchorElement).getAttribute("href")),
         );
-      expect(routeHrefs.some((href) => href === "/cladogram" || href === "/genetics")).toBe(true);
+      const expectedRouteHrefs = new Set([
+        "/",
+        "/cladogram",
+        "/dinosaurs",
+        "/extinctions",
+        "/genetics",
+        "/materials",
+        "/origin-of-life",
+        "/primates",
+        "/sources",
+        "/theory",
+      ]);
+      expect(routeHrefs.some((href) => expectedRouteHrefs.has(href ?? ""))).toBe(true);
     } else {
       await expect(quiz.getByText(/Особенная благодарность от Дарвина/i)).toBeVisible();
       await expect(quiz.locator(".quiz-route-perfect a")).toHaveCount(3);

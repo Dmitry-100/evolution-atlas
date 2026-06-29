@@ -37,7 +37,7 @@ describe("buildTourRoute", () => {
       "page-genetics",
       "page-cladogram",
       "page-body-map",
-      "page-dinosaurs",
+      "page-primates",
       "page-quiz",
     ]);
   });
@@ -59,7 +59,7 @@ describe("buildTourRoute", () => {
       "page-genetics",
       "page-body-map",
       "page-materials",
-      "page-sources",
+      "page-primates",
       "page-quiz",
     ]);
   });
@@ -71,6 +71,7 @@ describe("buildTourRoute", () => {
     expect(plan.steps[0].id).toBe("stage-cell-lines");
     expect(plan.steps.at(-1)?.id).toBe("stage-sapiens");
     expect(plan.steps.map((step) => step.id)).toContain("page-body-map");
+    expect(plan.steps.map((step) => step.id)).toContain("page-primates");
     expect(plan.steps.length).toBeGreaterThanOrEqual(7);
   });
 
@@ -86,7 +87,43 @@ describe("buildTourRoute", () => {
     expect(plan.steps.length).toBeGreaterThan(5);
     expect(plan.steps[0].narrationRu).toMatch(/Представьте/i);
     expect(plan.steps.map((step) => step.id)).toContain("page-body-map");
+    expect(plan.steps.map((step) => step.id)).toContain("page-primates");
     expect(plan.steps[0].narrationRu.length).toBeGreaterThan(130);
+  });
+
+  it("threads the dedicated primates section and trait map into broad tours", () => {
+    const routesWithTraitMap = [
+      "overview",
+      "skeptical",
+      "ancestors",
+      "child",
+      "dinosaurs",
+      "presenter",
+    ] as const;
+    const routesWithPrimates = [
+      "overview",
+      "skeptical",
+      "ancestors",
+      "child",
+      "dinosaurs",
+      "presenter",
+    ] as const;
+
+    for (const intent of routesWithTraitMap) {
+      expect(
+        buildTourRoute({ intent, budgetMin: 15, childAge: 8 }).steps.map(
+          (step) => step.id,
+        ),
+      ).toContain("page-body-map");
+    }
+
+    for (const intent of routesWithPrimates) {
+      expect(
+        buildTourRoute({ intent, budgetMin: 15, childAge: 8 }).steps.map(
+          (step) => step.id,
+        ),
+      ).toContain("page-primates");
+    }
   });
 
   it("builds 8-step base routes and 15-step full routes for every guided intent", () => {
@@ -271,5 +308,16 @@ describe("buildTourRoute", () => {
 
     expect(plan.steps.map((step) => step.id)).toContain("page-body-map");
     expect(plan.steps.map((step) => step.href)).toContain("/body-map");
+  });
+
+  it("routes primate and human-lineage questions through the dedicated primates section", () => {
+    const plan = buildTourRoute({
+      intent: "custom",
+      freeText: "Хочу понять приматов, обезьян и путь к человеку",
+      budgetMin: 5,
+    });
+
+    expect(plan.steps.map((step) => step.id)).toContain("page-primates");
+    expect(plan.steps.map((step) => step.href)).toContain("/primates");
   });
 });
