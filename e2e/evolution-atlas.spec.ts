@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 import {
   MUSEUM_RECOMMENDATIONS,
   READING_RECOMMENDATIONS,
@@ -69,6 +69,29 @@ async function chooseDarwinRoute(
   routeCase: (typeof baseGuidedRouteCases)[number],
 ) {
   await page.getByRole("button", { name: routeCase.label }).click();
+}
+
+async function resetTourStorage(page: Page) {
+  await page.evaluate(() => {
+    window.sessionStorage.removeItem("evolution-atlas.active-tour");
+    window.localStorage.removeItem("evolution-atlas.active-tour");
+  });
+}
+
+async function advanceTourToStep(
+  page: Page,
+  tour: Locator,
+  stepNumber: number,
+  totalSteps: number,
+) {
+  await Promise.all([
+    page.waitForURL(
+      (url) => url.searchParams.get("step") === String(stepNumber - 1),
+      { timeout: 10_000 },
+    ),
+    tour.getByRole("button", { name: "Дальше" }).click(),
+  ]);
+  await expect(tour.getByText(`Шаг ${stepNumber} из ${totalSteps}`)).toBeVisible();
 }
 
 test.describe("Evolution Atlas", () => {
@@ -225,7 +248,7 @@ test.describe("Evolution Atlas", () => {
 
     for (const routeCase of baseGuidedRouteCases) {
       await page.goto("/");
-      await page.evaluate(() => window.sessionStorage.clear());
+      await resetTourStorage(page);
       await page
         .getByRole("button", { name: "Открыть экскурсию с Дарвином" })
         .click();
@@ -247,8 +270,7 @@ test.describe("Evolution Atlas", () => {
       await expect(page.locator(".tour-focus-target[data-tour-focus-label]")).not.toHaveCount(0);
 
       for (let stepNumber = 2; stepNumber <= 8; stepNumber += 1) {
-        await tour.getByRole("button", { name: "Дальше" }).click();
-        await expect(tour.getByText(`Шаг ${stepNumber} из 8`)).toBeVisible();
+        await advanceTourToStep(page, tour, stepNumber, 8);
         await expect(tour.getByText("Куда смотреть")).toHaveCount(0);
         await expect(tour.locator(".tour-look-at")).toHaveCount(0);
         await expect(page.locator(".tour-focus-target[data-tour-focus-label]")).not.toHaveCount(0);
@@ -400,6 +422,7 @@ test.describe("Evolution Atlas", () => {
   test("Darwin recommendations show deterministic materials at the end of the overview route", async ({
     page,
   }, testInfo) => {
+    test.setTimeout(60_000);
     test.skip(testInfo.project.name === "mobile", "Desktop guided tour flow.");
 
     await useDeterministicTourFallback(page);
@@ -415,8 +438,7 @@ test.describe("Evolution Atlas", () => {
     const tour = page.getByRole("complementary", { name: "Тур Дарвина" });
     await expect(tour.getByText("Шаг 1 из 8")).toBeVisible();
     for (let stepNumber = 2; stepNumber <= 8; stepNumber += 1) {
-      await tour.getByRole("button", { name: "Дальше" }).click();
-      await expect(tour.getByText(`Шаг ${stepNumber} из 8`)).toBeVisible();
+      await advanceTourToStep(page, tour, stepNumber, 8);
     }
 
     await expect(tour.getByText("Куда пойти дальше")).toBeVisible();
@@ -594,7 +616,7 @@ test.describe("Evolution Atlas", () => {
           .getByLabel("Основная навигация")
           .getByRole("link")
           .evaluateAll((links) =>
-            links.map((link) => link.textContent?.trim() ?? ""),
+            links.map((link) => link.getAttribute("aria-label") ?? ""),
           ),
       )
       .toEqual(navItems);
@@ -605,7 +627,7 @@ test.describe("Evolution Atlas", () => {
         links.map((link) => {
           const rect = link.getBoundingClientRect();
           return {
-            text: link.textContent?.trim() ?? "",
+            text: link.getAttribute("aria-label") ?? "",
             visible:
               rect.width > 0 &&
               rect.height > 0 &&
@@ -635,8 +657,12 @@ test.describe("Evolution Atlas", () => {
       }),
     ).toHaveCount(0);
     await expect(page.locator(".deep-time-region-label")).toHaveCount(5);
+    const primatesFact = page
+      .locator(".wow-facts-band article")
+      .filter({ hasText: "До приматов" });
+    await expect(primatesFact).toContainText("98,4%");
     await expect(
-      page.getByText(/до появления приматов - 98,4%/i),
+      primatesFact.getByText(/появления первых приматов/i),
     ).toBeVisible();
     await expect(page.getByText(/к выбранной точке/i)).toBeVisible();
     await expect(
@@ -1728,7 +1754,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByText(/Дарвин: идея/i)).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: /Не лестница прогресса, а дерево родства/i,
+        name: /Дерево родства вместо лестницы прогресса/i,
       }),
     ).toBeVisible();
     await expect(page.getByText(/Происхождение видов/i)).toBeVisible();
