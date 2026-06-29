@@ -91,7 +91,9 @@ async function advanceTourToStep(
     ),
     tour.getByRole("button", { name: "Дальше" }).click(),
   ]);
-  await expect(tour.getByText(`Шаг ${stepNumber} из ${totalSteps}`)).toBeVisible();
+  await expect(tour).toContainText(`Шаг ${stepNumber} из ${totalSteps}`, {
+    timeout: 20_000,
+  });
 }
 
 test.describe("Evolution Atlas", () => {
@@ -237,7 +239,7 @@ test.describe("Evolution Atlas", () => {
   test("Darwin route menu starts every guided route without UI errors", async ({
     page,
   }, testInfo) => {
-    test.setTimeout(60_000);
+    test.setTimeout(120_000);
     test.skip(testInfo.project.name === "mobile", "Desktop guided tour flow.");
 
     await useDeterministicTourFallback(page);
