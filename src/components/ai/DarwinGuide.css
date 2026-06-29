@@ -278,7 +278,7 @@
 @media (max-width: 720px) {
   .darwin-guide {
     right: 0.75rem;
-    bottom: 0.75rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
   }
 
   .darwin-guide-panel {

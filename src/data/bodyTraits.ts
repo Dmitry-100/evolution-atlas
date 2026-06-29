@@ -129,7 +129,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Наследуемая информация",
     noteRu:
       "С этого узла удачные варианты могли копироваться и становиться материалом для естественного отбора.",
-    anchor: { x: 50, y: 51 },
+    anchor: { x: 39, y: 55 },
     confidence: "solid",
   },
   {
@@ -173,7 +173,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Ядро",
     noteRu:
       "Эукариотическая клетка отделила хранение наследственной инструкции от остальной внутренней работы клетки.",
-    anchor: { x: 50, y: 50 },
+    anchor: { x: 52, y: 50 },
     confidence: "solid",
   },
   {
@@ -195,7 +195,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Двусторонняя симметрия",
     noteRu:
       "У двусторонних животных закрепилась логика левой и правой сторон, переда и зада будущего тела.",
-    anchor: { x: 50, y: 50 },
+    anchor: { x: 39, y: 55 },
     confidence: "solid",
   },
   {
@@ -206,7 +206,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Передний отдел тела",
     noteRu:
       "Предковый узел Bilateria усилил направление движения и концентрацию органов чувств спереди.",
-    anchor: { x: 50, y: 14 },
+    anchor: { x: 41, y: 13 },
     confidence: "solid",
   },
   {
@@ -217,7 +217,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Хорда",
     noteRu:
       "Ранние хордовые дали внутреннюю ось тела, на которой позже строились позвоночник и мускулатура.",
-    anchor: { x: 50, y: 42 },
+    anchor: { x: 50, y: 48 },
     confidence: "solid",
   },
   {
@@ -228,7 +228,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Нервная трубка",
     noteRu:
       "У хордовых нервная система получила дорсальную трубчатую организацию, важную для позвоночного плана.",
-    anchor: { x: 50, y: 25 },
+    anchor: { x: 45, y: 25 },
     confidence: "solid",
   },
   {
@@ -239,7 +239,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Череп",
     noteRu:
       "Позвоночные закрепили защиту переднего отдела нервной системы и органов чувств в черепе.",
-    anchor: { x: 50, y: 13 },
+    anchor: { x: 55, y: 9 },
     confidence: "solid",
   },
   {
@@ -250,7 +250,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Позвоночная ось",
     noteRu:
       "Позвоночная ось стала прочной внутренней опорой, вокруг которой перестраивалось движение тела.",
-    anchor: { x: 50, y: 40 },
+    anchor: { x: 61, y: 40 },
     confidence: "solid",
   },
   {
@@ -261,7 +261,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Челюсти",
     noteRu:
       "Челюстные рыбы закрепили новый способ питания, а вместе с ним будущую архитектуру лица и зубов.",
-    anchor: { x: 52, y: 17 },
+    anchor: { x: 65, y: 19 },
     confidence: "solid",
   },
   {
@@ -272,7 +272,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Четыре конечности",
     noteRu:
       "У четвероногих парные придатки превратились в план конечностей, узнаваемый в руках и ногах человека.",
-    anchor: { x: 50, y: 45 },
+    anchor: { x: 38, y: 43 },
     confidence: "solid",
   },
   {
@@ -283,7 +283,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Легочное дыхание",
     noteRu:
       "Переход к наземной жизни сделал дыхание воздухом частью наследия нашей позвоночной линии.",
-    anchor: { x: 50, y: 30 },
+    anchor: { x: 58, y: 28 },
     confidence: "solid",
   },
   {
@@ -316,7 +316,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Плечевой пояс",
     noteRu:
       "У лопастеперых усиливалась внутренняя опора плавников, предвосхищающая механику плеча.",
-    anchor: { x: 50, y: 29 },
+    anchor: { x: 48, y: 31 },
     confidence: "solid",
   },
   {
@@ -338,7 +338,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Зачатки запястья",
     noteRu:
       "Дистальные элементы плавника показывают, что кисть собиралась путем перестройки старой конструкции.",
-    anchor: { x: 34, y: 54 },
+    anchor: { x: 28, y: 51 },
     confidence: "solid",
   },
   {
@@ -349,7 +349,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Подвижная шея",
     noteRu:
       "Формы вроде Tiktaalik показывают отделение головы от плечевого пояса и новую механику движения.",
-    anchor: { x: 52, y: 21 },
+    anchor: { x: 55, y: 20 },
     confidence: "solid",
   },
   {
@@ -360,7 +360,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Пальцы",
     noteRu:
       "У четвероногих пальцы стали частью нового способа опоры и перемещения на мелководьях и суше.",
-    anchor: { x: 34, y: 55 },
+    anchor: { x: 39, y: 60 },
     confidence: "solid",
   },
   {
@@ -382,7 +382,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Двуногая походка",
     noteRu:
       "У австралопитеков прямохождение уже стало устойчивой частью тела, раньше резкого роста мозга.",
-    anchor: { x: 53, y: 75 },
+    anchor: { x: 51, y: 77 },
     confidence: "solid",
   },
   {
@@ -404,7 +404,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Выносливость",
     noteRu:
       "Homo erectus показывает человеческое тело как машину дальних переходов и жизни в разных ландшафтах.",
-    anchor: { x: 53, y: 66 },
+    anchor: { x: 56, y: 65 },
     confidence: "likely",
   },
   {
@@ -415,7 +415,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Сложные органы чувств",
     noteRu:
       "У позвоночных органы чувств и передний отдел нервной системы стали сильнее связаны с активным движением.",
-    anchor: { x: 47, y: 27 },
+    anchor: { x: 46, y: 24 },
     confidence: "solid",
   },
   {
@@ -437,7 +437,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Дневная активность",
     noteRu:
       "Антропоидная ветвь усилила дневной образ жизни, где зрение и социальные сигналы стали особенно важны.",
-    anchor: { x: 31, y: 36 },
+    anchor: { x: 26, y: 43 },
     confidence: "likely",
   },
   {
@@ -448,7 +448,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Социальное зрение",
     noteRu:
       "У антропоидов зрение обслуживало не только поиск пищи, но и чтение сложной социальной среды.",
-    anchor: { x: 36, y: 35 },
+    anchor: { x: 38, y: 35 },
     confidence: "likely",
   },
   {
@@ -459,7 +459,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Крупнее мозг",
     noteRu:
       "Рост мозга в антропоидной линии связан с обработкой зрения, поведения и более сложных задач.",
-    anchor: { x: 51, y: 24 },
+    anchor: { x: 58, y: 22 },
     confidence: "likely",
   },
   {
@@ -470,7 +470,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Рост мозга",
     noteRu:
       "Ранний Homo усиливает мозговую часть истории, хотя современное человеческое мышление еще впереди.",
-    anchor: { x: 49, y: 31 },
+    anchor: { x: 48, y: 35 },
     confidence: "likely",
   },
   {
@@ -503,7 +503,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Длительное обучение",
     noteRu:
       "Большие человекообразные делают обучение в группе важной частью взросления и поведения.",
-    anchor: { x: 55, y: 16 },
+    anchor: { x: 57, y: 13 },
     confidence: "likely",
   },
   {
@@ -514,7 +514,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Сложная социальность",
     noteRu:
       "Семейство больших человекообразных показывает, что социальная сложность старше нашего вида.",
-    anchor: { x: 47, y: 16 },
+    anchor: { x: 40, y: 15 },
     confidence: "likely",
   },
   {
@@ -525,7 +525,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Социальная сложность",
     noteRu:
       "Узконосые обезьяны и человекообразные наследуют социальные задачи, которые продолжают усложняться.",
-    anchor: { x: 64, y: 83 },
+    anchor: { x: 66, y: 84 },
     confidence: "likely",
   },
   {
@@ -547,7 +547,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Забота о слабых",
     noteRu:
       "Забота внутри группы показывает, что социальность стала частью выживания, а не украшением поведения.",
-    anchor: { x: 62, y: 82 },
+    anchor: { x: 60, y: 75 },
     confidence: "likely",
   },
   {
@@ -558,7 +558,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Язык",
     noteRu:
       "У Homo sapiens речь стала мощным способом передавать опыт быстрее, чем меняются гены.",
-    anchor: { x: 58, y: 40 },
+    anchor: { x: 61, y: 42 },
     confidence: "solid",
   },
   {
@@ -580,7 +580,7 @@ export const BODY_TRAITS: BodyTrait[] = [
     titleRu: "Коллективное обучение",
     noteRu:
       "Коллективное обучение делает культуру накопителем опыта, который переживает отдельные поколения.",
-    anchor: { x: 50, y: 18 },
+    anchor: { x: 51, y: 24 },
     confidence: "solid",
   },
 ];

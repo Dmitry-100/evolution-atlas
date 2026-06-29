@@ -1,13 +1,25 @@
-import { BookOpen, ExternalLink, FileText, PlayCircle } from "lucide-react";
+import {
+  BookOpen,
+  ExternalLink,
+  FileText,
+  Landmark,
+  MapPin,
+  PlayCircle,
+} from "lucide-react";
 import { OptimizedImage } from "../components/ui/optimized-image";
-import { PORTAL_MATERIALS, READING_RECOMMENDATIONS, WATCH_RECOMMENDATIONS } from "../data/materials";
+import {
+  MUSEUM_RECOMMENDATIONS,
+  PORTAL_MATERIALS,
+  READING_RECOMMENDATIONS,
+  WATCH_RECOMMENDATIONS,
+} from "../data/materials";
 
 export function MaterialsPage() {
   return (
     <section className="document-page materials-page" data-tour-stop-id="page-materials">
       <div className="document-header">
         <p className="eyebrow">Дополнительные материалы</p>
-        <h1>Презентации, книги и видео</h1>
+        <h1>Презентации, книги, музеи и видео</h1>
         <p>
           Эти материалы можно читать как самостоятельные лекции или использовать как второй слой атласа. PDF открываются
           прямо в браузере и подходят для самостоятельного просмотра.
@@ -92,6 +104,40 @@ export function MaterialsPage() {
                   <ExternalLink aria-hidden="true" size={14} />
                 </a>
               </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="materials-recommendations" aria-labelledby="museum-title">
+        <div className="materials-section-heading">
+          <Landmark aria-hidden="true" size={23} />
+          <div>
+            <p className="eyebrow">Куда сходить в Москве</p>
+            <h2 id="museum-title">Музеи, которые продолжают маршрут</h2>
+            <p>
+              Если хочется увидеть эволюцию не только на экране: витрины,
+              скелеты, ископаемые, животные коллекции и геологический контекст
+              большой истории жизни.
+            </p>
+          </div>
+        </div>
+
+        <div className="museum-grid">
+          {MUSEUM_RECOMMENDATIONS.map((museum) => (
+            <article key={museum.id} className="museum-card">
+              <span>{museum.focusRu}</span>
+              <h3>{museum.titleRu}</h3>
+              <p className="museum-card-address">
+                <MapPin aria-hidden="true" size={15} />
+                {museum.addressRu}
+              </p>
+              <p>{museum.descriptionRu}</p>
+              <small>{museum.whyVisitRu}</small>
+              <a className="button button-secondary button-sm" href={museum.href} target="_blank" rel="noreferrer">
+                Сайт музея
+                <ExternalLink aria-hidden="true" size={14} />
+              </a>
             </article>
           ))}
         </div>

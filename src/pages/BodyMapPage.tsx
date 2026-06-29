@@ -141,11 +141,21 @@ function BodyTraitInspector({
 
       {stage ? (
         <div className="body-trait-stage">
-          <span>Предковый узел</span>
-          <strong>{stage.titleRu}</strong>
-          <small>
-            {stage.latin}, {formatAgeRu(stage.ageMa)}
-          </small>
+          <div className="body-trait-stage-media">
+            <OptimizedImage
+              src={stage.image.src}
+              alt={stage.image.altRu}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div className="body-trait-stage-copy">
+            <span>Предковый узел</span>
+            <strong>{stage.titleRu}</strong>
+            <small>
+              {stage.latin}, {formatAgeRu(stage.ageMa)}
+            </small>
+          </div>
         </div>
       ) : null}
 

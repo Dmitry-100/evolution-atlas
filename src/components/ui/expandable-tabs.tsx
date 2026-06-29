@@ -127,6 +127,9 @@ export function ExpandableTabs({
                 </motion.span>
               ) : null}
             </AnimatePresence>
+            <span className="expandable-tab-mobile-label" aria-hidden="true">
+              {tab.title}
+            </span>
           </>
         );
 

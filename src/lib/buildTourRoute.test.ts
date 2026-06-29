@@ -232,18 +232,57 @@ describe("buildTourRoute", () => {
         freeText: intent === "custom" ? "Хочу понять ДНК и предков" : undefined,
       });
 
-      expect(plan.pitchRu).toMatch(/экскурс|маршрут|прогул/i);
+      expect(plan.pitchRu.length).toBeGreaterThan(80);
+      expect(plan.pitchRu).not.toMatch(/двер|Факт:/i);
       expect(plan.factsRu).toHaveLength(3);
-      expect(plan.factsRu.join("\n")).toMatch(/факт|млрд|млн|ДНК|клет/i);
+      expect(plan.factsRu.every((fact) => !fact.startsWith("Факт:"))).toBe(
+        true,
+      );
+      expect(
+        plan.factsRu.every((fact) => fact.length > 45),
+        `${intent} should have substantial facts`,
+      ).toBe(
+        true,
+      );
     }
   });
 
-  it("adds interesting guide notes to every route step", () => {
+  it("keeps guide notes self-contained without repeated reveal boilerplate", () => {
     const plan = buildTourRoute({ intent: "ancestors", budgetMin: 5 });
 
     for (const step of plan.steps) {
-      expect(step.revealRu).toMatch(/факт|важно|главное|интерес/i);
-      expect(step.revealRu.length).toBeGreaterThan(95);
+      expect(step.revealRu).not.toMatch(/Интересный факт:|два масштаба/i);
+      expect(step.revealRu.length).toBeGreaterThan(55);
+    }
+  });
+
+  it("keeps deterministic tour copy away from obvious AI-ish templates", () => {
+    for (const intent of guidedIntents) {
+      const plan = buildTourRoute({
+        intent,
+        budgetMin: 15,
+        childAge: intent === "child" ? 8 : undefined,
+        freeText: intent === "custom" ? "Хочу понять ДНК и предков" : undefined,
+      });
+      const copy = [
+        plan.introRu,
+        plan.pitchRu,
+        ...plan.factsRu,
+        ...plan.steps.flatMap((step) => [
+          step.narrationRu,
+          step.lookAtRu,
+          step.revealRu,
+        ]),
+        plan.outroRu,
+      ].join("\n");
+      const notButTicks = copy.match(/\bне\s+[^.!?\n]{1,80},?\s+а\b/gi) ?? [];
+
+      expect(copy).not.toMatch(
+        /Интересный факт для прогулки|два масштаба|главные двери|несколько двер|доста[её]м лупу|театральную шляпу|На маршруте эта точка нужна/i,
+      );
+      expect(notButTicks.length, `${intent} uses too many "не…, а…" turns`).toBeLessThanOrEqual(
+        3,
+      );
     }
   });
 
@@ -257,7 +296,7 @@ describe("buildTourRoute", () => {
       });
 
       for (const step of plan.steps) {
-        expect(step.lookAtRu).toMatch(/смотр/i);
+        expect(step.lookAtRu).toMatch(/смотр|обратите|главн|видно/i);
         expect(step.narrationRu).not.toMatch(/^Остановка \d/i);
       }
     }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  MUSEUM_RECOMMENDATIONS,
   PORTAL_MATERIALS,
   READING_RECOMMENDATIONS,
   WATCH_RECOMMENDATIONS,
@@ -60,6 +61,23 @@ describe("portal materials", () => {
     for (const item of WATCH_RECOMMENDATIONS) {
       expect(item.href).toMatch(/^https?:\/\//);
       expect(item.descriptionRu.length).toBeGreaterThan(80);
+    }
+  });
+
+  it("adds Moscow museums that extend the portal offline", () => {
+    expect(MUSEUM_RECOMMENDATIONS.map((museum) => museum.id)).toEqual([
+      "darwin-museum",
+      "orlov-paleontological-museum",
+      "timiryazev-biological-museum",
+      "msu-zoological-museum",
+      "vernadsky-geological-museum",
+    ]);
+
+    for (const museum of MUSEUM_RECOMMENDATIONS) {
+      expect(museum.href).toMatch(/^https:\/\//);
+      expect(museum.addressRu).toMatch(/Москва|Вавилова|Профсоюзная/i);
+      expect(museum.descriptionRu.length).toBeGreaterThan(80);
+      expect(museum.whyVisitRu.length).toBeGreaterThan(80);
     }
   });
 });

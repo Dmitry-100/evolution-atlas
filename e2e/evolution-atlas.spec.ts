@@ -1,5 +1,8 @@
 import { expect, test, type Page } from "@playwright/test";
-import { READING_RECOMMENDATIONS } from "../src/data/materials";
+import {
+  MUSEUM_RECOMMENDATIONS,
+  READING_RECOMMENDATIONS,
+} from "../src/data/materials";
 
 const navItems = [
   "Атлас",
@@ -879,6 +882,21 @@ test.describe("Evolution Atlas", () => {
         name: "Дополнительные материалы",
       }),
     ).toBeVisible();
+    await expect(
+      page.locator(".topbar-nav .expandable-tab-mobile-label", {
+        hasText: "Приматы → человек",
+      }),
+    ).toBeVisible();
+    await expect(
+      page.locator(".topbar-nav .expandable-tab-mobile-label", {
+        hasText: "Карта признаков",
+      }),
+    ).toBeVisible();
+    await expect(
+      page.locator(".topbar-nav .expandable-tab-mobile-label", {
+        hasText: "РНК/ДНК",
+      }),
+    ).toBeVisible();
   });
 
   test("click and primate mode update the active species card without hover tracking", async ({
@@ -1327,6 +1345,15 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".body-trait-inspector")).toContainText(
       "Предковый узел",
     );
+    await expect(page.locator(".body-trait-stage img")).toBeVisible();
+    await expect
+      .poll(() =>
+        page.locator(".body-trait-stage img").evaluate((node) => {
+          const image = node as HTMLImageElement;
+          return image.complete && image.naturalWidth > 0;
+        }),
+      )
+      .toBe(true);
     await expect(
       page.getByRole("link", { name: /Открыть этап в Атласе/i }),
     ).toHaveAttribute("href", "/?mode=all&stage=tetrapods");
@@ -1335,6 +1362,96 @@ test.describe("Evolution Atlas", () => {
       () => document.documentElement.scrollWidth > window.innerWidth + 1,
     );
     expect(hasOverflow).toBe(false);
+  });
+
+  test("body trait pins stay separated on every layer", async ({ page }) => {
+    const layerTabs = ["Клетка", "Тело", "Движение", "Чувства", "Мозг"];
+    const minPinDistance = 42;
+
+    await page.goto("/body-map");
+    await expect(page.locator(".body-map-canvas img")).toBeVisible();
+
+    for (const layerTab of layerTabs) {
+      await page.getByRole("tab", { name: layerTab }).click();
+
+      const spacing = await page.evaluate((threshold) => {
+        const canvas = document.querySelector<HTMLElement>(".body-map-canvas");
+
+        if (!canvas) {
+          throw new Error("Missing body map canvas");
+        }
+
+        const canvasRect = canvas.getBoundingClientRect();
+        const pins = [
+          ...document.querySelectorAll<HTMLElement>(".body-trait-pin"),
+        ].map((pin) => {
+          const style = getComputedStyle(pin);
+
+          return {
+            label: pin.getAttribute("aria-label") ?? "unnamed pin",
+            x:
+              (Number.parseFloat(style.getPropertyValue("--trait-x")) / 100) *
+              canvasRect.width,
+            y:
+              (Number.parseFloat(style.getPropertyValue("--trait-y")) / 100) *
+              canvasRect.height,
+          };
+        });
+        const tooClose: string[] = [];
+
+        for (let index = 0; index < pins.length; index += 1) {
+          for (
+            let nextIndex = index + 1;
+            nextIndex < pins.length;
+            nextIndex += 1
+          ) {
+            const first = pins[index];
+            const second = pins[nextIndex];
+            const distance = Math.hypot(first.x - second.x, first.y - second.y);
+
+            if (distance < threshold) {
+              tooClose.push(
+                `${first.label} / ${second.label}: ${Math.round(distance)}px`,
+              );
+            }
+          }
+        }
+
+        return { pinCount: pins.length, tooClose };
+      }, minPinDistance);
+
+      expect(spacing.pinCount, `${layerTab} pin count`).toBeGreaterThanOrEqual(
+        5,
+      );
+      expect(spacing.tooClose, `${layerTab} pin spacing`).toEqual([]);
+    }
+  });
+
+  test("mobile body trait pins stay compact on the map", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile-only touch target QA.");
+
+    await page.goto("/body-map");
+    await expect(page.locator(".body-map-canvas img")).toBeVisible();
+
+    const pinRects = await page.locator(".body-trait-pin").evaluateAll((pins) =>
+      pins.map((pin) => {
+        const rect = pin.getBoundingClientRect();
+
+        return {
+          width: rect.width,
+          height: rect.height,
+        };
+      }),
+    );
+
+    expect(pinRects.length).toBeGreaterThan(4);
+
+    for (const rect of pinRects) {
+      expect(rect.width).toBeLessThanOrEqual(44);
+      expect(rect.height).toBeLessThanOrEqual(44);
+    }
   });
 
   test("trait accumulator grows as the route reaches Homo sapiens", async ({
@@ -1766,7 +1883,7 @@ test.describe("Evolution Atlas", () => {
     test.slow();
     await page.goto("/materials");
     await expect(
-      page.getByRole("heading", { name: /Презентации, книги и видео/i }),
+      page.getByRole("heading", { name: /Презентации, книги, музеи и видео/i }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Путь от клетки к человеку" }),
@@ -1808,8 +1925,10 @@ test.describe("Evolution Atlas", () => {
     );
     await expect(
       page.getByRole("link", { name: /Страница издательства/i }),
-    ).toHaveCount(11);
-    for (let index = 0; index < 11; index += 1) {
+    ).toHaveCount(
+      READING_RECOMMENDATIONS.filter((book) => !book.linkLabelRu).length,
+    );
+    for (let index = 0; index < READING_RECOMMENDATIONS.length; index += 1) {
       const image = page.locator(".reading-card img").nth(index);
       await image.evaluate((node) =>
         node.scrollIntoView({ block: "center", inline: "nearest" }),
@@ -1823,6 +1942,17 @@ test.describe("Evolution Atlas", () => {
         )
         .toBe(true);
     }
+    await expect(
+      page.getByRole("heading", {
+        name: "Музеи, которые продолжают маршрут",
+      }),
+    ).toBeVisible();
+    await expect(page.locator(".museum-card")).toHaveCount(
+      MUSEUM_RECOMMENDATIONS.length,
+    );
+    await expect(page.getByRole("link", { name: /Сайт музея/i })).toHaveCount(
+      MUSEUM_RECOMMENDATIONS.length,
+    );
     await expect(
       page.getByRole("heading", {
         name: "Видео и лекции для следующего шага",

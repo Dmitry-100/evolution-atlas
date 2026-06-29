@@ -53,4 +53,34 @@ describe("body trait map data", () => {
       );
     }
   });
+
+  it("keeps pins separated enough to be clickable", () => {
+    const minAnchorDistance = 10;
+
+    for (const layer of BODY_TRAIT_LAYERS) {
+      const layerTraits = BODY_TRAITS.filter(
+        (trait) => trait.layerId === layer.id,
+      );
+
+      for (let index = 0; index < layerTraits.length; index += 1) {
+        for (
+          let nextIndex = index + 1;
+          nextIndex < layerTraits.length;
+          nextIndex += 1
+        ) {
+          const first = layerTraits[index];
+          const second = layerTraits[nextIndex];
+          const distance = Math.hypot(
+            first.anchor.x - second.anchor.x,
+            first.anchor.y - second.anchor.y,
+          );
+
+          expect(
+            distance,
+            `${layer.id}: ${first.titleRu} is too close to ${second.titleRu}`,
+          ).toBeGreaterThanOrEqual(minAnchorDistance);
+        }
+      }
+    }
+  });
 });

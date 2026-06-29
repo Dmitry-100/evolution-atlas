@@ -11,6 +11,8 @@ describe("plan tour handler", () => {
       modelUri: "gpt://folder/yandexgpt-5.1",
       generate: async (request) => {
         expect(request.messages[0]?.content).toMatch(/ТОЛЬКО/i);
+        expect(request.messages[0]?.content).not.toMatch(/интересный факт/i);
+        expect(request.messages[0]?.content).toMatch(/без префикса/i);
         expect(request.messages[1]?.content).toMatch(fallback.steps[0].id);
 
         return {
