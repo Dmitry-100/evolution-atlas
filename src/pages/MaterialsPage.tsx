@@ -4,7 +4,7 @@ import { PORTAL_MATERIALS, READING_RECOMMENDATIONS, WATCH_RECOMMENDATIONS } from
 
 export function MaterialsPage() {
   return (
-    <section className="document-page materials-page">
+    <section className="document-page materials-page" data-tour-stop-id="page-materials">
       <div className="document-header">
         <p className="eyebrow">Дополнительные материалы</p>
         <h1>Презентации, книги и видео</h1>

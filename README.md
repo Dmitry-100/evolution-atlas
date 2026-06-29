@@ -18,10 +18,11 @@
 - `src/data/lineage.ts` - единственный источник истины по этапам, изображениям и источникам.
 - `src/data/evidence.ts` - короткий блок о научной теории и доказательствах эволюции.
 - `src/data/genetics.ts` - молекулярная генетика, РНК/ДНК, проценты сходства геномов и источники.
+- `src/data/bodyTraits.ts` - карта признаков человека: слои тела, пины и связь с предковыми узлами Атласа.
 - `src/data/extinctions.ts` - пять глобальных вымираний, их причины, последствия и связь с нашей ветвью.
 - `src/lib/timeline.ts` - математика временной шкалы, форматирование дат и доля истории до приматов.
 - `src/components/atlas/` - компоненты интерактивного атласа.
-- `src/pages/` - маршруты `/`, `/genetics`, `/theory`, `/extinctions`, `/sources`, `/about`.
+- `src/pages/` - маршруты `/`, `/primates`, `/genetics`, `/theory`, `/body-map`, `/extinctions`, `/sources`, `/about`.
 - `public/assets/` - локальные изображения, доступные в сборке.
 - `cloud-functions/ask-darwin/` - Yandex Cloud Function для AI-гида.
 - `legacy/onepager-2026-06-16/` - архив старой one-page версии.
@@ -64,4 +65,4 @@ pnpm build
 
 ## Источники
 
-Базовый визуальный и смысловой референс: [Visual Capitalist: The Path of Human Evolution](https://www.visualcapitalist.com/path-of-human-evolution/). Изображения этапов сохранены локально из открытых источников с кредитами и лицензиями; конкретные ссылки хранятся в `src/data/lineage.ts` и отображаются на странице `/sources`. Объяснение научного смысла слова “теория” и доказательств эволюции вынесено на `/theory`; глобальные вымирания - на `/extinctions`.
+Базовый визуальный и смысловой референс: [Visual Capitalist: The Path of Human Evolution](https://www.visualcapitalist.com/path-of-human-evolution/). Изображения этапов сохранены локально из открытых источников с кредитами и лицензиями; конкретные ссылки хранятся в `src/data/lineage.ts` и отображаются на странице `/sources`. Объяснение научного смысла слова “теория” и доказательств эволюции вынесено на `/theory`; ветвь приматов и происхождение Homo sapiens - на `/primates`; карта признаков человека - на `/body-map`; глобальные вымирания - на `/extinctions`.

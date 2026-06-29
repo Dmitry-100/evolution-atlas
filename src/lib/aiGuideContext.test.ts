@@ -8,12 +8,12 @@ describe("AI guide context", () => {
   it("builds a sourced site context for the selected atlas stage", () => {
     const context = buildDarwinGuideContext({
       message: "Почему Homo sapiens появился в Африке?",
-      pagePath: "/?mode=primates&stage=homo-sapiens",
+      pagePath: "/primates?stage=homo-sapiens",
       stageId: "sapiens",
       atlasMode: "primates",
     });
 
-    expect(context.currentPage.titleRu).toBe("Атлас");
+    expect(context.currentPage.titleRu).toBe("Приматы → человек");
     expect(context.currentStage?.titleRu).toBe("Homo sapiens");
     expect(context.contextRu).toMatch(/Homo sapiens/);
     expect(context.contextRu).toMatch(/Африк/i);
@@ -22,7 +22,7 @@ describe("AI guide context", () => {
     expect(context.citations.some((citation) => citation.url.includes("humanorigins.si.edu"))).toBe(true);
     expect(context.relatedLinks).toContainEqual({
       labelRu: "Открыть этап: Homo sapiens",
-      href: "/?mode=primates&stage=homo-sapiens",
+      href: "/primates?stage=homo-sapiens",
     });
   });
 
@@ -47,5 +47,20 @@ describe("AI guide context", () => {
         }),
       ),
     ).toBe(false);
+  });
+
+  it("adds the body map to page context and direct related links", () => {
+    const context = buildDarwinGuideContext({
+      message: "Какие признаки тела пришли от древних предков?",
+      pagePath: "/body-map",
+    });
+
+    expect(context.currentPage.titleRu).toBe("Карта признаков");
+    expect(context.contextRu).toMatch(/Карта признаков/);
+    expect(context.contextRu).toMatch(/признак|тело|предков/i);
+    expect(context.relatedLinks).toContainEqual({
+      labelRu: "Открыть карту признаков",
+      href: "/body-map",
+    });
   });
 });

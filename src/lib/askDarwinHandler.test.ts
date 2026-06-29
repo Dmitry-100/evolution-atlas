@@ -23,7 +23,7 @@ describe("Darwin guide handler", () => {
               url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens",
             },
           ],
-          relatedLinks: [{ labelRu: "Открыть этап: Homo sapiens", href: "/?mode=primates&stage=homo-sapiens" }],
+          relatedLinks: [{ labelRu: "Открыть этап: Homo sapiens", href: "/primates?stage=homo-sapiens" }],
           confidence: "solid",
           grounding: "site",
         };
@@ -32,7 +32,7 @@ describe("Darwin guide handler", () => {
 
     const response = await handler({
       message: "От кого произошел Homo sapiens?",
-      pagePath: "/?mode=primates&stage=homo-sapiens",
+      pagePath: "/primates?stage=homo-sapiens",
       stageId: "sapiens",
       atlasMode: "primates",
       history: [],
@@ -49,7 +49,7 @@ describe("Darwin guide handler", () => {
             url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens",
           },
         ],
-        relatedLinks: [{ labelRu: "Открыть этап: Homo sapiens", href: "/?mode=primates&stage=homo-sapiens" }],
+        relatedLinks: [{ labelRu: "Открыть этап: Homo sapiens", href: "/primates?stage=homo-sapiens" }],
         confidence: "solid",
         grounding: "site",
       },
@@ -97,7 +97,7 @@ describe("Darwin guide handler", () => {
 
     const response = await handler({
       message: "Почему современные обезьяны не эволюционируют в человека?",
-      pagePath: "/?mode=primates&stage=homo-sapiens",
+      pagePath: "/primates?stage=homo-sapiens",
       stageId: "sapiens",
       atlasMode: "primates",
     });

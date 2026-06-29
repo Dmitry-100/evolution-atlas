@@ -8,7 +8,12 @@ import { TraitAccumulator } from "../TraitAccumulator";
 import { MobileStageMap } from "./MobileStageMap";
 
 type MobileAtlasProps = {
-  mode: AtlasUrlMode;
+  mode?: AtlasUrlMode;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  showAfricaOriginMap?: boolean;
+  showTraitAccumulator?: boolean;
   stages: EvolutionStage[];
   eras: EvolutionEra[];
   activeStage: EvolutionStage;
@@ -16,13 +21,18 @@ type MobileAtlasProps = {
   canStepPrevious: boolean;
   canStepNext: boolean;
   accumulatedTraitGroups: AccumulatedTraitGroup[];
-  onActivateMode: (mode: AtlasUrlMode) => void;
+  onActivateMode?: (mode: AtlasUrlMode) => void;
   onActivateStage: (stage: EvolutionStage) => void;
   onStep: (delta: number) => void;
 };
 
 export function MobileAtlas({
   mode,
+  eyebrow = "Атлас эволюции",
+  title = "Человек произошел от обезьяны... а от кого произошла обезьяна?",
+  description = "Двигайтесь по этапам и раскрывайте активную карточку прямо внутри карты.",
+  showAfricaOriginMap = false,
+  showTraitAccumulator = true,
   stages,
   eras,
   activeStage,
@@ -34,32 +44,33 @@ export function MobileAtlas({
   onActivateStage,
   onStep,
 }: MobileAtlasProps) {
+  const showModeTabs = Boolean(mode && onActivateMode);
+
   return (
     <section className="mobile-atlas" aria-label="Мобильный атлас эволюции">
       <div className="mobile-atlas-hero">
-        <p className="eyebrow">Атлас эволюции</p>
-        <h1>Человек произошел от обезьяны... а от кого произошла обезьяна?</h1>
-        <p>
-          Выберите масштаб, двигайтесь по этапам и раскрывайте активную карточку
-          прямо внутри карты.
-        </p>
+        <p className="eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+        <p>{description}</p>
       </div>
 
-      <Tabs
-        value={mode}
-        onValueChange={(value) => onActivateMode(value as AtlasUrlMode)}
-      >
-        <TabsList className="mobile-atlas-tabs">
-          <TabsTrigger value="all">
-            <Compass aria-hidden="true" size={18} />
-            Весь путь
-          </TabsTrigger>
-          <TabsTrigger value="primates">
-            <Search aria-hidden="true" size={18} />
-            Приматы → человек
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+      {showModeTabs ? (
+        <Tabs
+          value={mode}
+          onValueChange={(value) => onActivateMode?.(value as AtlasUrlMode)}
+        >
+          <TabsList className="mobile-atlas-tabs">
+            <TabsTrigger value="all">
+              <Compass aria-hidden="true" size={18} />
+              Весь путь
+            </TabsTrigger>
+            <TabsTrigger value="primates">
+              <Search aria-hidden="true" size={18} />
+              Приматы → человек
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      ) : null}
 
       <div className="mobile-atlas-stepper" aria-label="Переключение этапов">
         <button
@@ -90,9 +101,11 @@ export function MobileAtlas({
         onActivate={onActivateStage}
       />
 
-      <TraitAccumulator groups={accumulatedTraitGroups} />
+      {showTraitAccumulator ? (
+        <TraitAccumulator groups={accumulatedTraitGroups} />
+      ) : null}
 
-      <AfricaOriginMap />
+      {showAfricaOriginMap ? <AfricaOriginMap /> : null}
     </section>
   );
 }

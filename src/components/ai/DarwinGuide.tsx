@@ -1,7 +1,14 @@
 import "./DarwinGuide.css";
 import { useMemo, useState, type FormEvent } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ExternalLink, Loader2, MessageCircle, Sparkles, X } from "lucide-react";
+import {
+  Compass,
+  ExternalLink,
+  Loader2,
+  MessageCircle,
+  Sparkles,
+  X,
+} from "lucide-react";
 import type {
   DarwinGuideMessage,
   DarwinGuideRequest,
@@ -9,6 +16,7 @@ import type {
   DarwinGuideResult,
 } from "../../lib/askDarwinHandler";
 import { sortedStages } from "../../data/lineage";
+import { DARWIN_TOUR_MENU_EVENT } from "../tour/DarwinWelcome";
 
 type ChatEntry = {
   id: string;
@@ -34,7 +42,11 @@ function extractAtlasContext(pathname: string, search: string) {
     pagePath: `${pathname}${search}`,
     stageId: stage?.id,
     atlasMode:
-      modeParam === "all" || modeParam === "primates" ? modeParam : undefined,
+      pathname === "/primates"
+        ? "primates"
+        : modeParam === "all" || modeParam === "primates"
+          ? modeParam
+          : undefined,
   } satisfies Pick<DarwinGuideRequest, "pagePath" | "stageId" | "atlasMode">;
 }
 
@@ -82,6 +94,10 @@ function confidenceLabel(answer: DarwinGuideResponseData) {
   return labels[answer.confidence];
 }
 
+function openTourGuideMenu() {
+  window.dispatchEvent(new Event(DARWIN_TOUR_MENU_EVENT));
+}
+
 export function DarwinGuide() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -92,6 +108,11 @@ export function DarwinGuide() {
     () => extractAtlasContext(location.pathname, location.search),
     [location.pathname, location.search],
   );
+
+  function handleOpenTourGuideMenu() {
+    openTourGuideMenu();
+    setIsOpen(false);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -169,6 +190,14 @@ export function DarwinGuide() {
               <div className="darwin-guide-empty">
                 <Sparkles aria-hidden="true" size={20} />
                 <p>Например: “почему человек не произошел от современной обезьяны?”</p>
+                <button
+                  type="button"
+                  className="darwin-guide-tour-link"
+                  onClick={handleOpenTourGuideMenu}
+                >
+                  <Compass aria-hidden="true" size={16} />
+                  Подобрать экскурсию с Дарвином
+                </button>
               </div>
             ) : (
               entries.map((entry) => (

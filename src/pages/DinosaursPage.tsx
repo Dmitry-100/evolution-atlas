@@ -665,7 +665,10 @@ export function DinosaursPage() {
   }
 
   return (
-    <section className="document-page dinosaurs-page">
+    <section
+      className="document-page dinosaurs-page"
+      data-tour-stop-id="page-dinosaurs"
+    >
       <div className="dinosaurs-hero">
         <div>
           <p className="eyebrow">От амниот к птицам</p>

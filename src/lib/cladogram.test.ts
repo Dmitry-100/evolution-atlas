@@ -194,6 +194,18 @@ describe("cladogram builder", () => {
     ).toBe("generated-reconstruction");
   });
 
+  it("uses the selected Denisovan reconstruction image for the Denisovan branch", () => {
+    const tree = buildCladogram(STAGES);
+
+    expect(
+      tree.branches.find((branch) => branch.id === "branch-denisovans")?.image,
+    ).toMatchObject({
+      src: "/assets/images/source-backed/denisovan-reconstruction.webp",
+      kind: "source-backed",
+      altRu: expect.stringContaining("Денисов"),
+    });
+  });
+
   it("keeps every branch visually inspectable", () => {
     const tree = buildCladogram(STAGES);
 

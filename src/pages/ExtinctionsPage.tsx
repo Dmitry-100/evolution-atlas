@@ -15,7 +15,10 @@ import { formatExtinctionTitleRu, MASS_EXTINCTIONS } from "../data/extinctions";
 
 export function ExtinctionsPage() {
   return (
-    <section className="document-page extinction-page">
+    <section
+      className="document-page extinction-page"
+      data-tour-stop-id="page-extinctions"
+    >
       <div className="document-header">
         <p className="eyebrow">История жизни</p>
         <h1>Глобальные вымирания: когда жизнь меняла направление</h1>

@@ -28,6 +28,32 @@ describe("lineage data", () => {
     expect(chordates?.ageMa).toBeLessThanOrEqual(520);
   });
 
+  it("places the Cambrian explosion as a sourced event before early chordates", () => {
+    const stageIds = STAGES.map((stage) => stage.id);
+    const cambrianExplosion = getStageById("cambrian-explosion");
+
+    expect(cambrianExplosion).toEqual(
+      expect.objectContaining({
+        titleRu: "Кембрийский взрыв",
+        latin: "Cambrian explosion",
+        ageMa: 541,
+        eraId: "animals",
+        lineageRole: "representative",
+      }),
+    );
+    expect(cambrianExplosion?.summaryRu).toMatch(/разнообраз/i);
+    expect(cambrianExplosion?.whyMattersRu).toMatch(/не мгнов/i);
+    expect(cambrianExplosion?.sources.map((source) => source.label)).toContain(
+      "Understanding Evolution: The Cambrian explosion",
+    );
+    expect(stageIds.indexOf("bilaterians")).toBeLessThan(
+      stageIds.indexOf("cambrian-explosion"),
+    );
+    expect(stageIds.indexOf("cambrian-explosion")).toBeLessThan(
+      stageIds.indexOf("chordates"),
+    );
+  });
+
   it("marks primate-focused stages for the zoomed mode", () => {
     expect(primateStages.length).toBeGreaterThanOrEqual(10);
     expect(primateStages[0]?.id).toBe("early-primates");

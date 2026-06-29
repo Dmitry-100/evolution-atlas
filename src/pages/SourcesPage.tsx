@@ -21,7 +21,7 @@ const readableLicense = (value: string) => {
 
 export function SourcesPage() {
   return (
-    <section className="document-page">
+    <section className="document-page" data-tour-stop-id="page-sources">
       <div className="document-header">
         <p className="eyebrow">Прозрачность</p>
         <h1>Источники, лицензии и изображения</h1>

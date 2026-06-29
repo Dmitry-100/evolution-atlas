@@ -22,7 +22,7 @@ const cards = [
 
 export function AboutPage() {
   return (
-    <section className="document-page">
+    <section className="document-page" data-tour-stop-id="page-about">
       <div className="document-header">
         <p className="eyebrow">О проекте</p>
         <h1>Зачем нужен этот атлас</h1>

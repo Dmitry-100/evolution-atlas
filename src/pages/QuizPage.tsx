@@ -2,7 +2,7 @@ import { QuizPanel } from "../components/atlas/QuizPanel";
 
 export function QuizPage() {
   return (
-    <section className="quiz-page">
+    <section className="quiz-page" data-tour-stop-id="page-quiz">
       <div className="document-header">
         <p className="eyebrow">Мини-квиз</p>
         <h1>Мини-квиз</h1>

@@ -13,7 +13,13 @@ export type CuriosityFact = {
 
 export const CURIOSITY_FACT_PAGE_GROUPS = {
   origin: ["oxygen-waste"],
-  genetics: ["mitochondria-bacteria", "chromosome-2", "viral-fossils"],
+  genetics: [
+    "mitochondria-bacteria",
+    "chromosome-2",
+    "viral-fossils",
+    "mitochondrial-eve",
+    "y-chromosomal-adam",
+  ],
   cladogram: ["jaw-to-ear", "walking-whales"],
   dinosaurs: ["feathers-before-flight"],
   theory: ["sapiens-last-seconds"],
@@ -25,7 +31,7 @@ export const CURIOSITY_FACTS: CuriosityFact[] = [
     titleRu: "Кислород начинался как микробный побочный продукт",
     shortRu: "Цианобактерии изменили атмосферу, и газ, который стал нашим топливом, сначала был планетарным стрессом.",
     detailRu:
-      "Кислородный фотосинтез постепенно насытил океаны и атмосферу кислородом. Для многих древних анаэробных систем это было давление, а для будущей сложной жизни - энергетический шанс.",
+      "Кислородный фотосинтез постепенно насытил океаны и атмосферу кислородом. Этот сдвиг часто называют кислородной катастрофой: для многих древних анаэробных систем кислород был токсичным давлением, а для будущей сложной жизни - энергетическим шансом.",
     sectionHref: "/?mode=all&stage=cyanobacteria",
     confidence: "solid",
     source: {
@@ -86,6 +92,34 @@ export const CURIOSITY_FACTS: CuriosityFact[] = [
     },
   },
   {
+    id: "mitochondrial-eve",
+    titleRu: "Митохондриальная Ева - не первая женщина",
+    shortRu:
+      "Это последняя женщина, от которой все современные люди получили митохондриальную ДНК по непрерывной материнской линии.",
+    detailRu:
+      "Митохондриальная Ева - реконструируемый общий предок только для материнской линии мтДНК. Она жила среди многих людей и не единственная женщина своего времени; просто остальные материнские линии со временем прервались.",
+    sectionHref: "/genetics",
+    confidence: "likely",
+    source: {
+      label: "Stanford Medicine: common genetic ancestors",
+      url: "https://med.stanford.edu/news/all-news/2013/08/common-genetic-ancestors-lived-during-roughly-same-time-period-scientists-find.html",
+    },
+  },
+  {
+    id: "y-chromosomal-adam",
+    titleRu: "Y-хромосомный Адам - не пара Евы",
+    shortRu:
+      "Это последняя непрерывная отцовская линия Y-хромосомы у современных мужчин, а не единственный мужчина прошлого.",
+    detailRu:
+      "Y-хромосомный Адам - реконструируемый общий предок для мужской отцовской линии Y-хромосомы. Он не был единственным мужчиной, не обязан быть современником митохондриальной Евы и не пара ей: обе метки описывают разные линии наследования.",
+    sectionHref: "/genetics",
+    confidence: "likely",
+    source: {
+      label: "Stanford Medicine: common genetic ancestors",
+      url: "https://med.stanford.edu/news/all-news/2013/08/common-genetic-ancestors-lived-during-roughly-same-time-period-scientists-find.html",
+    },
+  },
+  {
     id: "walking-whales",
     titleRu: "Киты произошли от наземных млекопитающих",
     shortRu: "Одна из самых эффектных историй перехода: линия вернулась в воду, сохранив следы наземного прошлого.",
@@ -117,7 +151,7 @@ export const CURIOSITY_FACTS: CuriosityFact[] = [
     shortRu: "Если 4 млрд лет жизни сжать в одни сутки, наш вид появляется почти у самой полуночи.",
     detailRu:
       "На 4-миллиардной шкале 300 тысяч лет - это примерно последние 6-7 секунд суток. Такой масштаб помогает почувствовать, насколько молод Homo sapiens.",
-    sectionHref: "/?mode=primates&stage=homo-sapiens",
+    sectionHref: "/primates?stage=homo-sapiens",
     confidence: "solid",
     source: {
       label: "Smithsonian: Homo sapiens",

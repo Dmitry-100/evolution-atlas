@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 .deploy
+.superpowers/
 playwright-report
 test-results
 *.local

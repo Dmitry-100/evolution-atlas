@@ -6,12 +6,14 @@ import deepTimeAxisSource from "../components/atlas/DeepTimeAxis.tsx?raw";
 import mobileStageDetailSource from "../components/atlas/mobile/MobileStageDetail.tsx?raw";
 import primateAxisSource from "../components/atlas/PrimateAxis.tsx?raw";
 import stageDetailCardSource from "../components/atlas/StageDetailCard.tsx?raw";
+import bodyMapPageSource from "../pages/BodyMapPage.tsx?raw";
 import cladogramPageSource from "../pages/CladogramPage.tsx?raw";
 import dinosaursPageSource from "../pages/DinosaursPage.tsx?raw";
 import extinctionsPageSource from "../pages/ExtinctionsPage.tsx?raw";
 import geneticsPageSource from "../pages/GeneticsPage.tsx?raw";
 import materialsPageSource from "../pages/MaterialsPage.tsx?raw";
 import originOfLifePageSource from "../pages/OriginOfLifePage.tsx?raw";
+import primatesPageSource from "../pages/PrimatesPage.tsx?raw";
 import sourcesPageSource from "../pages/SourcesPage.tsx?raw";
 import theoryPageSource from "../pages/TheoryPage.tsx?raw";
 
@@ -25,12 +27,14 @@ const sourceFiles = [
   ],
   ["src/components/atlas/PrimateAxis.tsx", primateAxisSource],
   ["src/components/atlas/StageDetailCard.tsx", stageDetailCardSource],
+  ["src/pages/BodyMapPage.tsx", bodyMapPageSource],
   ["src/pages/CladogramPage.tsx", cladogramPageSource],
   ["src/pages/DinosaursPage.tsx", dinosaursPageSource],
   ["src/pages/ExtinctionsPage.tsx", extinctionsPageSource],
   ["src/pages/GeneticsPage.tsx", geneticsPageSource],
   ["src/pages/MaterialsPage.tsx", materialsPageSource],
   ["src/pages/OriginOfLifePage.tsx", originOfLifePageSource],
+  ["src/pages/PrimatesPage.tsx", primatesPageSource],
   ["src/pages/SourcesPage.tsx", sourcesPageSource],
   ["src/pages/TheoryPage.tsx", theoryPageSource],
 ];

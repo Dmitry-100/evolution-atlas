@@ -40,4 +40,10 @@ describe("science source groups", () => {
     expect(urls).toContain("https://www.pnas.org/doi/abs/10.1073/pnas.88.20.9051");
     expect(urls).toContain("https://www.ipbes.net/global-assessment");
   });
+
+  it("assigns human origins sources to the primates section", () => {
+    expect(SCIENCE_SOURCE_GROUPS.find((group) => group.id === "human-origins")).toMatchObject({
+      routeHref: "/primates",
+    });
+  });
 });

@@ -47,6 +47,7 @@ export function MobileStageMap({
                         ? "mobile-stage-row is-active"
                         : "mobile-stage-row"
                     }
+                    data-tour-stop-id={`stage-${stage.id}`}
                   >
                     <button
                       type="button"

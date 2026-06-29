@@ -24,7 +24,7 @@ const principles = [
 
 export function TheoryPage() {
   return (
-    <section className="document-page theory-page">
+    <section className="document-page theory-page" data-tour-stop-id="page-theory">
       <div className="document-header">
         <p className="eyebrow">Теория эволюции</p>
         <h1>Почему эволюция называется теорией</h1>

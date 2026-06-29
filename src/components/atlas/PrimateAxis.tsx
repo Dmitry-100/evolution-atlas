@@ -1,10 +1,12 @@
-import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
-import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
+import { ArrowLeft, ArrowRight, Maximize2, MoveHorizontal } from "lucide-react";
+import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import type { EvolutionStage } from "../../data/lineage";
 import { ageMaToPosition, formatAgeRu } from "../../lib/timeline";
 import { FloatingPaths } from "../ui/floating-paths";
+import { ImageLightbox } from "../ui/image-lightbox";
 import { OptimizedImage } from "../ui/optimized-image";
 import { Slider } from "../ui/slider";
+import { JourneyControls } from "./JourneyControls";
 
 type PrimateAxisProps = {
   stages: EvolutionStage[];
@@ -59,6 +61,7 @@ export function PrimateAxis({
   canStepPrevious,
   canStepNext,
 }: PrimateAxisProps) {
+  const [isTimelineExpanded, setIsTimelineExpanded] = useState(false);
   const positions = useMemo(() => makeReadablePositions(stages), [stages]);
   const activeIndex = Math.max(0, stages.findIndex((stage) => stage.id === activeStage.id));
   const activePosition = positions[activeIndex] ?? 2;
@@ -131,6 +134,17 @@ export function PrimateAxis({
           aria-hidden="true"
           decoding="async"
         />
+        <button
+          type="button"
+          className="deep-time-image-zoom"
+          onClick={() => setIsTimelineExpanded(true)}
+          aria-label="Увеличить иллюстрацию шкалы приматов"
+        >
+          <span>
+            <Maximize2 aria-hidden="true" size={15} />
+            Увеличить
+          </span>
+        </button>
 
         <div className="primate-zone-bands" aria-hidden="true">
           {primateAxisZones.map((zone) => {
@@ -163,6 +177,7 @@ export function PrimateAxis({
                 key={stage.id}
                 type="button"
                 className={isActive ? "deep-stage-dot is-active" : "deep-stage-dot"}
+                data-tour-stop-id={`stage-${stage.id}`}
                 style={{ left: `${position}%` } as CSSProperties}
                 aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
                 aria-current={isActive ? "true" : undefined}
@@ -193,6 +208,25 @@ export function PrimateAxis({
         <span>7 млн</span>
         <span>сегодня</span>
       </div>
+      <JourneyControls
+        stages={stages}
+        activeStage={activeStage}
+        onActivate={onActivate}
+      />
+      <ImageLightbox
+        image={
+          isTimelineExpanded
+            ? {
+                src: "/assets/images/timelines/primates-timeline-21-9.png",
+                alt: "Панорамная иллюстрация шкалы от ранних приматов к Homo sapiens.",
+                caption:
+                  "Шкала приматов: от ранних древесных форм к антропоидам, человекообразным и Homo sapiens.",
+              }
+            : null
+        }
+        ariaLabel="Увеличенная иллюстрация шкалы приматов"
+        onClose={() => setIsTimelineExpanded(false)}
+      />
     </section>
   );
 }

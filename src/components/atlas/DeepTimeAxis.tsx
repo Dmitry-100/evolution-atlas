@@ -1,14 +1,17 @@
-import { useMemo, type CSSProperties, type KeyboardEvent } from "react";
-import { ArrowLeft, ArrowRight, MoveHorizontal } from "lucide-react";
+import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, ArrowRight, Maximize2, MoveHorizontal } from "lucide-react";
 import {
   formatExtinctionTitleRu,
   type MassExtinctionEvent,
 } from "../../data/extinctions";
 import type { EvolutionStage } from "../../data/lineage";
 import { formatAgeRu, sortStagesOldestFirst } from "../../lib/timeline";
+import { ImageLightbox } from "../ui/image-lightbox";
 import { OptimizedImage } from "../ui/optimized-image";
 import { Slider } from "../ui/slider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { JourneyControls } from "./JourneyControls";
 
 type DeepTimeAxisProps = {
   stages: EvolutionStage[];
@@ -49,6 +52,8 @@ const TIME_REGION_LABELS = [
     detail: "миллиарды лет до животных",
     color: "#6aa8ad",
     align: "center",
+    labelPosition: 22,
+    lane: 0,
   },
   {
     id: "vertebrates",
@@ -57,6 +62,8 @@ const TIME_REGION_LABELS = [
     detail: "скелет, хорда, челюсти",
     color: "#7aaed2",
     align: "center",
+    labelPosition: 42,
+    lane: 1,
   },
   {
     id: "land",
@@ -65,6 +72,8 @@ const TIME_REGION_LABELS = [
     detail: "выход из воды",
     color: "#d0a35b",
     align: "center",
+    labelPosition: 54,
+    lane: 0,
   },
   {
     id: "mammals",
@@ -73,6 +82,8 @@ const TIME_REGION_LABELS = [
     detail: "теплокровность и забота",
     color: "#b87f59",
     align: "center",
+    labelPosition: 68,
+    lane: 1,
   },
   {
     id: "primates",
@@ -81,6 +92,8 @@ const TIME_REGION_LABELS = [
     detail: "самый конец шкалы",
     color: "#9eb36e",
     align: "right",
+    labelPosition: 96,
+    lane: 0,
   },
 ] as const;
 
@@ -125,13 +138,19 @@ export function DeepTimeAxis({
   canStepNext,
   extinctions = [],
 }: DeepTimeAxisProps) {
+  const [isTimelineExpanded, setIsTimelineExpanded] = useState(false);
   const activePosition = visualTimePosition(activeStage.ageMa) * 100;
-  const activeCardClass =
+  const activeCardClass = [
+    "deep-active-card",
     activePosition > 82
-      ? "deep-active-card align-right"
+      ? "align-right"
       : activePosition < 18
-        ? "deep-active-card align-left"
-        : "deep-active-card";
+        ? "align-left"
+        : null,
+    activePosition > 70 ? "late-region" : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
   const visibleExtinctions = useMemo(
     () => extinctions.filter((event) => event.ageMa > 0),
     [extinctions],
@@ -196,22 +215,47 @@ export function DeepTimeAxis({
           decoding="async"
           fetchPriority="high"
         />
-        <div className="deep-time-region-labels" aria-hidden="true">
-          {TIME_REGION_LABELS.map((region) => (
-            <span
-              key={region.id}
-              className={`deep-time-region-label align-${region.align}`}
-              style={
-                {
-                  left: `${visualTimePosition(region.ageMa) * 100}%`,
-                  "--region-color": region.color,
-                } as CSSProperties
-              }
-            >
-              <strong>{region.title}</strong>
-              <small>{region.detail}</small>
-            </span>
-          ))}
+        <button
+          type="button"
+          className="deep-time-image-zoom"
+          onClick={() => setIsTimelineExpanded(true)}
+          aria-label="Увеличить иллюстрацию шкалы времени"
+        >
+          <span>
+            <Maximize2 aria-hidden="true" size={15} />
+            Увеличить
+          </span>
+        </button>
+        <div className="deep-time-region-labels">
+          {TIME_REGION_LABELS.map((region) => {
+            const labelClass = `deep-time-region-label align-${region.align}`;
+            const labelStyle = {
+              left: `${region.labelPosition}%`,
+              "--region-color": region.color,
+              "--region-lane": region.lane,
+            } as CSSProperties;
+
+            if (region.id === "primates") {
+              return (
+                <Link
+                  key={region.id}
+                  className={`${labelClass} deep-time-region-link`}
+                  style={labelStyle}
+                  to="/primates"
+                >
+                  <strong>{region.title}</strong>
+                  <small>{region.detail}</small>
+                </Link>
+              );
+            }
+
+            return (
+              <span key={region.id} className={labelClass} style={labelStyle}>
+                <strong>{region.title}</strong>
+                <small>{region.detail}</small>
+              </span>
+            );
+          })}
         </div>
 
         <div className="extinction-markers" aria-label="Глобальные вымирания">
@@ -286,6 +330,7 @@ export function DeepTimeAxis({
                 className={
                   isActive ? "deep-stage-dot is-active" : "deep-stage-dot"
                 }
+                data-tour-stop-id={`stage-${stage.id}`}
                 style={{ left: `${position}%` }}
                 type="button"
                 aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
@@ -320,6 +365,25 @@ export function DeepTimeAxis({
         <span>66 млн</span>
         <span>сегодня</span>
       </div>
+      <JourneyControls
+        stages={stages}
+        activeStage={activeStage}
+        onActivate={onActivate}
+      />
+      <ImageLightbox
+        image={
+          isTimelineExpanded
+            ? {
+                src: "/assets/images/timeline-river-evolution-21-9.png",
+                alt: "Панорамная иллюстрация шкалы эволюции от ранней жизни к человеку.",
+                caption:
+                  "Шкала «4 млрд лет одним взглядом»: водная ранняя жизнь, выход на сушу, млекопитающие, приматы и линия Homo.",
+              }
+            : null
+        }
+        ariaLabel="Увеличенная иллюстрация шкалы времени"
+        onClose={() => setIsTimelineExpanded(false)}
+      />
     </section>
   );
 }

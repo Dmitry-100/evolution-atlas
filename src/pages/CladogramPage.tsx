@@ -16,6 +16,7 @@ import { TooltipProvider } from "../components/ui/tooltip";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 import { sortedStages, type EvolutionStage } from "../data/lineage";
 import { buildCladogram, type CladogramBranch } from "../lib/cladogram";
+import { getStageHref } from "../lib/atlasUrlState";
 import { formatAgeRu } from "../lib/timeline";
 
 function getStageFromParams(stageSlug: string | null) {
@@ -100,7 +101,7 @@ function CladogramInspector({
           {branch.stage ? (
             <Link
               className="button button-secondary button-md"
-              to={`/?mode=all&stage=${branch.stage.slug}`}
+              to={getStageHref(branch.stage)}
             >
               Открыть в Атласе
               <ArrowRight aria-hidden="true" size={16} />
@@ -155,7 +156,7 @@ function CladogramInspector({
         <div className="cladogram-inspector-actions">
           <Link
             className="button button-secondary button-md"
-            to={`/?mode=all&stage=${stage.slug}`}
+            to={getStageHref(stage)}
           >
             Открыть в Атласе
             <ArrowRight aria-hidden="true" size={16} />
@@ -207,7 +208,10 @@ export function CladogramPage() {
 
   return (
     <TooltipProvider delayDuration={160}>
-      <section className="document-page cladogram-page">
+      <section
+        className="document-page cladogram-page"
+        data-tour-stop-id="page-cladogram"
+      >
         <div className="document-header">
           <p className="eyebrow">Кладограмма</p>
           <h1>Дерево родства</h1>

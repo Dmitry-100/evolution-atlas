@@ -607,10 +607,12 @@ const contextBranches: ContextBranchSeed[] = [
     ageMa: 0.3,
     descriptionRu:
       "Поздняя человеческая боковая ветвь известна прежде всего по ДНК и показывает, что рядом с Homo sapiens жили другие люди.",
-    image: wikiLeadImage(
-      "branch-denisovans.jpg",
-      "Denisovan",
-      "Фрагмент денисовской кости, известный по молекулярным данным.",
+    image: localSourceImage(
+      "/assets/images/source-backed/denisovan-reconstruction.webp",
+      "https://s12.stc.yc.kpcdn.net/share/i/12/14570276/wr-960.webp",
+      "Портретная реконструкция Денисовца крупным планом.",
+      "Пользовательская ссылка / kp.ru CDN",
+      "см. исходный источник",
     ),
   },
 ];

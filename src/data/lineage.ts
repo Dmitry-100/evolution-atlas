@@ -198,6 +198,25 @@ export const STAGES: EvolutionStage[] = [
     sources: [wiki("Bilateria", "Bilateria")],
   },
   {
+    id: "cambrian-explosion",
+    slug: "cambrian-explosion",
+    titleRu: "Кембрийский взрыв",
+    latin: "Cambrian explosion",
+    ageMa: 541,
+    eraId: "animals",
+    lineageRole: "representative",
+    summaryRu:
+      "В начале кембрия в ископаемой летописи резко возрастает разнообразие морских животных: панцири, глаза, хищничество и новые планы тела становятся заметными.",
+    whyMattersRu:
+      "Это не мгновенное чудо и не начало всех животных: эдиакарские и докембрийские линии уже существовали, но кембрийские фауны делают эволюционную радиацию особенно видимой.",
+    inherited: ["разнообразие планов тела", "минерализованные ткани", "новые морские ниши"],
+    image: plate("cambrian-explosion", "AI-реконструкция разнообразной кембрийской морской фауны"),
+    sources: [
+      source("Understanding Evolution: The Cambrian explosion", "https://evolution.berkeley.edu/the-cambrian-explosion/"),
+      wiki("Cambrian explosion", "Cambrian_explosion"),
+    ],
+  },
+  {
     id: "chordates",
     slug: "chordates",
     titleRu: "Ранние хордовые",

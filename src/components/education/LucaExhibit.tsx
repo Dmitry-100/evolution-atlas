@@ -9,7 +9,11 @@ export function LucaExhibit() {
   const childNodes = LUCA_TREE_NODES.filter((node) => node.id !== "luca");
 
   return (
-    <section className="luca-exhibit" aria-labelledby="luca-exhibit-title">
+    <section
+      className="luca-exhibit"
+      aria-labelledby="luca-exhibit-title"
+      data-tour-stop-id="page-origin-luca"
+    >
       <div className="luca-exhibit-heading">
         <Network aria-hidden="true" size={24} />
         <div>

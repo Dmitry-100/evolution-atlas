@@ -1,0 +1,710 @@
+.darwin-welcome-shell {
+  position: relative;
+  z-index: 1;
+  max-width: 1040px;
+  margin-top: 1.15rem;
+}
+
+.darwin-welcome-trigger {
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.18rem 0.55rem;
+  align-items: center;
+  max-width: min(100%, 390px);
+  min-height: 58px;
+  padding: 0.72rem 0.88rem;
+  border: 1px solid rgba(232, 202, 140, 0.36);
+  border-radius: 8px;
+  color: var(--text);
+  background:
+    linear-gradient(135deg, rgba(232, 202, 140, 0.16), transparent 58%),
+    rgba(255, 255, 255, 0.075);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  text-align: left;
+}
+
+.darwin-welcome-trigger svg {
+  grid-row: span 2;
+  color: var(--gold);
+}
+
+.darwin-welcome-trigger span {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.darwin-welcome-trigger strong {
+  color: var(--text);
+  font-size: 0.98rem;
+  line-height: 1.15;
+}
+
+.darwin-welcome-trigger:hover,
+.darwin-welcome-trigger[aria-expanded="true"] {
+  border-color: rgba(232, 202, 140, 0.58);
+  background:
+    linear-gradient(135deg, rgba(232, 202, 140, 0.22), transparent 58%),
+    rgba(255, 255, 255, 0.095);
+}
+
+.topbar-nav .darwin-welcome-shell {
+  position: relative;
+  flex: 0 0 auto;
+  max-width: none;
+  margin-top: 0;
+}
+
+.topbar-nav .darwin-welcome-trigger {
+  display: inline-flex;
+  gap: 0.4rem;
+  min-height: 42px;
+  max-width: none;
+  padding: 0.48rem 0.8rem;
+  border-color: rgba(235, 198, 124, 0.28);
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+.topbar-nav .darwin-welcome-trigger span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  letter-spacing: 0;
+  line-height: 1.12;
+  text-transform: none;
+}
+
+.topbar-nav .darwin-welcome-trigger strong {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.12;
+}
+
+.topbar-nav .darwin-welcome-trigger svg {
+  grid-row: auto;
+}
+
+.topbar-nav .darwin-welcome-trigger:hover span,
+.topbar-nav .darwin-welcome-trigger:hover strong,
+.topbar-nav .darwin-welcome-trigger[aria-expanded="true"] span,
+.topbar-nav .darwin-welcome-trigger[aria-expanded="true"] strong {
+  color: var(--text);
+}
+
+.darwin-welcome {
+  display: grid;
+  gap: 0.95rem;
+  width: min(1040px, 100%);
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgba(232, 202, 140, 0.25);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(232, 202, 140, 0.1), transparent 46%),
+    rgba(255, 255, 255, 0.055);
+  box-shadow: 0 18px 58px rgba(0, 0, 0, 0.18);
+}
+
+.topbar-nav .darwin-welcome {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  z-index: 85;
+  width: min(760px, calc(100vw - 2rem));
+  max-height: calc(100vh - 7rem);
+  overflow: auto;
+  background:
+    linear-gradient(135deg, rgba(232, 202, 140, 0.12), transparent 46%),
+    rgba(23, 24, 22, 0.98);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+}
+
+.darwin-welcome-copy {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.darwin-welcome-copy h2 {
+  margin: 0;
+  max-width: 760px;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.22rem, 2.2vw, 1.75rem);
+  line-height: 1.16;
+}
+
+.darwin-welcome-copy p {
+  margin: 0;
+  max-width: 850px;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.darwin-intent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.58rem;
+}
+
+.darwin-intent-grid-extra {
+  padding-top: 0.58rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.darwin-intent-button,
+.darwin-choice-row button,
+.darwin-welcome-actions button,
+.darwin-more-tours-button,
+.tour-player button {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  font: 800 0.9rem/1.2 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.darwin-intent-button {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  justify-content: flex-start;
+  padding: 0.78rem;
+  text-align: left;
+}
+
+.darwin-more-tours-button {
+  justify-self: start;
+  padding: 0.62rem 0.86rem;
+  color: var(--muted);
+}
+
+.darwin-intent-button svg,
+.darwin-choice-row svg,
+.tour-player svg {
+  flex: 0 0 auto;
+  color: var(--gold);
+}
+
+.darwin-intent-button:hover,
+.darwin-choice-row button:hover,
+.darwin-welcome-actions button:hover,
+.darwin-more-tours-button:hover,
+.tour-player button:hover {
+  border-color: rgba(232, 202, 140, 0.45);
+  background: rgba(232, 202, 140, 0.1);
+}
+
+.darwin-followup-panel {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.88rem;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.darwin-followup-panel h3,
+.darwin-followup-panel h4,
+.darwin-followup-panel p,
+.darwin-followup-panel ul {
+  margin: 0;
+}
+
+.darwin-followup-panel h3,
+.darwin-followup-panel h4,
+.darwin-followup-panel label {
+  color: var(--gold);
+  font-size: 0.95rem;
+  font-weight: 900;
+}
+
+.darwin-followup-panel p,
+.darwin-followup-panel li,
+.darwin-browse-links small {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.darwin-route-preview {
+  gap: 0.86rem;
+}
+
+.darwin-route-summary {
+  display: grid;
+  gap: 0.36rem;
+}
+
+.darwin-route-summary .kicker {
+  color: var(--muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+}
+
+.darwin-route-summary h3 {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+  line-height: 1.18;
+}
+
+.darwin-route-facts {
+  display: grid;
+  gap: 0.42rem;
+  padding: 0.72rem;
+  border: 1px solid rgba(232, 202, 140, 0.18);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(232, 202, 140, 0.09), transparent 58%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.darwin-route-facts ul {
+  display: grid;
+  gap: 0.38rem;
+  padding-left: 1.05rem;
+}
+
+.darwin-route-facts li::marker {
+  color: var(--gold);
+}
+
+.darwin-route-length-copy {
+  color: var(--text) !important;
+}
+
+.darwin-followup-panel textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 82px;
+  padding: 0.72rem 0.78rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
+  font: 0.94rem/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.darwin-choice-row,
+.darwin-welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.darwin-choice-row button,
+.darwin-welcome-actions button,
+.tour-player button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  padding: 0.62rem 0.78rem;
+}
+
+.darwin-choice-row button.is-selected {
+  color: #17130b;
+  background: linear-gradient(180deg, #f3cf83, #c99649);
+}
+
+.darwin-welcome-actions {
+  justify-content: flex-end;
+}
+
+.darwin-welcome-actions button {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.darwin-browse-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 0.55rem;
+}
+
+.darwin-browse-links a {
+  display: grid;
+  align-content: start;
+  gap: 0.32rem;
+  min-width: 0;
+  min-height: 92px;
+  padding: 0.78rem;
+  border: 1px solid rgba(232, 202, 140, 0.24);
+  border-radius: 8px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.055);
+  text-decoration: none;
+  white-space: normal;
+}
+
+.darwin-browse-links span {
+  min-width: 0;
+  color: #f4d58d;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.darwin-browse-links small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.tour-player {
+  position: fixed;
+  left: clamp(1rem, 2vw, 1.5rem);
+  bottom: clamp(1rem, 2vw, 1.5rem);
+  z-index: 58;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(470px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow: hidden;
+  border: 1px solid rgba(214, 175, 105, 0.3);
+  border-radius: 8px;
+  color: var(--text);
+  background:
+    linear-gradient(180deg, rgba(34, 32, 28, 0.96), rgba(16, 17, 17, 0.97)),
+    var(--panel);
+  box-shadow: 0 26px 74px rgba(0, 0, 0, 0.46);
+}
+
+.tour-player--right {
+  right: clamp(1rem, 2vw, 1.5rem);
+  left: auto;
+}
+
+.tour-player--with-next-steps {
+  width: min(560px, calc(100vw - 2rem));
+}
+
+.tour-player header,
+.tour-player footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.82rem 0.9rem;
+}
+
+.tour-player header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tour-player header span {
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.tour-player h2 {
+  margin: 0.18rem 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.17rem;
+  line-height: 1.18;
+}
+
+.tour-icon-button {
+  width: 36px;
+  min-height: 36px !important;
+  padding: 0 !important;
+}
+
+.tour-player-body {
+  display: grid;
+  gap: 0.68rem;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.9rem;
+}
+
+.tour-player-body strong {
+  color: #f4d58d;
+}
+
+.tour-player-body p,
+.tour-player-body h3 {
+  margin: 0;
+}
+
+.tour-player-body p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.tour-player-body h3 {
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.tour-player-body section {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.72rem;
+  border: 1px solid rgba(232, 202, 140, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.tour-guide-note p {
+  color: var(--text) !important;
+}
+
+.tour-next-steps {
+  gap: 0.66rem !important;
+}
+
+.tour-next-steps h3,
+.tour-next-steps p {
+  margin: 0;
+}
+
+.tour-next-step-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.tour-next-step-card {
+  display: grid;
+  gap: 0.28rem;
+  min-width: 0;
+  padding: 0.62rem;
+  border: 1px solid rgba(232, 202, 140, 0.22);
+  border-radius: 8px;
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.18);
+  text-decoration: none;
+}
+
+.tour-next-step-card:hover {
+  border-color: rgba(232, 202, 140, 0.48);
+  background: rgba(232, 202, 140, 0.08);
+}
+
+.tour-next-step-card span,
+.tour-next-step-card small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.tour-next-step-card span {
+  color: #f4d58d;
+  font-size: 0.86rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.tour-next-step-card small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.tour-focus-target {
+  z-index: 2;
+  scroll-margin: 6rem 1rem 2rem;
+  outline: 3px solid rgba(244, 213, 141, 0.96);
+  outline-offset: 7px;
+  box-shadow:
+    0 0 0 7px rgba(244, 213, 141, 0.13),
+    0 0 42px rgba(244, 213, 141, 0.34);
+  transition:
+    outline-color 160ms ease,
+    box-shadow 160ms ease;
+  animation: tour-focus-pulse 1.8s ease-in-out infinite;
+}
+
+.tour-focus-target[data-tour-focus-label]:not(.stage-panel):not(.deep-stage-dot) {
+  position: relative;
+}
+
+.tour-focus-target[data-tour-focus-label]::after {
+  content: attr(data-tour-focus-label);
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 6;
+  max-width: min(220px, calc(100% - 1.1rem));
+  padding: 0.28rem 0.5rem;
+  border: 1px solid rgba(23, 19, 11, 0.22);
+  border-radius: 999px;
+  color: #17130b;
+  background: linear-gradient(180deg, #f6d88f, #c99649);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+  font: 900 0.72rem/1.1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  text-align: center;
+}
+
+.deep-stage-dot.tour-focus-target {
+  outline-offset: 10px;
+}
+
+.deep-stage-dot.tour-focus-target[data-tour-focus-label]::after {
+  content: none;
+}
+
+@keyframes tour-focus-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 7px rgba(244, 213, 141, 0.12),
+      0 0 34px rgba(244, 213, 141, 0.24);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 10px rgba(244, 213, 141, 0.18),
+      0 0 50px rgba(244, 213, 141, 0.38);
+  }
+}
+
+.tour-player footer {
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tour-next-button {
+  color: #17130b !important;
+  background: linear-gradient(180deg, #f3cf83, #c99649) !important;
+}
+
+.tour-player-collapsed {
+  width: auto;
+}
+
+.tour-player-collapsed button {
+  color: #17130b;
+  background: linear-gradient(180deg, #f3cf83, #c99649);
+}
+
+@media (max-width: 920px) {
+  .darwin-intent-grid,
+  .darwin-browse-links {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar-nav .darwin-welcome-shell {
+    width: 100%;
+  }
+
+  .topbar-nav .darwin-welcome-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .topbar-nav .darwin-welcome {
+    position: fixed;
+    inset: 0.75rem;
+    width: auto;
+    height: calc(100vh - 1.5rem);
+    height: calc(100dvh - 1.5rem);
+    max-height: calc(100dvh - 1.5rem);
+    margin-top: 0;
+    z-index: 95;
+  }
+
+  .darwin-welcome {
+    margin-top: 0.9rem;
+    padding: 0.85rem;
+  }
+
+  .darwin-welcome-trigger {
+    width: 100%;
+    min-height: 54px;
+  }
+
+  .darwin-welcome-copy h2 {
+    font-size: 1.18rem;
+  }
+
+  .darwin-welcome-copy p,
+  .darwin-followup-panel p,
+  .darwin-followup-panel li {
+    font-size: 0.88rem;
+  }
+
+  .darwin-intent-button {
+    min-height: 48px;
+  }
+
+  .darwin-choice-row,
+  .darwin-welcome-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .darwin-choice-row button,
+  .darwin-welcome-actions button {
+    width: 100%;
+    min-height: 46px;
+  }
+
+  .tour-player {
+    right: 0.75rem;
+    left: 0.75rem;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    width: auto;
+    max-height: min(45vh, 440px);
+    max-height: min(45dvh, 440px);
+  }
+
+  .tour-player--with-next-steps {
+    width: auto;
+  }
+
+  .tour-player header,
+  .tour-player footer {
+    padding: 0.72rem;
+  }
+
+  .tour-player h2 {
+    font-size: 1.02rem;
+  }
+
+  .tour-player-body {
+    padding: 0.72rem;
+  }
+
+  .tour-player footer {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .tour-player footer button {
+    width: 100%;
+  }
+
+  .tour-focus-target[data-tour-focus-label]::after {
+    top: 0.45rem;
+    right: 0.45rem;
+    max-width: min(180px, calc(100% - 0.9rem));
+    font-size: 0.68rem;
+  }
+
+  .tour-focus-target {
+    scroll-margin-top: 6.5rem;
+    scroll-margin-bottom: 48vh;
+    scroll-margin-bottom: 48dvh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-focus-target {
+    animation: none;
+  }
+}

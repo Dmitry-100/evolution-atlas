@@ -89,21 +89,25 @@ const originVisuals: Record<
 
 const originJourney = [
   {
+    id: "page-origin-energy",
     title: "Энергия",
     text: "молнии, ультрафиолет, вулканы и гидротермальные источники",
     visual: originVisuals["step-energy"],
   },
   {
+    id: "page-origin-organics",
     title: "Органика",
     text: "аминокислоты, сахара и азотистые основания как химические заготовки",
     visual: originVisuals["step-organics"],
   },
   {
+    id: "page-origin-membranes",
     title: "Оболочки",
     text: "липидные пузырьки удерживают молекулы рядом друг с другом",
     visual: originVisuals["step-membranes"],
   },
   {
+    id: "page-origin-inheritance",
     title: "Наследование",
     text: "молекулы вроде РНК дают шанс копировать удачные варианты",
     visual: originVisuals["step-inheritance"],
@@ -112,7 +116,10 @@ const originJourney = [
 
 export function OriginOfLifePage() {
   return (
-    <section className="document-page origin-page">
+    <section
+      className="document-page origin-page"
+      data-tour-stop-id="page-origin-of-life"
+    >
       <div className="origin-hero">
         <div>
           <p className="eyebrow">До первой клетки</p>
@@ -154,7 +161,11 @@ export function OriginOfLifePage() {
         </div>
         <div className="origin-story-grid">
           {originJourney.map((step, index) => (
-            <article key={step.title} className="origin-story-card">
+            <article
+              key={step.title}
+              className="origin-story-card"
+              data-tour-stop-id={step.id}
+            >
               <OptimizedImage src={step.visual.src} alt={step.visual.alt} loading="lazy" decoding="async" />
               <div>
                 <span>{String(index + 1).padStart(2, "0")}</span>
@@ -190,7 +201,11 @@ export function OriginOfLifePage() {
           const Icon = icons[index] ?? Sparkles;
           const visual = originVisuals[hypothesis.id];
           return (
-            <article key={hypothesis.id} className="origin-hypothesis-card">
+            <article
+              key={hypothesis.id}
+              className="origin-hypothesis-card"
+              data-tour-stop-id={`page-origin-${hypothesis.id}`}
+            >
               {visual ? (
                 <figure className="origin-hypothesis-media">
                   <OptimizedImage src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />

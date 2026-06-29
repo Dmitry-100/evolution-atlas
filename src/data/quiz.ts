@@ -1,23 +1,215 @@
+export const QUIZ_TOPIC_IDS = [
+  "tree-thinking",
+  "deep-time",
+  "human-lineage",
+  "dinosaurs-extinctions",
+  "genetics-origin",
+  "theory-evidence",
+] as const;
+
+export const QUIZ_ATTEMPT_SIZE = 10;
+
+export type QuizTopicId = (typeof QUIZ_TOPIC_IDS)[number];
+
+export type QuizTopicLink = {
+  labelRu: string;
+  href: string;
+};
+
+export type QuizTopic = {
+  id: QuizTopicId;
+  titleRu: string;
+  practiceRu: string;
+  links: QuizTopicLink[];
+};
+
 export type QuizOption = {
   id: string;
   textRu: string;
   isCorrect: boolean;
 };
 
-export type QuizQuestion = {
+export type QuizQuestionBase = {
   id: string;
+  type: "single-choice" | "order" | "branch-choice";
+  topicId: QuizTopicId;
   promptRu: string;
   explanationRu: string;
+};
+
+export type SingleChoiceQuizQuestion = QuizQuestionBase & {
+  type: "single-choice";
   options: QuizOption[];
 };
 
+export type OrderQuizItem = {
+  id: string;
+  textRu: string;
+};
+
+export type OrderQuizQuestion = QuizQuestionBase & {
+  type: "order";
+  instructionRu: string;
+  items: OrderQuizItem[];
+  correctOrder: string[];
+};
+
+export type BranchChoiceNode = {
+  id: string;
+  textRu: string;
+  detailRu: string;
+};
+
+export type BranchChoiceQuizQuestion = QuizQuestionBase & {
+  type: "branch-choice";
+  instructionRu: string;
+  nodes: BranchChoiceNode[];
+  correctNodeId: string;
+};
+
+export type QuizQuestion = SingleChoiceQuizQuestion | OrderQuizQuestion | BranchChoiceQuizQuestion;
+
+export type QuizAnswerValue = string | string[];
+
+export type QuizTopicResult = {
+  topicId: QuizTopicId;
+  correct: number;
+  wrong: number;
+  total: number;
+};
+
+export type QuizScoreResult = {
+  correct: number;
+  total: number;
+  topicResults: Record<QuizTopicId, QuizTopicResult>;
+  recommendedTopics: QuizTopic[];
+};
+
+export const QUIZ_TOPICS: Record<QuizTopicId, QuizTopic> = {
+  "tree-thinking": {
+    id: "tree-thinking",
+    titleRu: "Дерево родства",
+    practiceRu: "Потренируйте привычку видеть ветвления и соседние линии, а не лестницу прогресса.",
+    links: [
+      { labelRu: "Открыть дерево родства", href: "/cladogram" },
+      { labelRu: "Вернуться в Атлас", href: "/" },
+    ],
+  },
+  "deep-time": {
+    id: "deep-time",
+    titleRu: "Глубокое время",
+    practiceRu: "Полезно ещё раз почувствовать масштаб: почти всё главное для человека происходит в самом конце шкалы.",
+    links: [
+      { labelRu: "Открыть Атлас времени", href: "/" },
+      { labelRu: "Материалы для закрепления", href: "/materials" },
+    ],
+  },
+  "human-lineage": {
+    id: "human-lineage",
+    titleRu: "Линия человека",
+    practiceRu: "Повторите, где проходят приматы, человекообразные, гоминины и соседние ветви людей.",
+    links: [
+      { labelRu: "Приматы → человек", href: "/primates" },
+      { labelRu: "Дерево родства", href: "/cladogram" },
+    ],
+  },
+  "dinosaurs-extinctions": {
+    id: "dinosaurs-extinctions",
+    titleRu: "Динозавры и вымирания",
+    practiceRu: "Закрепите разницу между нептичьими динозаврами, птицами и большими кризисами жизни.",
+    links: [
+      { labelRu: "Вымерли ли динозавры", href: "/dinosaurs" },
+      { labelRu: "Глобальные вымирания", href: "/extinctions" },
+    ],
+  },
+  "genetics-origin": {
+    id: "genetics-origin",
+    titleRu: "ДНК и происхождение жизни",
+    practiceRu: "Вернитесь к молекулярным следам родства: генетическому коду, хромосоме 2, LUCA и вложенным деревьям.",
+    links: [
+      { labelRu: "РНК/ДНК", href: "/genetics" },
+      { labelRu: "Зарождение жизни", href: "/origin-of-life" },
+    ],
+  },
+  "theory-evidence": {
+    id: "theory-evidence",
+    titleRu: "Теория и доказательства",
+    practiceRu: "Освежите, что в науке значит теория и как отбор, ископаемые и ДНК складываются в объяснение.",
+    links: [
+      { labelRu: "Теория эволюции", href: "/theory" },
+      { labelRu: "Источники", href: "/sources" },
+    ],
+  },
+};
+
+const QUESTION_TOPIC_IDS = {
+  "monkey-origin": "human-lineage",
+  "deep-time": "deep-time",
+  "fish-to-limbs": "tree-thinking",
+  neanderthals: "human-lineage",
+  "tree-not-ladder": "tree-thinking",
+  "chimp-common-ancestor": "human-lineage",
+  "most-time-before-primates": "deep-time",
+  "mammals-late": "deep-time",
+  "chordates-feature": "human-lineage",
+  "vertebrates-feature": "human-lineage",
+  "jawed-fish": "human-lineage",
+  "lobe-finned-meaning": "human-lineage",
+  "tiktaalik-mosaic": "human-lineage",
+  "tetrapods-digits": "human-lineage",
+  "amniotes-land": "human-lineage",
+  "synapsids-branch": "human-lineage",
+  therapsids: "human-lineage",
+  "cynodonts-jaw": "human-lineage",
+  "mammal-traits": "human-lineage",
+  placentals: "human-lineage",
+  "kpg-mammal-opportunity": "dinosaurs-extinctions",
+  "early-primates-traits": "human-lineage",
+  anthropoids: "human-lineage",
+  "new-world-monkeys": "human-lineage",
+  "apes-no-tail": "human-lineage",
+  hominins: "human-lineage",
+  australopithecus: "human-lineage",
+  "homo-erectus": "human-lineage",
+  "sapiens-age": "deep-time",
+  "darwin-origin": "theory-evidence",
+  "scientific-theory": "theory-evidence",
+  "natural-selection": "theory-evidence",
+  "fossil-evidence": "theory-evidence",
+  "dna-evidence": "genetics-origin",
+  "five-mass-extinctions": "dinosaurs-extinctions",
+  "ordovician-extinction": "dinosaurs-extinctions",
+  "devonian-reefs": "dinosaurs-extinctions",
+  "permian-largest": "dinosaurs-extinctions",
+  "triassic-jurassic-dinosaurs": "dinosaurs-extinctions",
+  "kpg-loss": "dinosaurs-extinctions",
+  "birds-are-dinosaurs": "dinosaurs-extinctions",
+  "theropods-birds": "dinosaurs-extinctions",
+  "feathers-before-flight": "dinosaurs-extinctions",
+  "archaeopteryx-mosaic": "dinosaurs-extinctions",
+  cladogram: "tree-thinking",
+  "accumulated-traits": "tree-thinking",
+  "selected-point-percent": "deep-time",
+  "genetic-code": "genetics-origin",
+  "chimp-dna-percent": "genetics-origin",
+  "chromosome-2": "genetics-origin",
+  "dna-tree": "genetics-origin",
+  "luca-not-first-life": "genetics-origin",
+  "africa-origin-network": "human-lineage",
+  "molecular-scars": "genetics-origin",
+} as const satisfies Record<string, QuizTopicId>;
+
+type QuizQuestionId = keyof typeof QUESTION_TOPIC_IDS;
+
 const question = (
-  id: string,
+  id: QuizQuestionId,
   promptRu: string,
   explanationRu: string,
   options: Array<[id: string, textRu: string, isCorrect?: boolean]>,
-): QuizQuestion => ({
+): SingleChoiceQuizQuestion => ({
   id,
+  type: "single-choice",
+  topicId: QUESTION_TOPIC_IDS[id],
   promptRu,
   explanationRu,
   options: options.map(([optionId, textRu, isCorrect = false]) => ({
@@ -25,6 +217,40 @@ const question = (
     textRu,
     isCorrect,
   })),
+});
+
+const orderQuestion = (
+  id: QuizQuestionId,
+  promptRu: string,
+  explanationRu: string,
+  items: OrderQuizItem[],
+  correctOrder: string[],
+): OrderQuizQuestion => ({
+  id,
+  type: "order",
+  topicId: QUESTION_TOPIC_IDS[id],
+  promptRu,
+  explanationRu,
+  instructionRu: "Расставьте карточки от более раннего события к более позднему.",
+  items,
+  correctOrder,
+});
+
+const branchQuestion = (
+  id: QuizQuestionId,
+  promptRu: string,
+  explanationRu: string,
+  nodes: BranchChoiceNode[],
+  correctNodeId: string,
+): BranchChoiceQuizQuestion => ({
+  id,
+  type: "branch-choice",
+  topicId: QUESTION_TOPIC_IDS[id],
+  promptRu,
+  explanationRu,
+  instructionRu: "Выберите правильный узел на мини-схеме родства.",
+  nodes,
+  correctNodeId,
 });
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
@@ -38,15 +264,18 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       ["dinosaurs", "От динозавров"],
     ],
   ),
-  question(
+  orderQuestion(
     "deep-time",
-    "Если 4 млрд лет истории жизни сжать в один год, когда появляются приматы?",
-    "Приматы появляются только в конце декабря. Это помогает почувствовать, насколько поздно наша ветвь возникает в истории жизни.",
+    "Расставьте события жизни от раннего к позднему.",
+    "Приматы появляются только в конце декабря, а Homo sapiens - почти в самом конце. Это помогает почувствовать, насколько поздно наша ветвь возникает в истории жизни.",
     [
-      ["march", "В марте"],
-      ["late-december", "В конце декабря", true],
-      ["july", "В июле"],
+      { id: "primates", textRu: "Первые приматы" },
+      { id: "early-life", textRu: "Ранняя клеточная жизнь" },
+      { id: "sapiens", textRu: "Homo sapiens" },
+      { id: "vertebrates", textRu: "Позвоночные" },
+      { id: "mammals", textRu: "Млекопитающие" },
     ],
+    ["early-life", "vertebrates", "mammals", "primates", "sapiens"],
   ),
   question(
     "fish-to-limbs",
@@ -78,15 +307,16 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       ["goal", "Потому что цель эволюции - человек"],
     ],
   ),
-  question(
+  branchQuestion(
     "chimp-common-ancestor",
     "Что точнее: человек произошел от шимпанзе или человек и шимпанзе имеют общего предка?",
     "Современные шимпанзе не наши предки. Мы и шимпанзе - родственные ветви, которые разошлись от общего предка.",
     [
-      ["from-chimp", "Человек произошел от современного шимпанзе"],
-      ["common-ancestor", "У человека и шимпанзе был общий предок", true],
-      ["no-relation", "У человека и шимпанзе нет родства"],
+      { id: "modern-chimp", textRu: "Современный шимпанзе", detailRu: "Соседняя современная ветвь, а не наш предок." },
+      { id: "common-ancestor", textRu: "Общий предок", detailRu: "От него расходятся линии человека и шимпанзе." },
+      { id: "sapiens", textRu: "Homo sapiens", detailRu: "Наша современная ветвь, а не источник родства." },
     ],
+    "common-ancestor",
   ),
   question(
     "most-time-before-primates",
@@ -98,15 +328,17 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       ["almost-all", "Около 98,4%", true],
     ],
   ),
-  question(
+  orderQuestion(
     "mammals-late",
-    "Почему появление млекопитающих тоже считается поздним событием?",
-    "Первые млекопитающие появляются примерно 200 млн лет назад: это уже около 95% пути от ранней жизни до современности.",
+    "Расставьте эти события так, чтобы стало видно, почему млекопитающие появляются поздно.",
+    "Первые млекопитающие появляются примерно 200 млн лет назад: это уже около 95% пути от ранней жизни до современности, а приматы появляются еще позже.",
     [
-      ["first", "Они были самыми первыми животными"],
-      ["late", "К ним уже прошла большая часть истории жизни", true],
-      ["after-humans", "Они появились после людей"],
+      { id: "primates", textRu: "Первые приматы" },
+      { id: "early-life", textRu: "Ранняя жизнь" },
+      { id: "mammals", textRu: "Первые млекопитающие" },
+      { id: "early-animals", textRu: "Первые животные" },
     ],
+    ["early-life", "early-animals", "mammals", "primates"],
   ),
   question(
     "chordates-feature",
@@ -428,15 +660,16 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       ["first-fish", "Появились первые рыбы"],
     ],
   ),
-  question(
+  branchQuestion(
     "birds-are-dinosaurs",
     "В каком смысле динозавры не вымерли полностью?",
     "Нептичьи динозавры исчезли, но современные птицы являются живой ветвью динозавров, связанной с тероподами.",
     [
-      ["birds", "Современные птицы - живая динозавровая ветвь", true],
-      ["mammals", "Все млекопитающие - динозавры"],
-      ["plants", "Все растения - динозавры"],
+      { id: "non-avian", textRu: "Нептичьи динозавры", detailRu: "Эта часть ветви исчезла на границе K-Pg." },
+      { id: "birds", textRu: "Птичья ветвь", detailRu: "Современные птицы - живые динозавры внутри тероподной линии." },
+      { id: "mammals", textRu: "Млекопитающие", detailRu: "Наша линия соседствует с динозавровой, но не входит в нее." },
     ],
+    "birds",
   ),
   question(
     "theropods-birds",
@@ -528,15 +761,16 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       ["unrelated", "Она показывает отсутствие родства с обезьянами"],
     ],
   ),
-  question(
+  branchQuestion(
     "dna-tree",
     "Что ожидает теория эволюции от сравнения геномов разных видов?",
     "Если виды связаны родством, геномы должны складываться в ветвящееся дерево, где близкие родственники похожи сильнее дальних.",
     [
-      ["nested-tree", "Вложенное дерево родства", true],
-      ["random", "Полностью случайный набор совпадений"],
-      ["ladder", "Прямую лестницу от плохих видов к хорошим"],
+      { id: "random", textRu: "Случайные совпадения", detailRu: "Не объясняет согласованные уровни сходства." },
+      { id: "nested-tree", textRu: "Вложенное дерево", detailRu: "Близкие родственники группируются вместе." },
+      { id: "ladder", textRu: "Прямая лестница", detailRu: "Подменяет родство идеей линейного прогресса." },
     ],
+    "nested-tree",
   ),
   question(
     "luca-not-first-life",
@@ -570,14 +804,85 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   ),
 ];
 
-export function scoreQuiz(answers: Record<string, string>) {
-  const correct = QUIZ_QUESTIONS.filter((question) => {
-    const selectedOption = question.options.find((option) => option.id === answers[question.id]);
+export function isQuizAnswerCorrect(question: QuizQuestion, answer: QuizAnswerValue | undefined) {
+  if (question.type === "single-choice") {
+    const selectedOption = question.options.find((option) => option.id === answer);
     return selectedOption?.isCorrect === true;
-  }).length;
+  }
+
+  if (question.type === "order") {
+    return (
+      Array.isArray(answer) &&
+      answer.length === question.correctOrder.length &&
+      answer.every((itemId, index) => itemId === question.correctOrder[index])
+    );
+  }
+
+  return answer === question.correctNodeId;
+}
+
+export function createQuizAttempt(
+  questions: QuizQuestion[] = QUIZ_QUESTIONS,
+  size = QUIZ_ATTEMPT_SIZE,
+  random: () => number = Math.random,
+) {
+  const shuffledQuestions = [...questions];
+
+  for (let index = shuffledQuestions.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.min(index, Math.floor(random() * (index + 1)));
+    [shuffledQuestions[index], shuffledQuestions[randomIndex]] = [
+      shuffledQuestions[randomIndex],
+      shuffledQuestions[index],
+    ];
+  }
+
+  return shuffledQuestions.slice(0, Math.min(size, shuffledQuestions.length));
+}
+
+function createEmptyTopicResults(): Record<QuizTopicId, QuizTopicResult> {
+  return Object.fromEntries(
+    QUIZ_TOPIC_IDS.map((topicId) => [
+      topicId,
+      {
+        topicId,
+        correct: 0,
+        wrong: 0,
+        total: 0,
+      },
+    ]),
+  ) as Record<QuizTopicId, QuizTopicResult>;
+}
+
+export function scoreQuiz(answers: Record<string, QuizAnswerValue>, questions: QuizQuestion[] = QUIZ_QUESTIONS): QuizScoreResult {
+  const topicResults = createEmptyTopicResults();
+  let correct = 0;
+
+  for (const question of questions) {
+    const isCorrect = isQuizAnswerCorrect(question, answers[question.id]);
+    const topicResult = topicResults[question.topicId];
+    topicResult.total += 1;
+
+    if (isCorrect) {
+      correct += 1;
+      topicResult.correct += 1;
+    } else {
+      topicResult.wrong += 1;
+    }
+  }
+
+  const recommendedTopics = QUIZ_TOPIC_IDS.filter((topicId) => topicResults[topicId].wrong > 0)
+    .sort((leftTopicId, rightTopicId) => {
+      const wrongDifference = topicResults[rightTopicId].wrong - topicResults[leftTopicId].wrong;
+      if (wrongDifference !== 0) return wrongDifference;
+      return QUIZ_TOPIC_IDS.indexOf(leftTopicId) - QUIZ_TOPIC_IDS.indexOf(rightTopicId);
+    })
+    .slice(0, 3)
+    .map((topicId) => QUIZ_TOPICS[topicId]);
 
   return {
     correct,
-    total: QUIZ_QUESTIONS.length,
+    total: questions.length,
+    topicResults,
+    recommendedTopics,
   };
 }

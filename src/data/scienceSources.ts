@@ -116,7 +116,7 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
     id: "human-origins",
     titleRu: "Африка и происхождение Homo sapiens",
     noteRu: "Источники для карты африканских находок и осторожной пан-африканской формулировки происхождения человека.",
-    routeHref: "/",
+    routeHref: "/primates",
     sources: [
       {
         id: "smithsonian-homo-sapiens",

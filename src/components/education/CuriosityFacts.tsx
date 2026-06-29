@@ -1,4 +1,4 @@
-import { BatteryCharging, Clock3, Ear, ExternalLink, Feather, GitMerge, Shield, Waves, Wind, type LucideIcon } from "lucide-react";
+import { BatteryCharging, Clock3, Dna, Ear, ExternalLink, Feather, GitBranch, GitMerge, Shield, Waves, Wind, type LucideIcon } from "lucide-react";
 import { CURIOSITY_FACTS } from "../../data/curiosityFacts";
 import { ConfidenceBadge } from "./ConfidenceBadge";
 
@@ -8,6 +8,8 @@ const factIcons: Record<string, LucideIcon> = {
   "jaw-to-ear": Ear,
   "chromosome-2": GitMerge,
   "viral-fossils": Shield,
+  "mitochondrial-eve": Dna,
+  "y-chromosomal-adam": GitBranch,
   "walking-whales": Waves,
   "feathers-before-flight": Feather,
   "sapiens-last-seconds": Clock3,

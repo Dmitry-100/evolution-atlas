@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { parseAtlasUrlState, toAtlasSearchParams } from "./atlasUrlState";
+import {
+  getStageHref,
+  parseAtlasUrlState,
+  parsePrimateUrlState,
+  toAtlasSearchParams,
+  toStageSearchParams,
+} from "./atlasUrlState";
 import { getStageById } from "../data/lineage";
 
 describe("atlas URL state", () => {
@@ -33,5 +39,25 @@ describe("atlas URL state", () => {
 
     expect(sapiens).toBeDefined();
     expect(toAtlasSearchParams({ mode: "all", stage: sapiens! }).toString()).toBe("mode=all&stage=homo-sapiens");
+  });
+
+  it("parses stage-only links for the primates page", () => {
+    expect(parsePrimateUrlState(new URLSearchParams("stage=homo-sapiens"))).toEqual({
+      stageId: "sapiens",
+    });
+    expect(parsePrimateUrlState(new URLSearchParams("stage=tiktaalik"))).toEqual({
+      stageId: "early-primates",
+    });
+  });
+
+  it("serializes shared stage links to the owning section", () => {
+    const sapiens = getStageById("sapiens");
+    const tiktaalik = getStageById("tiktaalik");
+
+    expect(sapiens).toBeDefined();
+    expect(tiktaalik).toBeDefined();
+    expect(toStageSearchParams(sapiens!).toString()).toBe("stage=homo-sapiens");
+    expect(getStageHref(sapiens!)).toBe("/primates?stage=homo-sapiens");
+    expect(getStageHref(tiktaalik!)).toBe("/?mode=all&stage=tiktaalik");
   });
 });

@@ -38,6 +38,17 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
   "choanoflagellates": generatedAtlasImage("choanoflagellates.jpg", "AI-реконструкция хоанофлагеллят как близких родственников животных."),
   "ediacaran": generatedAtlasImage("early-animals.jpg", "AI-реконструкция ранних животных эдиакарского типа."),
   "bilaterians": generatedAtlasImage("bilaterians.jpg", "AI-реконструкция ранних двусторонне-симметричных животных."),
+  "cambrian-explosion": {
+    src: "/assets/images/source-backed/generated-atlas/early-chordates.jpg",
+    sourceUrl: "https://openai.com/",
+    credit: "AI-реконструкция / временный визуальный слот",
+    license: "AI-реконструкция; визуальная иллюстрация",
+    commonsTitle: "generated-atlas-cambrian-explosion-placeholder",
+    description:
+      "Временный визуальный слот для будущей реконструкции разнообразной кембрийской морской фауны.",
+    kind: "generated-reconstruction",
+    promptId: "cambrian-explosion-pending-2026-06-30",
+  },
   "early-chordates": generatedAtlasImage("early-chordates.jpg", "AI-реконструкция ранних хордовых."),
   "early-vertebrates": generatedAtlasImage("early-vertebrates.jpg", "AI-реконструкция ранних позвоночных."),
   "jawed-fish": generatedAtlasImage("jawed-fish.jpg", "AI-реконструкция ранних челюстных рыб."),

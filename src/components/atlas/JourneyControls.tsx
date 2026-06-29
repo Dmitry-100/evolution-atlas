@@ -62,36 +62,39 @@ export function JourneyControls({
   }
 
   const primaryLabel = isPlaying
-    ? "Пауза"
+    ? "Поставить эволюцию на паузу"
     : hasStarted && !isAtEnd
-      ? "Продолжить"
-      : "Запустить путешествие";
+      ? "Продолжить эволюцию"
+      : "Запустить эволюцию";
 
   return (
-    <div className="journey-controls" aria-label="Кинематографичный маршрут">
+    <div className="journey-controls" aria-label="Управление эволюцией">
+      <span className="journey-controls-title">Запустить эволюцию</span>
       <button
-        className="button button-primary button-md"
+        className="journey-icon-button"
         type="button"
+        aria-label={primaryLabel}
+        title={primaryLabel}
         onClick={toggleJourney}
       >
         {isPlaying ? (
-          <Pause aria-hidden="true" size={17} />
+          <Pause aria-hidden="true" size={18} />
         ) : (
-          <Play aria-hidden="true" size={17} />
+          <Play aria-hidden="true" size={18} />
         )}
-        {primaryLabel}
       </button>
       <button
-        className="button button-secondary button-md"
+        className="journey-icon-button"
         type="button"
+        aria-label="Запустить эволюцию сначала"
+        title="Запустить эволюцию сначала"
         onClick={restartJourney}
       >
-        <RotateCcw aria-hidden="true" size={17} />
-        Сначала
+        <RotateCcw aria-hidden="true" size={18} />
       </button>
-      <div className="journey-meter" aria-hidden={!hasStarted}>
-        <span className="journey-status" aria-live="polite">
-          Маршрут {activeIndex + 1} из {stages.length}: {activeStage.titleRu}
+      <div className="journey-meter">
+        <span className="sr-only" aria-live="polite">
+          Этап {activeIndex + 1} из {stages.length}: {activeStage.titleRu}
         </span>
         <span className="journey-progress" aria-hidden="true">
           <span style={{ width: `${progress}%` }} />

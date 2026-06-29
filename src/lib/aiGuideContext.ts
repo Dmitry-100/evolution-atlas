@@ -1,4 +1,5 @@
 import { EVIDENCE_MODULES, SCIENTIFIC_THEORY_EXPLAINER } from "../data/evidence";
+import { BODY_TRAIT_LAYERS, BODY_TRAITS } from "../data/bodyTraits";
 import {
   GENETICS_EVIDENCE,
   GENETICS_SOURCES,
@@ -13,6 +14,7 @@ import {
 } from "../data/lineage";
 import { PORTAL_MATERIALS, READING_RECOMMENDATIONS } from "../data/materials";
 import { SCIENCE_SOURCE_GROUPS } from "../data/scienceSources";
+import { getStageHref } from "./atlasUrlState";
 import { formatAgeRu } from "./timeline";
 
 export type DarwinGuideCitation = {
@@ -48,10 +50,12 @@ export type DarwinGuideContext = {
 
 const PAGE_TITLES: Record<string, string> = {
   "/": "Атлас",
+  "/primates": "Приматы → человек",
   "/theory": "Теория эволюции",
   "/origin-of-life": "Зарождение жизни",
   "/genetics": "РНК/ДНК",
   "/cladogram": "Дерево родства",
+  "/body-map": "Карта признаков",
   "/extinctions": "Глобальные вымирания",
   "/dinosaurs": "Вымерли ли динозавры",
   "/materials": "Дополнительные материалы",
@@ -62,6 +66,7 @@ const PAGE_TITLES: Record<string, string> = {
 
 const DIRECT_ROUTE_LINKS: DarwinGuideRelatedLink[] = [
   { labelRu: "Открыть дерево родства", href: "/cladogram" },
+  { labelRu: "Открыть карту признаков", href: "/body-map" },
   { labelRu: "Открыть доказательства эволюции", href: "/theory" },
   { labelRu: "Открыть молекулярные доказательства", href: "/genetics" },
   { labelRu: "Открыть материалы", href: "/materials" },
@@ -118,16 +123,15 @@ function pageTitleFor(pathname: string) {
 function sourceGroupsForPath(pathname: string) {
   if (pathname === "/") {
     return SCIENCE_SOURCE_GROUPS.filter((group) =>
-      ["lineage", "human-origins", "cladogram"].includes(group.id),
+      ["lineage", "cladogram"].includes(group.id),
     );
   }
 
   return SCIENCE_SOURCE_GROUPS.filter((group) => group.routeHref === pathname);
 }
 
-function stageLink(stage: EvolutionStage, atlasMode?: "all" | "primates") {
-  const mode = atlasMode ?? (stage.isPrimateFocus ? "primates" : "all");
-  return `/?mode=${mode}&stage=${stage.slug}`;
+function stageLink(stage: EvolutionStage) {
+  return getStageHref(stage);
 }
 
 export function buildDarwinGuideContext(
@@ -156,7 +160,7 @@ export function buildDarwinGuideContext(
   if (stage) {
     relatedLinks.unshift({
       labelRu: `Открыть этап: ${stage.titleRu}`,
-      href: stageLink(stage, input.atlasMode),
+      href: stageLink(stage),
     });
   }
 
@@ -185,6 +189,15 @@ export function buildDarwinGuideContext(
     (material) =>
       `${material.titleRu}: ${material.summaryRu} Подходит: ${material.audienceRu}.`,
   ).join("\n");
+
+  const bodyTraitsText = BODY_TRAIT_LAYERS.map((layer) => {
+    const traits = BODY_TRAITS.filter((trait) => trait.layerId === layer.id)
+      .slice(0, 8)
+      .map((trait) => `${trait.titleRu} (${trait.stageId})`)
+      .join(", ");
+
+    return `${layer.titleRu}: ${layer.descriptionRu} Примеры признаков: ${traits}.`;
+  }).join("\n");
 
   const booksText = READING_RECOMMENDATIONS.slice(0, 4)
     .map((book) => `${book.titleRu} (${book.authorRu}): ${book.whyReadRu}`)
@@ -222,6 +235,8 @@ export function buildDarwinGuideContext(
       theoryText,
       "Молекулярная генетика:",
       geneticsText,
+      "Карта признаков:",
+      bodyTraitsText,
       "Материалы сайта:",
       materialsText,
       "Рекомендации для продолжения:",

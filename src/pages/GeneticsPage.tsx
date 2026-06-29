@@ -180,7 +180,7 @@ export function GeneticsPage() {
   }, [expandedVisual]);
 
   return (
-    <section className="document-page genetics-page">
+    <section className="document-page genetics-page" data-tour-stop-id="page-genetics">
       <div className="genetics-hero">
         <div>
           <p className="eyebrow">Молекулярные доказательства</p>

@@ -7,6 +7,10 @@ export type AtlasUrlState = {
   stageId: string;
 };
 
+export type StageUrlState = {
+  stageId: string;
+};
+
 const DEFAULT_STAGE_ID = "early-primates";
 
 function normalizeSearchParams(search: URLSearchParams | string) {
@@ -41,9 +45,36 @@ export function parseAtlasUrlState(
   };
 }
 
+export function parsePrimateUrlState(
+  search: URLSearchParams | string,
+  stages: EvolutionStage[] = primateStages,
+): StageUrlState {
+  const params = normalizeSearchParams(search);
+  const requestedStage = findStageBySlugOrId(stages, params.get("stage"));
+  const fallbackStage = getDefaultAtlasStage(stages) ?? getDefaultAtlasStage(sortedStages);
+
+  return {
+    stageId: requestedStage?.id ?? fallbackStage.id,
+  };
+}
+
 export function toAtlasSearchParams({ mode, stage }: { mode: AtlasUrlMode; stage: EvolutionStage }) {
   const params = new URLSearchParams();
   params.set("mode", mode);
   params.set("stage", stage.slug);
   return params;
+}
+
+export function toStageSearchParams(stage: EvolutionStage) {
+  const params = new URLSearchParams();
+  params.set("stage", stage.slug);
+  return params;
+}
+
+export function getStageHref(stage: EvolutionStage) {
+  if (stage.isPrimateFocus) {
+    return `/primates?${toStageSearchParams(stage).toString()}`;
+  }
+
+  return `/?${toAtlasSearchParams({ mode: "all", stage }).toString()}`;
 }

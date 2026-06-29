@@ -1,4 +1,4 @@
-import { Fingerprint, Sparkles } from "lucide-react";
+import { Fingerprint, Maximize2, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { getStageGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage, StageImage } from "../../data/lineage";
@@ -6,6 +6,7 @@ import { getImagePlaceholder } from "../../lib/imagePlaceholders";
 import { formatAgeRu } from "../../lib/timeline";
 import { ConstellationField } from "../ui/constellation-field";
 import { FloatingPaths } from "../ui/floating-paths";
+import { ImageLightbox } from "../ui/image-lightbox";
 import { OptimizedImage } from "../ui/optimized-image";
 import { GlossaryTerm } from "./GlossaryTerm";
 
@@ -18,6 +19,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
   const previousImageRef = useRef<StageImage>(stage.image);
   const [previousImage, setPreviousImage] = useState<StageImage | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
   const imageLabel =
     stage.image.kind === "generated-reconstruction" ? "AI-реконструкция" : null;
   const glossaryTerm = getStageGlossaryTerm(stage.id);
@@ -53,7 +55,11 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
   }, [isLoaded, stage.image.src]);
 
   return (
-    <aside className="stage-panel" aria-label="Активный вид">
+    <aside
+      className="stage-panel"
+      data-tour-stop-id={`stage-${stage.id}`}
+      aria-label="Активный вид"
+    >
       <figure className="stage-plate">
         <div
           className="stage-plate-media"
@@ -64,32 +70,43 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             <FloatingPaths className="stage-plate-paths" density="panel" />
             <ConstellationField className="stage-plate-constellation" compact />
           </div>
-          {previousImage ? (
+          <button
+            type="button"
+            className="stage-plate-zoom"
+            onClick={() => setIsImageExpanded(true)}
+            aria-label={`Увеличить изображение: ${stage.titleRu}`}
+          >
+            {previousImage ? (
+              <OptimizedImage
+                pictureClassName="stage-plate-picture"
+                className="stage-plate-main stage-plate-previous"
+                src={previousImage.src}
+                alt=""
+                aria-hidden="true"
+                decoding="async"
+              />
+            ) : null}
             <OptimizedImage
+              key={stage.image.src}
+              ref={imageRef}
               pictureClassName="stage-plate-picture"
-              className="stage-plate-main stage-plate-previous"
-              src={previousImage.src}
-              alt=""
-              aria-hidden="true"
+              className={
+                isLoaded
+                  ? "stage-plate-main stage-plate-current is-loaded"
+                  : "stage-plate-main stage-plate-current"
+              }
+              src={stage.image.src}
+              alt={stage.image.altRu}
               decoding="async"
+              fetchPriority="high"
+              onLoad={() => setIsLoaded(true)}
+              onError={() => setIsLoaded(true)}
             />
-          ) : null}
-          <OptimizedImage
-            key={stage.image.src}
-            ref={imageRef}
-            pictureClassName="stage-plate-picture"
-            className={
-              isLoaded
-                ? "stage-plate-main stage-plate-current is-loaded"
-                : "stage-plate-main stage-plate-current"
-            }
-            src={stage.image.src}
-            alt={stage.image.altRu}
-            decoding="async"
-            fetchPriority="high"
-            onLoad={() => setIsLoaded(true)}
-            onError={() => setIsLoaded(true)}
-          />
+            <span className="stage-plate-zoom-indicator">
+              <Maximize2 aria-hidden="true" size={15} />
+              Увеличить
+            </span>
+          </button>
         </div>
         {imageLabel ? <figcaption>{imageLabel}</figcaption> : null}
       </figure>
@@ -122,6 +139,19 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
           <p>{stage.whyMattersRu}</p>
         </div>
       </div>
+      <ImageLightbox
+        image={
+          isImageExpanded
+            ? {
+                src: stage.image.src,
+                alt: stage.image.altRu,
+                caption: `${stage.titleRu}. ${stage.image.altRu}`,
+              }
+            : null
+        }
+        ariaLabel="Увеличенное изображение этапа"
+        onClose={() => setIsImageExpanded(false)}
+      />
     </aside>
   );
 }

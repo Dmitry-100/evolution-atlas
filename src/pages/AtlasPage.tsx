@@ -1,20 +1,32 @@
-import { useMemo, useRef, type CSSProperties } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { ArrowRight, BookOpen, Clock3, Compass, Dna, Fingerprint, Search, Sparkles, Star, Waves } from "lucide-react";
+import { useEffect, useMemo, useRef, type CSSProperties } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  ArrowRight,
+  BookOpen,
+  Clock3,
+  Dna,
+  Fingerprint,
+  Search,
+  Sparkles,
+  Star,
+  Waves,
+} from "lucide-react";
 import { MASS_EXTINCTIONS } from "../data/extinctions";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
 import { formatAgeRu } from "../lib/timeline";
 import { ConstellationField } from "../components/ui/constellation-field";
-import { AfricaOriginMap } from "../components/education/AfricaOriginMap";
 import { FloatingPaths } from "../components/ui/floating-paths";
-import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
-import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
 import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
-import { JourneyControls } from "../components/atlas/JourneyControls";
-import { getDefaultAtlasStage, parseAtlasUrlState, toAtlasSearchParams, type AtlasUrlMode } from "../lib/atlasUrlState";
+import {
+  getDefaultAtlasStage,
+  parseAtlasUrlState,
+  parsePrimateUrlState,
+  toAtlasSearchParams,
+  toStageSearchParams,
+} from "../lib/atlasUrlState";
 import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { MobileAtlas } from "../components/atlas/mobile/MobileAtlas";
@@ -47,13 +59,16 @@ type AtlasNavigationOptions = {
 
 export function AtlasPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const urlState = useMemo(() => parseAtlasUrlState(searchParams), [searchParams]);
-  const mode = urlState.mode;
   const atlasRef = useRef<HTMLDivElement>(null);
   const isMobileAtlas = useMediaQuery("(max-width: 720px)");
 
-  const visibleStages = mode === "primates" ? primateStages : sortedStages;
-  const visibleEras = useMemo(() => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)), [visibleStages]);
+  const visibleStages = sortedStages;
+  const visibleEras = useMemo(
+    () => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)),
+    [visibleStages],
+  );
   const activeStage = visibleStages.find((stage) => stage.id === urlState.stageId) ?? getDefaultAtlasStage(visibleStages);
   const activeEra = ERAS.find((era) => era.id === activeStage.eraId);
   const accumulatedTraitGroups = useMemo(() => getAccumulatedTraitGroups(sortedStages, activeStage), [activeStage]);
@@ -89,26 +104,24 @@ export function AtlasPage() {
     },
   ];
 
+  useEffect(() => {
+    if (searchParams.get("mode") !== "primates") return;
+
+    const primateState = parsePrimateUrlState(searchParams);
+    const primateStage =
+      primateStages.find((stage) => stage.id === primateState.stageId) ??
+      getDefaultAtlasStage(primateStages);
+
+    navigate(`/primates?${toStageSearchParams(primateStage).toString()}`, {
+      replace: true,
+    });
+  }, [navigate, searchParams]);
+
   function activateStage(
     stage: EvolutionStage,
     options: AtlasNavigationOptions = {},
   ) {
-    setSearchParams(toAtlasSearchParams({ mode, stage }), {
-      replace: options.replace ?? true,
-    });
-  }
-
-  function activateJourneyStage(stage: EvolutionStage) {
-    setSearchParams(toAtlasSearchParams({ mode: "all", stage }), { replace: true });
-  }
-
-  function activateMode(
-    nextMode: AtlasUrlMode,
-    options: AtlasNavigationOptions = {},
-  ) {
-    const nextVisibleStages = nextMode === "primates" ? primateStages : sortedStages;
-    const nextStage = nextVisibleStages.find((stage) => stage.id === activeStage.id) ?? getDefaultAtlasStage(nextVisibleStages);
-    setSearchParams(toAtlasSearchParams({ mode: nextMode, stage: nextStage }), {
+    setSearchParams(toAtlasSearchParams({ mode: "all", stage }), {
       replace: options.replace ?? true,
     });
   }
@@ -141,7 +154,6 @@ export function AtlasPage() {
           Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
         </p>
         <MobileAtlas
-          mode={mode}
           stages={visibleStages}
           eras={visibleEras}
           activeStage={activeStage}
@@ -149,7 +161,6 @@ export function AtlasPage() {
           canStepPrevious={canStepPrevious}
           canStepNext={canStepNext}
           accumulatedTraitGroups={accumulatedTraitGroups}
-          onActivateMode={(nextMode) => activateMode(nextMode, { replace: false })}
           onActivateStage={(stage) => activateStage(stage, { replace: false })}
           onStep={(delta) => moveActive(delta, { replace: false })}
         />
@@ -178,155 +189,141 @@ export function AtlasPage() {
         Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
       </p>
 
-        <section className="atlas-hero">
-          <FloatingPaths className="atlas-hero-paths" />
-          <ConstellationField className="atlas-hero-constellation" />
-          <div className="atlas-title">
-            <h1>Человек произошел от обезьяны... а от кого произошла обезьяна?</h1>
-            <p className="hero-subtitle">Короткий ответ теории эволюции - через дерево родства, а не лестницу прогресса.</p>
+      <section className="atlas-hero">
+        <FloatingPaths className="atlas-hero-paths" />
+        <ConstellationField className="atlas-hero-constellation" />
+        <div className="atlas-title">
+          <h1>Человек произошел от обезьяны... а от кого произошла обезьяна?</h1>
+          <p className="hero-subtitle">Короткий ответ теории эволюции - через дерево родства, а не лестницу прогресса.</p>
+          <p>
+            Почти вся история жизни прошла до появления приматов. Перемещайтесь по шкале, чтобы увидеть, как
+            клеточные линии, рыбы, четвероногие, млекопитающие и древние приматы связаны с нашей ветвью.
+          </p>
+        </div>
+      </section>
+
+      <section className="theory-bridge-band atlas-note-band">
+        <div>
+          <Star aria-hidden="true" size={22} />
+          <div>
+            <strong>Главная мысль</strong>
             <p>
-              Почти вся история жизни прошла до появления приматов. Перемещайтесь по шкале, чтобы увидеть, как
-              клеточные линии, рыбы, четвероногие, млекопитающие и древние приматы связаны с нашей ветвью.
+              Эволюция не лестница к человеку, а ветвящееся дерево. На шкале показаны не “ступеньки прогресса”, а
+              ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="hero-actions" aria-label="Режимы атласа">
-            <Tabs value={mode} onValueChange={(value) => activateMode(value as AtlasUrlMode)}>
-              <TabsList>
-                <TabsTrigger value="all">
-                  <Compass aria-hidden="true" size={18} />
-                  Весь путь
-                </TabsTrigger>
-                <TabsTrigger value="primates">
-                  <Search aria-hidden="true" size={18} />
-                  Приматы → человек
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-            <JourneyControls stages={sortedStages} activeStage={activeStage} onActivate={activateJourneyStage} />
-          </div>
-        </section>
+      <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
+        {wowFacts.map(({ icon: Icon, label, value, text }) => (
+          <article key={label}>
+            <Icon aria-hidden="true" size={21} />
+            <span>{label}</span>
+            <strong>{value}</strong>
+            <p>{text}</p>
+          </article>
+        ))}
+      </section>
 
-        <section className="theory-bridge-band atlas-note-band">
+      <section className="theory-bridge-band">
+        <div>
+          <Search aria-hidden="true" size={22} />
           <div>
-            <Star aria-hidden="true" size={22} />
-            <div>
-              <strong>Главная мысль</strong>
-              <p>
-                Эволюция не лестница к человеку, а ветвящееся дерево. На шкале показаны не “ступеньки прогресса”, а
-                ключевые родственники и узлы, через которые удобно понять происхождение нашей линии.
-              </p>
+            <strong>Приматы и человек крупно</strong>
+            <p>
+              Последние 66 млн лет вынесены в отдельный раздел: там видны антропоиды, человекообразные,
+              гоминины, ранние Homo и карта расселения Homo sapiens.
+            </p>
+          </div>
+        </div>
+        <Link className="button button-secondary button-md" to="/primates">
+          Открыть раздел
+          <ArrowRight aria-hidden="true" size={17} />
+        </Link>
+      </section>
+
+      <section className="atlas-grid">
+        <div className="center-stage">
+          <DeepTimeAxis
+            stages={visibleStages}
+            extinctions={MASS_EXTINCTIONS}
+            activeStage={activeStage}
+            onActivate={activateStage}
+            onStep={moveActive}
+            canStepPrevious={canStepPrevious}
+            canStepNext={canStepNext}
+          />
+
+          <div className="era-strip-card" aria-label="Навигация по эпохам">
+            <div className="rail-heading">
+              <BookOpen aria-hidden="true" size={19} />
+              <span>Маршрут по эпохам</span>
             </div>
+            <EraNavigation eras={visibleEras} stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
           </div>
-        </section>
+        </div>
 
-        <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
-          {wowFacts.map(({ icon: Icon, label, value, text }) => (
-            <article key={label}>
-              <Icon aria-hidden="true" size={21} />
-              <span>{label}</span>
-              <strong>{value}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </section>
+        <StageDetailCard stage={activeStage} />
+      </section>
 
-        <section className="atlas-grid">
-          <div className="center-stage">
-            {mode === "primates" ? (
-              <PrimateAxis
-                stages={visibleStages}
-                activeStage={activeStage}
-                onActivate={activateStage}
-                onStep={moveActive}
-                canStepPrevious={canStepPrevious}
-                canStepNext={canStepNext}
-              />
-            ) : (
-              <DeepTimeAxis
-                stages={visibleStages}
-                extinctions={MASS_EXTINCTIONS}
-                activeStage={activeStage}
-                onActivate={activateStage}
-                onStep={moveActive}
-                canStepPrevious={canStepPrevious}
-                canStepNext={canStepNext}
-              />
-            )}
+      <TraitAccumulator groups={accumulatedTraitGroups} />
 
-            {mode === "all" ? (
-              <div className="era-strip-card" aria-label="Навигация по эпохам">
-                <div className="rail-heading">
-                  <BookOpen aria-hidden="true" size={19} />
-                  <span>Маршрут по эпохам</span>
-                </div>
-                <EraNavigation eras={visibleEras} stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
-              </div>
-            ) : null}
-          </div>
-
-          <StageDetailCard stage={activeStage} />
-        </section>
-
-        <TraitAccumulator groups={accumulatedTraitGroups} />
-
-        <AfricaOriginMap />
-
-        <section className="theory-bridge-band">
+      <section className="theory-bridge-band">
+        <div>
+          <Dna aria-hidden="true" size={22} />
           <div>
-            <Dna aria-hidden="true" size={22} />
-            <div>
-              <strong>Дерево родства</strong>
-              <p>Отдельная кладограмма показывает ветвь, на которой находится Homo sapiens, и соседние линии, которые отходят от разных узлов.</p>
-            </div>
+            <strong>Дерево родства</strong>
+            <p>Отдельная кладограмма показывает ветвь, на которой находится Homo sapiens, и соседние линии, которые отходят от разных узлов.</p>
           </div>
-          <Link className="button button-secondary button-md" to="/cladogram">
-            Открыть дерево
-            <ArrowRight aria-hidden="true" size={17} />
-          </Link>
-        </section>
+        </div>
+        <Link className="button button-secondary button-md" to="/cladogram">
+          Открыть дерево
+          <ArrowRight aria-hidden="true" size={17} />
+        </Link>
+      </section>
 
-        <section className="theory-bridge-band">
+      <section className="theory-bridge-band">
+        <div>
+          <BookOpen aria-hidden="true" size={22} />
           <div>
-            <BookOpen aria-hidden="true" size={22} />
-            <div>
-              <strong>Почему эволюция называется теорией?</strong>
-              <p>Коротко о научном значении слова “теория” и о доказательствах общего происхождения.</p>
-            </div>
+            <strong>Почему эволюция называется теорией?</strong>
+            <p>Коротко о научном значении слова “теория” и о доказательствах общего происхождения.</p>
           </div>
-          <Link className="button button-secondary button-md" to="/theory">
-            Открыть раздел
-            <ArrowRight aria-hidden="true" size={17} />
-          </Link>
-        </section>
+        </div>
+        <Link className="button button-secondary button-md" to="/theory">
+          Открыть раздел
+          <ArrowRight aria-hidden="true" size={17} />
+        </Link>
+      </section>
 
-        <section className="theory-bridge-band">
+      <section className="theory-bridge-band">
+        <div>
+          <Dna aria-hidden="true" size={22} />
           <div>
-            <Dna aria-hidden="true" size={22} />
-            <div>
-              <strong>Как это видно в ДНК?</strong>
-              <p>РНК, ДНК, мутации и сравнение геномов показывают родство как код, а не только как форму тела.</p>
-            </div>
+            <strong>Как это видно в ДНК?</strong>
+            <p>РНК, ДНК, мутации и сравнение геномов показывают родство как код, а не только как форму тела.</p>
           </div>
-          <Link className="button button-secondary button-md" to="/genetics">
-            РНК/ДНК
-            <ArrowRight aria-hidden="true" size={17} />
-          </Link>
-        </section>
+        </div>
+        <Link className="button button-secondary button-md" to="/genetics">
+          РНК/ДНК
+          <ArrowRight aria-hidden="true" size={17} />
+        </Link>
+      </section>
 
-        <section className="theory-bridge-band extinction-link-band">
+      <section className="theory-bridge-band extinction-link-band">
+        <div>
+          <Waves aria-hidden="true" size={22} />
           <div>
-            <Waves aria-hidden="true" size={22} />
-            <div>
-              <strong>Почему история жизни менялась рывками?</strong>
-              <p>Шесть крупных кризисов показывают, как вымирания меняли сцену жизни и освобождали ниши для новых ветвей.</p>
-            </div>
+            <strong>Почему история жизни менялась рывками?</strong>
+            <p>Шесть крупных кризисов показывают, как вымирания меняли сцену жизни и освобождали ниши для новых ветвей.</p>
           </div>
-          <Link className="button button-secondary button-md" to="/extinctions">
-            Глобальные вымирания
-            <ArrowRight aria-hidden="true" size={17} />
-          </Link>
-        </section>
+        </div>
+        <Link className="button button-secondary button-md" to="/extinctions">
+          Глобальные вымирания
+          <ArrowRight aria-hidden="true" size={17} />
+        </Link>
+      </section>
     </div>
   );
 }

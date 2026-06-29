@@ -5,16 +5,42 @@ import {
   NavLink,
   Route,
   Routes,
+  useLocation,
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import {
+  BookOpen,
+  Dna,
+  FileText,
+  Fingerprint,
+  FlaskConical,
+  GitFork,
+  HelpCircle,
+  Home,
+  Info,
+  Menu,
+  ScanSearch,
+  UsersRound,
+  Waves,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import { AtlasPage } from "./pages/AtlasPage";
 import { EtherealInk } from "./components/ui/ethereal-ink";
+import {
+  ExpandableTabs,
+  type ExpandableTabItem,
+} from "./components/ui/expandable-tabs";
 import { OptimizedImage } from "./components/ui/optimized-image";
 import { ScrollProgress } from "./components/ui/scroll-progress";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { DarwinGuide } from "./components/ai/DarwinGuide";
+import { TourPlayer } from "./components/tour/TourPlayer";
+import {
+  DARWIN_TOUR_MENU_EVENT,
+  DarwinWelcome,
+} from "./components/tour/DarwinWelcome";
 
 const pageLoaders = {
   about: () =>
@@ -53,9 +79,17 @@ const pageLoaders = {
     import("./pages/CladogramPage").then(({ CladogramPage }) => ({
       default: CladogramPage,
     })),
+  bodyMap: () =>
+    import("./pages/BodyMapPage").then(({ BodyMapPage }) => ({
+      default: BodyMapPage,
+    })),
   genetics: () =>
     import("./pages/GeneticsPage").then(({ GeneticsPage }) => ({
       default: GeneticsPage,
+    })),
+  primates: () =>
+    import("./pages/PrimatesPage").then(({ PrimatesPage }) => ({
+      default: PrimatesPage,
     })),
 };
 
@@ -68,13 +102,17 @@ const DinosaursPage = lazy(pageLoaders.dinosaurs);
 const QuizPage = lazy(pageLoaders.quiz);
 const OriginOfLifePage = lazy(pageLoaders.originOfLife);
 const CladogramPage = lazy(pageLoaders.cladogram);
+const BodyMapPage = lazy(pageLoaders.bodyMap);
 const GeneticsPage = lazy(pageLoaders.genetics);
+const PrimatesPage = lazy(pageLoaders.primates);
 
 const routePreloaders: Record<string, () => Promise<unknown>> = {
+  "/primates": pageLoaders.primates,
   "/theory": pageLoaders.theory,
   "/origin-of-life": pageLoaders.originOfLife,
   "/genetics": pageLoaders.genetics,
   "/cladogram": pageLoaders.cladogram,
+  "/body-map": pageLoaders.bodyMap,
   "/extinctions": pageLoaders.extinctions,
   "/dinosaurs": pageLoaders.dinosaurs,
   "/materials": pageLoaders.materials,
@@ -86,21 +124,53 @@ function preloadRoute(to: string) {
   void routePreloaders[to]?.();
 }
 
-const navItems = [
-  { label: "Атлас", to: "/" },
-  { label: "Теория эволюции", to: "/theory" },
-  { label: "Зарождение жизни", to: "/origin-of-life" },
-  { label: "РНК/ДНК", to: "/genetics" },
-  { label: "Дерево родства", to: "/cladogram" },
-  { label: "Глобальные вымирания", to: "/extinctions" },
-  { label: "Вымерли ли динозавры", to: "/dinosaurs" },
-  { label: "Дополнительные материалы", to: "/materials" },
-  { label: "О проекте", to: "/about" },
-  { label: "Проверь себя", to: "/quiz" },
+type NavItem = {
+  label: string;
+  to: string;
+  icon: LucideIcon;
+};
+
+const navItems: NavItem[] = [
+  { label: "Атлас", to: "/", icon: Home },
+  { label: "Приматы → человек", to: "/primates", icon: UsersRound },
+  { label: "Теория эволюции", to: "/theory", icon: BookOpen },
+  { label: "Зарождение жизни", to: "/origin-of-life", icon: FlaskConical },
+  { label: "РНК/ДНК", to: "/genetics", icon: Dna },
+  { label: "Дерево родства", to: "/cladogram", icon: GitFork },
+  { label: "Карта признаков", to: "/body-map", icon: ScanSearch },
+  { label: "Глобальные вымирания", to: "/extinctions", icon: Waves },
+  { label: "Вымерли ли динозавры", to: "/dinosaurs", icon: Fingerprint },
+  { label: "Дополнительные материалы", to: "/materials", icon: FileText },
+  { label: "О проекте", to: "/about", icon: Info },
+  { label: "Проверь себя", to: "/quiz", icon: HelpCircle },
 ];
 
-const primaryNavItems = navItems.slice(0, 7);
-const secondaryNavItems = navItems.slice(7);
+const navTabs = navItems.reduce<ExpandableTabItem[]>(
+  (tabs, item) => {
+    if (item.to === "/materials") tabs.push({ type: "separator" });
+    tabs.push({ title: item.label, icon: item.icon, href: item.to });
+    return tabs;
+  },
+  [],
+);
+
+function getTabIndexFromNavIndex(navIndex: number) {
+  const navItem = navItems[navIndex];
+  if (!navItem) return 0;
+
+  const tabIndex = navTabs.findIndex(
+    (tab) => tab.type !== "separator" && tab.href === navItem.to,
+  );
+  return tabIndex >= 0 ? tabIndex : 0;
+}
+
+function getNavItemFromTabIndex(tabIndex: number | null) {
+  if (tabIndex === null) return null;
+  const tab = navTabs[tabIndex];
+  if (!tab || tab.type === "separator") return null;
+
+  return navItems.find((item) => item.to === tab.href) ?? null;
+}
 
 function LegacyMaterialRedirect({ cover = false }: { cover?: boolean }) {
   const { fileName } = useParams();
@@ -133,8 +203,22 @@ function getNavIndex(pathname: string) {
 }
 
 function AppHeader() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isTourMenuOpen, setIsTourMenuOpen] = useState(false);
+  const activeNavIndex = getNavIndex(location.pathname);
+  const activeTabIndex = getTabIndexFromNavIndex(activeNavIndex);
+
+  useEffect(() => {
+    function openTourMenu() {
+      setIsMenuOpen(true);
+      setIsTourMenuOpen(true);
+    }
+
+    window.addEventListener(DARWIN_TOUR_MENU_EVENT, openTourMenu);
+    return () => window.removeEventListener(DARWIN_TOUR_MENU_EVENT, openTourMenu);
+  }, []);
 
   const handleNavKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
@@ -146,6 +230,20 @@ function AppHeader() {
       (currentIndex + direction + navItems.length) % navItems.length;
 
     navigate(navItems[nextIndex].to);
+  };
+
+  const handleNavChange = (tabIndex: number | null) => {
+    const item = getNavItemFromTabIndex(tabIndex);
+    if (!item) return;
+
+    setIsMenuOpen(false);
+    setIsTourMenuOpen(false);
+    navigate(item.to);
+  };
+
+  const handleNavIntent = (tabIndex: number) => {
+    const item = getNavItemFromTabIndex(tabIndex);
+    if (item) preloadRoute(item.to);
   };
 
   return (
@@ -182,32 +280,18 @@ function AppHeader() {
         aria-label="Основная навигация"
         onKeyDown={handleNavKeyDown}
       >
-        <div className="topbar-nav-row topbar-nav-primary">
-          {primaryNavItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              onClick={() => setIsMenuOpen(false)}
-              onFocus={() => preloadRoute(item.to)}
-              onMouseEnter={() => preloadRoute(item.to)}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </div>
-        <div className="topbar-nav-row topbar-nav-secondary">
-          {secondaryNavItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              onClick={() => setIsMenuOpen(false)}
-              onFocus={() => preloadRoute(item.to)}
-              onMouseEnter={() => preloadRoute(item.to)}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </div>
+        <ExpandableTabs
+          tabs={navTabs}
+          selectedIndex={activeTabIndex}
+          collapsible={false}
+          onChange={handleNavChange}
+          onIntent={handleNavIntent}
+        />
+        <DarwinWelcome
+          isOpen={isTourMenuOpen}
+          onOpenChange={setIsTourMenuOpen}
+          onTourStart={() => setIsMenuOpen(false)}
+        />
       </nav>
     </header>
   );
@@ -231,10 +315,12 @@ function App() {
             >
               <Routes>
                 <Route path="/" element={<AtlasPage />} />
+                <Route path="/primates" element={<PrimatesPage />} />
                 <Route path="/theory" element={<TheoryPage />} />
                 <Route path="/origin-of-life" element={<OriginOfLifePage />} />
                 <Route path="/genetics" element={<GeneticsPage />} />
                 <Route path="/cladogram" element={<CladogramPage />} />
+                <Route path="/body-map" element={<BodyMapPage />} />
                 <Route path="/extinctions" element={<ExtinctionsPage />} />
                 <Route path="/dinosaurs" element={<DinosaursPage />} />
                 <Route path="/materials" element={<MaterialsPage />} />
@@ -252,6 +338,7 @@ function App() {
               </Routes>
             </Suspense>
           </main>
+          <TourPlayer />
           <DarwinGuide />
         </div>
       </TooltipProvider>
