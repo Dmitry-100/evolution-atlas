@@ -168,6 +168,60 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
       "Хороший мост между Атласом, деревом родства и разделом РНК/ДНК: показывает, как независимые линии доказательств сходятся.",
   },
   {
+    id: "mukherjee-gene",
+    titleRu: "Ген. Очень личная история",
+    authorRu: "Сиддхартха Мукерджи",
+    themeRu: "история генетики",
+    coverSrc: `${BOOK_ASSET_ROOT}/mukherjee-gene.jpg`,
+    coverAltRu: "Обложка книги “Ген. Очень личная история”",
+    publisherHref:
+      "https://www.corpus.ru/products/siddhartha-mukerdzhi-gen-ochen-lichnaya-istoriya.htm",
+    descriptionRu:
+      "История идеи гена от классической наследственности до молекулярной генетики, геномики, наследуемых болезней и этических споров.",
+    whyReadRu:
+      "Хорошо продолжает раздел РНК/ДНК: показывает, почему генетика — не простой приговор, а язык вероятностей, данных и ответственности.",
+  },
+  {
+    id: "kleshchenko-dna-person",
+    titleRu: "ДНК и ее человек",
+    authorRu: "Елена Клещенко",
+    themeRu: "ДНК-идентификация",
+    coverSrc: `${BOOK_ASSET_ROOT}/kleshchenko-dna-person.jpg`,
+    coverAltRu: "Обложка книги “ДНК и ее человек”",
+    publisherHref: "https://alpinabook.ru/catalog/book-dnk-i-ee-chelovek/",
+    descriptionRu:
+      "Книга о ДНК-идентификации: как строятся генетические профили, где метод силен, где возможны ошибки и почему контекст важен.",
+    whyReadRu:
+      "Помогает не мифологизировать ДНК: совпадение и профиль остаются частью процесса, статистики и доказательной цепочки.",
+  },
+  {
+    id: "heyer-gene-odyssey",
+    titleRu: "Одиссея генов",
+    authorRu: "Эвелин Эйер",
+    themeRu: "популяционная генетика",
+    coverSrc: `${BOOK_ASSET_ROOT}/heyer-gene-odyssey.jpg`,
+    coverAltRu: "Обложка книги “Одиссея генов”",
+    publisherHref:
+      "https://sindbadbooks.ru/index.php?route=product/product&path=25&product_id=283",
+    descriptionRu:
+      "Путешествие по истории Homo sapiens через ДНК: миграции, смешения с древними людьми, демография, культура и следы исторических событий в геномах.",
+    whyReadRu:
+      "Отличное продолжение разделов о приматах и генетике: показывает, что человеческая история — сеть миграций и смешений, а не одна прямая линия.",
+  },
+  {
+    id: "aleksenko-sex-with-scientists",
+    titleRu: "Секс с учеными",
+    authorRu: "Алексей Алексенко",
+    themeRu: "половое размножение",
+    coverSrc: `${BOOK_ASSET_ROOT}/aleksenko-sex-with-scientists.jpg`,
+    coverAltRu: "Обложка книги “Секс с учеными”",
+    publisherHref: "https://alpinabook.ru/catalog/book-seks-s-uchenymi/",
+    descriptionRu:
+      "Разбор эволюционной загадки секса: зачем нужен дорогой половой процесс, как работают мейоз, анизогамия, половые хромосомы и модели отбора.",
+    whyReadRu:
+      "Хорошо расширяет тему наследуемой изменчивости: объясняет, как перемешивание генов становится материалом для отбора и эволюционных компромиссов.",
+  },
+  {
     id: "dawkins-greatest-show",
     titleRu: "Самое грандиозное шоу на Земле",
     authorRu: "Ричард Докинз",

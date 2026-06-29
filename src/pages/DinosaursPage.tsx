@@ -7,6 +7,7 @@ import {
   Clock3,
   Crown,
   GitBranch,
+  Maximize2,
   MoveHorizontal,
   ShieldAlert,
   Sparkles,
@@ -16,6 +17,7 @@ import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react
 import { Link } from "react-router-dom";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { FloatingPaths } from "../components/ui/floating-paths";
+import { ImageLightbox } from "../components/ui/image-lightbox";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { Slider } from "../components/ui/slider";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
@@ -233,16 +235,28 @@ function getStepTarget(stages: BranchItem[], activeId: string, delta: number) {
 
 function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
   const image = getImage(stage);
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
 
   return (
     <article className="dinosaur-detail-card" aria-live="polite">
       <figure className="dinosaur-detail-visual">
-        <OptimizedImage
-          src={image.src}
-          alt={image.altRu}
-          loading="lazy"
-          decoding="async"
-        />
+        <button
+          type="button"
+          className="dinosaur-detail-image-zoom"
+          onClick={() => setIsImageExpanded(true)}
+          aria-label={`Увеличить изображение: ${stage.titleRu}`}
+        >
+          <OptimizedImage
+            src={image.src}
+            alt={image.altRu}
+            loading="lazy"
+            decoding="async"
+          />
+          <span className="stage-plate-zoom-indicator">
+            <Maximize2 aria-hidden="true" size={15} />
+            Увеличить
+          </span>
+        </button>
         {image.kind === "generated-reconstruction" ? (
           <figcaption>AI-реконструкция</figcaption>
         ) : null}
@@ -278,21 +292,46 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
         </div>
 
       </div>
+      <ImageLightbox
+        image={
+          isImageExpanded
+            ? {
+                src: image.src,
+                alt: image.altRu,
+                caption: `${stage.titleRu}. ${image.altRu}`,
+              }
+            : null
+        }
+        ariaLabel="Увеличенное изображение вида"
+        onClose={() => setIsImageExpanded(false)}
+      />
     </article>
   );
 }
 
 function MobileDinosaurStageDetail({ stage }: { stage: BranchItem }) {
   const image = getImage(stage);
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
 
   return (
     <div className="mobile-dinosaur-stage-detail">
-      <OptimizedImage
-        src={image.src}
-        alt={image.altRu}
-        loading="lazy"
-        decoding="async"
-      />
+      <button
+        type="button"
+        className="mobile-dinosaur-stage-zoom"
+        onClick={() => setIsImageExpanded(true)}
+        aria-label={`Увеличить изображение: ${stage.titleRu}`}
+      >
+        <OptimizedImage
+          src={image.src}
+          alt={image.altRu}
+          loading="lazy"
+          decoding="async"
+        />
+        <span className="stage-plate-zoom-indicator">
+          <Maximize2 aria-hidden="true" size={15} />
+          Увеличить
+        </span>
+      </button>
       <div className="mobile-dinosaur-stage-copy">
         <span>{formatAge(stage.ageMa)}</span>
         <h3>{stage.titleRu}</h3>
@@ -305,6 +344,19 @@ function MobileDinosaurStageDetail({ stage }: { stage: BranchItem }) {
         </div>
         <p className="mobile-dinosaur-why">{getWhyMatters(stage)}</p>
       </div>
+      <ImageLightbox
+        image={
+          isImageExpanded
+            ? {
+                src: image.src,
+                alt: image.altRu,
+                caption: `${stage.titleRu}. ${image.altRu}`,
+              }
+            : null
+        }
+        ariaLabel="Увеличенное изображение вида"
+        onClose={() => setIsImageExpanded(false)}
+      />
     </div>
   );
 }

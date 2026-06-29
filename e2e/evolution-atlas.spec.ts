@@ -1003,6 +1003,23 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".primate-deep-axis")).toBeVisible();
   });
 
+  test("main atlas opens origin of life from the cellular timeline label", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop Atlas layout.");
+
+    await page.goto("/");
+    const cellularLabel = page.getByRole("link", { name: /Клеточная жизнь/i });
+    await expect(cellularLabel).toBeVisible();
+    await expect(cellularLabel).toHaveAttribute("href", "/origin-of-life");
+
+    await cellularLabel.click();
+    await expect(page).toHaveURL(/\/origin-of-life$/);
+    await expect(
+      page.getByRole("heading", { name: /Гипотезы зарождения жизни/i }),
+    ).toBeVisible();
+  });
+
   test("visible and keyboard arrows move along the deep-time scale", async ({
     page,
   }, testInfo) => {
@@ -1236,6 +1253,32 @@ test.describe("Evolution Atlas", () => {
     );
   });
 
+  test("cladogram inspector opens species images in a lightbox", async ({
+    page,
+  }) => {
+    await page.goto("/cladogram");
+    const cladogram = page.locator(".cladogram-panel");
+
+    await cladogram
+      .locator(".cladogram-branch")
+      .filter({ hasText: "Диапсиды" })
+      .click();
+
+    const zoomButton = page.getByRole("button", {
+      name: /Увеличить изображение: Диапсиды/i,
+    });
+    await expect(zoomButton).toBeVisible();
+    await zoomButton.click();
+    await expect(
+      page.getByRole("dialog", { name: "Увеличенное изображение ветви" }),
+    ).toBeVisible();
+    await expect(page.locator(".image-lightbox-panel img")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(
+      page.getByRole("dialog", { name: "Увеличенное изображение ветви" }),
+    ).toHaveCount(0);
+  });
+
   test("body trait map switches layers and opens atlas stages", async ({
     page,
   }) => {
@@ -1247,6 +1290,11 @@ test.describe("Evolution Atlas", () => {
         name: "Какие древние решения живут в нашем теле",
       }),
     ).toBeVisible();
+    await expect(page.locator(".body-map-summary")).toHaveCount(0);
+    await expect(page.getByText("в кураторской карте")).toHaveCount(0);
+    await expect(
+      page.getByText(/Изображение остается чистым фоном/i),
+    ).toHaveCount(0);
     await expect(page.locator(".body-map-canvas img")).toBeVisible();
     await expect
       .poll(() =>
@@ -1337,6 +1385,13 @@ test.describe("Evolution Atlas", () => {
         .locator(".trait-accumulator")
         .getByRole("link", { name: /карт[ау] признаков/i }),
     ).toHaveAttribute("href", "/body-map");
+    if (testInfo.project.name !== "mobile") {
+      await expect(
+        page.locator(".wow-facts-band").getByRole("link", {
+          name: /Открыть карту/i,
+        }),
+      ).toHaveAttribute("href", "/body-map");
+    }
 
     const stageTraitSurface =
       testInfo.project.name === "mobile"
@@ -1900,6 +1955,27 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
   });
 
+  test("dinosaurs route opens active species images in a lightbox", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop dinosaur axis layout.");
+
+    await page.goto("/dinosaurs");
+    const zoomButton = page.getByRole("button", {
+      name: /Увеличить изображение: Первые животные/i,
+    });
+    await expect(zoomButton).toBeVisible();
+    await zoomButton.click();
+    await expect(
+      page.getByRole("dialog", { name: "Увеличенное изображение вида" }),
+    ).toBeVisible();
+    await expect(page.locator(".image-lightbox-panel img")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(
+      page.getByRole("dialog", { name: "Увеличенное изображение вида" }),
+    ).toHaveCount(0);
+  });
+
   test("mobile dinosaurs route uses a vertical scroll map", async ({
     page,
   }, testInfo) => {
@@ -1924,6 +2000,18 @@ test.describe("Evolution Atlas", () => {
         name: "Современные птицы",
       }),
     ).toBeVisible();
+    await page
+      .getByRole("button", {
+        name: /Увеличить изображение: Современные птицы/i,
+      })
+      .click();
+    await expect(
+      page.getByRole("dialog", { name: "Увеличенное изображение вида" }),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(
+      page.getByRole("dialog", { name: "Увеличенное изображение вида" }),
+    ).toHaveCount(0);
 
     const hasOverflow = await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth + 1,

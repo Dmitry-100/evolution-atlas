@@ -36,6 +36,14 @@ describe("portal materials", () => {
     expect(READING_RECOMMENDATIONS.map((book) => book.id)).toEqual(
       expect.arrayContaining(["darwin-origin-species", "darwin-descent-man"]),
     );
+    expect(READING_RECOMMENDATIONS.map((book) => book.id)).toEqual(
+      expect.arrayContaining([
+        "mukherjee-gene",
+        "kleshchenko-dna-person",
+        "heyer-gene-odyssey",
+        "aleksenko-sex-with-scientists",
+      ]),
+    );
 
     for (const book of READING_RECOMMENDATIONS) {
       if (book.coverSrc) {

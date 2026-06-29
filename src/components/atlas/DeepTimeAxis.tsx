@@ -54,6 +54,7 @@ const TIME_REGION_LABELS = [
     align: "center",
     labelPosition: 22,
     lane: 0,
+    href: "/origin-of-life",
   },
   {
     id: "vertebrates",
@@ -94,6 +95,7 @@ const TIME_REGION_LABELS = [
     align: "right",
     labelPosition: 96,
     lane: 0,
+    href: "/primates",
   },
 ] as const;
 
@@ -235,13 +237,13 @@ export function DeepTimeAxis({
               "--region-lane": region.lane,
             } as CSSProperties;
 
-            if (region.id === "primates") {
+            if ("href" in region) {
               return (
                 <Link
                   key={region.id}
                   className={`${labelClass} deep-time-region-link`}
                   style={labelStyle}
-                  to="/primates"
+                  to={region.href}
                 >
                   <strong>{region.title}</strong>
                   <small>{region.detail}</small>

@@ -1558,6 +1558,12 @@ code {
 .deep-time-image-zoom:focus-visible span,
 .stage-plate-zoom:hover .stage-plate-zoom-indicator,
 .stage-plate-zoom:focus-visible .stage-plate-zoom-indicator,
+.dinosaur-detail-image-zoom:hover .stage-plate-zoom-indicator,
+.dinosaur-detail-image-zoom:focus-visible .stage-plate-zoom-indicator,
+.mobile-dinosaur-stage-zoom:hover .stage-plate-zoom-indicator,
+.mobile-dinosaur-stage-zoom:focus-visible .stage-plate-zoom-indicator,
+.cladogram-inspector-image-zoom:hover .stage-plate-zoom-indicator,
+.cladogram-inspector-image-zoom:focus-visible .stage-plate-zoom-indicator,
 .mobile-stage-detail-zoom:hover span,
 .mobile-stage-detail-zoom:focus-visible span {
   opacity: 1;
@@ -1566,6 +1572,9 @@ code {
 
 .deep-time-image-zoom:focus-visible,
 .stage-plate-zoom:focus-visible,
+.dinosaur-detail-image-zoom:focus-visible,
+.mobile-dinosaur-stage-zoom:focus-visible,
+.cladogram-inspector-image-zoom:focus-visible,
 .mobile-stage-detail-zoom:focus-visible {
   outline: 2px solid rgba(240, 201, 120, 0.82);
   outline-offset: -3px;
@@ -2741,6 +2750,20 @@ code {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.35;
+}
+
+.wow-fact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+  color: var(--gold);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.wow-fact-link svg {
+  flex: 0 0 auto;
 }
 
 .takeaway-band {
@@ -4837,6 +4860,19 @@ code {
     rgba(11, 14, 13, 0.9);
 }
 
+.cladogram-inspector-image-zoom {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: inherit;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: zoom-in;
+  font: inherit;
+  padding: 0;
+}
+
 .cladogram-inspector-media img {
   display: block;
   width: 100%;
@@ -5282,6 +5318,19 @@ code {
   pointer-events: none;
 }
 
+.dinosaur-detail-image-zoom {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: inherit;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: zoom-in;
+  font: inherit;
+  padding: 0;
+}
+
 .dinosaur-detail-visual img {
   width: 100%;
   height: 100%;
@@ -5291,6 +5340,14 @@ code {
   object-position: center;
   padding: 0.5rem;
   filter: saturate(0.94) contrast(1.04);
+}
+
+.dinosaur-detail-image-zoom .stage-plate-zoom-indicator,
+.mobile-dinosaur-stage-zoom .stage-plate-zoom-indicator,
+.cladogram-inspector-image-zoom .stage-plate-zoom-indicator {
+  top: 0.75rem;
+  right: 0.75rem;
+  bottom: auto;
 }
 
 .dinosaur-detail-visual figcaption {
@@ -7883,44 +7940,12 @@ code {
   max-width: 920px;
 }
 
-.body-map-summary {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.85rem;
-  margin: 0 0 1rem;
-}
-
-.body-map-summary article,
 .body-map-main,
 .body-trait-inspector {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel);
   box-shadow: var(--shadow);
-}
-
-.body-map-summary article {
-  display: grid;
-  gap: 0.18rem;
-  min-width: 0;
-  padding: 0.95rem;
-}
-
-.body-map-summary strong {
-  color: var(--amber);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.45rem, 3vw, 2.2rem);
-  line-height: 1;
-}
-
-.body-map-summary span {
-  color: var(--text);
-  font-weight: 820;
-}
-
-.body-map-summary p {
-  margin: 0;
-  color: var(--muted);
 }
 
 .body-map-layer-tabs {
@@ -8094,13 +8119,6 @@ code {
 .body-trait-pin:hover span,
 .body-trait-pin.is-active span {
   display: inline-block;
-}
-
-.body-map-canvas figcaption {
-  border-top: 1px solid rgba(218, 185, 126, 0.14);
-  color: var(--muted);
-  font-size: 0.86rem;
-  padding: 0.78rem 1rem;
 }
 
 .body-trait-inspector {
@@ -8635,7 +8653,6 @@ code {
   .dinosaurs-hero,
   .genetics-hero,
   .origin-hero,
-  .body-map-summary,
   .dinosaur-detail-card,
   .codon-lab,
   .genetics-flow,
@@ -9140,6 +9157,18 @@ code {
     display: grid;
     gap: 0.85rem;
     padding: 0 0.75rem 0.85rem;
+  }
+
+  .mobile-dinosaur-stage-zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: zoom-in;
+    font: inherit;
+    padding: 0;
   }
 
   .mobile-dinosaur-stage-detail img {

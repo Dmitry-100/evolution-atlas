@@ -113,10 +113,6 @@ function BodyMapCanvas({
           );
         })}
       </div>
-      <figcaption>
-        Изображение остается чистым фоном: интерактивные точки и подписи
-        добавлены поверх страницы.
-      </figcaption>
     </figure>
   );
 }
@@ -199,8 +195,6 @@ export function BodyMapPage() {
     traitsForActiveLayer[0] ??
     BODY_TRAITS[0];
   const activeStage = activeTrait ? getTraitStage(activeTrait) : undefined;
-  const totalTraitCount = BODY_TRAITS.length;
-
   function changeLayer(layerId: BodyTraitLayerId) {
     const nextTraits = getBodyTraitsByLayer(layerId);
     setActiveLayerId(layerId);
@@ -223,24 +217,6 @@ export function BodyMapPage() {
           мозг и социальное поведение.
         </p>
       </div>
-
-      <section className="body-map-summary" aria-label="Как читать карту">
-        <article>
-          <strong>{BODY_TRAIT_LAYERS.length}</strong>
-          <span>слоев</span>
-          <p>от клетки до культуры</p>
-        </article>
-        <article>
-          <strong>{totalTraitCount}</strong>
-          <span>признака</span>
-          <p>в кураторской карте</p>
-        </article>
-        <article>
-          <strong>узлы</strong>
-          <span>а не лестница</span>
-          <p>каждая точка связана с ветвью Атласа</p>
-        </article>
-      </section>
 
       <BodyLayerTabs
         layers={BODY_TRAIT_LAYERS}

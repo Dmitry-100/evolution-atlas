@@ -2,6 +2,7 @@ import {
   ArrowRight,
   Fingerprint,
   GitFork,
+  Maximize2,
   Milestone,
   ScanSearch,
 } from "lucide-react";
@@ -12,6 +13,7 @@ import {
   type CladogramBranchMode,
 } from "../components/atlas/CladogramPanel";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
+import { ImageLightbox } from "../components/ui/image-lightbox";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { TooltipProvider } from "../components/ui/tooltip";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
@@ -41,6 +43,13 @@ function CladogramInspector({
   branch,
   onSelectStage,
 }: CladogramInspectorProps) {
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const inspectorImage = branch?.image ?? stage.image;
+  const inspectorTitle = branch?.titleRu ?? stage.titleRu;
+  const lightboxLabel = branch
+    ? "Увеличенное изображение ветви"
+    : "Увеличенное изображение узла";
+
   if (branch) {
     return (
       <aside
@@ -48,12 +57,23 @@ function CladogramInspector({
         aria-label="Выбранная ветвь дерева"
       >
         <figure className="cladogram-inspector-media">
-          <OptimizedImage
-            src={branch.image.src}
-            alt={branch.image.altRu}
-            loading="eager"
-            decoding="async"
-          />
+          <button
+            type="button"
+            className="cladogram-inspector-image-zoom"
+            onClick={() => setIsImageExpanded(true)}
+            aria-label={`Увеличить изображение: ${branch.titleRu}`}
+          >
+            <OptimizedImage
+              src={branch.image.src}
+              alt={branch.image.altRu}
+              loading="eager"
+              decoding="async"
+            />
+            <span className="stage-plate-zoom-indicator">
+              <Maximize2 aria-hidden="true" size={15} />
+              Увеличить
+            </span>
+          </button>
         </figure>
 
         <div className="cladogram-inspector-marker">
@@ -118,6 +138,19 @@ function CladogramInspector({
             </button>
           )}
         </div>
+        <ImageLightbox
+          image={
+            isImageExpanded
+              ? {
+                  src: inspectorImage.src,
+                  alt: inspectorImage.altRu,
+                  caption: `${inspectorTitle}. ${inspectorImage.altRu}`,
+                }
+              : null
+          }
+          ariaLabel={lightboxLabel}
+          onClose={() => setIsImageExpanded(false)}
+        />
       </aside>
     );
   }
@@ -125,12 +158,23 @@ function CladogramInspector({
   return (
     <aside className="cladogram-inspector" aria-label="Выбранный узел дерева">
       <figure className="cladogram-inspector-media">
-        <OptimizedImage
-          src={stage.image.src}
-          alt={stage.image.altRu}
-          loading="eager"
-          decoding="async"
-        />
+        <button
+          type="button"
+          className="cladogram-inspector-image-zoom"
+          onClick={() => setIsImageExpanded(true)}
+          aria-label={`Увеличить изображение: ${stage.titleRu}`}
+        >
+          <OptimizedImage
+            src={stage.image.src}
+            alt={stage.image.altRu}
+            loading="eager"
+            decoding="async"
+          />
+          <span className="stage-plate-zoom-indicator">
+            <Maximize2 aria-hidden="true" size={15} />
+            Увеличить
+          </span>
+        </button>
         {stage.image.kind === "generated-reconstruction" ? (
           <figcaption>AI-реконструкция</figcaption>
         ) : null}
@@ -171,6 +215,19 @@ function CladogramInspector({
           </Link>
         </div>
       </div>
+      <ImageLightbox
+        image={
+          isImageExpanded
+            ? {
+                src: inspectorImage.src,
+                alt: inspectorImage.altRu,
+                caption: `${inspectorTitle}. ${inspectorImage.altRu}`,
+              }
+            : null
+        }
+        ariaLabel={lightboxLabel}
+        onClose={() => setIsImageExpanded(false)}
+      />
     </aside>
   );
 }

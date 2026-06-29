@@ -95,6 +95,7 @@ export function AtlasPage() {
       label: "Накоплено признаков",
       value: traitCount.toLocaleString("ru-RU"),
       text: "унаследованных признаков уже собрано к этой точке маршрута.",
+      href: "/body-map",
     },
     {
       icon: Star,
@@ -216,12 +217,18 @@ export function AtlasPage() {
       </section>
 
       <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
-        {wowFacts.map(({ icon: Icon, label, value, text }) => (
+        {wowFacts.map(({ icon: Icon, label, value, text, href }) => (
           <article key={label}>
             <Icon aria-hidden="true" size={21} />
             <span>{label}</span>
             <strong>{value}</strong>
             <p>{text}</p>
+            {href ? (
+              <Link className="wow-fact-link" to={href}>
+                Открыть карту
+                <ArrowRight aria-hidden="true" size={15} />
+              </Link>
+            ) : null}
           </article>
         ))}
       </section>
