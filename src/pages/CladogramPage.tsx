@@ -3,6 +3,7 @@ import {
   Fingerprint,
   GitFork,
   Milestone,
+  ScanSearch,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -150,6 +151,13 @@ function CladogramInspector({
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            <Link
+              className="button button-secondary button-sm trait-map-link"
+              to="/body-map"
+            >
+              <ScanSearch aria-hidden="true" size={15} />
+              Карта признаков
+            </Link>
           </div>
         </div>
 

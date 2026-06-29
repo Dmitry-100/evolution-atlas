@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Maximize2 } from "lucide-react";
+import { Maximize2, ScanSearch } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { EvolutionStage } from "../../../data/lineage";
 import { formatAgeRu } from "../../../lib/timeline";
 import { ImageLightbox } from "../../ui/image-lightbox";
@@ -46,6 +47,13 @@ export function MobileStageDetail({ stage }: MobileStageDetailProps) {
             <span key={trait}>{trait}</span>
           ))}
         </div>
+        <Link
+          className="button button-secondary button-sm trait-map-link"
+          to="/body-map"
+        >
+          <ScanSearch aria-hidden="true" size={15} />
+          Карта признаков
+        </Link>
         <p className="mobile-stage-why">{stage.whyMattersRu}</p>
       </div>
       <ImageLightbox

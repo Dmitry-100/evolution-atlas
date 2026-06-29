@@ -815,6 +815,16 @@ code {
   background: rgba(255, 255, 255, 0.02);
 }
 
+.trait-map-link {
+  width: fit-content;
+  max-width: 100%;
+  white-space: normal;
+}
+
+.trait-map-link svg {
+  flex: 0 0 auto;
+}
+
 .tooltip-content {
   z-index: 50;
   max-width: 320px;
@@ -1067,6 +1077,10 @@ code {
   padding: 0.28rem 0.55rem;
   color: var(--amber);
   font-size: 0.85rem;
+}
+
+.mobile-stage-detail-copy .trait-map-link {
+  justify-self: start;
 }
 
 .mobile-stage-why {
@@ -2616,6 +2630,10 @@ code {
   margin: 0.8rem 0 0;
   padding-left: 1.1rem;
   color: var(--text);
+}
+
+.inheritance-box .trait-map-link {
+  margin-top: 0.85rem;
 }
 
 .why-box {
@@ -5031,6 +5049,10 @@ code {
   font-size: 0.74rem;
 }
 
+.cladogram-inspector-traits .trait-map-link {
+  margin-top: 0.65rem;
+}
+
 .cladogram-inspector-actions {
   display: flex;
   gap: 0.6rem;
@@ -7315,6 +7337,16 @@ code {
 .trait-accumulator-heading p:not(.eyebrow) {
   max-width: 930px;
   line-height: 1.62;
+}
+
+.trait-accumulator-actions {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: end;
+}
+
+.trait-accumulator-heading .trait-map-link svg {
+  margin-top: 0;
 }
 
 .trait-total {

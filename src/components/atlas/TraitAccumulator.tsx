@@ -1,4 +1,5 @@
-import { ChevronDown, Layers3 } from "lucide-react";
+import { ArrowRight, ChevronDown, Layers3, ScanSearch } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { AccumulatedTraitGroup } from "../../lib/accumulatedTraits";
 
 type TraitAccumulatorProps = {
@@ -21,10 +22,20 @@ export function TraitAccumulator({ groups }: TraitAccumulatorProps) {
           <h2 id="trait-accumulator-heading">Унаследованные признаки</h2>
           <p>Новые признаки не заменяют старые, а надстраиваются поверх древнего наследия.</p>
         </div>
-        <strong className="trait-total">
-          <span>{traitCount}</span>
-          <small>признаков</small>
-        </strong>
+        <div className="trait-accumulator-actions">
+          <strong className="trait-total">
+            <span>{traitCount}</span>
+            <small>признаков</small>
+          </strong>
+          <Link
+            className="button button-secondary button-sm trait-map-link"
+            to="/body-map"
+          >
+            <ScanSearch aria-hidden="true" size={15} />
+            Карта признаков
+            <ArrowRight aria-hidden="true" size={15} />
+          </Link>
+        </div>
       </div>
 
       <div className="trait-compact-body">

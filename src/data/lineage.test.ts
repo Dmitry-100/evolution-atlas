@@ -54,6 +54,19 @@ describe("lineage data", () => {
     );
   });
 
+  it("uses dedicated generated art for the Cambrian explosion stage", () => {
+    const cambrianExplosion = getStageById("cambrian-explosion");
+    const imageSrc = cambrianExplosion?.image.src ?? "";
+
+    expect(imageSrc).toBe(
+      "/assets/images/source-backed/generated-atlas/cambrian-explosion.png",
+    );
+    expect(cambrianExplosion?.image.credit).not.toMatch(/временный/i);
+    expect(cambrianExplosion?.image.promptId).toBe(
+      "cambrian-explosion-paleoart-2026-06-30",
+    );
+  });
+
   it("marks primate-focused stages for the zoomed mode", () => {
     expect(primateStages.length).toBeGreaterThanOrEqual(10);
     expect(primateStages[0]?.id).toBe("early-primates");

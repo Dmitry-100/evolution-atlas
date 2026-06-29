@@ -1,5 +1,6 @@
-import { Fingerprint, Maximize2, Sparkles } from "lucide-react";
+import { Fingerprint, Maximize2, ScanSearch, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Link } from "react-router-dom";
 import { getStageGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage, StageImage } from "../../data/lineage";
 import { getImagePlaceholder } from "../../lib/imagePlaceholders";
@@ -132,6 +133,13 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
               <li key={item}>{item}</li>
             ))}
           </ul>
+          <Link
+            className="button button-secondary button-sm trait-map-link"
+            to="/body-map"
+          >
+            <ScanSearch aria-hidden="true" size={15} />
+            Открыть карту признаков
+          </Link>
         </div>
 
         <div className="why-box">
