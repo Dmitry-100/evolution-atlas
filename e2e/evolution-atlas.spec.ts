@@ -39,22 +39,15 @@ const baseGuidedRouteCases = [
   {
     label: "Узнать, почему динозавры не совсем исчезли",
     title: "Динозавры не совсем исчезли",
-    more: true,
   },
   {
     label: "Подготовить рассказ, урок или презентацию",
     title: "Готовый рассказ об эволюции",
-    more: true,
   },
   {
     label: "Объяснить ребенку эволюцию без занудства",
     title: "Эволюция для ребенка 8 лет",
     age: "8 лет",
-  },
-  {
-    label: "У меня свой вопрос",
-    title: "Маршрут под свой вопрос",
-    customText: "Хочу понять ДНК и древних родственников человека",
   },
 ];
 
@@ -75,10 +68,6 @@ async function chooseDarwinRoute(
   page: Page,
   routeCase: (typeof baseGuidedRouteCases)[number],
 ) {
-  if (routeCase.more) {
-    await page.getByRole("button", { name: "Еще экскурсии" }).click();
-  }
-
   await page.getByRole("button", { name: routeCase.label }).click();
 }
 
@@ -101,6 +90,28 @@ test.describe("Evolution Atlas", () => {
       .click();
     await expect(
       page.getByRole("dialog", { name: "Дарвин встречает посетителя" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "У меня свой вопрос" }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Еще экскурсии" }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("button", {
+        name: "Узнать, почему динозавры не совсем исчезли",
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", {
+        name: "Подготовить рассказ, урок или презентацию",
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Пойти самому" }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Без Дарвина" }),
     ).toBeVisible();
     await page
       .getByRole("button", {
@@ -134,6 +145,12 @@ test.describe("Evolution Atlas", () => {
     await expect(
       tour.getByRole("button", { name: "Показать ответ" }),
     ).toHaveCount(0);
+    await expect(
+      tour.getByRole("button", { name: "Пойти самому" }),
+    ).toHaveCount(0);
+    await expect(
+      tour.getByRole("button", { name: "Без Дарвина" }),
+    ).toBeVisible();
     await page.getByRole("button", { name: /Дальше/i }).click();
     await expect(page).toHaveURL(/\/genetics\?tour=.*step=1/);
   });
@@ -217,13 +234,6 @@ test.describe("Evolution Atlas", () => {
       if (routeCase.age) {
         await page.getByRole("button", { name: routeCase.age }).click();
       }
-      if (routeCase.customText) {
-        await page
-          .getByLabel("Что вас зацепило?")
-          .fill(routeCase.customText);
-        await page.getByRole("button", { name: "Подобрать маршрут" }).click();
-      }
-
       await page
         .getByRole("button", { name: /Базовый маршрут.*8 остановок/i })
         .click();
@@ -246,7 +256,10 @@ test.describe("Evolution Atlas", () => {
 
       await expect(tour.getByText("Куда пойти дальше")).toBeVisible();
       await expect(tour.locator(".tour-next-step-card")).toHaveCount(3);
-      await tour.getByRole("button", { name: "Пойти самому" }).click();
+      await expect(
+        tour.getByRole("button", { name: "Пойти самому" }),
+      ).toHaveCount(0);
+      await tour.getByRole("button", { name: "Завершить" }).click();
       await expect(tour).toHaveCount(0);
     }
 
@@ -825,7 +838,7 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("dialog", { name: /Спросить Дарвина/i }),
     ).toHaveCount(0);
-    await page.getByRole("button", { name: "Свернуть Дарвина" }).click();
+    await page.getByRole("button", { name: "Без Дарвина" }).click();
     await page.getByRole("button", { name: /Спросить Дарвина/i }).click();
 
     await page

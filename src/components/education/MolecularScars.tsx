@@ -15,7 +15,7 @@ export function MolecularScars() {
         <GitMerge aria-hidden="true" size={23} />
         <div>
           <p className="eyebrow">Молекулярные шрамы</p>
-          <h2 id="molecular-scars-title">Не просто сходство, а следы событий</h2>
+          <h2 id="molecular-scars-title">Следы конкретных событий</h2>
           <p>
             Некоторые доказательства особенно сильны, потому что похожи на редкие исторические метки: общий переводчик,
             слияние хромосом и наследуемые вирусные вставки.

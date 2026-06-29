@@ -137,7 +137,7 @@ const dinosaurFacts = [
     icon: Bird,
     label: "Живая ветвь",
     value: "10 000+ видов",
-    text: "современные птицы - самая разнообразная ныне живущая динозавровая линия.",
+    text: "современные птицы — самая разнообразная ныне живущая динозавровая линия.",
   },
   {
     icon: GitBranch,
@@ -735,8 +735,8 @@ export function DinosaursPage() {
           <Bird aria-hidden="true" size={36} />
           <strong>{dinosaurAnswer}</strong>
           <span>
-            Одна шкала показывает путь от общего животного основания к живой
-            птичьей ветви динозавров.
+            Одна шкала ведёт от общего животного предка к современным птицам —
+            живой ветви динозавров.
           </span>
         </div>
       </div>
@@ -744,9 +744,8 @@ export function DinosaursPage() {
       <div className="dinosaurs-map-note">
         <Camera aria-hidden="true" size={21} />
         <p>
-          Смотрите как в Атласе: двигайтесь по одной оси. До
-          амниот это общий фундамент, после диапсид начинается маршрут
-          динозавровой ветви к птицам.
+          Как в Атласе, всё на одной оси. До амниот — общий ствол, после
+          диапсид ось уходит к динозаврам и птицам.
         </p>
       </div>
 
@@ -768,7 +767,7 @@ export function DinosaursPage() {
         factIds={CURIOSITY_FACT_PAGE_GROUPS.dinosaurs}
         eyebrow="Неожиданный признак"
         title="Перья старше полноценного полета"
-        description="Птичьи признаки не появились одним скачком: часть из них сначала работала в других задачах."
+        description="Птичьи признаки появлялись постепенно — часть из них сперва решала другие задачи."
         headingId="dinosaurs-curiosity-facts"
       />
 
@@ -817,9 +816,9 @@ export function DinosaursPage() {
             <h2 id="bird-dinosaur-branch">Общая линия → динозавры → птицы</h2>
             <p>
               Сначала идут общие животные предки позвоночных, затем после амниот
-              ось уходит в диапсидную ветвь: архозавры, динозавры, перья,
-              Archaeopteryx, ранние птицы и современные птицы. Точка развилки с
-              нашей линией - {dinosaurCommonAncestor.titleRu.toLowerCase()} (
+              ось уходит в диапсидную ветвь. Дальше — архозавры, динозавры,
+              перья, Archaeopteryx и современные птицы. Точка развилки с
+              нашей линией — {dinosaurCommonAncestor.titleRu.toLowerCase()} (
               {dinosaurCommonAncestor.valueRu}).
             </p>
           </div>

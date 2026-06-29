@@ -122,10 +122,6 @@ export function TourPlayer() {
   const activePlan = plan;
   const hasNextSteps = isLastStep && activePlan.nextSteps.length > 0;
 
-  function goFree() {
-    navigate(removeTourParams(location.pathname, location.search));
-  }
-
   function changeRoute() {
     window.sessionStorage.removeItem(STORAGE_KEY);
     navigate("/");
@@ -172,7 +168,7 @@ export function TourPlayer() {
         <button
           type="button"
           className="tour-icon-button"
-          aria-label="Свернуть Дарвина"
+          aria-label="Без Дарвина"
           onClick={() => setIsCollapsed(true)}
         >
           <X aria-hidden="true" size={17} />
@@ -214,9 +210,6 @@ export function TourPlayer() {
         <button type="button" onClick={changeRoute}>
           <RotateCcw aria-hidden="true" size={16} />
           Сменить маршрут
-        </button>
-        <button type="button" onClick={goFree}>
-          Пойти самому
         </button>
         <button type="button" className="tour-next-button" onClick={goNext}>
           {isLastStep ? "Завершить" : "Дальше"}

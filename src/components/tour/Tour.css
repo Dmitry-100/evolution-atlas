@@ -151,15 +151,9 @@
   gap: 0.58rem;
 }
 
-.darwin-intent-grid-extra {
-  padding-top: 0.58rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.09);
-}
-
 .darwin-intent-button,
 .darwin-choice-row button,
 .darwin-welcome-actions button,
-.darwin-more-tours-button,
 .tour-player button {
   min-height: 42px;
   border: 1px solid rgba(255, 255, 255, 0.13);
@@ -179,12 +173,6 @@
   text-align: left;
 }
 
-.darwin-more-tours-button {
-  justify-self: start;
-  padding: 0.62rem 0.86rem;
-  color: var(--muted);
-}
-
 .darwin-intent-button svg,
 .darwin-choice-row svg,
 .tour-player svg {
@@ -195,7 +183,6 @@
 .darwin-intent-button:hover,
 .darwin-choice-row button:hover,
 .darwin-welcome-actions button:hover,
-.darwin-more-tours-button:hover,
 .tour-player button:hover {
   border-color: rgba(232, 202, 140, 0.45);
   background: rgba(232, 202, 140, 0.1);
@@ -362,7 +349,7 @@
   position: fixed;
   left: clamp(1rem, 2vw, 1.5rem);
   bottom: clamp(1rem, 2vw, 1.5rem);
-  z-index: 58;
+  z-index: 62;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   width: min(470px, calc(100vw - 2rem));

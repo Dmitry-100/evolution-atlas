@@ -2,8 +2,18 @@ import { describe, expect, it } from "vitest";
 
 import cladogramPanelCopy from "../components/atlas/CladogramPanel.tsx?raw";
 import atlasPageCopy from "../pages/AtlasPage.tsx?raw";
+import bodyMapPageCopy from "../pages/BodyMapPage.tsx?raw";
 import cladogramPageCopy from "../pages/CladogramPage.tsx?raw";
+import dinosaursPageCopy from "../pages/DinosaursPage.tsx?raw";
+import extinctionsPageCopy from "../pages/ExtinctionsPage.tsx?raw";
+import geneticsPageCopy from "../pages/GeneticsPage.tsx?raw";
+import materialsPageCopy from "../pages/MaterialsPage.tsx?raw";
 import originOfLifePageCopy from "../pages/OriginOfLifePage.tsx?raw";
+import primatesPageCopy from "../pages/PrimatesPage.tsx?raw";
+import sourcesPageCopy from "../pages/SourcesPage.tsx?raw";
+import theoryPageCopy from "../pages/TheoryPage.tsx?raw";
+import curiosityFactsComponentCopy from "../components/education/CuriosityFacts.tsx?raw";
+import molecularScarsCopy from "../components/education/MolecularScars.tsx?raw";
 import extinctionsCopy from "./extinctions.ts?raw";
 import geneticsCopy from "./genetics.ts?raw";
 import lineageCopy from "./lineage.ts?raw";
@@ -27,8 +37,18 @@ function readActiveCopy() {
     lucaCopy,
     cladogramCopy,
     atlasPageCopy,
+    bodyMapPageCopy,
     cladogramPageCopy,
+    curiosityFactsComponentCopy,
+    dinosaursPageCopy,
+    extinctionsPageCopy,
+    geneticsPageCopy,
+    materialsPageCopy,
+    molecularScarsCopy,
     originOfLifePageCopy,
+    primatesPageCopy,
+    sourcesPageCopy,
+    theoryPageCopy,
   ].join("\n");
 }
 
@@ -58,5 +78,39 @@ describe("editorial science copy", () => {
     expect(copy).toContain("Почти общий язык кодонов");
     expect(copy).toContain("не первый организм");
     expect(copy).toContain("не один сад Эдема");
+  });
+
+  it("does not bring back audited repetitive portal phrasing", () => {
+    const copy = readActiveCopy();
+    const retiredPhrases = [
+      "Это напоминание, что шкала показывает",
+      "Это ближе к вопросу об обезьянах",
+      "У нас не один современный предок среди обезьян",
+      "Самый близкий к атласу материал",
+      "Хорошо продолжает Атлас:",
+      "Хороший мост между Атласом",
+      "Хорошо продолжает раздел РНК/ДНК",
+      "Лучший московский офлайн-мост",
+      "Корректнее представлять LUCA не как одного персонажа",
+      "Органика или даже микробы могли попасть на Землю из космоса, но это не решает вопрос",
+      "Органика и даже микробы могли попасть на Землю из космоса, но это не решает вопрос",
+      "Не лестница прогресса, а дерево родства",
+      "Эволюция идет не ровной линией",
+      "Вымирание - не «конец жизни»",
+      "Вымирание - не “конец жизни”",
+      "После кризиса меняется сцена",
+      "Здесь собрана поздняя ветвь маршрута",
+      "Пять музейных слоев показывают",
+      "Здесь собраны изображения",
+      "Здесь собраны обзорные",
+      "Не просто сходство, а следы событий",
+      "Короткие факты, которые показывают эволюцию как сеть",
+    ];
+
+    const foundRetiredPhrases = retiredPhrases.filter((phrase) =>
+      copy.includes(phrase),
+    );
+
+    expect(foundRetiredPhrases).toEqual([]);
   });
 });

@@ -10,7 +10,6 @@ import {
   HelpCircle,
   Loader2,
   Map,
-  MessageCircle,
   X,
 } from "lucide-react";
 import {
@@ -37,10 +36,12 @@ const intentIcons = {
   dinosaurs: Dna,
   presenter: BookOpenCheck,
   browse: Map,
-  custom: MessageCircle,
+  custom: HelpCircle,
 } satisfies Record<TourIntent, typeof HelpCircle>;
 
-const EXTRA_INTENTS = new Set<TourIntent>(["dinosaurs", "presenter"]);
+const WELCOME_INTENTS = GUIDED_TOUR_INTENTS.filter(
+  (intent) => intent.id !== "custom",
+);
 
 function getApiUrl() {
   const baseUrl = import.meta.env.VITE_AI_API_BASE_URL?.replace(/\/$/, "");
@@ -86,7 +87,6 @@ export function DarwinWelcome({
   const [selectedIntent, setSelectedIntent] = useState<TourIntent | null>(null);
   const [childAge, setChildAge] = useState<number | null>(null);
   const [freeText, setFreeText] = useState("");
-  const [showExtraTours, setShowExtraTours] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
   const panelRef = useRef<HTMLElement | null>(null);
   const browsePlan = buildTourRoute({ intent: "browse" });
@@ -165,7 +165,6 @@ export function DarwinWelcome({
     setSelectedIntent(null);
     setChildAge(null);
     setFreeText("");
-    setShowExtraTours(false);
   }
 
   return (
@@ -205,9 +204,7 @@ export function DarwinWelcome({
           {phase === "intent" ? (
             <>
               <div className="darwin-intent-grid">
-                {GUIDED_TOUR_INTENTS.filter(
-                  (intent) => !EXTRA_INTENTS.has(intent.id),
-                ).map((intent) => {
+                {WELCOME_INTENTS.map((intent) => {
                   const Icon = intentIcons[intent.id];
 
                   return (
@@ -223,36 +220,6 @@ export function DarwinWelcome({
                   );
                 })}
               </div>
-
-              {showExtraTours ? (
-                <div className="darwin-intent-grid darwin-intent-grid-extra">
-                  {GUIDED_TOUR_INTENTS.filter((intent) =>
-                    EXTRA_INTENTS.has(intent.id),
-                  ).map((intent) => {
-                    const Icon = intentIcons[intent.id];
-
-                    return (
-                      <button
-                        key={intent.id}
-                        type="button"
-                        className="darwin-intent-button"
-                        onClick={() => chooseIntent(intent.id)}
-                      >
-                        <Icon aria-hidden="true" size={18} />
-                        <span>{intent.labelRu}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  className="darwin-more-tours-button"
-                  onClick={() => setShowExtraTours(true)}
-                >
-                  Еще экскурсии
-                </button>
-              )}
             </>
           ) : null}
 
@@ -368,12 +335,9 @@ export function DarwinWelcome({
                 Сменить выбор и найти другую экскурсию
               </button>
             ) : null}
-            <button type="button" onClick={() => setPhase("browse")}>
-              Пойти самому
-            </button>
             <button type="button" onClick={() => setOpen(false)}>
               <X aria-hidden="true" size={15} />
-              Свернуть Дарвина
+              Без Дарвина
             </button>
           </div>
         </section>

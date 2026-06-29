@@ -25,7 +25,7 @@ export type HumanMigrationRoute = {
 };
 
 export const AFRICA_ORIGIN_NOTE =
-  "Колыбель человечества - Африка, но не один сад Эдема: современный Homo sapiens складывался в связанных популяциях по континенту.";
+  "Колыбель человечества — Африка, но не один сад Эдема: современный Homo sapiens складывался в связанных популяциях по континенту.";
 
 export const HUMAN_ORIGIN_SITES: HumanOriginSite[] = [
   {

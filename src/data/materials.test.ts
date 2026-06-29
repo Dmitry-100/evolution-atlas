@@ -64,6 +64,22 @@ describe("portal materials", () => {
     }
   });
 
+  it("varies recommendation hooks instead of repeating ranking-style leads", () => {
+    const recommendationCopy = [
+      ...PORTAL_MATERIALS.map((material) => material.summaryRu),
+      ...READING_RECOMMENDATIONS.map((book) => book.whyReadRu),
+      ...WATCH_RECOMMENDATIONS.map((item) => item.whyWatchRu),
+      ...MUSEUM_RECOMMENDATIONS.map((museum) => museum.whyVisitRu),
+    ];
+    const templatedLeads = recommendationCopy.filter((text) =>
+      /^(Хорошо|Хороший|Хорошая|Самый|Самая|Самое|Лучший|Лучшее|Отлично|Отличный|Отличная)(\s|:|$)/.test(
+        text,
+      ),
+    );
+
+    expect(templatedLeads).toHaveLength(0);
+  });
+
   it("adds Moscow museums that extend the portal offline", () => {
     expect(MUSEUM_RECOMMENDATIONS.map((museum) => museum.id)).toEqual([
       "darwin-museum",

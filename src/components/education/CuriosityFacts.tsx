@@ -27,7 +27,7 @@ export function CuriosityFacts({
   factIds,
   eyebrow = "Неожиданный факт",
   title = "Эволюция интереснее школьных упрощений",
-  description = "Короткие факты, которые показывают эволюцию как сеть реконструкций, следов и старых структур с новыми ролями.",
+  description = "Короткие факты: эволюция как сеть реконструкций, следов и старых структур, получивших новые роли.",
   headingId = "curiosity-facts-title",
 }: CuriosityFactsProps) {
   const facts = factIds
