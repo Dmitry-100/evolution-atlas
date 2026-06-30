@@ -6,6 +6,7 @@ import {
   ExternalLink,
   Loader2,
   MessageCircle,
+  Sparkle,
   Sparkles,
   X,
 } from "lucide-react";
@@ -281,7 +282,11 @@ export function DarwinGuide() {
           aria-expanded="false"
           onClick={() => setIsOpen(true)}
         >
-          <Sparkles aria-hidden="true" size={19} />
+          <Sparkle
+            aria-hidden="true"
+            className="darwin-guide-trigger-icon"
+            size={19}
+          />
           Спросить Дарвина
         </button>
       ) : null}
