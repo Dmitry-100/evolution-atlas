@@ -1,20 +1,26 @@
 import { Pause, Play, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { EvolutionStage } from "../../data/lineage";
 
-type JourneyControlsProps = {
-  stages: EvolutionStage[];
-  activeStage: EvolutionStage;
-  onActivate: (stage: EvolutionStage) => void;
+type JourneyControlItem = {
+  id: string;
+  titleRu: string;
+};
+
+type JourneyControlsProps<TItem extends JourneyControlItem> = {
+  stages: TItem[];
+  activeStage: TItem;
+  onActivate: (stage: TItem) => void;
+  itemLabel?: string;
 };
 
 const JOURNEY_STEP_MS = 900;
 
-export function JourneyControls({
+export function JourneyControls<TItem extends JourneyControlItem>({
   stages,
   activeStage,
   onActivate,
-}: JourneyControlsProps) {
+  itemLabel = "Этап",
+}: JourneyControlsProps<TItem>) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const activeIndex = Math.max(
@@ -62,14 +68,14 @@ export function JourneyControls({
   }
 
   const primaryLabel = isPlaying
-    ? "Поставить эволюцию на паузу"
+    ? "Поставить прокрутку на паузу"
     : hasStarted && !isAtEnd
-      ? "Продолжить эволюцию"
-      : "Запустить эволюцию";
+      ? "Продолжить прокрутку по времени"
+      : "Начать прокрутку по времени";
 
   return (
-    <div className="journey-controls" aria-label="Управление эволюцией">
-      <span className="journey-controls-title">Запустить эволюцию</span>
+    <div className="journey-controls" aria-label="Управление прокруткой времени">
+      <span className="journey-controls-title">Прокрутка по времени</span>
       <button
         className="journey-icon-button"
         type="button"
@@ -86,15 +92,15 @@ export function JourneyControls({
       <button
         className="journey-icon-button"
         type="button"
-        aria-label="Запустить эволюцию сначала"
-        title="Запустить эволюцию сначала"
+        aria-label="Начать прокрутку сначала"
+        title="Начать прокрутку сначала"
         onClick={restartJourney}
       >
         <RotateCcw aria-hidden="true" size={18} />
       </button>
       <div className="journey-meter">
         <span className="sr-only" aria-live="polite">
-          Этап {activeIndex + 1} из {stages.length}: {activeStage.titleRu}
+          {itemLabel} {activeIndex + 1} из {stages.length}: {activeStage.titleRu}
         </span>
         <span className="journey-progress" aria-hidden="true">
           <span style={{ width: `${progress}%` }} />

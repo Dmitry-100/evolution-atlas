@@ -238,7 +238,7 @@ export function BodyMapPage() {
         <div className="body-map-main">
           <div className="body-map-layer-heading">
             <div>
-              <p className="eyebrow">Активный слой</p>
+              <p className="eyebrow">Сейчас на карте</p>
               <h2 id="body-map-layer-title">{activeLayer.titleRu}</h2>
               <p>{activeLayer.descriptionRu}</p>
             </div>

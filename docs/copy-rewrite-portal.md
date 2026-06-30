@@ -192,6 +192,12 @@ hominins (547), old-world-monkeys, neanderthals (637), а также в quiz и 
 
 ---
 
+## 7. Заголовки
+
+Вынесены в отдельный файл — `copy-rewrite-headings.md` (h1/h2/h3, kicker'ы, заголовки маршрутов).
+
+---
+
 ## Итог
 
 - Портал написан **в целом крепко**: большинство фактических описаний (genetics, evidence,

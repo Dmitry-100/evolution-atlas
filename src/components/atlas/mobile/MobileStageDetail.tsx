@@ -41,7 +41,7 @@ export function MobileStageDetail({ stage }: MobileStageDetailProps) {
         <p>{stage.summaryRu}</p>
         <div
           className="mobile-stage-traits"
-          aria-label="Унаследованные признаки"
+          aria-label="Карта признаков"
         >
           {featuredTraits.map((trait) => (
             <span key={trait}>{trait}</span>

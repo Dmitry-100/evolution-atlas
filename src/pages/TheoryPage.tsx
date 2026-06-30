@@ -7,7 +7,7 @@ import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 const principles = [
   {
     icon: ShieldCheck,
-    title: "Не догадка, а объяснительная система",
+    title: "Система проверяемых объяснений",
     text: "Научная теория связывает много независимых фактов, выдерживает проверки и уточняется новыми данными.",
   },
   {

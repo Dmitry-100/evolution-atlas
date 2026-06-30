@@ -178,7 +178,7 @@ export function buildDarwinGuideContext(
       (item) => `${item.titleRu}: ${item.shortRu} Значение: ${item.whyItMattersRu}`,
     ),
     ...GENOME_COMPARISONS.slice(0, 3).map(
-      (item) => `${item.titleRu}: ${item.valueRu}; ${item.meaningRu} Осторожность: ${item.cautionRu}`,
+      (item) => `${item.titleRu}: ${item.valueRu}; ${item.meaningRu} Оговорка: ${item.cautionRu}`,
     ),
     ...MOLECULAR_MARKERS.map(
       (item) => `${item.titleRu}: ${item.markerRu}; ${item.explanationRu}`,

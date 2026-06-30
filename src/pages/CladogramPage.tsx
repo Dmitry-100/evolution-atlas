@@ -189,7 +189,7 @@ function CladogramInspector({
         <div className="cladogram-inspector-traits">
           <Fingerprint aria-hidden="true" size={18} />
           <div>
-            <strong>Что дошло до нас</strong>
+            <strong>Карта признаков</strong>
             <ul>
               {stage.inherited.slice(0, 3).map((item) => (
                 <li key={item}>{item}</li>
@@ -281,10 +281,9 @@ export function CladogramPage() {
           <p className="eyebrow">Кладограмма</p>
           <h1>Дерево родства</h1>
           <p>
-            Это отдельный взгляд на тот же материал: не линия времени, а
-            ветвящееся родство. Выбранный маршрут показывает ветвь, на которой
-            находится Homo sapiens, а боковые линии показывают, какой общий
-            предок с нами есть у современных и ископаемых родственников.
+            Кладограмма показывает родство без временной шкалы: где находится
+            ветвь Homo sapiens и от каких узлов отходят современные и
+            ископаемые родственники.
           </p>
         </div>
 
@@ -307,7 +306,7 @@ export function CladogramPage() {
 
         <CuriosityFacts
           factIds={CURIOSITY_FACT_PAGE_GROUPS.cladogram}
-          eyebrow="Неожиданные переходы"
+          eyebrow="Странные родственники"
           title="Старые детали получают новые роли"
           description="Дерево родства интересно тем, что крупные изменения часто собираются из уже существующих структур."
           headingId="cladogram-curiosity-facts"

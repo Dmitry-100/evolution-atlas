@@ -765,9 +765,9 @@ export function DinosaursPage() {
 
       <CuriosityFacts
         factIds={CURIOSITY_FACT_PAGE_GROUPS.dinosaurs}
-        eyebrow="Неожиданный признак"
-        title="Перья старше полноценного полета"
-        description="Птичьи признаки появлялись постепенно — часть из них сперва решала другие задачи."
+        eyebrow="От теропод к птицам"
+        title="Птичьи признаки собирались по частям"
+        description="Перо, лёгкий скелет и крыло складывались постепенно; разные детали сперва служили разным задачам."
         headingId="dinosaurs-curiosity-facts"
       />
 
@@ -812,7 +812,7 @@ export function DinosaursPage() {
         <div className="dinosaur-section-heading">
           <GitBranch aria-hidden="true" size={22} />
           <div>
-            <p className="eyebrow">Одна ось</p>
+            <p className="eyebrow">От общего предка к птицам</p>
             <h2 id="bird-dinosaur-branch">Общая линия → динозавры → птицы</h2>
             <p>
               Сначала идут общие животные предки позвоночных, затем после амниот

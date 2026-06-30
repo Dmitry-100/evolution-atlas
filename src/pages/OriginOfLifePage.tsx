@@ -137,7 +137,7 @@ export function OriginOfLifePage() {
         <div>
           <Star aria-hidden="true" size={22} />
           <div>
-            <strong>Главная мысль</strong>
+            <strong>От химии к наследованию</strong>
             <p>
               Готовая клетка не появляется сразу. Большинство сценариев
               описывает цепочку переходов: органические молекулы → границы →
@@ -152,7 +152,7 @@ export function OriginOfLifePage() {
           <Network aria-hidden="true" size={23} />
           <div>
             <p className="eyebrow">Химия становится биологией</p>
-            <h2 id="origin-visual-story-title">Не один скачок, а цепочка переходов</h2>
+            <h2 id="origin-visual-story-title">Цепочка переходов</h2>
             <p>
               В гипотезах различаются детали, но почти всегда нужны четыре вещи:
               энергия, органические молекулы, граница и наследуемая изменчивость.
@@ -190,7 +190,7 @@ export function OriginOfLifePage() {
 
       <CuriosityFacts
         factIds={CURIOSITY_FACT_PAGE_GROUPS.origin}
-        eyebrow="Неожиданный поворот"
+        eyebrow="Когда отход стал ресурсом"
         title="Жизнь изменила планету раньше животных"
         description="Кислородная катастрофа отравила прежний мир и одновременно открыла дорогу новому обмену веществ."
         headingId="origin-curiosity-facts"

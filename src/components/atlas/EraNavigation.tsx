@@ -9,15 +9,19 @@ type EraNavigationProps = {
   onActivate: (stage: EvolutionStage) => void;
 };
 
-const ROUTE_TITLES: Record<EvolutionEra["id"], string> = {
-  "early-life": "Клетки",
-  animals: "Хордовые",
-  fish: "Рыбы",
-  land: "Суша",
-  synapsids: "Синапсиды",
-  mammals: "Млекопит.",
-  primates: "Приматы",
-};
+function renderEraTitle(titleRu: string) {
+  if (titleRu === "Млекопитающие") {
+    return (
+      <>
+        Млекопита
+        <wbr />
+        ющие
+      </>
+    );
+  }
+
+  return titleRu;
+}
 
 export function EraNavigation({ eras, stages, activeStage, onActivate }: EraNavigationProps) {
   return (
@@ -42,7 +46,7 @@ export function EraNavigation({ eras, stages, activeStage, onActivate }: EraNavi
             </span>
             <span className="era-route-copy">
               <span className="era-route-order">{String(index + 1).padStart(2, "0")}</span>
-              <strong>{ROUTE_TITLES[era.id] ?? era.titleRu}</strong>
+              <strong lang="ru">{renderEraTitle(era.titleRu)}</strong>
               <small>
                 {formatAgeRu(era.startsAtMa).replace(" назад", "")} - {formatAgeRu(era.endsAtMa).replace(" назад", "")}
               </small>

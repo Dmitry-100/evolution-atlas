@@ -109,7 +109,7 @@ const geneticsVisuals: Record<string, GeneticsVisual> = {
   evidenceViralInsertions: {
     src: "/assets/images/education/genetics-evidence-viral-insertions.png",
     alt: "Схема вирусной вставки как общего генетического маркера родственных линий.",
-    caption: "Общая вирусная вставка в одном месте генома работает как редкая метка родства.",
+    caption: "Общая вирусная вставка в одном месте генома служит редкой меткой родства.",
     sourceUrl: "https://evolution.berkeley.edu/lines-of-evidence/molecular-biology/",
   },
 };
@@ -197,7 +197,7 @@ export function GeneticsPage() {
         <div>
           <Star aria-hidden="true" size={22} />
           <div>
-            <strong>Главная мысль</strong>
+            <strong>Редкие метки в ДНК</strong>
             <p>
               Чем ближе родство, тем больше совпадений в ДНК; редкие общие метки
               в одних и тех же местах особенно трудно объяснить без общего
@@ -226,7 +226,7 @@ export function GeneticsPage() {
         <div className="genetics-section-heading">
           <Dna aria-hidden="true" size={23} />
           <div>
-            <p className="eyebrow">Молекулы крупно</p>
+            <p className="eyebrow">Молекулы наследования</p>
             <h2 id="genetics-molecule-title">Код, копия и переводчик</h2>
             <p>
               На молекулярном уровне всё проще: информация копируется и читается,
@@ -250,8 +250,8 @@ export function GeneticsPage() {
 
       <section className="codon-lab" aria-labelledby="codon-lab-title">
         <div className="codon-lab-copy">
-          <p className="eyebrow">Мини-лаборатория</p>
-          <h2 id="codon-lab-title">Один и тот же принцип перевода</h2>
+          <p className="eyebrow">Генетический код</p>
+          <h2 id="codon-lab-title">Один код на всех</h2>
           <p>
             Генетический код читается тройками. ДНК-триплет переписывается в РНК-кодон, а кодон указывает аминокислоту
             или стоп-сигнал. Именно этот общий переводчик делает молекулярное родство таким убедительным.
@@ -332,8 +332,8 @@ export function GeneticsPage() {
 
       <CuriosityFacts
         factIds={CURIOSITY_FACT_PAGE_GROUPS.genetics}
-        eyebrow="Молекулярные сюрпризы"
-        title="Геном хранит старые события"
+        eyebrow="Метки в геноме"
+        title="Старые события оставляют следы"
         description="Часть следов родства — это не общее сходство, а редкие метки: симбиоз, слияния хромосом, наследуемые вирусные вставки."
         headingId="genetics-curiosity-facts"
       />
@@ -342,8 +342,8 @@ export function GeneticsPage() {
         <div className="genetics-section-heading">
           <ScanSearch aria-hidden="true" size={23} />
           <div>
-            <p className="eyebrow">Почему это сильное доказательство</p>
-            <h2 id="genetics-evidence-title">Геном хранит не только сходство, но и историю</h2>
+            <p className="eyebrow">ДНК и дерево сходятся</p>
+            <h2 id="genetics-evidence-title">Геном хранит ещё и историю</h2>
             <p>
               Для эволюции важно не одно число, а совпадающий набор независимых признаков: код, мутации, редкие вставки,
               перестройки хромосом и деревья родства из разных генов.
@@ -391,7 +391,7 @@ export function GeneticsPage() {
       <section className="genetics-note" aria-labelledby="genetics-note-title">
         <GitBranch aria-hidden="true" size={24} />
         <div>
-          <h2 id="genetics-note-title">Почему это делает эволюцию очевиднее</h2>
+          <h2 id="genetics-note-title">ДНК повторяет рисунок родства</h2>
           <p>
             Молекулярные данные работают как независимая проверка атласа: если линии действительно ветвились, то ДНК
             должна сохранять вложенный рисунок родства. Именно это и видно: человек ближе к шимпанзе, чем к мыши; мышь

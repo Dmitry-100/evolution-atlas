@@ -1,39 +1,36 @@
-import { Fingerprint, Maximize2, ScanSearch, Sparkles } from "lucide-react";
+import { AlertTriangle, ExternalLink, Maximize2, Sparkles, Waves } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
-import { getStageGlossaryTerm } from "../../data/glossary";
-import type { EvolutionStage, StageImage } from "../../data/lineage";
-import { getImagePlaceholder } from "../../lib/imagePlaceholders";
-import { formatAgeRu } from "../../lib/timeline";
+import {
+  formatExtinctionTitleRu,
+  type ExtinctionImage,
+  type MassExtinctionEvent,
+} from "../../data/extinctions";
 import { ConstellationField } from "../ui/constellation-field";
 import { FloatingPaths } from "../ui/floating-paths";
 import { ImageLightbox } from "../ui/image-lightbox";
 import { OptimizedImage } from "../ui/optimized-image";
-import { GlossaryTerm } from "./GlossaryTerm";
 
-type StageDetailCardProps = {
-  stage: EvolutionStage;
+type ExtinctionDetailCardProps = {
+  event: MassExtinctionEvent;
 };
 
-export function StageDetailCard({ stage }: StageDetailCardProps) {
+export function ExtinctionDetailCard({ event }: ExtinctionDetailCardProps) {
   const imageRef = useRef<HTMLImageElement>(null);
-  const previousImageRef = useRef<StageImage>(stage.image);
-  const [previousImage, setPreviousImage] = useState<StageImage | null>(null);
+  const previousImageRef = useRef<ExtinctionImage>(event.image);
+  const [previousImage, setPreviousImage] = useState<ExtinctionImage | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isImageExpanded, setIsImageExpanded] = useState(false);
-  const imageLabel =
-    stage.image.kind === "generated-reconstruction" ? "AI-реконструкция" : null;
-  const glossaryTerm = getStageGlossaryTerm(stage.id);
-  const imagePlaceholder = getImagePlaceholder(stage.image.kind);
+  const title = formatExtinctionTitleRu(event.titleRu);
 
   useEffect(() => {
     const lastImage = previousImageRef.current;
-    if (lastImage.src !== stage.image.src) {
+    if (lastImage.src !== event.image.src) {
       setPreviousImage(lastImage);
       setIsLoaded(false);
     }
-    previousImageRef.current = stage.image;
-  }, [stage.image]);
+    previousImageRef.current = event.image;
+  }, [event.image]);
 
   useEffect(() => {
     const image = imageRef.current;
@@ -41,7 +38,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
     if (image?.complete && image.naturalWidth > 0) {
       setIsLoaded(true);
     }
-  }, [stage.image.src]);
+  }, [event.image.src]);
 
   useEffect(() => {
     if (!isLoaded) {
@@ -53,19 +50,19 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
     }, 560);
 
     return () => window.clearTimeout(timeout);
-  }, [isLoaded, stage.image.src]);
+  }, [event.image.src, isLoaded]);
 
   return (
     <aside
-      className="stage-panel"
-      data-tour-stop-id={`stage-${stage.id}`}
-      aria-label="Активный вид"
+      className="stage-panel extinction-detail-panel"
+      data-tour-stop-id={`extinction-${event.id}`}
+      style={{ "--extinction-color": event.color } as CSSProperties}
+      aria-label="Активное событие"
     >
       <figure className="stage-plate">
         <div
           className="stage-plate-media"
           data-image-state={isLoaded ? "loaded" : "loading"}
-          style={{ "--stage-placeholder": imagePlaceholder } as CSSProperties}
         >
           <div className="stage-plate-backdrop" aria-hidden="true">
             <FloatingPaths className="stage-plate-paths" density="panel" />
@@ -75,7 +72,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             type="button"
             className="stage-plate-zoom"
             onClick={() => setIsImageExpanded(true)}
-            aria-label={`Увеличить изображение: ${stage.titleRu}`}
+            aria-label={`Увеличить изображение: ${title}`}
           >
             {previousImage ? (
               <OptimizedImage
@@ -88,7 +85,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
               />
             ) : null}
             <OptimizedImage
-              key={stage.image.src}
+              key={event.image.src}
               ref={imageRef}
               pictureClassName="stage-plate-picture"
               className={
@@ -96,8 +93,8 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
                   ? "stage-plate-main stage-plate-current is-loaded"
                   : "stage-plate-main stage-plate-current"
               }
-              src={stage.image.src}
-              alt={stage.image.altRu}
+              src={event.image.src}
+              alt={event.image.altRu}
               decoding="async"
               fetchPriority="high"
               onLoad={() => setIsLoaded(true)}
@@ -109,56 +106,57 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
             </span>
           </button>
         </div>
-        {imageLabel ? <figcaption>{imageLabel}</figcaption> : null}
+        <figcaption>{event.image.creditRu}</figcaption>
       </figure>
 
-      <div className="stage-copy">
-        <p className="kicker">{formatAgeRu(stage.ageMa)}</p>
-        <h2>{stage.titleRu}</h2>
-        <p className="latin">{stage.latin}</p>
-        {glossaryTerm ? (
-          <div className="stage-glossary-line">
-            <span>Словарь</span>
-            <GlossaryTerm term={glossaryTerm} />
-          </div>
-        ) : null}
-        <p className="lead">{stage.summaryRu}</p>
+      <div className="stage-copy extinction-detail-copy">
+        <p className="kicker">{event.windowRu}</p>
+        <h2>{title}</h2>
+        <p className="latin">{event.lossPercentRu}</p>
+        <p className="lead">{event.lossRu}</p>
 
-        <div className="inheritance-box">
+        <div className="extinction-detail-box">
           <div className="box-title">
-            <Fingerprint aria-hidden="true" size={20} />
-            <span>Карта признаков</span>
+            <Waves aria-hidden="true" size={20} />
+            <span>Что произошло</span>
+          </div>
+          <p>{event.snapshotRu}</p>
+        </div>
+
+        <div className="extinction-detail-box">
+          <div className="box-title">
+            <AlertTriangle aria-hidden="true" size={20} />
+            <span>Главные факторы</span>
           </div>
           <ul>
-            {stage.inherited.slice(0, 4).map((item) => (
-              <li key={item}>{item}</li>
+            {event.likelyCausesRu.slice(0, 4).map((cause) => (
+              <li key={cause}>{cause}</li>
             ))}
           </ul>
-          <Link
-            className="button button-secondary button-sm trait-map-link"
-            to="/body-map"
-          >
-            <ScanSearch aria-hidden="true" size={15} />
-            Открыть карту признаков
-          </Link>
         </div>
 
-        <div className="why-box">
+        <div className="why-box extinction-relation-box">
           <Sparkles aria-hidden="true" size={18} />
-          <p>{stage.whyMattersRu}</p>
+          <p>{event.relationRu}</p>
         </div>
+
+        <Link className="button button-secondary button-sm extinction-detail-link" to="/extinctions">
+          Открыть раздел
+          <ExternalLink aria-hidden="true" size={15} />
+        </Link>
       </div>
+
       <ImageLightbox
         image={
           isImageExpanded
             ? {
-                src: stage.image.src,
-                alt: stage.image.altRu,
-                caption: `${stage.titleRu}. ${stage.image.altRu}`,
+                src: event.image.src,
+                alt: event.image.altRu,
+                caption: `${title}. ${event.image.altRu}`,
               }
             : null
         }
-        ariaLabel="Увеличенное изображение этапа"
+        ariaLabel="Увеличенное изображение вымирания"
         onClose={() => setIsImageExpanded(false)}
       />
     </aside>

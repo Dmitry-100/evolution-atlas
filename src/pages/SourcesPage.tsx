@@ -33,8 +33,8 @@ export function SourcesPage() {
 
       <section className="science-sources" aria-labelledby="science-sources-title">
         <div className="science-sources-heading">
-          <p className="eyebrow">Научный слой</p>
-          <h2 id="science-sources-title">Фактологическая база по разделам</h2>
+          <p className="eyebrow">Проверка фактов</p>
+          <h2 id="science-sources-title">По разделам портала</h2>
           <p>
             Обзорные, музейные и первичные источники под ключевыми утверждениями портала.
             Ниже — лицензии и происхождение изображений.

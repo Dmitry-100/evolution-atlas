@@ -255,7 +255,7 @@ const commonAncestorOverrides: Record<string, CommonAncestorSeed> = {
   "branch-orangutans": {
     titleRu: "Предок больших человекообразных",
     relationRu:
-      "общий предок с нами и орангутанами - ранний большой человекообразный; орангутаны не предки человека, а современная соседняя ветвь.",
+      "общий предок с нами и орангутанами - ранний большой человекообразный; от него разошлись линия орангутанов и линия африканских человекообразных.",
   },
   "branch-gorillas": {
     titleRu: "Африканский человекообразный предок",
@@ -267,7 +267,7 @@ const commonAncestorOverrides: Record<string, CommonAncestorSeed> = {
   "branch-chimpanzees": {
     titleRu: "Предок линии Homo-Pan",
     relationRu:
-      "общий предок с нами, шимпанзе и бонобо - предок линии Homo-Pan; современные шимпанзе не являются нашими предками.",
+      "общий предок с нами, шимпанзе и бонобо - предок линии Homo-Pan; от него разошлись линия Homo и линия Pan.",
   },
 };
 
@@ -590,7 +590,7 @@ const contextBranches: ContextBranchSeed[] = [
     latin: "Pan",
     ageMa: 7,
     descriptionRu:
-      "Это ближайшая живая сестринская ветвь людей: у нас был общий предок, но современные шимпанзе не являются нашими предками.",
+      "Это ближайшая живая сестринская ветвь людей: линию Homo и линию Pan связывает общий предок примерно 7 млн лет назад.",
     image: localSourceImage(
       "/assets/images/source-backed/chimpanzees-branch.jpg",
       filePage("2006-12-09_Chipanzees_D_Bruyere.JPG"),

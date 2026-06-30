@@ -81,7 +81,7 @@ export const ERAS: EvolutionEra[] = [
   { id: "animals", titleRu: "Животные и хордовые", startsAtMa: 541, endsAtMa: 430, color: "#b6ba7a" },
   { id: "fish", titleRu: "Рыбы и позвоночные", startsAtMa: 430, endsAtMa: 360, color: "#83a8bf" },
   { id: "land", titleRu: "Выход на сушу", startsAtMa: 360, endsAtMa: 300, color: "#c5a05f" },
-  { id: "synapsids", titleRu: "Линия млекопитающих", startsAtMa: 300, endsAtMa: 200, color: "#b47d56" },
+  { id: "synapsids", titleRu: "Синапсиды", startsAtMa: 300, endsAtMa: 200, color: "#b47d56" },
   { id: "mammals", titleRu: "Млекопитающие", startsAtMa: 200, endsAtMa: 66, color: "#91a96a" },
   { id: "primates", titleRu: "Приматы и человек", startsAtMa: 66, endsAtMa: 0, color: "#d0a35b" },
 ];

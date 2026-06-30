@@ -76,8 +76,8 @@ export function QuizPanel() {
       <div className="quiz-heading">
         <HelpCircle aria-hidden="true" size={23} />
         <div>
-          <p className="eyebrow">Мини-квиз</p>
-          <h2 id="quiz-heading">Проверь себя</h2>
+          <p className="eyebrow">Короткая проверка</p>
+          <h2 id="quiz-heading">10 вопросов по Атласу</h2>
           <p>Несколько быстрых вопросов, чтобы закрепить главную мысль: эволюция — это дерево родства.</p>
         </div>
       </div>

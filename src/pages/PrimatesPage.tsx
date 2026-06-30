@@ -21,6 +21,15 @@ type PrimateNavigationOptions = {
   replace?: boolean;
 };
 
+const PRIMATE_BRANCH_STAGE_IDS = [
+  "early-primates",
+  "anthropoids",
+  "early-apes",
+  "hominins",
+  "early-homo",
+  "sapiens",
+] as const;
+
 export function PrimatesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const urlState = useMemo(() => parsePrimateUrlState(searchParams), [searchParams]);
@@ -38,6 +47,13 @@ export function PrimatesPage() {
   const activeIndex = getStageIndex(visibleStages, activeStage.id);
   const canStepPrevious = activeIndex > 0;
   const canStepNext = activeIndex < visibleStages.length - 1;
+  const branchStages = useMemo(
+    () =>
+      PRIMATE_BRANCH_STAGE_IDS
+        .map((stageId) => visibleStages.find((stage) => stage.id === stageId))
+        .filter((stage): stage is EvolutionStage => Boolean(stage)),
+    [visibleStages],
+  );
 
   function activateStage(
     stage: EvolutionStage,
@@ -78,7 +94,7 @@ export function PrimatesPage() {
         </p>
         <MobileAtlas
           eyebrow="Приматы → человек"
-          title="Последние 66 млн лет крупно"
+          title="От ранних приматов к Homo sapiens"
           description="Пройдите ветвь от ранних приматов к Homo sapiens и посмотрите карту ранних свидетельств и маршрутов расселения."
           showAfricaOriginMap
           showTraitAccumulator={false}
@@ -122,10 +138,10 @@ export function PrimatesPage() {
         <ConstellationField className="atlas-hero-constellation" />
         <div className="atlas-title">
           <h1>Приматы → человек</h1>
-          <p className="hero-subtitle">Последние 66 млн лет крупно: от древесных приматов к Homo sapiens.</p>
+          <p className="hero-subtitle">От древесных приматов к Homo sapiens за последние 66 млн лет.</p>
           <p>
-            Это поздняя ветвь маршрута — от антропоидов и человекообразных до ранних Homo,
-            соседних человеческих линий и первого расселения.
+            Здесь собраны антропоиды, человекообразные, гоминины, ранние Homo,
+            соседние человеческие линии и первые следы расселения.
           </p>
         </div>
       </section>
@@ -134,10 +150,10 @@ export function PrimatesPage() {
         <div>
           <Star aria-hidden="true" size={22} />
           <div>
-            <strong>Не лестница к человеку</strong>
+            <strong>Соседние ветви, общий корень</strong>
             <p>
-              Эта ось показывает молодую часть дерева родства. Современные обезьяны не являются нашими предками:
-              мы делим с ними общих предков, а дальше ветви расходятся.
+              У современных обезьян собственные эволюционные истории. С человеком
+              их связывают более древние общие предки, от которых ветви разошлись.
             </p>
           </div>
         </div>
@@ -153,6 +169,36 @@ export function PrimatesPage() {
             canStepPrevious={canStepPrevious}
             canStepNext={canStepNext}
           />
+
+          <section className="primate-branch-panel" aria-labelledby="primate-branch-title">
+            <div className="primate-branch-panel-heading">
+              <div>
+                <p className="eyebrow">Развилки ветви</p>
+                <h2 id="primate-branch-title">От древесной жизни к Homo sapiens</h2>
+              </div>
+              <span>{activeIndex + 1} из {visibleStages.length}</span>
+            </div>
+
+            <div className="primate-branch-milestones" role="list" aria-label="Ключевые этапы ветви приматов">
+              {branchStages.map((stage) => (
+                <button
+                  key={stage.id}
+                  type="button"
+                  className={
+                    stage.id === activeStage.id
+                      ? "primate-branch-milestone is-active"
+                      : "primate-branch-milestone"
+                  }
+                  aria-current={stage.id === activeStage.id ? "true" : undefined}
+                  onClick={() => activateStage(stage)}
+                >
+                  <span>{formatAgeRu(stage.ageMa)}</span>
+                  <strong>{stage.titleRu}</strong>
+                  <small>{stage.inherited.slice(0, 2).join(" · ")}</small>
+                </button>
+              ))}
+            </div>
+          </section>
         </div>
 
         <StageDetailCard stage={activeStage} />
@@ -162,10 +208,10 @@ export function PrimatesPage() {
         <div>
           <Globe2 aria-hidden="true" size={22} />
           <div>
-            <strong>От находок к маршрутам</strong>
+            <strong>Африка и первые выходы</strong>
             <p>
-              Карта ниже связывает ранние африканские свидетельства Homo sapiens с осторожными маршрутами
-              расселения за пределы Африки.
+              Карта ниже показывает ранние африканские находки Homo sapiens
+              и основные направления расселения за пределы Африки.
             </p>
           </div>
         </div>

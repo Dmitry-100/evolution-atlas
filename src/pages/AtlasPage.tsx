@@ -6,7 +6,6 @@ import {
   Clock3,
   Dna,
   Fingerprint,
-  Search,
   Sparkles,
   Star,
   Waves,
@@ -18,6 +17,7 @@ import { ConstellationField } from "../components/ui/constellation-field";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
+import { ExtinctionDetailCard } from "../components/atlas/ExtinctionDetailCard";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
 import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
 import {
@@ -28,6 +28,12 @@ import {
   toStageSearchParams,
 } from "../lib/atlasUrlState";
 import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
+import {
+  buildTimelineItems,
+  getNearestStageForTimelineItem,
+  toStageTimelineItem,
+  type TimelineItem,
+} from "../lib/timelineItems";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { MobileAtlas } from "../components/atlas/mobile/MobileAtlas";
 
@@ -57,6 +63,13 @@ type AtlasNavigationOptions = {
   replace?: boolean;
 };
 
+function toAtlasEventSearchParams(eventId: string) {
+  const params = new URLSearchParams();
+  params.set("mode", "all");
+  params.set("event", eventId);
+  return params;
+}
+
 export function AtlasPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -69,20 +82,54 @@ export function AtlasPage() {
     () => ERAS.filter((era) => visibleStages.some((stage) => stage.eraId === era.id)),
     [visibleStages],
   );
+  const timelineItems = useMemo(
+    () => buildTimelineItems(visibleStages, MASS_EXTINCTIONS),
+    [visibleStages],
+  );
+  const requestedEvent = MASS_EXTINCTIONS.find(
+    (event) => event.ageMa > 0 && event.id === searchParams.get("event"),
+  );
   const activeStage = visibleStages.find((stage) => stage.id === urlState.stageId) ?? getDefaultAtlasStage(visibleStages);
-  const activeEra = ERAS.find((era) => era.id === activeStage.eraId);
-  const accumulatedTraitGroups = useMemo(() => getAccumulatedTraitGroups(sortedStages, activeStage), [activeStage]);
-  const activeIndex = getStageIndex(visibleStages, activeStage.id);
+  const activeItem =
+    (requestedEvent
+      ? timelineItems.find(
+          (item) =>
+            item.kind === "extinction" && item.event.id === requestedEvent.id,
+        )
+      : null) ??
+    timelineItems.find(
+      (item) => item.kind === "stage" && item.stage.id === activeStage.id,
+    ) ??
+    timelineItems[0] ??
+    toStageTimelineItem(activeStage);
+  const contextStage =
+    getNearestStageForTimelineItem(visibleStages, activeItem) ?? activeStage;
+  const activeThemeColor = activeItem.kind === "extinction"
+    ? activeItem.event.color
+    : ERAS.find((era) => era.id === activeItem.stage.eraId)?.color ?? "#d0a35b";
+  const mobileThemeColor =
+    ERAS.find((era) => era.id === activeStage.eraId)?.color ?? "#d0a35b";
+  const accumulatedTraitGroups = useMemo(
+    () => getAccumulatedTraitGroups(sortedStages, contextStage),
+    [contextStage],
+  );
+  const activeIndex = Math.max(
+    0,
+    timelineItems.findIndex((item) => item.id === activeItem.id),
+  );
+  const activeStageIndex = getStageIndex(visibleStages, activeStage.id);
   const canStepPrevious = activeIndex > 0;
-  const canStepNext = activeIndex < visibleStages.length - 1;
-  const activeElapsedShare = elapsedShare(activeStage.ageMa);
+  const canStepNext = activeIndex < timelineItems.length - 1;
+  const canStepStagePrevious = activeStageIndex > 0;
+  const canStepStageNext = activeStageIndex < visibleStages.length - 1;
+  const activeElapsedShare = elapsedShare(activeItem.ageMa);
   const traitCount = accumulatedTraitGroups.reduce((sum, group) => sum + group.traits.length, 0);
   const wowFacts = [
     {
       icon: Clock3,
       label: "К выбранной точке",
       value: `${percentRu(activeElapsedShare * 100)}%`,
-      text: `истории жизни прошло к этапу “${activeStage.titleRu}”.`,
+      text: `истории жизни прошло к точке “${activeItem.titleRu}”.`,
     },
     {
       icon: Sparkles,
@@ -127,9 +174,27 @@ export function AtlasPage() {
     });
   }
 
+  function activateTimelineItem(
+    item: TimelineItem,
+    options: AtlasNavigationOptions = {},
+  ) {
+    if (item.kind === "stage") {
+      activateStage(item.stage, options);
+      return;
+    }
+
+    setSearchParams(toAtlasEventSearchParams(item.event.id), {
+      replace: options.replace ?? true,
+    });
+  }
+
   function moveActive(delta: number, options: AtlasNavigationOptions = {}) {
-    const currentIndex = getStageIndex(visibleStages, activeStage.id);
-    const nextIndex = Math.min(visibleStages.length - 1, Math.max(0, currentIndex + delta));
+    const nextIndex = Math.min(timelineItems.length - 1, Math.max(0, activeIndex + delta));
+    activateTimelineItem(timelineItems[nextIndex], options);
+  }
+
+  function moveStage(delta: number, options: AtlasNavigationOptions = {}) {
+    const nextIndex = Math.min(visibleStages.length - 1, Math.max(0, activeStageIndex + delta));
     activateStage(visibleStages[nextIndex], options);
   }
 
@@ -139,15 +204,15 @@ export function AtlasPage() {
         className="atlas atlas-mobile-shell"
         ref={atlasRef}
         tabIndex={0}
-        style={{ "--active-era-color": activeEra?.color ?? "#d0a35b" } as CSSProperties}
+        style={{ "--active-era-color": mobileThemeColor } as CSSProperties}
         onKeyDown={(event) => {
           if (event.key === "ArrowRight") {
             event.preventDefault();
-            moveActive(1, { replace: false });
+            moveStage(1, { replace: false });
           }
           if (event.key === "ArrowLeft") {
             event.preventDefault();
-            moveActive(-1, { replace: false });
+            moveStage(-1, { replace: false });
           }
         }}
       >
@@ -158,12 +223,12 @@ export function AtlasPage() {
           stages={visibleStages}
           eras={visibleEras}
           activeStage={activeStage}
-          activeIndex={activeIndex}
-          canStepPrevious={canStepPrevious}
-          canStepNext={canStepNext}
+          activeIndex={activeStageIndex}
+          canStepPrevious={canStepStagePrevious}
+          canStepNext={canStepStageNext}
           accumulatedTraitGroups={accumulatedTraitGroups}
           onActivateStage={(stage) => activateStage(stage, { replace: false })}
-          onStep={(delta) => moveActive(delta, { replace: false })}
+          onStep={(delta) => moveStage(delta, { replace: false })}
         />
       </div>
     );
@@ -174,7 +239,7 @@ export function AtlasPage() {
       className="atlas"
       ref={atlasRef}
       tabIndex={0}
-      style={{ "--active-era-color": activeEra?.color ?? "#d0a35b" } as CSSProperties}
+      style={{ "--active-era-color": activeThemeColor } as CSSProperties}
       onKeyDown={(event) => {
         if (event.key === "ArrowRight") {
           event.preventDefault();
@@ -187,7 +252,9 @@ export function AtlasPage() {
       }}
     >
       <p className="sr-only" aria-live="polite">
-        Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
+        {activeItem.kind === "extinction"
+          ? `Выбрано событие ${activeItem.titleRu}, ${activeItem.event.windowRu}`
+          : `Выбран этап ${activeItem.stage.titleRu}, ${formatAgeRu(activeItem.stage.ageMa)}`}
       </p>
 
       <section className="atlas-hero">
@@ -207,16 +274,16 @@ export function AtlasPage() {
         <div>
           <Star aria-hidden="true" size={22} />
           <div>
-            <strong>Главная мысль</strong>
+            <strong>Общие предки</strong>
             <p>
-              Эволюция не лестница к человеку, а ветвящееся дерево. На шкале — ключевые родственники и узлы,
-              через которые удобно понять происхождение нашей линии, а не “ступеньки прогресса”.
+              Каждый узел на маршруте показывает группу, от которой
+              расходились родственные линии. Наша ветвь — одна из них.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="wow-facts-band" aria-label="Вау-факты о масштабе времени">
+      <section className="wow-facts-band" aria-label="Факты о масштабе времени">
         {wowFacts.map(({ icon: Icon, label, value, text, href }) => (
           <article key={label}>
             <Icon aria-hidden="true" size={21} />
@@ -225,7 +292,7 @@ export function AtlasPage() {
             <p>{text}</p>
             {href ? (
               <Link className="wow-fact-link" to={href}>
-                Открыть карту
+                Открыть карту признаков
                 <ArrowRight aria-hidden="true" size={15} />
               </Link>
             ) : null}
@@ -233,30 +300,14 @@ export function AtlasPage() {
         ))}
       </section>
 
-      <section className="theory-bridge-band">
-        <div>
-          <Search aria-hidden="true" size={22} />
-          <div>
-            <strong>Приматы и человек крупно</strong>
-            <p>
-              Последние 66 млн лет вынесены в отдельный раздел: там видны антропоиды, человекообразные,
-              гоминины, ранние Homo и карта расселения Homo sapiens.
-            </p>
-          </div>
-        </div>
-        <Link className="button button-secondary button-md" to="/primates">
-          Открыть раздел
-          <ArrowRight aria-hidden="true" size={17} />
-        </Link>
-      </section>
-
       <section className="atlas-grid">
         <div className="center-stage">
           <DeepTimeAxis
             stages={visibleStages}
+            timelineItems={timelineItems}
             extinctions={MASS_EXTINCTIONS}
-            activeStage={activeStage}
-            onActivate={activateStage}
+            activeItem={activeItem}
+            onActivateItem={activateTimelineItem}
             onStep={moveActive}
             canStepPrevious={canStepPrevious}
             canStepNext={canStepNext}
@@ -267,11 +318,15 @@ export function AtlasPage() {
               <BookOpen aria-hidden="true" size={19} />
               <span>Маршрут по эпохам</span>
             </div>
-            <EraNavigation eras={visibleEras} stages={visibleStages} activeStage={activeStage} onActivate={activateStage} />
+            <EraNavigation eras={visibleEras} stages={visibleStages} activeStage={contextStage} onActivate={activateStage} />
           </div>
         </div>
 
-        <StageDetailCard stage={activeStage} />
+        {activeItem.kind === "extinction" ? (
+          <ExtinctionDetailCard event={activeItem.event} />
+        ) : (
+          <StageDetailCard stage={activeItem.stage} />
+        )}
       </section>
 
       <TraitAccumulator groups={accumulatedTraitGroups} />
@@ -281,7 +336,7 @@ export function AtlasPage() {
           <Dna aria-hidden="true" size={22} />
           <div>
             <strong>Дерево родства</strong>
-            <p>Отдельная кладограмма показывает ветвь, на которой находится Homo sapiens, и соседние линии, которые отходят от разных узлов.</p>
+            <p>Кладограмма выделяет ветвь Homo sapiens и соседние линии, которые отходят от разных общих предков.</p>
           </div>
         </div>
         <Link className="button button-secondary button-md" to="/cladogram">
@@ -323,7 +378,7 @@ export function AtlasPage() {
           <Waves aria-hidden="true" size={22} />
           <div>
             <strong>Почему история жизни менялась рывками?</strong>
-            <p>Шесть крупных кризисов показывают, как вымирания меняли сцену жизни и освобождали ниши для новых ветвей.</p>
+            <p>Шесть крупных кризисов резко меняли экосистемы: одни группы исчезали, другие занимали освободившиеся ниши.</p>
           </div>
         </div>
         <Link className="button button-secondary button-md" to="/extinctions">

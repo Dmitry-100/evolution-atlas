@@ -21,7 +21,7 @@ export function MaterialsPage() {
         <p className="eyebrow">Дополнительные материалы</p>
         <h1>Презентации, книги, музеи и видео</h1>
         <p>
-          Их можно читать как отдельные лекции или как второй слой атласа. PDF открываются
+          Их можно читать отдельно или после разделов Атласа. PDF открываются
           прямо в браузере.
         </p>
       </div>
@@ -72,8 +72,8 @@ export function MaterialsPage() {
         <div className="materials-section-heading">
           <BookOpen aria-hidden="true" size={23} />
           <div>
-            <p className="eyebrow">Что почитать</p>
-            <h2 id="reading-title">Книги, которые хорошо продолжают портал</h2>
+            <p className="eyebrow">Книжная полка</p>
+            <h2 id="reading-title">Что почитать</h2>
             <p>
               Короткая подборка из личной библиотеки: от доказательств
               эволюции, генетики и происхождения жизни до антропогенеза и
@@ -113,8 +113,8 @@ export function MaterialsPage() {
         <div className="materials-section-heading">
           <Landmark aria-hidden="true" size={23} />
           <div>
-            <p className="eyebrow">Куда сходить в Москве</p>
-            <h2 id="museum-title">Музеи, которые продолжают маршрут</h2>
+            <p className="eyebrow">Музеи Москвы</p>
+            <h2 id="museum-title">Куда сходить</h2>
             <p>
               Если хочется увидеть эволюцию вживую: витрины, скелеты,
               ископаемые, живые коллекции.
@@ -146,8 +146,8 @@ export function MaterialsPage() {
         <div className="materials-section-heading">
           <PlayCircle aria-hidden="true" size={23} />
           <div>
-            <p className="eyebrow">Что посмотреть</p>
-            <h2 id="watch-title">Видео и лекции для следующего шага</h2>
+            <p className="eyebrow">Видео и лекции</p>
+            <h2 id="watch-title">Что посмотреть</h2>
             <p>
               Следующий шаг после чтения: фильм, интервью о химической
               неизбежности жизни, лекции по антропогенезу.

@@ -5,8 +5,13 @@ import {
   formatExtinctionTitleRu,
   type MassExtinctionEvent,
 } from "../../data/extinctions";
-import type { EvolutionStage } from "../../data/lineage";
-import { formatAgeRu, sortStagesOldestFirst } from "../../lib/timeline";
+import { ERAS, type EvolutionEra, type EvolutionStage } from "../../data/lineage";
+import { formatAgeRu } from "../../lib/timeline";
+import {
+  toExtinctionTimelineItem,
+  toStageTimelineItem,
+  type TimelineItem,
+} from "../../lib/timelineItems";
 import { ImageLightbox } from "../ui/image-lightbox";
 import { OptimizedImage } from "../ui/optimized-image";
 import { Slider } from "../ui/slider";
@@ -15,8 +20,9 @@ import { JourneyControls } from "./JourneyControls";
 
 type DeepTimeAxisProps = {
   stages: EvolutionStage[];
-  activeStage: EvolutionStage;
-  onActivate: (stage: EvolutionStage) => void;
+  timelineItems: TimelineItem[];
+  activeItem: TimelineItem;
+  onActivateItem: (item: TimelineItem) => void;
   onStep: (delta: number) => void;
   canStepPrevious: boolean;
   canStepNext: boolean;
@@ -44,60 +50,70 @@ const extinctionLabels: Record<string, string> = {
   "holocene-anthropocene": "Сегодня",
 };
 
+type TimeRegionLabel = {
+  eraId: EvolutionEra["id"];
+  detail: string;
+  align: "center" | "right";
+  labelPosition: number;
+  lane: number;
+  href?: string;
+};
+
 const TIME_REGION_LABELS = [
   {
-    id: "cellular",
-    ageMa: 2400,
-    title: "Клеточная жизнь",
+    eraId: "early-life",
     detail: "миллиарды лет до животных",
-    color: "#6aa8ad",
     align: "center",
     labelPosition: 22,
     lane: 0,
     href: "/origin-of-life",
   },
   {
-    id: "vertebrates",
-    ageMa: 430,
-    title: "Хордовые и рыбы",
-    detail: "скелет, хорда, челюсти",
-    color: "#7aaed2",
+    eraId: "animals",
+    detail: "тела, ткани и хорда",
     align: "center",
     labelPosition: 42,
     lane: 1,
   },
   {
-    id: "land",
-    ageMa: 320,
-    title: "Суша и амниоты",
-    detail: "выход из воды",
-    color: "#d0a35b",
+    eraId: "fish",
+    detail: "скелет, челюсти, плавники",
     align: "center",
-    labelPosition: 54,
+    labelPosition: 50,
+    lane: 2,
+  },
+  {
+    eraId: "land",
+    detail: "пальцы и амниотическое яйцо",
+    align: "center",
+    labelPosition: 58,
     lane: 0,
   },
   {
-    id: "mammals",
-    ageMa: 120,
-    title: "Млекопитающие",
-    detail: "теплокровность и забота",
-    color: "#b87f59",
+    eraId: "synapsids",
+    detail: "челюсти, зубы, будущий слух",
     align: "center",
-    labelPosition: 68,
+    labelPosition: 66,
     lane: 1,
   },
   {
-    id: "primates",
-    ageMa: 66,
-    title: "Приматы и Homo",
+    eraId: "mammals",
+    detail: "шерсть, молоко, забота",
+    align: "center",
+    labelPosition: 74,
+    lane: 2,
+  },
+  {
+    eraId: "primates",
     detail: "самый конец шкалы",
-    color: "#9eb36e",
     align: "right",
     labelPosition: 96,
     lane: 0,
     href: "/primates",
   },
-] as const;
+] satisfies readonly TimeRegionLabel[];
+
+const ERA_BY_ID = new Map(ERAS.map((era) => [era.id, era]));
 
 function visualTimePosition(ageMa: number) {
   const clampedAge = Math.max(0, Math.min(ORIGIN_MA, ageMa));
@@ -120,28 +136,31 @@ function formatExtinctionAge(event: MassExtinctionEvent) {
   return event.ageMa <= 0 ? "сегодня" : formatAgeRu(event.ageMa);
 }
 
-function nearestStage(stages: EvolutionStage[], position: number) {
-  return sortStagesOldestFirst(stages).reduce<{
-    stage: EvolutionStage;
+function nearestTimelineItem(items: TimelineItem[], position: number) {
+  return items.reduce<{
+    item: TimelineItem;
     distance: number;
-  } | null>((nearest, stage) => {
-    const distance = Math.abs(visualTimePosition(stage.ageMa) - position);
-    if (!nearest || distance < nearest.distance) return { stage, distance };
+  } | null>((nearest, item) => {
+    const distance = Math.abs(visualTimePosition(item.ageMa) - position);
+    if (!nearest || distance < nearest.distance) return { item, distance };
     return nearest;
-  }, null)?.stage;
+  }, null)?.item;
 }
 
 export function DeepTimeAxis({
   stages,
-  activeStage,
-  onActivate,
+  timelineItems,
+  activeItem,
+  onActivateItem,
   onStep,
   canStepPrevious,
   canStepNext,
   extinctions = [],
 }: DeepTimeAxisProps) {
   const [isTimelineExpanded, setIsTimelineExpanded] = useState(false);
-  const activePosition = visualTimePosition(activeStage.ageMa) * 100;
+  const activePosition = visualTimePosition(activeItem.ageMa) * 100;
+  const activeColor =
+    activeItem.kind === "extinction" ? activeItem.event.color : "var(--amber)";
   const activeCardClass = [
     "deep-active-card",
     activePosition > 82
@@ -150,9 +169,14 @@ export function DeepTimeAxis({
         ? "align-left"
         : null,
     activePosition > 70 ? "late-region" : null,
+    activeItem.kind === "extinction" ? "is-extinction" : null,
   ]
     .filter(Boolean)
     .join(" ");
+  const activeAgeLabel =
+    activeItem.kind === "extinction"
+      ? formatExtinctionAge(activeItem.event)
+      : formatAgeRu(activeItem.stage.ageMa);
   const visibleExtinctions = useMemo(
     () => extinctions.filter((event) => event.ageMa > 0),
     [extinctions],
@@ -230,30 +254,33 @@ export function DeepTimeAxis({
         </button>
         <div className="deep-time-region-labels">
           {TIME_REGION_LABELS.map((region) => {
+            const era = ERA_BY_ID.get(region.eraId);
+            if (!era) return null;
+
             const labelClass = `deep-time-region-label align-${region.align}`;
             const labelStyle = {
               left: `${region.labelPosition}%`,
-              "--region-color": region.color,
+              "--region-color": era.color,
               "--region-lane": region.lane,
             } as CSSProperties;
 
-            if ("href" in region) {
+            if (region.href) {
               return (
                 <Link
-                  key={region.id}
+                  key={region.eraId}
                   className={`${labelClass} deep-time-region-link`}
                   style={labelStyle}
                   to={region.href}
                 >
-                  <strong>{region.title}</strong>
+                  <strong>{era.titleRu}</strong>
                   <small>{region.detail}</small>
                 </Link>
               );
             }
 
             return (
-              <span key={region.id} className={labelClass} style={labelStyle}>
-                <strong>{region.title}</strong>
+              <span key={region.eraId} className={labelClass} style={labelStyle}>
+                <strong>{era.titleRu}</strong>
                 <small>{region.detail}</small>
               </span>
             );
@@ -263,13 +290,20 @@ export function DeepTimeAxis({
         <div className="extinction-markers" aria-label="Глобальные вымирания">
           {visibleExtinctions.map((event, index) => {
             const position = visualTimePosition(event.ageMa) * 100;
+            const item = toExtinctionTimelineItem(event);
+            const isActive =
+              activeItem.kind === "extinction" && activeItem.event.id === event.id;
             const offset =
               index === visibleExtinctions.length - 1 ? 0 : (index - 1.5) * 58;
             return (
               <Tooltip key={event.id}>
                 <TooltipTrigger asChild>
-                  <a
-                    className="extinction-marker"
+                  <button
+                    className={
+                      isActive
+                        ? "extinction-marker is-active"
+                        : "extinction-marker"
+                    }
                     style={
                       {
                         left: `${position}%`,
@@ -278,15 +312,17 @@ export function DeepTimeAxis({
                         "--marker-y": `${24 + (index % 2) * 76}px`,
                       } as CSSProperties
                     }
-                    href="/extinctions"
+                    type="button"
                     aria-label={`${event.titleRu} вымирание, ${event.windowRu}`}
+                    aria-current={isActive ? "true" : undefined}
+                    onClick={() => onActivateItem(item)}
                   >
                     <span aria-hidden="true" />
                     <strong>
                       {extinctionLabels[event.id] ?? event.titleRu}
                     </strong>
                     <small>{formatExtinctionAge(event)}</small>
-                  </a>
+                  </button>
                 </TooltipTrigger>
                 <TooltipContent className="tooltip-content extinction-tooltip">
                   <OptimizedImage
@@ -310,12 +346,25 @@ export function DeepTimeAxis({
 
         <span
           className="deep-active-line"
-          style={{ left: `${activePosition}%` }}
+          style={
+            {
+              left: `${activePosition}%`,
+              "--active-item-color": activeColor,
+            } as CSSProperties
+          }
           aria-hidden="true"
         />
-        <div className={activeCardClass} style={{ left: `${activePosition}%` }}>
-          <span>{formatAgeRu(activeStage.ageMa)}</span>
-          <strong>{activeStage.titleRu}</strong>
+        <div
+          className={activeCardClass}
+          style={
+            {
+              left: `${activePosition}%`,
+              "--active-item-color": activeColor,
+            } as CSSProperties
+          }
+        >
+          <span>{activeAgeLabel}</span>
+          <strong>{activeItem.titleRu}</strong>
         </div>
 
         <div
@@ -325,7 +374,8 @@ export function DeepTimeAxis({
         >
           {stages.map((stage) => {
             const position = visualTimePosition(stage.ageMa) * 100;
-            const isActive = stage.id === activeStage.id;
+            const isActive =
+              activeItem.kind === "stage" && stage.id === activeItem.stage.id;
             return (
               <button
                 key={stage.id}
@@ -337,7 +387,7 @@ export function DeepTimeAxis({
                 type="button"
                 aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
                 aria-current={isActive ? "true" : undefined}
-                onClick={() => onActivate(stage)}
+                onClick={() => onActivateItem(toStageTimelineItem(stage))}
               >
                 <span />
               </button>
@@ -352,8 +402,8 @@ export function DeepTimeAxis({
         step={1}
         value={[activePosition * 10]}
         onValueChange={([value]) => {
-          const nearest = nearestStage(stages, (value ?? 0) / 1000);
-          if (nearest) onActivate(nearest);
+          const nearest = nearestTimelineItem(timelineItems, (value ?? 0) / 1000);
+          if (nearest) onActivateItem(nearest);
         }}
       />
 
@@ -368,9 +418,10 @@ export function DeepTimeAxis({
         <span>сегодня</span>
       </div>
       <JourneyControls
-        stages={stages}
-        activeStage={activeStage}
-        onActivate={onActivate}
+        stages={timelineItems}
+        activeStage={activeItem}
+        onActivate={onActivateItem}
+        itemLabel="Точка"
       />
       <ImageLightbox
         image={

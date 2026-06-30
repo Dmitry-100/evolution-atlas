@@ -28,7 +28,7 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
   {
     id: "luca",
     titleRu: "LUCA и древний корень жизни",
-    noteRu: "Источники для осторожного объяснения LUCA как реконструируемого общего предкового узла, а не первой жизни.",
+    noteRu: "Источники о LUCA как реконструируемом общем предковом узле, а не первой жизни.",
     routeHref: "/origin-of-life",
     sources: [
       {
@@ -43,7 +43,7 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
         label: "University of Bristol: LUCA explainer",
         url: "https://www.bristol.ac.uk/news/2024/july/luca.html",
         kind: "museum",
-        noteRu: "Доступное объяснение результатов статьи о LUCA и осторожной датировки около 4,2 млрд лет.",
+        noteRu: "Доступное объяснение результатов статьи о LUCA и датировки около 4,2 млрд лет.",
       },
       {
         id: "woese-three-domains",
@@ -115,7 +115,7 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
   {
     id: "human-origins",
     titleRu: "Африка и происхождение Homo sapiens",
-    noteRu: "Источники для карты африканских находок и осторожной пан-африканской формулировки происхождения человека.",
+    noteRu: "Источники для карты африканских находок и пан-африканской модели происхождения человека.",
     routeHref: "/primates",
     sources: [
       {

@@ -18,8 +18,7 @@ export function TraitAccumulator({ groups }: TraitAccumulatorProps) {
       <div className="trait-accumulator-heading">
         <Layers3 aria-hidden="true" size={23} />
         <div>
-          <p className="eyebrow">Накопитель признаков</p>
-          <h2 id="trait-accumulator-heading">Унаследованные признаки</h2>
+          <h2 id="trait-accumulator-heading">Карта признаков</h2>
           <p>Новые признаки не заменяют старые, а надстраиваются поверх древнего наследия.</p>
         </div>
         <div className="trait-accumulator-actions">

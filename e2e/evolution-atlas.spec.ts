@@ -651,7 +651,7 @@ test.describe("Evolution Atlas", () => {
         name: "Открыть экскурсию с Дарвином",
       }),
     ).toHaveCount(0);
-    await expect(page.locator(".deep-time-region-label")).toHaveCount(5);
+    await expect(page.locator(".deep-time-region-label")).toHaveCount(7);
     const primatesFact = page
       .locator(".wow-facts-band article")
       .filter({ hasText: "До приматов" });
@@ -674,7 +674,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".cladogram-panel")).toHaveCount(0);
     await expect(page.locator(".atlas-note-band")).toHaveCount(1);
     await expect(page.locator(".atlas-note-band")).toContainText(
-      "Главная мысль",
+      "Общие предки",
     );
 
     const heroBox = await page.locator(".atlas-hero").boundingBox();
@@ -988,7 +988,7 @@ test.describe("Evolution Atlas", () => {
       page.locator(".atlas-hero").getByRole("link", { name: "Весь путь" }),
     ).toHaveCount(0);
     await expect(
-      page.locator(".primate-focus-panel").getByText("Запустить эволюцию"),
+      page.locator(".primate-focus-panel").getByText("Прокрутка по времени"),
     ).toBeVisible();
 
     await page
@@ -1034,6 +1034,43 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".extinction-tooltip img").first()).toBeVisible();
   });
 
+  test("mass extinction markers become selectable timeline events", async ({
+    page,
+  }, testInfo) => {
+    test.skip(
+      testInfo.project.name === "mobile",
+      "Desktop timeline events use the right detail panel.",
+    );
+
+    await page.goto("/");
+    const permianMarker = page.locator(".extinction-marker").filter({
+      hasText: "Пермь",
+    });
+
+    await expect(permianMarker).toHaveCount(1);
+    await permianMarker.click();
+    await expect(page).toHaveURL(/event=permian-triassic/);
+    await expect(permianMarker).toHaveAttribute("aria-current", "true");
+    await expect(page.locator(".deep-active-card")).toContainText(
+      "Пермское вымирание",
+    );
+    await expect(page.locator(".extinction-detail-panel")).toBeVisible();
+    await expect(page.locator(".extinction-detail-panel h2")).toHaveText(
+      "Пермское вымирание",
+    );
+    await expect(page.locator(".extinction-detail-panel")).toContainText(
+      "Главные факторы",
+    );
+
+    await page
+      .locator(".deep-time-panel .axis-step-controls")
+      .getByRole("button", { name: "Следующий этап" })
+      .click();
+    await expect(page).toHaveURL(/stage=cynodonts/);
+    await expect(page.locator(".stage-copy h2")).toHaveText("Цинодонты");
+    await expect(page.locator(".extinction-detail-panel")).toHaveCount(0);
+  });
+
   test("main atlas opens primates from the timeline label", async ({
     page,
   }, testInfo) => {
@@ -1046,7 +1083,7 @@ test.describe("Evolution Atlas", () => {
       }),
     ).toHaveCount(0);
 
-    const primatesLabel = page.getByRole("link", { name: /Приматы и Homo/i });
+    const primatesLabel = page.getByRole("link", { name: /Приматы и человек/i });
     await expect(primatesLabel).toBeVisible();
     await expect(primatesLabel).toHaveAttribute("href", "/primates");
 
@@ -1116,6 +1153,18 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("heading", { name: "Homo sapiens" }),
     ).toBeVisible();
+
+    const branchPanel = page.locator(".primate-branch-panel");
+    await expect(branchPanel).toBeVisible();
+    await expect(
+      branchPanel.getByRole("button", { name: /Homo sapiens/i }),
+    ).toHaveAttribute("aria-current", "true");
+
+    await branchPanel.getByRole("button", { name: /Ранние родственники приматов/i }).click();
+    await expect(page).toHaveURL(/\/primates\?stage=early-primates/);
+    await expect(
+      branchPanel.getByRole("button", { name: /Ранние родственники приматов/i }),
+    ).toHaveAttribute("aria-current", "true");
   });
 
   test("legacy primate atlas links redirect to the dedicated section", async ({
@@ -1140,7 +1189,7 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { level: 1, name: "Дерево родства" }),
     ).toBeVisible();
     await expect(
-      cladogram.getByText(/Выбранный маршрут показывает ветвь/i),
+      cladogram.getByText(/Homo sapiens находится на выделенной ветви/i),
     ).toBeVisible();
     await expect(
       cladogram
@@ -1494,7 +1543,7 @@ test.describe("Evolution Atlas", () => {
     await page.goto("/?mode=all&stage=chordates");
     const accumulator = page.locator(".trait-accumulator");
     await expect(
-      page.getByRole("heading", { name: "Унаследованные признаки" }),
+      page.getByRole("heading", { name: "Карта признаков" }),
     ).toBeVisible();
     const earlyCount = Number(
       await accumulator.getAttribute("data-trait-count"),
@@ -1570,7 +1619,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".africa-origin")).toBeVisible();
     await expect(page.locator(".trait-accumulator")).toHaveCount(0);
     await expect(
-      page.getByRole("heading", { name: "Унаследованные признаки" }),
+      page.getByRole("heading", { name: "Карта признаков" }),
     ).toHaveCount(0);
   });
 
@@ -1597,7 +1646,7 @@ test.describe("Evolution Atlas", () => {
     const quiz = page.locator(".quiz-panel");
 
     await expect(
-      page.getByRole("heading", { name: "Проверь себя" }),
+      page.getByRole("heading", { level: 1, name: "Проверь себя" }),
     ).toBeVisible();
     const progress = await quiz.locator(".quiz-progress").innerText();
     const totalQuestions = Number(progress.match(/из\s+(\d+)/i)?.[1]);
@@ -1699,15 +1748,15 @@ test.describe("Evolution Atlas", () => {
 
     await expect(
       page.locator(".atlas-hero").getByRole("button", {
-        name: "Запустить эволюцию",
+        name: "Начать прокрутку по времени",
       }),
     ).toHaveCount(0);
     await expect(page.getByText("Запустить путешествие")).toHaveCount(0);
     await expect(page.getByText(/Маршрут \d+ из/i)).toHaveCount(0);
-    await expect(playback.getByText("Запустить эволюцию")).toBeVisible();
+    await expect(playback.getByText("Прокрутка по времени")).toBeVisible();
 
     await playback
-      .getByRole("button", { name: "Запустить эволюцию", exact: true })
+      .getByRole("button", { name: "Начать прокрутку по времени", exact: true })
       .click();
     await expect(activeHeading).toHaveText("Клеточные линии");
     await expect(page.locator(".journey-status")).toHaveCount(0);
@@ -1716,10 +1765,10 @@ test.describe("Evolution Atlas", () => {
       .not.toBe("Клеточные линии");
 
     await playback
-      .getByRole("button", { name: "Поставить эволюцию на паузу" })
+      .getByRole("button", { name: "Поставить прокрутку на паузу" })
       .click();
     await expect(
-      playback.getByRole("button", { name: "Продолжить эволюцию" }),
+      playback.getByRole("button", { name: "Продолжить прокрутку по времени" }),
     ).toBeVisible();
     await page.waitForTimeout(1200);
     const pausedHeading = await activeHeading.textContent();
@@ -1727,14 +1776,14 @@ test.describe("Evolution Atlas", () => {
     await expect(activeHeading).toHaveText(pausedHeading ?? "");
 
     await playback
-      .getByRole("button", { name: "Продолжить эволюцию" })
+      .getByRole("button", { name: "Продолжить прокрутку по времени" })
       .click();
     await expect(activeHeading).not.toHaveText(pausedHeading ?? "", {
       timeout: 2500,
     });
 
     await playback
-      .getByRole("button", { name: "Запустить эволюцию сначала" })
+      .getByRole("button", { name: "Начать прокрутку сначала" })
       .click();
     await expect(activeHeading).toHaveText("Клеточные линии");
   });
@@ -1863,7 +1912,10 @@ test.describe("Evolution Atlas", () => {
   }) => {
     await page.goto("/sources");
     await expect(
-      page.getByRole("heading", { name: /Источники/i }),
+      page.getByRole("heading", {
+        level: 1,
+        name: "Источники, лицензии и изображения",
+      }),
     ).toBeVisible();
     await expect(
       page
@@ -1948,7 +2000,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByText("Что внутри").first()).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: "Книги, которые хорошо продолжают портал",
+        name: "Что почитать",
       }),
     ).toBeVisible();
     await expect(page.locator(".reading-card")).toHaveCount(
@@ -1978,7 +2030,7 @@ test.describe("Evolution Atlas", () => {
     }
     await expect(
       page.getByRole("heading", {
-        name: "Музеи, которые продолжают маршрут",
+        name: "Куда сходить",
       }),
     ).toBeVisible();
     await expect(page.locator(".museum-card")).toHaveCount(
@@ -1989,7 +2041,7 @@ test.describe("Evolution Atlas", () => {
     );
     await expect(
       page.getByRole("heading", {
-        name: "Видео и лекции для следующего шага",
+        name: "Что посмотреть",
       }),
     ).toBeVisible();
     await expect(page.locator(".watch-card")).toHaveCount(3);
@@ -2199,7 +2251,9 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
     await expect(page.locator(".origin-hero-image img")).toHaveCount(0);
     await expect(
-      page.locator(".theory-bridge-band", { hasText: "Главная мысль" }),
+      page.locator(".theory-bridge-band", {
+        hasText: "От химии к наследованию",
+      }),
     ).toBeVisible();
     await expect(page.locator(".origin-story-card img")).toHaveCount(4);
     await expect(page.locator(".origin-hypothesis-card")).toHaveCount(6);
@@ -2228,7 +2282,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".genetics-flow article")).toHaveCount(5);
     await expect(page.locator(".genetics-hero-image img")).toHaveCount(0);
     await expect(
-      page.locator(".theory-bridge-band", { hasText: "Главная мысль" }),
+      page.locator(".theory-bridge-band", { hasText: "Редкие метки в ДНК" }),
     ).toBeVisible();
     await expect(page.locator(".molecule-card img")).toHaveCount(3);
     await expect(page.locator(".genome-comparison-card")).toHaveCount(5);
