@@ -161,6 +161,7 @@ export function DeepTimeAxis({
   const activePosition = visualTimePosition(activeItem.ageMa) * 100;
   const activeColor =
     activeItem.kind === "extinction" ? activeItem.event.color : "var(--amber)";
+  const showActiveCard = activeItem.kind === "stage";
   const activeCardClass = [
     "deep-active-card",
     activePosition > 82
@@ -308,7 +309,7 @@ export function DeepTimeAxis({
                       {
                         left: `${position}%`,
                         "--extinction-color": event.color,
-                        "--marker-offset": `${offset}px`,
+                        "--marker-label-offset": `${offset}px`,
                         "--marker-y": `${24 + (index % 2) * 76}px`,
                       } as CSSProperties
                     }
@@ -354,18 +355,20 @@ export function DeepTimeAxis({
           }
           aria-hidden="true"
         />
-        <div
-          className={activeCardClass}
-          style={
-            {
-              left: `${activePosition}%`,
-              "--active-item-color": activeColor,
-            } as CSSProperties
-          }
-        >
-          <span>{activeAgeLabel}</span>
-          <strong>{activeItem.titleRu}</strong>
-        </div>
+        {showActiveCard ? (
+          <div
+            className={activeCardClass}
+            style={
+              {
+                left: `${activePosition}%`,
+                "--active-item-color": activeColor,
+              } as CSSProperties
+            }
+          >
+            <span>{activeAgeLabel}</span>
+            <strong>{activeItem.titleRu}</strong>
+          </div>
+        ) : null}
 
         <div
           className="deep-stage-dots"

@@ -1034,6 +1034,48 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".extinction-tooltip img").first()).toBeVisible();
   });
 
+  test("mass extinction marker symbols stay on their exact time anchors", async ({
+    page,
+  }, testInfo) => {
+    test.skip(
+      testInfo.project.name === "mobile",
+      "Desktop timeline positions extinction markers.",
+    );
+
+    await page.goto("/");
+    const offAnchorMarkers = await page
+      .locator(".extinction-marker")
+      .evaluateAll((markers) => {
+        const axis = document.querySelector(".deep-time-axis");
+        if (!axis) return ["missing axis"];
+
+        const axisRect = axis.getBoundingClientRect();
+
+        return markers.flatMap((marker) => {
+          const markerElement = marker as HTMLElement;
+          const symbol = markerElement.querySelector("span");
+          if (!symbol) return [`${markerElement.textContent}: missing symbol`];
+
+          const positionPercent = Number(
+            markerElement.style.left.replace("%", ""),
+          );
+          const expectedX =
+            axisRect.left + axisRect.width * (positionPercent / 100);
+          const symbolRect = symbol.getBoundingClientRect();
+          const actualX = symbolRect.left + symbolRect.width / 2;
+          const deltaPx = Math.abs(actualX - expectedX);
+
+          return deltaPx > 2
+            ? [
+                `${markerElement.textContent?.replace(/\s+/g, " ").trim()}: ${Math.round(deltaPx)}px`,
+              ]
+            : [];
+        });
+      });
+
+    expect(offAnchorMarkers).toEqual([]);
+  });
+
   test("mass extinction markers become selectable timeline events", async ({
     page,
   }, testInfo) => {
@@ -1051,9 +1093,30 @@ test.describe("Evolution Atlas", () => {
     await permianMarker.click();
     await expect(page).toHaveURL(/event=permian-triassic/);
     await expect(permianMarker).toHaveAttribute("aria-current", "true");
-    await expect(page.locator(".deep-active-card")).toContainText(
-      "Пермское вымирание",
-    );
+    const activeCardMarkerOverlaps = await page.evaluate(() => {
+      const activeCard = document.querySelector(".deep-active-card");
+      if (!activeCard) return [];
+
+      const cardRect = activeCard.getBoundingClientRect();
+      const intersects = (first: DOMRect, second: DOMRect) =>
+        first.left < second.right &&
+        first.right > second.left &&
+        first.top < second.bottom &&
+        first.bottom > second.top;
+
+      return Array.from(
+        document.querySelectorAll(
+          ".extinction-marker span, .extinction-marker strong",
+        ),
+      ).flatMap((element) => {
+        const rect = element.getBoundingClientRect();
+        return intersects(cardRect, rect)
+          ? [element.textContent?.replace(/\s+/g, " ").trim() || "symbol"]
+          : [];
+      });
+    });
+
+    expect(activeCardMarkerOverlaps).toEqual([]);
     await expect(page.locator(".extinction-detail-panel")).toBeVisible();
     await expect(page.locator(".extinction-detail-panel h2")).toHaveText(
       "Пермское вымирание",

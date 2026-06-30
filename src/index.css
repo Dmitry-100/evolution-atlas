@@ -1674,6 +1674,7 @@ code {
 }
 
 .extinction-marker {
+  --marker-label-offset: 0px;
   position: absolute;
   bottom: var(--marker-y);
   display: flex;
@@ -1681,7 +1682,7 @@ code {
   align-items: center;
   flex-direction: column;
   gap: 0.25rem;
-  transform: translateX(calc(-50% + var(--marker-offset)));
+  transform: translateX(-50%);
   border: 0;
   background: transparent;
   color: rgba(245, 225, 186, 0.86);
@@ -1699,7 +1700,7 @@ code {
 
 .extinction-marker::before {
   position: absolute;
-  left: calc(50% - var(--marker-offset));
+  left: 50%;
   bottom: -1.35rem;
   width: 1px;
   height: 112px;
@@ -1716,7 +1717,7 @@ code {
 
 .extinction-marker::after {
   position: absolute;
-  left: calc(50% - var(--marker-offset));
+  left: 50%;
   bottom: -1.46rem;
   width: 8px;
   height: 8px;
@@ -1766,6 +1767,7 @@ code {
   background: rgba(8, 11, 11, 0.82);
   padding: 0.24rem 0.34rem;
   text-align: center;
+  transform: translateX(var(--marker-label-offset));
   transition:
     border-color 160ms ease,
     transform 160ms ease;
@@ -1778,6 +1780,7 @@ code {
   font-size: 0.52rem;
   letter-spacing: 0.08em;
   text-transform: none;
+  transform: translateX(var(--marker-label-offset));
 }
 
 .extinction-tooltip {
@@ -1835,7 +1838,7 @@ code {
 .extinction-marker:focus-visible strong,
 .extinction-marker.is-active strong {
   border-color: var(--extinction-color);
-  transform: translateY(-2px);
+  transform: translateX(var(--marker-label-offset)) translateY(-2px);
 }
 
 .extinction-marker.is-active span {
