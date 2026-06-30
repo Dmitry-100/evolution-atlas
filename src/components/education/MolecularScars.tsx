@@ -1,6 +1,7 @@
 import { Binary, ExternalLink, GitMerge, ShieldCheck, type LucideIcon } from "lucide-react";
 import { MOLECULAR_MARKERS } from "../../data/genetics";
 import { ConfidenceBadge } from "./ConfidenceBadge";
+import { GlossaryTermById } from "./GlossaryTerm";
 
 const markerIcons: Record<string, LucideIcon> = {
   "shared-code": Binary,
@@ -18,7 +19,11 @@ export function MolecularScars() {
           <h2 id="molecular-scars-title">Следы конкретных событий</h2>
           <p>
             Некоторые доказательства особенно сильны, потому что похожи на редкие исторические метки: общий переводчик,
-            слияние хромосом и наследуемые вирусные вставки.
+            <GlossaryTermById id="chromosome-2">слияние хромосом</GlossaryTermById>{" "}
+            и{" "}
+            <GlossaryTermById id="endogenous-retroviruses">
+              наследуемые вирусные вставки
+            </GlossaryTermById>.
           </p>
         </div>
       </div>

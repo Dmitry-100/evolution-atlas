@@ -9,6 +9,7 @@ import {
   Waves,
 } from "lucide-react";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
+import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { LucaExhibit } from "../components/education/LucaExhibit";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
@@ -126,7 +127,9 @@ export function OriginOfLifePage() {
           <h1>Гипотезы зарождения жизни</h1>
           <p>
             Теория эволюции объясняет, как меняются уже живые системы. Вопрос
-            “как химия стала жизнью?” изучает абиогенез. Гипотезы спорят
+            “как химия стала жизнью?” изучает{" "}
+            <GlossaryTermById id="abiogenesis">абиогенез</GlossaryTermById>.
+            Гипотезы спорят
             о конкретном: где взялась энергия, как возникли мембраны и
             наследование, какие реакции могли поддерживать себя сами.
           </p>
@@ -141,7 +144,8 @@ export function OriginOfLifePage() {
             <p>
               Готовая клетка не появляется сразу. Большинство сценариев
               описывает цепочку переходов: органические молекулы → границы →
-              наследование → отбор. Детали пока проверяются.
+              <GlossaryTermById id="protocells">протоклетки</GlossaryTermById>{" "}
+              → наследование → отбор. Детали пока проверяются.
             </p>
           </div>
         </div>

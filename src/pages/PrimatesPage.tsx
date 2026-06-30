@@ -2,6 +2,7 @@ import { useMemo, useRef, type CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRight, Dna, Globe2, Search, Star } from "lucide-react";
 import { AfricaOriginMap } from "../components/education/AfricaOriginMap";
+import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { MobileAtlas } from "../components/atlas/mobile/MobileAtlas";
 import { PrimateAxis } from "../components/atlas/PrimateAxis";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
@@ -140,8 +141,11 @@ export function PrimatesPage() {
           <h1>Приматы → человек</h1>
           <p className="hero-subtitle">От древесных приматов к Homo sapiens за последние 66 млн лет.</p>
           <p>
-            Здесь собраны антропоиды, человекообразные, гоминины, ранние Homo,
-            соседние человеческие линии и первые следы расселения.
+            Здесь собраны{" "}
+            <GlossaryTermById id="anthropoids">антропоиды</GlossaryTermById>,{" "}
+            <GlossaryTermById id="apes">человекообразные</GlossaryTermById>,{" "}
+            <GlossaryTermById id="hominins">гоминины</GlossaryTermById>,
+            ранние Homo, соседние человеческие линии и первые следы расселения.
           </p>
         </div>
       </section>

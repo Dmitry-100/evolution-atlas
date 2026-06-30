@@ -16,6 +16,7 @@ import {
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
+import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { ImageLightbox } from "../components/ui/image-lightbox";
 import { OptimizedImage } from "../components/ui/optimized-image";
@@ -727,7 +728,9 @@ export function DinosaursPage() {
           <h1>Вымерли ли динозавры</h1>
           <p>
             Короткий ответ звучит неожиданно: {dinosaurAnswer} Поэтому голубь за
-            окном — потомок тероподной ветви и ближе к нептичьим тероподам, чем к нашей
+            окном — потомок{" "}
+            <GlossaryTermById id="theropods">тероподной ветви</GlossaryTermById>{" "}
+            и ближе к нептичьим тероподам, чем к нашей
             млекопитающей линии.
           </p>
         </div>
@@ -744,8 +747,11 @@ export function DinosaursPage() {
       <div className="dinosaurs-map-note">
         <Camera aria-hidden="true" size={21} />
         <p>
-          Как в Атласе, всё на одной оси. До амниот — общий ствол, после
-          диапсид ось уходит к динозаврам и птицам.
+          Как в Атласе, всё на одной оси. До{" "}
+          <GlossaryTermById id="amniotes">амниот</GlossaryTermById> — общий
+          ствол; дальше{" "}
+          <GlossaryTermById id="diapsids">диапсиды</GlossaryTermById> ведут к
+          динозаврам и птицам.
         </p>
       </div>
 
@@ -817,7 +823,11 @@ export function DinosaursPage() {
             <p>
               Сначала идут общие животные предки позвоночных, затем после амниот
               ось уходит в диапсидную ветвь. Дальше — архозавры, динозавры,
-              перья, Archaeopteryx и современные птицы. Точка развилки с
+              перья,{" "}
+              <GlossaryTermById id="archaeopteryx">
+                Archaeopteryx
+              </GlossaryTermById>{" "}
+              и современные птицы. Точка развилки с
               нашей линией — {dinosaurCommonAncestor.titleRu.toLowerCase()} (
               {dinosaurCommonAncestor.valueRu}).
             </p>

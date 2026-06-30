@@ -831,6 +831,7 @@ code {
 
 .tooltip-content {
   z-index: 50;
+  width: max-content;
   max-width: 320px;
   border: 1px solid var(--line-strong);
   border-radius: var(--radius);
@@ -838,28 +839,55 @@ code {
   color: var(--text);
   box-shadow: var(--shadow);
   padding: 0.65rem 0.75rem;
+  font-family: var(--font-body);
   font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-transform: none;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .glossary-tooltip {
   display: grid;
-  gap: 0.35rem;
-  max-width: 340px;
+  gap: 0.42rem;
+  max-width: min(380px, calc(100vw - 2rem));
+  padding: 0.85rem 0.95rem;
 }
 
 .glossary-tooltip strong {
   color: var(--gold);
+  font-size: 0.88rem;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
 }
 
 .glossary-tooltip em {
   color: var(--text);
   font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.88rem;
+  line-height: 1.25;
 }
 
 .glossary-tooltip span,
 .glossary-tooltip small {
+  display: block;
   color: var(--muted);
-  line-height: 1.4;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-transform: none;
+}
+
+.glossary-tooltip span {
+  color: var(--text);
+}
+
+.glossary-tooltip small {
+  font-size: 0.82rem;
+  line-height: 1.42;
 }
 
 .atlas-grid {

@@ -1703,6 +1703,139 @@ test.describe("Evolution Atlas", () => {
     );
   });
 
+  test("glossary tooltips keep explanatory copy readable", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop glossary tooltip.");
+
+    await page.goto("/cladogram");
+    const cladogramTerm = page.getByRole("button", { name: "Кладограмма" });
+    await cladogramTerm.hover();
+    await cladogramTerm.evaluate((node) => (node as HTMLElement).focus());
+
+    const tooltip = page.getByRole("tooltip");
+    await expect(tooltip).toContainText(/лестницу 'лучше-хуже'/i, {
+      timeout: 10_000,
+    });
+
+    const copyStyles = await tooltip.evaluate((node) => {
+      const copy = node.querySelector("span");
+      if (!copy) return null;
+
+      const style = getComputedStyle(copy);
+      const letterSpacing =
+        style.letterSpacing === "normal"
+          ? 0
+          : Number.parseFloat(style.letterSpacing);
+
+      return {
+        letterSpacing,
+        textTransform: style.textTransform,
+      };
+    });
+
+    expect(copyStyles).toEqual({
+      letterSpacing: 0,
+      textTransform: "none",
+    });
+
+    const tooltipBox = await tooltip.boundingBox();
+    expect(tooltipBox?.width ?? 0).toBeLessThanOrEqual(400);
+
+    const copyFitsTooltip = await tooltip.evaluate((node) => {
+      const copy = node.querySelector("span");
+      if (!copy) return false;
+
+      const tooltipRect = node.getBoundingClientRect();
+      const copyRect = copy.getBoundingClientRect();
+      return copyRect.width <= tooltipRect.width;
+    });
+    expect(copyFitsTooltip).toBe(true);
+  });
+
+  test("rare terms use glossary tooltips across education sections", async ({
+    page,
+  }, testInfo) => {
+    test.setTimeout(60_000);
+    test.skip(testInfo.project.name === "mobile", "Desktop glossary sweep.");
+    const consoleErrors: string[] = [];
+
+    page.on("console", (message) => {
+      if (message.type() === "error") {
+        consoleErrors.push(message.text());
+      }
+    });
+
+    const glossaryCases = [
+      {
+        path: "/origin-of-life",
+        readyText: "Гипотезы зарождения жизни",
+        trigger: "абиогенез",
+        expected: /возникновение живых систем/i,
+      },
+      {
+        path: "/genetics",
+        readyText: "Один код на всех",
+        trigger: "кодон",
+        expected: /тройка нуклеотидов/i,
+      },
+      {
+        path: "/dinosaurs",
+        readyText: "Вымерли ли динозавры",
+        trigger: "диапсиды",
+        expected: /двумя височными окнами/i,
+      },
+      {
+        path: "/primates",
+        readyText: "Приматы → человек",
+        trigger: "гоминины",
+        expected: /после расхождения/i,
+      },
+      {
+        path: "/body-map",
+        readyText: "Карта признаков",
+        trigger: "предковый узел",
+        expected: /этап родства/i,
+      },
+    ];
+
+    for (const glossaryCase of glossaryCases) {
+      await page.goto(glossaryCase.path);
+      await expect(page.getByText(glossaryCase.readyText).first()).toBeVisible(
+        { timeout: 15_000 },
+      );
+      const term = page
+        .getByRole("button", { name: glossaryCase.trigger })
+        .first();
+      await expect(term).toBeVisible();
+      await term.hover();
+      await term.evaluate((node) => (node as HTMLElement).focus());
+      await expect(page.getByRole("tooltip")).toContainText(
+        glossaryCase.expected,
+        { timeout: 10_000 },
+      );
+      await page.keyboard.press("Escape");
+    }
+
+    expect(consoleErrors).toEqual([]);
+  });
+
+  test("glossary tooltips open from taps on mobile", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "mobile", "Mobile glossary tap.");
+
+    await page.goto("/genetics");
+    const codonTerm = page.getByRole("button", { name: "кодон" });
+    await codonTerm.scrollIntoViewIfNeeded();
+    await codonTerm.click();
+
+    await expect(page.getByRole("tooltip")).toContainText(
+      /тройка нуклеотидов/i,
+      { timeout: 10_000 },
+    );
+  });
+
   test("quiz runs through questions to a result", async ({ page }) => {
     test.slow();
     await page.goto("/quiz");

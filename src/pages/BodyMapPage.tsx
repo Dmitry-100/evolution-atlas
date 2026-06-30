@@ -9,6 +9,7 @@ import {
 import { useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ConfidenceBadge } from "../components/education/ConfidenceBadge";
+import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import {
   BODY_TRAIT_LAYERS,
@@ -172,8 +173,10 @@ function BodyTraitInspector({
       <div className="body-trait-caveat">
         <Info aria-hidden="true" size={18} />
         <p>
-          “От предкового узла” означает ветвь и набор признаков, а не одну
-          конкретную особь с паспортом предка.
+          Термин{" "}
+          <GlossaryTermById id="ancestral-node">предковый узел</GlossaryTermById>{" "}
+          означает ветвь и набор признаков, а не одну конкретную особь с
+          паспортом предка.
         </p>
       </div>
 

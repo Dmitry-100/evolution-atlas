@@ -2,6 +2,7 @@ import { Atom, ExternalLink, GitFork, Network } from "lucide-react";
 import { useState } from "react";
 import { LUCA_EXHIBIT, LUCA_INHERITANCE, LUCA_SOURCES, LUCA_TREE_NODES, type LucaTreeNodeId } from "../../data/luca";
 import { ConfidenceBadge } from "./ConfidenceBadge";
+import { GlossaryTermById } from "./GlossaryTerm";
 
 export function LucaExhibit() {
   const [activeNodeId, setActiveNodeId] = useState<LucaTreeNodeId>("luca");
@@ -21,7 +22,8 @@ export function LucaExhibit() {
           <h2 id="luca-exhibit-title">{LUCA_EXHIBIT.titleRu}</h2>
           <p>{LUCA_EXHIBIT.leadRu}</p>
           <p className="luca-acronym">
-            LUCA = <span>{LUCA_EXHIBIT.acronymEn}</span> — {LUCA_EXHIBIT.acronymRu}.
+            <GlossaryTermById id="luca">LUCA</GlossaryTermById> ={" "}
+            <span>{LUCA_EXHIBIT.acronymEn}</span> — {LUCA_EXHIBIT.acronymRu}.
           </p>
         </div>
         <ConfidenceBadge level={LUCA_EXHIBIT.confidence} />

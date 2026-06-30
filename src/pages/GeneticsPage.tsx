@@ -20,6 +20,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
+import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { MolecularScars } from "../components/education/MolecularScars";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
@@ -186,7 +187,9 @@ export function GeneticsPage() {
           <p className="eyebrow">Молекулярные доказательства</p>
           <h1>РНК/ДНК: родство записано в коде</h1>
           <p>
-            Ископаемые показывают форму, а геномы показывают инструкцию. Современная молекулярная генетика объясняет
+            Ископаемые показывают форму, а{" "}
+            <GlossaryTermById id="genome">геномы</GlossaryTermById>{" "}
+            показывают инструкцию. Современная молекулярная генетика объясняет
             эволюцию через наследование, мутации, общий генетический код и сравнение последовательностей, из которых
             можно строить родственные деревья.
           </p>
@@ -253,8 +256,12 @@ export function GeneticsPage() {
           <p className="eyebrow">Генетический код</p>
           <h2 id="codon-lab-title">Один код на всех</h2>
           <p>
-            Генетический код читается тройками. ДНК-триплет переписывается в РНК-кодон, а кодон указывает аминокислоту
-            или стоп-сигнал. Именно этот общий переводчик делает молекулярное родство таким убедительным.
+            Генетический код читается тройками. ДНК-триплет переписывается в
+            РНК, а <GlossaryTermById id="codon">кодон</GlossaryTermById>{" "}
+            указывает{" "}
+            <GlossaryTermById id="amino-acid">аминокислоту</GlossaryTermById>{" "}
+            или стоп-сигнал. Именно этот общий переводчик делает молекулярное
+            родство таким убедительным.
           </p>
           <div className="codon-buttons" aria-label="Выберите кодон">
             {CODON_DEMO.map((codon) => (

@@ -14,5 +14,13 @@ export function TooltipTrigger(props: TooltipPrimitive.TooltipTriggerProps) {
 }
 
 export function TooltipContent({ className, ...props }: TooltipPrimitive.TooltipContentProps) {
-  return <TooltipPrimitive.Content className={cn("tooltip-content", className)} sideOffset={8} {...props} />;
+  return (
+    <TooltipPrimitive.Portal>
+      <TooltipPrimitive.Content
+        className={cn("tooltip-content", className)}
+        sideOffset={8}
+        {...props}
+      />
+    </TooltipPrimitive.Portal>
+  );
 }
