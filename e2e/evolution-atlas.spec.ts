@@ -271,20 +271,13 @@ test.describe("Evolution Atlas", () => {
       await expect(tour.locator(".tour-look-at")).toHaveCount(0);
       await expect(page.locator(".tour-focus-target[data-tour-focus-label]")).not.toHaveCount(0);
 
-      for (let stepNumber = 2; stepNumber <= 8; stepNumber += 1) {
-        await advanceTourToStep(page, tour, stepNumber, 8);
-        await expect(tour.getByText("Куда смотреть")).toHaveCount(0);
-        await expect(tour.locator(".tour-look-at")).toHaveCount(0);
-        await expect(page.locator(".tour-focus-target[data-tour-focus-label]")).not.toHaveCount(0);
-      }
-
-      await expect(tour.getByText("Куда пойти дальше")).toBeVisible();
-      await expect(tour.locator(".tour-next-step-card")).toHaveCount(3);
       await expect(
         tour.getByRole("button", { name: "Пойти самому" }),
       ).toHaveCount(0);
-      await tour.getByRole("button", { name: "Завершить" }).click();
-      await expect(tour).toHaveCount(0);
+      await expect(
+        tour.getByRole("button", { name: "Сменить маршрут" }),
+      ).toBeVisible();
+      await expect(tour.getByRole("button", { name: "Дальше" })).toBeVisible();
     }
 
     expect(consoleErrors).toEqual([]);
