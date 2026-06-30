@@ -18,6 +18,7 @@ import { OptimizedImage } from "../components/ui/optimized-image";
 import { TooltipProvider } from "../components/ui/tooltip";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 import { sortedStages, type EvolutionStage } from "../data/lineage";
+import { TREE_OF_LIFE_POSTER } from "../data/treeOfLifePoster";
 import { buildCladogram, type CladogramBranch } from "../lib/cladogram";
 import { getStageHref } from "../lib/atlasUrlState";
 import { formatAgeRu } from "../lib/timeline";
@@ -238,6 +239,7 @@ export function CladogramPage() {
     null,
   );
   const [branchMode, setBranchMode] = useState<CladogramBranchMode>("all");
+  const [isPosterExpanded, setIsPosterExpanded] = useState(false);
   const tree = useMemo(() => buildCladogram(sortedStages), []);
   const activeStage = getStageFromParams(searchParams.get("stage"));
 
@@ -287,6 +289,40 @@ export function CladogramPage() {
           </p>
         </div>
 
+        <figure
+          className="tree-of-life-poster is-compact"
+          aria-labelledby="tree-of-life-poster-title"
+        >
+          <button
+            type="button"
+            className="tree-of-life-poster-media"
+            onClick={() => setIsPosterExpanded(true)}
+            aria-label="Рассмотреть постер дерева жизни крупно"
+          >
+            <OptimizedImage
+              src={TREE_OF_LIFE_POSTER.src}
+              alt={TREE_OF_LIFE_POSTER.altRu}
+              loading="lazy"
+              decoding="async"
+            />
+            <span className="stage-plate-zoom-indicator">
+              <Maximize2 aria-hidden="true" size={15} />
+              Рассмотреть постер
+            </span>
+          </button>
+          <figcaption>
+            <span className="eyebrow">Плакат</span>
+            <strong id="tree-of-life-poster-title">
+              Обзорная карта дерева жизни
+            </strong>
+            <p>
+              Большая схема помогает увидеть всю развилку: ветвь человека идет
+              через синапсид и млекопитающих, а ветвь птиц отделяется от
+              амниот в диапсидную сторону.
+            </p>
+          </figcaption>
+        </figure>
+
         <div className="cladogram-page-grid">
           <CladogramPanel
             tree={tree}
@@ -329,6 +365,20 @@ export function CladogramPage() {
             <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </div>
+        <ImageLightbox
+          image={
+            isPosterExpanded
+              ? {
+                  src: TREE_OF_LIFE_POSTER.src,
+                  alt: TREE_OF_LIFE_POSTER.altRu,
+                  caption:
+                    "Обзорная карта дерева жизни: человек и птицы показаны как разные ветви от ранних амниот.",
+                }
+              : null
+          }
+          ariaLabel="Постер дерева жизни крупно"
+          onClose={() => setIsPosterExpanded(false)}
+        />
       </section>
     </TooltipProvider>
   );

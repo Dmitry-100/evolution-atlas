@@ -1,7 +1,9 @@
 import {
   BookOpen,
+  Download,
   ExternalLink,
   FileText,
+  GitFork,
   Landmark,
   MapPin,
   PlayCircle,
@@ -13,6 +15,7 @@ import {
   READING_RECOMMENDATIONS,
   WATCH_RECOMMENDATIONS,
 } from "../data/materials";
+import { TREE_OF_LIFE_POSTER } from "../data/treeOfLifePoster";
 
 export function MaterialsPage() {
   return (
@@ -25,6 +28,38 @@ export function MaterialsPage() {
           прямо в браузере.
         </p>
       </div>
+
+      <section className="poster-download-card is-compact" aria-labelledby="poster-download-title">
+        <div className="poster-download-media">
+          <OptimizedImage
+            src={TREE_OF_LIFE_POSTER.src}
+            alt={TREE_OF_LIFE_POSTER.altRu}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div className="poster-download-copy">
+          <div className="materials-section-heading">
+            <GitFork aria-hidden="true" size={23} />
+            <div>
+              <p className="eyebrow">Постер</p>
+              <h2 id="poster-download-title">Дерево жизни</h2>
+              <p>
+                Обзорная карта родства: LUCA, крупные ветви жизни, развилка
+                амниот, отдельные пути человека и птиц.
+              </p>
+            </div>
+          </div>
+          <a
+            className="button button-secondary button-md"
+            href={TREE_OF_LIFE_POSTER.src}
+            download={TREE_OF_LIFE_POSTER.downloadName}
+          >
+            <Download aria-hidden="true" size={16} />
+            Скачать постер
+          </a>
+        </div>
+      </section>
 
       <div className="materials-grid">
         {PORTAL_MATERIALS.map((material) => (
