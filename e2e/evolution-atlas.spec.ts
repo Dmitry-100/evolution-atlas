@@ -1849,6 +1849,14 @@ test.describe("Evolution Atlas", () => {
       .getByRole("button", { name: "Начать прокрутку сначала" })
       .click();
     await expect(activeHeading).toHaveText("Клеточные линии");
+    await page.waitForTimeout(1200);
+    await expect(activeHeading).toHaveText("Клеточные линии");
+    await expect(
+      playback.getByRole("button", {
+        name: "Начать прокрутку по времени",
+        exact: true,
+      }),
+    ).toBeVisible();
   });
 
   test("theory route explains scientific theory and evidence", async ({

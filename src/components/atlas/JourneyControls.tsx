@@ -63,8 +63,8 @@ export function JourneyControls<TItem extends JourneyControlItem>({
 
   function restartJourney() {
     onActivate(stages[0]);
-    setHasStarted(true);
-    setIsPlaying(true);
+    setHasStarted(false);
+    setIsPlaying(false);
   }
 
   const primaryLabel = isPlaying
