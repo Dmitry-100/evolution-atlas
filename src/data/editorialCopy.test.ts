@@ -28,6 +28,7 @@ import lineageCopy from "./lineage.ts?raw";
 import materialsCopy from "./materials.ts?raw";
 import quizCopy from "./quiz.ts?raw";
 import curiosityFactsCopy from "./curiosityFacts.ts?raw";
+import geologicPeriodsCopy from "./geologicPeriods.ts?raw";
 import humanOriginsCopy from "./humanOrigins.ts?raw";
 import lucaCopy from "./luca.ts?raw";
 import guidedTourCopy from "./guidedTour.ts?raw";
@@ -50,6 +51,7 @@ function readActiveCopy() {
     materialsCopy,
     quizCopy,
     curiosityFactsCopy,
+    geologicPeriodsCopy,
     humanOriginsCopy,
     lucaCopy,
     guidedTourCopy,

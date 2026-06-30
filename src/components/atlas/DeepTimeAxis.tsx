@@ -1,10 +1,19 @@
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Maximize2, MoveHorizontal } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Maximize2,
+  MoveHorizontal,
+} from "lucide-react";
 import {
   formatExtinctionTitleRu,
   type MassExtinctionEvent,
 } from "../../data/extinctions";
+import {
+  getGeologicContextForAge,
+} from "../../data/geologicPeriods";
 import { ERAS, type EvolutionEra, type EvolutionStage } from "../../data/lineage";
 import { formatAgeRu } from "../../lib/timeline";
 import {
@@ -178,6 +187,7 @@ export function DeepTimeAxis({
     activeItem.kind === "extinction"
       ? formatExtinctionAge(activeItem.event)
       : formatAgeRu(activeItem.stage.ageMa);
+  const geologicContext = getGeologicContextForAge(activeItem.ageMa);
   const visibleExtinctions = useMemo(
     () => extinctions.filter((event) => event.ageMa > 0),
     [extinctions],
@@ -420,6 +430,41 @@ export function DeepTimeAxis({
         <span>66 млн</span>
         <span>сегодня</span>
       </div>
+
+      {geologicContext ? (
+        <aside
+          className="geologic-period-card"
+          style={{ "--period-color": geologicContext.period.color } as CSSProperties}
+          aria-label="Геологический контекст выбранной точки"
+        >
+          <div className="geologic-period-heading">
+            <div className="box-title">
+              <BookOpen aria-hidden="true" size={18} />
+              <span>{geologicContext.period.systemRu}</span>
+            </div>
+            <div className="geologic-period-main">
+              <h2>{geologicContext.period.titleRu}</h2>
+              <p className="kicker">{geologicContext.period.intervalRu}</p>
+              {geologicContext.boundary ? (
+                <span className="geologic-boundary-chip">
+                  {geologicContext.boundary.titleRu}
+                </span>
+              ) : null}
+            </div>
+          </div>
+          <div className="geologic-period-copy">
+            <p className="geologic-period-summary">
+              {geologicContext.period.summaryRu}
+            </p>
+            <p className="geologic-period-boundary">
+              <strong>Граница:</strong>{" "}
+              {geologicContext.boundary?.noteRu ??
+                geologicContext.period.boundaryRu}
+            </p>
+          </div>
+        </aside>
+      ) : null}
+
       <JourneyControls
         stages={timelineItems}
         activeStage={activeItem}

@@ -84,6 +84,30 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
     ],
   },
   {
+    id: "geologic-time",
+    titleRu: "Геологическая шкала времени",
+    noteRu: "Источники для границ периодов, названий систем и привязки возрастов к породам и ископаемым.",
+    routeHref: "/",
+    sources: [
+      {
+        id: "ics-chart",
+        label: "International Chronostratigraphic Chart",
+        url: "https://stratigraphy.org/chart",
+        kind: "data",
+        noteRu:
+          "Официальная международная шкала эонов, эр, периодов и ярусов с актуальными возрастными границами.",
+      },
+      {
+        id: "gsa-geologic-time-scale",
+        label: "Geological Society of America: Geologic Time Scale",
+        url: "https://www.geosociety.org/GSA/Education_Careers/Geologic_Time_Scale/GSA/timescale/home.aspx",
+        kind: "education",
+        noteRu:
+          "Образовательный обзор геологического времени, стратиграфии и принципа деления истории Земли.",
+      },
+    ],
+  },
+  {
     id: "lineage",
     titleRu: "Большая линия от клеток к человеку",
     noteRu: "Опорные источники для кислородной революции, митохондрий, переходных форм и глубокого времени.",

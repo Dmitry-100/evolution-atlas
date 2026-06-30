@@ -2037,6 +2037,121 @@ code {
   font-size: 0.76rem;
 }
 
+.geologic-period-card {
+  --period-color: var(--gold);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.38fr) minmax(0, 1fr);
+  gap: 0.7rem 1rem;
+  align-items: center;
+  margin-top: 0.8rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--period-color) 44%, var(--line));
+  border-radius: 10px;
+  background:
+    radial-gradient(
+      circle at 0% 50%,
+      color-mix(in srgb, var(--period-color) 18%, transparent),
+      transparent 15rem
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--period-color) 12%, rgba(255, 255, 255, 0.035)),
+      rgba(255, 255, 255, 0.032) 48%,
+      rgba(255, 255, 255, 0.02)
+    ),
+    rgba(6, 9, 9, 0.7);
+  padding: 0.62rem 0.85rem 0.62rem 0.95rem;
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--period-color) 78%, transparent),
+    0 16px 34px rgba(0, 0, 0, 0.16);
+}
+
+.geologic-period-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.geologic-period-card .box-title {
+  align-self: center;
+  gap: 0.45rem;
+  min-width: 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.geologic-period-card .box-title svg {
+  color: color-mix(in srgb, var(--period-color) 78%, var(--gold));
+}
+
+.geologic-period-card h2 {
+  margin: 0;
+  color: color-mix(in srgb, var(--period-color) 42%, var(--text));
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.06rem, 1.18vw, 1.28rem);
+  line-height: 1.02;
+}
+
+.geologic-period-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.32;
+}
+
+.geologic-period-main {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.geologic-period-main .kicker {
+  margin: 0;
+  color: var(--faint);
+  font-size: 0.64rem;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.geologic-boundary-chip {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid color-mix(in srgb, var(--period-color) 54%, var(--line));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--period-color) 12%, transparent);
+  color: color-mix(in srgb, var(--period-color) 82%, var(--gold));
+  font-size: 0.62rem;
+  font-weight: 850;
+  line-height: 1.2;
+  padding: 0.16rem 0.4rem;
+}
+
+.geologic-period-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.geologic-period-summary,
+.geologic-period-boundary {
+  font-size: 0.84rem;
+}
+
+.geologic-period-boundary {
+  color: var(--text);
+}
+
+.geologic-period-boundary strong {
+  color: color-mix(in srgb, var(--period-color) 72%, var(--gold));
+}
+
 .primate-focus-panel {
   min-height: 520px;
 }
@@ -8609,6 +8724,15 @@ code {
     height: 320px;
   }
 
+  .geologic-period-card {
+    grid-template-columns: minmax(280px, 0.38fr) minmax(0, 1fr);
+  }
+
+  .geologic-period-copy {
+    grid-template-columns: 1fr;
+    gap: 0.32rem;
+  }
+
   .theory-principles,
   .darwin-spotlight,
   .evidence-section {
@@ -8979,6 +9103,19 @@ code {
   .source-card,
   .about-grid {
     grid-template-columns: 1fr;
+  }
+
+  .geologic-period-card {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .geologic-period-copy {
+    grid-template-columns: 1fr;
+  }
+
+  .geologic-period-card .box-title {
+    min-width: 0;
   }
 
   .body-map-layer-tabs {

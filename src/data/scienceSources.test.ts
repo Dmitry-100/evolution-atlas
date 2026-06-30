@@ -4,6 +4,7 @@ import { SCIENCE_SOURCE_GROUPS, SCIENCE_SOURCE_KIND_LABELS } from "./scienceSour
 const requiredGroupIds = [
   "luca",
   "origin",
+  "geologic-time",
   "lineage",
   "human-origins",
   "genetics",
