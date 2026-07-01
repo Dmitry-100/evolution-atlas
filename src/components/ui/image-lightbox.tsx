@@ -12,12 +12,14 @@ type LightboxImage = {
 type ImageLightboxProps = {
   image: LightboxImage | null;
   ariaLabel?: string;
+  displayMode?: "fit" | "natural";
   onClose: () => void;
 };
 
 export function ImageLightbox({
   image,
   ariaLabel = "Увеличенное изображение",
+  displayMode = "fit",
   onClose,
 }: ImageLightboxProps) {
   useEffect(() => {
@@ -42,7 +44,11 @@ export function ImageLightbox({
 
   return createPortal(
     <div
-      className="image-lightbox"
+      className={
+        displayMode === "natural"
+          ? "image-lightbox is-natural-size"
+          : "image-lightbox"
+      }
       role="dialog"
       aria-modal="true"
       aria-label={ariaLabel}

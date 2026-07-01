@@ -377,6 +377,7 @@ export function CladogramPage() {
               : null
           }
           ariaLabel="Постер дерева жизни крупно"
+          displayMode="natural"
           onClose={() => setIsPosterExpanded(false)}
         />
       </section>

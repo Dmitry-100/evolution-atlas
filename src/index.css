@@ -7391,6 +7391,41 @@ code {
   line-height: 1.45;
 }
 
+.image-lightbox.is-natural-size {
+  place-items: stretch;
+  padding: clamp(0.45rem, 1.6vw, 1.15rem);
+}
+
+.image-lightbox.is-natural-size .image-lightbox-panel {
+  align-content: start;
+  justify-items: start;
+  width: 100%;
+  max-height: none;
+  height: calc(100dvh - clamp(0.9rem, 3.2vw, 2.3rem));
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.image-lightbox.is-natural-size .image-lightbox-panel img {
+  width: auto;
+  max-width: none;
+  height: auto;
+  max-height: none;
+}
+
+.image-lightbox.is-natural-size .image-lightbox-panel p {
+  position: sticky;
+  left: 0;
+  max-width: min(920px, 100%);
+}
+
+.image-lightbox.is-natural-size .image-lightbox-close {
+  position: sticky;
+  top: 0.65rem;
+  justify-self: end;
+  margin: 0 0 -3.2rem;
+}
+
 .image-lightbox-close {
   position: absolute;
   top: 0.85rem;

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import imageLightboxSource from "../components/ui/image-lightbox.tsx?raw";
 import atlasPageSource from "./AtlasPage.tsx?raw";
 import cladogramPageSource from "./CladogramPage.tsx?raw";
 import materialsPageSource from "./MaterialsPage.tsx?raw";
@@ -18,5 +19,11 @@ describe("tree of life poster placement", () => {
     expect(materialsPageSource).toContain("poster-download-card is-compact");
     expect(materialsPageSource).toContain("Скачать постер");
     expect(materialsPageSource).toContain("download={TREE_OF_LIFE_POSTER.downloadName}");
+  });
+
+  it("opens the poster at natural image size inside a scrollable lightbox", () => {
+    expect(cladogramPageSource).toContain('displayMode="natural"');
+    expect(imageLightboxSource).toContain('displayMode?: "fit" | "natural"');
+    expect(imageLightboxSource).toContain("is-natural-size");
   });
 });
