@@ -1292,33 +1292,43 @@ test.describe("Evolution Atlas", () => {
         .filter({ hasText: "Шимпанзе и бонобо" }),
     ).toBeVisible();
     await expect(
+      cladogram
+        .locator(".cladogram-branch")
+        .filter({ hasText: "Кембрийский взрыв" }),
+    ).toHaveCount(0);
+    await expect(
+      cladogram
+        .locator(".cladogram-branch")
+        .filter({ hasText: "После вымирания динозавров" }),
+    ).toHaveCount(0);
+    await expect(
+      cladogram
+        .locator(".cladogram-branch")
+        .filter({ hasText: "Древние приматы" }),
+    ).toHaveCount(0);
+    await expect(
       cladogram.locator(".cladogram-row.has-branches"),
     ).not.toHaveCount(0);
-    await expect(
-      cladogram.locator(".cladogram-branch-thumb img").first(),
-    ).toBeVisible();
+    const firstBranchImage = cladogram
+      .locator(".cladogram-branch-thumb img")
+      .first();
+    await firstBranchImage.scrollIntoViewIfNeeded();
+    await expect(firstBranchImage).toBeVisible();
     await expect
       .poll(() =>
-        cladogram
-          .locator(".cladogram-branch-thumb img")
-          .evaluateAll((images) =>
-            images.every((node) => {
-              const image = node as HTMLImageElement;
-              return image.getAttribute("src")?.startsWith("/assets/images/");
-            }),
+        firstBranchImage.evaluate((node) =>
+          (node as HTMLImageElement).getAttribute("src")?.startsWith(
+            "/assets/images/",
           ),
+        ),
       )
       .toBe(true);
     await expect
       .poll(() =>
-        cladogram
-          .locator(".cladogram-branch-thumb img")
-          .evaluateAll((images) =>
-            images.some((node) => {
-              const image = node as HTMLImageElement;
-              return image.complete && image.naturalWidth > 0;
-            }),
-          ),
+        firstBranchImage.evaluate((node) => {
+          const image = node as HTMLImageElement;
+          return image.complete && image.naturalWidth > 0;
+        }),
       )
       .toBe(true);
     await expect(

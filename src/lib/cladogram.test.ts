@@ -35,7 +35,7 @@ describe("cladogram builder", () => {
   it("attaches representative, side, and close-relative branches to the nearest older trunk node", () => {
     const tree = buildCladogram(STAGES);
 
-    expect(tree.branches.length).toBeGreaterThanOrEqual(30);
+    expect(tree.branches.length).toBeGreaterThanOrEqual(25);
     expect(
       tree.branches.find((branch) => branch.stage?.id === "prokaryotes")?.parent
         .id,
@@ -56,6 +56,18 @@ describe("cladogram builder", () => {
       tree.branches.find((branch) => branch.stage?.id === "neanderthals")
         ?.parent.id,
     ).toBe("heidelbergensis");
+  });
+
+  it("omits route-only milestone stages from cladogram branches", () => {
+    const tree = buildCladogram(STAGES);
+
+    expect(tree.branches.map((branch) => branch.stage?.id)).not.toEqual(
+      expect.arrayContaining([
+        "cambrian-explosion",
+        "after-kpg",
+        "plesiadapis",
+      ]),
+    );
   });
 
   it("adds explanatory context branches for major evolutionary forks", () => {

@@ -109,6 +109,11 @@ const branchRoles = new Set<EvolutionStage["lineageRole"]>([
   "side-branch",
   "close-relative",
 ]);
+const routeOnlyBranchStageIds = new Set([
+  "cambrian-explosion",
+  "after-kpg",
+  "plesiadapis",
+]);
 
 const livingComparisonBranchIds = new Set([
   "prokaryotes",
@@ -699,7 +704,10 @@ export function buildCladogram(stages: EvolutionStage[]): Cladogram {
   const trunkIds = new Set(trunk.map((stage) => stage.id));
   const branchStages = oldestFirst(
     stages.filter(
-      (stage) => !trunkIds.has(stage.id) && branchRoles.has(stage.lineageRole),
+      (stage) =>
+        !trunkIds.has(stage.id) &&
+        branchRoles.has(stage.lineageRole) &&
+        !routeOnlyBranchStageIds.has(stage.id),
     ),
   );
   const branches = branchStages
