@@ -71,10 +71,12 @@ jobs:
       - name: Upload SPA route fallbacks
         run: |
           for route in \
+            primates \
             theory \
             origin-of-life \
             genetics \
             cladogram \
+            body-map \
             extinctions \
             dinosaurs \
             materials \
