@@ -2158,6 +2158,11 @@ code {
   min-height: 520px;
 }
 
+.primate-context-note {
+  width: min(1180px, 100%);
+  margin-bottom: 1.35rem;
+}
+
 .primate-time-stat {
   max-width: 430px;
 }

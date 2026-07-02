@@ -150,7 +150,7 @@ export function PrimatesPage() {
         </div>
       </section>
 
-      <section className="theory-bridge-band atlas-note-band">
+      <section className="theory-bridge-band atlas-note-band primate-context-note">
         <div>
           <Star aria-hidden="true" size={22} />
           <div>
