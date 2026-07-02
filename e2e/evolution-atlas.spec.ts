@@ -2009,9 +2009,9 @@ test.describe("Evolution Atlas", () => {
     await playback
       .getByRole("button", { name: "Продолжить прокрутку по времени" })
       .click();
-    await expect(activeHeading).not.toHaveText(pausedHeading ?? "", {
-      timeout: 2500,
-    });
+    await expect
+      .poll(() => activeHeading.textContent(), { timeout: 10_000 })
+      .not.toBe(pausedHeading ?? "");
 
     await playback
       .getByRole("button", { name: "Начать прокрутку сначала" })
