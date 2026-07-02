@@ -1,5 +1,5 @@
 import { Pause, Play, RotateCcw } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type JourneyControlItem = {
   id: string;
@@ -38,6 +38,7 @@ export function JourneyControls<TItem extends JourneyControlItem>({
 }: JourneyControlsProps<TItem>) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const intervalRef = useRef<number | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const activeIndex = Math.max(
     0,
@@ -48,29 +49,42 @@ export function JourneyControls<TItem extends JourneyControlItem>({
     stages.length > 1 ? (activeIndex / (stages.length - 1)) * 100 : 100;
   const effectiveIsPlaying = isPlaying && !prefersReducedMotion;
 
+  function clearJourneyInterval() {
+    if (intervalRef.current === null) {
+      return;
+    }
+    window.clearInterval(intervalRef.current);
+    intervalRef.current = null;
+  }
+
   useEffect(() => {
+    clearJourneyInterval();
+
     if (!effectiveIsPlaying) {
       return;
     }
 
-    const interval = window.setInterval(() => {
+    intervalRef.current = window.setInterval(() => {
       const nextStage = stages[activeIndex + 1];
       if (!nextStage) {
+        clearJourneyInterval();
         setIsPlaying(false);
         return;
       }
       onActivate(nextStage);
     }, JOURNEY_STEP_MS);
 
-    return () => window.clearInterval(interval);
+    return clearJourneyInterval;
   }, [activeIndex, effectiveIsPlaying, onActivate, stages]);
 
   function toggleJourney() {
     if (effectiveIsPlaying) {
+      clearJourneyInterval();
       setIsPlaying(false);
       return;
     }
     if (prefersReducedMotion) {
+      clearJourneyInterval();
       setIsPlaying(false);
       return;
     }
@@ -83,6 +97,7 @@ export function JourneyControls<TItem extends JourneyControlItem>({
   }
 
   function restartJourney() {
+    clearJourneyInterval();
     onActivate(stages[0]);
     setHasStarted(false);
     setIsPlaying(false);
