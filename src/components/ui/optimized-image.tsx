@@ -7,25 +7,38 @@ import {
 import { getOptimizedImageSrc } from "../../lib/imagePlaceholders";
 
 type OptimizedImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+  alt: string;
   pictureClassName?: string;
+  /**
+   * Deprecated: optimized delivery is the default. Keep the prop only so older
+   * call-sites do not break during migration.
+   */
   preferOptimized?: boolean;
 };
 
 const optimizedImageDeliveryEnabled =
-  import.meta.env.VITE_ENABLE_OPTIMIZED_IMAGES === "true";
+  import.meta.env.VITE_ENABLE_OPTIMIZED_IMAGES !== "false";
 
 export const OptimizedImage = forwardRef<
   HTMLImageElement,
   OptimizedImageProps
 >(function OptimizedImage(
-  { pictureClassName, preferOptimized = false, src, alt = "", onError, ...imageProps },
+  {
+    pictureClassName,
+    preferOptimized: _deprecatedPreferOptimized,
+    src,
+    alt,
+    onError,
+    ...imageProps
+  },
   ref,
 ) {
+  void _deprecatedPreferOptimized;
+
   const optimizedSrc = src ? getOptimizedImageSrc(src) : null;
   const [useOptimizedSource, setUseOptimizedSource] = useState(true);
   const shouldUseOptimizedSource =
     optimizedImageDeliveryEnabled &&
-    preferOptimized &&
     optimizedSrc &&
     useOptimizedSource;
 
@@ -41,7 +54,11 @@ export const OptimizedImage = forwardRef<
 
   return (
     <picture className={pictureClassName}>
-      <source srcSet={optimizedSrc} type="image/avif" />
+      <source
+        srcSet={optimizedSrc}
+        sizes={imageProps.sizes}
+        type="image/avif"
+      />
       <img
         ref={ref}
         src={src}

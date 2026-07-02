@@ -10,7 +10,7 @@ const cards = [
   },
   {
     icon: Network,
-    title: "Дерево родства вместо лестницы",
+    title: "Родство через ветвления",
     text: "Мы не произошли от современных обезьян. У нас с ними общий предок, а разные ветви эволюции разошлись и менялись каждая по-своему.",
   },
   {
@@ -68,7 +68,6 @@ export function AboutPage() {
             alt="Сотников Дмитрий"
             loading="lazy"
             decoding="async"
-            preferOptimized
           />
           <figcaption>Сотников Дмитрий</figcaption>
         </figure>
@@ -109,6 +108,15 @@ export function AboutPage() {
             того, как личное любопытство можно быстро превратить в аккуратный образовательный ресурс.
           </p>
         </div>
+      </div>
+
+      <div className="document-next-actions">
+        <Link className="button button-secondary button-md" to="/">
+          Перейти к атласу
+        </Link>
+        <Link className="button button-secondary button-md" to="/materials">
+          Открыть материалы
+        </Link>
       </div>
     </section>
   );

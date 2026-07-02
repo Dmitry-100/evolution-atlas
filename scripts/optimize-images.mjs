@@ -10,7 +10,7 @@ const defaultRoots = [
   fileURLToPath(new URL("../public/assets/materials", import.meta.url)),
 ];
 const maxDimension = 1400;
-const rasterExtensions = new Set([".jpg", ".jpeg", ".png"]);
+const rasterExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
 function walk(dir) {
   const entries = readdirSync(dir, { withFileTypes: true });
@@ -25,7 +25,7 @@ function isRaster(path) {
 }
 
 function avifPathFor(path) {
-  return path.replace(/\.(jpe?g|png)$/i, ".avif");
+  return path.replace(/\.(jpe?g|png|webp)$/i, ".avif");
 }
 
 function isFresh(source, target) {

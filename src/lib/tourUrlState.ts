@@ -4,6 +4,8 @@ import type { TourIntent } from "../data/guidedTour";
 export type TourUrlState = {
   planId: string;
   stepIndex: number;
+  intent: TourIntent | null;
+  budgetMin: 5 | 15 | null;
 };
 
 type StoredTourPlanSnapshot = {
@@ -23,16 +25,23 @@ export function parseTourUrlState(
   if (!planId) return null;
 
   const rawStep = Number.parseInt(params.get("step") ?? "0", 10);
+  const rawBudget = Number.parseInt(params.get("budget") ?? "", 10);
+  const intent = usableTourIntent(params.get("intent"));
+
   return {
     planId,
     stepIndex: Number.isFinite(rawStep) && rawStep > 0 ? rawStep : 0,
+    intent,
+    budgetMin: rawBudget === 15 ? 15 : rawBudget === 5 ? 5 : null,
   };
 }
 
-export function toTourSearchParams({ planId, stepIndex }: TourUrlState) {
+export function toTourSearchParams(state: TourUrlState) {
   const params = new URLSearchParams();
-  params.set("tour", planId);
-  params.set("step", String(Math.max(0, stepIndex)));
+  params.set("tour", state.planId);
+  params.set("step", String(Math.max(0, state.stepIndex)));
+  if (state.intent) params.set("intent", state.intent);
+  if (state.budgetMin) params.set("budget", String(state.budgetMin));
   return params;
 }
 
@@ -41,15 +50,29 @@ export function hrefWithTourState(href: string, state: TourUrlState) {
   const params = new URLSearchParams();
   params.set("tour", state.planId);
   params.set("step", String(Math.max(0, state.stepIndex)));
+  if (state.intent) params.set("intent", state.intent);
+  if (state.budgetMin) params.set("budget", String(state.budgetMin));
   url.searchParams.forEach((value, key) => {
-    if (key !== "tour" && key !== "step") params.set(key, value);
+    if (key !== "tour" && key !== "step" && key !== "intent" && key !== "budget") {
+      params.set(key, value);
+    }
   });
   url.search = params.toString();
   return `${url.pathname}${url.search}`;
 }
 
-export function inferTourIntentFromPlanId(planId: string): TourIntent | null {
-  const [, intent] = planId.split("-");
+export function stripTourUrlState(pathname: string, search: string) {
+  const params = new URLSearchParams(search);
+  params.delete("tour");
+  params.delete("step");
+  params.delete("intent");
+  params.delete("budget");
+  const nextSearch = params.toString();
+  return `${pathname}${nextSearch ? `?${nextSearch}` : ""}`;
+}
+
+function usableTourIntent(value: string | null | undefined): TourIntent | null {
+  const intent = value?.trim();
   if (
     intent === "overview" ||
     intent === "skeptical" ||
@@ -65,6 +88,11 @@ export function inferTourIntentFromPlanId(planId: string): TourIntent | null {
   }
 
   return null;
+}
+
+export function inferTourIntentFromPlanId(planId: string): TourIntent | null {
+  const [, intent] = planId.split("-");
+  return usableTourIntent(intent);
 }
 
 export function createStoredTourPlanSnapshot(plan: TourPlan) {

@@ -136,12 +136,40 @@ const moleculeGallery = [
   },
 ];
 
-const comparisonVisuals: Record<string, { percent: number; label: string }> = {
-  "human-human": { percent: 99.9, label: "почти одна и та же инструкция" },
-  "human-chimp": { percent: 98.8, label: "очень близкая сестринская ветвь" },
-  "human-mouse": { percent: 85, label: "общая млекопитающая основа" },
-  "human-fly": { percent: 60, label: "древний общий набор генов" },
-  "human-banana": { percent: 25, label: "следы глубокой клеточной родни" },
+const comparisonVisuals: Record<
+  string,
+  { percent: number; label: string; metricTypeRu: string; metricClass: string }
+> = {
+  "human-human": {
+    percent: 99.9,
+    label: "почти одна и та же инструкция",
+    metricTypeRu: "идентичность последовательности",
+    metricClass: "sequence",
+  },
+  "human-chimp": {
+    percent: 98.8,
+    label: "очень близкая сестринская ветвь",
+    metricTypeRu: "идентичность последовательности",
+    metricClass: "sequence",
+  },
+  "human-mouse": {
+    percent: 85,
+    label: "общая млекопитающая основа",
+    metricTypeRu: "сходство кодирующих участков",
+    metricClass: "coding",
+  },
+  "human-fly": {
+    percent: 60,
+    label: "древний общий набор генов",
+    metricTypeRu: "ортологи и консервативные гены",
+    metricClass: "orthologs",
+  },
+  "human-banana": {
+    percent: 25,
+    label: "следы глубокой клеточной родни",
+    metricTypeRu: "ортологи и консервативные гены",
+    metricClass: "orthologs",
+  },
 };
 
 const evidenceVisuals: Record<string, GeneticsVisual> = {
@@ -317,8 +345,11 @@ export function GeneticsPage() {
             <article key={comparison.id} className="genome-comparison-card">
               <span>{comparison.titleRu}</span>
               <strong>{comparison.valueRu}</strong>
+              <em className={`genome-metric-chip is-${comparisonVisuals[comparison.id]?.metricClass ?? "sequence"}`}>
+                {comparisonVisuals[comparison.id]?.metricTypeRu}
+              </em>
               <div
-                className="genome-comparison-meter"
+                className={`genome-comparison-meter is-${comparisonVisuals[comparison.id]?.metricClass ?? "sequence"}`}
                 aria-label={`${comparisonVisuals[comparison.id]?.percent ?? 0}%`}
               >
                 <i style={{ width: `${comparisonVisuals[comparison.id]?.percent ?? 0}%` }} />

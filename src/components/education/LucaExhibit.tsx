@@ -7,7 +7,10 @@ import { GlossaryTermById } from "./GlossaryTerm";
 export function LucaExhibit() {
   const [activeNodeId, setActiveNodeId] = useState<LucaTreeNodeId>("luca");
   const activeNode = LUCA_TREE_NODES.find((node) => node.id === activeNodeId) ?? LUCA_TREE_NODES[0];
-  const childNodes = LUCA_TREE_NODES.filter((node) => node.id !== "luca");
+  const lucaNode = LUCA_TREE_NODES.find((node) => node.id === "luca");
+  const childNodes = LUCA_TREE_NODES.filter((node) =>
+    lucaNode?.children?.includes(node.id),
+  );
 
   return (
     <section
@@ -30,7 +33,7 @@ export function LucaExhibit() {
       </div>
 
       <div className="luca-exhibit-grid">
-        <div className="luca-tree" aria-label="Мини-дерево LUCA и трех доменов жизни">
+        <div className="luca-tree" aria-label="Мини-дерево LUCA, бактерий, архей и эукариот внутри архейной стороны">
           <button
             type="button"
             className={activeNodeId === "luca" ? "luca-root is-active" : "luca-root"}
@@ -42,18 +45,37 @@ export function LucaExhibit() {
           </button>
 
           <div className="luca-branches">
-            {childNodes.map((node) => (
-              <button
-                key={node.id}
-                type="button"
-                className={node.id === activeNodeId ? "luca-branch is-active" : "luca-branch"}
-                onClick={() => setActiveNodeId(node.id)}
-              >
-                <GitFork aria-hidden="true" size={17} />
-                <strong>{node.titleRu}</strong>
-                <span>{node.subtitleRu}</span>
-              </button>
-            ))}
+            {childNodes.map((node) => {
+              const nestedNodes = LUCA_TREE_NODES.filter((candidate) =>
+                node.children?.includes(candidate.id),
+              );
+
+              return (
+                <div className="luca-branch-group" key={node.id}>
+                  <button
+                    type="button"
+                    className={node.id === activeNodeId ? "luca-branch is-active" : "luca-branch"}
+                    onClick={() => setActiveNodeId(node.id)}
+                  >
+                    <GitFork aria-hidden="true" size={17} />
+                    <strong>{node.titleRu}</strong>
+                    <span>{node.subtitleRu}</span>
+                  </button>
+                  {nestedNodes.map((nestedNode) => (
+                    <button
+                      key={nestedNode.id}
+                      type="button"
+                      className={nestedNode.id === activeNodeId ? "luca-branch luca-branch-nested is-active" : "luca-branch luca-branch-nested"}
+                      onClick={() => setActiveNodeId(nestedNode.id)}
+                    >
+                      <GitFork aria-hidden="true" size={17} />
+                      <strong>{nestedNode.titleRu}</strong>
+                      <span>{nestedNode.subtitleRu}</span>
+                    </button>
+                  ))}
+                </div>
+              );
+            })}
           </div>
         </div>
 

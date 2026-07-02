@@ -2,6 +2,7 @@ import {
   ArrowRight,
   BarChart3,
   Clock3,
+  Download,
   FileText,
   Flame,
   RefreshCw,
@@ -68,15 +69,29 @@ export function ExtinctionsPage() {
             добавляет к этому разделу диаграммы, шкалы времени и готовые слайды.
           </p>
         </div>
-        <a
-          className="button button-secondary button-md"
-          href="/assets/materials/six-planet-apocalypses.pdf"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Открыть PDF
-          <ArrowRight aria-hidden="true" size={17} />
-        </a>
+        <div className="extinction-material-actions">
+          <a
+            className="button button-secondary button-md"
+            href="/assets/materials/six-planet-apocalypses.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Открыть PDF
+            <ArrowRight aria-hidden="true" size={17} />
+          </a>
+          <a
+            className="button button-ghost button-md"
+            href="/assets/materials/six-planet-apocalypses.pdf"
+            download
+            aria-label="Скачать PDF “Шесть апокалипсисов планеты”"
+          >
+            <Download aria-hidden="true" size={17} />
+            Скачать
+          </a>
+          <Link className="button button-secondary button-md" to="/materials">
+            Все материалы
+          </Link>
+        </div>
       </div>
 
       <div

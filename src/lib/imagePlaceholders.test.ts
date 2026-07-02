@@ -22,6 +22,11 @@ describe("image placeholders", () => {
     expect(getOptimizedImageSrc("/assets/brand/portal-logo-mark.png")).toBe(
       "/assets/brand/portal-logo-mark.avif",
     );
+    expect(
+      getOptimizedImageSrc(
+        "/assets/images/source-backed/denisovan-reconstruction.webp",
+      ),
+    ).toBe("/assets/images/source-backed/denisovan-reconstruction.avif");
     expect(getOptimizedImageSrc("/assets/brand/icon.svg")).toBeNull();
     expect(getOptimizedImageSrc("/assets/materials/example-cover.jpg")).toBe(
       "/assets/materials/example-cover.avif",

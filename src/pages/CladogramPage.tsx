@@ -67,7 +67,7 @@ function CladogramInspector({
             <OptimizedImage
               src={branch.image.src}
               alt={branch.image.altRu}
-              loading="eager"
+              loading="lazy"
               decoding="async"
             />
             <span className="stage-plate-zoom-indicator">
@@ -168,7 +168,7 @@ function CladogramInspector({
           <OptimizedImage
             src={stage.image.src}
             alt={stage.image.altRu}
-            loading="eager"
+            loading="lazy"
             decoding="async"
           />
           <span className="stage-plate-zoom-indicator">
@@ -317,8 +317,9 @@ export function CladogramPage() {
             </strong>
             <p>
               Большая схема помогает увидеть всю развилку: ветвь человека идет
-              через синапсид и млекопитающих, а ветвь птиц отделяется от
-              амниот в диапсидную сторону.
+              через синапсидную, терапсидную и цинодонтную линии к
+              млекопитающим, а ветвь птиц отделяется от амниот в диапсидную
+              сторону.
             </p>
           </figcaption>
         </figure>

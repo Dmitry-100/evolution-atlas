@@ -1,4 +1,5 @@
 import { ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { sortedStages } from "../data/lineage";
 import { SCIENCE_SOURCE_GROUPS, SCIENCE_SOURCE_KIND_LABELS } from "../data/scienceSources";
@@ -45,7 +46,7 @@ export function SourcesPage() {
           {SCIENCE_SOURCE_GROUPS.map((group) => (
             <article key={group.id} className="science-source-card">
               <div className="science-source-card-heading">
-                <a href={group.routeHref}>{group.titleRu}</a>
+                <Link to={group.routeHref}>{group.titleRu}</Link>
                 <p>{group.noteRu}</p>
               </div>
               <div className="science-source-links">
@@ -98,6 +99,15 @@ export function SourcesPage() {
             </div>
           </article>
         ))}
+      </div>
+
+      <div className="document-next-actions">
+        <Link className="button button-secondary button-md" to="/">
+          Вернуться в атлас
+        </Link>
+        <Link className="button button-secondary button-md" to="/materials">
+          Открыть материалы
+        </Link>
       </div>
     </section>
   );

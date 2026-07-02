@@ -17,6 +17,7 @@ type ExtinctionDetailCardProps = {
 
 export function ExtinctionDetailCard({ event }: ExtinctionDetailCardProps) {
   const imageRef = useRef<HTMLImageElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const previousImageRef = useRef<ExtinctionImage>(event.image);
   const [previousImage, setPreviousImage] = useState<ExtinctionImage | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -31,6 +32,10 @@ export function ExtinctionDetailCard({ event }: ExtinctionDetailCardProps) {
     }
     previousImageRef.current = event.image;
   }, [event.image]);
+
+  useEffect(() => {
+    window.requestAnimationFrame(() => headingRef.current?.focus());
+  }, [event.id]);
 
   useEffect(() => {
     const image = imageRef.current;
@@ -58,6 +63,7 @@ export function ExtinctionDetailCard({ event }: ExtinctionDetailCardProps) {
       data-tour-stop-id={`extinction-${event.id}`}
       style={{ "--extinction-color": event.color } as CSSProperties}
       aria-label="Активное событие"
+      aria-live="polite"
     >
       <figure className="stage-plate">
         <div
@@ -111,7 +117,7 @@ export function ExtinctionDetailCard({ event }: ExtinctionDetailCardProps) {
 
       <div className="stage-copy extinction-detail-copy">
         <p className="kicker">{event.windowRu}</p>
-        <h2>{title}</h2>
+        <h2 ref={headingRef} tabIndex={-1}>{title}</h2>
         <p className="latin">{event.lossPercentRu}</p>
         <p className="lead">{event.lossRu}</p>
 

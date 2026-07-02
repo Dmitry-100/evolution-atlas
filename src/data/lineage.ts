@@ -1,4 +1,5 @@
 import { SOURCE_IMAGES } from "./sourceImages";
+import type { ConfidenceLevel } from "./confidence";
 
 export type StageImageKind = "source-backed" | "generated-reconstruction" | "local-plate";
 
@@ -42,16 +43,12 @@ export type EvolutionStage = {
   eraId: EvolutionEra["id"];
   lineageRole: LineageRole;
   isPrimateFocus?: boolean;
+  confidence?: ConfidenceLevel;
   summaryRu: string;
   whyMattersRu: string;
   inherited: string[];
   image: StageImage;
   sources: SourceRef[];
-};
-
-const visualCapitalist: SourceRef = {
-  label: "Visual Capitalist: The Path of Human Evolution",
-  url: "https://www.visualcapitalist.com/path-of-human-evolution/",
 };
 
 const source = (label: string, url: string): SourceRef => ({ label, url });
@@ -72,13 +69,15 @@ const plate = (
   kind: SOURCE_IMAGES[file]?.kind ?? (SOURCE_IMAGES[file] ? "source-backed" : kind),
   credit: SOURCE_IMAGES[file]?.credit ?? credit,
   license: SOURCE_IMAGES[file]?.license ?? "см. исходный источник",
-  sourceUrl: SOURCE_IMAGES[file]?.sourceUrl ?? visualCapitalist.url,
+  sourceUrl:
+    SOURCE_IMAGES[file]?.sourceUrl ??
+    "https://evolution.berkeley.edu/evolution-101/",
   promptId: SOURCE_IMAGES[file]?.promptId,
 });
 
 export const ERAS: EvolutionEra[] = [
-  { id: "early-life", titleRu: "Клеточная жизнь", startsAtMa: 4000, endsAtMa: 541, color: "#6aa8ad" },
-  { id: "animals", titleRu: "Животные и хордовые", startsAtMa: 541, endsAtMa: 430, color: "#b6ba7a" },
+  { id: "early-life", titleRu: "Клеточная жизнь", startsAtMa: 4000, endsAtMa: 538.8, color: "#6aa8ad" },
+  { id: "animals", titleRu: "Животные и хордовые", startsAtMa: 538.8, endsAtMa: 430, color: "#b6ba7a" },
   { id: "fish", titleRu: "Рыбы и позвоночные", startsAtMa: 430, endsAtMa: 360, color: "#83a8bf" },
   { id: "land", titleRu: "Выход на сушу", startsAtMa: 360, endsAtMa: 300, color: "#c5a05f" },
   { id: "synapsids", titleRu: "Синапсиды", startsAtMa: 300, endsAtMa: 200, color: "#b47d56" },
@@ -95,13 +94,14 @@ export const STAGES: EvolutionStage[] = [
     ageMa: 3800,
     eraId: "early-life",
     lineageRole: "foundation",
+    confidence: "debated",
     summaryRu: "Надежные микрофоссилии и строматолиты обычно относят примерно к 3,5 млрд лет назад; более древние признаки жизни обсуждаются, поэтому шкала округляет глубокий старт до 4 млрд лет.",
     whyMattersRu: "Здесь начинается наследование: клеточные системы копируют информацию и отделяют себя мембраной. С этого начинается всё, что было дальше.",
     inherited: ["мембраны", "обмен веществ", "наследуемая информация"],
     image: plate("protocells", "Схематическая музейная пластина ранних протоклеток"),
     sources: [
       source("Understanding Evolution: origin of life", "https://evolution.berkeley.edu/from-soup-to-cells-the-origin-of-life/"),
-      visualCapitalist,
+      source("Natural History Museum: origin of life", "https://www.nhm.ac.uk/discover/origin-of-life.html"),
       wiki("Protocell", "Protocell"),
     ],
   },
@@ -145,6 +145,7 @@ export const STAGES: EvolutionStage[] = [
     ageMa: 1800,
     eraId: "early-life",
     lineageRole: "direct-lineage",
+    confidence: "likely",
     summaryRu: "У клетки появились ядро и митохондрии — внутренняя организация, без которой не собрать ткани и органы.",
     whyMattersRu: "Митохондрии дали больше энергии, а ядро и внутренняя регуляция сделали возможными крупные многоклеточные тела.",
     inherited: ["ядро", "митохондрии", "сложная регуляция клетки"],
@@ -163,6 +164,7 @@ export const STAGES: EvolutionStage[] = [
     ageMa: 900,
     eraId: "early-life",
     lineageRole: "close-relative",
+    confidence: "debated",
     summaryRu: "Хоанофлагелляты показывают, как одноклеточные родственники животных могли использовать сигналы и кооперацию.",
     whyMattersRu: "Отсюда виден путь от одиночной клетки к телу, где клетки общаются и делят роли.",
     inherited: ["клеточные сигналы", "адгезия", "предпосылки многоклеточности"],
@@ -177,6 +179,7 @@ export const STAGES: EvolutionStage[] = [
     ageMa: 575,
     eraId: "early-life",
     lineageRole: "representative",
+    confidence: "likely",
     summaryRu: "Ранние многоклеточные животные начали строить тела из специализированных тканей и жить в сложных экосистемах.",
     whyMattersRu: "Появляется сама идея животного тела: клетки работают вместе, и отбор начинает действовать на форму.",
     inherited: ["многоклеточность", "ткани", "эмбриональное развитие"],
@@ -191,6 +194,7 @@ export const STAGES: EvolutionStage[] = [
     ageMa: 555,
     eraId: "animals",
     lineageRole: "direct-lineage",
+    confidence: "debated",
     summaryRu: "У животных появляется перед и зад, верх и низ, направленное движение и более выраженная логика головы.",
     whyMattersRu: "Наш план тела начинается здесь. Двусторонняя симметрия задаёт, где будет голова и куда направлено движение.",
     inherited: ["двусторонняя симметрия", "передний отдел тела", "направленное движение"],
@@ -202,7 +206,7 @@ export const STAGES: EvolutionStage[] = [
     slug: "cambrian-explosion",
     titleRu: "Кембрийский взрыв",
     latin: "Cambrian explosion",
-    ageMa: 541,
+    ageMa: 538.8,
     eraId: "animals",
     lineageRole: "representative",
     summaryRu:
@@ -360,7 +364,7 @@ export const STAGES: EvolutionStage[] = [
     lineageRole: "direct-lineage",
     summaryRu: "В этой группе усиливаются признаки млекопитающих: зубы, вероятная шерсть, активный обмен и забота о потомстве.",
     whyMattersRu: "На цинодонтах видно, как 'млекопитающее' собиралось постепенно, по частям.",
-    inherited: ["дифференцированные зубы", "вероятная шерсть", "активный обмен"],
+    inherited: ["дифференцированные зубы", "слуховые косточки", "вероятная шерсть", "активный обмен"],
     image: plate("cynodonts", "Реконструкция цинодонта Thrinaxodon", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [wiki("Cynodont", "Cynodontia"), wiki("Thrinaxodon", "Thrinaxodon")],
   },
@@ -442,7 +446,10 @@ export const STAGES: EvolutionStage[] = [
     whyMattersRu: "По ним понятно, из какой среды выросли приматы: деревья, хватание, острое зрение, ловкость.",
     inherited: ["пятипалые конечности", "цепкий хват", "древесная ловкость"],
     image: plate("early-primates", "Реконструкция Plesiadapis как раннего родственника приматов", "source-backed"),
-    sources: [wiki("Plesiadapis", "Plesiadapis"), visualCapitalist],
+    sources: [
+      wiki("Plesiadapis", "Plesiadapis"),
+      source("University of Washington: earliest primate fossils", "https://www.washington.edu/news/2021/02/24/earliest-primate-fossils/"),
+    ],
   },
   {
     id: "anthropoids",
@@ -588,11 +595,15 @@ export const STAGES: EvolutionStage[] = [
     eraId: "primates",
     lineageRole: "stem-form",
     isPrimateFocus: true,
-    summaryRu: "Появляются ранние представители рода Homo и более системное использование каменных орудий.",
-    whyMattersRu: "Рост мозга, точный хват и гибкое питание усиливают культурную линию, которая станет ключевой для людей.",
+    summaryRu: "Появляются ранние представители рода Homo и более системное использование каменных орудий; отдельные фрагментарные находки вроде LD 350-1 сдвигают край рода к ~2,8 млн лет.",
+    whyMattersRu: "Рост мозга, точный хват и гибкое питание усиливают культурную линию, которая станет ключевой для людей, но ранний Homo остается мозаичной и обсуждаемой областью.",
     inherited: ["каменные орудия", "рост мозга", "точный хват"],
     image: plate("early-homo", "Лицевая реконструкция раннего Homo habilis", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Homo habilis", "Homo_habilis"), wiki("Homo rudolfensis", "Homo_rudolfensis")],
+    sources: [
+      wiki("Homo habilis", "Homo_habilis"),
+      wiki("Homo rudolfensis", "Homo_rudolfensis"),
+      source("Science: LD 350-1 early Homo mandible", "https://www.science.org/doi/10.1126/science.aaa1343"),
+    ],
   },
   {
     id: "erectus",
@@ -638,6 +649,31 @@ export const STAGES: EvolutionStage[] = [
     inherited: ["близкое родство", "генетическое наследие", "культурное поведение"],
     image: plate("neanderthals", "Музейная лицевая реконструкция Homo neanderthalensis"),
     sources: [wiki("Neanderthal", "Neanderthal"), wiki("Human evolution", "Human_evolution")],
+  },
+  {
+    id: "denisovans",
+    slug: "denisovans",
+    titleRu: "Денисовцы",
+    latin: "Denisovans",
+    ageMa: 0.3,
+    eraId: "primates",
+    lineageRole: "side-branch",
+    isPrimateFocus: true,
+    summaryRu: "Близкая человеческая линия, известная прежде всего по ДНК из фрагментарных находок в Азии.",
+    whyMattersRu: "Денисовцы, как и неандертальцы, смешивались с предками части современных людей и оставили генетическое наследие.",
+    inherited: ["близкое родство", "древняя интрогрессия", "адаптации в Азии и Океании"],
+    image: {
+      src: "/assets/images/source-backed/denisovan-reconstruction.webp",
+      altRu: "Портретная реконструкция денисовца",
+      kind: "source-backed",
+      credit: "Пользовательская ссылка / kp.ru CDN",
+      license: "см. исходный источник",
+      sourceUrl: "https://www.nature.com/articles/s41586-019-1139-x",
+    },
+    sources: [
+      source("Nature: Denisovan history", "https://www.nature.com/articles/s41586-019-1139-x"),
+      wiki("Denisovan", "Denisovan"),
+    ],
   },
   {
     id: "sapiens",

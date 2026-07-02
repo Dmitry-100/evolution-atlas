@@ -35,7 +35,7 @@ import {
 import { OptimizedImage } from "./components/ui/optimized-image";
 import { ScrollProgress } from "./components/ui/scroll-progress";
 import { TooltipProvider } from "./components/ui/tooltip";
-import { DarwinGuide } from "./components/ai/DarwinGuide";
+import { RouteErrorBoundary } from "./components/ui/route-error-boundary";
 import { TourPlayer } from "./components/tour/TourPlayer";
 import {
   DARWIN_TOUR_MENU_EVENT,
@@ -91,6 +91,14 @@ const pageLoaders = {
     import("./pages/PrimatesPage").then(({ PrimatesPage }) => ({
       default: PrimatesPage,
     })),
+  notFound: () =>
+    import("./pages/NotFoundPage").then(({ NotFoundPage }) => ({
+      default: NotFoundPage,
+    })),
+  darwinGuide: () =>
+    import("./components/ai/DarwinGuide").then(({ DarwinGuide }) => ({
+      default: DarwinGuide,
+    })),
 };
 
 const AboutPage = lazy(pageLoaders.about);
@@ -105,6 +113,8 @@ const CladogramPage = lazy(pageLoaders.cladogram);
 const BodyMapPage = lazy(pageLoaders.bodyMap);
 const GeneticsPage = lazy(pageLoaders.genetics);
 const PrimatesPage = lazy(pageLoaders.primates);
+const NotFoundPage = lazy(pageLoaders.notFound);
+const DarwinGuide = lazy(pageLoaders.darwinGuide);
 
 const routePreloaders: Record<string, () => Promise<unknown>> = {
   "/primates": pageLoaders.primates,
@@ -297,6 +307,49 @@ function AppHeader() {
   );
 }
 
+function AppRoutes() {
+  const location = useLocation();
+
+  return (
+    <main id="main-content">
+      <RouteErrorBoundary resetKey={location.pathname}>
+        <Suspense
+          fallback={
+            <section className="route-loading" aria-live="polite">
+              Загружаем раздел...
+            </section>
+          }
+        >
+          <Routes>
+            <Route path="/" element={<AtlasPage />} />
+            <Route path="/primates" element={<PrimatesPage />} />
+            <Route path="/theory" element={<TheoryPage />} />
+            <Route path="/origin-of-life" element={<OriginOfLifePage />} />
+            <Route path="/genetics" element={<GeneticsPage />} />
+            <Route path="/cladogram" element={<CladogramPage />} />
+            <Route path="/body-map" element={<BodyMapPage />} />
+            <Route path="/extinctions" element={<ExtinctionsPage />} />
+            <Route path="/dinosaurs" element={<DinosaursPage />} />
+            <Route path="/materials" element={<MaterialsPage />} />
+            <Route
+              path="/materials/:fileName"
+              element={<LegacyMaterialRedirect />}
+            />
+            <Route
+              path="/materials/covers/:fileName"
+              element={<LegacyMaterialRedirect cover />}
+            />
+            <Route path="/sources" element={<SourcesPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/quiz" element={<QuizPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </RouteErrorBoundary>
+    </main>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -304,42 +357,17 @@ function App() {
         <EtherealInk className="app-ethereal-background" />
         <ScrollProgress />
         <div className="app-shell">
+          <a className="skip-to-content" href="#main-content">
+            Перейти к содержимому
+          </a>
           <AppHeader />
-          <main>
-            <Suspense
-              fallback={
-                <section className="route-loading" aria-live="polite">
-                  Загружаем раздел...
-                </section>
-              }
-            >
-              <Routes>
-                <Route path="/" element={<AtlasPage />} />
-                <Route path="/primates" element={<PrimatesPage />} />
-                <Route path="/theory" element={<TheoryPage />} />
-                <Route path="/origin-of-life" element={<OriginOfLifePage />} />
-                <Route path="/genetics" element={<GeneticsPage />} />
-                <Route path="/cladogram" element={<CladogramPage />} />
-                <Route path="/body-map" element={<BodyMapPage />} />
-                <Route path="/extinctions" element={<ExtinctionsPage />} />
-                <Route path="/dinosaurs" element={<DinosaursPage />} />
-                <Route path="/materials" element={<MaterialsPage />} />
-                <Route
-                  path="/materials/:fileName"
-                  element={<LegacyMaterialRedirect />}
-                />
-                <Route
-                  path="/materials/covers/:fileName"
-                  element={<LegacyMaterialRedirect cover />}
-                />
-                <Route path="/sources" element={<SourcesPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/quiz" element={<QuizPage />} />
-              </Routes>
-            </Suspense>
-          </main>
+          <AppRoutes />
           <TourPlayer />
-          <DarwinGuide />
+          <Suspense fallback={null}>
+            <RouteErrorBoundary resetKey="darwin-guide">
+              <DarwinGuide />
+            </RouteErrorBoundary>
+          </Suspense>
         </div>
       </TooltipProvider>
     </BrowserRouter>

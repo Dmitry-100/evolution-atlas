@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@layer base, components, pages;
+
 :root {
   color-scheme: dark;
   --bg: #080b0b;
@@ -7,18 +9,55 @@
   --panel-strong: rgba(23, 27, 25, 0.96);
   --line: rgba(218, 185, 126, 0.22);
   --line-strong: rgba(235, 198, 124, 0.52);
+  --line-soft: rgba(218, 185, 126, 0.16);
+  --line-medium: rgba(218, 185, 126, 0.15);
+  --line-muted: rgba(218, 185, 126, 0.14);
+  --line-faint: rgba(218, 185, 126, 0.13);
+  --line-hair: rgba(218, 185, 126, 0.12);
+  --line-visible: rgba(218, 185, 126, 0.18);
   --text: #ebe4d4;
   --muted: #a79f92;
-  --faint: #6f786f;
+  --faint: #879284;
   --gold: #d9ad61;
   --amber: #f0c978;
   --moss: #9eb36e;
   --teal: #82b7b3;
+  --cyan: var(--teal);
+  --surface-tint: rgba(255, 255, 255, 0.035);
+  --surface-tint-strong: rgba(255, 255, 255, 0.04);
+  --ink-wash: rgba(8, 11, 11, 0.42);
+  --amber-glow: rgba(240, 201, 120, 0.12);
+  --amber-wash: rgba(240, 201, 120, 0.08);
+  --amber-soft: rgba(240, 201, 120, 0.18);
+  --amber-line: rgba(240, 201, 120, 0.16);
+  --amber-faint: rgba(240, 201, 120, 0.1);
+  --teal-glow: rgba(130, 183, 179, 0.12);
+  --teal-wash: rgba(130, 183, 179, 0.1);
+  --teal-faint: rgba(130, 183, 179, 0.08);
+  --text-soft: var(--muted);
+  --node-y: 0px;
+  --active-era-color: var(--gold);
+  --active-item-color: var(--gold);
+  --era-count: 7;
+  --extinction-color: var(--gold);
+  --marker-y: 24px;
+  --mobile-era-color: var(--gold);
+  --node-delay: 0ms;
+  --node-left: 50%;
+  --node-size: 1rem;
+  --node-top: 50%;
+  --path-index: 0;
+  --site-x: 50%;
+  --site-y: 50%;
+  --trait-x: 50%;
+  --trait-y: 50%;
+  --transition: 180ms ease;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
   --radius: 8px;
   --font-body:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-sans: var(--font-body);
   --font-display: Georgia, "Times New Roman", serif;
   --display-title-size: clamp(1.75rem, 3.7vw, 3.6rem);
   --display-title-line: 1;
@@ -31,6 +70,12 @@
   -moz-osx-font-smoothing: grayscale;
   background: var(--bg);
   color: var(--text);
+}
+
+@property --node-y {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
 }
 
 * {
@@ -93,6 +138,27 @@ button {
 
 a {
   color: inherit;
+}
+
+.skip-to-content {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1000;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--panel-strong);
+  color: var(--text);
+  padding: 0.65rem 0.9rem;
+  text-decoration: none;
+  transform: translateY(-140%);
+  transition: transform var(--transition);
+}
+
+.skip-to-content:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid rgba(240, 201, 120, 0.7);
+  outline-offset: 2px;
 }
 
 img {
@@ -191,7 +257,7 @@ code {
     ),
     radial-gradient(
       circle at 76% 28%,
-      rgba(240, 201, 120, 0.18),
+      var(--amber-soft),
       transparent 24rem
     ),
     repeating-linear-gradient(
@@ -297,7 +363,7 @@ code {
   border-radius: 50%;
   background: rgba(240, 201, 120, 0.88);
   box-shadow:
-    0 0 0 4px rgba(240, 201, 120, 0.08),
+    0 0 0 4px var(--amber-wash),
     0 0 18px rgba(240, 201, 120, 0.36);
   animation: constellation-pulse 3.6s ease-in-out infinite;
   animation-delay: var(--node-delay);
@@ -392,7 +458,7 @@ code {
 }
 
 .brand strong {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.28rem;
   font-weight: 700;
   line-height: 1.1;
@@ -413,10 +479,10 @@ code {
   min-width: 0;
   gap: 0.4rem;
   border: 1px solid var(--line);
-  border-radius: 26px;
+  border-radius: var(--radius);
   padding: 0.38rem;
   background: rgba(255, 255, 255, 0.03);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 1px 0 var(--surface-tint-strong);
 }
 
 .topbar-nav-row {
@@ -452,8 +518,8 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
-  border-radius: 20px;
+  gap: 0.42rem;
+  border-radius: var(--radius);
   border: 1px solid transparent;
   color: var(--muted);
   font-size: 0.96rem;
@@ -461,14 +527,15 @@ code {
   line-height: 1.12;
   min-height: 42px;
   min-width: 0;
+  padding: 0.58rem 0.72rem;
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
   transition:
-    border-color 180ms ease,
-    background 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
+    border-color var(--transition),
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition);
 }
 
 .expandable-tab svg {
@@ -490,7 +557,10 @@ code {
 }
 
 .expandable-tab-label {
+  display: inline-block;
+  max-width: 11rem;
   overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -630,7 +700,7 @@ code {
 .hero-subtitle {
   margin: -0.35rem 0 0.9rem !important;
   color: var(--amber) !important;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.38rem !important;
   font-style: italic;
 }
@@ -643,6 +713,12 @@ code {
   align-items: center;
   justify-content: flex-start;
   gap: 0.75rem;
+}
+
+.atlas-first-run-hint {
+  margin-top: 0.65rem !important;
+  color: var(--text-soft) !important;
+  font-size: 0.92rem !important;
 }
 
 .journey-controls {
@@ -732,7 +808,7 @@ code {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 0.3rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-tint-strong);
 }
 
 .tabs-trigger {
@@ -866,7 +942,7 @@ code {
 
 .glossary-tooltip em {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 0.88rem;
   line-height: 1.25;
 }
@@ -912,12 +988,12 @@ code {
   padding: 1rem;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
 }
 
 .mobile-atlas-hero h1 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.8rem;
   line-height: 1.08;
 }
@@ -960,7 +1036,7 @@ code {
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--amber);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-tint-strong);
   cursor: pointer;
 }
 
@@ -1125,7 +1201,7 @@ code {
   outline-offset: 3px;
 }
 
-@media (min-width: 721px) {
+@media (min-width: 768px) {
   .atlas-mobile-shell,
   .mobile-atlas {
     display: none;
@@ -1240,7 +1316,7 @@ code {
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.035),
+      var(--surface-tint),
       rgba(255, 255, 255, 0.012)
     ),
     rgba(8, 11, 11, 0.2);
@@ -1320,7 +1396,7 @@ code {
 .era-route-order {
   display: block;
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -1333,7 +1409,7 @@ code {
 
 .era-route-item strong {
   margin-top: 0.18rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 0.82rem;
   line-height: 1.08;
   overflow-wrap: normal;
@@ -1482,7 +1558,7 @@ code {
 
 .deep-time-stat strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.28rem;
   line-height: 1.1;
 }
@@ -1491,7 +1567,7 @@ code {
   position: relative;
   height: clamp(360px, 31vw, 560px);
   margin-top: 1rem;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
   overflow: hidden;
   background:
@@ -1512,7 +1588,7 @@ code {
     ),
     radial-gradient(
       circle at 84% 62%,
-      rgba(240, 201, 120, 0.18),
+      var(--amber-soft),
       transparent 14rem
     ),
     repeating-linear-gradient(
@@ -1682,7 +1758,7 @@ code {
 
 .deep-time-region-label strong {
   font-family: var(--font-sans);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 850;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1691,7 +1767,7 @@ code {
 
 .deep-time-region-label small {
   color: rgba(228, 219, 199, 0.68);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   line-height: 1.15;
   white-space: nowrap;
 }
@@ -1716,7 +1792,7 @@ code {
   border: 0;
   background: transparent;
   color: rgba(245, 225, 186, 0.86);
-  font-size: 0.54rem;
+  font-size: 0.72rem;
   font-weight: 800;
   font: inherit;
   letter-spacing: 0.1em;
@@ -1807,7 +1883,7 @@ code {
   position: relative;
   z-index: 1;
   color: var(--faint);
-  font-size: 0.52rem;
+  font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: none;
   transform: translateX(var(--marker-label-offset));
@@ -1823,7 +1899,7 @@ code {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-bottom: 1px solid rgba(218, 185, 126, 0.18);
+  border-bottom: 1px solid var(--line-visible);
 }
 
 .extinction-tooltip span,
@@ -1845,7 +1921,7 @@ code {
 
 .extinction-tooltip strong {
   margin-top: 0.18rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.18rem;
 }
 
@@ -1942,7 +2018,7 @@ code {
 }
 
 .deep-active-card.late-region span {
-  font-size: 0.64rem;
+  font-size: 0.72rem;
 }
 
 .deep-active-card.late-region strong {
@@ -1964,7 +2040,7 @@ code {
 
 .deep-active-card strong {
   margin-top: 0.2rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.1rem;
   line-height: 1.12;
 }
@@ -1979,7 +2055,7 @@ code {
 .deep-stage-dot {
   position: absolute;
   bottom: 4.7rem;
-  width: 36px;
+  width: 44px;
   height: 78px;
   transform: translateX(-50%);
   border: 0;
@@ -2020,7 +2096,7 @@ code {
 .deep-stage-dot:focus-visible span {
   box-shadow:
     0 0 0 3px rgba(240, 201, 120, 0.42),
-    0 0 0 10px rgba(240, 201, 120, 0.12);
+    0 0 0 10px var(--amber-glow);
 }
 
 .deep-stage-dot.is-active:focus-visible span {
@@ -2049,7 +2125,7 @@ code {
   margin-top: 0.8rem;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--period-color) 44%, var(--line));
-  border-radius: 10px;
+  border-radius: var(--radius);
   background:
     radial-gradient(
       circle at 0% 50%,
@@ -2058,7 +2134,7 @@ code {
     ),
     linear-gradient(
       90deg,
-      color-mix(in srgb, var(--period-color) 12%, rgba(255, 255, 255, 0.035)),
+      color-mix(in srgb, var(--period-color) 12%, var(--surface-tint)),
       rgba(255, 255, 255, 0.032) 48%,
       rgba(255, 255, 255, 0.02)
     ),
@@ -2093,7 +2169,7 @@ code {
 .geologic-period-card h2 {
   margin: 0;
   color: color-mix(in srgb, var(--period-color) 42%, var(--text));
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.06rem, 1.18vw, 1.28rem);
   line-height: 1.02;
 }
@@ -2113,7 +2189,7 @@ code {
 .geologic-period-main .kicker {
   margin: 0;
   color: var(--faint);
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   letter-spacing: 0.03em;
   line-height: 1.1;
   overflow: hidden;
@@ -2128,7 +2204,7 @@ code {
   border-radius: 999px;
   background: color-mix(in srgb, var(--period-color) 12%, transparent);
   color: color-mix(in srgb, var(--period-color) 82%, var(--gold));
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 850;
   line-height: 1.2;
   padding: 0.16rem 0.4rem;
@@ -2171,7 +2247,7 @@ code {
   display: block;
   margin-top: 0.2rem;
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -2189,9 +2265,9 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.22);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(130, 183, 179, 0.08), rgba(240, 201, 120, 0.06)),
+    linear-gradient(135deg, var(--teal-faint), rgba(240, 201, 120, 0.06)),
     rgba(8, 12, 11, 0.76);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  box-shadow: inset 0 1px 0 var(--surface-tint);
 }
 
 .primate-branch-panel-heading {
@@ -2209,7 +2285,7 @@ code {
   margin: 0;
   max-width: 740px;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.45rem, 2.3vw, 2rem);
   line-height: 1.08;
 }
@@ -2234,9 +2310,9 @@ code {
   display: grid;
   min-height: 8rem;
   padding: 0.8rem;
-  border: 1px solid rgba(218, 185, 126, 0.18);
+  border: 1px solid var(--line-visible);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
   color: var(--text);
   cursor: pointer;
   gap: 0.4rem;
@@ -2251,22 +2327,22 @@ code {
 .primate-branch-milestone:hover,
 .primate-branch-milestone:focus-visible {
   border-color: rgba(240, 201, 120, 0.55);
-  background: rgba(240, 201, 120, 0.08);
-  box-shadow: 0 0 0 3px rgba(240, 201, 120, 0.08);
+  background: var(--amber-wash);
+  box-shadow: 0 0 0 3px var(--amber-wash);
   transform: translateY(-1px);
 }
 
 .primate-branch-milestone.is-active {
   border-color: rgba(240, 201, 120, 0.72);
   background:
-    linear-gradient(135deg, rgba(240, 201, 120, 0.15), rgba(130, 183, 179, 0.08)),
-    rgba(255, 255, 255, 0.04);
-  box-shadow: inset 0 0 0 1px rgba(240, 201, 120, 0.18);
+    linear-gradient(135deg, rgba(240, 201, 120, 0.15), var(--teal-faint)),
+    var(--surface-tint-strong);
+  box-shadow: inset 0 0 0 1px var(--amber-soft);
 }
 
 .primate-branch-milestone span {
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -2371,7 +2447,7 @@ code {
     ),
     rgba(8, 11, 11, 0.28);
   color: rgba(235, 228, 212, 0.82);
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.16em;
   line-height: 1.15;
@@ -2416,7 +2492,7 @@ code {
   position: relative;
   height: 405px;
   margin-top: 1.2rem;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
   overflow: hidden;
   background:
@@ -2443,7 +2519,7 @@ code {
     linear-gradient(
       90deg,
       rgba(88, 128, 166, 0.16),
-      rgba(130, 183, 179, 0.12),
+      var(--teal-glow),
       rgba(158, 179, 110, 0.18),
       rgba(217, 173, 97, 0.24)
     ),
@@ -2505,7 +2581,7 @@ code {
 
 .active-bubble strong {
   margin-top: 0.2rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.15rem;
   line-height: 1.12;
 }
@@ -2518,7 +2594,7 @@ code {
 .stage-dot {
   position: absolute;
   bottom: 3.25rem;
-  width: 28px;
+  width: 44px;
   height: 70px;
   transform: translateX(-50%);
   border: 0;
@@ -2583,7 +2659,7 @@ code {
   border: 4px solid rgba(255, 255, 255, 0.86);
   border-radius: 50%;
   background: var(--amber);
-  box-shadow: 0 0 0 4px rgba(240, 201, 120, 0.16);
+  box-shadow: 0 0 0 4px var(--amber-line);
 }
 
 .specimen-strip {
@@ -2600,7 +2676,7 @@ code {
   min-height: 40px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-tint-strong);
   color: var(--muted);
   cursor: pointer;
   overflow: hidden;
@@ -2642,7 +2718,7 @@ code {
       rgba(130, 183, 179, 0.28),
       transparent 13rem
     ),
-    linear-gradient(135deg, rgba(130, 183, 179, 0.1), rgba(240, 201, 120, 0.06));
+    linear-gradient(135deg, var(--teal-wash), rgba(240, 201, 120, 0.06));
   position: relative;
   aspect-ratio: 1.22;
   overflow: hidden;
@@ -2651,7 +2727,7 @@ code {
     var(--stage-placeholder),
     radial-gradient(
       circle at 82% 18%,
-      rgba(240, 201, 120, 0.18),
+      var(--amber-soft),
       transparent 12rem
     ),
     #080b0b;
@@ -2665,7 +2741,7 @@ code {
     linear-gradient(
       110deg,
       transparent 0 34%,
-      rgba(240, 201, 120, 0.12) 48%,
+      var(--amber-glow) 48%,
       transparent 62% 100%
     ),
     radial-gradient(
@@ -2738,21 +2814,21 @@ code {
 
 .stage-plate-backdrop::before {
   inset: 9% 8% 14%;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: 50%;
   background:
     radial-gradient(
       circle at 50% 50%,
       transparent 0 30%,
-      rgba(130, 183, 179, 0.08) 31% 32%,
+      var(--teal-faint) 31% 32%,
       transparent 33% 100%
     ),
     conic-gradient(
       from 18deg,
       transparent 0 19%,
-      rgba(240, 201, 120, 0.1) 20% 21%,
+      var(--amber-faint) 20% 21%,
       transparent 22% 52%,
-      rgba(130, 183, 179, 0.12) 53% 54%,
+      var(--teal-glow) 53% 54%,
       transparent 55% 100%
     );
   filter: blur(0.2px);
@@ -2883,7 +2959,7 @@ code {
 
 .stage-copy h2 {
   margin: 0.35rem 0 0.1rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 2.8rem;
   line-height: 1.02;
   letter-spacing: 0;
@@ -2892,7 +2968,7 @@ code {
 .latin {
   margin: 0 0 1.2rem;
   color: #d9ccad;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.22rem;
   font-style: italic;
 }
@@ -3031,7 +3107,7 @@ code {
 .glossary-term {
   border: 1px solid rgba(240, 201, 120, 0.24);
   border-radius: 999px;
-  background: rgba(240, 201, 120, 0.08);
+  background: var(--amber-wash);
   color: var(--gold);
   cursor: help;
   padding: 0.18rem 0.48rem;
@@ -3088,7 +3164,7 @@ code {
 .wow-facts-band strong {
   margin-top: 0.22rem;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.85rem;
   line-height: 1;
 }
@@ -3182,7 +3258,7 @@ code {
   background:
     radial-gradient(
       circle at 6% 50%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 16rem
     ),
     var(--panel);
@@ -3196,9 +3272,9 @@ code {
 }
 
 .theory-principle {
-  border: 1px solid rgba(218, 185, 126, 0.18);
+  border: 1px solid var(--line-visible);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
   padding: 1.1rem;
 }
 
@@ -3208,7 +3284,7 @@ code {
 
 .theory-principle h2 {
   margin: 0.75rem 0 0.5rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.35rem;
   line-height: 1.1;
   letter-spacing: 0;
@@ -3245,7 +3321,7 @@ code {
   position: relative;
   min-height: 430px;
   margin: 0;
-  border-right: 1px solid rgba(218, 185, 126, 0.18);
+  border-right: 1px solid var(--line-visible);
   background: #050706;
   overflow: hidden;
 }
@@ -3296,7 +3372,7 @@ code {
 .darwin-copy h2 {
   max-width: 12em;
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.9rem, 3.4vw, 3.2rem);
   line-height: 0.98;
   letter-spacing: 0;
@@ -3321,7 +3397,7 @@ code {
   gap: 0.55rem;
   min-height: 9rem;
   padding: 0.9rem;
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: calc(var(--radius) * 0.65);
   background: rgba(0, 0, 0, 0.24);
   color: var(--muted);
@@ -3345,20 +3421,20 @@ code {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
-    linear-gradient(135deg, rgba(130, 183, 179, 0.08), transparent 42%),
+    linear-gradient(135deg, var(--teal-faint), transparent 42%),
     rgba(18, 22, 20, 0.88);
   box-shadow: var(--shadow);
   padding: 1rem;
 }
 
 .evidence-intro {
-  border-right: 1px solid rgba(218, 185, 126, 0.18);
+  border-right: 1px solid var(--line-visible);
   padding: 0.5rem 1rem 0.5rem 0.35rem;
 }
 
 .evidence-intro h2 {
   margin: 0.45rem 0 1rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 2.45rem;
   line-height: 1.02;
   letter-spacing: 0;
@@ -3378,9 +3454,9 @@ code {
 
 .evidence-card {
   min-height: 225px;
-  border: 1px solid rgba(218, 185, 126, 0.18);
+  border: 1px solid var(--line-visible);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
   padding: 1rem;
 }
 
@@ -3390,7 +3466,7 @@ code {
 
 .evidence-card h3 {
   margin: 0.7rem 0 0.45rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.25rem;
   letter-spacing: 0;
 }
@@ -3446,7 +3522,7 @@ code {
   background:
     radial-gradient(
       circle at 15% 12%,
-      rgba(130, 183, 179, 0.12),
+      var(--teal-glow),
       transparent 24rem
     ),
     radial-gradient(
@@ -3481,12 +3557,12 @@ code {
   background:
     radial-gradient(
       ellipse at 50% 54%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 58%
     ),
     repeating-linear-gradient(
       166deg,
-      rgba(130, 183, 179, 0.08) 0 1px,
+      var(--teal-faint) 0 1px,
       transparent 1px 34px
     );
   content: "";
@@ -3549,7 +3625,7 @@ code {
 .origin-hypothesis-card h2,
 .origin-note h2 {
   margin: 0.25rem 0 0.4rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.65rem;
   letter-spacing: 0;
 }
@@ -3681,17 +3757,17 @@ code {
 
 .material-card-kicker span,
 .material-tags span {
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: 999px;
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
   padding: 0.24rem 0.5rem;
   font-size: 0.78rem;
 }
 
 .material-card h2 {
   margin: 0.85rem 0 0.15rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 2rem;
   line-height: 1.08;
   letter-spacing: 0;
@@ -3747,7 +3823,7 @@ code {
 
 .materials-section-heading h2 {
   margin: 0.25rem 0 0.45rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.8rem, 3vw, 2.45rem);
   letter-spacing: 0;
 }
@@ -3783,12 +3859,12 @@ code {
 .museum-card,
 .watch-card,
 .extinction-material-link {
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
   background:
     radial-gradient(
       circle at 8% 0%,
-      rgba(130, 183, 179, 0.12),
+      var(--teal-glow),
       transparent 12rem
     ),
     rgba(8, 11, 11, 0.48);
@@ -3824,9 +3900,9 @@ code {
   width: 100%;
   aspect-ratio: 2 / 3;
   align-self: start;
-  border: 1px solid rgba(240, 201, 120, 0.18);
+  border: 1px solid var(--amber-soft);
   border-radius: calc(var(--radius) - 0.25rem);
-  background: rgba(240, 201, 120, 0.08);
+  background: var(--amber-wash);
   box-shadow: 0 1rem 2.6rem rgba(0, 0, 0, 0.28);
   object-fit: cover;
 }
@@ -3837,8 +3913,8 @@ code {
   justify-content: space-between;
   padding: 0.85rem;
   background:
-    linear-gradient(160deg, rgba(240, 201, 120, 0.18), rgba(8, 11, 11, 0.92)),
-    rgba(240, 201, 120, 0.08);
+    linear-gradient(160deg, var(--amber-soft), rgba(8, 11, 11, 0.92)),
+    var(--amber-wash);
   color: var(--text);
 }
 
@@ -3851,7 +3927,7 @@ code {
 
 .reading-card-cover-placeholder strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.05rem;
   letter-spacing: 0;
   line-height: 1.12;
@@ -3869,8 +3945,8 @@ code {
   display: block;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-bottom: 1px solid rgba(218, 185, 126, 0.14);
-  background: rgba(240, 201, 120, 0.08);
+  border-bottom: 1px solid var(--line-muted);
+  background: var(--amber-wash);
 }
 
 .watch-card-media img {
@@ -3923,7 +3999,7 @@ code {
 .museum-card > span,
 .watch-card-copy > span {
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -3933,7 +4009,7 @@ code {
 .museum-card h3,
 .watch-card h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.42rem;
   letter-spacing: 0;
   line-height: 1.12;
@@ -4154,6 +4230,13 @@ code {
   padding: 1rem;
 }
 
+.extinction-material-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
 .extinction-material-link svg {
   color: var(--gold);
 }
@@ -4215,8 +4298,8 @@ code {
   border-radius: 50%;
   background: var(--extinction-color);
   box-shadow:
-    0 0 0 3px rgba(240, 201, 120, 0.16),
-    0 0 28px rgba(240, 201, 120, 0.18);
+    0 0 0 3px var(--amber-line),
+    0 0 28px var(--amber-soft);
 }
 
 .extinction-visual {
@@ -4299,7 +4382,7 @@ code {
 }
 
 .extinction-stat-grid > div {
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: var(--radius);
   background:
     radial-gradient(
@@ -4307,7 +4390,7 @@ code {
       color-mix(in srgb, var(--extinction-color) 18%, transparent),
       transparent 8rem
     ),
-    rgba(255, 255, 255, 0.035);
+    var(--surface-tint);
   padding: 0.85rem;
 }
 
@@ -4336,16 +4419,16 @@ code {
 .extinction-stat-grid strong {
   margin-top: 0.22rem;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.25rem;
   line-height: 1.18;
 }
 
 .extinction-causes {
   margin: 1rem 0;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
   padding: 0.9rem 1rem;
 }
 
@@ -4369,7 +4452,7 @@ code {
 }
 
 .extinction-causes li {
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: 999px;
   background: rgba(8, 11, 11, 0.45);
   color: var(--text);
@@ -4379,7 +4462,7 @@ code {
 
 .extinction-facts {
   margin: 1rem 0;
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.32);
   padding: 0.95rem 1rem;
@@ -4479,7 +4562,7 @@ code {
   background:
     radial-gradient(
       circle at 76% 0%,
-      rgba(240, 201, 120, 0.18),
+      var(--amber-soft),
       transparent 9rem
     ),
     rgba(18, 22, 19, 0.88);
@@ -4492,7 +4575,7 @@ code {
 
 .dinosaurs-answer-card strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.65rem;
   line-height: 1.16;
 }
@@ -4506,11 +4589,11 @@ code {
   gap: 0.75rem;
   align-items: center;
   margin-top: 1rem;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.08), transparent 54%),
-    rgba(8, 11, 11, 0.42);
+    linear-gradient(90deg, var(--teal-faint), transparent 54%),
+    var(--ink-wash);
   padding: 0.85rem 1rem;
 }
 
@@ -4558,7 +4641,7 @@ code {
 .dinosaur-facts-band span {
   margin-top: 0.7rem;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -4567,7 +4650,7 @@ code {
 .dinosaur-facts-band strong {
   margin-top: 0.25rem;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.18rem, 1.6vw, 1.55rem);
   line-height: 1.05;
 }
@@ -4614,7 +4697,7 @@ code {
 .dinosaur-common-ancestor h2 {
   margin: 0.15rem 0 0.55rem;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.35rem, 2.1vw, 2.1rem);
   line-height: 1.08;
 }
@@ -4629,12 +4712,12 @@ code {
 .dinosaur-common-ancestor__media {
   overflow: hidden;
   margin: 0;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: calc(var(--radius) - 3px);
   background:
     radial-gradient(
       circle at 48% 20%,
-      rgba(240, 201, 120, 0.16),
+      var(--amber-line),
       transparent 8rem
     ),
     rgba(8, 11, 11, 0.58);
@@ -4658,7 +4741,7 @@ code {
 .dinosaur-common-ancestor__split article {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: calc(var(--radius) - 4px);
   background:
     linear-gradient(90deg, rgba(208, 163, 91, 0.14), transparent 66%),
@@ -4684,7 +4767,7 @@ code {
 
 .dinosaur-common-ancestor__split span {
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -4736,7 +4819,7 @@ code {
     linear-gradient(90deg, rgba(208, 163, 91, 0.11), transparent 46%),
     radial-gradient(
       circle at 12% 0%,
-      rgba(240, 201, 120, 0.16),
+      var(--amber-line),
       transparent 13rem
     ),
     radial-gradient(
@@ -4769,7 +4852,7 @@ code {
 }
 
 .dinosaur-route .era-route-item small {
-  font-size: 0.66rem;
+  font-size: 0.72rem;
 }
 
 .dinosaur-atlas-grid .dinosaur-detail-card {
@@ -4804,7 +4887,7 @@ code {
   position: relative;
   z-index: 1;
   margin: 1.05rem 0;
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.46);
   overflow-x: auto;
@@ -4823,7 +4906,7 @@ code {
   display: flex;
   gap: 0.85rem;
   align-items: center;
-  border-bottom: 1px solid rgba(218, 185, 126, 0.12);
+  border-bottom: 1px solid var(--line-hair);
   background:
     linear-gradient(90deg, rgba(8, 11, 11, 0.9), rgba(8, 11, 11, 0.66)),
     rgba(8, 11, 11, 0.72);
@@ -4885,7 +4968,7 @@ code {
   left: 4%;
   top: 50%;
   height: 108px;
-  border: 1px solid rgba(240, 201, 120, 0.1);
+  border: 1px solid var(--amber-faint);
   border-radius: 999px 38% 999px 42%;
   background:
     repeating-linear-gradient(
@@ -4899,7 +4982,7 @@ code {
       rgba(240, 201, 120, 0.36),
       rgba(145, 169, 106, 0.24)
     );
-  box-shadow: inset 0 0 38px rgba(8, 11, 11, 0.42);
+  box-shadow: inset 0 0 38px var(--ink-wash);
   opacity: 0.78;
   transform: translateY(-50%) rotate(-1.4deg);
 }
@@ -4935,13 +5018,13 @@ code {
   place-items: center;
   min-width: 9rem;
   height: 100%;
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: 999px;
   background:
     linear-gradient(
       90deg,
       rgba(130, 183, 179, 0.13),
-      rgba(240, 201, 120, 0.12)
+      var(--amber-glow)
     ),
     rgba(8, 11, 11, 0.62);
   color: var(--gold);
@@ -4975,7 +5058,7 @@ code {
   gap: 0.25rem;
   max-width: 240px;
   border: 1px solid rgba(240, 201, 120, 0.32);
-  border-radius: 14px;
+  border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.76);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
   padding: 0.7rem 0.82rem;
@@ -5000,7 +5083,7 @@ code {
 
 .dinosaur-axis-callout strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.1rem;
   line-height: 1.08;
 }
@@ -5018,12 +5101,12 @@ code {
   gap: 0.3rem;
   justify-items: center;
   width: 116px;
-  border: 1px solid rgba(218, 185, 126, 0.16);
-  border-radius: 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(240, 201, 120, 0.16),
+      var(--amber-line),
       transparent 5.5rem
     ),
     rgba(8, 11, 11, 0.66);
@@ -5054,7 +5137,7 @@ code {
 .dinosaur-axis-index {
   justify-self: start;
   color: var(--gold);
-  font-size: 0.64rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.13em;
 }
@@ -5097,7 +5180,7 @@ code {
   display: block;
   margin-top: 0.2rem;
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -5187,7 +5270,7 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.11);
   border-radius: 999px;
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.1), rgba(240, 201, 120, 0.09)),
+    linear-gradient(90deg, var(--teal-wash), rgba(240, 201, 120, 0.09)),
     rgba(8, 11, 11, 0.28);
   color: rgba(235, 228, 212, 0.82);
   font-size: 0.72rem;
@@ -5220,7 +5303,7 @@ code {
     ),
     radial-gradient(
       circle at 88% 8%,
-      rgba(240, 201, 120, 0.1),
+      var(--amber-faint),
       transparent 20rem
     ),
     rgba(10, 13, 12, 0.88);
@@ -5292,7 +5375,7 @@ code {
 
 .tree-of-life-poster figcaption strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.28rem, 2vw, 1.72rem);
   line-height: 1.08;
   letter-spacing: 0;
@@ -5313,12 +5396,12 @@ code {
   background:
     radial-gradient(
       circle at 80% 0%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 15rem
     ),
     radial-gradient(
       circle at 0% 20%,
-      rgba(130, 183, 179, 0.1),
+      var(--teal-wash),
       transparent 13rem
     ),
     rgba(10, 14, 13, 0.93);
@@ -5334,7 +5417,7 @@ code {
     linear-gradient(
       135deg,
       rgba(130, 183, 179, 0.18),
-      rgba(240, 201, 120, 0.08)
+      var(--amber-wash)
     ),
     rgba(11, 14, 13, 0.9);
 }
@@ -5362,6 +5445,16 @@ code {
   object-position: center;
 }
 
+.cladogram-inspector-media picture {
+  display: block;
+  width: 100%;
+  min-height: inherit;
+}
+
+.cladogram-inspector-image-zoom > picture {
+  height: 100%;
+}
+
 .cladogram-inspector-media figcaption {
   position: absolute;
   left: 0.75rem;
@@ -5371,7 +5464,7 @@ code {
   background: rgba(6, 8, 8, 0.78);
   color: var(--gold);
   padding: 0.34rem 0.58rem;
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -5392,7 +5485,7 @@ code {
 .cladogram-inspector h2 {
   margin: 0;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.7rem, 3vw, 2.45rem);
   line-height: 1.02;
 }
@@ -5400,7 +5493,7 @@ code {
 .cladogram-inspector .latin {
   margin: -0.2rem 0 0;
   color: var(--text-soft);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1rem;
   font-style: italic;
 }
@@ -5442,7 +5535,7 @@ code {
 
 .cladogram-inspector-note,
 .cladogram-inspector-traits {
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.44);
 }
@@ -5456,7 +5549,7 @@ code {
 
 .cladogram-inspector-note span {
   color: var(--gold);
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -5464,7 +5557,7 @@ code {
 
 .cladogram-inspector-note strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.1rem;
 }
 
@@ -5558,7 +5651,7 @@ code {
 .cladogram-inspector-traits li {
   border: 1px solid rgba(218, 185, 126, 0.17);
   border-radius: 999px;
-  background: rgba(240, 201, 120, 0.08);
+  background: var(--amber-wash);
   color: var(--text-soft);
   padding: 0.28rem 0.52rem;
   font-size: 0.74rem;
@@ -5588,7 +5681,7 @@ code {
   border: 1px solid rgba(218, 185, 126, 0.22);
   border-radius: 999px;
   color: var(--gold);
-  background: rgba(8, 11, 11, 0.42);
+  background: var(--ink-wash);
 }
 
 .dinosaur-branch-section {
@@ -5618,7 +5711,7 @@ code {
     linear-gradient(90deg, rgba(208, 163, 91, 0.1), transparent 42%),
     radial-gradient(
       circle at 12% 0%,
-      rgba(240, 201, 120, 0.16),
+      var(--amber-line),
       transparent 13rem
     );
 }
@@ -5684,12 +5777,12 @@ code {
   grid-template-rows: auto auto minmax(2.7rem, 1fr) auto;
   gap: 0.38rem;
   min-height: 136px;
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: var(--radius);
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 4.2rem
     ),
     rgba(8, 11, 11, 0.58);
@@ -5732,13 +5825,13 @@ code {
   border-radius: 50%;
   background: var(--gold);
   box-shadow:
-    0 0 0 2px rgba(240, 201, 120, 0.18),
-    0 0 20px rgba(240, 201, 120, 0.18);
+    0 0 0 2px var(--amber-soft),
+    0 0 20px var(--amber-soft);
 }
 
 .dinosaur-branch-title {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.05rem;
   font-weight: 800;
   line-height: 1.12;
@@ -5759,7 +5852,7 @@ code {
   overflow: hidden;
   border-radius: var(--radius);
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035), transparent 42%),
+    linear-gradient(90deg, var(--surface-tint), transparent 42%),
     rgba(8, 11, 11, 0.62);
 }
 
@@ -5771,7 +5864,7 @@ code {
   background:
     radial-gradient(
       ellipse at 58% 16%,
-      rgba(240, 201, 120, 0.18),
+      var(--amber-soft),
       transparent 14rem
     ),
     linear-gradient(135deg, rgba(21, 48, 42, 0.7), rgba(61, 43, 29, 0.68)),
@@ -5860,7 +5953,7 @@ code {
 
 .latin-name {
   color: var(--gold) !important;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-style: italic;
 }
 
@@ -5872,9 +5965,9 @@ code {
 
 .dinosaur-proof {
   margin-top: 1rem;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
   padding: 0.85rem;
 }
 
@@ -5907,7 +6000,7 @@ code {
 }
 
 .dinosaur-traits span {
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: 999px;
   background: rgba(240, 201, 120, 0.07);
   color: var(--text);
@@ -5940,7 +6033,7 @@ code {
     ),
     radial-gradient(
       circle at 88% 10%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 20rem
     ),
     rgba(10, 13, 12, 0.88);
@@ -5975,12 +6068,12 @@ code {
 .molecule-card {
   overflow: hidden;
   margin: 0;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
   background:
     radial-gradient(
       circle at 72% 16%,
-      rgba(240, 201, 120, 0.1),
+      var(--amber-faint),
       transparent 12rem
     ),
     rgba(8, 11, 11, 0.62);
@@ -5989,7 +6082,7 @@ code {
 
 .origin-hypothesis-media figcaption,
 .genetics-evidence-media figcaption {
-  border-top: 1px solid rgba(218, 185, 126, 0.12);
+  border-top: 1px solid var(--line-hair);
   color: var(--muted);
   font-size: 0.78rem;
   line-height: 1.42;
@@ -6011,7 +6104,7 @@ code {
 
 .origin-section-heading h2 {
   margin: 0.25rem 0 0.45rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.9rem;
   letter-spacing: 0;
 }
@@ -6031,7 +6124,7 @@ code {
 
 .origin-story-card {
   overflow: hidden;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
   background:
     linear-gradient(180deg, rgba(240, 201, 120, 0.07), transparent 46%),
@@ -6053,14 +6146,14 @@ code {
 
 .origin-story-card span {
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
 }
 
 .origin-story-card strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.35rem;
 }
 
@@ -6077,15 +6170,15 @@ code {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0.55rem;
   margin-top: 1rem;
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
   background:
     linear-gradient(
       90deg,
-      rgba(130, 183, 179, 0.08),
-      rgba(240, 201, 120, 0.08)
+      var(--teal-faint),
+      var(--amber-wash)
     ),
-    rgba(8, 11, 11, 0.42);
+    var(--ink-wash);
   padding: 0.9rem;
 }
 
@@ -6110,7 +6203,7 @@ code {
   display: grid;
   min-height: 58px;
   place-items: center;
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: 999px;
   background: rgba(8, 11, 11, 0.72);
   color: var(--text);
@@ -6134,7 +6227,7 @@ code {
   background:
     radial-gradient(
       circle at 12% 0%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 11rem
     ),
     rgba(8, 11, 11, 0.54);
@@ -6149,7 +6242,7 @@ code {
   border: 1px solid rgba(130, 183, 179, 0.16);
   border-radius: 50%;
   background:
-    radial-gradient(circle, rgba(130, 183, 179, 0.12), transparent 62%),
+    radial-gradient(circle, var(--teal-glow), transparent 62%),
     transparent;
   content: "";
   pointer-events: none;
@@ -6197,7 +6290,7 @@ code {
 .origin-card-heading span {
   display: block;
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -6228,7 +6321,7 @@ code {
 
 .origin-hypothesis-card dt {
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -6260,7 +6353,7 @@ code {
 }
 
 .origin-sources a {
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: 999px;
   background: rgba(240, 201, 120, 0.07);
   color: var(--gold);
@@ -6275,10 +6368,10 @@ code {
   justify-content: center;
   border: 1px solid rgba(218, 185, 126, 0.22);
   border-radius: 999px;
-  background: rgba(240, 201, 120, 0.08);
+  background: var(--amber-wash);
   color: var(--gold);
   padding: 0.28rem 0.52rem;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   line-height: 1;
@@ -6288,7 +6381,7 @@ code {
 
 .confidence-badge--solid {
   border-color: rgba(130, 183, 179, 0.34);
-  background: rgba(130, 183, 179, 0.1);
+  background: var(--teal-wash);
   color: var(--cyan);
 }
 
@@ -6302,6 +6395,23 @@ code {
   color: #e59b86;
 }
 
+.stage-confidence {
+  width: fit-content;
+  margin-bottom: 0.35rem;
+}
+
+.document-next-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.25rem;
+}
+
+.not-found-page,
+.route-error-page {
+  min-height: 56vh;
+}
+
 .luca-exhibit,
 .africa-origin,
 .curiosity-facts,
@@ -6309,21 +6419,31 @@ code {
 .science-sources {
   margin-top: 1rem;
   scroll-margin-top: 6rem;
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: var(--radius);
   background:
     radial-gradient(
       circle at 12% 0%,
-      rgba(130, 183, 179, 0.12),
+      var(--teal-glow),
       transparent 18rem
     ),
     radial-gradient(
       circle at 88% 10%,
-      rgba(240, 201, 120, 0.1),
+      var(--amber-faint),
       transparent 18rem
     ),
     rgba(8, 11, 11, 0.52);
   box-shadow: var(--shadow);
+}
+
+.luca-branch-group {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.luca-branch-nested {
+  margin-left: clamp(0.75rem, 2vw, 1.4rem);
+  border-style: dashed;
 }
 
 .luca-exhibit-heading,
@@ -6334,7 +6454,7 @@ code {
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0.78rem;
   align-items: start;
-  border-bottom: 1px solid rgba(218, 185, 126, 0.13);
+  border-bottom: 1px solid var(--line-faint);
   padding: 1.1rem;
 }
 
@@ -6357,7 +6477,7 @@ code {
 .science-source-card-heading a {
   margin: 0.22rem 0 0.42rem;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.8rem;
   letter-spacing: 0;
   line-height: 1.08;
@@ -6407,7 +6527,7 @@ code {
 .curiosity-card,
 .molecular-scar-card,
 .science-source-card {
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.48);
 }
@@ -6424,7 +6544,7 @@ code {
 .luca-branch {
   display: grid;
   gap: 0.25rem;
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.68);
   color: inherit;
@@ -6452,7 +6572,7 @@ code {
 .luca-root strong,
 .luca-branch strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.18rem;
 }
 
@@ -6475,7 +6595,7 @@ code {
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(240, 201, 120, 0.16),
+      var(--amber-line),
       transparent 5rem
     ),
     rgba(34, 30, 20, 0.72);
@@ -6547,7 +6667,7 @@ code {
 }
 
 .luca-inheritance span {
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: 999px;
   background: rgba(240, 201, 120, 0.06);
   color: var(--text);
@@ -6578,7 +6698,7 @@ code {
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgba(218, 185, 126, 0.13);
+  border-top: 1px solid var(--line-faint);
   padding: 0.9rem 1rem 1rem;
 }
 
@@ -6616,7 +6736,7 @@ code {
 
 .world-land {
   fill: rgba(122, 139, 126, 0.34);
-  stroke: rgba(218, 185, 126, 0.12);
+  stroke: var(--line-hair);
   stroke-width: 0.8;
 }
 
@@ -6681,7 +6801,7 @@ code {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.7rem;
-  border-top: 1px solid rgba(218, 185, 126, 0.13);
+  border-top: 1px solid var(--line-faint);
   padding: 1rem;
 }
 
@@ -6690,9 +6810,9 @@ code {
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0.25rem 0.5rem;
   align-items: start;
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
-  background: rgba(8, 11, 11, 0.42);
+  background: var(--ink-wash);
   color: var(--text);
   cursor: pointer;
   padding: 0.78rem;
@@ -6739,7 +6859,7 @@ code {
 
 .molecular-scars .genetics-section-heading {
   margin-top: 0;
-  border-bottom: 1px solid rgba(218, 185, 126, 0.13);
+  border-bottom: 1px solid var(--line-faint);
   padding: 1.1rem;
 }
 
@@ -6764,7 +6884,7 @@ code {
   background:
     radial-gradient(
       circle at 14% 0%,
-      rgba(130, 183, 179, 0.12),
+      var(--teal-glow),
       transparent 9rem
     ),
     rgba(8, 11, 11, 0.48);
@@ -6792,7 +6912,7 @@ code {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 0.18rem 0.55rem;
-  border: 1px solid rgba(218, 185, 126, 0.12);
+  border: 1px solid var(--line-hair);
   border-radius: calc(var(--radius) - 2px);
   background: rgba(8, 11, 11, 0.38);
   padding: 0.72rem;
@@ -6802,7 +6922,7 @@ code {
 .science-source-links span {
   grid-column: 1 / -1;
   color: var(--gold);
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -6860,7 +6980,7 @@ code {
 .codon-lab,
 .genetics-note,
 .genetics-bridge {
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
@@ -6876,15 +6996,15 @@ code {
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.55rem;
   margin-top: 1rem;
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
   background:
     linear-gradient(
       90deg,
-      rgba(130, 183, 179, 0.08),
+      var(--teal-faint),
       rgba(240, 201, 120, 0.09)
     ),
-    rgba(8, 11, 11, 0.42);
+    var(--ink-wash);
   padding: 0.8rem;
 }
 
@@ -6894,7 +7014,7 @@ code {
   gap: 0.35rem;
   min-height: 86px;
   align-content: center;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: calc(var(--radius) - 2px);
   background: rgba(8, 11, 11, 0.68);
   padding: 0.8rem;
@@ -6912,7 +7032,7 @@ code {
 
 .genetics-flow strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.25rem;
 }
 
@@ -6929,7 +7049,7 @@ code {
   margin-top: 1rem;
   padding: 1.1rem;
   background:
-    linear-gradient(125deg, rgba(130, 183, 179, 0.08), transparent 52%),
+    linear-gradient(125deg, var(--teal-faint), transparent 52%),
     rgba(8, 11, 11, 0.56);
 }
 
@@ -6937,7 +7057,7 @@ code {
 .genetics-section-heading h2,
 .genetics-note h2 {
   margin: 0.25rem 0 0.55rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.9rem;
   letter-spacing: 0;
 }
@@ -6962,7 +7082,7 @@ code {
   display: grid;
   gap: 0.12rem;
   min-width: 5.2rem;
-  border: 1px solid rgba(218, 185, 126, 0.18);
+  border: 1px solid var(--line-visible);
   border-radius: 999px;
   background: rgba(8, 11, 11, 0.72);
   color: var(--text);
@@ -6972,7 +7092,7 @@ code {
 
 .codon-buttons button.is-active {
   border-color: rgba(240, 201, 120, 0.72);
-  background: rgba(240, 201, 120, 0.16);
+  background: var(--amber-line);
 }
 
 .codon-buttons span {
@@ -7007,15 +7127,15 @@ code {
   gap: 0.3rem;
   min-height: 92px;
   place-items: center;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: calc(var(--radius) - 3px);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
   text-align: center;
 }
 
 .codon-reader span {
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -7023,7 +7143,7 @@ code {
 
 .codon-reader strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.35rem;
 }
 
@@ -7083,7 +7203,7 @@ code {
 
 .molecule-card span {
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -7091,7 +7211,7 @@ code {
 
 .molecule-card h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.55rem;
   letter-spacing: 0;
 }
@@ -7116,7 +7236,7 @@ code {
   min-height: 315px;
   padding: 1rem;
   background:
-    linear-gradient(180deg, rgba(240, 201, 120, 0.08), transparent 42%),
+    linear-gradient(180deg, var(--amber-wash), transparent 42%),
     rgba(8, 11, 11, 0.56);
 }
 
@@ -7132,9 +7252,38 @@ code {
 
 .genome-comparison-card > strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 2.45rem;
   line-height: 0.98;
+}
+
+.genome-metric-chip {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid rgba(218, 185, 126, 0.22);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 0.22rem 0.48rem;
+  text-transform: uppercase;
+}
+
+.genome-metric-chip.is-sequence {
+  border-color: rgba(130, 183, 179, 0.34);
+  color: var(--teal);
+}
+
+.genome-metric-chip.is-coding {
+  border-color: rgba(158, 179, 110, 0.34);
+  color: var(--moss);
+}
+
+.genome-metric-chip.is-orthologs {
+  border-color: rgba(240, 201, 120, 0.3);
+  color: var(--amber);
 }
 
 .genome-comparison-card > b {
@@ -7155,7 +7304,7 @@ code {
 .genome-comparison-meter {
   overflow: hidden;
   height: 0.62rem;
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.045);
 }
@@ -7169,6 +7318,14 @@ code {
     rgba(130, 183, 179, 0.92),
     rgba(240, 201, 120, 0.92)
   );
+}
+
+.genome-comparison-meter.is-coding i {
+  background: linear-gradient(90deg, rgba(158, 179, 110, 0.9), rgba(240, 201, 120, 0.86));
+}
+
+.genome-comparison-meter.is-orthologs i {
+  background: linear-gradient(90deg, rgba(240, 201, 120, 0.82), rgba(217, 173, 97, 0.9));
 }
 
 .genome-comparison-proof {
@@ -7204,7 +7361,7 @@ code {
   background:
     radial-gradient(
       circle at 8% 0%,
-      rgba(130, 183, 179, 0.12),
+      var(--teal-glow),
       transparent 10rem
     ),
     rgba(8, 11, 11, 0.52);
@@ -7281,7 +7438,7 @@ code {
 
 .genetics-evidence-card h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.45rem;
   letter-spacing: 0;
 }
@@ -7306,7 +7463,7 @@ code {
   margin-top: 1rem;
   padding: 1.1rem;
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.1), transparent 56%),
+    linear-gradient(90deg, var(--teal-wash), transparent 56%),
     rgba(8, 11, 11, 0.52);
 }
 
@@ -7318,7 +7475,7 @@ code {
 }
 
 .genetics-sources a {
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: 999px;
   background: rgba(240, 201, 120, 0.07);
   padding: 0.45rem 0.7rem;
@@ -7344,7 +7501,7 @@ code {
 
 .genetics-bridge strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.35rem;
 }
 
@@ -7372,7 +7529,7 @@ code {
   background:
     radial-gradient(
       circle at 70% 8%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 17rem
     ),
     rgba(5, 8, 8, 0.96);
@@ -7454,7 +7611,7 @@ code {
 .image-lightbox-close:hover,
 .image-lightbox-close:focus-visible {
   border-color: rgba(240, 201, 120, 0.7);
-  background: rgba(240, 201, 120, 0.16);
+  background: var(--amber-line);
   transform: translateY(-1px);
 }
 
@@ -7505,9 +7662,9 @@ code {
   display: inline-flex;
   gap: 0.18rem;
   justify-self: start;
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: rgba(8, 11, 11, 0.42);
+  background: var(--ink-wash);
   padding: 0.2rem;
 }
 
@@ -7526,7 +7683,7 @@ code {
 
 .cladogram-mode-toggle button[aria-pressed="true"] {
   border-color: rgba(240, 201, 120, 0.36);
-  background: rgba(240, 201, 120, 0.12);
+  background: var(--amber-glow);
   color: var(--gold);
 }
 
@@ -7545,9 +7702,9 @@ code {
   display: flex;
   gap: 0.48rem;
   align-items: center;
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: var(--radius);
-  background: rgba(8, 11, 11, 0.42);
+  background: var(--ink-wash);
   color: var(--text);
   padding: 0.72rem 0.85rem;
   font-size: 0.84rem;
@@ -7620,7 +7777,7 @@ code {
   border: 1px solid rgba(130, 183, 179, 0.18);
   border-radius: var(--radius);
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.12), transparent 62%),
+    linear-gradient(90deg, var(--teal-glow), transparent 62%),
     rgba(8, 11, 11, 0.38);
   color: var(--muted);
   padding: 0.75rem 0.85rem;
@@ -7663,7 +7820,7 @@ code {
 .cladogram-branch {
   position: relative;
   z-index: 1;
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.55);
   color: var(--text);
@@ -7701,7 +7858,7 @@ code {
   background:
     radial-gradient(
       circle at 50% 0%,
-      rgba(240, 201, 120, 0.18),
+      var(--amber-soft),
       transparent 4.8rem
     ),
     rgba(34, 30, 20, 0.72);
@@ -7714,7 +7871,7 @@ code {
 .cladogram-row.is-in-active-path .cladogram-node {
   border-color: rgba(130, 183, 179, 0.38);
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.12), transparent 64%),
+    linear-gradient(90deg, var(--teal-glow), transparent 64%),
     rgba(9, 17, 16, 0.68);
 }
 
@@ -7743,7 +7900,7 @@ code {
   border-radius: 50%;
   background: var(--gold);
   box-shadow:
-    0 0 0 2px rgba(240, 201, 120, 0.18),
+    0 0 0 2px var(--amber-soft),
     0 0 20px rgba(240, 201, 120, 0.2);
 }
 
@@ -7757,7 +7914,7 @@ code {
 .cladogram-node strong,
 .cladogram-branch strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1rem;
   line-height: 1.12;
 }
@@ -7766,7 +7923,7 @@ code {
 .cladogram-branch small {
   display: block;
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   line-height: 1.22;
@@ -7790,7 +7947,7 @@ code {
   min-height: clamp(112px, 9vw, 136px);
   padding: 0.72rem;
   background:
-    linear-gradient(90deg, rgba(240, 201, 120, 0.08), transparent 54%),
+    linear-gradient(90deg, var(--amber-wash), transparent 54%),
     rgba(8, 11, 11, 0.48);
 }
 
@@ -7826,7 +7983,7 @@ code {
 .cladogram-branch.is-context {
   border-color: rgba(130, 183, 179, 0.17);
   background:
-    linear-gradient(90deg, rgba(130, 183, 179, 0.12), transparent 58%),
+    linear-gradient(90deg, var(--teal-glow), transparent 58%),
     rgba(8, 11, 11, 0.44);
 }
 
@@ -7851,10 +8008,10 @@ code {
   justify-self: start;
   border: 1px solid rgba(130, 183, 179, 0.28);
   border-radius: 999px;
-  background: rgba(130, 183, 179, 0.1);
+  background: var(--teal-wash);
   color: var(--cyan);
   padding: 0.2rem 0.42rem;
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   line-height: 1.1;
@@ -7864,10 +8021,10 @@ code {
 .cladogram-active-badge {
   border: 1px solid rgba(240, 201, 120, 0.38);
   border-radius: 999px;
-  background: rgba(240, 201, 120, 0.12);
+  background: var(--amber-glow);
   color: var(--gold);
   padding: 0.22rem 0.44rem;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -7880,12 +8037,12 @@ code {
   background:
     radial-gradient(
       circle at 8% 0%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 16rem
     ),
     radial-gradient(
       circle at 86% 18%,
-      rgba(130, 183, 179, 0.1),
+      var(--teal-wash),
       transparent 18rem
     ),
     var(--panel);
@@ -7940,13 +8097,13 @@ code {
 }
 
 .trait-total span {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.65rem;
 }
 
 .trait-total small {
   color: var(--muted);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -7961,9 +8118,9 @@ code {
 
 .trait-featured,
 .trait-group-details {
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
-  background: rgba(8, 11, 11, 0.42);
+  background: var(--ink-wash);
 }
 
 .trait-featured {
@@ -7975,7 +8132,7 @@ code {
 .trait-group-title small {
   display: block;
   color: var(--gold);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   line-height: 1.2;
@@ -7998,7 +8155,7 @@ code {
 .trait-group-preview span,
 .trait-group-preview em,
 .trait-detail-chips span {
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: 999px;
   background: rgba(240, 201, 120, 0.06);
   color: var(--text);
@@ -8045,7 +8202,7 @@ code {
 }
 
 .trait-group-details[open] summary {
-  border-bottom: 1px solid rgba(218, 185, 126, 0.12);
+  border-bottom: 1px solid var(--line-hair);
 }
 
 .trait-group-details[open] summary svg {
@@ -8059,7 +8216,7 @@ code {
 
 .trait-group-title strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.02rem;
   line-height: 1.08;
 }
@@ -8077,12 +8234,12 @@ code {
   background:
     radial-gradient(
       circle at 12% 0%,
-      rgba(240, 201, 120, 0.12),
+      var(--amber-glow),
       transparent 17rem
     ),
     radial-gradient(
       circle at 86% 16%,
-      rgba(130, 183, 179, 0.1),
+      var(--teal-wash),
       transparent 18rem
     ),
     var(--panel);
@@ -8124,7 +8281,7 @@ code {
   max-width: 850px;
   margin: 0.45rem 0 1rem;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: clamp(1.55rem, 3vw, 2.35rem);
   line-height: 1.08;
   letter-spacing: 0;
@@ -8143,7 +8300,7 @@ code {
   align-items: center;
   justify-content: flex-start;
   min-height: 70px;
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.48);
   color: var(--text);
@@ -8204,7 +8361,7 @@ code {
   gap: 0.7rem;
   align-items: center;
   min-height: 58px;
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.44);
   color: var(--text);
@@ -8217,7 +8374,7 @@ code {
   height: 2rem;
   place-items: center;
   border-radius: 50%;
-  background: rgba(218, 185, 126, 0.12);
+  background: var(--line-hair);
   color: var(--gold);
   font-weight: 850;
 }
@@ -8229,12 +8386,12 @@ code {
 
 .quiz-order-controls button {
   display: inline-grid;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 44px;
+  height: 44px;
   place-items: center;
-  border: 1px solid rgba(218, 185, 126, 0.16);
+  border: 1px solid var(--line-soft);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-tint-strong);
   color: var(--gold);
   cursor: pointer;
 }
@@ -8259,7 +8416,7 @@ code {
   gap: 0.38rem;
   align-content: start;
   min-height: 118px;
-  border: 1px solid rgba(218, 185, 126, 0.15);
+  border: 1px solid var(--line-medium);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.48);
   color: var(--text);
@@ -8289,7 +8446,7 @@ code {
 
 .quiz-branch-node strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.05rem;
   line-height: 1.18;
 }
@@ -8302,7 +8459,7 @@ code {
 
 .quiz-explanation {
   margin-bottom: 1rem;
-  border: 1px solid rgba(218, 185, 126, 0.13);
+  border: 1px solid var(--line-faint);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.36);
   padding: 0.85rem;
@@ -8311,7 +8468,7 @@ code {
 .quiz-explanation strong,
 .quiz-result strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.35rem;
 }
 
@@ -8330,7 +8487,7 @@ code {
 .quiz-result > h3 {
   margin: 0;
   color: var(--gold);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.55rem;
   line-height: 1.12;
   letter-spacing: 0;
@@ -8344,7 +8501,7 @@ code {
   display: grid;
   gap: 0.35rem;
   width: 100%;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.34);
   padding: 0.9rem;
@@ -8363,7 +8520,7 @@ code {
   display: grid;
   width: 100%;
   gap: 0.75rem;
-  border: 1px solid rgba(218, 185, 126, 0.14);
+  border: 1px solid var(--line-muted);
   border-radius: var(--radius);
   background: rgba(8, 11, 11, 0.34);
   padding: 0.95rem;
@@ -8372,7 +8529,7 @@ code {
 .quiz-route h3 {
   margin: 0;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.35rem;
   line-height: 1.15;
   letter-spacing: 0;
@@ -8389,16 +8546,16 @@ code {
   display: grid;
   gap: 0.55rem;
   align-content: start;
-  border: 1px solid rgba(218, 185, 126, 0.12);
+  border: 1px solid var(--line-hair);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--surface-tint);
   padding: 0.85rem;
 }
 
 .quiz-route-card strong,
 .quiz-route-perfect strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.05rem;
   line-height: 1.22;
 }
@@ -8421,7 +8578,7 @@ code {
   display: inline-flex;
   align-items: center;
   min-height: 34px;
-  border: 1px solid rgba(218, 185, 126, 0.18);
+  border: 1px solid var(--line-visible);
   border-radius: 999px;
   color: var(--gold);
   font-size: 0.82rem;
@@ -8432,337 +8589,10 @@ code {
 
 .quiz-route-links a:hover {
   border-color: rgba(240, 201, 120, 0.42);
-  background: rgba(240, 201, 120, 0.08);
+  background: var(--amber-wash);
 }
 
-.body-map-page {
-  background:
-    radial-gradient(
-      circle at 18% 0%,
-      rgba(130, 183, 179, 0.12),
-      transparent 24rem
-    ),
-    radial-gradient(
-      circle at 85% 6%,
-      rgba(240, 201, 120, 0.1),
-      transparent 23rem
-    ),
-    rgba(10, 13, 12, 0.86);
-}
-
-.body-map-header {
-  max-width: 920px;
-}
-
-.body-map-main,
-.body-trait-inspector {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--panel);
-  box-shadow: var(--shadow);
-}
-
-.body-map-layer-tabs {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.55rem;
-  margin: 0 0 1rem;
-}
-
-.body-map-layer-tabs button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.42rem;
-  min-width: 0;
-  min-height: 46px;
-  border: 1px solid rgba(218, 185, 126, 0.16);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.035);
-  color: var(--muted);
-  cursor: pointer;
-  padding: 0.54rem 0.68rem;
-  font-size: 0.91rem;
-  font-weight: 820;
-  transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
-}
-
-.body-map-layer-tabs button:hover,
-.body-map-layer-tabs button.is-active {
-  transform: translateY(-1px);
-  border-color: rgba(240, 201, 120, 0.52);
-  background: rgba(240, 201, 120, 0.1);
-  color: var(--amber);
-}
-
-.body-map-layer-tabs button:focus-visible,
-.body-trait-pin:focus-visible {
-  outline: 2px solid var(--amber);
-  outline-offset: 3px;
-}
-
-.body-map-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
-  gap: 1rem;
-  align-items: start;
-}
-
-.body-map-main {
-  overflow: hidden;
-  background:
-    radial-gradient(
-      circle at 50% 8%,
-      rgba(240, 201, 120, 0.1),
-      transparent 24rem
-    ),
-    rgba(9, 12, 12, 0.9);
-}
-
-.body-map-layer-heading {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  border-bottom: 1px solid rgba(218, 185, 126, 0.16);
-  padding: 1rem;
-}
-
-.body-map-layer-heading h2 {
-  margin: 0.2rem 0 0.35rem;
-  color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.45rem, 2.8vw, 2.2rem);
-  line-height: 1.08;
-}
-
-.body-map-layer-heading p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.55;
-}
-
-.body-map-layer-heading > span {
-  flex: 0 0 auto;
-  border: 1px solid rgba(240, 201, 120, 0.26);
-  border-radius: 999px;
-  color: var(--amber);
-  font-size: 0.82rem;
-  font-weight: 860;
-  padding: 0.38rem 0.62rem;
-}
-
-.body-map-canvas {
-  position: relative;
-  display: grid;
-  margin: 0;
-  min-width: 0;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent),
-    #080b0b;
-}
-
-.body-map-canvas img {
-  width: 100%;
-  aspect-ratio: 1122 / 1402;
-  max-height: min(78dvh, 1040px);
-  object-fit: contain;
-  background: #080b0b;
-}
-
-.body-map-pins {
-  position: absolute;
-  inset: 0;
-}
-
-.body-trait-pin {
-  position: absolute;
-  left: var(--trait-x);
-  top: var(--trait-y);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.28rem;
-  min-width: 34px;
-  min-height: 34px;
-  border: 1px solid rgba(240, 201, 120, 0.54);
-  border-radius: 999px;
-  background: rgba(8, 11, 11, 0.72);
-  color: var(--amber);
-  cursor: pointer;
-  padding: 0.26rem 0.44rem;
-  transform: translate(-50%, -50%);
-  backdrop-filter: blur(10px);
-  box-shadow:
-    0 0 0 5px rgba(240, 201, 120, 0.08),
-    0 12px 32px rgba(0, 0, 0, 0.38);
-  transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    box-shadow 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
-}
-
-.body-trait-pin span {
-  display: none;
-  max-width: min(190px, 34vw);
-  overflow: hidden;
-  color: var(--text);
-  font-size: 0.78rem;
-  font-weight: 820;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.body-trait-pin:hover,
-.body-trait-pin.is-active {
-  z-index: 2;
-  transform: translate(-50%, -50%) scale(1.03);
-  border-color: rgba(130, 183, 179, 0.74);
-  background: rgba(15, 23, 22, 0.9);
-  color: var(--teal);
-  box-shadow:
-    0 0 0 7px rgba(130, 183, 179, 0.12),
-    0 16px 42px rgba(0, 0, 0, 0.46);
-}
-
-.body-trait-pin:hover span,
-.body-trait-pin.is-active span {
-  display: inline-block;
-}
-
-.body-trait-inspector {
-  position: sticky;
-  top: clamp(0.8rem, 2vw, 1.25rem);
-  display: grid;
-  gap: 0.9rem;
-  min-width: 0;
-  padding: 1rem;
-  background:
-    radial-gradient(
-      circle at 86% 0%,
-      rgba(240, 201, 120, 0.12),
-      transparent 15rem
-    ),
-    radial-gradient(
-      circle at 4% 16%,
-      rgba(130, 183, 179, 0.1),
-      transparent 14rem
-    ),
-    rgba(10, 14, 13, 0.94);
-}
-
-.body-trait-inspector-heading {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 0.75rem;
-  align-items: start;
-}
-
-.body-trait-inspector-heading svg {
-  color: var(--amber);
-}
-
-.body-trait-inspector-heading h2 {
-  margin: 0.2rem 0 0;
-  color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.55rem, 3vw, 2.15rem);
-  line-height: 1.04;
-}
-
-.body-trait-stage,
-.body-trait-source,
-.body-trait-caveat {
-  border: 1px solid rgba(218, 185, 126, 0.13);
-  border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 0.8rem;
-}
-
-.body-trait-stage {
-  display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 0.72rem;
-  align-items: center;
-  padding: 0.72rem;
-}
-
-.body-trait-stage-media {
-  aspect-ratio: 1;
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid rgba(218, 185, 126, 0.16);
-  border-radius: calc(var(--radius) - 2px);
-  background: rgba(0, 0, 0, 0.28);
-}
-
-.body-trait-stage-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.body-trait-stage-copy {
-  display: grid;
-  gap: 0.25rem;
-  min-width: 0;
-}
-
-.body-trait-stage span {
-  color: var(--faint);
-  font-size: 0.76rem;
-  font-weight: 850;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.body-trait-stage strong {
-  color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.28rem;
-  line-height: 1.1;
-  overflow-wrap: anywhere;
-}
-
-.body-trait-stage small {
-  color: var(--muted);
-}
-
-.body-trait-note {
-  margin: 0;
-  color: var(--text-soft, var(--text));
-  line-height: 1.62;
-}
-
-.body-trait-source,
-.body-trait-caveat {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.62rem;
-  color: var(--muted);
-}
-
-.body-trait-source svg,
-.body-trait-caveat svg {
-  color: var(--gold);
-}
-
-.body-trait-source strong {
-  color: var(--text);
-}
-
-.body-trait-source p,
-.body-trait-caveat p {
-  margin: 0.18rem 0 0;
-}
-
-@media (max-width: 1320px) {
+@media (max-width: 1280px) {
   .atlas-title h1 {
     font-size: 2.6rem;
   }
@@ -8776,7 +8606,7 @@ code {
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .topbar {
     align-items: flex-start;
     flex-direction: column;
@@ -8885,7 +8715,7 @@ code {
   .darwin-portrait {
     min-height: 340px;
     border-right: 0;
-    border-bottom: 1px solid rgba(218, 185, 126, 0.18);
+    border-bottom: 1px solid var(--line-visible);
   }
 
   .darwin-portrait img {
@@ -8948,7 +8778,7 @@ code {
 
   .evidence-intro {
     border-right: 0;
-    border-bottom: 1px solid rgba(218, 185, 126, 0.18);
+    border-bottom: 1px solid var(--line-visible);
     padding: 0.25rem 0 1rem;
   }
 
@@ -8975,7 +8805,6 @@ code {
   .genetics-hero,
   .origin-hero,
   .dinosaur-detail-card,
-  .body-map-grid,
   .cladogram-page-grid {
     grid-template-columns: 1fr;
   }
@@ -9028,16 +8857,9 @@ code {
     max-height: none;
   }
 
-  .body-trait-inspector {
-    position: static;
-  }
-
-  .body-map-layer-tabs {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 }
 
-@media (min-width: 960px) and (max-width: 1200px) {
+@media (min-width: 1024px) and (max-width: 1280px) {
   .cladogram-page-grid {
     grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
     align-items: start;
@@ -9051,7 +8873,7 @@ code {
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 768px) {
   .about-origin-story {
     grid-template-columns: 1fr;
   }
@@ -9067,7 +8889,7 @@ code {
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 640px) {
   :root {
     font-size: 15px;
   }
@@ -9142,7 +8964,7 @@ code {
     display: none;
     flex-direction: column;
     align-items: stretch;
-    border-radius: 20px;
+    border-radius: var(--radius);
     overflow: visible;
     padding: 0.5rem;
   }
@@ -9171,8 +8993,8 @@ code {
     justify-content: flex-start;
     gap: 0.44rem !important;
     min-height: 48px;
-    border-color: rgba(218, 185, 126, 0.12);
-    border-radius: 14px;
+    border-color: var(--line-hair);
+    border-radius: var(--radius);
     padding: 0.48rem 0.58rem !important;
     font-size: 0.84rem;
     text-align: left;
@@ -9284,70 +9106,6 @@ code {
     min-width: 0;
   }
 
-  .body-map-layer-tabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.42rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .body-map-layer-heading {
-    display: grid;
-    gap: 0.55rem;
-    padding: 0.78rem;
-  }
-
-  .body-map-layer-heading h2 {
-    margin-top: 0;
-    font-size: 1.38rem;
-  }
-
-  .body-map-layer-heading p {
-    line-height: 1.42;
-  }
-
-  .body-map-layer-heading > span {
-    justify-self: start;
-    padding: 0.32rem 0.56rem;
-  }
-
-  .body-trait-pin {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
-    justify-content: center;
-    gap: 0;
-    padding: 0;
-  }
-
-  .body-trait-pin span {
-    display: none !important;
-  }
-
-  .body-trait-pin:hover,
-  .body-trait-pin.is-active {
-    transform: translate(-50%, -50%) scale(1.06);
-  }
-
-  .body-trait-inspector {
-    gap: 0.72rem;
-    padding: 0.85rem;
-  }
-
-  .body-trait-inspector-heading {
-    gap: 0.55rem;
-  }
-
-  .body-trait-inspector-heading h2 {
-    font-size: 1.55rem;
-  }
-
-  .body-trait-stage,
-  .body-trait-source,
-  .body-trait-caveat {
-    padding: 0.72rem;
-  }
-
   .era-route::before {
     left: 1.7rem;
     right: auto;
@@ -9435,7 +9193,7 @@ code {
   }
 
   .deep-time-region-label strong {
-    font-size: 0.52rem;
+    font-size: 0.72rem;
     letter-spacing: 0.12em;
   }
 
@@ -9717,7 +9475,7 @@ code {
   .dinosaur-zone-bands span {
     top: 4.65rem;
     height: 2rem;
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     letter-spacing: 0.11em;
   }
 
@@ -9948,7 +9706,7 @@ code {
   }
 
   .trait-total small {
-    font-size: 0.56rem;
+    font-size: 0.72rem;
   }
 
   .quiz-heading {
@@ -10132,7 +9890,7 @@ code {
   }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
   .curiosity-facts-grid {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
@@ -10146,7 +9904,7 @@ code {
   }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 768px) {
   .luca-exhibit-heading,
   .africa-origin-heading,
   .curiosity-facts-heading,
@@ -10175,7 +9933,7 @@ code {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .luca-branches,
   .curiosity-facts-grid,
   .migration-route-list {
@@ -10200,7 +9958,7 @@ code {
     height: 2rem;
     justify-content: center;
     max-width: 7.5rem;
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     padding: 0.34rem;
   }
 

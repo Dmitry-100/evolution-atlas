@@ -595,7 +595,6 @@ function DinosaurTimelineAxis({
                 onPointerDown={() => onSelect(stage)}
                 onMouseDown={() => onSelect(stage)}
                 onTouchStart={() => onSelect(stage)}
-                onFocus={() => onSelect(stage)}
                 onClick={() => onSelect(stage)}
               >
                 <span />
@@ -691,7 +690,7 @@ function DinosaurRouteNavigation({
 }
 
 export function DinosaursPage() {
-  const isMobileDinosaurAxis = useMediaQuery("(max-width: 720px)");
+  const isMobileDinosaurAxis = useMediaQuery("(max-width: 640px)");
   const [activeJourneyId, setActiveJourneyId] = useState(
     dinosaurJourney[0]?.id ?? "early-animals",
   );

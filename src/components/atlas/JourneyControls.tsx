@@ -15,6 +15,21 @@ type JourneyControlsProps<TItem extends JourneyControlItem> = {
 
 const JOURNEY_STEP_MS = 900;
 
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReducedMotion(media.matches);
+
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
 export function JourneyControls<TItem extends JourneyControlItem>({
   stages,
   activeStage,
@@ -23,6 +38,7 @@ export function JourneyControls<TItem extends JourneyControlItem>({
 }: JourneyControlsProps<TItem>) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const activeIndex = Math.max(
     0,
     stages.findIndex((stage) => stage.id === activeStage.id),
@@ -30,9 +46,10 @@ export function JourneyControls<TItem extends JourneyControlItem>({
   const isAtEnd = activeIndex >= stages.length - 1;
   const progress =
     stages.length > 1 ? (activeIndex / (stages.length - 1)) * 100 : 100;
+  const effectiveIsPlaying = isPlaying && !prefersReducedMotion;
 
   useEffect(() => {
-    if (!isPlaying) {
+    if (!effectiveIsPlaying) {
       return;
     }
 
@@ -46,10 +63,14 @@ export function JourneyControls<TItem extends JourneyControlItem>({
     }, JOURNEY_STEP_MS);
 
     return () => window.clearInterval(interval);
-  }, [activeIndex, isPlaying, onActivate, stages]);
+  }, [activeIndex, effectiveIsPlaying, onActivate, stages]);
 
   function toggleJourney() {
-    if (isPlaying) {
+    if (effectiveIsPlaying) {
+      setIsPlaying(false);
+      return;
+    }
+    if (prefersReducedMotion) {
       setIsPlaying(false);
       return;
     }
@@ -67,7 +88,7 @@ export function JourneyControls<TItem extends JourneyControlItem>({
     setIsPlaying(false);
   }
 
-  const primaryLabel = isPlaying
+  const primaryLabel = effectiveIsPlaying
     ? "Поставить прокрутку на паузу"
     : hasStarted && !isAtEnd
       ? "Продолжить прокрутку по времени"
@@ -83,7 +104,7 @@ export function JourneyControls<TItem extends JourneyControlItem>({
         title={primaryLabel}
         onClick={toggleJourney}
       >
-        {isPlaying ? (
+        {effectiveIsPlaying ? (
           <Pause aria-hidden="true" size={18} />
         ) : (
           <Play aria-hidden="true" size={18} />
@@ -99,7 +120,10 @@ export function JourneyControls<TItem extends JourneyControlItem>({
         <RotateCcw aria-hidden="true" size={18} />
       </button>
       <div className="journey-meter">
-        <span className="sr-only" aria-live="polite">
+        <span
+          className="sr-only"
+          aria-live={effectiveIsPlaying ? undefined : "polite"}
+        >
           {itemLabel} {activeIndex + 1} из {stages.length}: {activeStage.titleRu}
         </span>
         <span className="journey-progress" aria-hidden="true">

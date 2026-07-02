@@ -737,7 +737,7 @@ test.describe("Evolution Atlas", () => {
     test.skip(testInfo.project.name !== "mobile", "Mobile Atlas is mobile-only.");
 
     await page.goto("/primates?stage=early-primates");
-    await expect(page.locator(".mobile-stage-row")).toHaveCount(16);
+    await expect(page.locator(".mobile-stage-row")).toHaveCount(17);
     await expect(page.locator(".africa-origin")).toBeVisible();
 
     await page
@@ -949,7 +949,7 @@ test.describe("Evolution Atlas", () => {
     );
     await expect(
       page.locator(".stage-plate-media source[type='image/avif']"),
-    ).toHaveCount(0);
+    ).toHaveCount(1);
 
     await page.getByRole("button", { name: /Homo sapiens,/i }).click();
     await expect(
@@ -980,7 +980,9 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".primate-deep-axis")).toBeVisible();
     await expect(page.locator(".primate-timeline-river-image")).toBeVisible();
     await expect(page.locator(".primate-time-floating-paths")).toHaveCount(1);
-    await expect(page.locator(".primate-stage-dots .deep-stage-dot")).toHaveCount(16);
+    await expect(page.locator(".primate-stage-dots .deep-stage-dot")).toHaveCount(
+      17,
+    );
     await expect(page.locator(".primate-zone-bands span")).toHaveCount(4);
     await expect(page.getByText(/66 млн лет назад.*сегодня/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
@@ -1043,6 +1045,7 @@ test.describe("Evolution Atlas", () => {
     );
 
     await page.goto("/");
+    await expect(page.locator(".deep-time-axis")).toBeVisible();
     const offAnchorMarkers = await page
       .locator(".extinction-marker")
       .evaluateAll((markers) => {
@@ -1356,10 +1359,12 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".cladogram-inspector")).toContainText(
       "общий предок",
     );
-    await expect(page.locator(".cladogram-inspector-media img")).toBeVisible();
+    const inspectorImage = page.locator(".cladogram-inspector-media img");
+    await expect(inspectorImage).toBeVisible();
+    await inspectorImage.scrollIntoViewIfNeeded();
     await expect
       .poll(() =>
-        page.locator(".cladogram-inspector-media img").evaluate((node) => {
+        inspectorImage.evaluate((node) => {
           const image = node as HTMLImageElement;
           return image.complete && image.naturalWidth > 0;
         }),
@@ -1479,17 +1484,23 @@ test.describe("Evolution Atlas", () => {
       )
       .toBe(true);
 
+    const layerTabControls = page.locator(".body-map-layer-tabs");
     await expect(
-      page.getByRole("tab", { name: /Клетка/i }),
-    ).toHaveAttribute("aria-selected", "true");
+      layerTabControls.getByRole("button", { name: "Клетка", exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
     await expect(page.locator(".body-trait-inspector")).toContainText(
       "Мембраны",
     );
 
-    await page.getByRole("tab", { name: "Движение" }).click();
+    await layerTabControls
+      .getByRole("button", { name: "Движение", exact: true })
+      .click();
     await expect(
-      page.getByRole("tab", { name: "Движение" }),
-    ).toHaveAttribute("aria-selected", "true");
+      layerTabControls.getByRole("button", {
+        name: "Движение",
+        exact: true,
+      }),
+    ).toHaveAttribute("aria-pressed", "true");
     await expect(page.locator(".body-trait-inspector")).toContainText(
       "Парные придатки",
     );
@@ -1526,9 +1537,12 @@ test.describe("Evolution Atlas", () => {
 
     await page.goto("/body-map");
     await expect(page.locator(".body-map-canvas img")).toBeVisible();
+    const layerTabControls = page.locator(".body-map-layer-tabs");
 
     for (const layerTab of layerTabs) {
-      await page.getByRole("tab", { name: layerTab }).click();
+      await layerTabControls
+        .getByRole("button", { name: layerTab, exact: true })
+        .click();
 
       const spacing = await page.evaluate((threshold) => {
         const canvas = document.querySelector<HTMLElement>(".body-map-canvas");
@@ -2012,10 +2026,10 @@ test.describe("Evolution Atlas", () => {
     await expect(page.getByText(/Дарвин: идея/i)).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: /Дерево родства вместо лестницы прогресса/i,
+        name: /Как отбор превращает различия в историю/i,
       }),
     ).toBeVisible();
-    await expect(page.getByText(/Происхождение видов/i)).toBeVisible();
+    await expect(page.getByText(/Происхождении видов/i)).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Ископаемые" }),
     ).toBeVisible();
@@ -2340,7 +2354,7 @@ test.describe("Evolution Atlas", () => {
       page.getByText(/Последний общий предок нашей линии и линии птиц/i),
     ).toBeVisible();
     await expect(
-      page.getByText(/синапсиды → терапсиды → млекопитающие/i),
+      page.getByText(/синапсиды → терапсиды → цинодонты → млекопитающие/i),
     ).toBeVisible();
     await expect(
       page.getByText(/диапсиды → архозавры → динозавры/i),

@@ -1,11 +1,17 @@
+import { Suspense, lazy } from "react";
 import { ChevronLeft, ChevronRight, Compass, Search } from "lucide-react";
 import { AfricaOriginMap } from "../../education/AfricaOriginMap";
 import type { EvolutionEra, EvolutionStage } from "../../../data/lineage";
 import type { AccumulatedTraitGroup } from "../../../lib/accumulatedTraits";
 import type { AtlasUrlMode } from "../../../lib/atlasUrlState";
 import { Tabs, TabsList, TabsTrigger } from "../../ui/tabs";
-import { TraitAccumulator } from "../TraitAccumulator";
 import { MobileStageMap } from "./MobileStageMap";
+
+const TraitAccumulator = lazy(() =>
+  import("../TraitAccumulator").then(({ TraitAccumulator }) => ({
+    default: TraitAccumulator,
+  })),
+);
 
 type MobileAtlasProps = {
   mode?: AtlasUrlMode;
@@ -102,7 +108,9 @@ export function MobileAtlas({
       />
 
       {showTraitAccumulator ? (
-        <TraitAccumulator groups={accumulatedTraitGroups} />
+        <Suspense fallback={null}>
+          <TraitAccumulator groups={accumulatedTraitGroups} />
+        </Suspense>
       ) : null}
 
       {showAfricaOriginMap ? <AfricaOriginMap /> : null}

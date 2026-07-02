@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import type { Transition } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import { useOnClickOutside } from "usehooks-ts";
 import { cn } from "../../lib/utils";
@@ -32,32 +30,6 @@ interface ExpandableTabsProps {
   onChange?: (index: number | null) => void;
   onIntent?: (index: number) => void;
 }
-
-const buttonVariants = {
-  initial: {
-    gap: 0,
-    paddingLeft: ".58rem",
-    paddingRight: ".58rem",
-  },
-  animate: (isSelected: boolean) => ({
-    gap: isSelected ? ".5rem" : 0,
-    paddingLeft: isSelected ? "1rem" : ".58rem",
-    paddingRight: isSelected ? "1rem" : ".58rem",
-  }),
-};
-
-const spanVariants = {
-  initial: { width: 0, opacity: 0 },
-  animate: { width: "auto", opacity: 1 },
-  exit: { width: 0, opacity: 0 },
-};
-
-const transition: Transition = {
-  delay: 0.06,
-  type: "spring",
-  bounce: 0,
-  duration: 0.5,
-};
 
 export function ExpandableTabs({
   tabs,
@@ -110,41 +82,23 @@ export function ExpandableTabs({
         const content = (
           <>
             <Icon aria-hidden="true" size={20} />
-            {!isSelected ? (
-              <span className="expandable-tab-sr">{tab.title}</span>
-            ) : null}
-            <AnimatePresence initial={false}>
-              {isSelected ? (
-                <motion.span
-                  variants={spanVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  transition={transition}
-                  className="expandable-tab-label"
-                >
-                  {tab.title}
-                </motion.span>
-              ) : null}
-            </AnimatePresence>
+            <span className="expandable-tab-sr">{tab.title}</span>
+            <span className="expandable-tab-label" aria-hidden={!isSelected}>
+              {tab.title}
+            </span>
             <span className="expandable-tab-mobile-label" aria-hidden="true">
               {tab.title}
             </span>
           </>
         );
-
         if (tab.href) {
           return (
-            <motion.a
+            <a
               key={tab.title}
               href={tab.href}
               aria-current={isSelected ? "page" : undefined}
               aria-label={tab.title}
-              variants={buttonVariants}
-              initial={false}
-              animate="animate"
-              custom={isSelected}
-              transition={transition}
+              title={tab.title}
               className={classNames}
               onClick={(event) => {
                 if (
@@ -164,28 +118,24 @@ export function ExpandableTabs({
               onMouseEnter={() => onIntent?.(index)}
             >
               {content}
-            </motion.a>
+            </a>
           );
         }
 
         return (
-          <motion.button
+          <button
             key={tab.title}
             type="button"
             aria-pressed={isSelected}
             aria-label={tab.title}
-            variants={buttonVariants}
-            initial={false}
-            animate="animate"
-            custom={isSelected}
-            transition={transition}
+            title={tab.title}
             className={classNames}
             onClick={() => handleSelect(index)}
             onFocus={() => onIntent?.(index)}
             onMouseEnter={() => onIntent?.(index)}
           >
             {content}
-          </motion.button>
+          </button>
         );
       })}
     </div>

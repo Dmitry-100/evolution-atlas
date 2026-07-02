@@ -1,5 +1,5 @@
 import "./DarwinGuide.css";
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Compass,
@@ -18,6 +18,7 @@ import type {
 } from "../../lib/askDarwinHandler";
 import { sortedStages } from "../../data/lineage";
 import { DARWIN_TOUR_MENU_EVENT } from "../tour/DarwinWelcome";
+import { fetchWithTimeout } from "../../lib/fetchWithTimeout";
 
 type ChatEntry = {
   id: string;
@@ -68,9 +69,10 @@ function historyFromEntries(entries: ChatEntry[]): DarwinGuideMessage[] {
 }
 
 async function askDarwin(request: DarwinGuideRequest) {
-  const response = await fetch(getApiUrl(), {
+  const response = await fetchWithTimeout(getApiUrl(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    timeoutMs: 9_000,
     body: JSON.stringify(request),
   });
 
@@ -105,6 +107,9 @@ export function DarwinGuide() {
   const [question, setQuestion] = useState("");
   const [entries, setEntries] = useState<ChatEntry[]>([]);
   const [isPending, setIsPending] = useState(false);
+  const panelRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const atlasContext = useMemo(
     () => extractAtlasContext(location.pathname, location.search),
     [location.pathname, location.search],
@@ -114,6 +119,44 @@ export function DarwinGuide() {
     openTourGuideMenu();
     setIsOpen(false);
   }
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusable = panelRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusable || focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [isOpen]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -153,7 +196,7 @@ export function DarwinGuide() {
             ? {
                 ...entry,
                 errorRu:
-                  "AI-гид сейчас недоступен. Проверьте настройку /api/ask-darwin или попробуйте позже.",
+                  "AI-гид сейчас недоступен. Попробуйте еще раз или откройте источники сайта.",
               }
             : entry,
         ),
@@ -167,6 +210,7 @@ export function DarwinGuide() {
     <aside className="darwin-guide" aria-label="AI-гид Дарвин">
       {isOpen ? (
         <section
+          ref={panelRef}
           className="darwin-guide-panel"
           role="dialog"
           aria-labelledby="darwin-guide-title"
@@ -177,6 +221,7 @@ export function DarwinGuide() {
               <p>Дарвин + современный научный редактор</p>
             </div>
             <button
+              ref={closeButtonRef}
               type="button"
               className="darwin-guide-icon-button"
               aria-label="Закрыть AI-гид"

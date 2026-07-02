@@ -3,6 +3,7 @@ import {
   createStoredTourPlanSnapshot,
   parseTourUrlState,
   restoreStoredTourPlan,
+  stripTourUrlState,
   toTourSearchParams,
   hrefWithTourState,
 } from "./tourUrlState";
@@ -10,12 +11,14 @@ import { buildTourRoute } from "./buildTourRoute";
 
 describe("tour URL state and storage", () => {
   it("parses and serializes tour plan id with zero-based step index", () => {
-    expect(parseTourUrlState("tour=abc&step=2")).toEqual({
+    expect(parseTourUrlState("tour=abc&step=2&intent=ancestors&budget=15")).toEqual({
       planId: "abc",
       stepIndex: 2,
+      intent: "ancestors",
+      budgetMin: 15,
     });
-    expect(toTourSearchParams({ planId: "abc", stepIndex: 3 }).toString()).toBe(
-      "tour=abc&step=3",
+    expect(toTourSearchParams({ planId: "abc", stepIndex: 3, intent: "ancestors", budgetMin: 15 }).toString()).toBe(
+      "tour=abc&step=3&intent=ancestors&budget=15",
     );
   });
 
@@ -23,6 +26,8 @@ describe("tour URL state and storage", () => {
     expect(parseTourUrlState("tour=abc&step=-4")).toEqual({
       planId: "abc",
       stepIndex: 0,
+      intent: null,
+      budgetMin: null,
     });
     expect(parseTourUrlState("step=2")).toBeNull();
   });
@@ -32,8 +37,16 @@ describe("tour URL state and storage", () => {
       hrefWithTourState("/?mode=all&stage=cell-lines", {
         planId: "tour-abc",
         stepIndex: 0,
+        intent: "ancestors",
+        budgetMin: 15,
       }),
-    ).toBe("/?tour=tour-abc&step=0&mode=all&stage=cell-lines");
+    ).toBe("/?tour=tour-abc&step=0&intent=ancestors&budget=15&mode=all&stage=cell-lines");
+  });
+
+  it("strips invalid or completed tour parameters without losing page state", () => {
+    expect(
+      stripTourUrlState("/", "?tour=&step=&intent=&budget=&stage=cell-lines"),
+    ).toBe("/?stage=cell-lines");
   });
 
   it("restores a stored plan only when ids match", () => {

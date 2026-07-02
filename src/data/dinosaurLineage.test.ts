@@ -46,6 +46,15 @@ describe("dinosaur and bird lineage data", () => {
     }
   });
 
+  it("does not place Sinosauropteryx inside Pennaraptora evidence text", () => {
+    const featheredDinosaurs = birdDinosaurBranch.find(
+      (stage) => stage.id === "feathered-dinosaurs",
+    );
+
+    expect(featheredDinosaurs?.latin).toBe("Pennaraptora");
+    expect(featheredDinosaurs?.evidenceRu).not.toMatch(/Sinosauropteryx/i);
+  });
+
   it("names the shared ancestor with birds as early amniotes", () => {
     expect(dinosaurCommonAncestor.titleRu).toBe("Ранние амниоты");
     expect(dinosaurCommonAncestor.ageMa).toBe(320);

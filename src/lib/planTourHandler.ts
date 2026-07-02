@@ -175,7 +175,7 @@ export function normalizePlanTourRequest(input: Partial<PlanTourRequest>) {
   const intent = isUsableIntent(input.intent) ? input.intent : "ancestors";
   const childAge =
     typeof input.childAge === "number" && input.childAge > 0
-      ? Math.round(input.childAge)
+      ? Math.min(18, Math.max(3, Math.round(input.childAge)))
       : null;
 
   return {

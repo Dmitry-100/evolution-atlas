@@ -1,3 +1,4 @@
+import "./BodyMapPage.css";
 import {
   ArrowRight,
   GitFork,
@@ -52,15 +53,13 @@ function BodyLayerTabs({
   return (
     <div
       className="body-map-layer-tabs"
-      role="tablist"
       aria-label="Слои карты признаков"
     >
       {layers.map((layer) => (
         <button
           key={layer.id}
           type="button"
-          role="tab"
-          aria-selected={layer.id === activeLayerId}
+          aria-pressed={layer.id === activeLayerId}
           className={layer.id === activeLayerId ? "is-active" : undefined}
           onClick={() => onChange(layer.id)}
         >
@@ -90,7 +89,7 @@ function BodyMapCanvas({
       <OptimizedImage
         src={layer.image.src}
         alt={layer.image.altRu}
-        loading="eager"
+        loading="lazy"
         decoding="async"
       />
       <div className="body-map-pins" aria-label="Признаки на выбранном слое">

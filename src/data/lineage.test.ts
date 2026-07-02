@@ -19,6 +19,21 @@ describe("lineage data", () => {
       expect(stage.image.sourceUrl).toMatch(/^https?:\/\//);
       expect(stage.image.license).not.toMatch(/локальный проектный ассет/i);
       expect(stage.sources.length).toBeGreaterThan(0);
+      expect(stage.sources.map((source) => source.label).join(" ")).not.toMatch(
+        /Visual Capitalist/i,
+      );
+    }
+  });
+
+  it("marks deep-time molecular-clock nodes with confidence levels", () => {
+    for (const id of [
+      "cell-lines",
+      "eukaryotes",
+      "choanoflagellates",
+      "early-animals",
+      "bilaterians",
+    ]) {
+      expect(getStageById(id)?.confidence).toMatch(/likely|debated/);
     }
   });
 
@@ -36,7 +51,7 @@ describe("lineage data", () => {
       expect.objectContaining({
         titleRu: "Кембрийский взрыв",
         latin: "Cambrian explosion",
-        ageMa: 541,
+        ageMa: 538.8,
         eraId: "animals",
         lineageRole: "representative",
       }),

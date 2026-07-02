@@ -48,16 +48,16 @@ export const HUMAN_ORIGIN_SITES: HumanOriginSite[] = [
     id: "omo-kibish",
     titleRu: "Omo Kibish",
     regionRu: "Эфиопия, Восточная Африка",
-    ageRu: "примерно 230-200 тыс. лет назад",
+    ageRu: "не моложе примерно 233 тыс. лет назад (нижняя оценка)",
     evidenceRu: "одни из важных ранних ископаемых Homo sapiens в Восточной Африке",
     whyMattersRu:
       "Omo Kibish показывает, что восточноафриканская часть истории остается центральной, но не единственной.",
     longitude: 36.05,
     latitude: 5.4,
-    confidence: "likely",
+    confidence: "solid",
     source: {
-      label: "Smithsonian: Homo sapiens",
-      url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens",
+      label: "Nature: Omo Kibish age",
+      url: "https://www.nature.com/articles/s41586-021-04275-8",
     },
   },
   {

@@ -8,28 +8,27 @@ import {
   inferTourIntentFromPlanId,
   parseTourUrlState,
   restoreStoredTourPlan,
+  stripTourUrlState,
+  type TourUrlState,
 } from "../../lib/tourUrlState";
 
 const STORAGE_KEY = "evolution-atlas.active-tour";
+const TOUR_PARAM_NAMES = ["tour", "step", "intent", "budget"];
 
-function removeTourParams(pathname: string, search: string) {
-  const params = new URLSearchParams(search);
-  params.delete("tour");
-  params.delete("step");
-  const nextSearch = params.toString();
-  return `${pathname}${nextSearch ? `?${nextSearch}` : ""}`;
-}
-
-function fallbackPlanFromId(planId: string): TourPlan | null {
-  const intent = inferTourIntentFromPlanId(planId);
+function fallbackPlanFromState(state: TourUrlState): TourPlan | null {
+  const intent = state.intent ?? inferTourIntentFromPlanId(state.planId);
   if (!intent || intent === "browse") return null;
-  const fallback = buildTourRoute({ intent, budgetMin: 5 });
-  return { ...fallback, planId };
+  const fallback = buildTourRoute({ intent, budgetMin: state.budgetMin ?? 5 });
+  return { ...fallback, planId: state.planId };
 }
 
-function readStoredPlan(planId: string) {
+function readStoredPlan(state: TourUrlState) {
   const snapshot = window.sessionStorage.getItem(STORAGE_KEY);
-  return restoreStoredTourPlan(snapshot, planId) ?? fallbackPlanFromId(planId);
+  const stored = restoreStoredTourPlan(snapshot, state.planId);
+  if (stored) return { plan: stored, rebuilt: false };
+
+  const fallback = fallbackPlanFromState(state);
+  return fallback ? { plan: fallback, rebuilt: true } : null;
 }
 
 function escapedStopSelector(stopId: string) {
@@ -60,14 +59,14 @@ export function TourPlayer() {
     [location.search],
   );
   const plan = useMemo(
-    () => (tourState ? readStoredPlan(tourState.planId) : null),
+    () => (tourState ? readStoredPlan(tourState) : null),
     [tourState],
   );
 
   const stepIndex =
-    tourState && plan ? Math.min(tourState.stepIndex, plan.steps.length - 1) : 0;
-  const step = plan?.steps[stepIndex] ?? null;
-  const isLastStep = plan ? stepIndex >= plan.steps.length - 1 : false;
+    tourState && plan ? Math.min(tourState.stepIndex, plan.plan.steps.length - 1) : 0;
+  const step = plan?.plan.steps[stepIndex] ?? null;
+  const isLastStep = plan ? stepIndex >= plan.plan.steps.length - 1 : false;
 
   useEffect(() => {
     if (!step) return;
@@ -101,7 +100,7 @@ export function TourPlayer() {
       ),
     );
     const scrollFrame = window.requestAnimationFrame(() => {
-      const isNarrowViewport = window.matchMedia("(max-width: 720px)").matches;
+      const isNarrowViewport = window.matchMedia("(max-width: 640px)").matches;
       const block = isNarrowViewport || firstTarget?.matches(".document-page, .quiz-page")
         ? "start"
         : "center";
@@ -117,9 +116,20 @@ export function TourPlayer() {
     };
   }, [step]);
 
-  if (!tourState || !plan || !step || plan.steps.length === 0) return null;
+  useEffect(() => {
+    if (tourState) return;
+    const params = new URLSearchParams(location.search);
+    const hasBrokenTourParams = TOUR_PARAM_NAMES.some((name) => params.has(name));
+    if (!hasBrokenTourParams) return;
 
-  const activePlan = plan;
+    navigate(stripTourUrlState(location.pathname, location.search), {
+      replace: true,
+    });
+  }, [location.pathname, location.search, navigate, tourState]);
+
+  if (!tourState || !plan || !step || plan.plan.steps.length === 0) return null;
+
+  const activePlan = plan.plan;
   const hasNextSteps = isLastStep && activePlan.nextSteps.length > 0;
 
   function changeRoute() {
@@ -130,7 +140,7 @@ export function TourPlayer() {
   function goNext() {
     if (isLastStep) {
       window.sessionStorage.removeItem(STORAGE_KEY);
-      navigate(removeTourParams(location.pathname, location.search));
+      navigate(stripTourUrlState(location.pathname, location.search));
       return;
     }
 
@@ -138,6 +148,20 @@ export function TourPlayer() {
     navigate(hrefWithTourState(nextStep.href, {
       planId: activePlan.planId,
       stepIndex: stepIndex + 1,
+      intent: activePlan.intent,
+      budgetMin: activePlan.budgetMin ?? null,
+    }));
+  }
+
+  function goPrevious() {
+    if (stepIndex <= 0) return;
+
+    const previousStep = activePlan.steps[stepIndex - 1];
+    navigate(hrefWithTourState(previousStep.href, {
+      planId: activePlan.planId,
+      stepIndex: stepIndex - 1,
+      intent: activePlan.intent,
+      budgetMin: activePlan.budgetMin ?? null,
     }));
   }
 
@@ -176,6 +200,12 @@ export function TourPlayer() {
       </header>
 
       <div className="tour-player-body">
+        {plan.rebuilt ? (
+          <p className="tour-rebuilt-note" role="status">
+            Маршрут восстановлен из ссылки: персональные формулировки могли
+            быть собраны заново.
+          </p>
+        ) : null}
         <strong>{step.titleRu}</strong>
         <p>{step.narrationRu}</p>
         <section className="tour-guide-note">
@@ -210,6 +240,9 @@ export function TourPlayer() {
         <button type="button" onClick={changeRoute}>
           <RotateCcw aria-hidden="true" size={16} />
           Сменить маршрут
+        </button>
+        <button type="button" onClick={goPrevious} disabled={stepIndex <= 0}>
+          Назад
         </button>
         <button type="button" className="tour-next-button" onClick={goNext}>
           {isLastStep ? "Завершить" : "Дальше"}

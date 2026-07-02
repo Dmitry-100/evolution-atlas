@@ -22,9 +22,9 @@ export function getOptimizedImageSrc(src: string) {
     return null;
   }
 
-  if (!/\.(jpe?g|png)$/i.test(src)) {
+  if (!/\.(jpe?g|png|webp)$/i.test(src)) {
     return null;
   }
 
-  return src.replace(/\.(jpe?g|png)$/i, ".avif");
+  return src.replace(/\.(jpe?g|png|webp)$/i, ".avif");
 }

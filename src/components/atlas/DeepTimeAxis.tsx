@@ -145,17 +145,6 @@ function formatExtinctionAge(event: MassExtinctionEvent) {
   return event.ageMa <= 0 ? "сегодня" : formatAgeRu(event.ageMa);
 }
 
-function nearestTimelineItem(items: TimelineItem[], position: number) {
-  return items.reduce<{
-    item: TimelineItem;
-    distance: number;
-  } | null>((nearest, item) => {
-    const distance = Math.abs(visualTimePosition(item.ageMa) - position);
-    if (!nearest || distance < nearest.distance) return { item, distance };
-    return nearest;
-  }, null)?.item;
-}
-
 export function DeepTimeAxis({
   stages,
   timelineItems,
@@ -168,6 +157,10 @@ export function DeepTimeAxis({
 }: DeepTimeAxisProps) {
   const [isTimelineExpanded, setIsTimelineExpanded] = useState(false);
   const activePosition = visualTimePosition(activeItem.ageMa) * 100;
+  const activeTimelineIndex = Math.max(
+    0,
+    timelineItems.findIndex((item) => item.id === activeItem.id),
+  );
   const activeColor =
     activeItem.kind === "extinction" ? activeItem.event.color : "var(--amber)";
   const showActiveCard = activeItem.kind === "stage";
@@ -187,6 +180,7 @@ export function DeepTimeAxis({
     activeItem.kind === "extinction"
       ? formatExtinctionAge(activeItem.event)
       : formatAgeRu(activeItem.stage.ageMa);
+  const activeSliderValueText = `${activeItem.titleRu}, ${activeAgeLabel}`;
   const geologicContext = getGeologicContextForAge(activeItem.ageMa);
   const visibleExtinctions = useMemo(
     () => extinctions.filter((event) => event.ageMa > 0),
@@ -196,11 +190,13 @@ export function DeepTimeAxis({
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.key === "ArrowRight" && canStepNext) {
       event.preventDefault();
+      event.stopPropagation();
       onStep(1);
     }
 
     if (event.key === "ArrowLeft" && canStepPrevious) {
       event.preventDefault();
+      event.stopPropagation();
       onStep(-1);
     }
   }
@@ -410,13 +406,14 @@ export function DeepTimeAxis({
       </div>
 
       <Slider
-        max={1000}
+        max={Math.max(0, timelineItems.length - 1)}
         min={0}
         step={1}
-        value={[activePosition * 10]}
+        value={[activeTimelineIndex]}
+        aria-valuetext={activeSliderValueText}
         onValueChange={([value]) => {
-          const nearest = nearestTimelineItem(timelineItems, (value ?? 0) / 1000);
-          if (nearest) onActivateItem(nearest);
+          const nextItem = timelineItems[Math.round(value ?? 0)];
+          if (nextItem) onActivateItem(nextItem);
         }}
       />
 

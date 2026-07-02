@@ -1,4 +1,5 @@
 import { BookOpenCheck, Network, ScrollText, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 import { EvidenceSection } from "../components/atlas/EvidenceSection";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { OptimizedImage } from "../components/ui/optimized-image";
@@ -59,16 +60,16 @@ export function TheoryPage() {
             <ScrollText aria-hidden="true" size={22} />
             <span>Дарвин: идея, которая связала факты</span>
           </div>
-          <h2>Дерево родства вместо лестницы прогресса</h2>
+          <h2>Как отбор превращает различия в историю</h2>
           <p>
-            В 1859 году Чарльз Дарвин опубликовал “Происхождение видов” и предложил механизм естественного отбора:
-            наследуемые различия помогают одним организмам оставлять больше потомков, и популяции меняются поколение за
-            поколением.
+            В 1858 году Чарльз Дарвин и Альфред Рассел Уоллес совместно представили идею естественного отбора, а в
+            1859 году Дарвин развернул её в “Происхождении видов”: наследуемые различия помогают одним организмам
+            оставлять больше потомков, и популяции меняются поколение за поколением.
           </p>
           <p>
             Дарвин не знал ДНК и генов, но верно увидел общий принцип: виды имеют историю, родство и меняются под
-            действием наследственной изменчивости и отбора. Современная теория эволюции шире Дарвина: к отбору
-            добавились генетика, палеонтология и статистические модели родства.
+            действием наследственной изменчивости, отбора, дрейфа генов, миграций и случайных событий. Современная
+            теория эволюции шире Дарвина: к отбору добавились генетика, палеонтология и статистические модели родства.
           </p>
           <div className="darwin-flow" aria-label="Как работает дарвиновская идея">
             <span>
@@ -100,6 +101,15 @@ export function TheoryPage() {
       />
 
       <EvidenceSection />
+
+      <div className="document-next-actions">
+        <Link className="button button-secondary button-md" to="/genetics">
+          Перейти к молекулярным доказательствам
+        </Link>
+        <Link className="button button-secondary button-md" to="/cladogram">
+          Открыть дерево родства
+        </Link>
+      </div>
     </section>
   );
 }

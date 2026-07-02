@@ -8,6 +8,7 @@ import {
   MapPin,
   PlayCircle,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import {
   MUSEUM_RECOMMENDATIONS,
@@ -96,6 +97,10 @@ export function MaterialsPage() {
                   <FileText aria-hidden="true" size={16} />
                   Открыть PDF
                   <ExternalLink aria-hidden="true" size={14} />
+                </a>
+                <a className="button button-ghost button-sm" href={material.pdfHref} download>
+                  <Download aria-hidden="true" size={16} />
+                  Скачать
                 </a>
               </div>
             </div>
@@ -211,6 +216,15 @@ export function MaterialsPage() {
           ))}
         </div>
       </section>
+
+      <div className="document-next-actions">
+        <Link className="button button-secondary button-md" to="/">
+          Вернуться в атлас
+        </Link>
+        <Link className="button button-secondary button-md" to="/quiz">
+          Проверить себя
+        </Link>
+      </div>
     </section>
   );
 }

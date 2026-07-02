@@ -74,4 +74,25 @@ describe("plan tour handler", () => {
     expect(response.data.routeTitleRu).toMatch(/сомнения/i);
     expect(response.data.steps[0].id).toBe("page-theory");
   });
+
+  it("clamps child age to the supported public range", async () => {
+    const handler = createPlanTourHandler({
+      apiKey: "test-key",
+      folderId: "folder",
+      generate: async (request) => {
+        expect(request.messages[1]?.content).toMatch(/Возраст ребенка: 18/);
+        return {};
+      },
+    });
+
+    const response = await handler({
+      intent: "child",
+      budgetMin: 5,
+      childAge: 500,
+      allowedStops: [],
+    });
+
+    if (!response.ok) throw new Error(response.error.messageRu);
+    expect(response.data.routeTitleRu).toContain("18");
+  });
 });

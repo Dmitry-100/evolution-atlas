@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type CSSProperties } from "react";
+import { Suspense, lazy, useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowRight,
@@ -15,11 +15,9 @@ import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/
 import { formatAgeRu } from "../lib/timeline";
 import { ConstellationField } from "../components/ui/constellation-field";
 import { FloatingPaths } from "../components/ui/floating-paths";
-import { DeepTimeAxis } from "../components/atlas/DeepTimeAxis";
 import { EraNavigation } from "../components/atlas/EraNavigation";
 import { ExtinctionDetailCard } from "../components/atlas/ExtinctionDetailCard";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
-import { TraitAccumulator } from "../components/atlas/TraitAccumulator";
 import {
   getDefaultAtlasStage,
   parseAtlasUrlState,
@@ -36,9 +34,20 @@ import {
 } from "../lib/timelineItems";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { MobileAtlas } from "../components/atlas/mobile/MobileAtlas";
+import { DARWIN_TOUR_MENU_EVENT } from "../components/tour/DarwinWelcome";
 
 const LIFE_ORIGIN_MA = 4000;
 const PRIMATES_MA = 66;
+const DeepTimeAxis = lazy(() =>
+  import("../components/atlas/DeepTimeAxis").then(({ DeepTimeAxis }) => ({
+    default: DeepTimeAxis,
+  })),
+);
+const TraitAccumulator = lazy(() =>
+  import("../components/atlas/TraitAccumulator").then(({ TraitAccumulator }) => ({
+    default: TraitAccumulator,
+  })),
+);
 
 function percentRu(value: number, maximumFractionDigits = 2) {
   return value.toLocaleString("ru-RU", { maximumFractionDigits });
@@ -75,7 +84,7 @@ export function AtlasPage() {
   const navigate = useNavigate();
   const urlState = useMemo(() => parseAtlasUrlState(searchParams), [searchParams]);
   const atlasRef = useRef<HTMLDivElement>(null);
-  const isMobileAtlas = useMediaQuery("(max-width: 720px)");
+  const isMobileAtlas = useMediaQuery("(max-width: 640px)");
 
   const visibleStages = sortedStages;
   const visibleEras = useMemo(
@@ -267,6 +276,22 @@ export function AtlasPage() {
             Почти вся история жизни прошла до появления приматов. Перемещайтесь по шкале, чтобы увидеть, как
             клеточные линии, рыбы, четвероногие, млекопитающие и древние приматы связаны с нашей ветвью.
           </p>
+          <div className="hero-actions">
+            <button
+              type="button"
+              className="button button-primary button-md"
+              onClick={() => window.dispatchEvent(new Event(DARWIN_TOUR_MENU_EVENT))}
+            >
+              Подобрать экскурсию
+            </button>
+            <Link className="button button-secondary button-md" to="/quiz">
+              Проверить себя
+            </Link>
+          </div>
+          <p className="atlas-first-run-hint">
+            Если вы здесь впервые, экскурсия соберет короткий маршрут по главным
+            узлам.
+          </p>
         </div>
       </section>
 
@@ -302,16 +327,24 @@ export function AtlasPage() {
 
       <section className="atlas-grid">
         <div className="center-stage">
-          <DeepTimeAxis
-            stages={visibleStages}
-            timelineItems={timelineItems}
-            extinctions={MASS_EXTINCTIONS}
-            activeItem={activeItem}
-            onActivateItem={activateTimelineItem}
-            onStep={moveActive}
-            canStepPrevious={canStepPrevious}
-            canStepNext={canStepNext}
-          />
+          <Suspense
+            fallback={
+              <section className="route-loading" aria-live="polite">
+                Загружаем шкалу времени...
+              </section>
+            }
+          >
+            <DeepTimeAxis
+              stages={visibleStages}
+              timelineItems={timelineItems}
+              extinctions={MASS_EXTINCTIONS}
+              activeItem={activeItem}
+              onActivateItem={activateTimelineItem}
+              onStep={moveActive}
+              canStepPrevious={canStepPrevious}
+              canStepNext={canStepNext}
+            />
+          </Suspense>
 
           <div className="era-strip-card" aria-label="Навигация по эпохам">
             <div className="rail-heading">
@@ -329,7 +362,15 @@ export function AtlasPage() {
         )}
       </section>
 
-      <TraitAccumulator groups={accumulatedTraitGroups} />
+      <Suspense
+        fallback={
+          <section className="route-loading" aria-live="polite">
+            Загружаем карту признаков...
+          </section>
+        }
+      >
+        <TraitAccumulator groups={accumulatedTraitGroups} />
+      </Suspense>
 
       <section className="theory-bridge-band">
         <div>

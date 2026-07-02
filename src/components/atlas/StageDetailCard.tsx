@@ -9,6 +9,7 @@ import { ConstellationField } from "../ui/constellation-field";
 import { FloatingPaths } from "../ui/floating-paths";
 import { ImageLightbox } from "../ui/image-lightbox";
 import { OptimizedImage } from "../ui/optimized-image";
+import { ConfidenceBadge } from "../education/ConfidenceBadge";
 import { GlossaryTerm } from "./GlossaryTerm";
 
 type StageDetailCardProps = {
@@ -17,6 +18,7 @@ type StageDetailCardProps = {
 
 export function StageDetailCard({ stage }: StageDetailCardProps) {
   const imageRef = useRef<HTMLImageElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const previousImageRef = useRef<StageImage>(stage.image);
   const [previousImage, setPreviousImage] = useState<StageImage | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,6 +36,10 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
     }
     previousImageRef.current = stage.image;
   }, [stage.image]);
+
+  useEffect(() => {
+    window.requestAnimationFrame(() => headingRef.current?.focus());
+  }, [stage.id]);
 
   useEffect(() => {
     const image = imageRef.current;
@@ -60,6 +66,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
       className="stage-panel"
       data-tour-stop-id={`stage-${stage.id}`}
       aria-label="Активный вид"
+      aria-live="polite"
     >
       <figure className="stage-plate">
         <div
@@ -114,8 +121,11 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
 
       <div className="stage-copy">
         <p className="kicker">{formatAgeRu(stage.ageMa)}</p>
-        <h2>{stage.titleRu}</h2>
+        <h2 ref={headingRef} tabIndex={-1}>{stage.titleRu}</h2>
         <p className="latin">{stage.latin}</p>
+        {stage.confidence ? (
+          <ConfidenceBadge level={stage.confidence} className="stage-confidence" />
+        ) : null}
         {glossaryTerm ? (
           <div className="stage-glossary-line">
             <span>Словарь</span>

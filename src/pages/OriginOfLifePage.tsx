@@ -8,6 +8,7 @@ import {
   Star,
   Waves,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { LucaExhibit } from "../components/education/LucaExhibit";
@@ -267,6 +268,15 @@ export function OriginOfLifePage() {
             {source.label}
           </a>
         ))}
+      </div>
+
+      <div className="document-next-actions">
+        <Link className="button button-secondary button-md" to="/genetics">
+          Перейти к РНК и ДНК
+        </Link>
+        <Link className="button button-secondary button-md" to="/?stage=cell-lines">
+          Вернуться к ранней жизни
+        </Link>
       </div>
     </section>
   );

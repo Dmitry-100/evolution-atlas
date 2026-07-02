@@ -13,6 +13,7 @@ else
 fi
 
 export VITE_AI_API_BASE_URL="${VITE_AI_API_BASE_URL:-https://d5dlcp0j3qccddl8n119.628pfjdx.apigw.yandexcloud.net}"
+export VITE_ENABLE_OPTIMIZED_IMAGES="${VITE_ENABLE_OPTIMIZED_IMAGES:-true}"
 
 "${PM[@]}" install --frozen-lockfile
 "${PM[@]}" build

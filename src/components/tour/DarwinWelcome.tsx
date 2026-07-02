@@ -1,5 +1,5 @@
 import "./Tour.css";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Baby,
@@ -23,6 +23,7 @@ import {
   hrefWithTourState,
 } from "../../lib/tourUrlState";
 import type { PlanTourRequest, PlanTourResult } from "../../lib/planTourHandler";
+import { fetchWithTimeout } from "../../lib/fetchWithTimeout";
 
 const STORAGE_KEY = "evolution-atlas.active-tour";
 export const DARWIN_TOUR_MENU_EVENT = "evolution-atlas:open-tour-guide";
@@ -54,9 +55,10 @@ function storePlan(plan: TourPlan) {
 
 async function requestTourPlan(request: PlanTourRequest, fallback: TourPlan) {
   try {
-    const response = await fetch(getApiUrl(), {
+    const response = await fetchWithTimeout(getApiUrl(), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      timeoutMs: 9_000,
       body: JSON.stringify(request),
     });
     if (!response.ok) throw new Error("Plan tour endpoint failed");
@@ -89,6 +91,8 @@ export function DarwinWelcome({
   const [freeText, setFreeText] = useState("");
   const [isStarting, setIsStarting] = useState(false);
   const panelRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const browsePlan = buildTourRoute({ intent: "browse" });
   const routePreview =
     selectedIntent && selectedIntent !== "browse"
@@ -101,14 +105,55 @@ export function DarwinWelcome({
       : null;
   const open = isOpen ?? internalOpen;
 
+  const setOpen = useCallback(
+    (nextOpen: boolean) => {
+      if (isOpen === undefined) setInternalOpen(nextOpen);
+      onOpenChange?.(nextOpen);
+    },
+    [isOpen, onOpenChange],
+  );
+
   useEffect(() => {
     panelRef.current?.scrollTo({ top: 0 });
   }, [phase, selectedIntent, childAge]);
 
-  function setOpen(nextOpen: boolean) {
-    if (isOpen === undefined) setInternalOpen(nextOpen);
-    onOpenChange?.(nextOpen);
-  }
+  useEffect(() => {
+    if (!open) return undefined;
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusable = panelRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusable || focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [open, setOpen]);
 
   function chooseIntent(intent: TourIntent) {
     setSelectedIntent(intent);
@@ -157,6 +202,8 @@ export function DarwinWelcome({
     navigate(hrefWithTourState(plan.steps[0].href, {
       planId: plan.planId,
       stepIndex: 0,
+      intent: answers.intent,
+      budgetMin,
     }));
   }
 
@@ -186,7 +233,7 @@ export function DarwinWelcome({
           ref={panelRef}
           className="darwin-welcome"
           role="dialog"
-          aria-modal="false"
+          aria-modal="true"
           aria-label="Дарвин встречает посетителя"
         >
           <div className="darwin-welcome-copy">
@@ -331,11 +378,15 @@ export function DarwinWelcome({
 
           <div className="darwin-welcome-actions">
             {phase !== "intent" ? (
-              <button type="button" onClick={resetChoice}>
+            <button type="button" onClick={resetChoice}>
                 Сменить выбор и найти другую экскурсию
               </button>
             ) : null}
-            <button type="button" onClick={() => setOpen(false)}>
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={() => setOpen(false)}
+            >
               <X aria-hidden="true" size={15} />
               Без Дарвина
             </button>

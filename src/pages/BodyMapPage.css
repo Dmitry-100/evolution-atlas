@@ -1,0 +1,408 @@
+@layer pages {
+  .body-map-page {
+    background:
+      radial-gradient(
+        circle at 18% 0%,
+        var(--teal-glow),
+        transparent 24rem
+      ),
+      radial-gradient(
+        circle at 85% 6%,
+        var(--amber-faint),
+        transparent 23rem
+      ),
+      rgba(10, 13, 12, 0.86);
+  }
+
+  .body-map-header {
+    max-width: 920px;
+  }
+
+  .body-map-main,
+  .body-trait-inspector {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    box-shadow: var(--shadow);
+  }
+
+  .body-map-layer-tabs {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin: 0 0 1rem;
+  }
+
+  .body-map-layer-tabs button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.42rem;
+    min-width: 0;
+    min-height: 46px;
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    background: var(--surface-tint);
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.54rem 0.68rem;
+    font-size: 0.91rem;
+    font-weight: 820;
+    transition:
+      border-color 160ms ease,
+      background 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .body-map-layer-tabs button:hover,
+  .body-map-layer-tabs button.is-active {
+    transform: translateY(-1px);
+    border-color: rgba(240, 201, 120, 0.52);
+    background: var(--amber-faint);
+    color: var(--amber);
+  }
+
+  .body-map-layer-tabs button:focus-visible,
+  .body-trait-pin:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+  }
+
+  .body-map-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .body-map-main {
+    overflow: hidden;
+    background:
+      radial-gradient(
+        circle at 50% 8%,
+        var(--amber-faint),
+        transparent 24rem
+      ),
+      rgba(9, 12, 12, 0.9);
+  }
+
+  .body-map-layer-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--line-soft);
+    padding: 1rem;
+  }
+
+  .body-map-layer-heading h2 {
+    margin: 0.2rem 0 0.35rem;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2.8vw, 2.2rem);
+    line-height: 1.08;
+  }
+
+  .body-map-layer-heading p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .body-map-layer-heading > span {
+    flex: 0 0 auto;
+    border: 1px solid rgba(240, 201, 120, 0.26);
+    border-radius: 999px;
+    color: var(--amber);
+    font-size: 0.82rem;
+    font-weight: 860;
+    padding: 0.38rem 0.62rem;
+  }
+
+  .body-map-canvas {
+    position: relative;
+    display: grid;
+    margin: 0;
+    min-width: 0;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent),
+      #080b0b;
+  }
+
+  .body-map-canvas img {
+    width: 100%;
+    aspect-ratio: 1122 / 1402;
+    max-height: min(78dvh, 1040px);
+    object-fit: contain;
+    background: #080b0b;
+  }
+
+  .body-map-pins {
+    position: absolute;
+    inset: 0;
+  }
+
+  .body-trait-pin {
+    position: absolute;
+    left: var(--trait-x);
+    top: var(--trait-y);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    min-width: 34px;
+    min-height: 34px;
+    border: 1px solid rgba(240, 201, 120, 0.54);
+    border-radius: 999px;
+    background: rgba(8, 11, 11, 0.72);
+    color: var(--amber);
+    cursor: pointer;
+    padding: 0.26rem 0.44rem;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 0 5px var(--amber-wash),
+      0 12px 32px rgba(0, 0, 0, 0.38);
+    transition:
+      border-color 160ms ease,
+      background 160ms ease,
+      box-shadow 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .body-trait-pin span {
+    display: none;
+    max-width: min(190px, 34vw);
+    overflow: hidden;
+    color: var(--text);
+    font-size: 0.78rem;
+    font-weight: 820;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .body-trait-pin:hover,
+  .body-trait-pin.is-active {
+    z-index: 2;
+    transform: translate(-50%, -50%) scale(1.03);
+    border-color: rgba(130, 183, 179, 0.74);
+    background: rgba(15, 23, 22, 0.9);
+    color: var(--teal);
+    box-shadow:
+      0 0 0 7px var(--teal-glow),
+      0 16px 42px rgba(0, 0, 0, 0.46);
+  }
+
+  .body-trait-pin:hover span,
+  .body-trait-pin.is-active span {
+    display: inline-block;
+  }
+
+  .body-trait-inspector {
+    position: sticky;
+    top: clamp(0.8rem, 2vw, 1.25rem);
+    display: grid;
+    gap: 0.9rem;
+    min-width: 0;
+    padding: 1rem;
+    background:
+      radial-gradient(
+        circle at 86% 0%,
+        var(--amber-glow),
+        transparent 15rem
+      ),
+      radial-gradient(
+        circle at 4% 16%,
+        var(--teal-wash),
+        transparent 14rem
+      ),
+      rgba(10, 14, 13, 0.94);
+  }
+
+  .body-trait-inspector-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  .body-trait-inspector-heading svg {
+    color: var(--amber);
+  }
+
+  .body-trait-inspector-heading h2 {
+    margin: 0.2rem 0 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    line-height: 1.04;
+  }
+
+  .body-trait-stage,
+  .body-trait-source,
+  .body-trait-caveat {
+    border: 1px solid var(--line-faint);
+    border-radius: var(--radius);
+    background: var(--surface-tint-strong);
+    padding: 0.8rem;
+  }
+
+  .body-trait-stage {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 0.72rem;
+    align-items: center;
+    padding: 0.72rem;
+  }
+
+  .body-trait-stage-media {
+    aspect-ratio: 1;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--line-soft);
+    border-radius: calc(var(--radius) - 2px);
+    background: rgba(0, 0, 0, 0.28);
+  }
+
+  .body-trait-stage-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .body-trait-stage-copy {
+    display: grid;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .body-trait-stage span {
+    color: var(--faint);
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .body-trait-stage strong {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1.28rem;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .body-trait-stage small {
+    color: var(--muted);
+  }
+
+  .body-trait-note {
+    margin: 0;
+    color: var(--text-soft, var(--text));
+    line-height: 1.62;
+  }
+
+  .body-trait-source,
+  .body-trait-caveat {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.62rem;
+    color: var(--muted);
+  }
+
+  .body-trait-source svg,
+  .body-trait-caveat svg {
+    color: var(--gold);
+  }
+
+  .body-trait-source strong {
+    color: var(--text);
+  }
+
+  .body-trait-source p,
+  .body-trait-caveat p {
+    margin: 0.18rem 0 0;
+  }
+
+  @media (max-width: 1024px) {
+    .body-map-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .body-trait-inspector {
+      position: static;
+    }
+
+    .body-map-layer-tabs {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .body-map-layer-tabs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.42rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .body-map-layer-heading {
+      display: grid;
+      gap: 0.55rem;
+      padding: 0.78rem;
+    }
+
+    .body-map-layer-heading h2 {
+      margin-top: 0;
+      font-size: 1.38rem;
+    }
+
+    .body-map-layer-heading p {
+      line-height: 1.42;
+    }
+
+    .body-map-layer-heading > span {
+      justify-self: start;
+      padding: 0.32rem 0.56rem;
+    }
+
+    .body-trait-pin {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      min-height: 36px;
+      justify-content: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .body-trait-pin span {
+      display: none !important;
+    }
+
+    .body-trait-pin:hover,
+    .body-trait-pin.is-active {
+      transform: translate(-50%, -50%) scale(1.06);
+    }
+
+    .body-trait-inspector {
+      gap: 0.72rem;
+      padding: 0.85rem;
+    }
+
+    .body-trait-inspector-heading {
+      gap: 0.55rem;
+    }
+
+    .body-trait-inspector-heading h2 {
+      font-size: 1.55rem;
+    }
+
+    .body-trait-stage,
+    .body-trait-source,
+    .body-trait-caveat {
+      padding: 0.72rem;
+    }
+  }
+}

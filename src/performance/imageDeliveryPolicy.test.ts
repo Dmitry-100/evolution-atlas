@@ -1,4 +1,7 @@
+/// <reference types="node" />
+
 import { describe, expect, it } from "vitest";
+import { existsSync } from "node:fs";
 
 import appSource from "../App.tsx?raw";
 import cladogramPanelSource from "../components/atlas/CladogramPanel.tsx?raw";
@@ -39,6 +42,12 @@ const sourceFiles = [
   ["src/pages/TheoryPage.tsx", theoryPageSource],
 ];
 
+const requiredAvifAssets = [
+  "/assets/images/cladogram/tree-of-life-poster.avif",
+  "/assets/images/source-backed/denisovan-reconstruction.avif",
+  "/assets/images/social/evolution-atlas-preview.avif",
+];
+
 describe("image delivery policy", () => {
   it("routes page and atlas images through OptimizedImage", () => {
     const plainImageFiles = sourceFiles
@@ -48,11 +57,28 @@ describe("image delivery policy", () => {
     expect(plainImageFiles).toEqual([]);
   });
 
-  it("does not force optimized raster sources from app surfaces", () => {
-    const forcedOptimizedFiles = sourceFiles
+  it("does not rely on per-call preferOptimized flags", () => {
+    const manualOptimizedFiles = sourceFiles
       .filter(([, source]) => source.includes("preferOptimized"))
       .map(([file]) => file);
 
-    expect(forcedOptimizedFiles).toEqual([]);
+    expect(manualOptimizedFiles).toEqual([]);
+  });
+
+  it("requires OptimizedImage calls to pass an explicit alt value", () => {
+    const implicitAltFiles = sourceFiles
+      .filter(([, source]) => /<OptimizedImage(?![^>]*\salt=)/s.test(source))
+      .map(([file]) => file);
+
+    expect(implicitAltFiles).toEqual([]);
+  });
+
+  it("keeps AVIF companions for large and webp-backed content images", () => {
+    const missingAvifAssets = requiredAvifAssets.filter(
+      (assetPath) =>
+        !existsSync(new URL(`../../public${assetPath}`, import.meta.url)),
+    );
+
+    expect(missingAvifAssets).toEqual([]);
   });
 });

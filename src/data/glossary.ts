@@ -24,7 +24,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     titleRu: "LUCA: общий предок",
     latin: "Last Universal Common Ancestor",
     definitionRu: "Реконструируемый последний общий предок всех современных клеточных линий, а не первая жизнь на Земле.",
-    exampleRu: "От LUCA расходятся глубокие линии бактерий, архей и эукариот.",
+    exampleRu: "От LUCA расходятся глубокие линии бактерий и архей; эукариоты возникли позже рядом с архейной ветвью и через эндосимбиоз.",
   },
   {
     id: "prokaryotes",
@@ -139,11 +139,18 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     exampleRu: "Внутри узконосых расходятся мартышковые и человекообразные ветви.",
   },
   {
-    id: "apes",
+    id: "hominoids",
     titleRu: "Человекообразные",
     latin: "Hominoidea",
     definitionRu: "Группа приматов без хвоста, куда входят гиббоны, орангутаны, гориллы, шимпанзе и люди.",
     exampleRu: "Человек — не вершина человекообразных, а одна из ветвей этой группы.",
+  },
+  {
+    id: "hominids",
+    titleRu: "Большие человекообразные",
+    latin: "Hominidae",
+    definitionRu: "Семейство больших человекообразных: орангутаны, гориллы, шимпанзе, люди и их близкие ископаемые родственники.",
+    exampleRu: "Hominoidea шире: туда входят и гиббоны; Hominidae — более узкая ветвь больших человекообразных.",
   },
   {
     id: "hominins",
@@ -259,8 +266,8 @@ const STAGE_GLOSSARY: Record<string, string> = {
   anthropoids: "anthropoids",
   "new-world-monkeys": "platyrrhines",
   catarrhini: "catarrhines",
-  "early-apes": "apes",
-  "great-apes": "apes",
+  "early-apes": "hominoids",
+  "great-apes": "hominids",
   hominins: "hominins",
 };
 

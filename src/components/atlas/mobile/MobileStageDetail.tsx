@@ -25,9 +25,8 @@ export function MobileStageDetail({ stage }: MobileStageDetailProps) {
         <OptimizedImage
           src={stage.image.src}
           alt={stage.image.altRu}
-          loading="eager"
+          loading="lazy"
           decoding="async"
-          fetchPriority="high"
         />
         <span>
           <Maximize2 aria-hidden="true" size={15} />

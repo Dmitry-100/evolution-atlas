@@ -31,7 +31,7 @@ describe("geologic periods", () => {
   });
 
   it("treats rounded atlas ages near formal boundaries as boundary context", () => {
-    expect(getGeologicContextForAge(541)?.boundary?.id).toBe(
+    expect(getGeologicContextForAge(538.8)?.boundary?.id).toBe(
       "ediacaran-cambrian",
     );
     expect(getGeologicContextForAge(252)?.boundary?.id).toBe(

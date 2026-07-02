@@ -35,7 +35,7 @@ export function PrimatesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const urlState = useMemo(() => parsePrimateUrlState(searchParams), [searchParams]);
   const atlasRef = useRef<HTMLDivElement>(null);
-  const isMobileAtlas = useMediaQuery("(max-width: 720px)");
+  const isMobileAtlas = useMediaQuery("(max-width: 640px)");
 
   const visibleStages = primateStages;
   const visibleEras = useMemo(
@@ -143,7 +143,7 @@ export function PrimatesPage() {
           <p>
             Здесь собраны{" "}
             <GlossaryTermById id="anthropoids">антропоиды</GlossaryTermById>,{" "}
-            <GlossaryTermById id="apes">человекообразные</GlossaryTermById>,{" "}
+            <GlossaryTermById id="hominoids">человекообразные</GlossaryTermById>,{" "}
             <GlossaryTermById id="hominins">гоминины</GlossaryTermById>,
             ранние Homo, соседние человеческие линии и первые следы расселения.
           </p>

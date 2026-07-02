@@ -62,7 +62,7 @@
 
 .darwin-guide-header h2 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-size: 1.22rem;
   line-height: 1.15;
 }
@@ -101,7 +101,7 @@
   border: 1px solid rgba(232, 202, 140, 0.22);
   border-radius: 8px;
   color: var(--muted);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--surface-tint-strong);
 }
 
 .darwin-guide-empty svg {
@@ -280,7 +280,7 @@
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 640px) {
   .darwin-guide {
     right: 0.75rem;
     bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));

@@ -86,7 +86,7 @@ export function QuizPanel() {
         <QuizResult result={result} onRestart={restart} />
       ) : (
         <div className="quiz-body">
-          <div className="quiz-progress">
+          <div className="quiz-progress" aria-live="polite">
             Вопрос {questionIndex + 1} из {attemptQuestions.length}
           </div>
           <h3>{question.promptRu}</h3>
@@ -107,7 +107,11 @@ export function QuizPanel() {
           ) : null}
 
           {hasSubmittedAnswer ? (
-            <div className={isCurrentAnswerCorrect ? "quiz-explanation is-correct" : "quiz-explanation is-wrong"}>
+            <div
+              className={isCurrentAnswerCorrect ? "quiz-explanation is-correct" : "quiz-explanation is-wrong"}
+              role="status"
+              aria-live="polite"
+            >
               <strong>{isCurrentAnswerCorrect ? "Верно" : "Не совсем"}</strong>
               <p>{question.explanationRu}</p>
             </div>
@@ -153,9 +157,18 @@ function SingleChoiceQuestion({
           .join(" ");
 
         return (
-          <button key={option.id} className={className} type="button" onClick={() => onSelect(option.id)}>
+          <button
+            key={option.id}
+            className={className}
+            type="button"
+            aria-disabled={showState}
+            disabled={showState}
+            onClick={() => onSelect(option.id)}
+          >
             {showState && option.isCorrect ? <CheckCircle2 aria-hidden="true" size={17} /> : null}
             {showState && isSelected && !option.isCorrect ? <XCircle aria-hidden="true" size={17} /> : null}
+            {showState && option.isCorrect ? <span className="sr-only">Верный ответ: </span> : null}
+            {showState && isSelected && !option.isCorrect ? <span className="sr-only">Ваш ответ неверен: </span> : null}
             <span>{option.textRu}</span>
           </button>
         );
@@ -215,6 +228,7 @@ function OrderQuestion({
         className="button button-secondary button-md"
         type="button"
         disabled={hasSubmittedAnswer}
+        aria-disabled={hasSubmittedAnswer}
         onClick={() => onSubmit(question)}
       >
         Проверить
@@ -252,7 +266,16 @@ function BranchChoiceQuestion({
             .join(" ");
 
           return (
-            <button key={node.id} className={className} type="button" onClick={() => onSelect(node.id)}>
+            <button
+              key={node.id}
+              className={className}
+              type="button"
+              aria-disabled={showState}
+              disabled={showState}
+              onClick={() => onSelect(node.id)}
+            >
+              {showState && isCorrect ? <span className="sr-only">Верный ответ: </span> : null}
+              {showState && isSelected && !isCorrect ? <span className="sr-only">Ваш ответ неверен: </span> : null}
               <strong>{node.textRu}</strong>
               <span>{node.detailRu}</span>
             </button>

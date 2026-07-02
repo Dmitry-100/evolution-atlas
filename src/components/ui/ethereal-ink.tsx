@@ -55,6 +55,25 @@ function useDocumentVisible() {
   return isVisible;
 }
 
+function useElementVisible<TElement extends Element>() {
+  const ref = useRef<TElement | null>(null);
+  const [isIntersecting, setIsIntersecting] = useState(true);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsIntersecting(Boolean(entry?.isIntersecting)),
+      { threshold: 0.01 },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, isIntersecting };
+}
+
 function useDeferredShaderReady() {
   const [isReady, setIsReady] = useState(false);
 
@@ -370,17 +389,18 @@ export const EtherealInk = memo(function EtherealInk({
 }: EtherealInkProps) {
   const reducedMotion = usePrefersReducedMotion();
   const isVisible = useDocumentVisible();
+  const { ref, isIntersecting } = useElementVisible<HTMLDivElement>();
   const isShaderReady = useDeferredShaderReady();
 
   return (
-    <div className={cn("ethereal-ink", className)} aria-hidden="true">
+    <div ref={ref} className={cn("ethereal-ink", className)} aria-hidden="true">
       {isShaderReady ? (
         <ShaderCanvas
           complexity={complexity}
           hue={hue}
           intensity={intensity}
           interactive={interactive}
-          paused={reducedMotion || !isVisible}
+          paused={reducedMotion || !isVisible || !isIntersecting}
           speed={speed}
         />
       ) : (
