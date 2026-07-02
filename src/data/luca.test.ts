@@ -12,9 +12,13 @@ describe("LUCA exhibit data", () => {
     expect(LUCA_EXHIBIT.confidence).toBe("debated");
   });
 
-  it("shows the three-domain split and inherited cellular machinery", () => {
+  it("shows eukaryotes inside the archaeal branch, not as a direct LUCA split", () => {
     expect(LUCA_TREE_NODES.map((node) => node.id)).toEqual(["luca", "bacteria", "archaea", "eukaryotes"]);
-    expect(LUCA_TREE_NODES[0]?.children).toEqual(["bacteria", "archaea", "eukaryotes"]);
+    expect(LUCA_TREE_NODES[0]?.children).toEqual(["bacteria", "archaea"]);
+    expect(LUCA_TREE_NODES.find((node) => node.id === "archaea")?.children).toEqual(["eukaryotes"]);
+    expect(LUCA_TREE_NODES.find((node) => node.id === "eukaryotes")?.source.url).toBe(
+      "https://www.nature.com/articles/s41559-024-02461-1",
+    );
     expect(LUCA_INHERITANCE).toEqual(
       expect.arrayContaining(["почти общий генетический код", "рибосомы", "ATP и ионные градиенты", "клеточные мембраны"]),
     );

@@ -6483,8 +6483,19 @@ code {
 
 .luca-branches {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.55rem;
+}
+
+.luca-branch-group {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.luca-branch--nested {
+  margin-left: 0.75rem;
+  border-color: rgba(130, 183, 179, 0.28);
+  background: rgba(8, 24, 23, 0.54);
 }
 
 .luca-detail,
@@ -7152,23 +7163,41 @@ code {
   line-height: 1.52;
 }
 
-.genome-comparison-meter {
-  overflow: hidden;
-  height: 0.62rem;
-  border: 1px solid rgba(218, 185, 126, 0.15);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.045);
+.genome-comparison-metric {
+  display: grid;
+  gap: 0.18rem;
+  border: 1px solid rgba(218, 185, 126, 0.14);
+  border-radius: calc(var(--radius) - 4px);
+  background: rgba(255, 255, 255, 0.035);
+  padding: 0.62rem 0.68rem;
 }
 
-.genome-comparison-meter i {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(
-    90deg,
-    rgba(130, 183, 179, 0.92),
-    rgba(240, 201, 120, 0.92)
-  );
+.genome-comparison-metric span {
+  color: var(--faint);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.genome-comparison-metric em {
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.genome-comparison-metric--sequence-identity {
+  border-color: rgba(240, 201, 120, 0.22);
+}
+
+.genome-comparison-metric--coding-identity {
+  border-color: rgba(130, 183, 179, 0.24);
+}
+
+.genome-comparison-metric--ortholog-share {
+  border-color: rgba(167, 190, 123, 0.24);
 }
 
 .genome-comparison-proof {

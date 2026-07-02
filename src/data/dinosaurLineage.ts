@@ -143,12 +143,12 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
   {
     id: "feathered-dinosaurs",
     slug: "feathered-dinosaurs",
-    titleRu: "Пернатые динозавры",
-    latin: "Pennaraptora",
+    titleRu: "Пернатые целурозавры",
+    latin: "Coelurosauria",
     ageMa: 160,
     summaryRu: "У многих нептичьих динозавров был покров, который помогал сохранять тепло, подавать сигналы и участвовать в поведении.",
     whyMattersRu: "Многие птичьи признаки появились ещё у нептичьих родственников.",
-    evidenceRu: "Ископаемые из лагерштеттов Китая сохранили отпечатки перьев у Anchiornis, Microraptor, Sinosauropteryx и других динозавров.",
+    evidenceRu: "Ископаемые из лагерштеттов Китая сохранили отпечатки сложных перьев у Anchiornis, Microraptor и других близких к птичьей линии целурозавров.",
     inherited: ["перья", "теплоизоляция", "визуальные сигналы"],
     image: generatedDinoImage(
       "feathered-dinosaurs.jpg",
@@ -242,7 +242,7 @@ export const dinosaurCommonAncestor = {
     valueRu: "~320 млн лет назад",
   summaryRu:
     "Последний общий предок нашей линии и линии птиц был близок к ранним амниотам позднего карбона. После этой развилки синапсидная линия ведет к млекопитающим, а диапсидная — к ящерицам, крокодилам, динозаврам и птицам.",
-  humanBranchRu: "синапсиды → терапсиды → млекопитающие → приматы → человек",
+  humanBranchRu: "синапсиды → терапсиды → цинодонты → млекопитающие → приматы → человек",
   dinosaurBranchRu: "диапсиды → архозавры → динозавры → тероподы → птицы",
   sources: [wiki("Amniote", "Amniote"), wiki("Synapsid", "Synapsid"), wiki("Diapsid", "Diapsid")],
 };

@@ -29,6 +29,7 @@ import {
   GENETICS_EVIDENCE,
   GENETICS_SOURCES,
   GENOME_COMPARISONS,
+  type GenomeComparison,
 } from "../data/genetics";
 
 const evidenceIcons = [Binary, Braces, Sparkles, Network, Fingerprint, Microscope];
@@ -136,12 +137,18 @@ const moleculeGallery = [
   },
 ];
 
-const comparisonVisuals: Record<string, { percent: number; label: string }> = {
-  "human-human": { percent: 99.9, label: "почти одна и та же инструкция" },
-  "human-chimp": { percent: 98.8, label: "очень близкая сестринская ветвь" },
-  "human-mouse": { percent: 85, label: "общая млекопитающая основа" },
-  "human-fly": { percent: 60, label: "древний общий набор генов" },
-  "human-banana": { percent: 25, label: "следы глубокой клеточной родни" },
+const metricKindLabels: Record<GenomeComparison["metricKind"], string> = {
+  "sequence-identity": "идентичность последовательности",
+  "coding-identity": "кодирующие участки",
+  "ortholog-share": "доля ортологов",
+};
+
+const comparisonVisuals: Record<string, { label: string }> = {
+  "human-human": { label: "почти одна и та же инструкция" },
+  "human-chimp": { label: "очень близкая сестринская ветвь" },
+  "human-mouse": { label: "общая млекопитающая основа" },
+  "human-fly": { label: "древний общий набор генов" },
+  "human-banana": { label: "следы глубокой клеточной родни" },
 };
 
 const evidenceVisuals: Record<string, GeneticsVisual> = {
@@ -318,10 +325,11 @@ export function GeneticsPage() {
               <span>{comparison.titleRu}</span>
               <strong>{comparison.valueRu}</strong>
               <div
-                className="genome-comparison-meter"
-                aria-label={`${comparisonVisuals[comparison.id]?.percent ?? 0}%`}
+                className={`genome-comparison-metric genome-comparison-metric--${comparison.metricKind}`}
+                aria-label={`Тип метрики: ${metricKindLabels[comparison.metricKind]}`}
               >
-                <i style={{ width: `${comparisonVisuals[comparison.id]?.percent ?? 0}%` }} />
+                <span>метрика</span>
+                <em>{metricKindLabels[comparison.metricKind]}</em>
               </div>
               <b>{comparisonVisuals[comparison.id]?.label}</b>
               <p>{comparison.metricRu}</p>

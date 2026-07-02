@@ -421,11 +421,11 @@ export const BODY_TRAITS: BodyTrait[] = [
   {
     id: "senses-ear-bones",
     layerId: "senses",
-    stageId: "mammals",
+    stageId: "cynodonts",
     traitRu: "слуховые косточки",
     titleRu: "Слуховые косточки",
     noteRu:
-      "Млекопитающие превратили элементы древней челюстной системы в тонкий механизм среднего уха.",
+      "У поздних цинодонтов и ранних млекопитающих элементы древней челюстной системы постепенно вошли в тонкий механизм среднего уха.",
     anchor: { x: 68, y: 38 },
     confidence: "solid",
   },

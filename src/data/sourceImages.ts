@@ -214,6 +214,14 @@ export const SOURCE_IMAGES: Record<string, SourceImageRecord> = {
     "commonsTitle": "Smithsonian reconstructed faces: Homo neanderthalensis",
     "description": "Museum facial reconstruction of Homo neanderthalensis."
   },
+  "denisovans": {
+    "src": "/assets/images/source-backed/denisovan-reconstruction.webp",
+    "sourceUrl": "https://s12.stc.yc.kpcdn.net/share/i/12/14570276/wr-960.webp",
+    "credit": "Пользовательская ссылка / kp.ru CDN",
+    "license": "см. исходный источник",
+    "commonsTitle": "denisovan-reconstruction",
+    "description": "Портретная реконструкция денисовца."
+  },
   "generated-neanderthal": {
     "src": "/assets/images/source-backed/generated-neanderthal.png",
     "sourceUrl": "https://openai.com/",

@@ -49,7 +49,16 @@ describe("dinosaur and bird lineage data", () => {
   it("names the shared ancestor with birds as early amniotes", () => {
     expect(dinosaurCommonAncestor.titleRu).toBe("Ранние амниоты");
     expect(dinosaurCommonAncestor.ageMa).toBe(320);
+    expect(dinosaurCommonAncestor.humanBranchRu).toMatch(/цинодонты/);
     expect(dinosaurCommonAncestor.humanBranchRu).toMatch(/млекопитающие/);
     expect(dinosaurCommonAncestor.dinosaurBranchRu).toMatch(/птицы/);
+  });
+
+  it("does not place Sinosauropteryx inside Pennaraptora", () => {
+    const featheredDinosaurs = birdDinosaurBranch.find((stage) => stage.id === "feathered-dinosaurs");
+
+    expect(featheredDinosaurs?.latin).not.toBe("Pennaraptora");
+    expect(featheredDinosaurs?.evidenceRu).not.toMatch(/Sinosauropteryx/i);
+    expect(featheredDinosaurs?.evidenceRu).toMatch(/Anchiornis|Microraptor/i);
   });
 });

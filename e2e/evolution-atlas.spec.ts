@@ -737,7 +737,7 @@ test.describe("Evolution Atlas", () => {
     test.skip(testInfo.project.name !== "mobile", "Mobile Atlas is mobile-only.");
 
     await page.goto("/primates?stage=early-primates");
-    await expect(page.locator(".mobile-stage-row")).toHaveCount(16);
+    await expect(page.locator(".mobile-stage-row")).toHaveCount(17);
     await expect(page.locator(".africa-origin")).toBeVisible();
 
     await page
@@ -980,7 +980,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".primate-deep-axis")).toBeVisible();
     await expect(page.locator(".primate-timeline-river-image")).toBeVisible();
     await expect(page.locator(".primate-time-floating-paths")).toHaveCount(1);
-    await expect(page.locator(".primate-stage-dots .deep-stage-dot")).toHaveCount(16);
+    await expect(page.locator(".primate-stage-dots .deep-stage-dot")).toHaveCount(17);
     await expect(page.locator(".primate-zone-bands span")).toHaveCount(4);
     await expect(page.getByText(/66 млн лет назад.*сегодня/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
@@ -2340,7 +2340,7 @@ test.describe("Evolution Atlas", () => {
       page.getByText(/Последний общий предок нашей линии и линии птиц/i),
     ).toBeVisible();
     await expect(
-      page.getByText(/синапсиды → терапсиды → млекопитающие/i),
+      page.getByText(/синапсиды → терапсиды → цинодонты → млекопитающие/i),
     ).toBeVisible();
     await expect(
       page.getByText(/диапсиды → архозавры → динозавры/i),
@@ -2500,7 +2500,7 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
     await expect(page.locator(".molecule-card img")).toHaveCount(3);
     await expect(page.locator(".genome-comparison-card")).toHaveCount(5);
-    await expect(page.locator(".genome-comparison-meter")).toHaveCount(5);
+    await expect(page.locator(".genome-comparison-metric")).toHaveCount(5);
     await expect(
       page.locator(".genome-comparison-card", { hasText: "Человек и банан" }),
     ).toBeVisible();

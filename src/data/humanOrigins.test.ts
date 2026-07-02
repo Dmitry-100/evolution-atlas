@@ -24,6 +24,15 @@ describe("human origins map data", () => {
     }
   });
 
+  it("uses the updated minimum age and confidence for Omo Kibish", () => {
+    const omoKibish = HUMAN_ORIGIN_SITES.find((site) => site.id === "omo-kibish");
+
+    expect(omoKibish?.ageRu).toMatch(/233/);
+    expect(omoKibish?.ageRu).toMatch(/нижн/i);
+    expect(omoKibish?.confidence).toBe("solid");
+    expect(omoKibish?.source.label).toMatch(/Vidal|Nature/i);
+  });
+
   it("adds approximate Homo sapiens dispersal routes and dates", () => {
     expect(HUMAN_MIGRATION_ROUTES.length).toBeGreaterThanOrEqual(5);
     expect(HUMAN_MIGRATION_ROUTES.map((route) => route.id)).toEqual(

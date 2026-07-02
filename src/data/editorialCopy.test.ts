@@ -210,6 +210,20 @@ describe("editorial science copy", () => {
     expect(foundRetiredPhrases).toEqual([]);
   });
 
+  it("credits Wallace and includes drift as a non-selection mechanism", () => {
+    const copy = readActiveCopy();
+
+    expect(copy).toContain("Уоллес");
+    expect(copy).toMatch(/дрейф генов|генетический дрейф/i);
+    expect(copy).toMatch(/естественн[а-яё]+ отбор[а-яё]*/i);
+  });
+
+  it("does not render mixed genome comparison metrics as one progress scale", () => {
+    expect(geneticsPageCopy).toContain("genome-comparison-metric");
+    expect(geneticsPageCopy).not.toContain("style={{ width:");
+    expect(geneticsPageCopy).not.toContain("genome-comparison-meter");
+  });
+
   it("keeps atlas microcopy on the route-era and trait-map vocabulary", () => {
     const copy = readActiveCopy();
     const retiredAtlasPhrases = [

@@ -19,6 +19,7 @@ describe("glossary data", () => {
       "anthropoids",
       "catarrhines",
       "apes",
+      "great-apes",
       "hominins",
       "cladogram",
       "abiogenesis",
@@ -54,6 +55,8 @@ describe("glossary data", () => {
     expect(getStageGlossaryTerm("vertebrates")?.id).toBe("vertebrates");
     expect(getStageGlossaryTerm("tetrapods")?.id).toBe("tetrapods");
     expect(getStageGlossaryTerm("placentals")?.id).toBe("eutherians");
+    expect(getStageGlossaryTerm("early-apes")?.id).toBe("apes");
+    expect(getStageGlossaryTerm("great-apes")?.id).toBe("great-apes");
     expect(getStageGlossaryTerm("hominins")?.id).toBe("hominins");
   });
 });

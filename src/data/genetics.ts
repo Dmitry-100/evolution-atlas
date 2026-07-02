@@ -13,6 +13,7 @@ export type GenomeComparison = {
   id: string;
   titleRu: string;
   valueRu: string;
+  metricKind: "sequence-identity" | "coding-identity" | "ortholog-share";
   metricRu: string;
   meaningRu: string;
   cautionRu: string;
@@ -59,6 +60,7 @@ export const GENOME_COMPARISONS: GenomeComparison[] = [
     id: "human-human",
     titleRu: "Два человека",
     valueRu: "99,6-99,9%",
+    metricKind: "sequence-identity",
     metricRu:
       "примерно 99,6-99,9%, в зависимости от того, какие отличия считать",
     meaningRu:
@@ -71,6 +73,7 @@ export const GENOME_COMPARISONS: GenomeComparison[] = [
     id: "human-chimp",
     titleRu: "Человек и шимпанзе",
     valueRu: "98-99%",
+    metricKind: "sequence-identity",
     metricRu:
       "в напрямую сравнимых участках ДНК; различия больше с учетом вставок, удалений и сложных повторов",
     meaningRu:
@@ -83,6 +86,7 @@ export const GENOME_COMPARISONS: GenomeComparison[] = [
     id: "human-mouse",
     titleRu: "Человек и мышь",
     valueRu: "85%",
+    metricKind: "coding-identity",
     metricRu: "средняя идентичность белок-кодирующих участков",
     meaningRu:
       "Мышь далеко от человека на дереве, но многие базовые гены млекопитающих узнаваемо похожи, поэтому мыши важны в биомедицине.",
@@ -94,6 +98,7 @@ export const GENOME_COMPARISONS: GenomeComparison[] = [
     id: "human-fly",
     titleRu: "Человек и дрозофила",
     valueRu: "~60%",
+    metricKind: "ortholog-share",
     metricRu: "доля консервативных генов в сравнении fly-human",
     meaningRu:
       "Даже очень дальние животные ветви сохраняют часть древнего набора генов, связанных с клеточными и развивающимися процессами.",
@@ -105,6 +110,7 @@ export const GENOME_COMPARISONS: GenomeComparison[] = [
     id: "human-banana",
     titleRu: "Человек и банан",
     valueRu: "17-25%",
+    metricKind: "ortholog-share",
     metricRu: "оценка доли человеческих белок-кодирующих генов с ортологами у банана в сравнении OMA/ортологов",
     meaningRu:
       "Даже у растений и животных остаются древние общие гены клеточной жизни: копирование ДНК, обмен веществ, работа белков и базовая регуляция.",

@@ -146,6 +146,13 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     exampleRu: "Человек — не вершина человекообразных, а одна из ветвей этой группы.",
   },
   {
+    id: "great-apes",
+    titleRu: "Большие человекообразные",
+    latin: "Hominidae",
+    definitionRu: "Семейство человекообразных без гиббонов: орангутаны, гориллы, шимпанзе, бонобо, люди и их ископаемые родственники.",
+    exampleRu: "Hominidae уже уже, чем Hominoidea: это не все человекообразные, а большая человекообразная ветвь.",
+  },
+  {
     id: "hominins",
     titleRu: "Гоминины",
     latin: "Hominini",
@@ -260,7 +267,7 @@ const STAGE_GLOSSARY: Record<string, string> = {
   "new-world-monkeys": "platyrrhines",
   catarrhini: "catarrhines",
   "early-apes": "apes",
-  "great-apes": "apes",
+  "great-apes": "great-apes",
   hominins: "hominins",
 };
 

@@ -15,6 +15,7 @@ describe("genetics education data", () => {
 
     for (const item of GENOME_COMPARISONS) {
       expect(item.valueRu.length).toBeGreaterThan(1);
+      expect(item.metricKind).toMatch(/sequence-identity|coding-identity|ortholog-share/);
       expect(item.metricRu.length).toBeGreaterThan(35);
       expect(item.meaningRu.length).toBeGreaterThan(60);
       expect(item.cautionRu.length).toBeGreaterThan(45);

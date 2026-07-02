@@ -36,7 +36,7 @@ describe("lineage data", () => {
       expect.objectContaining({
         titleRu: "Кембрийский взрыв",
         latin: "Cambrian explosion",
-        ageMa: 541,
+        ageMa: 538.8,
         eraId: "animals",
         lineageRole: "representative",
       }),
@@ -51,6 +51,50 @@ describe("lineage data", () => {
     );
     expect(stageIds.indexOf("cambrian-explosion")).toBeLessThan(
       stageIds.indexOf("chordates"),
+    );
+  });
+
+  it("uses the current ICS Cambrian boundary consistently", () => {
+    expect(ERAS.find((era) => era.id === "early-life")?.endsAtMa).toBe(538.8);
+    expect(ERAS.find((era) => era.id === "animals")?.startsAtMa).toBe(538.8);
+    expect(getStageById("cambrian-explosion")?.ageMa).toBe(538.8);
+  });
+
+  it("does not use Visual Capitalist as a scientific source for lineage stages", () => {
+    for (const stage of STAGES) {
+      expect(stage.sources.map((source) => source.label).join(" "), stage.id).not.toMatch(/Visual Capitalist/i);
+      expect(stage.sources.map((source) => source.url).join(" "), stage.id).not.toMatch(/visualcapitalist/i);
+      expect(stage.image.sourceUrl, stage.id).not.toMatch(/visualcapitalist/i);
+    }
+  });
+
+  it("hedges deep-time molecular-clock stages in the reader-facing summaries", () => {
+    const deepTimeStages = ["eukaryotes", "choanoflagellates", "early-animals"];
+
+    for (const id of deepTimeStages) {
+      expect(getStageById(id)?.summaryRu, id).toMatch(/примерн|оцен|обсужд|вероят/i);
+    }
+  });
+
+  it("includes Denisovans as a late human side branch with introgression context", () => {
+    const denisovans = getStageById("denisovans");
+
+    expect(denisovans).toEqual(
+      expect.objectContaining({
+        titleRu: "Денисовцы",
+        lineageRole: "side-branch",
+        isPrimateFocus: true,
+      }),
+    );
+    expect(`${denisovans?.summaryRu} ${denisovans?.whyMattersRu}`).toMatch(/ген|смешив|Homo sapiens/i);
+  });
+
+  it("mentions the older Ledi-Geraru Homo evidence in the early Homo stage", () => {
+    const earlyHomo = getStageById("early-homo");
+
+    expect(earlyHomo?.ageMa).toBeGreaterThanOrEqual(2.8);
+    expect(`${earlyHomo?.summaryRu} ${earlyHomo?.sources.map((source) => source.label).join(" ")}`).toMatch(
+      /Ledi|LD 350-1/i,
     );
   });
 

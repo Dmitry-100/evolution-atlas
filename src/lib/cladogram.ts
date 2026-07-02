@@ -113,6 +113,7 @@ const routeOnlyBranchStageIds = new Set([
   "cambrian-explosion",
   "after-kpg",
   "plesiadapis",
+  "denisovans",
 ]);
 
 const livingComparisonBranchIds = new Set([
