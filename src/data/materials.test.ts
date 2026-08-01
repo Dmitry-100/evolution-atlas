@@ -39,6 +39,7 @@ describe("portal materials", () => {
     );
     expect(READING_RECOMMENDATIONS.map((book) => book.id)).toEqual(
       expect.arrayContaining([
+        "kukushkin-one-hand-clap",
         "mukherjee-gene",
         "kleshchenko-dna-person",
         "heyer-gene-odyssey",
