@@ -235,7 +235,10 @@ export function createPlanTourHandler(config: PlanTourHandlerConfig) {
 
       return {
         ok: true,
-        data: normalizeResponse(response, fallback, allowedIds),
+        data: {
+          ...normalizeResponse(response, fallback, allowedIds),
+          personalizationSource: "ai",
+        },
       };
     } catch (error) {
       console.error(

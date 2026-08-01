@@ -164,6 +164,11 @@ export function TourPlayer() {
             Шаг {stepIndex + 1} из {activePlan.steps.length}
           </span>
           <h2>{activePlan.routeTitleRu}</h2>
+          <small className="tour-personalization-source">
+            {activePlan.personalizationSource === "ai"
+              ? "AI-персонализация"
+              : "Готовый маршрут по выбранной теме"}
+          </small>
         </div>
         <button
           type="button"

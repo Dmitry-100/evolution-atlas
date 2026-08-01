@@ -392,6 +392,20 @@
   font-weight: 900;
 }
 
+.tour-personalization-source {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 0.4rem;
+  border: 1px solid rgba(240, 201, 120, 0.24);
+  border-radius: 999px;
+  background: rgba(240, 201, 120, 0.08);
+  color: var(--gold);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
 .tour-player h2 {
   margin: 0.18rem 0 0;
   font-family: Georgia, "Times New Roman", serif;
