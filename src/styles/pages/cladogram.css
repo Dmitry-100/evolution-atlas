@@ -1,0 +1,721 @@
+@layer evolution-cladogram {
+  .cladogram-page {
+    background:
+      radial-gradient(
+        circle at 14% 0%,
+        rgba(130, 183, 179, 0.14),
+        transparent 22rem
+      ),
+      radial-gradient(
+        circle at 88% 8%,
+        rgba(240, 201, 120, 0.1),
+        transparent 20rem
+      ),
+      rgba(10, 13, 12, 0.88);
+  }
+
+  .cladogram-page-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+    gap: 1rem;
+    align-items: start;
+    overflow: visible;
+  }
+
+  .cladogram-page-grid .cladogram-panel {
+    margin-top: 0;
+  }
+
+  .cladogram-page-grid .cladogram-inspector {
+    position: sticky;
+    top: clamp(0.8rem, 2vw, 1.25rem);
+    max-height: calc(100dvh - clamp(1.6rem, 4vw, 2.5rem));
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .tree-of-life-poster {
+    display: grid;
+    grid-template-columns: minmax(128px, 0.18fr) minmax(0, 1fr);
+    overflow: hidden;
+    margin: 1rem 0;
+    border-radius: var(--radius);
+  }
+
+  .tree-of-life-poster-media {
+    position: relative;
+    display: block;
+    min-width: 0;
+    border: 0;
+    background: #080b0b;
+    color: var(--text);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .tree-of-life-poster-media img {
+    width: 100%;
+    height: 100%;
+    min-height: 178px;
+    max-height: 238px;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 180ms ease;
+  }
+
+  .tree-of-life-poster-media:hover img,
+  .tree-of-life-poster-media:focus-visible img {
+    transform: scale(1.025);
+  }
+
+  .tree-of-life-poster figcaption {
+    display: grid;
+    align-content: center;
+    gap: 0.52rem;
+    min-width: 0;
+    border-left: 1px solid var(--line);
+    padding: 1rem;
+  }
+
+  .tree-of-life-poster figcaption strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.28rem, 2vw, 1.72rem);
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .tree-of-life-poster figcaption p {
+    max-width: 760px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.62;
+  }
+
+  .cladogram-inspector {
+    display: grid;
+    align-self: start;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      radial-gradient(
+        circle at 80% 0%,
+        rgba(240, 201, 120, 0.12),
+        transparent 15rem
+      ),
+      radial-gradient(
+        circle at 0% 20%,
+        rgba(130, 183, 179, 0.1),
+        transparent 13rem
+      ),
+      rgba(10, 14, 13, 0.93);
+  }
+
+  .cladogram-inspector-media {
+    position: relative;
+    display: grid;
+    margin: 0;
+    min-height: clamp(240px, 30dvh, 360px);
+    border-bottom: 1px solid var(--line);
+    background:
+      linear-gradient(
+        135deg,
+        rgba(130, 183, 179, 0.18),
+        rgba(240, 201, 120, 0.08)
+      ),
+      rgba(11, 14, 13, 0.9);
+  }
+
+  .cladogram-inspector-image-zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: inherit;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: zoom-in;
+    font: inherit;
+    padding: 0;
+  }
+
+  .cladogram-inspector-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    padding: 0;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .cladogram-inspector-media figcaption {
+    position: absolute;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    border: 1px solid rgba(218, 185, 126, 0.22);
+    border-radius: 999px;
+    background: rgba(6, 8, 8, 0.78);
+    color: var(--gold);
+    padding: 0.34rem 0.58rem;
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+  }
+
+  .cladogram-inspector-copy,
+  .cladogram-inspector {
+    min-width: 0;
+  }
+
+  .cladogram-inspector-copy {
+    display: grid;
+    gap: 0.65rem;
+    padding: 0.95rem;
+  }
+
+  .cladogram-inspector h2 {
+    margin: 0;
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.7rem, 3vw, 2.45rem);
+    line-height: 1.02;
+  }
+
+  .cladogram-inspector .latin {
+    margin: -0.2rem 0 0;
+    color: var(--text-soft);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem;
+    font-style: italic;
+  }
+
+  .cladogram-inspector .lead {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  .cladogram-inspector-marker {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    color: var(--gold);
+    padding: 0.95rem;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .cladogram-inspector > .kicker {
+    margin: 0;
+    padding: 0.95rem 0.95rem 0;
+  }
+
+  .cladogram-inspector > h2,
+  .cladogram-inspector > .latin,
+  .cladogram-inspector > .lead {
+    padding-inline: 0.95rem;
+  }
+
+  .cladogram-inspector > .lead {
+    padding-bottom: 0.25rem;
+  }
+
+  .cladogram-inspector-note,
+  .cladogram-inspector-traits {
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.44);
+  }
+
+  .cladogram-inspector-note {
+    display: grid;
+    gap: 0.15rem;
+    margin: 0.2rem 0.95rem 0;
+    padding: 0.78rem 0.85rem;
+  }
+
+  .cladogram-inspector-note span {
+    color: var(--gold);
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .cladogram-inspector-note strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+  }
+
+  .cladogram-inspector-note small {
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .cladogram-inspector-note p {
+    margin: 0.32rem 0 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    line-height: 1.48;
+  }
+
+  .cladogram-inspector-split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin: 0.2rem 0.95rem 0;
+  }
+
+  .cladogram-inspector-split span {
+    display: grid;
+    gap: 0.22rem;
+    border: 1px solid rgba(130, 183, 179, 0.16);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.36);
+    padding: 0.68rem 0.72rem;
+  }
+
+  .cladogram-inspector-split strong {
+    color: var(--gold);
+    font-size: 0.7rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .cladogram-inspector-split small {
+    color: var(--text-soft);
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .cladogram-inspector-relationship {
+    margin: 0.2rem 0.95rem 0;
+    border: 1px solid rgba(240, 201, 120, 0.17);
+    border-radius: var(--radius);
+    background: rgba(240, 201, 120, 0.07);
+    color: var(--text-soft);
+    padding: 0.72rem 0.8rem;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .cladogram-inspector > .button,
+  .cladogram-inspector > .cladogram-inspector-actions {
+    margin: 0.85rem 0.95rem 0.95rem;
+  }
+
+  .cladogram-inspector-traits {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.62rem;
+    padding: 0.75rem;
+  }
+
+  .cladogram-inspector-traits svg {
+    color: var(--gold);
+    margin-top: 0.15rem;
+  }
+
+  .cladogram-inspector-traits strong {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--gold);
+    font-size: 0.78rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .cladogram-inspector-traits ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cladogram-inspector-traits li {
+    border: 1px solid rgba(218, 185, 126, 0.17);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.08);
+    color: var(--text-soft);
+    padding: 0.28rem 0.52rem;
+    font-size: 0.74rem;
+  }
+
+  .cladogram-inspector-traits .trait-map-link {
+    margin-top: 0.65rem;
+  }
+
+  .cladogram-inspector-actions {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  .cladogram-inspector-actions .button {
+    flex: 1 1 auto;
+  }
+
+  .cladogram-inspector-actions > a[aria-label] {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 2.45rem;
+    height: 2.45rem;
+    border: 1px solid rgba(218, 185, 126, 0.22);
+    border-radius: 999px;
+    color: var(--gold);
+    background: rgba(8, 11, 11, 0.42);
+  }
+
+  .dinosaur-branch-section {
+    position: relative;
+    margin-top: 1.25rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    padding: 1.15rem;
+  }
+
+  .dinosaur-branch-section::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(109, 155, 148, 0.08), transparent 42%),
+      radial-gradient(
+        circle at 8% 0%,
+        rgba(130, 183, 179, 0.15),
+        transparent 12rem
+      );
+    content: "";
+    pointer-events: none;
+  }
+
+  .dinosaur-branch-section.is-dinosaurs::before {
+    background:
+      linear-gradient(90deg, rgba(208, 163, 91, 0.1), transparent 42%),
+      radial-gradient(
+        circle at 12% 0%,
+        rgba(240, 201, 120, 0.16),
+        transparent 13rem
+      );
+  }
+
+  .dinosaur-section-heading {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.8rem;
+    align-items: start;
+  }
+
+  .dinosaur-section-heading svg {
+    margin-top: 0.35rem;
+    color: var(--gold);
+  }
+
+  .dinosaur-section-heading p:not(.eyebrow) {
+    max-width: 900px;
+    line-height: 1.62;
+  }
+
+  .dinosaur-branch-route {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(9, minmax(128px, 1fr));
+    gap: 0.58rem;
+    margin: 1.15rem 0;
+  }
+
+  .dinosaur-branch-route::before {
+    position: absolute;
+    right: 1.1rem;
+    left: 1.1rem;
+    top: 2.15rem;
+    height: 2px;
+    border-radius: 99px;
+    background: linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.62),
+      rgba(240, 201, 120, 0.68)
+    );
+    content: "";
+    opacity: 0.54;
+  }
+
+  .dinosaur-branch-route.is-dinosaur::before {
+    background: linear-gradient(
+      90deg,
+      rgba(208, 163, 91, 0.45),
+      rgba(240, 201, 120, 0.78),
+      rgba(145, 169, 106, 0.55)
+    );
+  }
+
+  .shared-branch-card,
+  .dinosaur-branch-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto auto minmax(2.7rem, 1fr) auto;
+    gap: 0.38rem;
+    min-height: 136px;
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(240, 201, 120, 0.12),
+        transparent 4.2rem
+      ),
+      rgba(8, 11, 11, 0.58);
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.7rem;
+    text-align: left;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background 160ms ease;
+  }
+
+  .shared-branch-card:hover,
+  .dinosaur-branch-card:hover,
+  .shared-branch-card[aria-pressed="true"],
+  .dinosaur-branch-card[aria-pressed="true"] {
+    transform: translateY(-2px);
+    border-color: rgba(240, 201, 120, 0.48);
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(240, 201, 120, 0.2),
+        transparent 4.8rem
+      ),
+      rgba(34, 30, 20, 0.74);
+  }
+
+  .dinosaur-branch-index {
+    color: var(--gold);
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+  }
+
+  .dinosaur-branch-dot {
+    width: 17px;
+    height: 17px;
+    border: 3px solid rgba(8, 11, 11, 0.85);
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow:
+      0 0 0 2px rgba(240, 201, 120, 0.18),
+      0 0 20px rgba(240, 201, 120, 0.18);
+  }
+
+  .dinosaur-branch-title {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.12;
+  }
+
+  .dinosaur-branch-date {
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+
+  .dinosaur-detail-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(320px, 0.46fr) minmax(0, 1fr);
+    gap: 1rem;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035), transparent 42%),
+      rgba(8, 11, 11, 0.62);
+  }
+
+  .dinosaur-detail-visual {
+    position: relative;
+    min-height: 390px;
+    margin: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        ellipse at 58% 16%,
+        rgba(240, 201, 120, 0.18),
+        transparent 14rem
+      ),
+      linear-gradient(135deg, rgba(21, 48, 42, 0.7), rgba(61, 43, 29, 0.68)),
+      #080b0b;
+  }
+
+  .dinosaur-detail-visual::after {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(8, 11, 11, 0.08) 55%,
+        rgba(8, 11, 11, 0.66) 100%
+      ),
+      repeating-linear-gradient(
+        172deg,
+        rgba(240, 201, 120, 0.04) 0 1px,
+        transparent 1px 14px
+      );
+    content: "";
+    pointer-events: none;
+  }
+
+  .dinosaur-detail-image-zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: inherit;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: zoom-in;
+    font: inherit;
+    padding: 0;
+  }
+
+  .dinosaur-detail-visual img {
+    width: 100%;
+    height: 100%;
+    min-height: 390px;
+    box-sizing: border-box;
+    object-fit: contain;
+    object-position: center;
+    padding: 0.5rem;
+    filter: saturate(0.94) contrast(1.04);
+  }
+
+  .dinosaur-detail-image-zoom .stage-plate-zoom-indicator,
+  .mobile-dinosaur-stage-zoom .stage-plate-zoom-indicator,
+  .cladogram-inspector-image-zoom .stage-plate-zoom-indicator {
+    top: 0.75rem;
+    right: 0.75rem;
+    bottom: auto;
+  }
+
+  .dinosaur-detail-visual figcaption {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.68rem;
+    left: 0.75rem;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.7rem;
+    color: rgba(235, 228, 212, 0.74);
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .dinosaur-detail-copy {
+    min-width: 0;
+    padding: 1.25rem 1.25rem 1.25rem 0;
+  }
+
+  .dinosaur-detail-copy h2 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 0.98;
+  }
+
+  .dinosaur-detail-copy > p {
+    font-size: 1rem;
+    line-height: 1.62;
+  }
+
+  .latin-name {
+    color: var(--gold) !important;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+  }
+
+  .dinosaur-age {
+    margin: 0.55rem 0 0.8rem !important;
+    color: var(--text) !important;
+    font-weight: 800;
+  }
+
+  .dinosaur-proof {
+    margin-top: 1rem;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.035);
+    padding: 0.85rem;
+  }
+
+  .dinosaur-proof strong {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .dinosaur-proof p {
+    margin-top: 0.5rem;
+    line-height: 1.58;
+  }
+
+  .dinosaur-proof.is-evidence {
+    background: rgba(8, 11, 11, 0.32);
+  }
+
+  .dinosaur-traits,
+  .dinosaur-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .dinosaur-traits span {
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.07);
+    color: var(--text);
+    padding: 0.34rem 0.62rem;
+    font-size: 0.82rem;
+  }
+
+  .dinosaur-sources a {
+    color: var(--gold);
+    font-size: 0.8rem;
+    text-decoration: none;
+  }
+
+  .dinosaurs-bridge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    border-radius: var(--radius);
+    padding: 1.2rem;
+  }
+}

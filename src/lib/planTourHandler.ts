@@ -1,7 +1,13 @@
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
-import { buildTourRoute, type GuidedTourAnswers, type TourPlan, type TourPlanStep } from "./buildTourRoute";
+import {
+  buildTourRoute,
+  type GuidedTourAnswers,
+  type TourPlan,
+  type TourPlanStep,
+} from "./buildTourRoute";
 import type { TourIntent } from "../data/guidedTour";
 import type { ModelGenerateRequest } from "./askDarwinHandler";
+import { logPublicApiEvent } from "./publicApiSecurity";
 
 export type PlanTourAllowedStop = {
   id: string;
@@ -42,14 +48,13 @@ export const PLAN_TOUR_SYSTEM_PROMPT = [
 ].join("\n");
 
 function modelUriFromConfig(config: PlanTourHandlerConfig) {
-  return (
-    config.modelUri ??
-    `gpt://${config.folderId}/${DEFAULT_MODEL_NAME}`
-  );
+  return config.modelUri ?? `gpt://${config.folderId}/${DEFAULT_MODEL_NAME}`;
 }
 
 function asRecord(value: unknown) {
-  return value && typeof value === "object" ? (value as Record<string, unknown>) : {};
+  return value && typeof value === "object"
+    ? (value as Record<string, unknown>)
+    : {};
 }
 
 function stringFrom(record: Record<string, unknown>, keys: string[]) {
@@ -107,7 +112,8 @@ function normalizeSteps(
           const record = asRecord(item);
           const id = stringFrom(record, ["id"]);
           const fallbackStep = fallbackById.get(id);
-          if (!fallbackStep || !allowedIds.has(id) || seen.has(id)) return undefined;
+          if (!fallbackStep || !allowedIds.has(id) || seen.has(id))
+            return undefined;
           seen.add(id);
 
           return {
@@ -214,36 +220,49 @@ async function callYandexChatCompletions(
 export function createPlanTourHandler(config: PlanTourHandlerConfig) {
   const generate =
     config.generate ??
-    ((request: ModelGenerateRequest) => callYandexChatCompletions(config, request));
+    ((request: ModelGenerateRequest) =>
+      callYandexChatCompletions(config, request));
 
-  return async function planTour(input: PlanTourRequest): Promise<PlanTourResult> {
+  return async function planTour(
+    input: PlanTourRequest,
+  ): Promise<PlanTourResult> {
     const normalizedInput = normalizePlanTourRequest(input);
     const fallback = buildTourRoute(normalizedInput);
-    if (normalizedInput.intent === "browse") return { ok: true, data: fallback };
+    if (normalizedInput.intent === "browse")
+      return { ok: true, data: fallback };
 
     try {
-      const allowedIds = allowedIdsFromRequest(fallback, normalizedInput.allowedStops);
+      const allowedIds = allowedIdsFromRequest(
+        fallback,
+        normalizedInput.allowedStops,
+      );
       const response = await generate({
         model: modelUriFromConfig(config),
         temperature: 0.18,
         maxTokens: 4800,
         messages: [
           { role: "system", content: PLAN_TOUR_SYSTEM_PROMPT },
-          { role: "user", content: createUserPrompt(normalizedInput, fallback) },
+          {
+            role: "user",
+            content: createUserPrompt(normalizedInput, fallback),
+          },
         ],
       });
 
       return {
         ok: true,
-        data: normalizeResponse(response, fallback, allowedIds),
+        data: {
+          ...normalizeResponse(response, fallback, allowedIds),
+          personalizationSource: "ai",
+        },
       };
     } catch (error) {
-      console.error(
-        "Plan tour request failed",
-        error instanceof Error
-          ? { name: error.name, message: error.message }
-          : { message: String(error) },
-      );
+      logPublicApiEvent({
+        endpoint: "plan-tour",
+        result: "provider_error",
+        errorCode: "generation_failed",
+        errorName: error instanceof Error ? error.name : "UnknownError",
+      });
       return { ok: true, data: fallback };
     }
   };

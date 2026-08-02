@@ -1,3 +1,4 @@
+import "../styles/pages/dinosaurs.css";
 import {
   ArrowLeft,
   ArrowRight,
@@ -13,7 +14,12 @@ import {
   Sparkles,
   Waves,
 } from "lucide-react";
-import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
+import {
+  useMemo,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+} from "react";
 import { Link } from "react-router-dom";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { GlossaryTermById } from "../components/education/GlossaryTerm";
@@ -291,7 +297,6 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
             <span key={trait}>{trait}</span>
           ))}
         </div>
-
       </div>
       <ImageLightbox
         image={
@@ -568,7 +573,10 @@ function DinosaurTimelineAxis({
           style={{ left: `${activeDisplayPosition}%` }}
           aria-hidden="true"
         />
-        <div className={activeCardClass} style={{ left: `${activeDisplayPosition}%` }}>
+        <div
+          className={activeCardClass}
+          style={{ left: `${activeDisplayPosition}%` }}
+        >
           <span>{formatAge(activeStage.ageMa)}</span>
           <strong>{activeStage.titleRu}</strong>
           <small>{getJourneyLabel(activeStage)}</small>
@@ -644,9 +652,8 @@ function DinosaurRouteNavigation({
       target: stages.find((stage) => stage.id === stop.targetId),
       targetIndex: stages.findIndex((stage) => stage.id === stop.targetId),
     }))
-    .filter(
-      (stop): stop is (typeof stop & { target: BranchItem }) =>
-        Boolean(stop.target),
+    .filter((stop): stop is typeof stop & { target: BranchItem } =>
+      Boolean(stop.target),
     );
   const activeIndex = stages.findIndex((stage) => stage.id === activeStage.id);
 
@@ -730,8 +737,7 @@ export function DinosaursPage() {
             Короткий ответ звучит неожиданно: {dinosaurAnswer} Поэтому голубь за
             окном — потомок{" "}
             <GlossaryTermById id="theropods">тероподной ветви</GlossaryTermById>{" "}
-            и ближе к нептичьим тероподам, чем к нашей
-            млекопитающей линии.
+            и ближе к нептичьим тероподам, чем к нашей млекопитающей линии.
           </p>
         </div>
         <div className="dinosaurs-answer-card">
@@ -799,7 +805,10 @@ export function DinosaursPage() {
             decoding="async"
           />
         </figure>
-        <div className="dinosaur-common-ancestor__split" aria-label="Две ветви после ранних амниот">
+        <div
+          className="dinosaur-common-ancestor__split"
+          aria-label="Две ветви после ранних амниот"
+        >
           <article>
             <span>Наша линия</span>
             <strong>{dinosaurCommonAncestor.humanBranchRu}</strong>
@@ -827,8 +836,8 @@ export function DinosaursPage() {
               <GlossaryTermById id="archaeopteryx">
                 Archaeopteryx
               </GlossaryTermById>{" "}
-              и современные птицы. Точка развилки с
-              нашей линией — {dinosaurCommonAncestor.titleRu.toLowerCase()} (
+              и современные птицы. Точка развилки с нашей линией —{" "}
+              {dinosaurCommonAncestor.titleRu.toLowerCase()} (
               {dinosaurCommonAncestor.valueRu}).
             </p>
           </div>
@@ -856,7 +865,10 @@ export function DinosaursPage() {
                 canStepNext={canStepNext}
               />
 
-              <div className="era-strip-card dinosaur-route-card" aria-label="Навигация по ветви динозавров">
+              <div
+                className="era-strip-card dinosaur-route-card"
+                aria-label="Навигация по ветви динозавров"
+              >
                 <div className="rail-heading">
                   <BookOpen aria-hidden="true" size={19} />
                   <span>Маршрут по ветви</span>

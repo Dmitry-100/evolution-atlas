@@ -36,11 +36,13 @@ import { OptimizedImage } from "./components/ui/optimized-image";
 import { ScrollProgress } from "./components/ui/scroll-progress";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { DarwinGuide } from "./components/ai/DarwinGuide";
+import { RouteExperienceObserver } from "./components/RouteExperienceObserver";
 import { TourPlayer } from "./components/tour/TourPlayer";
 import {
   DARWIN_TOUR_MENU_EVENT,
   DarwinWelcome,
 } from "./components/tour/DarwinWelcome";
+import { PUBLIC_ROUTES, publicRoutePath } from "./lib/publicRoutes";
 
 const pageLoaders = {
   about: () =>
@@ -106,19 +108,12 @@ const BodyMapPage = lazy(pageLoaders.bodyMap);
 const GeneticsPage = lazy(pageLoaders.genetics);
 const PrimatesPage = lazy(pageLoaders.primates);
 
-const routePreloaders: Record<string, () => Promise<unknown>> = {
-  "/primates": pageLoaders.primates,
-  "/theory": pageLoaders.theory,
-  "/origin-of-life": pageLoaders.originOfLife,
-  "/genetics": pageLoaders.genetics,
-  "/cladogram": pageLoaders.cladogram,
-  "/body-map": pageLoaders.bodyMap,
-  "/extinctions": pageLoaders.extinctions,
-  "/dinosaurs": pageLoaders.dinosaurs,
-  "/materials": pageLoaders.materials,
-  "/about": pageLoaders.about,
-  "/quiz": pageLoaders.quiz,
-};
+const routePreloaders = Object.fromEntries(
+  PUBLIC_ROUTES.flatMap((route) => {
+    const loader = pageLoaders[route.key as keyof typeof pageLoaders];
+    return loader ? [[route.path, loader]] : [];
+  }),
+) as Record<string, () => Promise<unknown>>;
 
 function preloadRoute(to: string) {
   void routePreloaders[to]?.();
@@ -130,29 +125,36 @@ type NavItem = {
   icon: LucideIcon;
 };
 
-const navItems: NavItem[] = [
-  { label: "Атлас", to: "/", icon: Home },
-  { label: "Приматы → человек", to: "/primates", icon: UsersRound },
-  { label: "Теория эволюции", to: "/theory", icon: BookOpen },
-  { label: "Зарождение жизни", to: "/origin-of-life", icon: FlaskConical },
-  { label: "РНК/ДНК", to: "/genetics", icon: Dna },
-  { label: "Дерево родства", to: "/cladogram", icon: GitFork },
-  { label: "Карта признаков", to: "/body-map", icon: ScanSearch },
-  { label: "Глобальные вымирания", to: "/extinctions", icon: Waves },
-  { label: "Вымерли ли динозавры", to: "/dinosaurs", icon: Fingerprint },
-  { label: "Дополнительные материалы", to: "/materials", icon: FileText },
-  { label: "О проекте", to: "/about", icon: Info },
-  { label: "Проверь себя", to: "/quiz", icon: HelpCircle },
-];
+const iconsByRoute: Record<string, LucideIcon> = {
+  atlas: Home,
+  primates: UsersRound,
+  theory: BookOpen,
+  originOfLife: FlaskConical,
+  genetics: Dna,
+  cladogram: GitFork,
+  bodyMap: ScanSearch,
+  extinctions: Waves,
+  dinosaurs: Fingerprint,
+  materials: FileText,
+  about: Info,
+  quiz: HelpCircle,
+};
 
-const navTabs = navItems.reduce<ExpandableTabItem[]>(
-  (tabs, item) => {
-    if (item.to === "/materials") tabs.push({ type: "separator" });
-    tabs.push({ title: item.label, icon: item.icon, href: item.to });
-    return tabs;
-  },
-  [],
+const navItems: NavItem[] = PUBLIC_ROUTES.filter((route) => route.nav).map(
+  (route) => ({
+    label: route.labelRu,
+    to: route.path,
+    icon: iconsByRoute[route.key],
+  }),
 );
+
+const navTabs = navItems.reduce<ExpandableTabItem[]>((tabs, item) => {
+  if (PUBLIC_ROUTES.find((route) => route.path === item.to)?.separatorBefore) {
+    tabs.push({ type: "separator" });
+  }
+  tabs.push({ title: item.label, icon: item.icon, href: item.to });
+  return tabs;
+}, []);
 
 function getTabIndexFromNavIndex(navIndex: number) {
   const navItem = navItems[navIndex];
@@ -217,7 +219,8 @@ function AppHeader() {
     }
 
     window.addEventListener(DARWIN_TOUR_MENU_EVENT, openTourMenu);
-    return () => window.removeEventListener(DARWIN_TOUR_MENU_EVENT, openTourMenu);
+    return () =>
+      window.removeEventListener(DARWIN_TOUR_MENU_EVENT, openTourMenu);
   }, []);
 
   const handleNavKeyDown = (event: KeyboardEvent<HTMLElement>) => {
@@ -301,6 +304,7 @@ function App() {
   return (
     <BrowserRouter>
       <TooltipProvider delayDuration={160}>
+        <RouteExperienceObserver />
         <EtherealInk className="app-ethereal-background" />
         <ScrollProgress />
         <div className="app-shell">
@@ -314,16 +318,46 @@ function App() {
               }
             >
               <Routes>
-                <Route path="/" element={<AtlasPage />} />
-                <Route path="/primates" element={<PrimatesPage />} />
-                <Route path="/theory" element={<TheoryPage />} />
-                <Route path="/origin-of-life" element={<OriginOfLifePage />} />
-                <Route path="/genetics" element={<GeneticsPage />} />
-                <Route path="/cladogram" element={<CladogramPage />} />
-                <Route path="/body-map" element={<BodyMapPage />} />
-                <Route path="/extinctions" element={<ExtinctionsPage />} />
-                <Route path="/dinosaurs" element={<DinosaursPage />} />
-                <Route path="/materials" element={<MaterialsPage />} />
+                <Route
+                  path={publicRoutePath("atlas")}
+                  element={<AtlasPage />}
+                />
+                <Route
+                  path={publicRoutePath("primates")}
+                  element={<PrimatesPage />}
+                />
+                <Route
+                  path={publicRoutePath("theory")}
+                  element={<TheoryPage />}
+                />
+                <Route
+                  path={publicRoutePath("originOfLife")}
+                  element={<OriginOfLifePage />}
+                />
+                <Route
+                  path={publicRoutePath("genetics")}
+                  element={<GeneticsPage />}
+                />
+                <Route
+                  path={publicRoutePath("cladogram")}
+                  element={<CladogramPage />}
+                />
+                <Route
+                  path={publicRoutePath("bodyMap")}
+                  element={<BodyMapPage />}
+                />
+                <Route
+                  path={publicRoutePath("extinctions")}
+                  element={<ExtinctionsPage />}
+                />
+                <Route
+                  path={publicRoutePath("dinosaurs")}
+                  element={<DinosaursPage />}
+                />
+                <Route
+                  path={publicRoutePath("materials")}
+                  element={<MaterialsPage />}
+                />
                 <Route
                   path="/materials/:fileName"
                   element={<LegacyMaterialRedirect />}
@@ -332,9 +366,15 @@ function App() {
                   path="/materials/covers/:fileName"
                   element={<LegacyMaterialRedirect cover />}
                 />
-                <Route path="/sources" element={<SourcesPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/quiz" element={<QuizPage />} />
+                <Route
+                  path={publicRoutePath("sources")}
+                  element={<SourcesPage />}
+                />
+                <Route
+                  path={publicRoutePath("about")}
+                  element={<AboutPage />}
+                />
+                <Route path={publicRoutePath("quiz")} element={<QuizPage />} />
               </Routes>
             </Suspense>
           </main>

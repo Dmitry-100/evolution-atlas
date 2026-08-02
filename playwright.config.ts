@@ -2,17 +2,32 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./e2e",
+  snapshotPathTemplate: "{testDir}/__screenshots__/{arg}{ext}",
   timeout: 30_000,
   expect: {
     timeout: 5_000,
+    toHaveScreenshot: {
+      animations: "disabled",
+      maxDiffPixelRatio: 0.03,
+    },
   },
   use: {
     baseURL: "http://127.0.0.1:4173",
-    trace: "on-first-retry",
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
   },
   projects: [
-    { name: "desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 960 } } },
-    { name: "mobile", use: { ...devices["iPhone 15"] } },
+    {
+      name: "desktop",
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1440, height: 960 },
+      },
+    },
+    {
+      name: "mobile",
+      use: { ...devices["iPhone 15"], browserName: "chromium" },
+    },
   ],
   webServer: {
     command: "corepack pnpm dev --host 127.0.0.1 --port 4173",

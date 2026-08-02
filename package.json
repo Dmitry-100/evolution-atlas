@@ -6,7 +6,7 @@
   "packageManager": "pnpm@10.24.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/fingerprint-public-assets.mjs && node scripts/generate-seo-output.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "node ./node_modules/vitest/vitest.mjs run",
