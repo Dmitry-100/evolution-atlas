@@ -1,5 +1,4 @@
 import { forwardRef, type ImgHTMLAttributes } from "react";
-import { getOptimizedImageSrc } from "../../lib/imagePlaceholders";
 import { getVersionedAssetSrc } from "../../lib/assetManifest";
 
 type OptimizedImageProps = ImgHTMLAttributes<HTMLImageElement> & {
@@ -11,32 +10,21 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
     { pictureClassName, src, alt = "", onError, ...imageProps },
     ref,
   ) {
-    const optimizedSrc = src ? getOptimizedImageSrc(src) : null;
     const fallbackSrc = src ? getVersionedAssetSrc(src) : src;
+    const image = (
+      <img
+        ref={ref}
+        src={fallbackSrc}
+        alt={alt}
+        onError={onError}
+        {...imageProps}
+      />
+    );
 
-    if (!src || !optimizedSrc) {
-      return (
-        <img
-          ref={ref}
-          src={fallbackSrc}
-          alt={alt}
-          onError={onError}
-          {...imageProps}
-        />
-      );
+    if (pictureClassName) {
+      return <picture className={pictureClassName}>{image}</picture>;
     }
 
-    return (
-      <picture className={pictureClassName}>
-        <source srcSet={getVersionedAssetSrc(optimizedSrc)} type="image/avif" />
-        <img
-          ref={ref}
-          src={fallbackSrc}
-          alt={alt}
-          onError={onError}
-          {...imageProps}
-        />
-      </picture>
-    );
+    return image;
   },
 );
