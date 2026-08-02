@@ -1,4 +1,7 @@
-import { EVIDENCE_MODULES, SCIENTIFIC_THEORY_EXPLAINER } from "../data/evidence";
+import {
+  EVIDENCE_MODULES,
+  SCIENTIFIC_THEORY_EXPLAINER,
+} from "../data/evidence";
 import { BODY_TRAIT_LAYERS, BODY_TRAITS } from "../data/bodyTraits";
 import {
   GENETICS_EVIDENCE,
@@ -15,6 +18,7 @@ import {
 import { PORTAL_MATERIALS, READING_RECOMMENDATIONS } from "../data/materials";
 import { SCIENCE_SOURCE_GROUPS } from "../data/scienceSources";
 import { getStageHref } from "./atlasUrlState";
+import { publicRouteTitle } from "./publicRoutes";
 import { formatAgeRu } from "./timeline";
 
 export type DarwinGuideCitation = {
@@ -48,22 +52,6 @@ export type DarwinGuideContext = {
   relatedLinks: DarwinGuideRelatedLink[];
 };
 
-const PAGE_TITLES: Record<string, string> = {
-  "/": "Атлас",
-  "/primates": "Приматы → человек",
-  "/theory": "Теория эволюции",
-  "/origin-of-life": "Зарождение жизни",
-  "/genetics": "РНК/ДНК",
-  "/cladogram": "Дерево родства",
-  "/body-map": "Карта признаков",
-  "/extinctions": "Глобальные вымирания",
-  "/dinosaurs": "Вымерли ли динозавры",
-  "/materials": "Дополнительные материалы",
-  "/about": "О проекте",
-  "/quiz": "Проверь себя",
-  "/sources": "Источники",
-};
-
 const DIRECT_ROUTE_LINKS: DarwinGuideRelatedLink[] = [
   { labelRu: "Открыть дерево родства", href: "/cladogram" },
   { labelRu: "Открыть карту признаков", href: "/body-map" },
@@ -73,9 +61,9 @@ const DIRECT_ROUTE_LINKS: DarwinGuideRelatedLink[] = [
 ];
 
 const EXTERNAL_SEARCH_PATTERNS = [
-  /нов(ое|ые|ая|ый|ых)?\b/i,
-  /свеж(ее|ие|ая|ий|их)?\b/i,
-  /последн(ее|ие|яя|ий|их)?\b/i,
+  /(?:^|\P{L})нов\p{L}*/iu,
+  /(?:^|\P{L})свеж\p{L}*/iu,
+  /(?:^|\P{L})последн\p{L}*/iu,
   /сегодня|вчера|недавн/i,
   /\b20[2-9]\d\b/,
   /что известно сейчас/i,
@@ -117,7 +105,7 @@ function summarizeStage(stage: EvolutionStage) {
 }
 
 function pageTitleFor(pathname: string) {
-  return PAGE_TITLES[pathname] ?? "Атлас";
+  return publicRouteTitle(pathname);
 }
 
 function sourceGroupsForPath(pathname: string) {
@@ -144,11 +132,13 @@ export function buildDarwinGuideContext(
   const sourceGroups = sourceGroupsForPath(pathname);
 
   if (stage) {
-    for (const source of stage.sources) pushCitation(citations, seenUrls, source);
+    for (const source of stage.sources)
+      pushCitation(citations, seenUrls, source);
   }
 
   for (const group of sourceGroups) {
-    for (const source of group.sources) pushCitation(citations, seenUrls, source);
+    for (const source of group.sources)
+      pushCitation(citations, seenUrls, source);
   }
 
   pushCitation(citations, seenUrls, SCIENTIFIC_THEORY_EXPLAINER.source);
@@ -175,10 +165,12 @@ export function buildDarwinGuideContext(
 
   const geneticsText = [
     ...GENETICS_EVIDENCE.map(
-      (item) => `${item.titleRu}: ${item.shortRu} Значение: ${item.whyItMattersRu}`,
+      (item) =>
+        `${item.titleRu}: ${item.shortRu} Значение: ${item.whyItMattersRu}`,
     ),
     ...GENOME_COMPARISONS.slice(0, 3).map(
-      (item) => `${item.titleRu}: ${item.valueRu}; ${item.meaningRu} Оговорка: ${item.cautionRu}`,
+      (item) =>
+        `${item.titleRu}: ${item.valueRu}; ${item.meaningRu} Оговорка: ${item.cautionRu}`,
     ),
     ...MOLECULAR_MARKERS.map(
       (item) => `${item.titleRu}: ${item.markerRu}; ${item.explanationRu}`,
@@ -204,7 +196,9 @@ export function buildDarwinGuideContext(
     .join("\n");
 
   const sourceText = citations
-    .map((citation, index) => `${index + 1}. ${citation.label}: ${citation.url}`)
+    .map(
+      (citation, index) => `${index + 1}. ${citation.label}: ${citation.url}`,
+    )
     .join("\n");
 
   const stageText = stage

@@ -149,7 +149,9 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".darwin-route-length-copy")).toContainText(
       /8 остановок.*15 остановок/i,
     );
-    await expect(page.getByRole("button", { name: "Сменить выбор" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Сменить выбор" }),
+    ).toBeVisible();
     await page
       .getByRole("button", { name: /Базовый маршрут.*8 остановок/i })
       .click();
@@ -165,7 +167,9 @@ test.describe("Evolution Atlas", () => {
     await expect(tour.getByText("Куда смотреть")).toHaveCount(0);
     await expect(tour.locator(".tour-look-at")).toHaveCount(0);
     await expect(tour.getByText(/научная теория/i)).toBeVisible();
-    await expect(page.locator(".tour-focus-target[data-tour-focus-label]")).not.toHaveCount(0);
+    await expect(
+      page.locator(".tour-focus-target[data-tour-focus-label]"),
+    ).not.toHaveCount(0);
     await expect(tour.getByText("Вопрос Дарвина")).toHaveCount(0);
     await expect(
       tour.getByRole("button", { name: "Показать ответ" }),
@@ -227,8 +231,10 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
     const overflowingBrowseCards = await darwinWelcome
       .locator(".darwin-browse-links a")
-      .evaluateAll((cards) =>
-        cards.filter((card) => card.scrollWidth > card.clientWidth + 1).length,
+      .evaluateAll(
+        (cards) =>
+          cards.filter((card) => card.scrollWidth > card.clientWidth + 1)
+            .length,
       );
     expect(overflowingBrowseCards).toBe(0);
     await expect(
@@ -269,7 +275,9 @@ test.describe("Evolution Atlas", () => {
       await expect(tour.getByText(routeCase.title)).toBeVisible();
       await expect(tour.getByText("Куда смотреть")).toHaveCount(0);
       await expect(tour.locator(".tour-look-at")).toHaveCount(0);
-      await expect(page.locator(".tour-focus-target[data-tour-focus-label]")).not.toHaveCount(0);
+      await expect(
+        page.locator(".tour-focus-target[data-tour-focus-label]"),
+      ).not.toHaveCount(0);
 
       await expect(
         tour.getByRole("button", { name: "Пойти самому" }),
@@ -300,7 +308,9 @@ test.describe("Evolution Atlas", () => {
       })
       .click();
 
-    await expect(page.getByText("Ваша родословная на 4 миллиарда лет")).toBeVisible();
+    await expect(
+      page.getByText("Ваша родословная на 4 миллиарда лет"),
+    ).toBeVisible();
     await expect(page.getByText("Что будет в этой экскурсии")).toBeVisible();
     await expect(page.getByText("Интересные факты по пути")).toBeVisible();
     await expect
@@ -315,14 +325,18 @@ test.describe("Evolution Atlas", () => {
       .getByRole("button", { name: /Базовый маршрут.*8 остановок/i })
       .click();
 
-    await expect(page.getByRole("button", { name: "Открыть меню" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Открыть меню" }),
+    ).toBeVisible();
     await expect(page.getByLabel("Основная навигация")).toBeHidden();
 
     const tour = page.getByRole("complementary", { name: "Тур Дарвина" });
     await expect(tour.getByText("Шаг 1 из 8")).toBeVisible();
     await expect(tour.getByText("Куда смотреть")).toHaveCount(0);
     await expect(tour.locator(".tour-look-at")).toHaveCount(0);
-    await expect(page.locator(".tour-focus-target[data-tour-focus-label]")).not.toHaveCount(0);
+    await expect(
+      page.locator(".tour-focus-target[data-tour-focus-label]"),
+    ).not.toHaveCount(0);
 
     const hasOverflow = await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth + 1,
@@ -362,16 +376,22 @@ test.describe("Evolution Atlas", () => {
     await tour.getByRole("button", { name: "Дальше" }).click();
     await expect(tour.getByText("Шаг 2 из 15")).toBeVisible();
     await expect(
-      page.locator('.tour-focus-target[data-tour-stop-id="page-origin-energy"]'),
+      page.locator(
+        '.tour-focus-target[data-tour-stop-id="page-origin-energy"]',
+      ),
     ).toHaveCount(1);
 
     await expect
       .poll(() =>
         page.evaluate(() => {
           const focusRect = document
-            .querySelector('.tour-focus-target[data-tour-stop-id="page-origin-energy"]')
+            .querySelector(
+              '.tour-focus-target[data-tour-stop-id="page-origin-energy"]',
+            )
             ?.getBoundingClientRect();
-          const tourRect = document.querySelector(".tour-player")?.getBoundingClientRect();
+          const tourRect = document
+            .querySelector(".tour-player")
+            ?.getBoundingClientRect();
           if (!focusRect || !tourRect) return true;
 
           return !(
@@ -411,7 +431,9 @@ test.describe("Evolution Atlas", () => {
     await expect(tour.getByText("Шаг 1 из 15")).toBeVisible();
     await expect(tour.getByText("Куда смотреть")).toHaveCount(0);
     await expect(tour.locator(".tour-look-at")).toHaveCount(0);
-    await expect(page.locator(".tour-focus-target[data-tour-focus-label]")).not.toHaveCount(0);
+    await expect(
+      page.locator(".tour-focus-target[data-tour-focus-label]"),
+    ).not.toHaveCount(0);
   });
 
   test("Darwin recommendations show deterministic materials at the end of the overview route", async ({
@@ -438,9 +460,13 @@ test.describe("Evolution Atlas", () => {
 
     await expect(tour.getByText("Куда пойти дальше")).toBeVisible();
     await expect(tour.locator(".tour-next-step-card")).toHaveCount(3);
-    await expect(tour.getByRole("link", { name: /Путь от клетки к человеку/i })).toBeVisible();
+    await expect(
+      tour.getByRole("link", { name: /Путь от клетки к человеку/i }),
+    ).toBeVisible();
     await expect(tour.getByRole("link", { name: /Photon/i })).toBeVisible();
-    await expect(tour.getByRole("link", { name: /Проверить себя/i })).toBeVisible();
+    await expect(
+      tour.getByRole("link", { name: /Проверить себя/i }),
+    ).toBeVisible();
 
     await tour.getByRole("button", { name: "Завершить" }).click();
     await expect(tour).toHaveCount(0);
@@ -468,7 +494,9 @@ test.describe("Evolution Atlas", () => {
     const tour = page.getByRole("complementary", { name: "Тур Дарвина" });
     await expect(tour.getByText("Шаг 1 из 8")).toBeVisible();
     await expect(page.locator(".stage-panel.tour-focus-target")).toHaveCount(1);
-    await expect(page.locator(".deep-stage-dot.tour-focus-target")).toHaveCount(1);
+    await expect(page.locator(".deep-stage-dot.tour-focus-target")).toHaveCount(
+      1,
+    );
 
     const positions = await page.evaluate(() => ({
       stagePanel: getComputedStyle(
@@ -506,7 +534,9 @@ test.describe("Evolution Atlas", () => {
     await expect(tour.getByText("Шаг 1 из 15")).toBeVisible();
 
     const stepIds = await page.evaluate(() => {
-      const snapshot = window.sessionStorage.getItem("evolution-atlas.active-tour");
+      const snapshot = window.sessionStorage.getItem(
+        "evolution-atlas.active-tour",
+      );
       if (!snapshot) return [];
       const parsed = JSON.parse(snapshot) as {
         plan?: { steps?: Array<{ id: string }> };
@@ -530,14 +560,20 @@ test.describe("Evolution Atlas", () => {
     await tour.getByRole("button", { name: "Дальше" }).click();
     await expect(tour.getByText("Шаг 2 из 15")).toBeVisible();
     await expect(
-      page.locator('.tour-focus-target[data-tour-stop-id="page-origin-energy"]'),
+      page.locator(
+        '.tour-focus-target[data-tour-stop-id="page-origin-energy"]',
+      ),
     ).toHaveCount(1);
 
     const overlapsTour = await page.evaluate(() => {
       const focusRect = document
-        .querySelector('.tour-focus-target[data-tour-stop-id="page-origin-energy"]')
+        .querySelector(
+          '.tour-focus-target[data-tour-stop-id="page-origin-energy"]',
+        )
         ?.getBoundingClientRect();
-      const tourRect = document.querySelector(".tour-player")?.getBoundingClientRect();
+      const tourRect = document
+        .querySelector(".tour-player")
+        ?.getBoundingClientRect();
       if (!focusRect || !tourRect) return true;
 
       return !(
@@ -704,10 +740,80 @@ test.describe("Evolution Atlas", () => {
     expect(consoleErrors).toEqual([]);
   });
 
+  test("updates title and canonical metadata during SPA navigation", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name === "mobile", "Desktop navigation layout.");
+
+    await page.goto("/");
+    await page
+      .getByLabel("Основная навигация")
+      .getByRole("link", { name: "РНК/ДНК" })
+      .click();
+
+    await expect(page).toHaveURL(/\/genetics$/);
+    await expect(page).toHaveTitle(
+      "РНК, ДНК и доказательства родства | Достающее звено",
+    );
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      "https://atlas.aidms.ru/genetics",
+    );
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      "content",
+      "РНК, ДНК и доказательства родства | Достающее звено",
+    );
+  });
+
+  test("loads AVIF in browsers that support it while retaining an image fallback", async ({
+    page,
+  }) => {
+    await page.goto("/theory");
+    const image = page.locator(".darwin-portrait picture img");
+    await expect(image).toBeVisible();
+    await expect
+      .poll(() =>
+        image.evaluate((node) => {
+          const element = node as HTMLImageElement;
+          return element.complete ? element.currentSrc : "";
+        }),
+      )
+      .toMatch(/\.avif$/);
+    await expect(image).toHaveAttribute("src", /\.jpg$/);
+  });
+
+  test("keeps approved home and Darwin dialog visual baselines", async ({
+    page,
+  }, testInfo) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    await page.addStyleTag({
+      content: ".ethereal-ink-canvas { visibility: hidden !important; }",
+    });
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page).toHaveScreenshot(`home-${testInfo.project.name}.png`);
+
+    if (testInfo.project.name === "mobile") {
+      await page.getByRole("button", { name: "Открыть меню" }).click();
+    }
+    await page
+      .getByRole("button", { name: "Открыть экскурсию с Дарвином" })
+      .click();
+    await expect(
+      page.getByRole("dialog", { name: "Дарвин встречает посетителя" }),
+    ).toBeVisible();
+    await expect(page).toHaveScreenshot(
+      `darwin-dialog-${testInfo.project.name}.png`,
+    );
+  });
+
   test("mobile renders a vertical atlas instead of the desktop timeline", async ({
     page,
   }, testInfo) => {
-    test.skip(testInfo.project.name !== "mobile", "Mobile Atlas is mobile-only.");
+    test.skip(
+      testInfo.project.name !== "mobile",
+      "Mobile Atlas is mobile-only.",
+    );
 
     await page.goto("/");
     await expect(page.locator(".mobile-atlas")).toBeVisible();
@@ -734,7 +840,10 @@ test.describe("Evolution Atlas", () => {
   test("mobile primates page preserves shared stage URL state", async ({
     page,
   }, testInfo) => {
-    test.skip(testInfo.project.name !== "mobile", "Mobile Atlas is mobile-only.");
+    test.skip(
+      testInfo.project.name !== "mobile",
+      "Mobile Atlas is mobile-only.",
+    );
 
     await page.goto("/primates?stage=early-primates");
     await expect(page.locator(".mobile-stage-row")).toHaveCount(17);
@@ -772,14 +881,15 @@ test.describe("Evolution Atlas", () => {
   test("mobile atlas controls and rows meet touch target height", async ({
     page,
   }, testInfo) => {
-    test.skip(testInfo.project.name !== "mobile", "Mobile Atlas is mobile-only.");
+    test.skip(
+      testInfo.project.name !== "mobile",
+      "Mobile Atlas is mobile-only.",
+    );
 
     await page.goto("/");
 
     const targetHeights = await page
-      .locator(
-        ".mobile-atlas-stepper button, .mobile-stage-row > button",
-      )
+      .locator(".mobile-atlas-stepper button, .mobile-stage-row > button")
       .evaluateAll((nodes) =>
         nodes.map((node) => Math.round(node.getBoundingClientRect().height)),
       );
@@ -849,7 +959,9 @@ test.describe("Evolution Atlas", () => {
 
     await page.goto("/primates?stage=homo-sapiens");
     await page.getByRole("button", { name: /Спросить Дарвина/i }).click();
-    await expect(page.getByRole("dialog", { name: /Спросить Дарвина/i })).toBeVisible();
+    await expect(
+      page.getByRole("dialog", { name: /Спросить Дарвина/i }),
+    ).toBeVisible();
     await page
       .getByRole("button", { name: "Подобрать экскурсию с Дарвином" })
       .click();
@@ -867,10 +979,16 @@ test.describe("Evolution Atlas", () => {
       .fill("От кого произошел человек?");
     await page.getByRole("button", { name: "Задать вопрос" }).click();
 
-    await expect(page.getByText(/человек не произошел от современной обезьяны/i)).toBeVisible();
+    await expect(
+      page.getByText(/человек не произошел от современной обезьяны/i),
+    ).toBeVisible();
     await expect(page.getByText(/Современная научная заметка/i)).toBeVisible();
-    await expect(page.getByRole("link", { name: /Lines of evidence/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Открыть дерево родства" })).toHaveAttribute("href", "/cladogram");
+    await expect(
+      page.getByRole("link", { name: /Lines of evidence/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Открыть дерево родства" }),
+    ).toHaveAttribute("href", "/cladogram");
 
     expect(requests).toHaveLength(1);
     expect(requests[0]).toMatchObject({
@@ -894,8 +1012,8 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".mobile-menu-button")).toBeVisible();
     await expect(page.getByLabel("Основная навигация")).toBeHidden();
 
-    const initialTop = await topbar.evaluate(
-      (node) => Math.round(node.getBoundingClientRect().top),
+    const initialTop = await topbar.evaluate((node) =>
+      Math.round(node.getBoundingClientRect().top),
     );
     await page.evaluate(() => window.scrollTo(0, 900));
     await expect
@@ -949,7 +1067,7 @@ test.describe("Evolution Atlas", () => {
     );
     await expect(
       page.locator(".stage-plate-media source[type='image/avif']"),
-    ).toHaveCount(0);
+    ).toHaveCount(1);
 
     await page.getByRole("button", { name: /Homo sapiens,/i }).click();
     await expect(
@@ -980,7 +1098,9 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".primate-deep-axis")).toBeVisible();
     await expect(page.locator(".primate-timeline-river-image")).toBeVisible();
     await expect(page.locator(".primate-time-floating-paths")).toHaveCount(1);
-    await expect(page.locator(".primate-stage-dots .deep-stage-dot")).toHaveCount(17);
+    await expect(
+      page.locator(".primate-stage-dots .deep-stage-dot"),
+    ).toHaveCount(17);
     await expect(page.locator(".primate-zone-bands span")).toHaveCount(4);
     await expect(page.getByText(/66 млн лет назад.*сегодня/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
@@ -1146,7 +1266,9 @@ test.describe("Evolution Atlas", () => {
       }),
     ).toHaveCount(0);
 
-    const primatesLabel = page.getByRole("link", { name: /Приматы и человек/i });
+    const primatesLabel = page.getByRole("link", {
+      name: /Приматы и человек/i,
+    });
     await expect(primatesLabel).toBeVisible();
     await expect(primatesLabel).toHaveAttribute("href", "/primates");
 
@@ -1214,7 +1336,7 @@ test.describe("Evolution Atlas", () => {
       .click();
     await expect(page).toHaveURL(/\/primates\?stage=homo-sapiens/);
     await expect(
-      page.getByRole("heading", { name: "Homo sapiens" }),
+      page.getByRole("heading", { name: "Homo sapiens", exact: true }),
     ).toBeVisible();
 
     const branchPanel = page.locator(".primate-branch-panel");
@@ -1223,10 +1345,14 @@ test.describe("Evolution Atlas", () => {
       branchPanel.getByRole("button", { name: /Homo sapiens/i }),
     ).toHaveAttribute("aria-current", "true");
 
-    await branchPanel.getByRole("button", { name: /Ранние родственники приматов/i }).click();
+    await branchPanel
+      .getByRole("button", { name: /Ранние родственники приматов/i })
+      .click();
     await expect(page).toHaveURL(/\/primates\?stage=early-primates/);
     await expect(
-      branchPanel.getByRole("button", { name: /Ранние родственники приматов/i }),
+      branchPanel.getByRole("button", {
+        name: /Ранние родственники приматов/i,
+      }),
     ).toHaveAttribute("aria-current", "true");
   });
 
@@ -1317,9 +1443,9 @@ test.describe("Evolution Atlas", () => {
     await expect
       .poll(() =>
         firstBranchImage.evaluate((node) =>
-          (node as HTMLImageElement).getAttribute("src")?.startsWith(
-            "/assets/images/",
-          ),
+          (node as HTMLImageElement)
+            .getAttribute("src")
+            ?.startsWith("/assets/images/"),
         ),
       )
       .toBe(true);
@@ -1391,7 +1517,9 @@ test.describe("Evolution Atlas", () => {
         .filter({ hasText: "Киты, копытные, летучие мыши и хищные" }),
     ).toBeVisible();
     await expect(
-      cladogram.locator(".cladogram-branch").filter({ hasText: "Лемуры и лори" }),
+      cladogram
+        .locator(".cladogram-branch")
+        .filter({ hasText: "Лемуры и лори" }),
     ).toBeVisible();
     const newWorldMonkeyCard = cladogram
       .locator(".cladogram-branch")
@@ -1401,7 +1529,10 @@ test.describe("Evolution Atlas", () => {
       .filter({ hasText: "Мартышковые" });
     await expect(
       newWorldMonkeyCard.locator(".cladogram-branch-thumb img"),
-    ).toHaveAttribute("src", "/assets/images/source-backed/capuchin-branch.jpg");
+    ).toHaveAttribute(
+      "src",
+      "/assets/images/source-backed/capuchin-branch.jpg",
+    );
     await expect(
       oldWorldMonkeyCard.locator(".cladogram-branch-thumb img"),
     ).toHaveAttribute(
@@ -1479,25 +1610,25 @@ test.describe("Evolution Atlas", () => {
       )
       .toBe(true);
 
-    await expect(
-      page.getByRole("tab", { name: /Клетка/i }),
-    ).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("tab", { name: /Клетка/i })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
     await expect(page.locator(".body-trait-inspector")).toContainText(
       "Мембраны",
     );
 
     await page.getByRole("tab", { name: "Движение" }).click();
-    await expect(
-      page.getByRole("tab", { name: "Движение" }),
-    ).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("tab", { name: "Движение" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
     await expect(page.locator(".body-trait-inspector")).toContainText(
       "Парные придатки",
     );
 
     await page.getByRole("button", { name: /Пальцы: Четвероногие/i }).click();
-    await expect(page.locator(".body-trait-inspector")).toContainText(
-      "Пальцы",
-    );
+    await expect(page.locator(".body-trait-inspector")).toContainText("Пальцы");
     await expect(page.locator(".body-trait-inspector")).toContainText(
       "Предковый узел",
     );
@@ -1586,7 +1717,10 @@ test.describe("Evolution Atlas", () => {
   test("mobile body trait pins stay compact on the map", async ({
     page,
   }, testInfo) => {
-    test.skip(testInfo.project.name !== "mobile", "Mobile-only touch target QA.");
+    test.skip(
+      testInfo.project.name !== "mobile",
+      "Mobile-only touch target QA.",
+    );
 
     await page.goto("/body-map");
     await expect(page.locator(".body-map-canvas img")).toBeVisible();
@@ -1811,9 +1945,9 @@ test.describe("Evolution Atlas", () => {
 
     for (const glossaryCase of glossaryCases) {
       await page.goto(glossaryCase.path);
-      await expect(page.getByText(glossaryCase.readyText).first()).toBeVisible(
-        { timeout: 15_000 },
-      );
+      await expect(page.getByText(glossaryCase.readyText).first()).toBeVisible({
+        timeout: 15_000,
+      });
       const term = page
         .getByRole("button", { name: glossaryCase.trigger })
         .first();
@@ -1909,9 +2043,13 @@ test.describe("Evolution Atlas", () => {
         "/sources",
         "/theory",
       ]);
-      expect(routeHrefs.some((href) => expectedRouteHrefs.has(href ?? ""))).toBe(true);
+      expect(
+        routeHrefs.some((href) => expectedRouteHrefs.has(href ?? "")),
+      ).toBe(true);
     } else {
-      await expect(quiz.getByText(/Особенная благодарность от Дарвина/i)).toBeVisible();
+      await expect(
+        quiz.getByText(/Особенная благодарность от Дарвина/i),
+      ).toBeVisible();
       await expect(quiz.locator(".quiz-route-perfect a")).toHaveCount(3);
     }
   });
@@ -2139,7 +2277,9 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: /Источник изображения/i }).first(),
     ).toBeVisible();
-    await expect(page.getByText(/sourceUrl|датасет|локальная музейная обработка/i)).toHaveCount(0);
+    await expect(
+      page.getByText(/sourceUrl|датасет|локальная музейная обработка/i),
+    ).toHaveCount(0);
   });
 
   test("mobile sources cards keep image media separate from metadata", async ({
@@ -2200,9 +2340,9 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: /Открыть PDF/i }).first(),
     ).toHaveAttribute("href", /^\/assets\/materials\/.+\.pdf$/);
-    await expect(
-      page.getByRole("link", { name: /Открыть PDF/i }),
-    ).toHaveCount(5);
+    await expect(page.getByRole("link", { name: /Открыть PDF/i })).toHaveCount(
+      5,
+    );
     await expect(page.getByRole("link", { name: /Скачать PPTX/i })).toHaveCount(
       0,
     );
@@ -2312,7 +2452,10 @@ test.describe("Evolution Atlas", () => {
   test("dinosaurs route separates shared animal ancestors from the bird branch", async ({
     page,
   }, testInfo) => {
-    test.skip(testInfo.project.name === "mobile", "Desktop dinosaur axis layout.");
+    test.skip(
+      testInfo.project.name === "mobile",
+      "Desktop dinosaur axis layout.",
+    );
 
     test.slow();
     await page.goto("/dinosaurs");
@@ -2388,7 +2531,10 @@ test.describe("Evolution Atlas", () => {
   test("dinosaurs route opens active species images in a lightbox", async ({
     page,
   }, testInfo) => {
-    test.skip(testInfo.project.name === "mobile", "Desktop dinosaur axis layout.");
+    test.skip(
+      testInfo.project.name === "mobile",
+      "Desktop dinosaur axis layout.",
+    );
 
     await page.goto("/dinosaurs");
     const zoomButton = page.getByRole("button", {
@@ -2478,10 +2624,13 @@ test.describe("Evolution Atlas", () => {
       .scrollIntoViewIfNeeded();
     await expect
       .poll(() =>
-        page.locator(".origin-hypothesis-media img").first().evaluate((node) => {
-          const image = node as HTMLImageElement;
-          return image.complete && image.naturalWidth > 0;
-        }),
+        page
+          .locator(".origin-hypothesis-media img")
+          .first()
+          .evaluate((node) => {
+            const image = node as HTMLImageElement;
+            return image.complete && image.naturalWidth > 0;
+          }),
       )
       .toBe(true);
   });
@@ -2526,10 +2675,13 @@ test.describe("Evolution Atlas", () => {
       .scrollIntoViewIfNeeded();
     await expect
       .poll(() =>
-        page.locator(".genetics-evidence-media img").first().evaluate((node) => {
-          const image = node as HTMLImageElement;
-          return image.complete && image.naturalWidth > 0;
-        }),
+        page
+          .locator(".genetics-evidence-media img")
+          .first()
+          .evaluate((node) => {
+            const image = node as HTMLImageElement;
+            return image.complete && image.naturalWidth > 0;
+          }),
       )
       .toBe(true);
     await page.locator(".genetics-evidence-zoom").first().click();

@@ -68,7 +68,6 @@ export function AboutPage() {
             alt="Сотников Дмитрий"
             loading="lazy"
             decoding="async"
-            preferOptimized
           />
           <figcaption>Сотников Дмитрий</figcaption>
         </figure>

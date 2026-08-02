@@ -11,6 +11,7 @@ import {
   type QuizScoreResult,
   type SingleChoiceQuizQuestion,
 } from "../../data/quiz";
+import { trackGoal } from "../../lib/analytics";
 
 export function QuizPanel() {
   const [attemptQuestions, setAttemptQuestions] = useState(() => createQuizAttempt());
@@ -27,6 +28,9 @@ export function QuizPanel() {
   function selectAnswer(answer: QuizAnswerValue) {
     if (!question || hasSubmittedAnswer) {
       return;
+    }
+    if (Object.keys(answers).length === 0) {
+      trackGoal("quiz_started", { questions: attemptQuestions.length });
     }
     setAnswers((current) => ({ ...current, [question.id]: answer }));
   }
@@ -60,6 +64,10 @@ export function QuizPanel() {
       setQuestionIndex((current) => current + 1);
       return;
     }
+    trackGoal("quiz_completed", {
+      correct: result.correct,
+      total: result.total,
+    });
     setIsFinished(true);
   }
 

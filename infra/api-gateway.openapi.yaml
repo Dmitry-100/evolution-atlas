@@ -1,0 +1,157 @@
+openapi: 3.0.0
+x-yc-apigateway:
+  smartWebSecurity:
+    securityProfileId: ${SWS_SECURITY_PROFILE_ID}
+info:
+  title: Evolution Atlas public AI API
+  version: 1.0.0
+servers:
+  - url: https://d5dlcp0j3qccddl8n119.628pfjdx.apigw.yandexcloud.net
+paths:
+  /api/ask-darwin:
+    post:
+      operationId: askDarwin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AskDarwinRequest"
+      responses:
+        "200":
+          description: Grounded Darwin answer or a safe refusal
+        "400":
+          description: Invalid request
+        "413":
+          description: Request body is too large
+        "429":
+          description: Rate limit exceeded
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${ASK_DARWIN_FUNCTION_ID}
+        tag: production
+        service_account_id: ${FUNCTION_SERVICE_ACCOUNT_ID}
+    options:
+      operationId: askDarwinOptions
+      responses:
+        "204":
+          description: CORS preflight
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${ASK_DARWIN_FUNCTION_ID}
+        tag: production
+        service_account_id: ${FUNCTION_SERVICE_ACCOUNT_ID}
+  /api/plan-tour:
+    post:
+      operationId: planTour
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlanTourRequest"
+      responses:
+        "200":
+          description: An 8-stop or 15-stop tour plan
+        "400":
+          description: Invalid request
+        "413":
+          description: Request body is too large
+        "429":
+          description: Rate limit exceeded
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${PLAN_TOUR_FUNCTION_ID}
+        tag: production
+        service_account_id: ${FUNCTION_SERVICE_ACCOUNT_ID}
+    options:
+      operationId: planTourOptions
+      responses:
+        "204":
+          description: CORS preflight
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${PLAN_TOUR_FUNCTION_ID}
+        tag: production
+        service_account_id: ${FUNCTION_SERVICE_ACCOUNT_ID}
+components:
+  schemas:
+    AskDarwinRequest:
+      type: object
+      additionalProperties: false
+      required: [message, pagePath]
+      properties:
+        message:
+          type: string
+          minLength: 3
+          maxLength: 600
+        pagePath:
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: ^/
+        stageId:
+          type: string
+          maxLength: 100
+        atlasMode:
+          type: string
+          enum: [all, primates]
+        history:
+          type: array
+          maxItems: 6
+          items:
+            type: object
+            additionalProperties: false
+            required: [role, content]
+            properties:
+              role:
+                type: string
+                enum: [user, assistant]
+              content:
+                type: string
+                minLength: 1
+    PlanTourRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        intent:
+          type: string
+          enum:
+            [
+              overview,
+              skeptical,
+              ancestors,
+              child,
+              origin,
+              dinosaurs,
+              presenter,
+              browse,
+              custom,
+            ]
+        budgetMin:
+          type: integer
+          enum: [5, 15]
+        childAge:
+          type: integer
+          minimum: 5
+          maximum: 17
+        freeText:
+          type: string
+          maxLength: 300
+        allowedStops:
+          type: array
+          maxItems: 15
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, titleRu]
+            properties:
+              id:
+                type: string
+                maxLength: 80
+              titleRu:
+                type: string
+                maxLength: 180
+              hintRu:
+                type: string
+                maxLength: 500

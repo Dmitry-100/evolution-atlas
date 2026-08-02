@@ -1,0 +1,55 @@
+version: 1
+service: evolution-atlas-public-ai
+structuredLogFields:
+  - endpoint
+  - result
+  - source
+  - grounding
+  - latencyMs
+  - inputLength
+  - errorCode
+alerts:
+  - id: gateway-5xx
+    provider: monium
+    remoteId: folder__b1g3mcoqv3ngbrrpbcno_gateway_5xx
+    signal: api_gateway.errors_count_per_second
+    selectors:
+      service: __serverless-apigateway__
+      cluster: default
+      code: 5*
+    aggregation: sum
+    window: 5m
+    warning: 1
+    alarm: 3
+    noPointsStatus: ok
+    noMetricsStatus: ok
+  - id: rate-limit-429
+    provider: monium
+    remoteId: folder__b1g3mcoqv3ngbrrpbcno_rate_limit_429
+    # API Gateway publishes the final HTTP status, including 429 responses
+    # produced by Smart Web Security/ARL. The documented SWS ARL metric is
+    # exposed through Application Load Balancer, which this gateway does not use.
+    signal: api_gateway.errors_count_per_second
+    selectors:
+      service: __serverless-apigateway__
+      cluster: default
+      code: "429"
+    aggregation: sum
+    window: 5m
+    warning: 5
+    alarm: 15
+    noPointsStatus: ok
+    noMetricsStatus: ok
+  - id: invocation-spike
+    signal: function_invocations
+    window: 15m
+    warningMultiplierOverSevenDayBaseline: 2
+    alarmMultiplierOverSevenDayBaseline: 4
+    deploymentStatus: pending-baseline
+  - id: ai-monthly-budget
+    signal: billing_cost
+    period: month
+    warningPercent: 70
+    alarmPercent: 90
+    deploymentStatus: pending-budget-amount
+notificationChannelIdFromEnvironment: YC_MONITORING_NOTIFICATION_CHANNEL_ID

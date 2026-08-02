@@ -1,3 +1,4 @@
+import "../styles/pages/body-map.css";
 import {
   ArrowRight,
   GitFork,
@@ -102,7 +103,9 @@ function BodyMapCanvas({
             <button
               key={trait.id}
               type="button"
-              className={isActive ? "body-trait-pin is-active" : "body-trait-pin"}
+              className={
+                isActive ? "body-trait-pin is-active" : "body-trait-pin"
+              }
               style={pinStyle(trait)}
               aria-pressed={isActive}
               aria-label={`${trait.titleRu}: ${stage?.titleRu ?? trait.stageId}`}
@@ -124,11 +127,7 @@ type BodyTraitInspectorProps = {
   stage: EvolutionStage | undefined;
 };
 
-function BodyTraitInspector({
-  layer,
-  trait,
-  stage,
-}: BodyTraitInspectorProps) {
+function BodyTraitInspector({ layer, trait, stage }: BodyTraitInspectorProps) {
   return (
     <aside className="body-trait-inspector" aria-live="polite">
       <div className="body-trait-inspector-heading">
@@ -174,14 +173,19 @@ function BodyTraitInspector({
         <Info aria-hidden="true" size={18} />
         <p>
           Термин{" "}
-          <GlossaryTermById id="ancestral-node">предковый узел</GlossaryTermById>{" "}
+          <GlossaryTermById id="ancestral-node">
+            предковый узел
+          </GlossaryTermById>{" "}
           означает ветвь и набор признаков, а не одну конкретную особь с
           паспортом предка.
         </p>
       </div>
 
       {stage ? (
-        <Link className="button button-secondary button-md" to={atlasHrefFor(stage)}>
+        <Link
+          className="button button-secondary button-md"
+          to={atlasHrefFor(stage)}
+        >
           Открыть этап в Атласе
           <ArrowRight aria-hidden="true" size={16} />
         </Link>
@@ -226,8 +230,8 @@ export function BodyMapPage() {
         <h1>Какие древние решения живут в нашем теле</h1>
         <p>
           Пять слоёв показывают, от каких предковых узлов наша линия
-          унаследовала клеточные механизмы, план тела, движение, чувства,
-          мозг и поведение.
+          унаследовала клеточные механизмы, план тела, движение, чувства, мозг и
+          поведение.
         </p>
       </div>
 

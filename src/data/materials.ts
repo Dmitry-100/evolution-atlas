@@ -178,6 +178,19 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
       "Связывает Атлас, дерево родства и раздел РНК/ДНК: видно, как независимые линии доказательств сходятся.",
   },
   {
+    id: "kukushkin-one-hand-clap",
+    titleRu: "Хлопок одной ладонью",
+    authorRu: "Николай Кукушкин",
+    themeRu: "нейробиология и эволюция разума",
+    coverSrc: `${BOOK_ASSET_ROOT}/kukushkin-one-hand-clap.jpg`,
+    coverAltRu: "Обложка книги “Хлопок одной ладонью”",
+    publisherHref: "https://alpinabook.ru/catalog/book-khlopok-odnoy-ladonyu/",
+    descriptionRu:
+      "Большая история о том, как неживая химия, жизнь, нервные системы, память, обучение и язык складываются в человеческий разум и чувство “я”.",
+    whyReadRu:
+      "Сшивает разделы про LUCA, происхождение жизни, Homo sapiens и мозг: внутренний опыт оказывается продолжением эволюции, а не отдельным чудом.",
+  },
+  {
     id: "mukherjee-gene",
     titleRu: "Ген. Очень личная история",
     authorRu: "Сиддхартха Мукерджи",

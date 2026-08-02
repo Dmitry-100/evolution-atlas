@@ -660,8 +660,8 @@
     left: 0.75rem;
     bottom: max(0.75rem, env(safe-area-inset-bottom));
     width: auto;
-    max-height: min(45vh, 440px);
-    max-height: min(45dvh, 440px);
+    max-height: min(38vh, 360px);
+    max-height: min(38dvh, 360px);
   }
 
   .tour-player--with-next-steps {

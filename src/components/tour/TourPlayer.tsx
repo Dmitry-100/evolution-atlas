@@ -9,6 +9,7 @@ import {
   parseTourUrlState,
   restoreStoredTourPlan,
 } from "../../lib/tourUrlState";
+import { trackGoal } from "../../lib/analytics";
 
 const STORAGE_KEY = "evolution-atlas.active-tour";
 
@@ -129,6 +130,10 @@ export function TourPlayer() {
 
   function goNext() {
     if (isLastStep) {
+      trackGoal("tour_completed", {
+        source: activePlan.personalizationSource,
+        stops: activePlan.steps.length,
+      });
       window.sessionStorage.removeItem(STORAGE_KEY);
       navigate(removeTourParams(location.pathname, location.search));
       return;

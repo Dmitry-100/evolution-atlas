@@ -74,7 +74,33 @@ function emptyResponse(
 
 function parseRequestBody(body: string | null | undefined): PlanTourRequest {
   assertBodySize(body, PLAN_TOUR_MAX_BODY_BYTES);
-  const parsed = JSON.parse(body || "{}") as Partial<PlanTourRequest>;
+  const decoded = JSON.parse(body || "{}");
+  if (!decoded || typeof decoded !== "object" || Array.isArray(decoded)) {
+    throw new PublicApiValidationError(400, "Маршрут имеет неверный формат.");
+  }
+
+  const parsed = decoded as Partial<PlanTourRequest>;
+  const normalized = normalizePlanTourRequest(parsed);
+
+  if (parsed.intent !== undefined && parsed.intent !== normalized.intent) {
+    throw new PublicApiValidationError(400, "Неизвестная тема маршрута.");
+  }
+
+  if (
+    parsed.budgetMin !== undefined &&
+    parsed.budgetMin !== null &&
+    parsed.budgetMin !== 5 &&
+    parsed.budgetMin !== 15
+  ) {
+    throw new PublicApiValidationError(
+      400,
+      "Длительность маршрута должна быть 5 или 15 минут.",
+    );
+  }
+
+  if (parsed.freeText !== undefined && typeof parsed.freeText !== "string") {
+    throw new PublicApiValidationError(400, "Интерес должен быть текстом.");
+  }
 
   if (typeof parsed.freeText === "string" && parsed.freeText.length > 300) {
     throw new PublicApiValidationError(
@@ -84,10 +110,27 @@ function parseRequestBody(body: string | null | undefined): PlanTourRequest {
   }
 
   if (
-    typeof parsed.childAge === "number" &&
-    (parsed.childAge < 5 || parsed.childAge > 17)
+    parsed.childAge !== undefined &&
+    parsed.childAge !== null &&
+    (typeof parsed.childAge !== "number" ||
+      !Number.isInteger(parsed.childAge) ||
+      parsed.childAge < 5 ||
+      parsed.childAge > 17)
   ) {
-    throw new PublicApiValidationError(400, "Возраст должен быть от 5 до 17 лет.");
+    throw new PublicApiValidationError(
+      400,
+      "Возраст должен быть от 5 до 17 лет.",
+    );
+  }
+
+  if (
+    parsed.allowedStops !== undefined &&
+    !Array.isArray(parsed.allowedStops)
+  ) {
+    throw new PublicApiValidationError(
+      400,
+      "Список остановок имеет неверный формат.",
+    );
   }
 
   if (Array.isArray(parsed.allowedStops)) {
@@ -102,10 +145,13 @@ function parseRequestBody(body: string | null | undefined): PlanTourRequest {
       if (
         !stop ||
         typeof stop.id !== "string" ||
+        stop.id.trim().length === 0 ||
         stop.id.length > 80 ||
         typeof stop.titleRu !== "string" ||
+        stop.titleRu.trim().length === 0 ||
         stop.titleRu.length > 180 ||
-        (typeof stop.hintRu === "string" && stop.hintRu.length > 500)
+        (stop.hintRu !== undefined &&
+          (typeof stop.hintRu !== "string" || stop.hintRu.length > 500))
       ) {
         throw new PublicApiValidationError(
           400,
@@ -115,7 +161,7 @@ function parseRequestBody(body: string | null | undefined): PlanTourRequest {
     }
   }
 
-  return normalizePlanTourRequest(parsed);
+  return normalized;
 }
 
 export function createPlanTourCloudFunction(
@@ -134,10 +180,14 @@ export function createPlanTourCloudFunction(
     if (method === "OPTIONS") return emptyResponse(204, responseHeaders);
 
     if (method !== "POST") {
-      return jsonResponse(405, {
-        ok: false,
-        error: { messageRu: "Метод не поддерживается." },
-      }, responseHeaders);
+      return jsonResponse(
+        405,
+        {
+          ok: false,
+          error: { messageRu: "Метод не поддерживается." },
+        },
+        responseHeaders,
+      );
     }
 
     let request: PlanTourRequest;
@@ -146,25 +196,39 @@ export function createPlanTourCloudFunction(
     } catch (error) {
       const statusCode =
         error instanceof PublicApiValidationError ? error.statusCode : 400;
-      return jsonResponse(statusCode, {
-        ok: false,
-        error: {
-          messageRu:
-            error instanceof PublicApiValidationError
-              ? error.message
-              : "Не удалось прочитать маршрут Дарвина.",
+      logPublicApiEvent({
+        endpoint: "plan-tour",
+        result: "rejected",
+        statusCode,
+        inputLength: event.body?.length ?? 0,
+        latencyMs: Date.now() - startedAt,
+        errorCode: statusCode === 413 ? "payload_too_large" : "invalid_request",
+      });
+      return jsonResponse(
+        statusCode,
+        {
+          ok: false,
+          error: {
+            messageRu:
+              error instanceof PublicApiValidationError
+                ? error.message
+                : "Не удалось прочитать маршрут Дарвина.",
+          },
         },
-      }, responseHeaders);
+        responseHeaders,
+      );
     }
 
     const result = await config.planTour(request);
     logPublicApiEvent({
-      event: "plan_tour",
-      ok: result.ok,
+      endpoint: "plan-tour",
+      result: result.ok ? "ok" : "fallback",
       source: result.ok ? result.data.personalizationSource : "error",
+      grounding: "site",
       intent: request.intent,
-      freeTextLength: request.freeText?.length ?? 0,
-      durationMs: Date.now() - startedAt,
+      inputLength: request.freeText?.length ?? 0,
+      latencyMs: Date.now() - startedAt,
+      errorCode: result.ok ? null : "planner_unavailable",
     });
     return jsonResponse(200, result, responseHeaders);
   };

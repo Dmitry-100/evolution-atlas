@@ -1,0 +1,901 @@
+@layer evolution-origin {
+  .origin-page {
+    background:
+      radial-gradient(
+        circle at 14% 0%,
+        rgba(130, 183, 179, 0.14),
+        transparent 21rem
+      ),
+      radial-gradient(
+        circle at 88% 10%,
+        rgba(240, 201, 120, 0.12),
+        transparent 20rem
+      ),
+      rgba(10, 13, 12, 0.88);
+  }
+
+  .origin-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 0.65rem 0 1rem;
+  }
+
+  .origin-hero h1 {
+    max-width: 900px;
+    margin: 0.25rem 0 0.75rem;
+  }
+
+  .origin-hero p {
+    max-width: 900px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.72;
+  }
+
+  .origin-hypothesis-media,
+  .genetics-evidence-media,
+  .molecule-card {
+    overflow: hidden;
+    margin: 0;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 72% 16%,
+        rgba(240, 201, 120, 0.1),
+        transparent 12rem
+      ),
+      rgba(8, 11, 11, 0.62);
+    box-shadow: var(--shadow);
+  }
+
+  .origin-hypothesis-media figcaption,
+  .genetics-evidence-media figcaption {
+    border-top: 1px solid rgba(218, 185, 126, 0.12);
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.42;
+    padding: 0.62rem 0.76rem;
+  }
+
+  .origin-section-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    margin-top: 1.15rem;
+  }
+
+  .origin-section-heading svg {
+    margin-top: 0.2rem;
+    color: var(--gold);
+  }
+
+  .origin-section-heading h2 {
+    margin: 0.25rem 0 0.45rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.9rem;
+    letter-spacing: 0;
+  }
+
+  .origin-section-heading p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.62;
+  }
+
+  .origin-story-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .origin-story-card {
+    overflow: hidden;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(180deg, rgba(240, 201, 120, 0.07), transparent 46%),
+      rgba(8, 11, 11, 0.56);
+  }
+
+  .origin-story-card img {
+    display: block;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .origin-story-card div {
+    display: grid;
+    gap: 0.34rem;
+    padding: 0.82rem;
+  }
+
+  .origin-story-card span {
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+  }
+
+  .origin-story-card strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+  }
+
+  .origin-story-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.48;
+  }
+
+  .origin-map {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(218, 185, 126, 0.13);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(
+        90deg,
+        rgba(130, 183, 179, 0.08),
+        rgba(240, 201, 120, 0.08)
+      ),
+      rgba(8, 11, 11, 0.42);
+    padding: 0.9rem;
+  }
+
+  .origin-map::before {
+    position: absolute;
+    right: 2rem;
+    left: 2rem;
+    top: 50%;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.55),
+      rgba(240, 201, 120, 0.7)
+    );
+    content: "";
+    opacity: 0.5;
+  }
+
+  .origin-map span {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    min-height: 58px;
+    place-items: center;
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: 999px;
+    background: rgba(8, 11, 11, 0.72);
+    color: var(--text);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .origin-hypotheses-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .origin-hypothesis-card {
+    position: relative;
+    overflow: hidden;
+    padding: 1rem;
+    background:
+      radial-gradient(
+        circle at 12% 0%,
+        rgba(240, 201, 120, 0.12),
+        transparent 11rem
+      ),
+      rgba(8, 11, 11, 0.54);
+  }
+
+  .origin-hypothesis-card::after {
+    position: absolute;
+    right: -2rem;
+    bottom: -3rem;
+    width: 11rem;
+    height: 11rem;
+    border: 1px solid rgba(130, 183, 179, 0.16);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, rgba(130, 183, 179, 0.12), transparent 62%),
+      transparent;
+    content: "";
+    pointer-events: none;
+  }
+
+  .origin-hypothesis-media {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    margin-bottom: 0.9rem;
+    border-radius: calc(var(--radius) - 2px);
+    background: rgba(3, 5, 5, 0.55);
+  }
+
+  .origin-hypothesis-media img {
+    display: block;
+    width: 100%;
+    height: clamp(260px, 20vw, 380px);
+    object-fit: cover;
+  }
+
+  .genetics-evidence-media img {
+    display: block;
+    width: 100%;
+    height: 174px;
+    object-fit: contain;
+    background: rgba(3, 5, 5, 0.55);
+    padding: 0.5rem;
+  }
+
+  .origin-card-heading {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  .origin-card-heading svg {
+    margin-top: 0.22rem;
+    color: var(--gold);
+  }
+
+  .origin-card-heading span {
+    display: block;
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .origin-card-heading h2 {
+    margin-top: 0.18rem;
+  }
+
+  .origin-hypothesis-card > p,
+  .origin-hypothesis-card dl {
+    position: relative;
+    z-index: 1;
+  }
+
+  .origin-hypothesis-card dl {
+    display: grid;
+    gap: 0.65rem;
+    margin: 0.9rem 0 0;
+  }
+
+  .origin-hypothesis-card dl div {
+    border: 1px solid rgba(218, 185, 126, 0.1);
+    border-radius: calc(var(--radius) - 2px);
+    background: rgba(8, 11, 11, 0.34);
+    padding: 0.7rem;
+  }
+
+  .origin-hypothesis-card dt {
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .origin-hypothesis-card dd {
+    margin: 0.35rem 0 0;
+    color: var(--muted);
+    line-height: 1.52;
+  }
+
+  .origin-note {
+    margin-top: 1rem;
+    padding: 1.05rem;
+    background:
+      linear-gradient(90deg, rgba(130, 183, 179, 0.09), transparent 52%),
+      rgba(8, 11, 11, 0.48);
+  }
+
+  .origin-note p {
+    max-width: 980px;
+  }
+
+  .origin-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1rem;
+  }
+
+  .origin-sources a {
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.07);
+    color: var(--gold);
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+    text-decoration: none;
+  }
+
+  .confidence-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(218, 185, 126, 0.22);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.08);
+    color: var(--gold);
+    padding: 0.28rem 0.52rem;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .confidence-badge--solid {
+    border-color: rgba(130, 183, 179, 0.34);
+    background: rgba(130, 183, 179, 0.1);
+    color: var(--cyan);
+  }
+
+  .confidence-badge--likely {
+    border-color: rgba(240, 201, 120, 0.28);
+  }
+
+  .confidence-badge--debated {
+    border-color: rgba(216, 124, 99, 0.34);
+    background: rgba(216, 124, 99, 0.1);
+    color: #e59b86;
+  }
+
+  .luca-exhibit,
+  .africa-origin,
+  .curiosity-facts,
+  .molecular-scars,
+  .science-sources {
+    margin-top: 1rem;
+    scroll-margin-top: 6rem;
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 12% 0%,
+        rgba(130, 183, 179, 0.12),
+        transparent 18rem
+      ),
+      radial-gradient(
+        circle at 88% 10%,
+        rgba(240, 201, 120, 0.1),
+        transparent 18rem
+      ),
+      rgba(8, 11, 11, 0.52);
+    box-shadow: var(--shadow);
+  }
+
+  .luca-exhibit-heading,
+  .africa-origin-heading,
+  .curiosity-facts-heading,
+  .science-sources-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.78rem;
+    align-items: start;
+    border-bottom: 1px solid rgba(218, 185, 126, 0.13);
+    padding: 1.1rem;
+  }
+
+  .luca-exhibit-heading > svg,
+  .africa-origin-heading > svg,
+  .curiosity-facts-heading > svg,
+  .science-sources-heading > svg {
+    margin-top: 0.3rem;
+    color: var(--gold);
+  }
+
+  .luca-exhibit-heading h2,
+  .africa-origin-heading h2,
+  .curiosity-facts-heading h2,
+  .science-sources-heading h2,
+  .luca-detail h3,
+  .africa-site-detail h3,
+  .curiosity-card h3,
+  .molecular-scar-card h3,
+  .science-source-card-heading a {
+    margin: 0.22rem 0 0.42rem;
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.8rem;
+    letter-spacing: 0;
+    line-height: 1.08;
+  }
+
+  .luca-exhibit-heading p:not(.eyebrow),
+  .africa-origin-heading p:not(.eyebrow),
+  .curiosity-facts-heading p:not(.eyebrow),
+  .science-sources-heading p:not(.eyebrow) {
+    max-width: 980px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.62;
+  }
+
+  .luca-acronym {
+    margin-top: 0.55rem;
+    color: var(--text);
+    font-size: 0.92rem;
+  }
+
+  .luca-acronym span {
+    color: var(--gold);
+    font-weight: 800;
+  }
+
+  .luca-exhibit-grid,
+  .africa-origin-grid {
+    display: grid;
+    gap: 0.9rem;
+    padding: 1rem;
+  }
+
+  .luca-exhibit-grid {
+    grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1fr);
+  }
+
+  .africa-origin-grid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(290px, 0.7fr);
+  }
+
+  .luca-tree,
+  .luca-detail,
+  .africa-map-panel,
+  .africa-site-detail,
+  .migration-route-detail,
+  .curiosity-card,
+  .molecular-scar-card,
+  .science-source-card {
+    border: 1px solid rgba(218, 185, 126, 0.13);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.48);
+  }
+
+  .luca-tree {
+    display: grid;
+    gap: 0.8rem;
+    align-content: center;
+    min-height: 320px;
+    padding: 1rem;
+  }
+
+  .luca-root,
+  .luca-branch {
+    display: grid;
+    gap: 0.25rem;
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.68);
+    color: inherit;
+    cursor: pointer;
+    padding: 0.8rem;
+    text-align: left;
+  }
+
+  .luca-root {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .luca-root svg,
+  .luca-branch svg,
+  .luca-detail a,
+  .africa-site-detail a,
+  .migration-route-detail a,
+  .curiosity-card-actions a,
+  .molecular-scar-card a,
+  .science-source-links a svg {
+    color: var(--gold);
+  }
+
+  .luca-root strong,
+  .luca-branch strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.18rem;
+  }
+
+  .luca-root span,
+  .luca-branch span,
+  .luca-detail-kicker span,
+  .africa-site-meta span,
+  .molecular-scar-card > span {
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .luca-root.is-active,
+  .luca-branch.is-active,
+  .africa-site.is-active {
+    border-color: rgba(240, 201, 120, 0.56);
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(240, 201, 120, 0.16),
+        transparent 5rem
+      ),
+      rgba(34, 30, 20, 0.72);
+  }
+
+  .luca-branches {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .luca-branch-group {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .luca-branch--nested {
+    margin-left: 0.75rem;
+    border-color: rgba(130, 183, 179, 0.28);
+    background: rgba(8, 24, 23, 0.54);
+  }
+
+  .luca-detail,
+  .africa-site-detail,
+  .migration-route-detail {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+    padding: 1rem;
+  }
+
+  .luca-detail-kicker,
+  .africa-site-meta,
+  .curiosity-card-top,
+  .molecular-scar-card > div {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .luca-detail p,
+  .africa-site-detail p,
+  .migration-route-detail p,
+  .curiosity-card p,
+  .curiosity-card small,
+  .molecular-scar-card p,
+  .science-source-card p,
+  .science-source-links small {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .luca-detail h3,
+  .africa-site-detail h3,
+  .migration-route-detail h3,
+  .curiosity-card h3,
+  .molecular-scar-card h3 {
+    font-size: 1.55rem;
+  }
+
+  .luca-inheritance {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .luca-inheritance strong,
+  .africa-site-detail > strong,
+  .migration-route-detail > strong {
+    color: var(--text);
+  }
+
+  .luca-inheritance div,
+  .curiosity-card-actions,
+  .luca-note div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+  }
+
+  .luca-inheritance span {
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.06);
+    color: var(--text);
+    padding: 0.28rem 0.52rem;
+    font-size: 0.78rem;
+  }
+
+  .luca-detail a,
+  .africa-site-detail a,
+  .migration-route-detail a,
+  .curiosity-card-actions a,
+  .molecular-scar-card a,
+  .luca-note a {
+    display: inline-flex;
+    gap: 0.32rem;
+    align-items: center;
+    justify-self: start;
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .luca-note {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(218, 185, 126, 0.13);
+    padding: 0.9rem 1rem 1rem;
+  }
+
+  .luca-note p {
+    max-width: 760px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .africa-map-panel {
+    position: relative;
+    min-height: 440px;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        circle at 52% 42%,
+        rgba(240, 201, 120, 0.13),
+        transparent 17rem
+      ),
+      linear-gradient(145deg, rgba(23, 50, 55, 0.42), rgba(8, 11, 11, 0.74));
+  }
+
+  .human-migration-map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-graticule line {
+    stroke: rgba(218, 185, 126, 0.08);
+    stroke-width: 1;
+  }
+
+  .world-land {
+    fill: rgba(122, 139, 126, 0.34);
+    stroke: rgba(218, 185, 126, 0.12);
+    stroke-width: 0.8;
+  }
+
+  .africa-land-highlight {
+    fill: rgba(240, 201, 120, 0.22);
+    stroke: rgba(240, 201, 120, 0.42);
+    stroke-width: 1.1;
+  }
+
+  .migration-route {
+    fill: none;
+    stroke: rgba(240, 201, 120, 0.42);
+    stroke-dasharray: 7 7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.4;
+    opacity: 0.55;
+  }
+
+  .migration-route.is-active {
+    stroke: var(--gold);
+    stroke-dasharray: none;
+    stroke-width: 3.5;
+    opacity: 0.96;
+    filter: drop-shadow(0 0 8px rgba(240, 201, 120, 0.22));
+  }
+
+  .human-migration-map marker path {
+    fill: var(--gold);
+  }
+
+  .africa-site {
+    position: absolute;
+    left: var(--site-x);
+    top: var(--site-y);
+    display: inline-flex;
+    gap: 0.28rem;
+    align-items: center;
+    max-width: 10rem;
+    border: 1px solid rgba(240, 201, 120, 0.3);
+    border-radius: 999px;
+    background: rgba(3, 5, 5, 0.78);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.74rem;
+    font-weight: 800;
+    padding: 0.42rem 0.55rem;
+    transform: translate(-50%, -50%);
+  }
+
+  .africa-site svg {
+    flex: 0 0 auto;
+    color: var(--gold);
+  }
+
+  .human-origin-side {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .migration-route-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+    border-top: 1px solid rgba(218, 185, 126, 0.13);
+    padding: 1rem;
+  }
+
+  .migration-route-button {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.25rem 0.5rem;
+    align-items: start;
+    border: 1px solid rgba(218, 185, 126, 0.13);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.42);
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.78rem;
+    text-align: left;
+  }
+
+  .migration-route-button svg {
+    grid-row: span 2;
+    color: var(--gold);
+    margin-top: 0.1rem;
+  }
+
+  .migration-route-button span {
+    font-weight: 850;
+  }
+
+  .migration-route-button small {
+    color: var(--muted);
+    line-height: 1.35;
+  }
+
+  .migration-route-button.is-active {
+    border-color: rgba(240, 201, 120, 0.48);
+    background:
+      radial-gradient(
+        circle at 20% 0%,
+        rgba(240, 201, 120, 0.13),
+        transparent 7rem
+      ),
+      rgba(34, 30, 20, 0.64);
+  }
+
+  .curiosity-facts-grid,
+  .molecular-scars-grid,
+  .science-source-grid {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem;
+  }
+
+  .curiosity-facts-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .molecular-scars-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .molecular-scars .genetics-section-heading {
+    margin-top: 0;
+    border-bottom: 1px solid rgba(218, 185, 126, 0.13);
+    padding: 1.1rem;
+  }
+
+  .science-source-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .curiosity-card,
+  .molecular-scar-card,
+  .science-source-card {
+    display: grid;
+    gap: 0.65rem;
+    align-content: start;
+    padding: 1rem;
+  }
+
+  .curiosity-card > small {
+    color: var(--faint);
+  }
+
+  .molecular-scar-card {
+    background:
+      radial-gradient(
+        circle at 14% 0%,
+        rgba(130, 183, 179, 0.12),
+        transparent 9rem
+      ),
+      rgba(8, 11, 11, 0.48);
+  }
+
+  .molecular-scar-card > div svg,
+  .curiosity-card-top svg {
+    color: var(--gold);
+  }
+
+  .science-source-card-heading a {
+    display: inline-block;
+    margin: 0 0 0.35rem;
+    font-size: 1.35rem;
+    text-decoration: none;
+  }
+
+  .science-source-links {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .science-source-links a {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.18rem 0.55rem;
+    border: 1px solid rgba(218, 185, 126, 0.12);
+    border-radius: calc(var(--radius) - 2px);
+    background: rgba(8, 11, 11, 0.38);
+    padding: 0.72rem;
+    text-decoration: none;
+  }
+
+  .science-source-links span {
+    grid-column: 1 / -1;
+    color: var(--gold);
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .science-source-links strong {
+    color: var(--text);
+  }
+
+  .science-source-links small {
+    grid-column: 1 / -1;
+  }
+}

@@ -50,7 +50,7 @@ export function corsHeaders(
   const allowOrigin =
     origin && allowedOrigins.includes(origin)
       ? origin
-      : allowedOrigins[0] ?? PRODUCTION_PORTAL_ORIGIN;
+      : (allowedOrigins[0] ?? PRODUCTION_PORTAL_ORIGIN);
 
   return {
     "Access-Control-Allow-Origin": allowOrigin,

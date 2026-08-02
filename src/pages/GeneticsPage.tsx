@@ -1,3 +1,4 @@
+import "../styles/pages/genetics.css";
 import {
   ArrowRight,
   BadgePercent,
@@ -32,7 +33,14 @@ import {
   type GenomeComparison,
 } from "../data/genetics";
 
-const evidenceIcons = [Binary, Braces, Sparkles, Network, Fingerprint, Microscope];
+const evidenceIcons = [
+  Binary,
+  Braces,
+  Sparkles,
+  Network,
+  Fingerprint,
+  Microscope,
+];
 
 type GeneticsVisual = {
   src: string;
@@ -45,7 +53,8 @@ const geneticsVisuals: Record<string, GeneticsVisual> = {
   dna: {
     src: "/assets/images/education/genetics-dna-generated.jpg",
     alt: "AI-визуализация двойной спирали ДНК и генетической записи.",
-    caption: "ДНК хранит наследственную информацию в последовательности оснований.",
+    caption:
+      "ДНК хранит наследственную информацию в последовательности оснований.",
     sourceUrl: "https://en.wikipedia.org/wiki/DNA",
   },
   rna: {
@@ -57,8 +66,10 @@ const geneticsVisuals: Record<string, GeneticsVisual> = {
   rnaDna: {
     src: "/assets/images/education/genetics-rna-dna-generated.jpg",
     alt: "AI-визуализация связи РНК и ДНК в общем химическом языке наследования.",
-    caption: "РНК и ДНК используют похожий химический язык, но играют разные роли.",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Difference_DNA_RNA-EN.svg",
+    caption:
+      "РНК и ДНК используют похожий химический язык, но играют разные роли.",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Difference_DNA_RNA-EN.svg",
   },
   ribosome: {
     src: "/assets/images/education/genetics-ribosome-generated.jpg",
@@ -88,19 +99,23 @@ const geneticsVisuals: Record<string, GeneticsVisual> = {
     src: "/assets/images/education/genetics-evidence-ribosome.png",
     alt: "Схема трансляции: мРНК, тРНК и рибосома собирают белок.",
     caption: "Рибосома читает мРНК и собирает белок из аминокислот.",
-    sourceUrl: "https://www.genome.gov/about-genomics/fact-sheets/RNA-Fact-Sheet",
+    sourceUrl:
+      "https://www.genome.gov/about-genomics/fact-sheets/RNA-Fact-Sheet",
   },
   evidenceMutations: {
     src: "/assets/images/education/genetics-evidence-mutations.png",
     alt: "Схема мутаций ДНК и эволюционных фильтров в популяции.",
-    caption: "Мутации создают варианты, а отбор, дрейф и миграция меняют их частоты.",
-    sourceUrl: "https://evolution.berkeley.edu/dna-and-mutations/causes-of-mutations/",
+    caption:
+      "Мутации создают варианты, а отбор, дрейф и миграция меняют их частоты.",
+    sourceUrl:
+      "https://evolution.berkeley.edu/dna-and-mutations/causes-of-mutations/",
   },
   evidenceComparison: {
     src: "/assets/images/education/genetics-evidence-comparison.png",
     alt: "Схема сравнения последовательностей ДНК и построения эволюционного дерева.",
     caption: "Сходство последовательностей помогает восстанавливать родство.",
-    sourceUrl: "https://evolution.berkeley.edu/lines-of-evidence/molecular-biology/",
+    sourceUrl:
+      "https://evolution.berkeley.edu/lines-of-evidence/molecular-biology/",
   },
   evidenceChromosome2: {
     src: "/assets/images/education/genetics-evidence-chromosome-2.png",
@@ -111,8 +126,10 @@ const geneticsVisuals: Record<string, GeneticsVisual> = {
   evidenceViralInsertions: {
     src: "/assets/images/education/genetics-evidence-viral-insertions.png",
     alt: "Схема вирусной вставки как общего генетического маркера родственных линий.",
-    caption: "Общая вирусная вставка в одном месте генома служит редкой меткой родства.",
-    sourceUrl: "https://evolution.berkeley.edu/lines-of-evidence/molecular-biology/",
+    caption:
+      "Общая вирусная вставка в одном месте генома служит редкой меткой родства.",
+    sourceUrl:
+      "https://evolution.berkeley.edu/lines-of-evidence/molecular-biology/",
   },
 };
 
@@ -161,8 +178,12 @@ const evidenceVisuals: Record<string, GeneticsVisual> = {
 };
 
 export function GeneticsPage() {
-  const [activeCodonId, setActiveCodonId] = useState(CODON_DEMO[0]?.id ?? "start");
-  const [expandedVisual, setExpandedVisual] = useState<GeneticsVisual | null>(null);
+  const [activeCodonId, setActiveCodonId] = useState(
+    CODON_DEMO[0]?.id ?? "start",
+  );
+  const [expandedVisual, setExpandedVisual] = useState<GeneticsVisual | null>(
+    null,
+  );
   const activeCodon =
     CODON_DEMO.find((codon) => codon.id === activeCodonId) ?? CODON_DEMO[0];
 
@@ -188,17 +209,20 @@ export function GeneticsPage() {
   }, [expandedVisual]);
 
   return (
-    <section className="document-page genetics-page" data-tour-stop-id="page-genetics">
+    <section
+      className="document-page genetics-page"
+      data-tour-stop-id="page-genetics"
+    >
       <div className="genetics-hero">
         <div>
           <p className="eyebrow">Молекулярные доказательства</p>
           <h1>РНК/ДНК: родство записано в коде</h1>
           <p>
             Ископаемые показывают форму, а{" "}
-            <GlossaryTermById id="genome">геномы</GlossaryTermById>{" "}
-            показывают инструкцию. Современная молекулярная генетика объясняет
-            эволюцию через наследование, мутации, общий генетический код и сравнение последовательностей, из которых
-            можно строить родственные деревья.
+            <GlossaryTermById id="genome">геномы</GlossaryTermById> показывают
+            инструкцию. Современная молекулярная генетика объясняет эволюцию
+            через наследование, мутации, общий генетический код и сравнение
+            последовательностей, из которых можно строить родственные деревья.
           </p>
         </div>
       </div>
@@ -232,22 +256,30 @@ export function GeneticsPage() {
         ))}
       </div>
 
-      <section className="genetics-molecule-gallery" aria-labelledby="genetics-molecule-title">
+      <section
+        className="genetics-molecule-gallery"
+        aria-labelledby="genetics-molecule-title"
+      >
         <div className="genetics-section-heading">
           <Dna aria-hidden="true" size={23} />
           <div>
             <p className="eyebrow">Молекулы наследования</p>
             <h2 id="genetics-molecule-title">Код, копия и переводчик</h2>
             <p>
-              На молекулярном уровне всё проще: информация копируется и читается,
-              иногда сбивается — и сбой передаётся дальше.
+              На молекулярном уровне всё проще: информация копируется и
+              читается, иногда сбивается — и сбой передаётся дальше.
             </p>
           </div>
         </div>
         <div className="molecule-gallery-grid">
           {moleculeGallery.map((item) => (
             <article key={item.title} className="molecule-card">
-              <OptimizedImage src={item.visual.src} alt={item.visual.alt} loading="lazy" decoding="async" />
+              <OptimizedImage
+                src={item.visual.src}
+                alt={item.visual.alt}
+                loading="lazy"
+                decoding="async"
+              />
               <div>
                 <span>{item.subtitle}</span>
                 <h3>{item.title}</h3>
@@ -275,7 +307,9 @@ export function GeneticsPage() {
               <button
                 key={codon.id}
                 type="button"
-                className={codon.id === activeCodon?.id ? "is-active" : undefined}
+                className={
+                  codon.id === activeCodon?.id ? "is-active" : undefined
+                }
                 onClick={() => setActiveCodonId(codon.id)}
               >
                 <span>{codon.dnaRu}</span>
@@ -306,15 +340,19 @@ export function GeneticsPage() {
         ) : null}
       </section>
 
-      <section className="genome-comparison-section" aria-labelledby="genome-comparison-title">
+      <section
+        className="genome-comparison-section"
+        aria-labelledby="genome-comparison-title"
+      >
         <div className="genetics-section-heading">
           <BadgePercent aria-hidden="true" size={23} />
           <div>
             <p className="eyebrow">Проценты сходства</p>
             <h2 id="genome-comparison-title">Как читать “одинаковый геном”</h2>
             <p>
-              Проценты полезны, но только если ясно, что именно сравнивают: весь выравниваемый геном, кодирующие
-              участки, отдельные гены или консервативные функции.
+              Проценты полезны, но только если ясно, что именно сравнивают: весь
+              выравниваемый геном, кодирующие участки, отдельные гены или
+              консервативные функции.
             </p>
           </div>
         </div>
@@ -353,15 +391,19 @@ export function GeneticsPage() {
         headingId="genetics-curiosity-facts"
       />
 
-      <section className="genetics-evidence-section" aria-labelledby="genetics-evidence-title">
+      <section
+        className="genetics-evidence-section"
+        aria-labelledby="genetics-evidence-title"
+      >
         <div className="genetics-section-heading">
           <ScanSearch aria-hidden="true" size={23} />
           <div>
             <p className="eyebrow">ДНК и дерево сходятся</p>
             <h2 id="genetics-evidence-title">Геном хранит ещё и историю</h2>
             <p>
-              Для эволюции важно не одно число, а совпадающий набор независимых признаков: код, мутации, редкие вставки,
-              перестройки хромосом и деревья родства из разных генов.
+              Для эволюции важно не одно число, а совпадающий набор независимых
+              признаков: код, мутации, редкие вставки, перестройки хромосом и
+              деревья родства из разных генов.
             </p>
           </div>
         </div>
@@ -380,7 +422,12 @@ export function GeneticsPage() {
                       onClick={() => setExpandedVisual(visual)}
                       aria-label={`Увеличить схему: ${visual.caption}`}
                     >
-                      <OptimizedImage src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />
+                      <OptimizedImage
+                        src={visual.src}
+                        alt={visual.alt}
+                        loading="lazy"
+                        decoding="async"
+                      />
                       <span>
                         <Maximize2 aria-hidden="true" size={15} />
                         Увеличить
@@ -408,17 +455,23 @@ export function GeneticsPage() {
         <div>
           <h2 id="genetics-note-title">ДНК повторяет рисунок родства</h2>
           <p>
-            Молекулярные данные работают как независимая проверка атласа: если линии действительно ветвились, то ДНК
-            должна сохранять вложенный рисунок родства. Именно это и видно: человек ближе к шимпанзе, чем к мыши; мышь
-            ближе к нам, чем дрозофила; а у всех живых систем остаются глубокие общие механизмы чтения наследственной
-            информации.
+            Молекулярные данные работают как независимая проверка атласа: если
+            линии действительно ветвились, то ДНК должна сохранять вложенный
+            рисунок родства. Именно это и видно: человек ближе к шимпанзе, чем к
+            мыши; мышь ближе к нам, чем дрозофила; а у всех живых систем
+            остаются глубокие общие механизмы чтения наследственной информации.
           </p>
         </div>
       </section>
 
       <div className="genetics-sources">
         {GENETICS_SOURCES.slice(0, 8).map((source) => (
-          <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
+          <a
+            key={source.url}
+            href={source.url}
+            target="_blank"
+            rel="noreferrer"
+          >
             {source.label}
           </a>
         ))}
@@ -429,7 +482,10 @@ export function GeneticsPage() {
           <MousePointer2 aria-hidden="true" size={22} />
           <div>
             <strong>Теперь посмотрите это на дереве</strong>
-            <p>Кладограмма показывает ту же идею визуально: общие признаки и геномы складываются в ветвящееся родство.</p>
+            <p>
+              Кладограмма показывает ту же идею визуально: общие признаки и
+              геномы складываются в ветвящееся родство.
+            </p>
           </div>
         </div>
         <Link className="button button-secondary button-md" to="/cladogram">
@@ -446,7 +502,10 @@ export function GeneticsPage() {
           aria-label="Увеличенная схема"
           onClick={() => setExpandedVisual(null)}
         >
-          <div className="image-lightbox-panel" onClick={(event) => event.stopPropagation()}>
+          <div
+            className="image-lightbox-panel"
+            onClick={(event) => event.stopPropagation()}
+          >
             <button
               type="button"
               className="image-lightbox-close"

@@ -22,7 +22,11 @@ import {
   createStoredTourPlanSnapshot,
   hrefWithTourState,
 } from "../../lib/tourUrlState";
-import type { PlanTourRequest, PlanTourResult } from "../../lib/planTourHandler";
+import type {
+  PlanTourRequest,
+  PlanTourResult,
+} from "../../lib/planTourHandler";
+import { trackGoal } from "../../lib/analytics";
 
 const STORAGE_KEY = "evolution-atlas.active-tour";
 export const DARWIN_TOUR_MENU_EVENT = "evolution-atlas:open-tour-guide";
@@ -49,7 +53,10 @@ function getApiUrl() {
 }
 
 function storePlan(plan: TourPlan) {
-  window.sessionStorage.setItem(STORAGE_KEY, createStoredTourPlanSnapshot(plan));
+  window.sessionStorage.setItem(
+    STORAGE_KEY,
+    createStoredTourPlanSnapshot(plan),
+  );
 }
 
 async function requestTourPlan(request: PlanTourRequest, fallback: TourPlan) {
@@ -150,14 +157,22 @@ export function DarwinWelcome({
       },
       fallback,
     );
+    trackGoal("tour_started", {
+      intent: selectedIntent,
+      budget: budgetMin,
+      source: plan.personalizationSource,
+      stops: plan.steps.length,
+    });
     storePlan(plan);
     setOpen(false);
     onTourStart?.();
     setIsStarting(false);
-    navigate(hrefWithTourState(plan.steps[0].href, {
-      planId: plan.planId,
-      stepIndex: 0,
-    }));
+    navigate(
+      hrefWithTourState(plan.steps[0].href, {
+        planId: plan.planId,
+        stepIndex: 0,
+      }),
+    );
   }
 
   function resetChoice() {
@@ -174,7 +189,14 @@ export function DarwinWelcome({
         className="darwin-welcome-trigger"
         aria-label="Открыть экскурсию с Дарвином"
         aria-expanded={open}
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          if (!open) {
+            trackGoal("tour_builder_opened", {
+              route: window.location.pathname,
+            });
+          }
+          setOpen(!open);
+        }}
       >
         <Compass aria-hidden="true" size={18} />
         <span>Экскурсия</span>
@@ -257,6 +279,7 @@ export function DarwinWelcome({
                 onChange={(event) => setFreeText(event.target.value)}
                 placeholder="Например: хочу понять ДНК, динозавров или почему обезьяны не становятся людьми"
                 rows={3}
+                maxLength={300}
               />
               <button
                 type="button"
@@ -277,7 +300,10 @@ export function DarwinWelcome({
                 <p>{routePreview?.pitchRu}</p>
               </div>
 
-              <section className="darwin-route-facts" aria-label="Интересные факты по пути">
+              <section
+                className="darwin-route-facts"
+                aria-label="Интересные факты по пути"
+              >
                 <h4>Интересные факты по пути</h4>
                 <ul>
                   {routePreview?.factsRu.map((fact) => (
@@ -320,7 +346,11 @@ export function DarwinWelcome({
               <p>{browsePlan.introRu}</p>
               <div className="darwin-browse-links">
                 {browsePlan.browseLinks?.map((link) => (
-                  <Link key={link.href} to={link.href} aria-label={link.labelRu}>
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    aria-label={link.labelRu}
+                  >
                     <span>{link.labelRu}</span>
                     <small>{link.descriptionRu}</small>
                   </Link>
