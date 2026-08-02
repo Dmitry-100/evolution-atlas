@@ -50,6 +50,8 @@ jobs:
           YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
         run: |
           curl --fail --silent --show-error https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
+          export PATH="$HOME/yandex-cloud/bin:$PATH"
+          echo "$HOME/yandex-cloud/bin" >> "$GITHUB_PATH"
           printf '%s' "$YC_SA_JSON_CREDENTIALS" > "$RUNNER_TEMP/yc-key.json"
           yc config profile create github-actions
           yc config set service-account-key "$RUNNER_TEMP/yc-key.json"
