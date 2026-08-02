@@ -1,0 +1,161 @@
+name: Deploy Yandex Cloud backend
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-yc-backend
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  ALLOWED_ORIGINS: https://atlas.aidms.ru
+
+permissions:
+  contents: read
+
+jobs:
+  candidate-production:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.24.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies and build function archives
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build:ask-darwin-function
+          pnpm build:plan-tour-function
+
+      - name: Install and authenticate Yandex Cloud CLI
+        env:
+          YC_SA_JSON_CREDENTIALS: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+        run: |
+          curl --fail --silent --show-error https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
+          printf '%s' "$YC_SA_JSON_CREDENTIALS" > "$RUNNER_TEMP/yc-key.json"
+          yc config profile create github-actions
+          yc config set service-account-key "$RUNNER_TEMP/yc-key.json"
+          yc config set folder-id "$YC_FOLDER_ID"
+
+      - name: Ensure both functions exist
+        env:
+          YC_SERVICE_ACCOUNT_ID: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
+        run: |
+          yc serverless function get --name ask-darwin >/dev/null 2>&1 || \
+            yc serverless function create --name ask-darwin --description "Evolution Atlas grounded AI guide"
+          yc serverless function get --name plan-tour >/dev/null 2>&1 || \
+            yc serverless function create --name plan-tour --description "Evolution Atlas personalized tour planner"
+          for function_name in ask-darwin plan-tour
+          do
+            yc serverless function add-access-binding \
+              --name "$function_name" \
+              --role functions.functionInvoker \
+              --subject "serviceAccount:$YC_SERVICE_ACCOUNT_ID"
+          done
+          yc serverless function remove-access-binding \
+            --name ask-darwin \
+            --role functions.functionInvoker \
+            --subject system:allUsers || true
+
+      - name: Deploy candidate versions
+        id: versions
+        env:
+          YC_SERVICE_ACCOUNT_ID: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
+          YC_LOCKBOX_SECRET_ID: ${{ secrets.YC_LOCKBOX_SECRET_ID }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+        run: |
+          ASK_VERSION_ID=$(yc serverless function version create \
+            --function-name ask-darwin \
+            --runtime nodejs22 \
+            --entrypoint index.handler \
+            --memory 512MB \
+            --execution-timeout 30s \
+            --source-path .deploy/ask-darwin.zip \
+            --service-account-id "$YC_SERVICE_ACCOUNT_ID" \
+            --environment "YANDEX_FOLDER_ID=$YC_FOLDER_ID,ALLOWED_ORIGINS=$ALLOWED_ORIGINS" \
+            --secret "environment-variable=YANDEX_API_KEY,id=$YC_LOCKBOX_SECRET_ID,key=YANDEX_API_KEY" \
+            --tags candidate \
+            --format json | jq -r .id)
+          TOUR_VERSION_ID=$(yc serverless function version create \
+            --function-name plan-tour \
+            --runtime nodejs22 \
+            --entrypoint index.handler \
+            --memory 512MB \
+            --execution-timeout 30s \
+            --source-path .deploy/plan-tour.zip \
+            --service-account-id "$YC_SERVICE_ACCOUNT_ID" \
+            --environment "YANDEX_FOLDER_ID=$YC_FOLDER_ID,ALLOWED_ORIGINS=$ALLOWED_ORIGINS" \
+            --secret "environment-variable=YANDEX_API_KEY,id=$YC_LOCKBOX_SECRET_ID,key=YANDEX_API_KEY" \
+            --tags candidate \
+            --format json | jq -r .id)
+          echo "ask-version-id=$ASK_VERSION_ID" >> "$GITHUB_OUTPUT"
+          echo "tour-version-id=$TOUR_VERSION_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke-test candidate functions directly
+        run: |
+          jq -n '{httpMethod:"POST",headers:{origin:"https://atlas.aidms.ru"},body:({message:"Почему эволюция похожа на дерево?",pagePath:"/theory",history:[]}|tojson)}' > "$RUNNER_TEMP/ask-event.json"
+          yc serverless function invoke ask-darwin --tag candidate --data-file "$RUNNER_TEMP/ask-event.json" \
+            | jq -e '.statusCode == 200 and (.body | fromjson | .ok == true)'
+
+          for budget in 5 15; do
+            jq -n --argjson budget "$budget" '{httpMethod:"POST",headers:{origin:"https://atlas.aidms.ru"},body:({intent:"ancestors",budgetMin:$budget,allowedStops:[]}|tojson)}' > "$RUNNER_TEMP/tour-event.json"
+            expected=$([ "$budget" -eq 5 ] && echo 8 || echo 15)
+            yc serverless function invoke plan-tour --tag candidate --data-file "$RUNNER_TEMP/tour-event.json" \
+              | jq -e --argjson expected "$expected" '.statusCode == 200 and (.body | fromjson | .ok == true and (.data.steps | length) == $expected and (.data.personalizationSource == "ai" or .data.personalizationSource == "preset"))'
+          done
+
+      - name: Promote candidates and update API Gateway
+        env:
+          ASK_VERSION_ID: ${{ steps.versions.outputs.ask-version-id }}
+          TOUR_VERSION_ID: ${{ steps.versions.outputs.tour-version-id }}
+          FUNCTION_SERVICE_ACCOUNT_ID: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
+          SWS_SECURITY_PROFILE_ID: ${{ secrets.YC_SWS_SECURITY_PROFILE_ID }}
+          API_GATEWAY_ID: ${{ secrets.YC_API_GATEWAY_ID }}
+        run: |
+          yc serverless function version set-tag --id "$ASK_VERSION_ID" --tag production
+          yc serverless function version set-tag --id "$TOUR_VERSION_ID" --tag production
+          export ASK_DARWIN_FUNCTION_ID
+          export PLAN_TOUR_FUNCTION_ID
+          ASK_DARWIN_FUNCTION_ID=$(yc serverless function get --name ask-darwin --format json | jq -r .id)
+          PLAN_TOUR_FUNCTION_ID=$(yc serverless function get --name plan-tour --format json | jq -r .id)
+          envsubst '${ASK_DARWIN_FUNCTION_ID} ${PLAN_TOUR_FUNCTION_ID} ${FUNCTION_SERVICE_ACCOUNT_ID} ${SWS_SECURITY_PROFILE_ID}' \
+            < infra/api-gateway.openapi.yaml > "$RUNNER_TEMP/api-gateway.yaml"
+          grep -q '\$ref:' "$RUNNER_TEMP/api-gateway.yaml"
+          if grep -q '\${' "$RUNNER_TEMP/api-gateway.yaml"; then
+            echo "Unresolved API Gateway template variable" >&2
+            exit 1
+          fi
+          yc serverless api-gateway update --id "$API_GATEWAY_ID" --spec "$RUNNER_TEMP/api-gateway.yaml"
+
+      - name: Smoke-test production gateway
+        env:
+          API_GATEWAY_URL: ${{ secrets.YC_API_GATEWAY_URL }}
+        run: |
+          curl --fail-with-body --retry 3 \
+            -H 'Origin: https://atlas.aidms.ru' \
+            -H 'Content-Type: application/json' \
+            --data '{"message":"Почему эволюция похожа на дерево?","pagePath":"/theory","history":[]}' \
+            "$API_GATEWAY_URL/api/ask-darwin" | jq -e '.ok == true'
+          curl --fail-with-body --retry 3 \
+            -H 'Origin: https://atlas.aidms.ru' \
+            -H 'Content-Type: application/json' \
+            --data '{"intent":"ancestors","budgetMin":5,"allowedStops":[]}' \
+            "$API_GATEWAY_URL/api/plan-tour" | jq -e '.ok == true and (.data.steps | length) == 8'

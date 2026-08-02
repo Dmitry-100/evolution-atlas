@@ -1,0 +1,1124 @@
+@layer evolution-dinosaurs {
+  .dinosaurs-page {
+    background:
+      radial-gradient(
+        circle at 18% 0%,
+        rgba(88, 142, 115, 0.16),
+        transparent 21rem
+      ),
+      radial-gradient(
+        circle at 88% 8%,
+        rgba(208, 163, 91, 0.12),
+        transparent 22rem
+      ),
+      rgba(10, 13, 12, 0.88);
+  }
+
+  .dinosaurs-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
+    gap: 1rem;
+    align-items: stretch;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 0.65rem 0 1rem;
+  }
+
+  .dinosaurs-hero h1 {
+    max-width: 880px;
+    margin: 0.25rem 0 0.75rem;
+  }
+
+  .dinosaurs-hero p {
+    max-width: 830px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.72;
+  }
+
+  .dinosaurs-answer-card {
+    display: grid;
+    align-content: center;
+    gap: 0.8rem;
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 76% 0%,
+        rgba(240, 201, 120, 0.18),
+        transparent 9rem
+      ),
+      rgba(18, 22, 19, 0.88);
+    padding: 1.35rem;
+  }
+
+  .dinosaurs-answer-card svg {
+    color: var(--gold);
+  }
+
+  .dinosaurs-answer-card strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.65rem;
+    line-height: 1.16;
+  }
+
+  .dinosaurs-answer-card span {
+    color: var(--muted);
+  }
+
+  .dinosaurs-map-note {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1rem;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(90deg, rgba(130, 183, 179, 0.08), transparent 54%),
+      rgba(8, 11, 11, 0.42);
+    padding: 0.85rem 1rem;
+  }
+
+  .dinosaurs-map-note svg {
+    flex: 0 0 auto;
+    color: var(--gold);
+  }
+
+  .dinosaurs-map-note p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .dinosaur-facts-band {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+
+  .dinosaur-facts-band article {
+    min-height: 180px;
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 86% 0%,
+        rgba(240, 201, 120, 0.13),
+        transparent 9rem
+      ),
+      rgba(8, 11, 11, 0.54);
+    padding: 0.95rem;
+  }
+
+  .dinosaur-facts-band svg {
+    color: var(--gold);
+  }
+
+  .dinosaur-facts-band span,
+  .dinosaur-facts-band strong,
+  .dinosaur-facts-band p {
+    display: block;
+  }
+
+  .dinosaur-facts-band span {
+    margin-top: 0.7rem;
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .dinosaur-facts-band strong {
+    margin-top: 0.25rem;
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.18rem, 1.6vw, 1.55rem);
+    line-height: 1.05;
+  }
+
+  .dinosaur-facts-band p {
+    margin: 0.55rem 0 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    line-height: 1.42;
+  }
+
+  .dinosaur-common-ancestor {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 0.86fr) minmax(320px, 0.64fr)
+      minmax(290px, 0.5fr);
+    gap: 1rem;
+    align-items: stretch;
+    margin-top: 1rem;
+    border: 1px solid rgba(218, 185, 126, 0.2);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 14% 8%,
+        rgba(130, 183, 179, 0.16),
+        transparent 13rem
+      ),
+      linear-gradient(100deg, rgba(18, 25, 22, 0.84), rgba(12, 12, 9, 0.64));
+    padding: 1rem;
+  }
+
+  .dinosaur-common-ancestor__lead {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: start;
+  }
+
+  .dinosaur-common-ancestor__lead svg {
+    margin-top: 0.2rem;
+    color: var(--gold);
+  }
+
+  .dinosaur-common-ancestor h2 {
+    margin: 0.15rem 0 0.55rem;
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.35rem, 2.1vw, 2.1rem);
+    line-height: 1.08;
+  }
+
+  .dinosaur-common-ancestor p {
+    max-width: 940px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.58;
+  }
+
+  .dinosaur-common-ancestor__media {
+    overflow: hidden;
+    margin: 0;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: calc(var(--radius) - 3px);
+    background:
+      radial-gradient(
+        circle at 48% 20%,
+        rgba(240, 201, 120, 0.16),
+        transparent 8rem
+      ),
+      rgba(8, 11, 11, 0.58);
+  }
+
+  .dinosaur-common-ancestor__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    object-fit: cover;
+    filter: saturate(0.96) contrast(1.04)
+      drop-shadow(0 18px 24px rgba(0, 0, 0, 0.28));
+  }
+
+  .dinosaur-common-ancestor__split {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .dinosaur-common-ancestor__split article {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: calc(var(--radius) - 4px);
+    background:
+      linear-gradient(90deg, rgba(208, 163, 91, 0.14), transparent 66%),
+      rgba(6, 9, 8, 0.52);
+    padding: 0.85rem 0.9rem 0.85rem 1rem;
+  }
+
+  .dinosaur-common-ancestor__split article::before {
+    position: absolute;
+    top: 1.1rem;
+    left: 0;
+    width: 4px;
+    height: calc(100% - 2.2rem);
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--gold), rgba(130, 183, 179, 0.8));
+    content: "";
+  }
+
+  .dinosaur-common-ancestor__split span,
+  .dinosaur-common-ancestor__split strong {
+    display: block;
+  }
+
+  .dinosaur-common-ancestor__split span {
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .dinosaur-common-ancestor__split strong {
+    margin-top: 0.35rem;
+    color: var(--text);
+    font-size: 0.96rem;
+    line-height: 1.4;
+  }
+
+  .dinosaur-axis-section {
+    position: relative;
+    margin-top: 1.25rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    padding: 1.15rem;
+  }
+
+  .dinosaurs-page .dinosaur-axis-section {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .dinosaur-axis-section::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(109, 155, 148, 0.09), transparent 46%),
+      radial-gradient(
+        circle at 8% 0%,
+        rgba(130, 183, 179, 0.16),
+        transparent 13rem
+      );
+    content: "";
+    pointer-events: none;
+  }
+
+  .dinosaurs-page .dinosaur-axis-section::before {
+    content: none;
+  }
+
+  .dinosaur-axis-section.is-dinosaurs::before {
+    background:
+      linear-gradient(90deg, rgba(208, 163, 91, 0.11), transparent 46%),
+      radial-gradient(
+        circle at 12% 0%,
+        rgba(240, 201, 120, 0.16),
+        transparent 13rem
+      ),
+      radial-gradient(
+        circle at 94% 20%,
+        rgba(145, 169, 106, 0.13),
+        transparent 16rem
+      );
+  }
+
+  .dinosaur-atlas-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 430px);
+    gap: 1rem;
+    align-items: start;
+    margin-top: 1rem;
+  }
+
+  .dinosaur-atlas-grid .dinosaur-time-panel {
+    margin: 0;
+  }
+
+  .dinosaur-route-card {
+    margin-top: 1rem;
+  }
+
+  .dinosaur-route .era-route-item strong {
+    font-size: 0.76rem;
+    overflow-wrap: normal;
+    white-space: nowrap;
+  }
+
+  .dinosaur-route .era-route-item small {
+    font-size: 0.66rem;
+  }
+
+  .dinosaur-atlas-grid .dinosaur-detail-card {
+    position: sticky;
+    top: 92px;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--panel-strong);
+  }
+
+  .dinosaur-atlas-grid .dinosaur-detail-visual {
+    min-height: 0;
+    border-bottom: 1px solid var(--line);
+    aspect-ratio: 1.22;
+  }
+
+  .dinosaur-atlas-grid .dinosaur-detail-visual img {
+    min-height: 0;
+  }
+
+  .dinosaur-atlas-grid .dinosaur-detail-copy {
+    padding: 1.25rem;
+  }
+
+  .dinosaur-atlas-grid .dinosaur-detail-copy h2 {
+    font-size: clamp(2rem, 3.2vw, 3rem);
+  }
+
+  .dinosaur-axis-shell {
+    position: relative;
+    z-index: 1;
+    margin: 1.05rem 0;
+    border: 1px solid rgba(218, 185, 126, 0.13);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.46);
+    overflow-x: auto;
+    overflow-y: hidden;
+    outline: none;
+  }
+
+  .dinosaur-axis-shell:focus-visible {
+    box-shadow: 0 0 0 2px rgba(240, 201, 120, 0.34);
+  }
+
+  .dinosaur-axis-toolbar {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    border-bottom: 1px solid rgba(218, 185, 126, 0.12);
+    background:
+      linear-gradient(90deg, rgba(8, 11, 11, 0.9), rgba(8, 11, 11, 0.66)),
+      rgba(8, 11, 11, 0.72);
+    padding: 0.78rem 0.9rem;
+  }
+
+  .dinosaur-axis-toolbar span {
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.86rem;
+  }
+
+  .dinosaur-axis-toolbar svg {
+    color: var(--gold);
+  }
+
+  .dinosaur-axis-toolbar .axis-step-controls {
+    margin-left: auto;
+  }
+
+  .dinosaur-axis-toolbar strong {
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .dinosaur-photo-axis {
+    position: relative;
+    min-width: 2200px;
+    height: 410px;
+    overflow: hidden;
+  }
+
+  .dinosaur-axis-backdrop {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse at 18% 50%,
+        rgba(91, 142, 130, 0.26),
+        transparent 22rem
+      ),
+      radial-gradient(
+        ellipse at 76% 46%,
+        rgba(208, 163, 91, 0.2),
+        transparent 24rem
+      ),
+      linear-gradient(120deg, rgba(12, 30, 27, 0.78), rgba(35, 29, 18, 0.72));
+  }
+
+  .dinosaur-axis-stream {
+    position: absolute;
+    right: 4%;
+    left: 4%;
+    top: 50%;
+    height: 108px;
+    border: 1px solid rgba(240, 201, 120, 0.1);
+    border-radius: 999px 38% 999px 42%;
+    background:
+      repeating-linear-gradient(
+        173deg,
+        rgba(240, 201, 120, 0.06) 0 1px,
+        transparent 1px 14px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(130, 183, 179, 0.3),
+        rgba(240, 201, 120, 0.36),
+        rgba(145, 169, 106, 0.24)
+      );
+    box-shadow: inset 0 0 38px rgba(8, 11, 11, 0.42);
+    opacity: 0.78;
+    transform: translateY(-50%) rotate(-1.4deg);
+  }
+
+  .dinosaur-axis-stream::after {
+    position: absolute;
+    right: 2rem;
+    left: 2rem;
+    top: 50%;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.55),
+      rgba(240, 201, 120, 0.88)
+    );
+    box-shadow: 0 0 26px rgba(240, 201, 120, 0.22);
+    content: "";
+  }
+
+  .dinosaur-axis-zones {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 1.25rem;
+    z-index: 2;
+    height: 2.25rem;
+  }
+
+  .dinosaur-axis-zones span {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    min-width: 9rem;
+    height: 100%;
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: 999px;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(130, 183, 179, 0.13),
+        rgba(240, 201, 120, 0.12)
+      ),
+      rgba(8, 11, 11, 0.62);
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .dinosaur-active-line {
+    position: absolute;
+    z-index: 2;
+    top: 4.25rem;
+    bottom: 3.2rem;
+    width: 2px;
+    border-radius: 999px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(240, 201, 120, 0.95),
+      transparent
+    );
+    box-shadow: 0 0 24px rgba(240, 201, 120, 0.26);
+  }
+
+  .dinosaur-axis-callout {
+    position: absolute;
+    top: 1rem;
+    z-index: 3;
+    display: grid;
+    gap: 0.25rem;
+    max-width: 240px;
+    border: 1px solid rgba(240, 201, 120, 0.32);
+    border-radius: 14px;
+    background: rgba(8, 11, 11, 0.76);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+    padding: 0.7rem 0.82rem;
+    transform: translateX(-50%);
+  }
+
+  .dinosaur-axis-callout.align-left {
+    transform: translateX(0);
+  }
+
+  .dinosaur-axis-callout.align-right {
+    transform: translateX(-100%);
+  }
+
+  .dinosaur-axis-callout span {
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .dinosaur-axis-callout strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+    line-height: 1.08;
+  }
+
+  .dinosaur-axis-nodes {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+  }
+
+  .dinosaur-axis-node {
+    position: absolute;
+    top: 50%;
+    display: grid;
+    gap: 0.3rem;
+    justify-items: center;
+    width: 116px;
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: 16px;
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(240, 201, 120, 0.16),
+        transparent 5.5rem
+      ),
+      rgba(8, 11, 11, 0.66);
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.46rem 0.45rem 0.54rem;
+    text-align: center;
+    transform: translate(-50%, var(--node-y));
+    transition:
+      transform 170ms ease,
+      border-color 170ms ease,
+      background 170ms ease;
+  }
+
+  .dinosaur-axis-node:hover,
+  .dinosaur-axis-node.is-active {
+    border-color: rgba(240, 201, 120, 0.55);
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(240, 201, 120, 0.25),
+        transparent 6rem
+      ),
+      rgba(34, 30, 20, 0.82);
+    transform: translate(-50%, calc(var(--node-y) - 4px));
+  }
+
+  .dinosaur-axis-index {
+    justify-self: start;
+    color: var(--gold);
+    font-size: 0.64rem;
+    font-weight: 900;
+    letter-spacing: 0.13em;
+  }
+
+  .dinosaur-axis-node img {
+    width: 76px;
+    height: 76px;
+    border: 2px solid rgba(240, 201, 120, 0.28);
+    border-radius: 50%;
+    background: rgba(8, 11, 11, 0.9);
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  }
+
+  .dinosaur-axis-title {
+    overflow: hidden;
+    width: 100%;
+    min-height: 2.1em;
+    color: var(--text);
+    display: -webkit-box;
+    font-size: 0.76rem;
+    font-weight: 800;
+    line-height: 1.05;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .dinosaur-time-panel {
+    position: relative;
+    z-index: 1;
+    margin: 1.05rem 0;
+  }
+
+  .dinosaur-time-stat {
+    max-width: 420px;
+  }
+
+  .dinosaur-time-stat small {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .dinosaur-deep-axis {
+    height: 390px;
+  }
+
+  .dinosaur-time-water {
+    background:
+      radial-gradient(
+        circle at 14% 76%,
+        rgba(130, 183, 179, 0.24),
+        transparent 18rem
+      ),
+      radial-gradient(
+        circle at 78% 58%,
+        rgba(240, 201, 120, 0.2),
+        transparent 17rem
+      ),
+      repeating-linear-gradient(
+        168deg,
+        transparent 0 20px,
+        rgba(130, 183, 179, 0.055) 21px 23px,
+        transparent 24px 44px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(72, 118, 142, 0.22),
+        rgba(111, 151, 117, 0.21),
+        rgba(190, 131, 75, 0.2)
+      );
+  }
+
+  .dinosaur-time-floating-paths {
+    opacity: 0.52;
+  }
+
+  .dinosaur-timeline-river-image {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.72;
+    filter: saturate(0.98) contrast(1.02);
+    pointer-events: none;
+  }
+
+  .dinosaur-deep-axis::after {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(4, 7, 7, 0.42),
+        transparent 28%,
+        rgba(4, 7, 7, 0.34) 100%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(4, 7, 7, 0.44),
+        transparent 38%,
+        rgba(4, 7, 7, 0.42)
+      );
+    content: "";
+    pointer-events: none;
+  }
+
+  .dinosaur-zone-bands {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .dinosaur-zone-bands span {
+    position: absolute;
+    top: 5.45rem;
+    display: grid;
+    place-items: center;
+    height: 2.2rem;
+    border: 1px solid rgba(218, 185, 126, 0.11);
+    border-radius: 999px;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(130, 183, 179, 0.1),
+        rgba(240, 201, 120, 0.09)
+      ),
+      rgba(8, 11, 11, 0.28);
+    color: rgba(235, 228, 212, 0.82);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .dinosaur-stage-dots .deep-stage-dot {
+    bottom: 4.1rem;
+    width: 44px;
+    height: 44px;
+  }
+
+  .dinosaur-stage-dots .deep-stage-dot span {
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+  }
+
+  .dinosaur-time-ticks span {
+    flex: 1 1 auto;
+  }
+
+  .dinosaur-branch-section {
+    position: relative;
+    margin-top: 1.25rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    padding: 1.15rem;
+  }
+
+  .dinosaur-branch-section::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(109, 155, 148, 0.08), transparent 42%),
+      radial-gradient(
+        circle at 8% 0%,
+        rgba(130, 183, 179, 0.15),
+        transparent 12rem
+      );
+    content: "";
+    pointer-events: none;
+  }
+
+  .dinosaur-branch-section.is-dinosaurs::before {
+    background:
+      linear-gradient(90deg, rgba(208, 163, 91, 0.1), transparent 42%),
+      radial-gradient(
+        circle at 12% 0%,
+        rgba(240, 201, 120, 0.16),
+        transparent 13rem
+      );
+  }
+
+  .dinosaur-section-heading {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.8rem;
+    align-items: start;
+  }
+
+  .dinosaur-section-heading svg {
+    margin-top: 0.35rem;
+    color: var(--gold);
+  }
+
+  .dinosaur-section-heading p:not(.eyebrow) {
+    max-width: 900px;
+    line-height: 1.62;
+  }
+
+  .dinosaur-branch-route {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(9, minmax(128px, 1fr));
+    gap: 0.58rem;
+    margin: 1.15rem 0;
+  }
+
+  .dinosaur-branch-route::before {
+    position: absolute;
+    right: 1.1rem;
+    left: 1.1rem;
+    top: 2.15rem;
+    height: 2px;
+    border-radius: 99px;
+    background: linear-gradient(
+      90deg,
+      rgba(130, 183, 179, 0.62),
+      rgba(240, 201, 120, 0.68)
+    );
+    content: "";
+    opacity: 0.54;
+  }
+
+  .dinosaur-branch-route.is-dinosaur::before {
+    background: linear-gradient(
+      90deg,
+      rgba(208, 163, 91, 0.45),
+      rgba(240, 201, 120, 0.78),
+      rgba(145, 169, 106, 0.55)
+    );
+  }
+
+  .shared-branch-card,
+  .dinosaur-branch-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto auto minmax(2.7rem, 1fr) auto;
+    gap: 0.38rem;
+    min-height: 136px;
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(240, 201, 120, 0.12),
+        transparent 4.2rem
+      ),
+      rgba(8, 11, 11, 0.58);
+    color: var(--text);
+    cursor: pointer;
+    padding: 0.7rem;
+    text-align: left;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background 160ms ease;
+  }
+
+  .shared-branch-card:hover,
+  .dinosaur-branch-card:hover,
+  .shared-branch-card[aria-pressed="true"],
+  .dinosaur-branch-card[aria-pressed="true"] {
+    transform: translateY(-2px);
+    border-color: rgba(240, 201, 120, 0.48);
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(240, 201, 120, 0.2),
+        transparent 4.8rem
+      ),
+      rgba(34, 30, 20, 0.74);
+  }
+
+  .dinosaur-branch-index {
+    color: var(--gold);
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+  }
+
+  .dinosaur-branch-dot {
+    width: 17px;
+    height: 17px;
+    border: 3px solid rgba(8, 11, 11, 0.85);
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow:
+      0 0 0 2px rgba(240, 201, 120, 0.18),
+      0 0 20px rgba(240, 201, 120, 0.18);
+  }
+
+  .dinosaur-branch-title {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.12;
+  }
+
+  .dinosaur-branch-date {
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.2;
+  }
+
+  .dinosaur-detail-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(320px, 0.46fr) minmax(0, 1fr);
+    gap: 1rem;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035), transparent 42%),
+      rgba(8, 11, 11, 0.62);
+  }
+
+  .dinosaur-detail-visual {
+    position: relative;
+    min-height: 390px;
+    margin: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        ellipse at 58% 16%,
+        rgba(240, 201, 120, 0.18),
+        transparent 14rem
+      ),
+      linear-gradient(135deg, rgba(21, 48, 42, 0.7), rgba(61, 43, 29, 0.68)),
+      #080b0b;
+  }
+
+  .dinosaur-detail-visual::after {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(8, 11, 11, 0.08) 55%,
+        rgba(8, 11, 11, 0.66) 100%
+      ),
+      repeating-linear-gradient(
+        172deg,
+        rgba(240, 201, 120, 0.04) 0 1px,
+        transparent 1px 14px
+      );
+    content: "";
+    pointer-events: none;
+  }
+
+  .dinosaur-detail-image-zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: inherit;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: zoom-in;
+    font: inherit;
+    padding: 0;
+  }
+
+  .dinosaur-detail-visual img {
+    width: 100%;
+    height: 100%;
+    min-height: 390px;
+    box-sizing: border-box;
+    object-fit: contain;
+    object-position: center;
+    padding: 0.5rem;
+    filter: saturate(0.94) contrast(1.04);
+  }
+
+  .dinosaur-detail-image-zoom .stage-plate-zoom-indicator,
+  .mobile-dinosaur-stage-zoom .stage-plate-zoom-indicator,
+  .cladogram-inspector-image-zoom .stage-plate-zoom-indicator {
+    top: 0.75rem;
+    right: 0.75rem;
+    bottom: auto;
+  }
+
+  .dinosaur-detail-visual figcaption {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.68rem;
+    left: 0.75rem;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.7rem;
+    color: rgba(235, 228, 212, 0.74);
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .dinosaur-detail-copy {
+    min-width: 0;
+    padding: 1.25rem 1.25rem 1.25rem 0;
+  }
+
+  .dinosaur-detail-copy h2 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 0.98;
+  }
+
+  .dinosaur-detail-copy > p {
+    font-size: 1rem;
+    line-height: 1.62;
+  }
+
+  .latin-name {
+    color: var(--gold) !important;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+  }
+
+  .dinosaur-age {
+    margin: 0.55rem 0 0.8rem !important;
+    color: var(--text) !important;
+    font-weight: 800;
+  }
+
+  .dinosaur-proof {
+    margin-top: 1rem;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.035);
+    padding: 0.85rem;
+  }
+
+  .dinosaur-proof strong {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .dinosaur-proof p {
+    margin-top: 0.5rem;
+    line-height: 1.58;
+  }
+
+  .dinosaur-proof.is-evidence {
+    background: rgba(8, 11, 11, 0.32);
+  }
+
+  .dinosaur-traits,
+  .dinosaur-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .dinosaur-traits span {
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.07);
+    color: var(--text);
+    padding: 0.34rem 0.62rem;
+    font-size: 0.82rem;
+  }
+
+  .dinosaur-sources a {
+    color: var(--gold);
+    font-size: 0.8rem;
+    text-decoration: none;
+  }
+
+  .dinosaurs-bridge {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    border-radius: var(--radius);
+    padding: 1.2rem;
+  }
+}

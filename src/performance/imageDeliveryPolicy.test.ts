@@ -48,11 +48,11 @@ describe("image delivery policy", () => {
     expect(plainImageFiles).toEqual([]);
   });
 
-  it("does not force optimized raster sources from app surfaces", () => {
-    const forcedOptimizedFiles = sourceFiles
+  it("does not use the retired optimized-image feature switch", () => {
+    const legacyDeliveryFiles = sourceFiles
       .filter(([, source]) => source.includes("preferOptimized"))
       .map(([file]) => file);
 
-    expect(forcedOptimizedFiles).toEqual([]);
+    expect(legacyDeliveryFiles).toEqual([]);
   });
 });

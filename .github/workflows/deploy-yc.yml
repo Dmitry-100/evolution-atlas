@@ -2,7 +2,7 @@ name: Deploy to Yandex Object Storage
 
 on:
   workflow_run:
-    workflows: ["CI"]
+    workflows: ["Deploy Yandex Cloud backend"]
     types: [completed]
   workflow_dispatch:
 
@@ -13,6 +13,10 @@ concurrency:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   VITE_AI_API_BASE_URL: https://d5dlcp0j3qccddl8n119.628pfjdx.apigw.yandexcloud.net
+  VITE_YANDEX_METRIKA_ID: ${{ vars.YANDEX_METRIKA_ID }}
+  VITE_YANDEX_METRIKA_WEBVISOR: ${{ vars.YANDEX_METRIKA_WEBVISOR }}
+  SEO_YANDEX_VERIFICATION: ${{ vars.YANDEX_WEBMASTER_VERIFICATION }}
+  SEO_GOOGLE_VERIFICATION: ${{ vars.GOOGLE_SEARCH_CONSOLE_VERIFICATION }}
 
 permissions:
   contents: read
@@ -70,39 +74,100 @@ jobs:
 
       - name: Upload SPA route fallbacks
         run: |
-          for route in \
-            primates \
-            theory \
-            origin-of-life \
-            genetics \
-            cladogram \
-            body-map \
-            extinctions \
-            dinosaurs \
-            materials \
-            sources \
-            about \
-            quiz
+          jq -r '.[] | select(.spaFallback) | .path | ltrimstr("/")' config/public-routes.json | while read -r route
           do
-            s3cmd put ./dist/index.html "s3://evolution-atlas/${route}" \
+            ROUTE_HTML="./dist/${route}/index.html"
+            test -f "$ROUTE_HTML"
+            s3cmd put "$ROUTE_HTML" "s3://evolution-atlas/${route}" \
               --acl-public \
               --mime-type=text/html \
               --add-header='Cache-Control:no-cache, must-revalidate'
-            s3cmd put ./dist/index.html "s3://evolution-atlas/${route}/index.html" \
+            s3cmd put "$ROUTE_HTML" "s3://evolution-atlas/${route}/index.html" \
               --acl-public \
               --mime-type=text/html \
               --add-header='Cache-Control:no-cache, must-revalidate'
           done
 
-      - name: Fix AVIF content-type + long cache
+      - name: Set immutable cache for hashed app assets
         run: |
           s3cmd modify --recursive --acl-public \
-            --mime-type=image/avif \
             --add-header='Cache-Control:public, max-age=31536000, immutable' \
-            --exclude='*' --include='*.avif' s3://evolution-atlas/ || true
+            --exclude='*' \
+            --include='*.js' --include='*.css' \
+            --include='*.avif' --include='*.jpg' --include='*.jpeg' --include='*.png' \
+            s3://evolution-atlas/assets/ || true
+
+          s3cmd modify --recursive --acl-public \
+            --mime-type=image/avif \
+            --exclude='*' --include='*.avif' s3://evolution-atlas/assets/ || true
+
+      - name: Keep unhashed service files revalidatable
+        run: |
+          s3cmd modify --recursive --acl-public \
+            --add-header='Cache-Control:public, max-age=86400, must-revalidate' \
+            s3://evolution-atlas/assets/images/social/ || true
+          for file in favicon.png favicon.svg apple-touch-icon.png icons.svg asset-manifest.json robots.txt sitemap.xml
+          do
+            s3cmd modify --acl-public \
+              --add-header='Cache-Control:no-cache, must-revalidate' \
+              "s3://evolution-atlas/${file}" || true
+          done
 
       - name: index.html must not be cached
         run: |
           s3cmd modify --acl-public \
             --add-header='Cache-Control:no-cache, must-revalidate' \
             s3://evolution-atlas/index.html
+
+      - name: Install and authenticate Yandex Cloud CLI
+        env:
+          YC_SA_JSON_CREDENTIALS: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+        run: |
+          curl --fail --silent --show-error https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
+          printf '%s' "$YC_SA_JSON_CREDENTIALS" > "$RUNNER_TEMP/yc-key.json"
+          yc config profile create github-actions
+          yc config set service-account-key "$RUNNER_TEMP/yc-key.json"
+          yc config set folder-id "$YC_FOLDER_ID"
+
+      - name: Purge HTML and unhashed service files from CDN
+        env:
+          YC_CDN_RESOURCE_ID: ${{ secrets.YC_CDN_RESOURCE_ID }}
+        run: |
+          PURGE_PATHS="/,/index.html*,/favicon.png*,/favicon.svg*,/apple-touch-icon.png*,/icons.svg*,/asset-manifest.json*,/robots.txt*,/sitemap.xml*"
+          while read -r route
+          do
+            PURGE_PATHS="${PURGE_PATHS},/${route}*,/${route}/index.html*"
+          done < <(jq -r '.[] | select(.spaFallback) | .path | ltrimstr("/")' config/public-routes.json)
+          yc cdn cache purge --resource-id "$YC_CDN_RESOURCE_ID" --path "$PURGE_PATHS"
+
+      - name: Verify production routes, cache headers and AI endpoints
+        env:
+          API_GATEWAY_URL: ${{ secrets.YC_API_GATEWAY_URL }}
+        run: |
+          test "$(curl --silent --output /dev/null --write-out '%{http_code}' https://atlas.aidms.ru/)" = "200"
+          curl --fail --silent https://atlas.aidms.ru/ | grep -q 'rel="canonical" href="https://atlas.aidms.ru/"'
+          jq -r '.[].path' config/public-routes.json | while read -r route
+          do
+            test "$(curl --silent --output /dev/null --write-out '%{http_code}' "https://atlas.aidms.ru${route}")" = "200"
+            EXPECTED_CANONICAL="https://atlas.aidms.ru${route}"
+            if [ "$route" != "/" ]; then
+              curl --fail --silent "https://atlas.aidms.ru${route}" | grep -q "rel=\"canonical\" href=\"${EXPECTED_CANONICAL}\""
+            fi
+          done
+          curl --fail --silent https://atlas.aidms.ru/robots.txt | grep -q 'Sitemap: https://atlas.aidms.ru/sitemap.xml'
+          curl --fail --silent https://atlas.aidms.ru/sitemap.xml | grep -q '<loc>https://atlas.aidms.ru/genetics</loc>'
+          HTML_CACHE=$(curl --silent --head https://atlas.aidms.ru/ | tr -d '\r' | awk 'BEGIN{IGNORECASE=1} /^cache-control:/{print substr($0,16)}')
+          echo "$HTML_CACHE" | grep -Eqi 'no-cache|must-revalidate'
+          HASHED_ASSET=$(curl --fail --silent https://atlas.aidms.ru/ | grep -Eo '/assets/[^" ]+\.(js|css)' | head -1)
+          ASSET_CACHE=$(curl --silent --head "https://atlas.aidms.ru${HASHED_ASSET}" | tr -d '\r' | awk 'BEGIN{IGNORECASE=1} /^cache-control:/{print substr($0,16)}')
+          echo "$ASSET_CACHE" | grep -q 'max-age=31536000'
+          echo "$ASSET_CACHE" | grep -q 'immutable'
+          curl --fail-with-body --silent \
+            -H 'Origin: https://atlas.aidms.ru' -H 'Content-Type: application/json' \
+            --data '{"message":"Почему эволюция похожа на дерево?","pagePath":"/theory","history":[]}' \
+            "$API_GATEWAY_URL/api/ask-darwin" | jq -e '.ok == true'
+          curl --fail-with-body --silent \
+            -H 'Origin: https://atlas.aidms.ru' -H 'Content-Type: application/json' \
+            --data '{"intent":"ancestors","budgetMin":5,"allowedStops":[]}' \
+            "$API_GATEWAY_URL/api/plan-tour" | jq -e '.ok == true and (.data.steps | length) == 8'

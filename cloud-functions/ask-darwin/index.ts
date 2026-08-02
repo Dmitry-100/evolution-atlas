@@ -4,6 +4,7 @@ const askDarwinFunction = createYandexCloudFunctionFromEnv({
   YANDEX_API_KEY: process.env.YANDEX_API_KEY,
   YANDEX_FOLDER_ID: process.env.YANDEX_FOLDER_ID,
   YANDEX_MODEL_URI: process.env.YANDEX_MODEL_URI,
+  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
 });
 
 export async function handler(event: unknown) {

@@ -1,0 +1,551 @@
+@layer evolution-genetics {
+  .genetics-page {
+    background:
+      radial-gradient(
+        circle at 12% 2%,
+        rgba(130, 183, 179, 0.16),
+        transparent 22rem
+      ),
+      radial-gradient(
+        circle at 84% 0%,
+        rgba(240, 201, 120, 0.13),
+        transparent 21rem
+      ),
+      linear-gradient(120deg, rgba(8, 11, 11, 0.9), rgba(15, 18, 15, 0.88));
+  }
+
+  .genetics-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 0.65rem 0 1rem;
+  }
+
+  .genetics-hero h1 {
+    max-width: 980px;
+    margin: 0.25rem 0 0.75rem;
+  }
+
+  .genetics-hero p {
+    max-width: 940px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.72;
+  }
+
+  .genome-comparison-card,
+  .genetics-evidence-card,
+  .codon-lab,
+  .genetics-note,
+  .genetics-bridge {
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .genetics-section-heading svg,
+  .genetics-note > svg,
+  .genetics-bridge svg {
+    color: var(--gold);
+  }
+
+  .genetics-flow {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.55rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(218, 185, 126, 0.13);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(
+        90deg,
+        rgba(130, 183, 179, 0.08),
+        rgba(240, 201, 120, 0.09)
+      ),
+      rgba(8, 11, 11, 0.42);
+    padding: 0.8rem;
+  }
+
+  .genetics-flow article {
+    position: relative;
+    display: grid;
+    gap: 0.35rem;
+    min-height: 86px;
+    align-content: center;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: calc(var(--radius) - 2px);
+    background: rgba(8, 11, 11, 0.68);
+    padding: 0.8rem;
+  }
+
+  .genetics-flow article:not(:last-child)::after {
+    position: absolute;
+    right: -0.55rem;
+    top: 50%;
+    width: 0.55rem;
+    height: 2px;
+    background: rgba(240, 201, 120, 0.48);
+    content: "";
+  }
+
+  .genetics-flow strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.25rem;
+  }
+
+  .genetics-flow span {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .codon-lab {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.85fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1.1rem;
+    background:
+      linear-gradient(125deg, rgba(130, 183, 179, 0.08), transparent 52%),
+      rgba(8, 11, 11, 0.56);
+  }
+
+  .codon-lab-copy h2,
+  .genetics-section-heading h2,
+  .genetics-note h2 {
+    margin: 0.25rem 0 0.55rem;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.9rem;
+    letter-spacing: 0;
+  }
+
+  .codon-lab-copy p,
+  .genetics-section-heading p,
+  .genetics-note p,
+  .genetics-bridge p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.62;
+  }
+
+  .codon-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .codon-buttons button {
+    display: grid;
+    gap: 0.12rem;
+    min-width: 5.2rem;
+    border: 1px solid rgba(218, 185, 126, 0.18);
+    border-radius: 999px;
+    background: rgba(8, 11, 11, 0.72);
+    color: var(--text);
+    padding: 0.55rem 0.75rem;
+    cursor: pointer;
+  }
+
+  .codon-buttons button.is-active {
+    border-color: rgba(240, 201, 120, 0.72);
+    background: rgba(240, 201, 120, 0.16);
+  }
+
+  .codon-buttons span {
+    font-weight: 900;
+    letter-spacing: 0.12em;
+  }
+
+  .codon-buttons small {
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  .codon-reader {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 0.7rem;
+    align-items: center;
+    border: 1px solid rgba(130, 183, 179, 0.2);
+    border-radius: calc(var(--radius) - 2px);
+    background:
+      radial-gradient(
+        circle at 85% 20%,
+        rgba(240, 201, 120, 0.14),
+        transparent 10rem
+      ),
+      rgba(8, 11, 11, 0.58);
+    padding: 1rem;
+  }
+
+  .codon-reader div {
+    display: grid;
+    gap: 0.3rem;
+    min-height: 92px;
+    place-items: center;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: calc(var(--radius) - 3px);
+    background: rgba(255, 255, 255, 0.035);
+    text-align: center;
+  }
+
+  .codon-reader span {
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .codon-reader strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+  }
+
+  .codon-reader > svg {
+    color: var(--gold);
+    opacity: 0.8;
+  }
+
+  .codon-reader p {
+    grid-column: 1 / -1;
+    margin: 0.25rem 0 0;
+    color: var(--muted);
+    line-height: 1.52;
+  }
+
+  .genetics-section-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    margin-top: 1.25rem;
+  }
+
+  .molecule-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .molecule-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    background:
+      radial-gradient(
+        circle at 18% 0%,
+        rgba(130, 183, 179, 0.13),
+        transparent 11rem
+      ),
+      rgba(8, 11, 11, 0.54);
+  }
+
+  .molecule-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    object-fit: cover;
+    background: rgba(3, 5, 5, 0.58);
+  }
+
+  .molecule-card div {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.9rem;
+  }
+
+  .molecule-card span {
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .molecule-card h3 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.55rem;
+    letter-spacing: 0;
+  }
+
+  .molecule-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.48;
+  }
+
+  .genome-comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .genome-comparison-card {
+    display: grid;
+    gap: 0.65rem;
+    align-content: start;
+    min-height: 315px;
+    padding: 1rem;
+    background:
+      linear-gradient(180deg, rgba(240, 201, 120, 0.08), transparent 42%),
+      rgba(8, 11, 11, 0.56);
+  }
+
+  .genome-comparison-card > span,
+  .genetics-evidence-card a,
+  .genetics-sources a {
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .genome-comparison-card > strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2.45rem;
+    line-height: 0.98;
+  }
+
+  .genome-comparison-card > b {
+    color: var(--text-soft);
+    font-size: 0.84rem;
+    line-height: 1.35;
+  }
+
+  .genome-comparison-card p,
+  .genome-comparison-card small,
+  .genetics-evidence-card p,
+  .genetics-evidence-card strong {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.52;
+  }
+
+  .genome-comparison-metric {
+    display: grid;
+    gap: 0.18rem;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: calc(var(--radius) - 4px);
+    background: rgba(255, 255, 255, 0.035);
+    padding: 0.62rem 0.68rem;
+  }
+
+  .genome-comparison-metric span {
+    color: var(--faint);
+    font-size: 0.64rem;
+    font-weight: 900;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .genome-comparison-metric em {
+    color: var(--text-soft);
+    font-size: 0.82rem;
+    font-style: normal;
+    font-weight: 850;
+    line-height: 1.25;
+  }
+
+  .genome-comparison-metric--sequence-identity {
+    border-color: rgba(240, 201, 120, 0.22);
+  }
+
+  .genome-comparison-metric--coding-identity {
+    border-color: rgba(130, 183, 179, 0.24);
+  }
+
+  .genome-comparison-metric--ortholog-share {
+    border-color: rgba(167, 190, 123, 0.24);
+  }
+
+  .genome-comparison-proof {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.5rem;
+    border: 1px solid rgba(218, 185, 126, 0.11);
+    border-radius: calc(var(--radius) - 3px);
+    background: rgba(255, 255, 255, 0.025);
+    padding: 0.7rem;
+  }
+
+  .genome-comparison-proof svg {
+    color: var(--gold);
+  }
+
+  .genome-comparison-card small {
+    color: var(--faint);
+  }
+
+  .genetics-evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .genetics-evidence-card {
+    display: grid;
+    gap: 0.65rem;
+    align-content: start;
+    padding: 1rem;
+    background:
+      radial-gradient(
+        circle at 8% 0%,
+        rgba(130, 183, 179, 0.12),
+        transparent 10rem
+      ),
+      rgba(8, 11, 11, 0.52);
+  }
+
+  .genetics-evidence-card > svg {
+    color: var(--gold);
+  }
+
+  .genetics-evidence-media {
+    position: relative;
+    border-radius: calc(var(--radius) - 2px);
+    box-shadow: none;
+  }
+
+  .genetics-evidence-media img {
+    height: 174px;
+    transition:
+      transform var(--transition),
+      filter var(--transition);
+  }
+
+  .genetics-evidence-zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: zoom-in;
+    font: inherit;
+    text-align: left;
+  }
+
+  .genetics-evidence-zoom:focus-visible {
+    outline: 2px solid rgba(240, 201, 120, 0.82);
+    outline-offset: -2px;
+  }
+
+  .genetics-evidence-zoom span {
+    position: absolute;
+    right: 0.65rem;
+    bottom: 0.65rem;
+    display: inline-flex;
+    gap: 0.28rem;
+    align-items: center;
+    border: 1px solid rgba(240, 201, 120, 0.38);
+    border-radius: 999px;
+    background: rgba(3, 5, 5, 0.78);
+    color: var(--text);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    padding: 0.35rem 0.55rem;
+    transform: translateY(0.3rem);
+    transition:
+      opacity var(--transition),
+      transform var(--transition);
+  }
+
+  .genetics-evidence-zoom:hover img,
+  .genetics-evidence-zoom:focus-visible img {
+    filter: brightness(1.08) saturate(1.04);
+    transform: scale(1.015);
+  }
+
+  .genetics-evidence-zoom:hover span,
+  .genetics-evidence-zoom:focus-visible span {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .genetics-evidence-card h3 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.45rem;
+    letter-spacing: 0;
+  }
+
+  .genetics-evidence-card strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .genetics-evidence-card a {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+    justify-self: start;
+    text-decoration: none;
+  }
+
+  .genetics-note {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.8rem;
+    margin-top: 1rem;
+    padding: 1.1rem;
+    background:
+      linear-gradient(90deg, rgba(130, 183, 179, 0.1), transparent 56%),
+      rgba(8, 11, 11, 0.52);
+  }
+
+  .genetics-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1rem;
+  }
+
+  .genetics-sources a {
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.07);
+    padding: 0.45rem 0.7rem;
+    text-decoration: none;
+  }
+
+  .genetics-bridge {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(8, 11, 11, 0.52);
+  }
+
+  .genetics-bridge > div {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  .genetics-bridge strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+  }
+}

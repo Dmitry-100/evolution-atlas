@@ -18,6 +18,7 @@ import type {
 } from "../../lib/askDarwinHandler";
 import { sortedStages } from "../../data/lineage";
 import { DARWIN_TOUR_MENU_EVENT } from "../tour/DarwinWelcome";
+import { trackGoal } from "../../lib/analytics";
 
 type ChatEntry = {
   id: string;
@@ -82,7 +83,9 @@ async function askDarwin(request: DarwinGuideRequest) {
 }
 
 function groundingLabel(answer: DarwinGuideResponseData) {
-  return answer.grounding === "site" ? "по материалам сайта" : "с внешней справкой";
+  return answer.grounding === "site"
+    ? "по материалам сайта"
+    : "с внешней справкой";
 }
 
 function confidenceLabel(answer: DarwinGuideResponseData) {
@@ -135,6 +138,17 @@ export function DarwinGuide() {
         history: historyFromEntries(entries),
       });
 
+      trackGoal("darwin_answered", {
+        route: location.pathname,
+        outcome: result.ok ? "success" : "error",
+        ...(result.ok
+          ? {
+              grounding: result.data.grounding,
+              confidence: result.data.confidence,
+            }
+          : {}),
+      });
+
       setEntries((current) =>
         current.map((entry) =>
           entry.id === nextEntry.id
@@ -147,6 +161,10 @@ export function DarwinGuide() {
         ),
       );
     } catch {
+      trackGoal("darwin_answered", {
+        route: location.pathname,
+        outcome: "error",
+      });
       setEntries((current) =>
         current.map((entry) =>
           entry.id === nextEntry.id
@@ -190,7 +208,10 @@ export function DarwinGuide() {
             {entries.length === 0 ? (
               <div className="darwin-guide-empty">
                 <Sparkles aria-hidden="true" size={20} />
-                <p>Например: “почему человек не произошел от современной обезьяны?”</p>
+                <p>
+                  Например: “почему человек не произошел от современной
+                  обезьяны?”
+                </p>
                 <button
                   type="button"
                   className="darwin-guide-tour-link"
@@ -262,13 +283,19 @@ export function DarwinGuide() {
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
               rows={3}
+              minLength={3}
+              maxLength={600}
             />
             <button
               type="submit"
               className="button button-primary button-md"
               disabled={isPending || question.trim().length === 0}
             >
-              {isPending ? <Loader2 aria-hidden="true" size={17} /> : <MessageCircle aria-hidden="true" size={17} />}
+              {isPending ? (
+                <Loader2 aria-hidden="true" size={17} />
+              ) : (
+                <MessageCircle aria-hidden="true" size={17} />
+              )}
               Задать вопрос
             </button>
           </form>
@@ -280,7 +307,10 @@ export function DarwinGuide() {
           type="button"
           className="darwin-guide-trigger"
           aria-expanded="false"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            trackGoal("darwin_opened", { route: location.pathname });
+            setIsOpen(true);
+          }}
         >
           <Sparkle
             aria-hidden="true"

@@ -1,3 +1,4 @@
+import "../styles/pages/origin-of-life.css";
 import {
   Atom,
   CircleDot,
@@ -29,19 +30,22 @@ const originVisuals: Record<
   "primordial-soup": {
     src: "/assets/images/education/origin-primordial-soup-generated.jpg",
     alt: "AI-визуализация первичного океана: молнии, вулканы, минералы и органические молекулы в ранней химической среде.",
-    caption: "Первичный бульон: энергия ранней Земли могла собирать простые вещества в органические молекулы.",
+    caption:
+      "Первичный бульон: энергия ранней Земли могла собирать простые вещества в органические молекулы.",
     sourceUrl: "generated",
   },
   "rna-world": {
     src: "/assets/images/education/origin-rna-world-generated.jpg",
     alt: "AI-визуализация РНК-мира: молекулы РНК внутри протоклеточной оболочки и каталитические реакции.",
-    caption: "РНК-мир: одна молекула могла хранить информацию и ускорять реакции.",
+    caption:
+      "РНК-мир: одна молекула могла хранить информацию и ускорять реакции.",
     sourceUrl: "generated",
   },
   "hydrothermal-vents": {
     src: "/assets/images/education/origin-hydrothermal-vent-generated.jpg",
     alt: "AI-визуализация гидротермального источника на океаническом дне с минеральными трубами и потоками горячей воды.",
-    caption: "Гидротермальные источники: энергия, минералы и микрокамеры на дне океана.",
+    caption:
+      "Гидротермальные источники: энергия, минералы и микрокамеры на дне океана.",
     sourceUrl: "generated",
   },
   "step-energy": {
@@ -53,7 +57,8 @@ const originVisuals: Record<
   "step-organics": {
     src: "/assets/images/education/origin-step-organics-generated.jpg",
     alt: "AI-визуализация образования органических молекул в океане рядом с вулканами, молниями и гидротермальными источниками.",
-    caption: "Простая химия могла собираться в более сложные органические молекулы.",
+    caption:
+      "Простая химия могла собираться в более сложные органические молекулы.",
     sourceUrl: "generated",
   },
   "step-membranes": {
@@ -65,25 +70,29 @@ const originVisuals: Record<
   "step-inheritance": {
     src: "/assets/images/education/origin-step-inheritance-generated.jpg",
     alt: "AI-визуализация протоклетки с молекулами РНК внутри и стрелками копирования наследственной информации.",
-    caption: "Наследование начинается, когда удачные молекулярные варианты могут копироваться.",
+    caption:
+      "Наследование начинается, когда удачные молекулярные варианты могут копироваться.",
     sourceUrl: "generated",
   },
   "metabolism-first": {
     src: "/assets/images/education/origin-metabolism-first-generated.jpg",
     alt: "AI-визуализация пористых минеральных поверхностей как сети микрореакторов для ранних химических циклов.",
-    caption: "Метаболизм сначала: минеральные поры могли поддерживать устойчивые сети реакций.",
+    caption:
+      "Метаболизм сначала: минеральные поры могли поддерживать устойчивые сети реакций.",
     sourceUrl: "generated",
   },
   "lipid-world": {
     src: "/assets/images/education/origin-lipid-protocells-generated.jpg",
     alt: "AI-визуализация липидной протоклетки: мембранный пузырек удерживает органические молекулы внутри.",
-    caption: "Липидные протоклетки: мембранные пузырьки могли удерживать внутреннюю химию вместе.",
+    caption:
+      "Липидные протоклетки: мембранные пузырьки могли удерживать внутреннюю химию вместе.",
     sourceUrl: "generated",
   },
   panspermia: {
     src: "/assets/images/education/origin-panspermia-generated.jpg",
     alt: "AI-визуализация метеоритного потока над молодой Землей с океаном, вулканами и раскаленными обломками.",
-    caption: "Панспермия: метеориты и кометы могли доставлять органику на молодую Землю.",
+    caption:
+      "Панспермия: метеориты и кометы могли доставлять органику на молодую Землю.",
     sourceUrl: "generated",
   },
 };
@@ -129,9 +138,8 @@ export function OriginOfLifePage() {
             Теория эволюции объясняет, как меняются уже живые системы. Вопрос
             “как химия стала жизнью?” изучает{" "}
             <GlossaryTermById id="abiogenesis">абиогенез</GlossaryTermById>.
-            Гипотезы спорят
-            о конкретном: где взялась энергия, как возникли мембраны и
-            наследование, какие реакции могли поддерживать себя сами.
+            Гипотезы спорят о конкретном: где взялась энергия, как возникли
+            мембраны и наследование, какие реакции могли поддерживать себя сами.
           </p>
         </div>
       </div>
@@ -144,14 +152,17 @@ export function OriginOfLifePage() {
             <p>
               Готовая клетка не появляется сразу. Большинство сценариев
               описывает цепочку переходов: органические молекулы → границы →
-              <GlossaryTermById id="protocells">протоклетки</GlossaryTermById>{" "}
-              → наследование → отбор. Детали пока проверяются.
+              <GlossaryTermById id="protocells">протоклетки</GlossaryTermById> →
+              наследование → отбор. Детали пока проверяются.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="origin-visual-story" aria-labelledby="origin-visual-story-title">
+      <section
+        className="origin-visual-story"
+        aria-labelledby="origin-visual-story-title"
+      >
         <div className="origin-section-heading">
           <Network aria-hidden="true" size={23} />
           <div>
@@ -159,7 +170,8 @@ export function OriginOfLifePage() {
             <h2 id="origin-visual-story-title">Цепочка переходов</h2>
             <p>
               В гипотезах различаются детали, но почти всегда нужны четыре вещи:
-              энергия, органические молекулы, граница и наследуемая изменчивость.
+              энергия, органические молекулы, граница и наследуемая
+              изменчивость.
             </p>
           </div>
         </div>
@@ -170,7 +182,12 @@ export function OriginOfLifePage() {
               className="origin-story-card"
               data-tour-stop-id={step.id}
             >
-              <OptimizedImage src={step.visual.src} alt={step.visual.alt} loading="lazy" decoding="async" />
+              <OptimizedImage
+                src={step.visual.src}
+                alt={step.visual.alt}
+                loading="lazy"
+                decoding="async"
+              />
               <div>
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <strong>{step.title}</strong>
@@ -212,7 +229,12 @@ export function OriginOfLifePage() {
             >
               {visual ? (
                 <figure className="origin-hypothesis-media">
-                  <OptimizedImage src={visual.src} alt={visual.alt} loading="lazy" decoding="async" />
+                  <OptimizedImage
+                    src={visual.src}
+                    alt={visual.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <figcaption>{visual.caption}</figcaption>
                 </figure>
               ) : null}

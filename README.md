@@ -11,7 +11,12 @@
 - Vitest для unit-тестов
 - Playwright для e2e
 
-Базовый сайт не требует серверного runtime. Production-сборка лежит в `dist/` и может отдаваться Caddy, nginx, GitHub Pages или любым static server. AI-гид “Спросить Дарвина” работает через опциональный serverless endpoint `/api/ask-darwin`; настройка описана в `docs/ai-guide-yandex-cloud.md`.
+Frontend остается статическим, а два публичных AI endpoint работают в Yandex Cloud Functions через API Gateway:
+
+- `POST /api/ask-darwin` — ответ Дарвина с site/external grounding;
+- `POST /api/plan-tour` — маршрут на 8 или 15 остановок с явным `personalizationSource`.
+
+Production: [atlas.aidms.ru](https://atlas.aidms.ru/). Облачная архитектура, Search API, SWS, Lockbox и откат описаны в `docs/ai-guide-yandex-cloud.md`.
 
 ## Структура
 
@@ -22,9 +27,11 @@
 - `src/data/extinctions.ts` - пять глобальных вымираний, их причины, последствия и связь с нашей ветвью.
 - `src/lib/timeline.ts` - математика временной шкалы, форматирование дат и доля истории до приматов.
 - `src/components/atlas/` - компоненты интерактивного атласа.
-- `src/pages/` - маршруты `/`, `/primates`, `/genetics`, `/theory`, `/body-map`, `/extinctions`, `/sources`, `/about`.
+- `config/public-routes.json` - единый список SPA-маршрутов для Router, навигации и deploy workflow.
+- `src/pages/` - страницы `/`, `/primates`, `/theory`, `/origin-of-life`, `/genetics`, `/cladogram`, `/body-map`, `/extinctions`, `/dinosaurs`, `/materials`, `/sources`, `/about`, `/quiz`.
 - `public/assets/` - локальные изображения, доступные в сборке.
-- `cloud-functions/ask-darwin/` - Yandex Cloud Function для AI-гида.
+- `cloud-functions/` - функции `ask-darwin` и `plan-tour`.
+- `infra/` - OpenAPI Gateway и Terraform для Smart Web Security/ARL.
 - `legacy/onepager-2026-06-16/` - архив старой one-page версии.
 - `deploy/` и `scripts/` - домашний статический деплой.
 
@@ -48,10 +55,15 @@ corepack pnpm dev
 pnpm lint
 pnpm test
 pnpm build
-pnpm e2e
+pnpm e2e --project=desktop
+pnpm e2e --project=mobile
 ```
 
-## Домашний сервер
+Production build создает content-hash имена для локальных JPG/PNG/AVIF. JS, CSS и изображения рассчитаны на `Cache-Control: public, max-age=31536000, immutable`; `index.html`, SPA fallback и служебные нехешированные файлы должны отдаваться с `no-cache, must-revalidate`.
+
+Сборка также создает отдельный SEO HTML для каждого публичного маршрута, `robots.txt`, `sitemap.xml` и JSON-LD. Подключение Яндекс Метрики, Яндекс Вебмастера и Google Search Console описано в [`docs/seo-and-analytics.md`](docs/seo-and-analytics.md).
+
+## Деплой
 
 Идея production-прогона:
 
@@ -61,7 +73,7 @@ pnpm install --frozen-lockfile
 pnpm build
 ```
 
-После этого Caddy/nginx раздает только `dist/`. Пример Caddy-конфига лежит в `deploy/Caddyfile.example`.
+Frontend выкладывает `.github/workflows/deploy-yc.yml` после успешных desktop/mobile e2e. Backend выкладывает `.github/workflows/deploy-yc-backend.yml`: ZIP → `candidate` → прямые smoke-тесты → тег `production` → обновление Gateway. Секрет модели хранится только в Lockbox.
 
 ## Источники
 

@@ -48,11 +48,12 @@ describe("plan tour handler", () => {
     });
 
     if (!response.ok) throw new Error(response.error.messageRu);
-    expect(response.data.steps.some((step) => step.id === "stage-made-up")).toBe(
-      false,
-    );
+    expect(
+      response.data.steps.some((step) => step.id === "stage-made-up"),
+    ).toBe(false);
     expect(response.data.steps.length).toBeGreaterThanOrEqual(3);
     expect(response.data.routeTitleRu).toBe("Личная родословная");
+    expect(response.data.personalizationSource).toBe("ai");
   });
 
   it("returns a deterministic plan when the model fails", async () => {
@@ -73,5 +74,6 @@ describe("plan tour handler", () => {
     if (!response.ok) throw new Error(response.error.messageRu);
     expect(response.data.routeTitleRu).toMatch(/сомнения/i);
     expect(response.data.steps[0].id).toBe("page-theory");
+    expect(response.data.personalizationSource).toBe("preset");
   });
 });

@@ -1,0 +1,1468 @@
+@layer evolution-responsive {
+  @media (max-width: 1320px) {
+    .atlas-title h1 {
+      font-size: 2.6rem;
+    }
+
+    .atlas-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+    }
+
+    .dinosaur-atlas-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .topbar {
+      align-items: flex-start;
+      flex-direction: column;
+      padding: 0.85rem 1rem;
+      gap: 0.75rem;
+    }
+
+    .brand {
+      flex-basis: auto;
+    }
+
+    .topbar-nav {
+      width: 100%;
+      align-items: stretch;
+      justify-content: flex-start;
+    }
+
+    .expandable-tabs,
+    .topbar-nav-row {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .expandable-tab {
+      flex: 0 1 auto;
+      text-align: center;
+      white-space: normal;
+    }
+
+    .atlas {
+      padding: 1rem;
+    }
+
+    .atlas-hero,
+    .atlas-grid,
+    .dinosaur-atlas-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .atlas-title h1,
+    .document-header h1,
+    .dinosaurs-hero h1,
+    .genetics-hero h1,
+    .origin-hero h1 {
+      font-size: 1.8rem;
+      line-height: 1.04;
+    }
+
+    .hero-actions {
+      justify-content: flex-start;
+    }
+
+    .rail-card {
+      position: static;
+    }
+
+    .stage-panel {
+      position: static;
+    }
+
+    .dinosaur-atlas-grid .dinosaur-detail-card {
+      position: static;
+    }
+
+    .era-route,
+    .primate-focus-grid,
+    .wow-facts-band {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .primate-branch-milestones {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .timeline-section {
+      min-height: auto;
+    }
+
+    .axis-panel {
+      min-height: auto;
+    }
+
+    .timeline-river {
+      height: 360px;
+    }
+
+    .deep-time-axis {
+      height: 320px;
+    }
+
+    .geologic-period-card {
+      grid-template-columns: minmax(280px, 0.38fr) minmax(0, 1fr);
+    }
+
+    .geologic-period-copy {
+      grid-template-columns: 1fr;
+      gap: 0.32rem;
+    }
+
+    .theory-principles,
+    .darwin-spotlight,
+    .evidence-section {
+      grid-template-columns: 1fr;
+    }
+
+    .darwin-portrait {
+      min-height: 340px;
+      border-right: 0;
+      border-bottom: 1px solid rgba(218, 185, 126, 0.18);
+    }
+
+    .darwin-portrait img {
+      min-height: 340px;
+      max-height: 520px;
+      object-position: center 14%;
+    }
+
+    .darwin-flow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .material-card {
+      grid-template-columns: 1fr;
+    }
+
+    .poster-download-card {
+      grid-template-columns: minmax(116px, 0.28fr) minmax(0, 1fr);
+    }
+
+    .poster-download-media {
+      border-right: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
+    .poster-download-media img {
+      min-height: 168px;
+      max-height: 210px;
+    }
+
+    .tree-of-life-poster {
+      grid-template-columns: minmax(116px, 0.28fr) minmax(0, 1fr);
+    }
+
+    .tree-of-life-poster-media img {
+      min-height: 168px;
+      max-height: 210px;
+    }
+
+    .extinction-card {
+      grid-template-columns: 1fr;
+    }
+
+    .extinction-card-body {
+      padding: 1rem 1.1rem 1.2rem;
+    }
+
+    .extinction-visual img {
+      min-height: 0;
+    }
+
+    .material-card-media img {
+      min-height: auto;
+      aspect-ratio: 16 / 9;
+    }
+
+    .evidence-section {
+      grid-template-columns: 1fr;
+    }
+
+    .evidence-intro {
+      border-right: 0;
+      border-bottom: 1px solid rgba(218, 185, 126, 0.18);
+      padding: 0.25rem 0 1rem;
+    }
+
+    .evidence-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stage-panel {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1fr);
+    }
+
+    .stage-plate {
+      border-right: 1px solid var(--line);
+      border-bottom: 0;
+    }
+
+    .stage-plate-media {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+
+    .dinosaurs-hero,
+    .genetics-hero,
+    .origin-hero,
+    .dinosaur-detail-card,
+    .body-map-grid,
+    .cladogram-page-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .genetics-flow,
+    .genome-comparison-grid,
+    .genetics-evidence-grid,
+    .origin-story-grid,
+    .molecule-gallery-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .codon-lab {
+      grid-template-columns: 1fr;
+    }
+
+    .dinosaur-detail-copy {
+      padding: 1.1rem;
+    }
+
+    .dinosaur-branch-route {
+      grid-template-columns: repeat(9, minmax(142px, 170px));
+      overflow-x: auto;
+      padding-bottom: 0.45rem;
+    }
+
+    .trait-compact-body,
+    .trait-groups {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .trait-compact-body {
+      grid-template-columns: 1fr;
+    }
+
+    .origin-hypotheses-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .dinosaur-facts-band {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dinosaur-common-ancestor {
+      grid-template-columns: 1fr;
+    }
+
+    .cladogram-page-grid .cladogram-inspector {
+      position: static;
+      max-height: none;
+    }
+
+    .body-trait-inspector {
+      position: static;
+    }
+
+    .body-map-layer-tabs {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 960px) and (max-width: 1200px) {
+    .cladogram-page-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+      align-items: start;
+    }
+
+    .cladogram-page-grid .cladogram-inspector {
+      position: sticky;
+      top: 0.85rem;
+      max-height: calc(100dvh - 1.7rem);
+      overflow: hidden auto;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .about-origin-story {
+      grid-template-columns: 1fr;
+    }
+
+    .about-origin-story__copy,
+    .about-origin-story__copy p:not(.eyebrow):not(.about-origin-story__lead),
+    .about-origin-story__lead {
+      max-width: none;
+    }
+
+    .about-author {
+      max-width: 380px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    :root {
+      font-size: 15px;
+    }
+
+    .app-ethereal-background {
+      opacity: 0.28;
+    }
+
+    .scroll-progress {
+      height: 2px;
+    }
+
+    .atlas-hero-paths {
+      right: -16rem;
+      bottom: 9rem;
+      width: 820px;
+      height: 330px;
+      opacity: 0.34;
+    }
+
+    .atlas-hero-constellation {
+      right: -6rem;
+      top: 1rem;
+      width: 360px;
+      height: 160px;
+      opacity: 0.22;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 48px;
+      align-items: center;
+      gap: 0.72rem;
+      min-height: 86px;
+      padding: 0.8rem 0.85rem;
+      z-index: 70;
+    }
+
+    .brand {
+      max-width: 100%;
+      gap: 0.76rem;
+    }
+
+    .brand-mark {
+      width: 64px;
+      height: 64px;
+    }
+
+    .brand strong {
+      font-size: 1.42rem;
+    }
+
+    .brand small {
+      font-size: 0.92rem;
+    }
+
+    .mobile-menu-button {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      justify-self: end;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--amber);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
+    }
+
+    .topbar-nav {
+      grid-column: 1 / -1;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      border-radius: 20px;
+      overflow: visible;
+      padding: 0.5rem;
+    }
+
+    .topbar.is-menu-open .topbar-nav {
+      display: inline-flex;
+    }
+
+    .expandable-tabs,
+    .topbar-nav-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      flex-wrap: initial;
+      justify-content: flex-start;
+      gap: 0.45rem;
+      overflow: visible;
+      padding-bottom: 0;
+    }
+
+    .expandable-tabs-separator {
+      display: none;
+    }
+
+    .topbar-nav .expandable-tab {
+      width: 100%;
+      justify-content: flex-start;
+      gap: 0.44rem !important;
+      min-height: 48px;
+      border-color: rgba(218, 185, 126, 0.12);
+      border-radius: 14px;
+      padding: 0.48rem 0.58rem !important;
+      font-size: 0.84rem;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .topbar-nav .expandable-tab svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .topbar-nav .expandable-tab-label {
+      display: none;
+    }
+
+    .topbar-nav .expandable-tab-mobile-label {
+      display: block;
+      min-width: 0;
+      color: currentColor;
+      font-weight: 820;
+      line-height: 1.12;
+      overflow-wrap: anywhere;
+    }
+
+    .atlas-title h1,
+    .document-header h1,
+    .dinosaurs-hero h1,
+    .genetics-hero h1,
+    .origin-hero h1 {
+      font-size: 1.55rem;
+    }
+
+    .atlas-title p,
+    .document-header p,
+    .dinosaurs-hero p,
+    .genetics-hero p,
+    .origin-hero p {
+      font-size: 1rem;
+    }
+
+    .darwin-portrait,
+    .darwin-portrait img {
+      min-height: 300px;
+    }
+
+    .darwin-copy {
+      padding: 1rem;
+    }
+
+    .darwin-flow {
+      grid-template-columns: 1fr;
+    }
+
+    .darwin-flow span {
+      min-height: auto;
+    }
+
+    .hero-subtitle {
+      font-size: 1.28rem !important;
+    }
+
+    .hero-actions,
+    .tabs-list {
+      width: 100%;
+    }
+
+    .tabs-trigger {
+      flex: 1;
+      justify-content: center;
+      padding-inline: 0.5rem;
+    }
+
+    .era-route,
+    .stage-panel,
+    .dinosaur-atlas-grid,
+    .takeaway-band,
+    .wow-facts-band,
+    .theory-bridge-band,
+    .theory-principles,
+    .extinction-overview,
+    .dinosaurs-hero,
+    .genetics-hero,
+    .origin-hero,
+    .dinosaur-detail-card,
+    .codon-lab,
+    .genetics-flow,
+    .genome-comparison-grid,
+    .genetics-evidence-grid,
+    .origin-story-grid,
+    .origin-hypotheses-grid,
+    .molecule-gallery-grid,
+    .reading-grid,
+    .watch-grid,
+    .source-card,
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .geologic-period-card {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+    }
+
+    .geologic-period-copy {
+      grid-template-columns: 1fr;
+    }
+
+    .geologic-period-card .box-title {
+      min-width: 0;
+    }
+
+    .body-map-layer-tabs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.42rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .body-map-layer-heading {
+      display: grid;
+      gap: 0.55rem;
+      padding: 0.78rem;
+    }
+
+    .body-map-layer-heading h2 {
+      margin-top: 0;
+      font-size: 1.38rem;
+    }
+
+    .body-map-layer-heading p {
+      line-height: 1.42;
+    }
+
+    .body-map-layer-heading > span {
+      justify-self: start;
+      padding: 0.32rem 0.56rem;
+    }
+
+    .body-trait-pin {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      min-height: 36px;
+      justify-content: center;
+      gap: 0;
+      padding: 0;
+    }
+
+    .body-trait-pin span {
+      display: none !important;
+    }
+
+    .body-trait-pin:hover,
+    .body-trait-pin.is-active {
+      transform: translate(-50%, -50%) scale(1.06);
+    }
+
+    .body-trait-inspector {
+      gap: 0.72rem;
+      padding: 0.85rem;
+    }
+
+    .body-trait-inspector-heading {
+      gap: 0.55rem;
+    }
+
+    .body-trait-inspector-heading h2 {
+      font-size: 1.55rem;
+    }
+
+    .body-trait-stage,
+    .body-trait-source,
+    .body-trait-caveat {
+      padding: 0.72rem;
+    }
+
+    .era-route::before {
+      left: 1.7rem;
+      right: auto;
+      top: 1.25rem;
+      bottom: 1.25rem;
+      width: 2px;
+      height: auto;
+    }
+
+    .era-route-item {
+      grid-template-columns: 2rem minmax(0, 1fr);
+      grid-template-rows: auto;
+      min-height: 88px;
+    }
+
+    .era-route-marker {
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 0.15rem;
+    }
+
+    .theory-bridge-band {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .reading-card {
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 0.8rem;
+    }
+
+    .stage-panel {
+      display: flex;
+    }
+
+    .stage-plate {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stage-plate-media {
+      height: auto;
+      aspect-ratio: 1.18;
+    }
+
+    .timeline-river {
+      height: 330px;
+    }
+
+    .axis-toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .axis-step-controls {
+      margin-left: 0;
+    }
+
+    .deep-time-stat {
+      width: 100%;
+    }
+
+    .deep-time-axis {
+      height: 360px;
+    }
+
+    .dinosaur-deep-axis,
+    .primate-deep-axis {
+      height: 330px;
+    }
+
+    .deep-time-river-image {
+      height: 100%;
+    }
+
+    .deep-time-region-labels {
+      inset: 0.85rem 0.7rem auto;
+      height: 6rem;
+    }
+
+    .deep-time-region-label {
+      max-width: 9.4rem;
+      padding: 0.34rem 0.5rem;
+      top: calc(var(--region-lane) * 2.35rem);
+    }
+
+    .deep-time-region-label strong {
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+    }
+
+    .deep-time-region-label small {
+      display: none;
+    }
+
+    .deep-time-floating-paths {
+      opacity: 0.42;
+    }
+
+    .extinction-markers,
+    .extinction-marker {
+      pointer-events: none;
+    }
+
+    .deep-active-card {
+      top: 7.1rem;
+      width: 170px;
+      padding: 0.65rem;
+    }
+
+    .primate-focus-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .primate-focus-text {
+      min-height: 86px;
+      padding: 0.65rem;
+    }
+
+    .primate-focus-text strong {
+      font-size: 1rem;
+    }
+
+    .timeline-river img {
+      height: 210px;
+    }
+
+    .active-bubble {
+      top: 0.75rem;
+      width: 176px;
+      padding: 0.65rem;
+    }
+
+    .active-bubble strong {
+      font-size: 1rem;
+    }
+
+    .timeline-toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .stage-copy {
+      padding: 1rem;
+    }
+
+    .stage-copy h2 {
+      font-size: 2.1rem;
+    }
+
+    .document-page {
+      width: 100%;
+      margin: 0 auto;
+      padding: 0.75rem 0.75rem calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .quiz-page {
+      width: 100%;
+      margin: 0 auto;
+      padding: 0.75rem 0.75rem calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .atlas-mobile-shell {
+      padding: 0.75rem 0.75rem calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .source-card-media,
+    .material-card-media {
+      width: 100%;
+      max-height: 230px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .source-card-media img,
+    .material-card-media img {
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      max-height: 230px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      object-position: center;
+      padding: 0;
+    }
+
+    .source-card-copy {
+      padding: 1rem;
+    }
+
+    .material-card-body {
+      padding: 1rem;
+    }
+
+    .tree-of-life-poster {
+      grid-template-columns: 104px minmax(0, 1fr);
+    }
+
+    .poster-download-card {
+      grid-template-columns: 104px minmax(0, 1fr);
+    }
+
+    .tree-of-life-poster figcaption {
+      padding: 0.85rem;
+    }
+
+    .poster-download-copy {
+      padding: 0.85rem;
+    }
+
+    .tree-of-life-poster figcaption p {
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .poster-download-card.is-compact .materials-section-heading p {
+      font-size: 0.92rem;
+    }
+
+    .material-card h2 {
+      font-size: 1.55rem;
+    }
+
+    .source-card dl {
+      grid-template-columns: 1fr;
+    }
+
+    .evidence-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cladogram-reader-guide,
+    .cladogram-row {
+      grid-template-columns: 1fr;
+    }
+
+    .cladogram-row {
+      gap: 0.35rem;
+    }
+
+    .cladogram-row:not(:first-child) .cladogram-trunk-cell::before,
+    .cladogram-row:not(:last-child) .cladogram-trunk-cell::after {
+      left: 3.05rem;
+    }
+
+    .cladogram-branch-cell {
+      min-height: auto;
+      padding-left: 3.05rem;
+    }
+
+    .cladogram-row.has-branches .cladogram-branch-cell::before {
+      left: 3.05rem;
+      top: -0.35rem;
+      width: 3px;
+      height: calc(100% + 0.35rem);
+      background: rgba(240, 201, 120, 0.38);
+    }
+
+    .cladogram-row.has-branches .cladogram-branch-cell::after {
+      left: 2.75rem;
+      top: 1.5rem;
+    }
+
+    .evidence-intro h2 {
+      font-size: 2rem;
+    }
+
+    .extinction-card {
+      margin-left: 1.85rem;
+    }
+
+    .extinction-card::before {
+      left: -2.34rem;
+    }
+
+    .extinction-stat-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .extinction-bridge {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .genetics-flow article:not(:last-child)::after {
+      display: none;
+    }
+
+    .codon-reader {
+      grid-template-columns: 1fr;
+    }
+
+    .codon-reader > svg {
+      justify-self: center;
+      transform: rotate(90deg);
+    }
+
+    .genome-comparison-card {
+      min-height: auto;
+    }
+
+    .genetics-note,
+    .genetics-bridge > div,
+    .origin-section-heading,
+    .genetics-section-heading {
+      grid-template-columns: 1fr;
+    }
+
+    .origin-story-card img,
+    .genetics-evidence-media img {
+      height: 170px;
+    }
+
+    .origin-hypothesis-media img {
+      height: 220px;
+    }
+
+    .genetics-bridge {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .dinosaurs-answer-card strong {
+      font-size: 1.35rem;
+    }
+
+    .dinosaur-branch-section {
+      padding: 0.85rem;
+    }
+
+    .dinosaur-axis-section {
+      padding: 0.85rem;
+    }
+
+    .dinosaur-facts-band {
+      grid-template-columns: 1fr;
+    }
+
+    .dinosaur-facts-band article {
+      min-height: auto;
+    }
+
+    .dinosaur-common-ancestor,
+    .dinosaur-common-ancestor__media,
+    .dinosaur-common-ancestor__lead {
+      grid-template-columns: 1fr;
+    }
+
+    .dinosaur-section-heading {
+      grid-template-columns: 1fr;
+    }
+
+    .dinosaur-axis-toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .dinosaur-axis-toolbar .axis-step-controls {
+      margin-left: 0;
+    }
+
+    .dinosaur-photo-axis {
+      min-width: 1700px;
+      height: 370px;
+    }
+
+    .dinosaur-zone-bands span {
+      top: 4.65rem;
+      height: 2rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.11em;
+    }
+
+    .dinosaur-axis-node {
+      width: 104px;
+    }
+
+    .dinosaur-axis-node img {
+      width: 66px;
+      height: 66px;
+    }
+
+    .mobile-dinosaur-journey {
+      display: grid;
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .mobile-dinosaur-stepper {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) 44px;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.65rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(8, 11, 11, 0.76);
+    }
+
+    .mobile-dinosaur-stepper button {
+      min-width: 44px;
+      min-height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--amber);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .mobile-dinosaur-stepper button:disabled {
+      opacity: 0.38;
+    }
+
+    .mobile-dinosaur-stepper span {
+      min-width: 0;
+      color: var(--text);
+      font-weight: 800;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .mobile-dinosaur-stage-map {
+      position: relative;
+      display: grid;
+      gap: 0.55rem;
+      padding-left: 0.75rem;
+    }
+
+    .mobile-dinosaur-stage-map::before {
+      position: absolute;
+      top: 0.35rem;
+      bottom: 0.35rem;
+      left: 0;
+      width: 3px;
+      border-radius: 999px;
+      background: linear-gradient(
+        180deg,
+        var(--teal),
+        var(--gold),
+        var(--moss)
+      );
+      content: "";
+    }
+
+    .mobile-dinosaur-stage-row {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .mobile-dinosaur-stage-row.is-active {
+      border-color: rgba(240, 201, 120, 0.62);
+      background: rgba(217, 173, 97, 0.08);
+    }
+
+    .mobile-dinosaur-stage-row > button {
+      width: 100%;
+      min-height: 64px;
+      display: grid;
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      gap: 0.16rem 0.65rem;
+      align-items: center;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      padding: 0.7rem 0.75rem;
+      text-align: left;
+    }
+
+    .mobile-dinosaur-stage-row > button span {
+      grid-row: 1 / span 3;
+      display: grid;
+      place-items: center;
+      width: 2.1rem;
+      height: 2.1rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    .mobile-dinosaur-stage-row > button strong {
+      min-width: 0;
+      color: var(--text);
+      font-size: 1rem;
+      overflow-wrap: anywhere;
+    }
+
+    .mobile-dinosaur-stage-row > button small,
+    .mobile-dinosaur-stage-row > button em {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-style: normal;
+    }
+
+    .mobile-dinosaur-stage-detail {
+      display: grid;
+      gap: 0.85rem;
+      padding: 0 0.75rem 0.85rem;
+    }
+
+    .mobile-dinosaur-stage-zoom {
+      position: relative;
+      display: block;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      cursor: zoom-in;
+      font: inherit;
+      padding: 0;
+    }
+
+    .mobile-dinosaur-stage-detail img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .mobile-dinosaur-stage-copy {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .mobile-dinosaur-stage-copy > span,
+    .mobile-dinosaur-stage-copy .latin-name {
+      color: var(--muted);
+    }
+
+    .mobile-dinosaur-stage-copy h3,
+    .mobile-dinosaur-stage-copy p {
+      margin: 0;
+    }
+
+    .mobile-dinosaur-traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .mobile-dinosaur-traits span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--amber);
+      padding: 0.28rem 0.55rem;
+      font-size: 0.85rem;
+    }
+
+    .mobile-dinosaur-why {
+      color: var(--muted);
+    }
+
+    .origin-map {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .origin-map::before {
+      display: none;
+    }
+
+    .origin-map span {
+      min-height: 50px;
+      font-size: 0.72rem;
+    }
+
+    .cladogram-heading {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+    }
+
+    .trait-accumulator-heading {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 0.65rem;
+      padding: 0.85rem;
+    }
+
+    .trait-accumulator-heading svg {
+      margin-top: 0.25rem;
+    }
+
+    .trait-accumulator-heading h2 {
+      margin-bottom: 0;
+      font-size: 1.55rem;
+      line-height: 1.05;
+    }
+
+    .trait-accumulator-heading p:not(.eyebrow) {
+      display: none;
+    }
+
+    .trait-total {
+      justify-self: start;
+      min-width: 4.6rem;
+      padding: 0.42rem 0.72rem;
+    }
+
+    .trait-total span {
+      font-size: 1.35rem;
+    }
+
+    .trait-total small {
+      font-size: 0.56rem;
+    }
+
+    .quiz-heading {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+    }
+
+    .cladogram-body {
+      padding: 0.8rem;
+    }
+
+    .cladogram-mode-toggle {
+      justify-self: stretch;
+    }
+
+    .cladogram-mode-toggle button {
+      flex: 1 1 0;
+      padding-inline: 0.55rem;
+    }
+
+    .trait-groups {
+      grid-template-columns: 1fr;
+    }
+
+    .trait-compact-body {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+      padding: 0.65rem;
+    }
+
+    .trait-featured {
+      padding: 0.72rem;
+    }
+
+    .trait-featured-chips span:nth-child(n + 5) {
+      display: none;
+    }
+
+    .trait-group-details summary {
+      grid-template-columns: minmax(0, 1fr) auto;
+      min-height: auto;
+      padding: 0.68rem 0.72rem;
+    }
+
+    .trait-group-preview {
+      display: none;
+    }
+
+    .trait-detail-chips {
+      max-height: 9rem;
+      padding: 0.65rem;
+    }
+
+    .quiz-body,
+    .quiz-result {
+      padding: 0.9rem;
+    }
+
+    .quiz-options {
+      grid-template-columns: 1fr;
+    }
+
+    .quiz-branch-options,
+    .quiz-route-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .quiz-order-item {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .quiz-order-controls {
+      grid-column: 1 / -1;
+      justify-content: flex-end;
+    }
+
+    .cladogram-node {
+      grid-template-columns: auto auto minmax(0, 1fr);
+      min-height: 86px;
+    }
+
+    .cladogram-branch {
+      grid-template-columns: 74px minmax(0, 1fr);
+      min-height: 98px;
+    }
+
+    .cladogram-root-copy {
+      grid-template-columns: 1fr;
+      padding-left: 3.05rem;
+    }
+
+    .cladogram-node .cladogram-active-badge {
+      grid-column: 3;
+      justify-self: start;
+    }
+
+    .cladogram-branch .cladogram-active-badge {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .cladogram-branch-thumb {
+      width: 74px;
+      height: 74px;
+    }
+
+    .cladogram-inspector-media {
+      min-height: 220px;
+    }
+
+    .cladogram-inspector-split {
+      grid-template-columns: 1fr;
+    }
+
+    .cladogram-branch-icon {
+      display: none;
+    }
+
+    .dinosaur-branch-route {
+      grid-template-columns: 1fr;
+      overflow-x: visible;
+    }
+
+    .dinosaur-branch-route::before {
+      top: 1.1rem;
+      bottom: 1.1rem;
+      right: auto;
+      left: 1.35rem;
+      width: 2px;
+      height: auto;
+    }
+
+    .shared-branch-card,
+    .dinosaur-branch-card {
+      grid-template-columns: 2rem 1.6rem minmax(0, 1fr);
+      grid-template-rows: auto auto;
+      min-height: 92px;
+    }
+
+    .dinosaur-branch-index {
+      grid-row: 1 / span 2;
+    }
+
+    .dinosaur-branch-dot {
+      grid-row: 1 / span 2;
+    }
+
+    .dinosaur-detail-visual,
+    .dinosaur-detail-visual img {
+      min-height: 270px;
+    }
+
+    .dinosaur-detail-visual figcaption {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .dinosaurs-bridge {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-ethereal-background {
+      opacity: 0.22;
+    }
+
+    .floating-paths path,
+    .constellation-field span {
+      animation: none !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .curiosity-facts-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .migration-route-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .science-source-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .luca-exhibit-heading,
+    .africa-origin-heading,
+    .curiosity-facts-heading,
+    .science-sources-heading {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .luca-exhibit-heading .confidence-badge {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .luca-exhibit-grid,
+    .africa-origin-grid,
+    .molecular-scars-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .luca-note {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .africa-map-panel {
+      min-height: 360px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .luca-branches,
+    .curiosity-facts-grid,
+    .migration-route-list {
+      grid-template-columns: 1fr;
+    }
+
+    .luca-exhibit-heading,
+    .africa-origin-heading,
+    .curiosity-facts-heading,
+    .science-sources-heading,
+    .luca-exhibit-grid,
+    .africa-origin-grid,
+    .curiosity-facts-grid,
+    .molecular-scars-grid,
+    .science-source-grid,
+    .migration-route-list {
+      padding-inline: 0.75rem;
+    }
+
+    .africa-site {
+      width: 2rem;
+      height: 2rem;
+      justify-content: center;
+      max-width: 7.5rem;
+      font-size: 0.68rem;
+      padding: 0.34rem;
+    }
+
+    .africa-site span {
+      display: none;
+    }
+
+    .africa-site.is-active {
+      width: auto;
+      height: auto;
+      justify-content: flex-start;
+      padding-inline: 0.44rem;
+    }
+
+    .africa-site.is-active span {
+      display: inline;
+    }
+
+    .science-source-links a {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

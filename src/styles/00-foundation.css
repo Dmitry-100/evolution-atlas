@@ -1,0 +1,121 @@
+@layer evolution-foundation {
+  :root {
+    color-scheme: dark;
+    --bg: #080b0b;
+    --panel: rgba(18, 22, 20, 0.88);
+    --panel-strong: rgba(23, 27, 25, 0.96);
+    --line: rgba(218, 185, 126, 0.22);
+    --line-strong: rgba(235, 198, 124, 0.52);
+    --text: #ebe4d4;
+    --muted: #a79f92;
+    --faint: #6f786f;
+    --gold: #d9ad61;
+    --amber: #f0c978;
+    --moss: #9eb36e;
+    --teal: #82b7b3;
+    --shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+    --radius: 8px;
+    --font-body:
+      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    --font-display: Georgia, "Times New Roman", serif;
+    --display-title-size: clamp(1.75rem, 3.7vw, 3.6rem);
+    --display-title-line: 1;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: var(--bg);
+    overflow-x: hidden;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100svh;
+    overflow-x: hidden;
+    background:
+      radial-gradient(
+        circle at 18% 10%,
+        rgba(130, 183, 179, 0.16),
+        transparent 28rem
+      ),
+      radial-gradient(
+        circle at 80% 2%,
+        rgba(217, 173, 97, 0.13),
+        transparent 26rem
+      ),
+      linear-gradient(180deg, #070908 0%, #0b0e0d 42%, #090b0b 100%);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.018) 0 1px,
+        transparent 1px 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(235, 198, 124, 0.012) 0 1px,
+        transparent 1px 7px
+      );
+    opacity: 0.34;
+    mix-blend-mode: soft-light;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    font: inherit;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  code {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--amber);
+    padding: 0.08rem 0.35rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

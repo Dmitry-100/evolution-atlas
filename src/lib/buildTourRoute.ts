@@ -29,6 +29,7 @@ export type TourPlanStep = TourStop & {
 
 export type TourPlan = {
   planId: string;
+  personalizationSource: "ai" | "preset";
   intent: TourIntent;
   budgetMin?: TourBudgetMin | null;
   childAge?: number | null;
@@ -1033,6 +1034,7 @@ export function buildTourRoute(answers: GuidedTourAnswers): TourPlan {
 
   return {
     planId: `tour-${answers.intent}-${hashText(planSeed)}`,
+    personalizationSource: "preset",
     intent: answers.intent,
     budgetMin,
     childAge: answers.childAge ?? null,
