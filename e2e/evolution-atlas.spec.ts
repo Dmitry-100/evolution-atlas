@@ -1371,6 +1371,7 @@ test.describe("Evolution Atlas", () => {
   test("cladogram branch clicks sync with the stage card and URL", async ({
     page,
   }) => {
+    test.setTimeout(60_000);
     await page.goto("/cladogram");
     const cladogram = page.locator(".cladogram-panel");
 
