@@ -161,7 +161,12 @@
   color: var(--text);
   background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
-  font: 800 0.9rem/1.2 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font:
+    800 0.9rem/1.2 system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
 .darwin-intent-button {
@@ -276,7 +281,12 @@
   border-radius: 8px;
   color: var(--text);
   background: rgba(255, 255, 255, 0.07);
-  font: 0.94rem/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font:
+    0.94rem/1.4 system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
 .darwin-choice-row,
@@ -526,7 +536,9 @@
   animation: tour-focus-pulse 1.8s ease-in-out infinite;
 }
 
-.tour-focus-target[data-tour-focus-label]:not(.stage-panel):not(.deep-stage-dot) {
+.tour-focus-target[data-tour-focus-label]:not(.stage-panel):not(
+    .deep-stage-dot
+  ) {
   position: relative;
 }
 
@@ -543,7 +555,12 @@
   color: #17130b;
   background: linear-gradient(180deg, #f6d88f, #c99649);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
-  font: 900 0.72rem/1.1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font:
+    900 0.72rem/1.1 system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   letter-spacing: 0.02em;
   pointer-events: none;
   text-align: center;
@@ -660,8 +677,8 @@
     left: 0.75rem;
     bottom: max(0.75rem, env(safe-area-inset-bottom));
     width: auto;
-    max-height: min(45vh, 440px);
-    max-height: min(45dvh, 440px);
+    max-height: min(38vh, 360px);
+    max-height: min(38dvh, 360px);
   }
 
   .tour-player--with-next-steps {

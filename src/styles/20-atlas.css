@@ -2923,4 +2923,201 @@
     font-size: 0.78rem;
     text-decoration: none;
   }
+
+  .trait-accumulator {
+    margin-top: 1rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      radial-gradient(
+        circle at 8% 0%,
+        rgba(240, 201, 120, 0.12),
+        transparent 16rem
+      ),
+      radial-gradient(
+        circle at 86% 18%,
+        rgba(130, 183, 179, 0.1),
+        transparent 18rem
+      ),
+      var(--panel);
+  }
+
+  .trait-accumulator-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.85rem;
+    align-items: start;
+    border-bottom: 1px solid var(--line);
+    padding: 1.15rem 1.2rem;
+  }
+
+  .trait-accumulator-heading svg {
+    margin-top: 0.35rem;
+    color: var(--gold);
+  }
+
+  .trait-accumulator-heading p:not(.eyebrow) {
+    max-width: 930px;
+    line-height: 1.62;
+  }
+
+  .trait-accumulator-actions {
+    display: grid;
+    gap: 0.45rem;
+    justify-items: end;
+  }
+
+  .trait-accumulator-heading .trait-map-link svg {
+    margin-top: 0;
+  }
+
+  .trait-total {
+    display: grid;
+    gap: 0.08rem;
+    place-items: center;
+    min-width: 5.6rem;
+    border: 1px solid rgba(240, 201, 120, 0.34);
+    border-radius: 999px;
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(240, 201, 120, 0.22),
+        rgba(8, 11, 11, 0.7)
+      ),
+      rgba(8, 11, 11, 0.58);
+    padding: 0.48rem 0.86rem;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .trait-total span {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.65rem;
+  }
+
+  .trait-total small {
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .trait-compact-body {
+    display: grid;
+    grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+    gap: 0.85rem;
+    padding: 0.9rem 1rem 1rem;
+  }
+
+  .trait-featured,
+  .trait-group-details {
+    border: 1px solid rgba(218, 185, 126, 0.13);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.42);
+  }
+
+  .trait-featured {
+    align-self: start;
+    padding: 0.85rem;
+  }
+
+  .trait-featured > span,
+  .trait-group-title small {
+    display: block;
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .trait-featured-chips,
+  .trait-group-preview,
+  .trait-detail-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.38rem;
+  }
+
+  .trait-featured-chips {
+    margin-top: 0.7rem;
+  }
+
+  .trait-featured-chips span,
+  .trait-group-preview span,
+  .trait-group-preview em,
+  .trait-detail-chips span {
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.06);
+    color: var(--text);
+    padding: 0.28rem 0.5rem;
+    font-size: 0.76rem;
+    font-style: normal;
+    line-height: 1.18;
+  }
+
+  .trait-group-preview em {
+    color: var(--gold);
+    font-weight: 900;
+  }
+
+  .trait-groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    padding: 0;
+  }
+
+  .trait-group-details {
+    overflow: clip;
+  }
+
+  .trait-group-details summary {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr) auto;
+    gap: 0.65rem;
+    align-items: center;
+    min-height: 70px;
+    cursor: pointer;
+    list-style: none;
+    padding: 0.72rem;
+  }
+
+  .trait-group-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .trait-group-details summary svg {
+    color: var(--gold);
+    transition: transform 160ms ease;
+  }
+
+  .trait-group-details[open] summary {
+    border-bottom: 1px solid rgba(218, 185, 126, 0.12);
+  }
+
+  .trait-group-details[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .trait-group-title {
+    display: grid;
+    gap: 0.18rem;
+  }
+
+  .trait-group-title strong {
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.02rem;
+    line-height: 1.08;
+  }
+
+  .trait-detail-chips {
+    max-height: 10.5rem;
+    overflow: auto;
+    padding: 0.75rem;
+  }
 }
