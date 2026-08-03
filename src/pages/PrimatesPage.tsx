@@ -95,8 +95,8 @@ export function PrimatesPage() {
         </p>
         <MobileAtlas
           eyebrow="Приматы → человек"
-          title="От ранних приматов к Homo sapiens"
-          description="Пройдите ветвь от ранних приматов к Homo sapiens и посмотрите карту ранних свидетельств и маршрутов расселения."
+          title="Эволюция человека: от ранних приматов до Homo sapiens"
+          description="Человек не произошел от современной обезьяны. Люди и другие приматы унаследовали признаки от общих предков, а затем их ветви развивались независимо."
           showAfricaOriginMap
           showTraitAccumulator={false}
           stages={visibleStages}
@@ -138,14 +138,12 @@ export function PrimatesPage() {
         <FloatingPaths className="atlas-hero-paths" />
         <ConstellationField className="atlas-hero-constellation" />
         <div className="atlas-title">
-          <h1>Приматы → человек</h1>
-          <p className="hero-subtitle">От древесных приматов к Homo sapiens за последние 66 млн лет.</p>
+          <h1>Эволюция человека: от ранних приматов до Homo sapiens</h1>
+          <p className="hero-subtitle">Этапы развития нашей ветви за последние 66 млн лет.</p>
           <p>
-            Здесь собраны{" "}
-            <GlossaryTermById id="anthropoids">антропоиды</GlossaryTermById>,{" "}
-            <GlossaryTermById id="apes">человекообразные</GlossaryTermById>,{" "}
-            <GlossaryTermById id="hominins">гоминины</GlossaryTermById>,
-            ранние Homo, соседние человеческие линии и первые следы расселения.
+            Человек не произошел от современной обезьяны. Люди и другие приматы
+            унаследовали признаки от общих предков, а затем их ветви развивались
+            независимо.
           </p>
         </div>
       </section>
@@ -154,10 +152,15 @@ export function PrimatesPage() {
         <div>
           <Star aria-hidden="true" size={22} />
           <div>
-            <strong>Соседние ветви, общий корень</strong>
+            <h2>Кто был общим предком человека и обезьян?</h2>
             <p>
-              У современных обезьян собственные эволюционные истории. С человеком
-              их связывают более древние общие предки, от которых ветви разошлись.
+              Это не один современный вид, а последовательность древних популяций.
+              Например, линии людей и шимпанзе разошлись примерно 7 млн лет назад;
+              после разделения обе ветви эволюционировали независимо. Хронология
+              ниже показывает, где в этой истории появляются{" "}
+              <GlossaryTermById id="anthropoids">антропоиды</GlossaryTermById>,{" "}
+              <GlossaryTermById id="apes">человекообразные</GlossaryTermById> и{" "}
+              <GlossaryTermById id="hominins">гоминины</GlossaryTermById>.
             </p>
           </div>
         </div>
@@ -178,7 +181,7 @@ export function PrimatesPage() {
             <div className="primate-branch-panel-heading">
               <div>
                 <p className="eyebrow">Развилки ветви</p>
-                <h2 id="primate-branch-title">От древесной жизни к Homo sapiens</h2>
+                <h2 id="primate-branch-title">Этапы эволюции человека в хронологическом порядке</h2>
               </div>
               <span>{activeIndex + 1} из {visibleStages.length}</span>
             </div>

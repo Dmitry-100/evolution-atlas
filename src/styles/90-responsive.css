@@ -119,6 +119,10 @@
       grid-template-columns: 1fr;
     }
 
+    .evidence-faq {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .darwin-portrait {
       min-height: 340px;
       border-right: 0;
@@ -813,6 +817,10 @@
     }
 
     .evidence-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .evidence-faq {
       grid-template-columns: 1fr;
     }
 

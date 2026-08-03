@@ -2666,9 +2666,15 @@
   }
 
   .theory-bridge-band strong,
+  .theory-bridge-band h2,
   .theory-bridge-band p {
     display: block;
     margin: 0;
+  }
+
+  .theory-bridge-band h2 {
+    font: inherit;
+    font-weight: 700;
   }
 
   .theory-bridge-band p {
@@ -2922,6 +2928,34 @@
     color: var(--gold);
     font-size: 0.78rem;
     text-decoration: none;
+  }
+
+  .evidence-faq {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .evidence-faq-card {
+    border: 1px solid rgba(218, 185, 126, 0.18);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.035);
+    padding: 1rem;
+  }
+
+  .evidence-faq-card h3 {
+    margin: 0 0 0.5rem;
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.1rem;
+    line-height: 1.2;
+  }
+
+  .evidence-faq-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
 
   .trait-accumulator {

@@ -50,7 +50,7 @@ export const ORIGIN_HYPOTHESES: OriginHypothesis[] = [
   },
   {
     id: "rna-world",
-    titleRu: "РНК-мир",
+    titleRu: "Гипотеза мира РНК простыми словами",
     shortRu:
       "До ДНК и белков могла существовать стадия, где РНК и хранила информацию, и ускоряла реакции.",
     mechanismRu:
