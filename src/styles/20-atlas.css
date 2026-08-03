@@ -2666,9 +2666,15 @@
   }
 
   .theory-bridge-band strong,
+  .theory-bridge-band h2,
   .theory-bridge-band p {
     display: block;
     margin: 0;
+  }
+
+  .theory-bridge-band h2 {
+    font: inherit;
+    font-weight: 700;
   }
 
   .theory-bridge-band p {

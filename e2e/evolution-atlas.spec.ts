@@ -78,6 +78,53 @@ async function resetTourStorage(page: Page) {
   });
 }
 
+async function expectImageToRenderNonBlank(image: Locator) {
+  await image.scrollIntoViewIfNeeded();
+  await expect(image).toBeVisible();
+  await expect
+    .poll(() =>
+      image.evaluate((node) => {
+        const img = node as HTMLImageElement;
+        if (!img.complete || img.naturalWidth === 0 || img.naturalHeight === 0) {
+          return false;
+        }
+
+        const canvas = document.createElement("canvas");
+        const size = 24;
+        canvas.width = size;
+        canvas.height = size;
+        const context = canvas.getContext("2d", {
+          willReadFrequently: true,
+        });
+        if (!context) return false;
+
+        context.drawImage(img, 0, 0, size, size);
+        const pixels = context.getImageData(0, 0, size, size).data;
+        let visiblePixels = 0;
+        for (let index = 0; index < pixels.length; index += 4) {
+          const red = pixels[index] ?? 0;
+          const green = pixels[index + 1] ?? 0;
+          const blue = pixels[index + 2] ?? 0;
+          const alpha = pixels[index + 3] ?? 0;
+          if (alpha > 0 && Math.max(red, green, blue) > 24) {
+            visiblePixels += 1;
+          }
+        }
+
+        return visiblePixels > size;
+      }),
+    )
+    .toBe(true);
+}
+
+async function expectImageNotToUseAvif(image: Locator) {
+  await expect
+    .poll(() =>
+      image.evaluate((node) => (node as HTMLImageElement).currentSrc),
+    )
+    .not.toMatch(/\.avif(?:$|\?)/);
+}
+
 async function advanceTourToStep(
   page: Page,
   tour: Locator,
@@ -709,9 +756,13 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".quiz-panel")).toHaveCount(0);
     await expect(page.locator(".cladogram-panel")).toHaveCount(0);
     await expect(page.locator(".atlas-note-band")).toHaveCount(1);
-    await expect(page.locator(".atlas-note-band")).toContainText(
-      "Общие предки",
-    );
+    await expect(
+      page
+        .locator(".atlas-note-band")
+        .getByRole("heading", {
+          name: "Хронология эволюции жизни на Земле",
+        }),
+    ).toBeVisible();
 
     const heroBox = await page.locator(".atlas-hero").boundingBox();
     const noteBox = await page.locator(".atlas-note-band").boundingBox();
@@ -765,11 +816,11 @@ test.describe("Evolution Atlas", () => {
     );
   });
 
-  test("loads AVIF in browsers that support it while retaining an image fallback", async ({
+  test("loads raster images without a fragile AVIF source", async ({
     page,
   }) => {
     await page.goto("/theory");
-    const image = page.locator(".darwin-portrait picture img");
+    const image = page.locator(".darwin-portrait img");
     await expect(image).toBeVisible();
     await expect
       .poll(() =>
@@ -778,8 +829,39 @@ test.describe("Evolution Atlas", () => {
           return element.complete ? element.currentSrc : "";
         }),
       )
-      .toMatch(/\.avif$/);
+      .toMatch(/\.(jpe?g|png)$/);
     await expect(image).toHaveAttribute("src", /\.jpg$/);
+    await expect(
+      page.locator(".darwin-portrait source[type='image/avif']"),
+    ).toHaveCount(0);
+  });
+
+  test("renders problem page images as nonblank rasters", async ({ page }) => {
+    test.setTimeout(90_000);
+
+    await page.goto("/origin-of-life");
+    const originImages = page.locator(".origin-hypothesis-media img");
+    await expect(originImages).toHaveCount(6);
+    for (let index = 0; index < 6; index += 1) {
+      await expectImageToRenderNonBlank(originImages.nth(index));
+      await expectImageNotToUseAvif(originImages.nth(index));
+    }
+
+    await page.goto("/genetics");
+    const geneticsImages = page.locator(".genetics-evidence-media img");
+    await expect(geneticsImages).toHaveCount(6);
+    for (let index = 0; index < 6; index += 1) {
+      await expectImageToRenderNonBlank(geneticsImages.nth(index));
+      await expectImageNotToUseAvif(geneticsImages.nth(index));
+    }
+
+    await page.goto("/cladogram?stage=bilaterians");
+    await expect(
+      page.getByRole("heading", { name: "Двусторонние животные" }),
+    ).toBeVisible();
+    const cladogramImage = page.locator(".cladogram-inspector-media img");
+    await expectImageToRenderNonBlank(cladogramImage);
+    await expectImageNotToUseAvif(cladogramImage);
   });
 
   test("keeps approved home and Darwin dialog visual baselines", async ({
@@ -817,6 +899,12 @@ test.describe("Evolution Atlas", () => {
 
     await page.goto("/");
     await expect(page.locator(".mobile-atlas")).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Человек произошел от обезьяны... а от кого произошла обезьяна?",
+        exact: true,
+      }),
+    ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Открыть экскурсию с Дарвином" }),
     ).toHaveCount(0);
@@ -1067,7 +1155,7 @@ test.describe("Evolution Atlas", () => {
     );
     await expect(
       page.locator(".stage-plate-media source[type='image/avif']"),
-    ).toHaveCount(1);
+    ).toHaveCount(0);
 
     await page.getByRole("button", { name: /Homo sapiens,/i }).click();
     await expect(

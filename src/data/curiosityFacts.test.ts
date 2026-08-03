@@ -52,8 +52,9 @@ describe("curiosity facts", () => {
   it("states that Homo sapiens appears in the final seconds of the compressed timeline", () => {
     const fact = CURIOSITY_FACTS.find((item) => item.id === "sapiens-last-seconds");
 
-    expect(fact?.detailRu).toMatch(/последн/i);
-    expect(fact?.detailRu).toMatch(/секунд/i);
+    expect(fact?.shortRu).toMatch(/6–7 секунд/i);
+    expect(fact?.detailRu).toMatch(/сменой масштаба/i);
+    expect(fact?.detailRu).toMatch(/задолго до нашей ветви/i);
   });
 
   it("distributes hooks across topical pages instead of one home-page block", () => {

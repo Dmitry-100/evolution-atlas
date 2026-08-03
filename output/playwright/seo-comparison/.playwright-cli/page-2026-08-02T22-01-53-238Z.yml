@@ -1,0 +1,340 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "Открыть атлас" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e7]:
+        - strong [ref=e8]: Достающее звено
+        - generic [ref=e9]: интерактивный атлас эволюции
+    - navigation "Основная навигация" [ref=e10]:
+      - generic [ref=e11]:
+        - link "Атлас" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - link "Приматы → человек" [ref=e17] [cursor=pointer]:
+          - /url: /primates
+        - link "Теория эволюции" [ref=e23] [cursor=pointer]:
+          - /url: /theory
+        - link "Зарождение жизни" [ref=e27] [cursor=pointer]:
+          - /url: /origin-of-life
+        - link "РНК/ДНК" [ref=e31] [cursor=pointer]:
+          - /url: /genetics
+        - link "Дерево родства" [ref=e45] [cursor=pointer]:
+          - /url: /cladogram
+        - link "Карта признаков" [ref=e52] [cursor=pointer]:
+          - /url: /body-map
+        - link "Глобальные вымирания" [ref=e61] [cursor=pointer]:
+          - /url: /extinctions
+        - link "Вымерли ли динозавры" [ref=e67] [cursor=pointer]:
+          - /url: /dinosaurs
+        - link "Дополнительные материалы" [ref=e79] [cursor=pointer]:
+          - /url: /materials
+        - link "О проекте" [ref=e84] [cursor=pointer]:
+          - /url: /about
+        - link "Проверь себя" [ref=e88] [cursor=pointer]:
+          - /url: /quiz
+      - button "Открыть экскурсию с Дарвином" [ref=e94] [cursor=pointer]:
+        - generic [ref=e98]: Экскурсия
+        - strong [ref=e99]: с Дарвином
+  - main [ref=e100]:
+    - generic [ref=e101]:
+      - paragraph [ref=e102]: Выбран этап Ранние родственники приматов, 66 млн лет назад
+      - generic [ref=e104]:
+        - heading "Человек произошел от обезьяны... а от кого произошла обезьяна?" [level=1] [ref=e105]
+        - paragraph [ref=e106]: Короткий ответ теории эволюции — через дерево родства, а не лестницу прогресса.
+        - paragraph [ref=e107]: Почти вся история жизни прошла до появления приматов. Перемещайтесь по шкале, чтобы увидеть, как клеточные линии, рыбы, четвероногие, млекопитающие и древние приматы связаны с нашей ветвью.
+      - generic [ref=e112]:
+        - strong [ref=e113]: Общие предки
+        - paragraph [ref=e114]: Каждый узел на маршруте показывает группу, от которой расходились родственные линии. Наша ветвь — одна из них.
+      - region "Факты о масштабе времени" [ref=e115]:
+        - article [ref=e116]:
+          - generic [ref=e120]: К выбранной точке
+          - strong [ref=e121]: 98,35%
+          - paragraph [ref=e122]: истории жизни прошло к точке “Ранние родственники приматов”.
+        - article [ref=e123]:
+          - generic [ref=e127]: Один день жизни
+          - strong [ref=e128]: 23:36
+          - paragraph [ref=e129]: время выбранного этапа, если 4 млрд лет сжать в 24 часа.
+        - article [ref=e130]:
+          - generic [ref=e140]: Накоплено признаков
+          - strong [ref=e141]: "63"
+          - paragraph [ref=e142]: унаследованных признаков уже собрано к этой точке маршрута.
+          - link "Открыть карту признаков" [ref=e143] [cursor=pointer]:
+            - /url: /body-map
+        - article [ref=e146]:
+          - generic [ref=e149]: До приматов
+          - strong [ref=e150]: 98,4%
+          - paragraph [ref=e151]: истории жизни прошло до появления первых приматов.
+      - generic [ref=e152]:
+        - generic [ref=e153]:
+          - region "Глубокая шкала времени" [ref=e154]:
+            - generic [ref=e155]:
+              - generic [ref=e156]: Нажимайте точки, двигайте ползунок или используйте стрелки
+              - generic "Переключение этапов" [ref=e160]:
+                - button "Предыдущий этап" [ref=e161] [cursor=pointer]
+                - button "Следующий этап" [ref=e164] [cursor=pointer]
+              - strong [ref=e167]: 4 млрд лет одним взглядом
+            - generic "Шкала времени. Используйте стрелки влево и вправо для перехода между этапами." [ref=e168]:
+              - button "Увеличить иллюстрацию шкалы времени" [ref=e169]:
+                - generic [ref=e170]: Увеличить
+              - generic:
+                - link "Клеточная жизнь миллиарды лет до животных" [ref=e176] [cursor=pointer]:
+                  - /url: /origin-of-life
+                  - strong [ref=e177]: Клеточная жизнь
+                  - generic [ref=e178]: миллиарды лет до животных
+                - generic:
+                  - strong: Животные и хордовые
+                  - generic: тела, ткани и хорда
+                - generic:
+                  - strong: Рыбы и позвоночные
+                  - generic: скелет, челюсти, плавники
+                - generic:
+                  - strong: Выход на сушу
+                  - generic: пальцы и амниотическое яйцо
+                - generic:
+                  - strong: Синапсиды
+                  - generic: челюсти, зубы, будущий слух
+                - generic:
+                  - strong: Млекопитающие
+                  - generic: шерсть, молоко, забота
+                - link "Приматы и человек самый конец шкалы" [ref=e179] [cursor=pointer]:
+                  - /url: /primates
+                  - strong [ref=e180]: Приматы и человек
+                  - generic [ref=e181]: самый конец шкалы
+              - generic "Глобальные вымирания":
+                - button "Ордовикско-силурийское вымирание, примерно 444 млн лет назад" [ref=e182] [cursor=pointer]:
+                  - strong [ref=e184]: Ордовик
+                  - generic [ref=e185]: 444 млн лет назад
+                - button "Позднедевонское вымирание, несколько волн около 372–359 млн лет назад" [ref=e186] [cursor=pointer]:
+                  - strong [ref=e188]: Девон
+                  - generic [ref=e189]: 372 млн лет назад
+                - button "Пермское вымирание, примерно 252 млн лет назад" [ref=e190] [cursor=pointer]:
+                  - strong [ref=e192]: Пермь
+                  - generic [ref=e193]: 252 млн лет назад
+                - button "Триасово-юрское вымирание, примерно 201 млн лет назад" [ref=e194] [cursor=pointer]:
+                  - strong [ref=e196]: Триас
+                  - generic [ref=e197]: 201 млн лет назад
+                - button "Мел-палеогеновое вымирание, 66 млн лет назад" [ref=e198] [cursor=pointer]:
+                  - strong [ref=e200]: K-Pg
+                  - generic [ref=e201]: 66 млн лет назад
+              - generic:
+                - generic: 66 млн лет назад
+                - strong: Ранние родственники приматов
+              - list "Этапы на глубокой шкале":
+                - button "Клеточные линии, 3,8 млрд лет назад" [ref=e202] [cursor=pointer]
+                - button "Прокариоты, 3,5 млрд лет назад" [ref=e204] [cursor=pointer]
+                - button "Цианобактерии, 2,7 млрд лет назад" [ref=e206] [cursor=pointer]
+                - button "Эукариоты, 1,8 млрд лет назад" [ref=e208] [cursor=pointer]
+                - button "Родственники животных, 900 млн лет назад" [ref=e210] [cursor=pointer]
+                - button "Первые животные, 575 млн лет назад" [ref=e212] [cursor=pointer]
+                - button "Двусторонние животные, 555 млн лет назад" [ref=e214] [cursor=pointer]
+                - button "Кембрийский взрыв, 539 млн лет назад" [ref=e216] [cursor=pointer]
+                - button "Ранние хордовые, 518 млн лет назад" [ref=e218] [cursor=pointer]
+                - button "Ранние позвоночные, 500 млн лет назад" [ref=e220] [cursor=pointer]
+                - button "Челюстные рыбы, 430 млн лет назад" [ref=e222] [cursor=pointer]
+                - button "Лопастеперые, 390 млн лет назад" [ref=e224] [cursor=pointer]
+                - button "Переход к суше, 375 млн лет назад" [ref=e226] [cursor=pointer]
+                - button "Четвероногие, 365 млн лет назад" [ref=e228] [cursor=pointer]
+                - button "Амниоты, 320 млн лет назад" [ref=e230] [cursor=pointer]
+                - button "Синапсиды, 300 млн лет назад" [ref=e232] [cursor=pointer]
+                - button "Терапсиды, 270 млн лет назад" [ref=e234] [cursor=pointer]
+                - button "Цинодонты, 250 млн лет назад" [ref=e236] [cursor=pointer]
+                - button "Млекопитающие, 200 млн лет назад" [ref=e238] [cursor=pointer]
+                - button "Ранние эутерии, 125 млн лет назад" [ref=e240] [cursor=pointer]
+                - button "После вымирания динозавров, 66 млн лет назад" [ref=e242] [cursor=pointer]
+                - button "Ранние родственники приматов, 66 млн лет назад" [ref=e244] [cursor=pointer]
+                - button "Древние приматы, 55 млн лет назад" [ref=e246] [cursor=pointer]
+                - button "Антропоиды, 40 млн лет назад" [ref=e248] [cursor=pointer]
+                - button "Широконосые обезьяны, 35 млн лет назад" [ref=e250] [cursor=pointer]
+                - button "Узконосые обезьяны, 30 млн лет назад" [ref=e252] [cursor=pointer]
+                - button "Мартышковые, 24 млн лет назад" [ref=e254] [cursor=pointer]
+                - button "Ранние человекообразные, 20 млн лет назад" [ref=e256] [cursor=pointer]
+                - button "Большие человекообразные, 14 млн лет назад" [ref=e258] [cursor=pointer]
+                - button "Ранние гоминины, 7 млн лет назад" [ref=e260] [cursor=pointer]
+                - button "Ардипитеки, 4,4 млн лет назад" [ref=e262] [cursor=pointer]
+                - button "Австралопитеки, 3,2 млн лет назад" [ref=e264] [cursor=pointer]
+                - button "Ранний Homo, 2,8 млн лет назад" [ref=e266] [cursor=pointer]
+                - button "Homo erectus, 1,9 млн лет назад" [ref=e268] [cursor=pointer]
+                - button "Гейдельбергский человек, 700 тыс. лет назад" [ref=e270] [cursor=pointer]
+                - button "Неандертальцы, 400 тыс. лет назад" [ref=e272] [cursor=pointer]
+                - button "Денисовцы, 300 тыс. лет назад" [ref=e274] [cursor=pointer]
+                - button "Homo sapiens, 300 тыс. лет назад" [ref=e276] [cursor=pointer]
+            - slider "Позиция на временной шкале" [ref=e282]
+            - generic [ref=e283]:
+              - generic [ref=e284]: 4 млрд
+              - generic [ref=e285]: 3 млрд
+              - generic [ref=e286]: 2 млрд
+              - generic [ref=e287]: 1 млрд
+              - generic [ref=e288]: 600 млн
+              - generic [ref=e289]: 200 млн
+              - generic [ref=e290]: 66 млн
+              - generic [ref=e291]: сегодня
+            - complementary "Геологический контекст выбранной точки" [ref=e292]:
+              - generic [ref=e293]:
+                - generic [ref=e294]: период
+                - generic [ref=e298]:
+                  - heading "Палеоген" [level=2] [ref=e299]
+                  - paragraph [ref=e300]: 66–23,03 млн лет назад
+                  - generic [ref=e301]: Граница мел — палеоген
+              - generic [ref=e302]:
+                - paragraph [ref=e303]: После исчезновения нептичьих динозавров быстро разнообразятся млекопитающие и ранние приматы.
+                - paragraph [ref=e304]:
+                  - strong [ref=e305]: "Граница:"
+                  - text: Ее узнают по ударному слою, кратеру Чиксулуб и смене ископаемых.
+            - generic "Управление прокруткой времени" [ref=e306]:
+              - generic [ref=e307]: Прокрутка по времени
+              - button "Начать прокрутку по времени" [ref=e308] [cursor=pointer]
+              - button "Начать прокрутку сначала" [ref=e311] [cursor=pointer]
+              - generic [ref=e315]: "Точка 27 из 43: Ранние родственники приматов"
+          - generic "Навигация по эпохам" [ref=e319]:
+            - generic [ref=e320]: Маршрут по эпохам
+            - navigation "Эпохи" [ref=e324]:
+              - button "Клеточная жизнь, 4 млрд лет - 539 млн лет" [ref=e325] [cursor=pointer]:
+                - generic [ref=e328]:
+                  - generic [ref=e329]: "01"
+                  - strong [ref=e330]: Клеточная жизнь
+                  - generic [ref=e331]: 4 млрд лет - 539 млн лет
+              - button "Животные и хордовые, 539 млн лет - 430 млн лет" [ref=e332] [cursor=pointer]:
+                - generic [ref=e335]:
+                  - generic [ref=e336]: "02"
+                  - strong [ref=e337]: Животные и хордовые
+                  - generic [ref=e338]: 539 млн лет - 430 млн лет
+              - button "Рыбы и позвоночные, 430 млн лет - 360 млн лет" [ref=e339] [cursor=pointer]:
+                - generic [ref=e342]:
+                  - generic [ref=e343]: "03"
+                  - strong [ref=e344]: Рыбы и позвоночные
+                  - generic [ref=e345]: 430 млн лет - 360 млн лет
+              - button "Выход на сушу, 360 млн лет - 300 млн лет" [ref=e346] [cursor=pointer]:
+                - generic [ref=e349]:
+                  - generic [ref=e350]: "04"
+                  - strong [ref=e351]: Выход на сушу
+                  - generic [ref=e352]: 360 млн лет - 300 млн лет
+              - button "Синапсиды, 300 млн лет - 200 млн лет" [ref=e353] [cursor=pointer]:
+                - generic [ref=e356]:
+                  - generic [ref=e357]: "05"
+                  - strong [ref=e358]: Синапсиды
+                  - generic [ref=e359]: 300 млн лет - 200 млн лет
+              - button "Млекопитающие, 200 млн лет - 66 млн лет" [ref=e360] [cursor=pointer]:
+                - generic [ref=e363]:
+                  - generic [ref=e364]: "06"
+                  - strong [ref=e365]: Млекопитающие
+                  - generic [ref=e366]: 200 млн лет - 66 млн лет
+              - button "Приматы и человек, 66 млн лет - 0 тыс. лет" [ref=e367] [cursor=pointer]:
+                - generic [ref=e370]:
+                  - generic [ref=e371]: "07"
+                  - strong [ref=e372]: Приматы и человек
+                  - generic [ref=e373]: 66 млн лет - 0 тыс. лет
+        - complementary "Активный вид" [ref=e374]:
+          - figure "AI-реконструкция" [ref=e375]:
+            - 'button "Увеличить изображение: Ранние родственники приматов" [ref=e378]':
+              - img "Реконструкция Purgatorius как раннего родственника приматов" [ref=e380]
+              - generic [ref=e381]: Увеличить
+          - generic [ref=e388]:
+            - paragraph [ref=e389]: 66 млн лет назад
+            - heading "Ранние родственники приматов" [level=2] [ref=e390]
+            - paragraph [ref=e391]: Primatomorpha
+            - generic [ref=e392]:
+              - generic [ref=e393]: Словарь
+              - button "Приматы" [ref=e394]
+            - paragraph [ref=e395]: "В широком смысле это ранние родственники приматов вскоре после K-Pg: маленькие древесные млекопитающие, близкие к началу приматной ветви."
+            - generic [ref=e396]:
+              - generic [ref=e397]: Карта признаков
+              - list [ref=e408]:
+                - listitem [ref=e409]: древесная ориентация
+                - listitem [ref=e410]: путь к хватанию
+                - listitem [ref=e411]: плодово-насекомоядное питание
+              - link "Открыть карту признаков" [ref=e412] [cursor=pointer]:
+                - /url: /body-map
+            - paragraph [ref=e424]: "Именно здесь начинается короткий ответ: обезьяны выросли внутри более старой древесной линии родственников приматов, а не от современных обезьян."
+      - region [ref=e425]:
+        - generic [ref=e426]:
+          - generic [ref=e431]:
+            - heading "Карта признаков" [level=2] [ref=e432]
+            - paragraph [ref=e433]: Новые признаки не заменяют старые, а надстраиваются поверх древнего наследия.
+          - generic [ref=e434]:
+            - strong [ref=e435]:
+              - generic [ref=e436]: "63"
+              - generic [ref=e437]: признаков
+            - link "Карта признаков" [ref=e438] [cursor=pointer]:
+              - /url: /body-map
+        - generic [ref=e448]:
+          - generic [ref=e449]:
+            - generic [ref=e450]: Ключевые сейчас
+            - generic [ref=e451]:
+              - generic [ref=e452]: подвижная шея
+              - generic [ref=e453]: опора на плавники
+              - generic [ref=e454]: четыре конечности
+              - generic [ref=e455]: пальцы
+              - generic [ref=e456]: путь к хватанию
+              - generic [ref=e457]: сложные органы чувств
+              - generic [ref=e458]: слуховые косточки
+              - generic [ref=e459]: ранняя родительская забота
+          - generic "Группы унаследованных признаков" [ref=e460]:
+            - group [ref=e461]:
+              - generic "Клетки и энергия 12 признаков" [ref=e462] [cursor=pointer]:
+                - generic [ref=e463]:
+                  - strong [ref=e464]: Клетки и энергия
+                  - generic [ref=e465]: 12 признаков
+                - generic [ref=e466]:
+                  - generic [ref=e467]: мембраны
+                  - generic [ref=e468]: обмен веществ
+                  - generic [ref=e469]: ДНК/РНК-механизмы
+                  - emphasis [ref=e470]: "+9"
+            - group [ref=e473]:
+              - generic "План тела 41 признаков" [ref=e474] [cursor=pointer]:
+                - generic [ref=e475]:
+                  - strong [ref=e476]: План тела
+                  - generic [ref=e477]: 41 признаков
+                - generic [ref=e478]:
+                  - generic [ref=e479]: наследуемая информация
+                  - generic [ref=e480]: фотосинтетические экосистемы
+                  - generic [ref=e481]: ткани
+                  - emphasis [ref=e482]: "+38"
+            - group [ref=e485]:
+              - generic "Движение 7 признаков" [ref=e486] [cursor=pointer]:
+                - generic [ref=e487]:
+                  - strong [ref=e488]: Движение
+                  - generic [ref=e489]: 7 признаков
+                - generic [ref=e490]:
+                  - generic [ref=e491]: направленное движение
+                  - generic [ref=e492]: плечевой пояс
+                  - generic [ref=e493]: подвижная шея
+                  - emphasis [ref=e494]: "+4"
+            - group [ref=e497]:
+              - generic "Органы чувств 2 признаков" [ref=e498] [cursor=pointer]:
+                - generic [ref=e499]:
+                  - strong [ref=e500]: Органы чувств
+                  - generic [ref=e501]: 2 признаков
+                - generic [ref=e502]:
+                  - generic [ref=e503]: сложные органы чувств
+                  - generic [ref=e504]: слуховые косточки
+            - group [ref=e507]:
+              - generic "Мозг и социальность 1 признаков" [ref=e508] [cursor=pointer]:
+                - generic [ref=e509]:
+                  - strong [ref=e510]: Мозг и социальность
+                  - generic [ref=e511]: 1 признаков
+                - generic [ref=e512]: ранняя родительская забота
+      - generic [ref=e516]:
+        - generic [ref=e530]:
+          - strong [ref=e531]: Дерево родства
+          - paragraph [ref=e532]: Кладограмма выделяет ветвь Homo sapiens и соседние линии, которые отходят от разных общих предков.
+        - link "Открыть дерево" [ref=e533] [cursor=pointer]:
+          - /url: /cladogram
+      - generic [ref=e536]:
+        - generic [ref=e540]:
+          - strong [ref=e541]: Почему эволюция называется теорией?
+          - paragraph [ref=e542]: Коротко о научном значении слова “теория” и о доказательствах общего происхождения.
+        - link "Открыть раздел" [ref=e543] [cursor=pointer]:
+          - /url: /theory
+      - generic [ref=e546]:
+        - generic [ref=e560]:
+          - strong [ref=e561]: Как это видно в ДНК?
+          - paragraph [ref=e562]: РНК, ДНК, мутации и сравнение геномов показывают родство как код, а не только как форму тела.
+        - link "РНК/ДНК" [ref=e563] [cursor=pointer]:
+          - /url: /genetics
+      - generic [ref=e566]:
+        - generic [ref=e572]:
+          - strong [ref=e573]: Почему история жизни менялась рывками?
+          - paragraph [ref=e574]: "Шесть крупных кризисов резко меняли экосистемы: одни группы исчезали, другие занимали освободившиеся ниши."
+        - link "Глобальные вымирания" [ref=e575] [cursor=pointer]:
+          - /url: /extinctions
+  - complementary "AI-гид Дарвин":
+    - button "Спросить Дарвина" [ref=e578] [cursor=pointer]
