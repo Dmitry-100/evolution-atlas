@@ -1073,8 +1073,13 @@ test.describe("Evolution Atlas", () => {
       .fill("От кого произошел человек?");
     await page.getByRole("button", { name: "Задать вопрос" }).click();
 
+    const darwinDialog = page.getByRole("dialog", {
+      name: /Спросить Дарвина/i,
+    });
     await expect(
-      page.getByText(/человек не произошел от современной обезьяны/i),
+      darwinDialog.getByText(
+        /человек не произошел от современной обезьяны/i,
+      ),
     ).toBeVisible();
     await expect(page.getByText(/Современная научная заметка/i)).toBeVisible();
     await expect(
