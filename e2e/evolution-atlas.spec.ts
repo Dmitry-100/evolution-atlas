@@ -804,7 +804,7 @@ test.describe("Evolution Atlas", () => {
 
     await expect(page).toHaveURL(/\/genetics$/);
     await expect(page).toHaveTitle(
-      "РНК, ДНК и доказательства родства | Достающее звено",
+      "Генетические доказательства эволюции: ДНК и хромосома 2",
     );
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
@@ -812,7 +812,7 @@ test.describe("Evolution Atlas", () => {
     );
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
       "content",
-      "РНК, ДНК и доказательства родства | Достающее звено",
+      "Генетические доказательства эволюции: ДНК и хромосома 2",
     );
   });
 
@@ -934,6 +934,12 @@ test.describe("Evolution Atlas", () => {
     );
 
     await page.goto("/primates?stage=early-primates");
+    await expect(
+      page.getByRole("heading", {
+        name: "Эволюция человека: от ранних приматов до Homo sapiens",
+        exact: true,
+      }),
+    ).toBeVisible();
     await expect(page.locator(".mobile-stage-row")).toHaveCount(17);
     await expect(page.locator(".africa-origin")).toBeVisible();
 
@@ -1183,6 +1189,24 @@ test.describe("Evolution Atlas", () => {
       .toBe(true);
 
     await page.goto("/primates");
+    await expect(
+      page.getByRole("heading", {
+        name: "Эволюция человека: от ранних приматов до Homo sapiens",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Кто был общим предком человека и обезьян?",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Этапы эволюции человека в хронологическом порядке",
+        exact: true,
+      }),
+    ).toBeVisible();
     await expect(page.locator(".primate-deep-axis")).toBeVisible();
     await expect(page.locator(".primate-timeline-river-image")).toBeVisible();
     await expect(page.locator(".primate-time-floating-paths")).toHaveCount(1);
@@ -1378,7 +1402,9 @@ test.describe("Evolution Atlas", () => {
     await cellularLabel.click();
     await expect(page).toHaveURL(/\/origin-of-life$/);
     await expect(
-      page.getByRole("heading", { name: /Гипотезы зарождения жизни/i }),
+      page.getByRole("heading", {
+        name: "Как появилась жизнь на Земле: основные научные гипотезы",
+      }),
     ).toBeVisible();
   });
 
@@ -2002,7 +2028,7 @@ test.describe("Evolution Atlas", () => {
     const glossaryCases = [
       {
         path: "/origin-of-life",
-        readyText: "Гипотезы зарождения жизни",
+        readyText: "Как появилась жизнь на Земле: основные научные гипотезы",
         trigger: "абиогенез",
         expected: /возникновение живых систем/i,
       },
@@ -2020,7 +2046,7 @@ test.describe("Evolution Atlas", () => {
       },
       {
         path: "/primates",
-        readyText: "Приматы → человек",
+        readyText: "Эволюция человека: от ранних приматов до Homo sapiens",
         trigger: "гоминины",
         expected: /после расхождения/i,
       },
@@ -2234,7 +2260,23 @@ test.describe("Evolution Atlas", () => {
   }) => {
     await page.goto("/theory");
     await expect(
-      page.getByRole("heading", { name: /Что значит.*теория/i }),
+      page.getByRole("heading", {
+        name: "Почему эволюция называется теорией",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Какие доказательства подтверждают эволюцию",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(page.locator(".evidence-faq-card")).toHaveCount(4);
+    await expect(
+      page.getByRole("heading", { name: "Эволюцию можно наблюдать сегодня?" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Что показывает сравнение ДНК?" }),
     ).toBeVisible();
     await expect(page.getByText(/Дарвин: идея/i)).toBeVisible();
     await expect(
@@ -2689,9 +2731,26 @@ test.describe("Evolution Atlas", () => {
   }) => {
     await page.goto("/origin-of-life");
     await expect(
-      page.getByRole("heading", { name: "Гипотезы зарождения жизни" }),
+      page.getByRole("heading", {
+        name: "Как появилась жизнь на Земле: основные научные гипотезы",
+        exact: true,
+      }),
     ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "РНК-мир" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Что такое абиогенез", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Основные гипотезы происхождения жизни",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Гипотеза мира РНК простыми словами",
+        exact: true,
+      }),
+    ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Гидротермальные источники" }),
     ).toBeVisible();
@@ -2701,7 +2760,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".origin-hero-image img")).toHaveCount(0);
     await expect(
       page.locator(".theory-bridge-band", {
-        hasText: "От химии к наследованию",
+        hasText: "Что такое абиогенез",
       }),
     ).toBeVisible();
     await expect(page.locator(".origin-story-card img")).toHaveCount(4);
@@ -2729,12 +2788,35 @@ test.describe("Evolution Atlas", () => {
   }) => {
     await page.goto("/genetics");
     await expect(
-      page.getByRole("heading", { name: "РНК/ДНК: родство записано в коде" }),
+      page.getByRole("heading", {
+        name: "Как ДНК подтверждает эволюцию и общее происхождение",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Молекулярно-генетические доказательства эволюции",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Насколько похожа ДНК человека и шимпанзе?",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Почему у человека 46 хромосом, а у шимпанзе 48?",
+        exact: true,
+      }),
     ).toBeVisible();
     await expect(page.locator(".genetics-flow article")).toHaveCount(5);
     await expect(page.locator(".genetics-hero-image img")).toHaveCount(0);
     await expect(
-      page.locator(".theory-bridge-band", { hasText: "Редкие метки в ДНК" }),
+      page.locator(".theory-bridge-band", {
+        hasText: "Молекулярно-генетические доказательства эволюции",
+      }),
     ).toBeVisible();
     await expect(page.locator(".molecule-card img")).toHaveCount(3);
     await expect(page.locator(".genome-comparison-card")).toHaveCount(5);
