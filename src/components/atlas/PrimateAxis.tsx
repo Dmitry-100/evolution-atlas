@@ -116,7 +116,7 @@ export function PrimateAxis({
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>
-        <strong>66 млн лет назад - наши дни</strong>
+        <strong>66 млн лет назад — наши дни</strong>
       </div>
 
       <div

@@ -521,7 +521,7 @@ function DinosaurTimelineAxis({
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>
-        <strong>575 млн лет назад - наши дни</strong>
+        <strong>575 млн лет назад — наши дни</strong>
       </div>
 
       <div
