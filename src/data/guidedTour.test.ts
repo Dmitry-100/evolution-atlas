@@ -61,7 +61,7 @@ describe("guided tour catalog", () => {
     });
     expect(GUIDED_TOUR_BROWSE_LINKS).toContainEqual(
       expect.objectContaining({
-        labelRu: "Приматы → человек",
+        labelRu: "Приматы и человек",
         href: "/primates",
       }),
     );

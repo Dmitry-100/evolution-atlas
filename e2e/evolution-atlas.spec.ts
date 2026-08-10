@@ -6,7 +6,7 @@ import {
 
 const navItems = [
   "Атлас",
-  "Приматы → человек",
+  "Приматы и человек",
   "Теория эволюции",
   "Зарождение жизни",
   "РНК/ДНК",
@@ -1006,7 +1006,7 @@ test.describe("Evolution Atlas", () => {
     await page.keyboard.press("ArrowRight");
     await expect(page).toHaveURL(/\/primates$/);
 
-    await nav.getByRole("link", { name: "Приматы → человек" }).focus();
+    await nav.getByRole("link", { name: "Приматы и человек" }).focus();
     await page.keyboard.press("ArrowLeft");
     await expect(page).toHaveURL(/\/$/);
 
@@ -1135,7 +1135,7 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
     await expect(
       page.locator(".topbar-nav .expandable-tab-mobile-label", {
-        hasText: "Приматы → человек",
+        hasText: "Приматы и человек",
       }),
     ).toBeVisible();
     await expect(
@@ -1379,12 +1379,12 @@ test.describe("Evolution Atlas", () => {
     await page.goto("/");
     await expect(
       page.locator(".atlas-hero").getByRole("link", {
-        name: "Приматы → человек",
+        name: "Приматы и человек",
       }),
     ).toHaveCount(0);
 
-    const primatesLabel = page.getByRole("link", {
-      name: /Приматы и человек/i,
+    const primatesLabel = page.locator(".deep-time-region-link", {
+      hasText: "Приматы и человек",
     });
     await expect(primatesLabel).toBeVisible();
     await expect(primatesLabel).toHaveAttribute("href", "/primates");
@@ -2599,10 +2599,10 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { name: "Вымерли ли динозавры" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Общая линия → динозавры → птицы" }),
+      page.getByRole("heading", { name: "От общего предка к современным птицам" }),
     ).toBeVisible();
     await expect(page.getByText("общий фундамент позвоночных")).toBeVisible();
-    await expect(page.getByText("динозавры → птицы").first()).toBeVisible();
+    await expect(page.getByText("от динозавров к птицам").first()).toBeVisible();
     await expect(page.getByText("~165 млн лет")).toBeVisible();
     await expect(
       page.locator(".dinosaur-facts-band").getByText("~320 млн лет"),
@@ -2619,10 +2619,10 @@ test.describe("Evolution Atlas", () => {
       page.getByText(/Последний общий предок нашей линии и линии птиц/i),
     ).toBeVisible();
     await expect(
-      page.getByText(/синапсиды → терапсиды → цинодонты → млекопитающие/i),
+      page.getByText(/синапсиды, затем терапсиды, цинодонты, млекопитающие/i),
     ).toBeVisible();
     await expect(
-      page.getByText(/диапсиды → архозавры → динозавры/i),
+      page.getByText(/диапсиды, затем архозавры, динозавры/i),
     ).toBeVisible();
     await expect(page.locator(".dinosaur-atlas-grid")).toHaveCount(1);
     await expect(page.locator(".dinosaur-route-card")).toBeVisible();

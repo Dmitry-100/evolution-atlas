@@ -591,7 +591,7 @@ export const STAGES: EvolutionStage[] = [
     lineageRole: "stem-form",
     isPrimateFocus: true,
     summaryRu: "Находка LD 350-1 из Ledi-Geraru сдвигает ранние свидетельства рода Homo примерно к 2,8 млн лет; позже усиливается системное использование каменных орудий.",
-    whyMattersRu: "Рост мозга, точный хват и гибкое питание усиливают культурную линию, которая станет ключевой для людей.",
+    whyMattersRu: "Рост мозга, точный хват и гибкое питание помогали людям учиться и передавать опыт.",
     inherited: ["каменные орудия", "рост мозга", "точный хват"],
     image: plate("early-homo", "Лицевая реконструкция раннего Homo habilis", "source-backed", "Wikimedia Commons / локальная обработка"),
     sources: [

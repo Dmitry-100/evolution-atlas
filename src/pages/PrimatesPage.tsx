@@ -94,7 +94,7 @@ export function PrimatesPage() {
           Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
         </p>
         <MobileAtlas
-          eyebrow="Приматы → человек"
+          eyebrow="Приматы и человек"
           title="Эволюция человека: от ранних приматов до Homo sapiens"
           description="Человек не произошел от современной обезьяны. Люди и другие приматы унаследовали признаки от общих предков, а затем их ветви развивались независимо."
           showAfricaOriginMap
@@ -186,7 +186,7 @@ export function PrimatesPage() {
               <span>{activeIndex + 1} из {visibleStages.length}</span>
             </div>
 
-            <div className="primate-branch-milestones" role="list" aria-label="Ключевые этапы ветви приматов">
+            <div className="primate-branch-milestones" role="list" aria-label="Этапы ветви приматов">
               {branchStages.map((stage) => (
                 <button
                   key={stage.id}

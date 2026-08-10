@@ -284,7 +284,7 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
         label: "IPBES: Global Assessment",
         url: "https://www.ipbes.net/global-assessment",
         kind: "data",
-        noteRu: "Ключевой современный доклад о рисках биоразнообразия и угрозе исчезновения видов.",
+        noteRu: "Современный доклад о рисках для биоразнообразия и угрозе исчезновения видов.",
       },
     ],
   },
