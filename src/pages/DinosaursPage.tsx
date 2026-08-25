@@ -53,7 +53,7 @@ const dinosaurJourneyZones = [
   },
   {
     id: "birds",
-    label: "динозавры → птицы",
+    label: "от динозавров к птицам",
     fromId: "diapsids",
     toId: "modern-birds",
   },
@@ -143,7 +143,7 @@ const dinosaurFacts = [
   {
     icon: Bird,
     label: "Живая ветвь",
-    value: "10 000+ видов",
+    value: "более 10 000 видов",
     text: "современные птицы — самая разнообразная ныне живущая динозавровая линия.",
   },
   {
@@ -343,7 +343,7 @@ function MobileDinosaurStageDetail({ stage }: { stage: BranchItem }) {
         <h3>{stage.titleRu}</h3>
         <p className="latin-name">{stage.latin}</p>
         <p>{stage.summaryRu}</p>
-        <div className="mobile-dinosaur-traits" aria-label="Ключевые признаки">
+        <div className="mobile-dinosaur-traits" aria-label="Признаки ветви">
           {stage.inherited.slice(0, 4).map((trait) => (
             <span key={trait}>{trait}</span>
           ))}
@@ -435,7 +435,7 @@ function MobileDinosaurJourney({
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <strong>{stage.titleRu}</strong>
                 <small>{formatAge(stage.ageMa)}</small>
-                <em>{isBirdBranch ? "динозавры → птицы" : "общая линия"}</em>
+                <em>{isBirdBranch ? "от динозавров к птицам" : "общая линия"}</em>
               </button>
               {isActive ? <MobileDinosaurStageDetail stage={stage} /> : null}
             </article>
@@ -521,7 +521,7 @@ function DinosaurTimelineAxis({
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>
-        <strong>575 млн лет назад → сегодня</strong>
+        <strong>575 млн лет назад — наши дни</strong>
       </div>
 
       <div
@@ -828,10 +828,10 @@ export function DinosaursPage() {
           <GitBranch aria-hidden="true" size={22} />
           <div>
             <p className="eyebrow">От общего предка к птицам</p>
-            <h2 id="bird-dinosaur-branch">Общая линия → динозавры → птицы</h2>
+            <h2 id="bird-dinosaur-branch">От общего предка к современным птицам</h2>
             <p>
               Сначала идут общие животные предки позвоночных, затем после амниот
-              ось уходит в диапсидную ветвь. Дальше — архозавры, динозавры,
+              ось уходит в диапсидную ветвь. Дальше идут архозавры, динозавры,
               перья,{" "}
               <GlossaryTermById id="archaeopteryx">
                 Archaeopteryx

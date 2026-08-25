@@ -192,7 +192,7 @@ export function DarwinGuide() {
           <header className="darwin-guide-header">
             <div>
               <h2 id="darwin-guide-title">Спросить Дарвина</h2>
-              <p>Дарвин + современный научный редактор</p>
+              <p>Дарвин и современный научный редактор</p>
             </div>
             <button
               type="button"

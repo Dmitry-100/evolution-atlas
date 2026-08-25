@@ -13,7 +13,7 @@ describe("AI guide context", () => {
       atlasMode: "primates",
     });
 
-    expect(context.currentPage.titleRu).toBe("Приматы → человек");
+    expect(context.currentPage.titleRu).toBe("Приматы и человек");
     expect(context.currentStage?.titleRu).toBe("Homo sapiens");
     expect(context.contextRu).toMatch(/Homo sapiens/);
     expect(context.contextRu).toMatch(/Африк/i);

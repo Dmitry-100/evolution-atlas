@@ -39,7 +39,7 @@ export function TraitAccumulator({ groups }: TraitAccumulatorProps) {
 
       <div className="trait-compact-body">
         <div className="trait-featured">
-          <span>Ключевые сейчас</span>
+          <span>Признаки этапа</span>
           <div className="trait-featured-chips">
             {featuredTraits.map((trait) => (
               <span key={trait}>{trait}</span>

@@ -66,7 +66,7 @@ export function MobileAtlas({
             </TabsTrigger>
             <TabsTrigger value="primates">
               <Search aria-hidden="true" size={18} />
-              Приматы → человек
+              Приматы и человек
             </TabsTrigger>
           </TabsList>
         </Tabs>

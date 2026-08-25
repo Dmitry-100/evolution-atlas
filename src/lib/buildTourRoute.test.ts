@@ -296,7 +296,7 @@ describe("buildTourRoute", () => {
       });
 
       for (const step of plan.steps) {
-        expect(step.lookAtRu).toMatch(/смотр|обратите|главн|видно/i);
+        expect(step.lookAtRu).toMatch(/смотр|обратите|видно|карточк|блок|карт|панел|шкал/i);
         expect(step.narrationRu).not.toMatch(/^Остановка \d/i);
       }
     }

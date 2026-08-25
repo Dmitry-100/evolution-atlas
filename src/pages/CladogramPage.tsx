@@ -104,12 +104,12 @@ function CladogramInspector({
         >
           <span>
             <strong>Наша ветвь</strong>
-            <small>{branch.commonAncestor.titleRu} → Homo sapiens</small>
+            <small>От {branch.commonAncestor.titleRu} к Homo sapiens</small>
           </span>
           <span>
             <strong>Их ветвь</strong>
             <small>
-              {branch.commonAncestor.titleRu} → {branch.titleRu}
+              От {branch.commonAncestor.titleRu} к {branch.titleRu}
             </small>
           </span>
         </div>

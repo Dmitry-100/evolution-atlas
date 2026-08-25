@@ -99,7 +99,7 @@ describe("quiz data", () => {
 
   it("sends human-lineage practice back to the dedicated primates section", () => {
     expect(QUIZ_TOPICS["human-lineage"].links).toContainEqual({
-      labelRu: "Приматы → человек",
+      labelRu: "Приматы и человек",
       href: "/primates",
     });
   });

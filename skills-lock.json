@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "humanizer-ru": {
+      "source": "smixs/humanizer-ru",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "82e1b8d4e732b2fa24102aad2c93993cdbbbe44a8518cced5ccae0d33418ca2f"
+    }
+  }
+}
