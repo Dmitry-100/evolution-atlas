@@ -80,6 +80,250 @@
     line-height: 1.6;
   }
 
+  .confidence-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(218, 185, 126, 0.22);
+    border-radius: 999px;
+    background: rgba(240, 201, 120, 0.08);
+    color: var(--gold);
+    padding: 0.28rem 0.52rem;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .confidence-badge--solid {
+    border-color: rgba(130, 183, 179, 0.34);
+    background: rgba(130, 183, 179, 0.1);
+    color: var(--cyan);
+  }
+
+  .confidence-badge--likely {
+    border-color: rgba(240, 201, 120, 0.28);
+  }
+
+  .confidence-badge--debated {
+    border-color: rgba(216, 124, 99, 0.34);
+    background: rgba(216, 124, 99, 0.1);
+    color: #e59b86;
+  }
+
+  .curiosity-facts,
+  .molecular-scars,
+  .science-sources {
+    margin-top: 1rem;
+    scroll-margin-top: 6rem;
+    border: 1px solid rgba(218, 185, 126, 0.15);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 12% 0%,
+        rgba(130, 183, 179, 0.12),
+        transparent 18rem
+      ),
+      radial-gradient(
+        circle at 88% 10%,
+        rgba(240, 201, 120, 0.1),
+        transparent 18rem
+      ),
+      rgba(8, 11, 11, 0.52);
+    box-shadow: var(--shadow);
+  }
+
+  .curiosity-facts-heading,
+  .science-sources-heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.78rem;
+    align-items: start;
+    border-bottom: 1px solid rgba(218, 185, 126, 0.13);
+    padding: 1.1rem;
+  }
+
+  .curiosity-facts-heading > svg,
+  .science-sources-heading > svg {
+    margin-top: 0.3rem;
+    color: var(--gold);
+  }
+
+  .curiosity-facts-heading h2,
+  .curiosity-card h3,
+  .molecular-scar-card h3,
+  .science-sources-heading h2,
+  .science-source-card-heading a {
+    margin: 0.22rem 0 0.42rem;
+    color: var(--text);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.8rem;
+    letter-spacing: 0;
+    line-height: 1.08;
+  }
+
+  .curiosity-facts-heading p:not(.eyebrow),
+  .science-sources-heading p:not(.eyebrow) {
+    max-width: 980px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.62;
+  }
+
+  .curiosity-facts-grid,
+  .molecular-scars-grid,
+  .science-source-grid {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem;
+  }
+
+  .curiosity-facts-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .molecular-scars-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .science-source-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .curiosity-card,
+  .molecular-scar-card,
+  .science-source-card {
+    display: grid;
+    gap: 0.65rem;
+    align-content: start;
+    border: 1px solid rgba(218, 185, 126, 0.13);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.48);
+    padding: 1rem;
+  }
+
+  .curiosity-card-top,
+  .molecular-scar-card > div {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .curiosity-card-top svg,
+  .molecular-scar-card > div svg,
+  .curiosity-card-actions a,
+  .molecular-scar-card a,
+  .science-source-links a svg {
+    color: var(--gold);
+  }
+
+  .curiosity-card p,
+  .curiosity-card small,
+  .molecular-scar-card p,
+  .science-source-card p,
+  .science-source-links small {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .curiosity-card h3,
+  .molecular-scar-card h3 {
+    font-size: 1.55rem;
+  }
+
+  .curiosity-card > small {
+    color: var(--faint);
+  }
+
+  .curiosity-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+  }
+
+  .curiosity-card-actions a,
+  .molecular-scar-card a {
+    display: inline-flex;
+    gap: 0.32rem;
+    align-items: center;
+    justify-self: start;
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .molecular-scars .genetics-section-heading {
+    margin-top: 0;
+    border-bottom: 1px solid rgba(218, 185, 126, 0.13);
+    padding: 1.1rem;
+  }
+
+  .molecular-scar-card {
+    background:
+      radial-gradient(
+        circle at 14% 0%,
+        rgba(130, 183, 179, 0.12),
+        transparent 9rem
+      ),
+      rgba(8, 11, 11, 0.48);
+  }
+
+  .molecular-scar-card > span {
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .science-source-card-heading a {
+    display: inline-block;
+    margin: 0 0 0.35rem;
+    font-size: 1.35rem;
+    text-decoration: none;
+  }
+
+  .science-source-links {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .science-source-links a {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.18rem 0.55rem;
+    border: 1px solid rgba(218, 185, 126, 0.12);
+    border-radius: calc(var(--radius) - 2px);
+    background: rgba(8, 11, 11, 0.38);
+    padding: 0.72rem;
+    text-decoration: none;
+  }
+
+  .science-source-links span {
+    grid-column: 1 / -1;
+    color: var(--gold);
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .science-source-links strong {
+    color: var(--text);
+  }
+
+  .science-source-links small {
+    grid-column: 1 / -1;
+  }
+
   .source-list {
     display: grid;
     gap: 0.85rem;
