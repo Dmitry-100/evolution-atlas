@@ -112,6 +112,10 @@
       height: 320px;
     }
 
+    .deep-time-panel .deep-time-axis {
+      height: 360px;
+    }
+
     .geologic-period-card {
       grid-template-columns: minmax(280px, 0.38fr) minmax(0, 1fr);
     }
@@ -301,6 +305,20 @@
   }
 
   @media (max-width: 860px) {
+    .deep-time-region-label {
+      max-width: 22%;
+      text-align: center;
+    }
+
+    .deep-time-region-label strong {
+      white-space: normal;
+      line-height: 1.25;
+    }
+
+    .deep-time-region-label small {
+      display: none;
+    }
+
     .about-origin-story {
       grid-template-columns: 1fr;
     }
