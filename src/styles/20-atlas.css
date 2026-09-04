@@ -76,6 +76,34 @@
     max-width: 1120px;
   }
 
+  .atlas-home .atlas-hero {
+    padding: 0.25rem 0 0.6rem;
+  }
+
+  .atlas-home .atlas-title h1 {
+    margin-bottom: 0.65rem;
+    line-height: 1.08;
+  }
+
+  .atlas-home .atlas-title .hero-subtitle {
+    max-width: 960px;
+    margin: 0;
+    font-size: 1.12rem !important;
+    line-height: 1.5;
+  }
+
+  .atlas-home .atlas-note-band {
+    margin-top: 0.35rem;
+    padding: 0.5rem 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .atlas-home .atlas-note-band p {
+    font-size: 0.88rem;
+  }
+
   .eyebrow,
   .kicker {
     margin: 0;
@@ -1189,11 +1217,12 @@
   }
 
   .extinction-marker {
-    --marker-label-offset: 0px;
     position: absolute;
     bottom: var(--marker-y);
     display: flex;
-    width: 76px;
+    width: 36px;
+    min-height: 36px;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 0.25rem;
@@ -1201,8 +1230,6 @@
     border: 0;
     background: transparent;
     color: rgba(245, 225, 186, 0.86);
-    font-size: 0.54rem;
-    font-weight: 800;
     font: inherit;
     letter-spacing: 0.1em;
     pointer-events: auto;
@@ -1274,30 +1301,6 @@
     transform: rotate(-45deg);
   }
 
-  .extinction-marker strong {
-    position: relative;
-    z-index: 1;
-    border: 1px solid rgba(218, 185, 126, 0.28);
-    border-radius: 8px;
-    background: rgba(8, 11, 11, 0.82);
-    padding: 0.24rem 0.34rem;
-    text-align: center;
-    transform: translateX(var(--marker-label-offset));
-    transition:
-      border-color 160ms ease,
-      transform 160ms ease;
-  }
-
-  .extinction-marker small {
-    position: relative;
-    z-index: 1;
-    color: var(--faint);
-    font-size: 0.52rem;
-    letter-spacing: 0.08em;
-    text-transform: none;
-    transform: translateX(var(--marker-label-offset));
-  }
-
   .extinction-tooltip {
     width: min(360px, calc(100vw - 2rem));
     padding: 0;
@@ -1349,11 +1352,10 @@
     line-height: 1.35;
   }
 
-  .extinction-marker:hover strong,
-  .extinction-marker:focus-visible strong,
-  .extinction-marker.is-active strong {
-    border-color: var(--extinction-color);
-    transform: translateX(var(--marker-label-offset)) translateY(-2px);
+  .extinction-marker:focus-visible {
+    outline: 2px solid var(--extinction-color);
+    outline-offset: 3px;
+    border-radius: 50%;
   }
 
   .extinction-marker.is-active span {
@@ -1531,6 +1533,90 @@
     margin-top: 0.35rem;
     color: var(--faint);
     font-size: 0.76rem;
+  }
+
+  .deep-time-selection {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .deep-time-selection span {
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .deep-time-selection strong {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+
+  .deep-time-panel .deep-time-ticks {
+    color: var(--muted);
+  }
+
+  .extinction-legend {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .extinction-legend-item {
+    display: grid;
+    grid-template-columns: 0.6rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.12rem 0.45rem;
+    min-width: 0;
+    min-height: 52px;
+    padding: 0.55rem 0.6rem;
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.64);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .extinction-legend-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--extinction-color);
+  }
+
+  .extinction-legend-item strong {
+    font-size: 0.8rem;
+    font-weight: 650;
+  }
+
+  .extinction-legend-item small {
+    grid-column: 2;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  .extinction-legend-item:hover,
+  .extinction-legend-item[aria-pressed="true"] {
+    border-color: var(--extinction-color);
+    background: color-mix(in srgb, var(--extinction-color) 12%, #101411);
+  }
+
+  .extinction-legend-item:focus-visible {
+    outline: 2px solid var(--extinction-color);
+    outline-offset: 2px;
+  }
+
+  .deep-time-instruction {
+    margin: 0.65rem 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
   }
 
   .geologic-period-card {
@@ -2379,19 +2465,19 @@
 
   .stage-plate figcaption {
     padding: 0.5rem 0.85rem;
-    color: var(--faint);
-    font-size: 0.74rem;
+    color: var(--muted);
+    font-size: 0.8rem;
   }
 
   .stage-copy {
-    padding: 1.45rem;
+    padding: 1.25rem;
   }
 
   .stage-copy h2 {
-    margin: 0.35rem 0 0.1rem;
+    margin: 0.45rem 0 0.35rem;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 2.8rem;
-    line-height: 1.02;
+    font-size: 2rem;
+    line-height: 1.14;
     letter-spacing: 0;
   }
 
@@ -2407,6 +2493,28 @@
     margin: 0;
     color: var(--muted);
     font-size: 1.05rem;
+  }
+
+  .stage-copy .latin {
+    margin-bottom: 0.85rem;
+    font-size: 1.08rem;
+    line-height: 1.4;
+  }
+
+  .stage-copy .lead,
+  .stage-copy .why-box {
+    color: #c5beb0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .stage-copy .inheritance-box,
+  .stage-copy .why-box,
+  .stage-copy .extinction-detail-box {
+    margin-top: 1.25rem;
+    padding: 0.85rem;
+    border-color: rgba(218, 185, 126, 0.14);
+    background: rgba(217, 173, 97, 0.04);
   }
 
   .inheritance-box,
@@ -2466,7 +2574,7 @@
   }
 
   .extinction-detail-panel .stage-copy h2 {
-    font-size: 2.32rem;
+    font-size: 1.9rem;
   }
 
   .extinction-detail-panel .latin {
@@ -2557,24 +2665,46 @@
   .wow-facts-band {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.85rem;
-    margin: 1rem 0 2rem;
+    gap: 0;
+    margin: 0.75rem 0 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    overflow: hidden;
   }
 
   .wow-facts-band article {
-    border-radius: var(--radius);
-    background:
-      radial-gradient(
-        circle at 92% 0%,
-        rgba(240, 201, 120, 0.11),
-        transparent 9rem
-      ),
-      var(--panel);
-    padding: 1rem;
+    position: relative;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .wow-facts-band article + article {
+    border-left: 1px solid rgba(218, 185, 126, 0.14);
+  }
+
+  .wow-fact-heading,
+  .wow-fact-value {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .wow-fact-heading {
+    padding-right: 1rem;
+  }
+
+  .wow-fact-value {
+    margin-top: 0.5rem;
   }
 
   .wow-facts-band svg {
     color: var(--gold);
+    flex-shrink: 0;
   }
 
   .wow-facts-band span,
@@ -2584,34 +2714,40 @@
   }
 
   .wow-facts-band span {
-    margin-top: 0.55rem;
+    margin: 0;
     color: var(--muted);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
   .wow-facts-band strong {
-    margin-top: 0.22rem;
+    flex-shrink: 0;
+    margin: 0;
     color: var(--text);
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.85rem;
+    font-size: 1.7rem;
     line-height: 1;
   }
 
   .wow-facts-band p {
-    margin: 0.55rem 0 0;
+    margin: 0;
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 1.35;
   }
 
   .wow-fact-link {
+    position: absolute;
+    top: 0;
+    right: 0;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    margin-top: 0.65rem;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
     color: var(--gold);
     font-size: 0.82rem;
     font-weight: 800;
@@ -2619,6 +2755,12 @@
 
   .wow-fact-link svg {
     flex: 0 0 auto;
+  }
+
+  .wow-fact-link:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: -4px;
+    border-radius: var(--radius);
   }
 
   .takeaway-band {

@@ -129,26 +129,26 @@ export function AtlasPage() {
       icon: Clock3,
       label: "К выбранной точке",
       value: `${percentRu(activeElapsedShare * 100)}%`,
-      text: `истории жизни прошло к точке “${activeItem.titleRu}”.`,
+      text: "истории жизни уже прошло",
     },
     {
       icon: Sparkles,
       label: "Один день жизни",
       value: shareToClock(activeElapsedShare),
-      text: "время выбранного этапа, если 4 млрд лет сжать в 24 часа.",
+      text: "если 4 млрд лет сжать в сутки",
     },
     {
       icon: Fingerprint,
       label: "Накоплено признаков",
       value: traitCount.toLocaleString("ru-RU"),
-      text: "унаследованных признаков уже собрано к этой точке маршрута.",
+      text: "унаследовано к этой точке",
       href: "/body-map",
     },
     {
       icon: Star,
       label: "До приматов",
       value: `${percentRu(elapsedShare(PRIMATES_MA) * 100, 1)}%`,
-      text: "истории жизни прошло до появления первых приматов.",
+      text: "до появления первых приматов",
     },
   ];
 
@@ -239,7 +239,7 @@ export function AtlasPage() {
 
   return (
     <div
-      className="atlas"
+      className="atlas atlas-home"
       ref={atlasRef}
       tabIndex={0}
       style={{ "--active-era-color": activeThemeColor } as CSSProperties}
@@ -266,13 +266,8 @@ export function AtlasPage() {
         <div className="atlas-title">
           <h1>Человек произошел от обезьяны... а от кого произошла обезьяна?</h1>
           <p className="hero-subtitle">
-            Интерактивная хронология эволюции жизни через дерево родства,
-            а не лестницу прогресса.
-          </p>
-          <p>
-            Проследите эволюцию жизни на Земле: от древних
-            клеточных линий и первых животных до позвоночных, млекопитающих,
-            приматов и Homo sapiens.
+            Проследите нашу ветвь дерева родства — от древних клеточных линий
+            до приматов и Homo sapiens.
           </p>
         </div>
       </section>
@@ -283,9 +278,7 @@ export function AtlasPage() {
           <div>
             <h2>Хронология эволюции жизни на Земле</h2>
             <p>
-              Шкала охватывает около 4 млрд лет. Каждый узел показывает
-              группу, от которой расходились родственные линии; наша ветвь —
-              одна из них.
+              Около 4 млрд лет. Каждый узел — разветвление родственных линий.
             </p>
           </div>
         </div>
@@ -294,13 +287,16 @@ export function AtlasPage() {
       <section className="wow-facts-band" aria-label="Факты о масштабе времени">
         {wowFacts.map(({ icon: Icon, label, value, text, href }) => (
           <article key={label}>
-            <Icon aria-hidden="true" size={21} />
-            <span>{label}</span>
-            <strong>{value}</strong>
-            <p>{text}</p>
+            <div className="wow-fact-heading">
+              <Icon aria-hidden="true" size={16} />
+              <span>{label}</span>
+            </div>
+            <div className="wow-fact-value">
+              <strong>{value}</strong>
+              <p>{text}</p>
+            </div>
             {href ? (
-              <Link className="wow-fact-link" to={href}>
-                Открыть карту признаков
+              <Link className="wow-fact-link" to={href} aria-label="Открыть карту признаков">
                 <ArrowRight aria-hidden="true" size={15} />
               </Link>
             ) : null}

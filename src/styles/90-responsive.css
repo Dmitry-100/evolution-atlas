@@ -84,6 +84,14 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .wow-facts-band article:nth-child(3) {
+      border-left: 0;
+    }
+
+    .wow-facts-band article:nth-child(n + 3) {
+      border-top: 1px solid rgba(218, 185, 126, 0.14);
+    }
+
     .primate-branch-milestones {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -736,7 +744,7 @@
     }
 
     .stage-copy h2 {
-      font-size: 2.1rem;
+      font-size: 1.8rem;
     }
 
     .document-page {

@@ -25,7 +25,7 @@ const baseGuidedRouteCases = [
     title: "Быстро понять портал",
   },
   {
-    label: "Разобраться, почему эволюция - не просто мнение",
+    label: "Разобраться, чем научная теория отличается от мнения",
     title: "От сомнения к доказательствам",
   },
   {
@@ -187,7 +187,7 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
     await page
       .getByRole("button", {
-        name: "Разобраться, почему эволюция - не просто мнение",
+        name: "Разобраться, чем научная теория отличается от мнения",
       })
       .click();
     await expect(page.getByText("От сомнения к доказательствам")).toBeVisible();
@@ -781,7 +781,9 @@ test.describe("Evolution Atlas", () => {
       );
       expect(
         atlasGridBox.y - (factsBox.y + factsBox.height),
-      ).toBeGreaterThanOrEqual(24);
+      ).toBeGreaterThanOrEqual(16);
+      expect(factsBox.height).toBeLessThan(110);
+      expect(atlasGridBox.y).toBeLessThan(520);
     }
 
     const hasOverflow = await page.evaluate(
