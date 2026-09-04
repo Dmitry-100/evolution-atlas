@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import { EVIDENCE_MODULES, SCIENTIFIC_THEORY_EXPLAINER } from "../../data/evidence";
 
 const FREQUENT_QUESTIONS = [
@@ -46,14 +47,26 @@ export function EvidenceSection() {
         ))}
       </div>
 
-      <div className="evidence-faq" aria-label="Короткие ответы на частые вопросы об эволюции">
-        {FREQUENT_QUESTIONS.map(({ question, answer }) => (
-          <article key={question} className="evidence-faq-card">
-            <h3>{question}</h3>
-            <p>{answer}</p>
-          </article>
-        ))}
+    </section>
+  );
+}
+
+export function EvidenceFaq() {
+  return (
+    <section className="evidence-faq" aria-labelledby="evidence-faq-title">
+      <div className="theory-section-heading">
+        <p className="eyebrow">Вопросы, которые остаются</p>
+        <h2 id="evidence-faq-title">Короткие ответы об эволюции</h2>
       </div>
+      {FREQUENT_QUESTIONS.map(({ question, answer }, index) => (
+        <details key={question} className="evidence-faq-card" open={index === 0}>
+          <summary>
+            <h3>{question}</h3>
+            <ChevronDown aria-hidden="true" size={20} />
+          </summary>
+          <p>{answer}</p>
+        </details>
+      ))}
     </section>
   );
 }

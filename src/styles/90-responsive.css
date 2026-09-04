@@ -158,29 +158,8 @@
     }
 
     .theory-principles,
-    .darwin-spotlight,
     .evidence-section {
       grid-template-columns: 1fr;
-    }
-
-    .evidence-faq {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .darwin-portrait {
-      min-height: 340px;
-      border-right: 0;
-      border-bottom: 1px solid rgba(218, 185, 126, 0.18);
-    }
-
-    .darwin-portrait img {
-      min-height: 340px;
-      max-height: 520px;
-      object-position: center 14%;
-    }
-
-    .darwin-flow {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .material-card {
@@ -232,9 +211,7 @@
     }
 
     .evidence-intro {
-      border-right: 0;
-      border-bottom: 1px solid rgba(218, 185, 126, 0.18);
-      padding: 0.25rem 0 1rem;
+      padding: 0.25rem 0 0.5rem;
     }
 
     .evidence-grid {
@@ -512,9 +489,19 @@
       font-size: 1rem;
     }
 
-    .darwin-portrait,
+    .darwin-spotlight {
+      grid-template-columns: 1fr;
+    }
+
+    .darwin-portrait {
+      min-height: 0;
+      height: 240px;
+      border-right: 0;
+      border-bottom: 1px solid rgba(218, 185, 126, 0.18);
+    }
+
     .darwin-portrait img {
-      min-height: 300px;
+      object-position: center 5%;
     }
 
     .darwin-copy {
@@ -525,8 +512,23 @@
       grid-template-columns: 1fr;
     }
 
-    .darwin-flow span {
-      min-height: auto;
+    .darwin-flow li {
+      grid-template-columns: 2.5rem minmax(0, 1fr);
+      justify-items: start;
+      gap: 0.85rem;
+      text-align: left;
+    }
+
+    .darwin-flow li:not(:last-child)::after {
+      top: 2.85rem;
+      left: 1.25rem;
+      width: 1px;
+      height: calc(100% - 2.2rem);
+    }
+
+    .darwin-flow p {
+      max-width: none;
+      margin: 0;
     }
 
     .hero-subtitle {
@@ -912,10 +914,6 @@
     .cladogram-row.has-branches .cladogram-branch-cell::after {
       left: 2.75rem;
       top: 1.5rem;
-    }
-
-    .evidence-intro h2 {
-      font-size: 2rem;
     }
 
     .extinction-card {

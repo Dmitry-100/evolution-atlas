@@ -823,6 +823,7 @@ test.describe("Evolution Atlas", () => {
   }) => {
     await page.goto("/theory");
     const image = page.locator(".darwin-portrait img");
+    await image.scrollIntoViewIfNeeded();
     await expect(image).toBeVisible();
     await expect
       .poll(() =>
