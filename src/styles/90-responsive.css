@@ -1,4 +1,36 @@
 @layer evolution-responsive {
+  @media (max-width: 720px) {
+    .primates-page .atlas-title h1 {
+      font-size: 1.65rem;
+    }
+
+    .primates-page .atlas-title .hero-subtitle {
+      font-size: 0.94rem !important;
+    }
+
+    .primates-page .primate-intro-tools {
+      gap: 0;
+      margin-bottom: 0;
+    }
+
+    .primates-page .primate-branch-panel-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .primates-page .primate-branch-milestones {
+      grid-template-columns: 1fr;
+    }
+
+    .primates-page #primate-timeline,
+    .primates-page #primate-branches,
+    .primates-page #africa-origin-title,
+    .primates-page .mobile-stage-row {
+      scroll-margin-top: 6.5rem;
+    }
+  }
+
   @media (max-width: 1320px) {
     .atlas-title h1 {
       font-size: 2.6rem;

@@ -3,11 +3,21 @@ import type { EvolutionEra, EvolutionStage } from "../../../data/lineage";
 import { formatAgeRu } from "../../../lib/timeline";
 import { MobileStageDetail } from "./MobileStageDetail";
 
+export type MobileStageGroup = {
+  id: string;
+  titleRu: string;
+  color: string;
+  stages: EvolutionStage[];
+  startsAtMa?: number;
+  endsAtMa?: number;
+};
+
 type MobileStageMapProps = {
   eras: EvolutionEra[];
   stages: EvolutionStage[];
   activeStage: EvolutionStage;
   onActivate: (stage: EvolutionStage) => void;
+  groups?: MobileStageGroup[];
 };
 
 export function MobileStageMap({
@@ -15,11 +25,16 @@ export function MobileStageMap({
   stages,
   activeStage,
   onActivate,
+  groups,
 }: MobileStageMapProps) {
+  const displayGroups: MobileStageGroup[] = groups ?? eras.map((era) => ({
+    ...era,
+    stages: stages.filter((stage) => stage.eraId === era.id),
+  }));
   return (
     <div className="mobile-stage-map" aria-label="Вертикальная карта этапов">
-      {eras.map((era) => {
-        const eraStages = stages.filter((stage) => stage.eraId === era.id);
+      {displayGroups.map((era) => {
+        const eraStages = era.stages;
         if (eraStages.length === 0) return null;
 
         return (
@@ -31,7 +46,7 @@ export function MobileStageMap({
             <div className="mobile-era-heading">
               <span>{era.titleRu}</span>
               <small>
-                {formatAgeRu(era.startsAtMa)} - {formatAgeRu(era.endsAtMa)}
+                {formatAgeRu(era.startsAtMa ?? eraStages[0].ageMa)} - {formatAgeRu(era.endsAtMa ?? eraStages[eraStages.length - 1].ageMa)}
               </small>
             </div>
 

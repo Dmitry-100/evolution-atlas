@@ -1220,7 +1220,7 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.locator(".primate-stage-dots .deep-stage-dot"),
     ).toHaveCount(17);
-    await expect(page.locator(".primate-zone-bands span")).toHaveCount(4);
+    await expect(page.locator(".primate-zone-bands button")).toHaveCount(3);
     await expect(page.getByText(/66 млн лет назад.*сегодня/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
     await expect(
