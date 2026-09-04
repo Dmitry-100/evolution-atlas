@@ -14,30 +14,6 @@
       rgba(10, 13, 12, 0.88);
   }
 
-  .origin-hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1rem;
-    align-items: stretch;
-    isolation: isolate;
-    overflow: hidden;
-    padding: 0.65rem 0 1rem;
-  }
-
-  .origin-hero h1 {
-    max-width: 900px;
-    margin: 0.25rem 0 0.75rem;
-  }
-
-  .origin-hero p {
-    max-width: 900px;
-    margin: 0;
-    color: var(--muted);
-    font-size: 1.08rem;
-    line-height: 1.72;
-  }
-
   .origin-hypothesis-media,
   .genetics-evidence-media,
   .molecule-card {

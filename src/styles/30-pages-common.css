@@ -41,18 +41,61 @@
     pointer-events: none;
   }
 
-  .document-header {
+  /* One header contract for all routes; responsive type scales with the viewport. */
+  .page-header {
     position: relative;
     isolation: isolate;
-    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    margin: 0 0 0.25rem;
+    padding: 0.5rem 0 0.75rem;
     overflow: hidden;
-    padding: 0.65rem 0 1.5rem;
   }
 
-  .document-header::after,
-  .dinosaurs-hero::after,
-  .origin-hero::after,
-  .genetics-hero::after {
+  .page-header-copy {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    max-width: 1120px;
+  }
+
+  .page-header-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--gold);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .page-header h1 {
+    margin: 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: var(--display-title-size);
+    font-weight: 700;
+    font-style: normal;
+    line-height: var(--display-title-line);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .page-header-description {
+    max-width: 80ch;
+    margin: 0.875rem 0 0;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.3vw, 1.08rem);
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  .page-header::after {
     position: absolute;
     right: -8vw;
     bottom: -5rem;
@@ -61,23 +104,17 @@
     height: 360px;
     border-radius: 999px;
     background:
-      radial-gradient(
-        ellipse at 50% 54%,
-        rgba(240, 201, 120, 0.12),
-        transparent 58%
-      ),
-      repeating-linear-gradient(
-        166deg,
-        rgba(130, 183, 179, 0.08) 0 1px,
-        transparent 1px 34px
-      );
+      radial-gradient(ellipse at 50% 54%, rgba(240, 201, 120, 0.12), transparent 58%),
+      repeating-linear-gradient(166deg, rgba(130, 183, 179, 0.08) 0 1px, transparent 1px 34px);
     content: "";
     opacity: 0.62;
     pointer-events: none;
   }
 
-  .document-header p {
-    line-height: 1.6;
+  @media (min-width: 1201px) {
+    .page-header--with-aside {
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
+    }
   }
 
   .confidence-badge {

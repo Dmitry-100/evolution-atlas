@@ -1486,7 +1486,7 @@ test.describe("Evolution Atlas", () => {
     await page.goto("/?mode=primates&stage=homo-sapiens");
     await expect(page).toHaveURL(/\/primates\?stage=homo-sapiens/);
     await expect(
-      page.getByRole("heading", { name: "Homo sapiens" }),
+      page.getByRole("heading", { name: "Homo sapiens", exact: true }),
     ).toBeVisible();
   });
 
@@ -2071,8 +2071,12 @@ test.describe("Evolution Atlas", () => {
       await expect(page.getByText(glossaryCase.readyText).first()).toBeVisible({
         timeout: 15_000,
       });
+      if (glossaryCase.path === "/primates") {
+        await page.locator(".primate-context-note summary").click();
+      }
       const term = page
-        .getByRole("button", { name: glossaryCase.trigger })
+        .locator(".glossary-term")
+        .filter({ hasText: new RegExp(`^${glossaryCase.trigger}$`, "i") })
         .first();
       await expect(term).toBeVisible();
       await term.hover();

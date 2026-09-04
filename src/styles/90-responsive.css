@@ -1,12 +1,5 @@
 @layer evolution-responsive {
   @media (max-width: 720px) {
-    .primates-page .atlas-title h1 {
-      font-size: 1.65rem;
-    }
-
-    .primates-page .atlas-title .hero-subtitle {
-      font-size: 0.94rem !important;
-    }
 
     .primates-page .primate-intro-tools {
       gap: 0;
@@ -32,9 +25,6 @@
   }
 
   @media (max-width: 1320px) {
-    .atlas-title h1 {
-      font-size: 2.6rem;
-    }
 
     .atlas-grid {
       grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
@@ -75,23 +65,15 @@
       white-space: normal;
     }
 
-    .atlas {
+    .atlas,
+    .document-page,
+    .quiz-page {
       padding: 1rem;
     }
 
-    .atlas-hero,
     .atlas-grid,
     .dinosaur-atlas-grid {
       grid-template-columns: 1fr;
-    }
-
-    .atlas-title h1,
-    .document-header h1,
-    .dinosaurs-hero h1,
-    .genetics-hero h1,
-    .origin-hero h1 {
-      font-size: 1.8rem;
-      line-height: 1.04;
     }
 
     .hero-actions {
@@ -233,9 +215,6 @@
       aspect-ratio: auto;
     }
 
-    .dinosaurs-hero,
-    .genetics-hero,
-    .origin-hero,
     .dinosaur-detail-card,
     .body-map-grid,
     .cladogram-page-grid {
@@ -473,22 +452,6 @@
       overflow-wrap: anywhere;
     }
 
-    .atlas-title h1,
-    .document-header h1,
-    .dinosaurs-hero h1,
-    .genetics-hero h1,
-    .origin-hero h1 {
-      font-size: 1.55rem;
-    }
-
-    .atlas-title p,
-    .document-header p,
-    .dinosaurs-hero p,
-    .genetics-hero p,
-    .origin-hero p {
-      font-size: 1rem;
-    }
-
     .darwin-spotlight {
       grid-template-columns: 1fr;
     }
@@ -531,10 +494,6 @@
       margin: 0;
     }
 
-    .hero-subtitle {
-      font-size: 1.28rem !important;
-    }
-
     .hero-actions,
     .tabs-list {
       width: 100%;
@@ -554,9 +513,6 @@
     .theory-bridge-band,
     .theory-principles,
     .extinction-overview,
-    .dinosaurs-hero,
-    .genetics-hero,
-    .origin-hero,
     .dinosaur-detail-card,
     .codon-lab,
     .genetics-flow,

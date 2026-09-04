@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/body-map.css";
 import {
   ArrowRight,
@@ -225,15 +226,13 @@ export function BodyMapPage() {
       className="document-page body-map-page"
       data-tour-stop-id="page-body-map"
     >
-      <div className="document-header body-map-header">
-        <p className="eyebrow">Карта признаков</p>
-        <h1>Какие древние решения живут в нашем теле</h1>
-        <p>
-          Пять слоёв показывают, от каких предковых узлов наша линия
-          унаследовала клеточные механизмы, план тела, движение, чувства, мозг и
-          поведение.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Карта признаков"
+        title="Какие древние решения живут в нашем теле"
+      >
+        Пять слоёв показывают, от каких предковых узлов наша линия унаследовала
+        клеточные механизмы, план тела, движение, чувства, мозг и поведение.
+      </PageHeader>
 
       <BodyLayerTabs
         layers={BODY_TRAIT_LAYERS}

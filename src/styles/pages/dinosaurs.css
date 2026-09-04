@@ -14,30 +14,6 @@
       rgba(10, 13, 12, 0.88);
   }
 
-  .dinosaurs-hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 390px);
-    gap: 1rem;
-    align-items: stretch;
-    isolation: isolate;
-    overflow: hidden;
-    padding: 0.65rem 0 1rem;
-  }
-
-  .dinosaurs-hero h1 {
-    max-width: 880px;
-    margin: 0.25rem 0 0.75rem;
-  }
-
-  .dinosaurs-hero p {
-    max-width: 830px;
-    margin: 0;
-    color: var(--muted);
-    font-size: 1.08rem;
-    line-height: 1.72;
-  }
-
   .dinosaurs-answer-card {
     display: grid;
     align-content: center;

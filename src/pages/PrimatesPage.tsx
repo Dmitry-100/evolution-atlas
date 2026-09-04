@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 // AfricaOriginMap shares the existing exhibit styles with the origin-of-life page.
 import "../styles/pages/origin-of-life.css";
 import { useMemo, useRef, type CSSProperties } from "react";
@@ -37,16 +38,22 @@ const PRIMATE_BRANCH_STAGE_IDS = [
 function PrimateIntro({ mobile }: { mobile: boolean }) {
   return (
     <>
-      <section className="atlas-hero">
-        {!mobile ? <>
-          <FloatingPaths className="atlas-hero-paths" />
-          <ConstellationField className="atlas-hero-constellation" />
-        </> : null}
-        <div className="atlas-title">
-          <h1>Эволюция человека: от ранних приматов до Homo sapiens</h1>
-          <p className="hero-subtitle">66 млн лет истории нашей ветви. Людей и других приматов связывают общие предки.</p>
-        </div>
-      </section>
+      <PageHeader
+        className="atlas-hero"
+        eyebrow="Приматы и человек"
+        title="Эволюция человека: от ранних приматов до Homo sapiens"
+        decoration={
+          !mobile ? (
+            <>
+              <FloatingPaths className="atlas-hero-paths" />
+              <ConstellationField className="atlas-hero-constellation" />
+            </>
+          ) : null
+        }
+      >
+        66 млн лет истории нашей ветви. Людей и других приматов связывают общие
+        предки.
+      </PageHeader>
 
       <div className="primate-intro-tools">
         <details className="primate-context-note">

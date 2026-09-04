@@ -11,7 +11,9 @@ for (const width of [1280, 820, 391]) {
     await expect(page.locator(".evidence-card")).toHaveCount(6);
     await expect(questions).toHaveCount(4);
     await expect(questions.first().locator("p")).toBeVisible();
-    await expect(questions.nth(1).locator("p")).not.toBeVisible();
+    for (const question of await questions.all()) {
+      await expect(question.locator("p")).toBeVisible();
+    }
 
     const layout = await page.evaluate(() => {
       const rect = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
@@ -19,6 +21,7 @@ for (const width of [1280, 820, 391]) {
       const grid = rect(".evidence-grid");
       const cards = [...document.querySelectorAll(".evidence-card")].map((card) => card.getBoundingClientRect());
       const steps = [...document.querySelectorAll(".darwin-flow li")].map((step) => step.getBoundingClientRect());
+      const answers = [...document.querySelectorAll(".evidence-faq-card")].map((answer) => answer.getBoundingClientRect());
       return {
         mechanismBeforeEvidence: rect(".theory-mechanism").bottom <= rect(".evidence-section").top,
         evidenceBeforeHistory: rect(".evidence-section").bottom <= rect(".darwin-spotlight").top,
@@ -26,6 +29,7 @@ for (const width of [1280, 820, 391]) {
         cardsUseSectionWidth: grid.width >= rect(".evidence-section").width - 40,
         columns: cards.filter((card) => Math.abs(card.top - cards[0].top) < 1).length,
         verticalSteps: steps.every((step, index) => index === 0 || step.top >= steps[index - 1].bottom),
+        answerColumns: answers.filter((answer) => Math.abs(answer.top - answers[0].top) < 1).length,
         overflow: document.documentElement.scrollWidth > innerWidth + 1,
       };
     });
@@ -36,6 +40,7 @@ for (const width of [1280, 820, 391]) {
       cardsUseSectionWidth: true,
       columns: width > 1200 ? 3 : width > 720 ? 2 : 1,
       verticalSteps: width <= 720,
+      answerColumns: width <= 720 ? 1 : 2,
       overflow: false,
     });
 
@@ -49,17 +54,7 @@ for (const width of [1280, 820, 391]) {
     await expect.poll(() => portrait.evaluate((image) => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0)).toBe(true);
     await page.screenshot({ path: testInfo.outputPath(`theory-darwin-${width}.png`), animations: "disabled" });
 
-    await questions.first().locator("summary").focus();
-    await page.keyboard.press("Enter");
-    await expect(questions.first().locator("p")).not.toBeVisible();
-    await questions.nth(2).locator("summary").focus();
-    await page.keyboard.press("Space");
-    await expect(questions.nth(2).locator("p")).toBeVisible();
-    await expect(questions.nth(2).locator("summary")).toBeFocused();
-    await page.keyboard.press("Space");
-    await expect(questions.nth(2).locator("p")).not.toBeVisible();
-    await questions.first().locator("summary").click();
-    await expect(questions.first().locator("p")).toBeVisible();
+    await page.locator(".evidence-faq").scrollIntoViewIfNeeded();
     await page.screenshot({ path: testInfo.outputPath(`theory-questions-${width}.png`), animations: "disabled" });
   });
 }

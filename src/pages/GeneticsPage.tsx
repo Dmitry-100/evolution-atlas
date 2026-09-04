@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/genetics.css";
 import {
   ArrowRight,
@@ -213,17 +214,14 @@ export function GeneticsPage() {
       className="document-page genetics-page"
       data-tour-stop-id="page-genetics"
     >
-      <div className="genetics-hero">
-        <div>
-          <p className="eyebrow">Молекулярные доказательства</p>
-          <h1>Как ДНК подтверждает эволюцию и общее происхождение</h1>
-          <p>
-            Общий генетический код, сходство последовательностей, хромосома 2 и
-            редкие вирусные вставки сохраняют историю родства. Молекулярные
-            данные складываются в то же дерево, что ископаемые и анатомия.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Молекулярные доказательства"
+        title="Как ДНК подтверждает эволюцию и общее происхождение"
+      >
+        Общий генетический код, сходство последовательностей, хромосома 2 и редкие
+        вирусные вставки сохраняют историю родства. Молекулярные данные складываются
+        в то же дерево, что ископаемые и анатомия.
+      </PageHeader>
 
       <section className="theory-bridge-band atlas-note-band">
         <div>

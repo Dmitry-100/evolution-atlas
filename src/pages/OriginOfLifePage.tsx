@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/origin-of-life.css";
 import {
   Atom,
@@ -130,18 +131,15 @@ export function OriginOfLifePage() {
       className="document-page origin-page"
       data-tour-stop-id="page-origin-of-life"
     >
-      <div className="origin-hero">
-        <div>
-          <p className="eyebrow">До первой клетки</p>
-          <h1>Как появилась жизнь на Земле: основные научные гипотезы</h1>
-          <p>
-            Наука пока не знает единственного завершённого сценария.{" "}
-            <GlossaryTermById id="abiogenesis">Абиогенез</GlossaryTermById>{" "}
-            исследует, как неживая химия могла перейти к молекулам, мембранам,
-            наследованию и первым клеточным системам.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="До первой клетки"
+        title="Как появилась жизнь на Земле: основные научные гипотезы"
+      >
+        Наука пока не знает единственного завершённого сценария.{" "}
+        <GlossaryTermById id="abiogenesis">Абиогенез</GlossaryTermById> исследует,
+        как неживая химия могла перейти к молекулам, мембранам, наследованию и
+        первым клеточным системам.
+      </PageHeader>
 
       <section className="theory-bridge-band atlas-note-band">
         <div>

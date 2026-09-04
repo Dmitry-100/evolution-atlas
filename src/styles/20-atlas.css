@@ -40,17 +40,6 @@
     box-shadow: inset 0 0 0 2px rgba(240, 201, 120, 0.45);
   }
 
-  .atlas-hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    align-items: start;
-    padding: 0.65rem 0 1rem;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
   .atlas-hero-paths {
     right: -7vw;
     bottom: -4rem;
@@ -68,28 +57,6 @@
     width: min(520px, 42vw);
     height: 235px;
     opacity: 0.42;
-  }
-
-  .atlas-title {
-    position: relative;
-    z-index: 1;
-    max-width: 1120px;
-  }
-
-  .atlas-home .atlas-hero {
-    padding: 0.25rem 0 0.6rem;
-  }
-
-  .atlas-home .atlas-title h1 {
-    margin-bottom: 0.65rem;
-    line-height: 1.08;
-  }
-
-  .atlas-home .atlas-title .hero-subtitle {
-    max-width: 960px;
-    margin: 0;
-    font-size: 1.12rem !important;
-    line-height: 1.5;
   }
 
   .atlas-home .atlas-note-band {
@@ -112,40 +79,6 @@
     font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-  }
-
-  .atlas-title h1,
-  .document-header h1,
-  .dinosaurs-hero h1,
-  .origin-hero h1,
-  .genetics-hero h1 {
-    margin: 0.35rem 0 1rem;
-    max-width: 1050px;
-    font-family: var(--font-display);
-    font-size: var(--display-title-size);
-    font-weight: 700;
-    line-height: var(--display-title-line);
-    letter-spacing: 0;
-  }
-
-  .atlas-title h1 {
-    max-width: 1120px;
-  }
-
-  .atlas-title p,
-  .document-header p {
-    margin: 0;
-    max-width: 920px;
-    color: var(--muted);
-    font-size: 1.08rem;
-  }
-
-  .hero-subtitle {
-    margin: -0.35rem 0 0.9rem !important;
-    color: var(--amber) !important;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.38rem !important;
-    font-style: italic;
   }
 
   .hero-actions {
@@ -417,29 +350,6 @@
   .mobile-atlas {
     display: grid;
     gap: 1rem;
-  }
-
-  .mobile-atlas-hero {
-    display: grid;
-    gap: 0.55rem;
-    padding: 1rem;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.035);
-  }
-
-  .mobile-atlas-hero h1 {
-    margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.8rem;
-    line-height: 1.08;
-  }
-
-  .mobile-atlas-hero p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.5;
   }
 
   .mobile-atlas-tabs {
@@ -1738,22 +1648,6 @@
     min-height: 0;
   }
 
-  .primates-page .atlas-hero {
-    padding: 0.25rem 0 0.65rem;
-  }
-
-  .primates-page .atlas-title h1 {
-    margin-bottom: 0.6rem;
-    font-size: clamp(1.8rem, 3.1vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .primates-page .atlas-title .hero-subtitle {
-    margin: 0;
-    font-size: 1.08rem !important;
-    line-height: 1.5;
-  }
-
   .primate-intro-tools {
     display: flex;
     flex-wrap: wrap;
@@ -2978,7 +2872,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 0.5rem;
   }
 
   .theory-principle {
@@ -3268,80 +3162,86 @@
     text-decoration: underline;
   }
 
-  .evidence-card a:focus-visible,
-  .evidence-faq-card summary:focus-visible {
+  .evidence-card a:focus-visible {
     outline: 2px solid var(--gold);
     outline-offset: 3px;
   }
 
   .evidence-faq {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.6rem;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
+    scroll-margin-top: 9rem;
   }
 
   .evidence-faq .theory-section-heading {
-    margin-bottom: 0.3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .evidence-faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(130, 183, 179, 0.035);
   }
 
   .evidence-faq-card {
-    border: 1px solid rgba(218, 185, 126, 0.18);
-    border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.035);
-    padding: 0;
+    min-width: 0;
+    padding: 1.5rem 2rem;
   }
 
-  .evidence-faq-card summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    min-height: 56px;
-    padding: 0.9rem 1rem;
-    border-radius: inherit;
-    cursor: pointer;
-    list-style: none;
+  .evidence-faq-card:nth-child(odd) {
+    border-right: 1px solid var(--line);
   }
 
-  .evidence-faq-card summary::-webkit-details-marker {
-    display: none;
+  .evidence-faq-card:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
   }
 
-  .evidence-faq-card summary svg {
-    flex-shrink: 0;
+  .evidence-faq-topic {
+    display: block;
+    margin-bottom: 0.65rem;
     color: var(--gold);
-  }
-
-  .evidence-faq-card[open] {
-    border-color: rgba(218, 185, 126, 0.35);
-    background: rgba(130, 183, 179, 0.06);
-  }
-
-  .evidence-faq-card[open] summary svg {
-    transform: rotate(180deg);
-  }
-
-  .evidence-faq-card summary:hover {
-    background: rgba(240, 201, 120, 0.06);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   .evidence-faq-card h3 {
-    margin: 0;
+    max-width: 38ch;
+    margin: 0 0 0.65rem;
     color: var(--text);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.1rem;
-    line-height: 1.2;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
   }
 
   .evidence-faq-card p {
-    max-width: 85ch;
+    max-width: 62ch;
     margin: 0;
-    padding: 0 3rem 1rem 1rem;
     color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 720px) {
+    .evidence-faq-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .evidence-faq-card {
+      padding: 1.25rem 1rem;
+    }
+
+    .evidence-faq-card:nth-child(odd) {
+      border-right: 0;
+    }
+
+    .evidence-faq-card + .evidence-faq-card {
+      border-top: 1px solid var(--line);
+    }
   }
 
   .trait-accumulator {

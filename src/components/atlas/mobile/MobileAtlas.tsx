@@ -1,3 +1,4 @@
+import { PageHeader } from "../../ui/PageHeader";
 import { ChevronLeft, ChevronRight, Compass, Search } from "lucide-react";
 import type { ReactNode } from "react";
 import { AfricaOriginMap } from "../../education/AfricaOriginMap";
@@ -60,11 +61,7 @@ export function MobileAtlas({
 
   return (
     <section className="mobile-atlas" aria-label="Мобильный атлас эволюции">
-      {header ?? <div className="mobile-atlas-hero">
-        <p className="eyebrow">{eyebrow}</p>
-        <h1>{title}</h1>
-        <p>{description}</p>
-      </div>}
+      {header ?? <PageHeader eyebrow={eyebrow} title={title}>{description}</PageHeader>}
 
       {showModeTabs ? (
         <Tabs

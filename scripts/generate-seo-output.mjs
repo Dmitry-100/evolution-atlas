@@ -101,11 +101,13 @@ function buildPrerenderContent(route) {
     .join(" · ");
 
   return `<section class="document-page seo-prerender" data-seo-prerender="true">
-      <div class="document-header">
-        <p class="eyebrow">${escapeHtml(siteName)}</p>
+      <header class="page-header">
+       <div class="page-header-copy">
+        <p class="page-header-eyebrow">${escapeHtml(siteName)}</p>
         <h1>${escapeHtml(route.seoHeading)}</h1>
-        <p>${escapeHtml(route.seoDescription)}</p>
-      </div>
+        <p class="page-header-description">${escapeHtml(route.seoDescription)}</p>
+       </div>
+      </header>
       <nav aria-label="Разделы атласа">${routeLinks}</nav>
     </section>`;
 }

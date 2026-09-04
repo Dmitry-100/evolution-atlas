@@ -14,10 +14,6 @@
       rgba(10, 13, 12, 0.86);
   }
 
-  .body-map-header {
-    max-width: 920px;
-  }
-
   .body-map-main,
   .body-trait-inspector {
     border: 1px solid var(--line);

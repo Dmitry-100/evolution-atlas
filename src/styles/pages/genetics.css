@@ -14,30 +14,6 @@
       linear-gradient(120deg, rgba(8, 11, 11, 0.9), rgba(15, 18, 15, 0.88));
   }
 
-  .genetics-hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1rem;
-    align-items: stretch;
-    isolation: isolate;
-    overflow: hidden;
-    padding: 0.65rem 0 1rem;
-  }
-
-  .genetics-hero h1 {
-    max-width: 980px;
-    margin: 0.25rem 0 0.75rem;
-  }
-
-  .genetics-hero p {
-    max-width: 940px;
-    margin: 0;
-    color: var(--muted);
-    font-size: 1.08rem;
-    line-height: 1.72;
-  }
-
   .genome-comparison-card,
   .genetics-evidence-card,
   .codon-lab,

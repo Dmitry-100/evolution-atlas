@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/cladogram.css";
 import {
   ArrowRight,
@@ -280,15 +281,10 @@ export function CladogramPage() {
         className="document-page cladogram-page"
         data-tour-stop-id="page-cladogram"
       >
-        <div className="document-header">
-          <p className="eyebrow">Кладограмма</p>
-          <h1>Дерево родства</h1>
-          <p>
-            Кладограмма показывает родство без временной шкалы: где находится
-            ветвь Homo sapiens и от каких узлов отходят современные и ископаемые
-            родственники.
-          </p>
-        </div>
+        <PageHeader eyebrow="Кладограмма" title="Дерево родства">
+          Кладограмма показывает родство без временной шкалы: где находится ветвь Homo
+          sapiens и от каких узлов отходят современные и ископаемые родственники.
+        </PageHeader>
 
         <figure
           className="tree-of-life-poster is-compact"

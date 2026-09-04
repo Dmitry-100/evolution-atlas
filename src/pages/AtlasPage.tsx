@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
@@ -222,7 +223,7 @@ export function AtlasPage() {
         <MobileAtlas
           eyebrow="Эволюция жизни на Земле"
           title="Человек произошел от обезьяны... а от кого произошла обезьяна?"
-          description="Двигайтесь по хронологии жизни на Земле и открывайте этапы прямо на карте."
+          description="Проследите нашу ветвь дерева родства — от древних клеточных линий до приматов и Homo sapiens."
           stages={visibleStages}
           eras={visibleEras}
           activeStage={activeStage}
@@ -260,17 +261,20 @@ export function AtlasPage() {
           : `Выбран этап ${activeItem.stage.titleRu}, ${formatAgeRu(activeItem.stage.ageMa)}`}
       </p>
 
-      <section className="atlas-hero">
-        <FloatingPaths className="atlas-hero-paths" />
-        <ConstellationField className="atlas-hero-constellation" />
-        <div className="atlas-title">
-          <h1>Человек произошел от обезьяны... а от кого произошла обезьяна?</h1>
-          <p className="hero-subtitle">
-            Проследите нашу ветвь дерева родства — от древних клеточных линий
-            до приматов и Homo sapiens.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        className="atlas-hero"
+        eyebrow="Эволюция жизни на Земле"
+        title="Человек произошел от обезьяны... а от кого произошла обезьяна?"
+        decoration={
+          <>
+            <FloatingPaths className="atlas-hero-paths" />
+            <ConstellationField className="atlas-hero-constellation" />
+          </>
+        }
+      >
+        Проследите нашу ветвь дерева родства — от древних клеточных линий до
+        приматов и Homo sapiens.
+      </PageHeader>
 
       <section className="theory-bridge-band atlas-note-band">
         <div>

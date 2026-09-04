@@ -1,23 +1,26 @@
-import { ChevronDown } from "lucide-react";
 import { EVIDENCE_MODULES, SCIENTIFIC_THEORY_EXPLAINER } from "../../data/evidence";
 
 const FREQUENT_QUESTIONS = [
   {
+    topic: "Наблюдения",
     question: "Эволюцию можно наблюдать сегодня?",
     answer:
       "Да. Наследуемые изменения наблюдают у бактерий, насекомых, растений и других организмов — иногда за считанные поколения.",
   },
   {
+    topic: "Ископаемые",
     question: "Есть ли переходные формы?",
     answer:
       "Да. Известны ископаемые с сочетанием признаков соседних ветвей, а их возраст и строение совпадают с предсказаниями эволюции.",
   },
   {
+    topic: "Генетика",
     question: "Что показывает сравнение ДНК?",
     answer:
       "Родственные виды разделяют последовательности и редкие мутации. Независимые участки генома обычно восстанавливают согласующееся дерево родства.",
   },
   {
+    topic: "Научный метод",
     question: "Почему это всё ещё теория?",
     answer:
       "В науке теория не становится «законом»: факты описывают наблюдения, а теория объясняет их и позволяет проверять новые предсказания.",
@@ -53,20 +56,20 @@ export function EvidenceSection() {
 
 export function EvidenceFaq() {
   return (
-    <section className="evidence-faq" aria-labelledby="evidence-faq-title">
+    <section className="evidence-faq" id="evidence-faq" aria-labelledby="evidence-faq-title">
       <div className="theory-section-heading">
-        <p className="eyebrow">Вопросы, которые остаются</p>
+        <p className="eyebrow">Вопросы и ответы</p>
         <h2 id="evidence-faq-title">Короткие ответы об эволюции</h2>
       </div>
-      {FREQUENT_QUESTIONS.map(({ question, answer }, index) => (
-        <details key={question} className="evidence-faq-card" open={index === 0}>
-          <summary>
+      <div className="evidence-faq-grid">
+        {FREQUENT_QUESTIONS.map(({ topic, question, answer }) => (
+          <article key={question} className="evidence-faq-card">
+            <span className="evidence-faq-topic">{topic}</span>
             <h3>{question}</h3>
-            <ChevronDown aria-hidden="true" size={20} />
-          </summary>
-          <p>{answer}</p>
-        </details>
-      ))}
+            <p>{answer}</p>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }

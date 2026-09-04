@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import { Compass, Eye, Network } from "lucide-react";
 import { Link } from "react-router-dom";
 import { OptimizedImage } from "../components/ui/optimized-image";
@@ -23,14 +24,11 @@ const cards = [
 export function AboutPage() {
   return (
     <section className="document-page" data-tour-stop-id="page-about">
-      <div className="document-header">
-        <p className="eyebrow">О проекте</p>
-        <h1>Зачем нужен этот атлас</h1>
-        <p>
-          Это не учебник и не спор ради спора. Это визуальный маршрут, который помогает быстро увидеть масштаб времени,
-          ветвление родства и место приматов в большой истории жизни.
-        </p>
-      </div>
+      <PageHeader eyebrow="О проекте" title="Зачем нужен этот атлас">
+        Это не учебник и не спор ради спора. Это визуальный маршрут, который
+        помогает быстро увидеть масштаб времени, ветвление родства и место приматов
+        в большой истории жизни.
+      </PageHeader>
 
       <div className="about-grid">
         {cards.map(({ icon: Icon, title, text }) => (
