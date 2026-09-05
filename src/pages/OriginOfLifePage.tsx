@@ -7,7 +7,6 @@ import {
   Network,
   Orbit,
   Sparkles,
-  Star,
   Waves,
 } from "lucide-react";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
@@ -101,7 +100,7 @@ const originVisuals: Record<
 const originJourney = [
   {
     id: "page-origin-energy",
-    title: "Энергия",
+    title: "Химия и энергия",
     text: "молнии, ультрафиолет, вулканы и гидротермальные источники",
     visual: originVisuals["step-energy"],
   },
@@ -113,14 +112,14 @@ const originJourney = [
   },
   {
     id: "page-origin-membranes",
-    title: "Оболочки",
-    text: "липидные пузырьки удерживают молекулы рядом друг с другом",
+    title: "Протоклетки",
+    text: "липидные оболочки удерживают молекулы рядом друг с другом",
     visual: originVisuals["step-membranes"],
   },
   {
     id: "page-origin-inheritance",
-    title: "Наследование",
-    text: "молекулы вроде РНК дают шанс копировать удачные варианты",
+    title: "Наследование и отбор",
+    text: "копирование молекул даёт наследуемые различия, на которые может действовать отбор",
     visual: originVisuals["step-inheritance"],
   },
 ];
@@ -135,27 +134,10 @@ export function OriginOfLifePage() {
         eyebrow="До первой клетки"
         title="Как появилась жизнь на Земле: основные научные гипотезы"
       >
-        Наука пока не знает единственного завершённого сценария.{" "}
-        <GlossaryTermById id="abiogenesis">Абиогенез</GlossaryTermById> исследует,
-        как неживая химия могла перейти к молекулам, мембранам, наследованию и
-        первым клеточным системам.
+        <GlossaryTermById id="abiogenesis">Абиогенез</GlossaryTermById> — переход
+        от неживой химии к первым клеточным системам. Единственного
+        подтверждённого сценария пока нет.
       </PageHeader>
-
-      <section className="theory-bridge-band atlas-note-band">
-        <div>
-          <Star aria-hidden="true" size={22} />
-          <div>
-            <h2>Что такое абиогенез</h2>
-            <p>
-              Абиогенез — область исследований перехода от неживой химии к
-              первым живым системам. Готовая клетка не появляется сразу:
-              сценарии описывают последовательность: органические молекулы,
-              затем границы и <GlossaryTermById id="protocells">протоклетки</GlossaryTermById>,
-              после них наследование и отбор. Детали пока проверяются.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <section
         className="origin-visual-story"
@@ -167,43 +149,34 @@ export function OriginOfLifePage() {
             <p className="eyebrow">Химия становится биологией</p>
             <h2 id="origin-visual-story-title">Цепочка переходов</h2>
             <p>
-              В гипотезах различаются детали, но почти всегда нужны четыре вещи:
-              энергия, органические молекулы, граница и наследуемая
-              изменчивость.
+              От простых реакций к системам с границей, наследованием и отбором.
             </p>
           </div>
         </div>
-        <div className="origin-story-grid">
+        <ol className="origin-story-grid" aria-label="Возможные переходы от химии к жизни">
           {originJourney.map((step, index) => (
-            <article
+            <li
               key={step.title}
               className="origin-story-card"
               data-tour-stop-id={step.id}
             >
+              <span className="origin-step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               <OptimizedImage
                 src={step.visual.src}
                 alt={step.visual.alt}
                 loading="lazy"
                 decoding="async"
               />
-              <div>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{step.title}</strong>
-                <p>{step.text}</p>
-              </div>
-            </article>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
           ))}
-        </div>
+        </ol>
+        <p className="origin-story-note">
+          Это схема возможных переходов к жизни, а не установленная хронология:
+          порядок ранних процессов пока обсуждается.
+        </p>
       </section>
-
-      <div className="origin-map">
-        <span>химия</span>
-        <span>органика</span>
-        <span>протоклетки</span>
-        <span>наследование</span>
-        <span>отбор</span>
-        <span>жизнь</span>
-      </div>
 
       <LucaExhibit />
 
@@ -249,24 +222,24 @@ export function OriginOfLifePage() {
                 </figure>
               ) : null}
               <div className="origin-card-heading">
-                <Icon aria-hidden="true" size={24} />
-                <div>
-                  <span>{hypothesis.statusRu}</span>
-                  <h2>{hypothesis.titleRu}</h2>
-                </div>
+                <p className="origin-hypothesis-status">
+                  <Icon aria-hidden="true" size={18} />
+                  {hypothesis.statusRu}
+                </p>
+                <h3>{hypothesis.titleRu}</h3>
               </div>
               <p>{hypothesis.shortRu}</p>
               <dl>
                 <div>
-                  <dt>Как это могло работать</dt>
+                  <dt>Механизм</dt>
                   <dd>{hypothesis.mechanismRu}</dd>
                 </div>
                 <div>
-                  <dt>Почему это серьезно</dt>
+                  <dt>Подтверждения</dt>
                   <dd>{hypothesis.evidenceRu}</dd>
                 </div>
                 <div>
-                  <dt>Что пока не закрыто</dt>
+                  <dt>Открытый вопрос</dt>
                   <dd>{hypothesis.openQuestionRu}</dd>
                 </div>
               </dl>
