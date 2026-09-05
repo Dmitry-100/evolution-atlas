@@ -4,6 +4,8 @@ export default defineConfig({
   testDir: "./e2e",
   snapshotPathTemplate: "{testDir}/__screenshots__/{arg}{ext}",
   timeout: 30_000,
+  // Parallel software-rendered WebGL backgrounds starve CI browser actions.
+  workers: process.env.CI ? 1 : undefined,
   expect: {
     timeout: 5_000,
     toHaveScreenshot: {
