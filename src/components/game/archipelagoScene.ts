@@ -1,8 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { EDGES } from "../../game/content";
-import { connected, count, currentEvent } from "../../game/engine";
+import { connected, count, previewState } from "../../game/engine";
 import type { GameState } from "../../game/types";
+import { createPopulationScene } from "./populationScene";
+import { createWorldEffects } from "./worldEffects";
+import { ISLAND_CENTERS as CENTERS } from "./sceneState";
 
 export type SceneController = {
   update: (
@@ -12,6 +15,7 @@ export type SceneController = {
     evolving: boolean,
   ) => void;
   reset: () => void;
+  focus: () => void;
   dispose: () => void;
 };
 type SceneOptions = {
@@ -25,14 +29,6 @@ type SceneOptions = {
   onFailure: () => void;
 };
 
-const CENTERS = [
-  [-6.8, -3.1],
-  [0, -3.5],
-  [6.8, -3],
-  [-6.7, 3.4],
-  [0.2, 3.5],
-  [7.0, 3.7],
-];
 const SURFACES = [
   "#647b3c",
   "#a39e59",
@@ -171,8 +167,8 @@ export function createArchipelago(options: SceneOptions): SceneController {
   controls.enablePan = false;
   controls.minPolarAngle = 0.25;
   controls.maxPolarAngle = 1.15;
-  controls.minDistance = 12;
-  controls.maxDistance = 65;
+  controls.minDistance = 5;
+  controls.maxDistance = 80;
   controls.rotateSpeed = 0.45;
   controls.zoomSpeed = 0.6;
   controls.addEventListener("change", () => {
@@ -182,14 +178,26 @@ export function createArchipelago(options: SceneOptions): SceneController {
     const ratio = host.clientWidth / Math.max(1, host.clientHeight);
     const portrait = ratio < 1.2;
     const distance = portrait
-      ? Math.max(26, 25 / ratio)
-      : Math.max(18.5, 36 / ratio);
+      ? Math.max(30, 29 / ratio)
+      : Math.max(24, 39 / ratio);
     camera.position.set(
       portrait ? distance * 0.78 : 0,
       distance * 0.62,
       portrait ? 0 : distance * 0.78,
     );
     controls.target.set(0, 0, 0);
+    controls.update();
+    dirty = true;
+  }
+  function focus() {
+    const target = new THREE.Vector3(
+      CENTERS[selected][0],
+      0.6,
+      CENTERS[selected][1],
+    );
+    const direction = camera.position.clone().sub(controls.target).normalize();
+    controls.target.copy(target);
+    camera.position.copy(target).addScaledVector(direction, 10.5);
     controls.update();
     dirty = true;
   }
@@ -256,22 +264,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
     roughness: 1,
     flatShading: true,
   });
-  const bodyGeometry = new THREE.SphereGeometry(1, 8, 6);
-  const bodyMaterial = new THREE.MeshStandardMaterial({
-    color: "#cbbb75",
-    roughness: 0.85,
-  });
-  const headsMaterial = new THREE.MeshStandardMaterial({
-    color: "#e6d49e",
-    roughness: 0.8,
-  });
   const dummy = new THREE.Object3D();
-  const animalGroups: {
-    bodies: THREE.InstancedMesh;
-    heads: THREE.InstancedMesh;
-    eyes: THREE.InstancedMesh;
-    seeds: number[];
-  }[] = [];
   const vegetation: { mesh: THREE.InstancedMesh; matrices: THREE.Matrix4[] }[] =
     [];
   const decorativeResources: { dispose: () => void }[] = [
@@ -281,15 +274,9 @@ export function createArchipelago(options: SceneOptions): SceneController {
     rock,
     trunkMaterial,
     rockMaterial,
-    bodyGeometry,
-    bodyMaterial,
-    headsMaterial,
     groundMaterial,
     shoreMaterial,
   ];
-  const eyeMaterial = new THREE.MeshBasicMaterial({ color: "#222a18" });
-  decorativeResources.push(eyeMaterial);
-
   for (let island = 0; island < 6; island++) {
     const group = new THREE.Group();
     group.position.set(CENTERS[island][0], 0, CENTERS[island][1]);
@@ -351,7 +338,10 @@ export function createArchipelago(options: SceneOptions): SceneController {
     stems.castShadow = true;
     const baseMatrices: THREE.Matrix4[] = [];
     for (let n = 0; n < treesCount; n++) {
-      const angle = noise(n, 1, island) * TAU,
+      const angle =
+          island === 2 || island === 5
+            ? noise(n, 1, island) * TAU
+            : Math.PI + noise(n, 1, island) * Math.PI,
         r =
           island === 2 || island === 5
             ? 1.85 + noise(n, 2, island) * 0.3
@@ -409,21 +399,6 @@ export function createArchipelago(options: SceneOptions): SceneController {
       stones.setMatrixAt(n, dummy.matrix);
     }
     group.add(stones);
-    const bodies = new THREE.InstancedMesh(bodyGeometry, bodyMaterial, 14);
-    const heads = new THREE.InstancedMesh(bodyGeometry, headsMaterial, 14);
-    const eyes = new THREE.InstancedMesh(bodyGeometry, eyeMaterial, 28);
-    bodies.frustumCulled = false;
-    heads.frustumCulled = false;
-    eyes.frustumCulled = false;
-    bodies.castShadow = true;
-    heads.castShadow = true;
-    group.add(bodies, heads, eyes);
-    animalGroups.push({
-      bodies,
-      heads,
-      eyes,
-      seeds: Array.from({ length: 14 }, (_, n) => noise(n, 8, island) * TAU),
-    });
   }
 
   // Fine meadow blades and reeds add scale without individual draw calls.
@@ -517,28 +492,15 @@ export function createArchipelago(options: SceneOptions): SceneController {
   });
   const smoke = new THREE.Points(smokeGeometry, smokeMaterial);
   scene.add(smoke);
-  const snowPositions = new Float32Array(230 * 3);
-  for (let n = 0; n < 230; n++) {
-    snowPositions[n * 3] = (noise(n, 4, 8) - 0.5) * 26;
-    snowPositions[n * 3 + 1] = noise(n, 5, 8) * 8;
-    snowPositions[n * 3 + 2] = (noise(n, 6, 8) - 0.5) * 17;
-  }
-  const weatherGeometry = new THREE.BufferGeometry();
-  weatherGeometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(snowPositions, 3),
+  const populationScene = createPopulationScene(islands, heightAt);
+  const worldEffects = createWorldEffects(
+    scene,
+    islands,
+    hits,
+    vegetation.map((entry) => entry.mesh),
+    heightAt,
+    mistTexture,
   );
-  const weatherMaterial = new THREE.PointsMaterial({
-    color: "#e0e6d7",
-    map: mistTexture,
-    size: 0.09,
-    transparent: true,
-    opacity: 0.65,
-    depthWrite: false,
-  });
-  const weather = new THREE.Points(weatherGeometry, weatherMaterial);
-  weather.visible = false;
-  scene.add(weather);
   const paths = new THREE.Group();
   scene.add(paths);
   const pathMaterials: THREE.Material[] = [];
@@ -662,80 +624,45 @@ export function createArchipelago(options: SceneOptions): SceneController {
     dirty = true;
   };
   document.addEventListener("visibilitychange", visibilityChanged);
-  function updateAnimals(time: number) {
-    animalGroups.forEach(({ bodies, heads, eyes, seeds }, i) => {
-      const n = Math.min(14, Math.ceil(count(state.regions[i]) / 16));
-      bodies.count = n;
-      heads.count = n;
-      eyes.count = n * 2;
-      for (let j = 0; j < n; j++) {
-        const seed = seeds[j],
-          a = seed + Math.sin(time * 0.15 + seed) * 0.22,
-          r = 1.6 + (j % 4) * 0.1;
-        const x = Math.cos(a) * r,
-          z = Math.sin(a) * r,
-          h = heightAt(x, z, i),
-          yaw = a + Math.PI / 2;
-        const bob = Math.sin(time * (evolving ? 6 : 3) + seed) * 0.016;
-        dummy.position.set(x, h + 0.12 + bob, z);
-        dummy.rotation.set(0, -yaw, 0);
-        dummy.scale.set(0.18, 0.105, 0.105);
-        dummy.updateMatrix();
-        bodies.setMatrixAt(j, dummy.matrix);
-        const dx = Math.cos(yaw) * 0.16,
-          dz = Math.sin(yaw) * 0.16;
-        dummy.position.set(x + dx, h + 0.17 + bob, z + dz);
-        dummy.scale.set(0.09, 0.08, 0.07);
-        dummy.updateMatrix();
-        heads.setMatrixAt(j, dummy.matrix);
-        for (let k = 0; k < 2; k++) {
-          const side = k === 0 ? 1 : -1;
-          dummy.position.set(
-            x + dx + Math.cos(yaw) * 0.035 + Math.sin(yaw) * 0.045 * side,
-            h + 0.2 + bob,
-            z + dz + Math.sin(yaw) * 0.035 - Math.cos(yaw) * 0.045 * side,
-          );
-          dummy.scale.setScalar(0.016);
-          dummy.updateMatrix();
-          eyes.setMatrixAt(j * 2 + k, dummy.matrix);
-        }
-      }
-      bodies.instanceMatrix.needsUpdate = true;
-      heads.instanceMatrix.needsUpdate = true;
-      eyes.instanceMatrix.needsUpdate = true;
-    });
-  }
   function updateWorld() {
-    const event = currentEvent(state);
-    const cold =
-      event.kind === "cold" ||
-      state.effects.some((e) => e.kind === "cold" && e.until >= state.turn);
-    const eruption = event.kind === "eruption";
+    const effects = worldEffects.update(state, elapsed, reduced || paused);
+    populationScene.update(state, effects, reduced || paused || elapsed === 0);
+    const cold = effects.some((e) => e.kind === "cold");
+    const eruption = effects.some((e) => e.kind === "eruption");
+    const drought = effects.some((e) => e.kind === "drought");
     waterMaterial.uniforms.uCold.value = cold ? 1 : 0;
-    weather.visible = cold || event.kind === "rain";
-    weatherMaterial.color.set(cold ? "#e0e6d7" : "#88b3b3");
-    weatherMaterial.size = cold ? 0.06 : 0.035;
-    sky.color.set(cold ? "#b8d4df" : "#d3e6d2");
-    sunlight.color.set(cold ? "#c2d9e8" : eruption ? "#f4ae75" : "#ffdb95");
-    smokeMaterial.opacity = eruption ? 0.48 : 0.2;
-    lavaLight.intensity = eruption ? 8 : 3;
+    sky.color.set(cold ? "#b8d4df" : eruption ? "#aaa493" : "#d3e6d2");
+    sunlight.color.set(
+      cold ? "#c2d9e8" : eruption ? "#f4ae75" : drought ? "#ffc06e" : "#ffdb95",
+    );
+    sunlight.intensity = eruption ? 1.8 : drought ? 3.2 : 2.8;
+    scene.fog = new THREE.FogExp2(
+      eruption ? "#333934" : cold ? "#29494d" : "#112929",
+      eruption ? 0.025 : 0.017,
+    );
+    smokeMaterial.opacity = eruption ? 0.5 : 0.16;
+    smokeMaterial.size = eruption ? 1.1 : 0.65;
+    lavaLight.intensity = eruption ? 10 : 3;
     halos.forEach((halo, i) => {
       halo.visible = i === selected;
     });
+    const preview = previewState(state);
     pathLines.forEach((line, i) => {
-      const open = connected(state, EDGES[i].a, EDGES[i].b);
+      const open = connected(preview, EDGES[i].a, EDGES[i].b);
       (line.material as THREE.LineDashedMaterial).color.set(
         open ? "#c4d2a1" : "#577d7b",
       );
-      (line.material as THREE.LineDashedMaterial).opacity = open ? 0.55 : 0.15;
+      (line.material as THREE.LineDashedMaterial).opacity = open ? 0.4 : 0.11;
+      // Ambient dots indicate open connections, not measured migrations.
       migrants[i].visible =
         open &&
+        evolving &&
         (count(state.regions[EDGES[i].a]) > 0 ||
           count(state.regions[EDGES[i].b]) > 0);
     });
   }
   updateWorld();
-  updateAnimals(0);
+  populationScene.animate(0, 0, true);
   function render(time: number) {
     if (disposed) return;
     frame = requestAnimationFrame(render);
@@ -748,10 +675,12 @@ export function createArchipelago(options: SceneOptions): SceneController {
     // Cap animation to 30 fps; paused/reduced-motion scenes render only on change.
     if (time - labelTick < 32 && !dirty) return;
     if (!moving && !dirty) return;
+    const renderDelta = Math.min(0.1, (time - labelTick) / 1000);
     labelTick = time;
     waterMaterial.uniforms.uTime.value = elapsed;
     if (moving || dirty) {
-      updateAnimals(elapsed);
+      populationScene.animate(elapsed, renderDelta, !moving);
+      worldEffects.animate(elapsed, renderDelta, !moving);
       cloudParts.forEach((cloud, i) => {
         cloud.position.x = -12 + i * 2.1 + Math.sin(elapsed * 0.035 + i) * 0.7;
       });
@@ -767,13 +696,6 @@ export function createArchipelago(options: SceneOptions): SceneController {
           CENTERS[5][1] - 0.3 + Math.cos(n * 3.1 + rise) * (0.1 + rise * 0.1);
       }
       smokeGeometry.attributes.position.needsUpdate = true;
-      if (weather.visible && moving) {
-        for (let n = 0; n < 230; n++) {
-          snowPositions[n * 3 + 1] -= delta * 1.4;
-          if (snowPositions[n * 3 + 1] < 0) snowPositions[n * 3 + 1] = 8;
-        }
-        weatherGeometry.attributes.position.needsUpdate = true;
-      }
       migrants.forEach((bead, i) => {
         if (bead.visible)
           bead.position.copy(
@@ -798,6 +720,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
       dirty = true;
     },
     reset,
+    focus,
     dispose() {
       disposed = true;
       cancelAnimationFrame(frame);
@@ -814,7 +737,8 @@ export function createArchipelago(options: SceneOptions): SceneController {
         if (
           object instanceof THREE.Mesh ||
           object instanceof THREE.Points ||
-          object instanceof THREE.Line
+          object instanceof THREE.Line ||
+          object instanceof THREE.Sprite
         ) {
           geometries.add(object.geometry);
           (Array.isArray(object.material)
@@ -827,6 +751,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
       materials.forEach((material) => material.dispose());
       decorativeResources.forEach((resource) => resource.dispose());
       pathMaterials.forEach((material) => material.dispose());
+      worldEffects.dispose();
       cloudMaterial.dispose();
       mistTexture.dispose();
       renderer.dispose();

@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   BookOpen,
   Bug,
+  Binoculars,
   Check,
   ChevronRight,
   CloudRain,
@@ -121,6 +122,7 @@ export function GamePage() {
   const [restart, setRestart] = useState(false);
   const [paused, setPaused] = useState(false);
   const [resetView, setResetView] = useState(0);
+  const [focusView, setFocusView] = useState(0);
   const [records, setRecords] = useState(readRecords);
   const [wide, setWide] = useState(false);
   const lock = useRef(false);
@@ -402,12 +404,13 @@ export function GamePage() {
       <div className="game-world-layout">
         <div className={"game-world" + (!started ? " is-intro" : "")}>
           <IslandScene
-            state={preview}
+            state={state}
             selected={selected}
             onSelect={selectRegion}
             paused={paused}
             evolving={started && !planning}
             resetView={resetView}
+            focusView={focusView}
           />
           <div className="game-world-vignette" />
           <div className="game-world-topline">
@@ -416,6 +419,16 @@ export function GamePage() {
               Архипелаг • {chapter(state.turn)}
             </span>
             <div className="game-scene-controls">
+              {started && (
+                <button
+                  className="game-icon-button"
+                  aria-label="Рассмотреть выбранный остров"
+                  title="Рассмотреть животных и изменения на острове"
+                  onClick={() => setFocusView((value) => value + 1)}
+                >
+                  <Binoculars size={16} />
+                </button>
+              )}
               {!reducedMotion && (
                 <button
                   className="game-icon-button"
@@ -470,9 +483,15 @@ export function GamePage() {
                 <ChevronRight size={15} />
               </button>
               <div className="game-world-bottomline">
-                <span className="game-orbit-hint">
-                  <Map size={13} />
-                  Вращайте мир · выберите остров
+                <span
+                  className={
+                    state.draft.length ? "game-map-plan" : "game-orbit-hint"
+                  }
+                >
+                  {state.draft.length ? <Check size={13} /> : <Map size={13} />}
+                  {state.draft.length
+                    ? "Предпросмотр плана · изменения после хода"
+                    : "Вращайте мир · рассмотрите остров вблизи"}
                 </span>
                 <button
                   className="game-mobile-island"

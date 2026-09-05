@@ -5,6 +5,9 @@ import { REGIONS } from "../../game/content";
 import { count } from "../../game/engine";
 import type { GameState } from "../../game/types";
 import type { SceneController } from "./archipelagoScene";
+import { populationChanges, sceneEffects } from "./sceneState";
+import { CARDS, EVENTS } from "../../game/content";
+import type { CardKind, EventKind } from "../../game/types";
 
 type Props = {
   state: GameState;
@@ -13,6 +16,7 @@ type Props = {
   paused?: boolean;
   evolving?: boolean;
   resetView?: number;
+  focusView?: number;
 };
 export function IslandScene({
   state,
@@ -21,6 +25,7 @@ export function IslandScene({
   paused = false,
   evolving = false,
   resetView = 0,
+  focusView = 0,
 }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const labels = useRef<(HTMLButtonElement | null)[]>([]);
@@ -69,6 +74,11 @@ export function IslandScene({
   useEffect(() => {
     scene.current?.reset();
   }, [resetView]);
+  useEffect(() => {
+    if (focusView) scene.current?.focus();
+  }, [focusView]);
+  const changes = populationChanges(state);
+  const effects = sceneEffects(state);
   return (
     <div className="island-scene" ref={host} data-renderer={status}>
       {status !== "ready" && (
@@ -81,6 +91,17 @@ export function IslandScene({
       >
         {REGIONS.map((region, index) => {
           const population = count(state.regions[index]);
+          const localEffects = effects.filter(
+            (effect) => effect.region === index || effect.region === -1,
+          );
+          const effectDescription = localEffects
+            .map((effect) => {
+              const title =
+                CARDS[effect.kind as CardKind]?.title ??
+                EVENTS[effect.kind as EventKind]?.title;
+              return title + (effect.planned ? " (в плане)" : "");
+            })
+            .join(", ");
           return (
             <button
               key={region.name}
@@ -94,11 +115,30 @@ export function IslandScene({
               onClick={() => onSelect(index)}
               aria-label={region.name + ": " + population + " существ"}
               aria-pressed={index === selected}
+              title={effectDescription}
+              data-effects={localEffects
+                .map(
+                  (effect) =>
+                    effect.kind + (effect.planned ? ":planned" : ":active"),
+                )
+                .join(" ")}
               tabIndex={status === "ready" ? 0 : -1}
             >
               <span className="islands-map-marker">
                 {population ? <Bug size={14} /> : <Mountain size={14} />}
                 <b>{population || "—"}</b>
+                {changes[index] !== 0 && (
+                  <span
+                    className={
+                      "islands-population-change " +
+                      (changes[index] > 0 ? "is-growth" : "is-loss")
+                    }
+                    aria-label={"Изменение за ход: " + changes[index]}
+                  >
+                    {changes[index] > 0 ? "+" : ""}
+                    {changes[index]}
+                  </span>
+                )}
               </span>
               <span className="islands-map-name">
                 <span className="islands-region-number">{index + 1}</span>
