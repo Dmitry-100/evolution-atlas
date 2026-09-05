@@ -22,6 +22,10 @@ for (const width of [1440, 1100, 820, 391, 320]) {
     });
     const cards = page.locator(".extinction-card");
     await expect(nav.getByRole("button")).toHaveCount(MASS_EXTINCTIONS.length);
+    await expect(nav.getByRole("button").first()).toHaveAttribute(
+      "aria-current",
+      "step",
+    );
     await expect(cards).toHaveCount(MASS_EXTINCTIONS.length);
     await expect(page.locator(".extinction-details:not([hidden])")).toHaveCount(
       1,

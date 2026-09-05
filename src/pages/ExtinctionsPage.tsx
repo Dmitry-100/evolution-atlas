@@ -70,8 +70,8 @@ export function ExtinctionsPage() {
         if (eventId) setActiveEventId(eventId);
       },
       {
-        rootMargin: "-20% 0px -58% 0px",
-        threshold: [0, 0.25, 0.5, 0.75],
+        rootMargin: "0px 0px -25% 0px",
+        threshold: [0, 0.1, 0.25, 0.5, 0.75],
       },
     );
     cards.forEach((card) => observer.observe(card));
@@ -175,6 +175,7 @@ export function ExtinctionsPage() {
           href="/assets/materials/six-planet-apocalypses.pdf"
           target="_blank"
           rel="noreferrer"
+          aria-label="Открыть PDF: Шесть апокалипсисов планеты"
         >
           <FileText aria-hidden="true" size={21} />
           <span>
