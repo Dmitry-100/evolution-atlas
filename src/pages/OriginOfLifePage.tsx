@@ -9,10 +9,12 @@ import {
   Sparkles,
   Waves,
 } from "lucide-react";
+import { useCallback, useState } from "react";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { LucaExhibit } from "../components/education/LucaExhibit";
 import { OptimizedImage } from "../components/ui/optimized-image";
+import { ImageLightbox } from "../components/ui/image-lightbox";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
 import { ORIGIN_HYPOTHESES, ORIGIN_SOURCES } from "../data/originHypotheses";
 
@@ -125,6 +127,9 @@ const originJourney = [
 ];
 
 export function OriginOfLifePage() {
+  const [expandedVisual, setExpandedVisual] = useState<(typeof originVisuals)[string] | null>(null);
+  const closeVisual = useCallback(() => setExpandedVisual(null), []);
+
   return (
     <section
       className="document-page origin-page"
@@ -161,12 +166,20 @@ export function OriginOfLifePage() {
               data-tour-stop-id={step.id}
             >
               <span className="origin-step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              <OptimizedImage
-                src={step.visual.src}
-                alt={step.visual.alt}
-                loading="lazy"
-                decoding="async"
-              />
+              <button
+                type="button"
+                className="origin-image-zoom"
+                aria-label={`Увеличить иллюстрацию: ${step.title}`}
+                aria-haspopup="dialog"
+                onClick={() => setExpandedVisual(step.visual)}
+              >
+                <OptimizedImage
+                  src={step.visual.src}
+                  alt={step.visual.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
             </li>
@@ -212,12 +225,20 @@ export function OriginOfLifePage() {
             >
               {visual ? (
                 <figure className="origin-hypothesis-media">
-                  <OptimizedImage
-                    src={visual.src}
-                    alt={visual.alt}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <button
+                    type="button"
+                    className="origin-image-zoom"
+                    aria-label={`Увеличить иллюстрацию: ${hypothesis.titleRu}`}
+                    aria-haspopup="dialog"
+                    onClick={() => setExpandedVisual(visual)}
+                  >
+                    <OptimizedImage
+                      src={visual.src}
+                      alt={visual.alt}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </button>
                   <figcaption>{visual.caption}</figcaption>
                 </figure>
               ) : null}
@@ -273,6 +294,11 @@ export function OriginOfLifePage() {
           </a>
         ))}
       </div>
+      <ImageLightbox
+        image={expandedVisual}
+        ariaLabel="Иллюстрация происхождения жизни"
+        onClose={closeVisual}
+      />
     </section>
   );
 }

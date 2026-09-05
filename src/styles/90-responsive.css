@@ -913,13 +913,8 @@
       grid-template-columns: 1fr;
     }
 
-    .origin-story-card img,
     .genetics-evidence-media img {
       height: 170px;
-    }
-
-    .origin-hypothesis-media img {
-      height: 220px;
     }
 
     .genetics-bridge {
