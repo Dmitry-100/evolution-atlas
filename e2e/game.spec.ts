@@ -219,6 +219,7 @@ test("the world and every turn control fit one screen, with illustrated themed m
       ? [
           { width: 390, height: 844 },
           { width: 320, height: 568 },
+          { width: 812, height: 375 },
         ]
       : [
           { width: 1440, height: 900 },
@@ -241,10 +242,31 @@ test("the world and every turn control fit one screen, with illustrated themed m
     ]) {
       await expect(button).toBeInViewport({ ratio: 1 });
     }
+    expect(
+      (await page.locator(".game-world").boundingBox())!.height,
+    ).toBeGreaterThan(120);
     await page.screenshot({
       path: info.outputPath("viewport-" + size.width + ".png"),
       animations: "disabled",
     });
+    if (size.width === 812) {
+      await page
+        .getByRole("button", { name: "Открыть меню", exact: true })
+        .click();
+      await expect(
+        page.getByRole("navigation", { name: "Основная навигация" }),
+      ).toBeVisible();
+      await page.screenshot({
+        path: info.outputPath("landscape-navigation.png"),
+        animations: "disabled",
+      });
+      await page
+        .getByRole("button", { name: "Закрыть меню", exact: true })
+        .click();
+      await expect(
+        page.getByRole("button", { name: "Следующие поколения" }),
+      ).toBeInViewport({ ratio: 1 });
+    }
   }
   await page
     .locator(".islands-card-main")
@@ -325,4 +347,32 @@ test("a browser without WebGL retains a playable illustrated map", async ({
     .click();
   await page.getByRole("button", { name: "Следующие поколения" }).click();
   await expect(page.locator(".islands-report")).toBeVisible();
+});
+
+test("portal navigation releases the game viewport and restores the expedition", async ({
+  page,
+}, info) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await enter(page);
+  await page.reload();
+  await expect(page.locator(".island-scene")).toHaveAttribute(
+    "data-renderer",
+    "ready",
+  );
+  await page.screenshot({
+    path: info.outputPath("game-intro.png"),
+    animations: "disabled",
+  });
+  await page
+    .getByRole("button", { name: "Продолжить экспедицию", exact: true })
+    .click();
+  await page.getByRole("link", { name: "Открыть атлас", exact: true }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator(".is-game-shell")).toHaveCount(0);
+  await expect(page.locator(".island-scene")).toHaveCount(0);
+  await page.goto("/game");
+  await page
+    .getByRole("button", { name: "Продолжить экспедицию", exact: true })
+    .click();
+  await expect(page.getByTestId("game-population")).toHaveText("80");
 });

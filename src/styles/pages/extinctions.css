@@ -1,0 +1,714 @@
+@layer evolution-extinctions {
+  .extinction-page {
+    --extinctions-header-height: 86px;
+  }
+
+  .extinction-event-nav {
+    position: sticky;
+    top: calc(var(--extinctions-header-height) + 0.5rem);
+    z-index: 16;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.6rem;
+    align-items: center;
+    margin: 0.5rem 0 1rem;
+    border: 1px solid rgba(218, 185, 126, 0.22);
+    border-radius: var(--radius);
+    padding: 0.48rem;
+    background: rgba(7, 10, 9, 0.92);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(16px);
+  }
+
+  .extinction-event-nav-label {
+    padding: 0 0.55rem;
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .extinction-event-nav-track {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.32rem;
+    min-width: 0;
+  }
+
+  .extinction-event-nav button {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.5rem;
+    align-items: center;
+    min-width: 0;
+    min-height: 52px;
+    border: 1px solid transparent;
+    border-radius: calc(var(--radius) - 2px);
+    padding: 0.48rem 0.55rem;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      border-color var(--transition),
+      background var(--transition),
+      color var(--transition);
+  }
+
+  .extinction-event-nav button:hover,
+  .extinction-event-nav button:focus-visible {
+    border-color: color-mix(in srgb, var(--extinction-color) 54%, transparent);
+    color: var(--text);
+  }
+
+  .extinction-event-nav button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .extinction-event-nav button.is-active {
+    border-color: color-mix(in srgb, var(--extinction-color) 72%, transparent);
+    background:
+      radial-gradient(
+        circle at 10% 10%,
+        color-mix(in srgb, var(--extinction-color) 22%, transparent),
+        transparent 5.5rem
+      ),
+      rgba(255, 255, 255, 0.055);
+    color: var(--text);
+  }
+
+  .extinction-event-nav-number {
+    display: grid;
+    width: 1.7rem;
+    height: 1.7rem;
+    place-items: center;
+    border: 1px solid
+      color-mix(in srgb, var(--extinction-color) 62%, transparent);
+    border-radius: 50%;
+    color: var(--extinction-color);
+    font-size: 0.64rem;
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .extinction-event-nav button > span:last-child,
+  .extinction-event-nav strong,
+  .extinction-event-nav small {
+    display: block;
+    min-width: 0;
+  }
+
+  .extinction-event-nav strong {
+    overflow: hidden;
+    color: currentColor;
+    font-size: 0.78rem;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .extinction-event-nav small {
+    margin-top: 0.18rem;
+    color: var(--faint);
+    font-size: 0.64rem;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .extinction-overview-band {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.32fr);
+    margin: 0 0 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 8% 0%,
+        rgba(130, 183, 179, 0.11),
+        transparent 15rem
+      ),
+      rgba(8, 11, 11, 0.52);
+    box-shadow: var(--shadow);
+  }
+
+  .extinction-overview {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .extinction-overview article {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.6rem;
+    align-content: start;
+    margin: 0;
+    border: 0;
+    border-right: 1px solid rgba(218, 185, 126, 0.13);
+    border-radius: 0;
+    background: transparent;
+    padding: 0.88rem 0.95rem;
+  }
+
+  .extinction-overview article:last-child {
+    border-right: 0;
+  }
+
+  .extinction-overview svg {
+    margin-top: 0.08rem;
+    color: var(--gold);
+  }
+
+  .extinction-overview h2 {
+    margin: 0;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .extinction-overview p {
+    margin: 0.24rem 0 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.42;
+  }
+
+  .extinction-material-link {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.65rem;
+    align-items: center;
+    min-width: 0;
+    margin: 0;
+    border: 0;
+    border-left: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: 0;
+    background: rgba(240, 201, 120, 0.055);
+    box-shadow: none;
+    color: var(--text);
+    padding: 0.85rem 0.95rem;
+    text-decoration: none;
+    transition: background var(--transition);
+  }
+
+  .extinction-material-link:hover,
+  .extinction-material-link:focus-visible {
+    background: rgba(240, 201, 120, 0.11);
+  }
+
+  .extinction-material-link:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -3px;
+  }
+
+  .extinction-material-link svg {
+    color: var(--gold);
+  }
+
+  .extinction-material-link span,
+  .extinction-material-link strong,
+  .extinction-material-link small {
+    display: block;
+    min-width: 0;
+  }
+
+  .extinction-material-link strong {
+    color: var(--text);
+    font-size: 0.82rem;
+    line-height: 1.2;
+  }
+
+  .extinction-material-link small {
+    margin-top: 0.22rem;
+    color: var(--faint);
+    font-size: 0.7rem;
+  }
+
+  .extinction-timeline {
+    position: relative;
+    display: grid;
+    gap: 0.85rem;
+    margin-top: 0;
+  }
+
+  .extinction-timeline::before {
+    left: 1.28rem;
+    top: 1.4rem;
+    bottom: 1.4rem;
+  }
+
+  .extinction-card {
+    position: relative;
+    display: block;
+    min-width: 0;
+    margin-left: 2.65rem;
+    overflow: visible;
+    scroll-margin-top: calc(var(--extinctions-header-height) + 5.4rem);
+    border: 1px solid var(--extinction-color);
+    border-left-width: 4px;
+    border-radius: var(--radius);
+    background:
+      radial-gradient(
+        circle at 85% 0%,
+        color-mix(in srgb, var(--extinction-color) 10%, transparent),
+        transparent 22rem
+      ),
+      rgba(8, 11, 11, 0.7);
+    box-shadow: var(--shadow);
+    padding: 0;
+    transition:
+      border-color var(--transition),
+      box-shadow var(--transition);
+  }
+
+  .extinction-card.is-active {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--extinction-color) 26%, transparent),
+      0 22px 58px rgba(0, 0, 0, 0.27);
+  }
+
+  .extinction-card::before {
+    left: -2.08rem;
+    top: 1.45rem;
+    width: 14px;
+    height: 14px;
+    border: 3px solid rgba(8, 11, 11, 0.9);
+    background: var(--extinction-color);
+  }
+
+  .extinction-card-header {
+    padding: 1rem 1.2rem 0.9rem;
+    border-bottom: 1px solid rgba(218, 185, 126, 0.12);
+  }
+
+  .extinction-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+  }
+
+  .extinction-card-date {
+    color: var(--extinction-color);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .extinction-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    border: 1px solid rgba(216, 124, 99, 0.46);
+    border-radius: 999px;
+    background: rgba(216, 124, 99, 0.12);
+    color: #eca28e;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.66rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .extinction-live-badge::before {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: currentColor;
+    content: "";
+  }
+
+  .extinction-card-header h2 {
+    max-width: 1000px;
+    margin: 0.35rem 0 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2.2vw, 2rem);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .extinction-card .extinction-loss {
+    max-width: 90ch;
+    margin: 0.42rem 0 0 !important;
+    color: var(--muted) !important;
+    font-size: 0.95rem;
+    line-height: 1.48;
+  }
+
+  .extinction-card-overview {
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+    padding: 1rem 1.2rem 1.1rem;
+  }
+
+  .extinction-visual {
+    display: grid;
+    place-items: start center;
+    align-self: start;
+    min-height: 0;
+    aspect-ratio: auto;
+    margin: 0;
+    overflow: visible;
+    background: transparent;
+  }
+
+  .extinction-visual::after {
+    content: none;
+  }
+
+  .extinction-image-zoom {
+    position: relative;
+    display: block;
+    width: min(100%, 20rem);
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border: 1px solid
+      color-mix(in srgb, var(--extinction-color) 36%, transparent);
+    border-radius: calc(var(--radius) - 2px);
+    background:
+      radial-gradient(
+        circle at 50% 28%,
+        color-mix(in srgb, var(--extinction-color) 17%, transparent),
+        transparent 15rem
+      ),
+      #060909;
+    padding: 0;
+    cursor: zoom-in;
+  }
+
+  .extinction-image-zoom:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .extinction-image-zoom img {
+    position: static;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border-radius: inherit;
+    object-fit: contain;
+    object-position: center;
+    filter: saturate(0.96) contrast(1.04);
+  }
+
+  .extinction-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.72rem;
+    align-content: stretch;
+    margin: 0;
+  }
+
+  .extinction-stat-grid > div {
+    min-width: 0;
+    border: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: calc(var(--radius) - 2px);
+    background:
+      radial-gradient(
+        circle at 90% 0%,
+        color-mix(in srgb, var(--extinction-color) 15%, transparent),
+        transparent 9rem
+      ),
+      rgba(255, 255, 255, 0.035);
+    padding: 0.8rem;
+  }
+
+  .extinction-tempo-stat,
+  .extinction-result-stat {
+    grid-column: auto;
+  }
+
+  .extinction-stat-grid svg {
+    color: var(--extinction-color);
+  }
+
+  .extinction-stat-grid span,
+  .extinction-stat-grid strong {
+    display: block;
+  }
+
+  .extinction-stat-grid span {
+    margin-top: 0.38rem;
+    color: var(--faint);
+    font-size: 0.66rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .extinction-stat-grid strong {
+    margin-top: 0.24rem;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.94rem;
+    font-weight: 650;
+    line-height: 1.38;
+  }
+
+  .extinction-details-toggle {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(218, 185, 126, 0.14);
+    border-radius: 0 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px);
+    background: rgba(255, 255, 255, 0.025);
+    color: var(--text);
+    padding: 0.78rem 1.2rem;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+
+  .extinction-details-toggle:hover,
+  .extinction-details-toggle:focus-visible,
+  .extinction-details-toggle[aria-expanded="true"] {
+    background: color-mix(in srgb, var(--extinction-color) 9%, transparent);
+  }
+
+  .extinction-details-toggle:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -3px;
+  }
+
+  .extinction-details-toggle span,
+  .extinction-details-toggle strong,
+  .extinction-details-toggle small {
+    display: block;
+  }
+
+  .extinction-details-toggle strong {
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+
+  .extinction-details-toggle small {
+    margin-top: 0.16rem;
+    color: var(--faint);
+    font-size: 0.72rem;
+  }
+
+  .extinction-details-toggle svg {
+    flex: 0 0 auto;
+    color: var(--extinction-color);
+    transition: transform var(--transition);
+  }
+
+  .extinction-details-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .extinction-details {
+    border-top: 1px solid rgba(218, 185, 126, 0.12);
+    padding: 0 1.2rem 1.15rem;
+  }
+
+  .extinction-details[hidden] {
+    display: none;
+  }
+
+  .extinction-details-grid {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr);
+    gap: 0.75rem;
+  }
+
+  .extinction-causes,
+  .extinction-facts {
+    margin: 0.9rem 0 0;
+  }
+
+  .extinction-relation {
+    margin: 0.85rem 0 0 !important;
+    border-left: 2px solid var(--extinction-color);
+    background: rgba(255, 255, 255, 0.025);
+    padding: 0.72rem 0.85rem;
+    line-height: 1.5;
+  }
+
+  .extinction-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.8rem;
+    align-items: baseline;
+    margin-top: 0.8rem;
+    font-size: 0.76rem;
+  }
+
+  .extinction-sources > strong {
+    color: var(--faint);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .extinction-bridge {
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 1200px) {
+    .extinction-event-nav-track {
+      grid-auto-columns: minmax(148px, 1fr);
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      overflow-x: auto;
+      padding: 0.08rem 0.08rem 0.25rem;
+      scrollbar-width: thin;
+      scroll-padding-inline: 0.08rem;
+    }
+
+    .extinction-card-overview {
+      grid-template-columns: minmax(250px, 300px) minmax(0, 1fr);
+    }
+
+    .extinction-stat-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .extinction-overview-band {
+      grid-template-columns: 1fr;
+    }
+
+    .extinction-material-link {
+      border-top: 1px solid rgba(218, 185, 126, 0.16);
+      border-left: 0;
+    }
+
+    .extinction-card-overview {
+      grid-template-columns: 1fr;
+    }
+
+    .extinction-image-zoom {
+      width: min(100%, 19rem);
+    }
+
+    .extinction-stat-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .extinction-event-nav {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .extinction-event-nav-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .extinction-event-nav-track {
+      grid-auto-columns: minmax(138px, 0.72fr);
+    }
+
+    .extinction-overview {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scrollbar-width: thin;
+    }
+
+    .extinction-overview article {
+      flex: 0 0 min(82vw, 280px);
+      border-right: 1px solid rgba(218, 185, 126, 0.13);
+      scroll-snap-align: start;
+    }
+
+    .extinction-card {
+      margin-left: 1.85rem;
+      scroll-margin-top: calc(var(--extinctions-header-height) + 5rem);
+    }
+
+    .extinction-card::before {
+      left: -1.72rem;
+    }
+
+    .extinction-timeline::before {
+      left: 0.83rem;
+    }
+
+    .extinction-card-header,
+    .extinction-card-overview,
+    .extinction-details {
+      padding-right: 0.9rem;
+      padding-left: 0.9rem;
+    }
+
+    .extinction-details-toggle {
+      padding-right: 0.9rem;
+      padding-left: 0.9rem;
+    }
+
+    .extinction-details-grid,
+    .extinction-stat-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .extinction-bridge {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .extinction-event-nav-track {
+      grid-auto-columns: minmax(132px, 76vw);
+    }
+
+    .extinction-event-nav button {
+      min-height: 48px;
+    }
+
+    .extinction-card-header h2 {
+      font-size: 1.42rem;
+    }
+
+    .extinction-card .extinction-loss {
+      font-size: 0.88rem;
+    }
+
+    .extinction-image-zoom {
+      width: min(100%, 17rem);
+    }
+
+    .extinction-details-toggle small {
+      max-width: 26ch;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .extinction-event-nav button,
+    .extinction-card,
+    .extinction-details-toggle,
+    .extinction-details-toggle svg {
+      transition: none;
+    }
+  }
+}

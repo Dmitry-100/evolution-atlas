@@ -179,18 +179,6 @@
       max-height: 210px;
     }
 
-    .extinction-card {
-      grid-template-columns: 1fr;
-    }
-
-    .extinction-card-body {
-      padding: 1rem 1.1rem 1.2rem;
-    }
-
-    .extinction-visual img {
-      min-height: 0;
-    }
-
     .material-card-media img {
       min-height: auto;
       aspect-ratio: 16 / 9;
@@ -490,7 +478,6 @@
     .wow-facts-band,
     .theory-bridge-band,
     .theory-principles,
-    .extinction-overview,
     .dinosaur-detail-card,
     .origin-story-grid,
     .origin-hypotheses-grid,
@@ -779,23 +766,6 @@
     .cladogram-row.has-branches .cladogram-branch-cell::after {
       left: 2.75rem;
       top: 1.5rem;
-    }
-
-    .extinction-card {
-      margin-left: 1.85rem;
-    }
-
-    .extinction-card::before {
-      left: -2.34rem;
-    }
-
-    .extinction-stat-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .extinction-bridge {
-      align-items: flex-start;
-      flex-direction: column;
     }
 
     .origin-section-heading {

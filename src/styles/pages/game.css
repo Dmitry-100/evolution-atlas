@@ -857,6 +857,9 @@
     pointer-events: none;
     z-index: 2;
   }
+  .game-world.is-intro .islands-map-node {
+    display: none;
+  }
   .game-intro-overlay > .game-eyebrow {
     font-size: 9px;
     color: var(--moss);
@@ -2035,6 +2038,51 @@
     }
   }
   @media (max-height: 500px) and (min-width: 601px) {
+    .is-game-shell > .topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 38px;
+      min-height: 60px;
+      padding: 8px 12px;
+      gap: 8px;
+      z-index: 70;
+    }
+    .is-game-shell .brand-mark {
+      width: 43px;
+      height: 43px;
+    }
+    .is-game-shell .brand strong {
+      font-size: 17px;
+    }
+    .is-game-shell .brand small {
+      font-size: 10px;
+    }
+    .is-game-shell .mobile-menu-button {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--amber);
+      background: #ffffff0d;
+    }
+    .is-game-shell .topbar-nav {
+      display: none;
+    }
+    .is-game-shell .topbar.is-menu-open .topbar-nav {
+      display: flex;
+      position: absolute;
+      top: 100%;
+      left: 8px;
+      right: 8px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #0d1612;
+      max-height: calc(100svh - 76px);
+      overflow: auto;
+      box-shadow: 0 20px 50px #0009;
+    }
     .game-studio {
       padding: 6px 10px 8px;
       gap: 7px;
@@ -2161,6 +2209,9 @@
     }
     .game-world-caption {
       font-size: 7px;
+    }
+    .islands-map-name {
+      font-size: 8px;
     }
     .islands-event {
       top: 47px;
