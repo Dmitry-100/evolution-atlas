@@ -308,96 +308,104 @@ function AppHeader() {
 function PortalCompanions() {
   const { pathname } = useLocation();
   if (pathname === "/game" || pathname === "/game/") return null;
-  return <><TourPlayer /><DarwinGuide /></>;
+  return (
+    <>
+      <TourPlayer />
+      <DarwinGuide />
+    </>
+  );
 }
 
 function AppSurface() {
   const { pathname } = useLocation();
   const isGame = pathname === "/game" || pathname === "/game/";
   return (
-      <TooltipProvider delayDuration={160}>
-        <RouteExperienceObserver />
-        {!isGame && <><EtherealInk className="app-ethereal-background" /><ScrollProgress /></>}
-        <div className={`app-shell${isGame ? " is-game-shell" : ""}`}>
-          <AppHeader />
-          <main>
-            <Suspense
-              fallback={
-                <section className="route-loading" aria-live="polite">
-                  Загружаем раздел...
-                </section>
-              }
-            >
-              <Routes>
-                <Route path={publicRoutePath("game")} element={<GamePage />} />
-                <Route
-                  path={publicRoutePath("atlas")}
-                  element={<AtlasPage />}
-                />
-                <Route
-                  path={publicRoutePath("primates")}
-                  element={<PrimatesPage />}
-                />
-                <Route
-                  path={publicRoutePath("theory")}
-                  element={<TheoryPage />}
-                />
-                <Route
-                  path={publicRoutePath("originOfLife")}
-                  element={<OriginOfLifePage />}
-                />
-                <Route
-                  path={publicRoutePath("genetics")}
-                  element={<GeneticsPage />}
-                />
-                <Route
-                  path={publicRoutePath("cladogram")}
-                  element={<CladogramPage />}
-                />
-                <Route
-                  path={publicRoutePath("bodyMap")}
-                  element={<BodyMapPage />}
-                />
-                <Route
-                  path={publicRoutePath("extinctions")}
-                  element={<ExtinctionsPage />}
-                />
-                <Route
-                  path={publicRoutePath("dinosaurs")}
-                  element={<DinosaursPage />}
-                />
-                <Route
-                  path={publicRoutePath("materials")}
-                  element={<MaterialsPage />}
-                />
-                <Route
-                  path="/materials/:fileName"
-                  element={<LegacyMaterialRedirect />}
-                />
-                <Route
-                  path="/materials/covers/:fileName"
-                  element={<LegacyMaterialRedirect cover />}
-                />
-                <Route
-                  path={publicRoutePath("sources")}
-                  element={<SourcesPage />}
-                />
-                <Route
-                  path={publicRoutePath("about")}
-                  element={<AboutPage />}
-                />
-                <Route path={publicRoutePath("quiz")} element={<QuizPage />} />
-              </Routes>
-            </Suspense>
-          </main>
-          <PortalCompanions />
-        </div>
-      </TooltipProvider>
+    <TooltipProvider delayDuration={160}>
+      <RouteExperienceObserver />
+      {!isGame && (
+        <>
+          <EtherealInk className="app-ethereal-background" />
+          <ScrollProgress />
+        </>
+      )}
+      <div className={`app-shell${isGame ? " is-game-shell" : ""}`}>
+        <AppHeader />
+        <main>
+          <Suspense
+            fallback={
+              <section className="route-loading" aria-live="polite">
+                Загружаем раздел...
+              </section>
+            }
+          >
+            <Routes>
+              <Route path={publicRoutePath("game")} element={<GamePage />} />
+              <Route path={publicRoutePath("atlas")} element={<AtlasPage />} />
+              <Route
+                path={publicRoutePath("primates")}
+                element={<PrimatesPage />}
+              />
+              <Route
+                path={publicRoutePath("theory")}
+                element={<TheoryPage />}
+              />
+              <Route
+                path={publicRoutePath("originOfLife")}
+                element={<OriginOfLifePage />}
+              />
+              <Route
+                path={publicRoutePath("genetics")}
+                element={<GeneticsPage />}
+              />
+              <Route
+                path={publicRoutePath("cladogram")}
+                element={<CladogramPage />}
+              />
+              <Route
+                path={publicRoutePath("bodyMap")}
+                element={<BodyMapPage />}
+              />
+              <Route
+                path={publicRoutePath("extinctions")}
+                element={<ExtinctionsPage />}
+              />
+              <Route
+                path={publicRoutePath("dinosaurs")}
+                element={<DinosaursPage />}
+              />
+              <Route
+                path={publicRoutePath("materials")}
+                element={<MaterialsPage />}
+              />
+              <Route
+                path="/materials/:fileName"
+                element={<LegacyMaterialRedirect />}
+              />
+              <Route
+                path="/materials/covers/:fileName"
+                element={<LegacyMaterialRedirect cover />}
+              />
+              <Route
+                path={publicRoutePath("sources")}
+                element={<SourcesPage />}
+              />
+              <Route path={publicRoutePath("about")} element={<AboutPage />} />
+              <Route path={publicRoutePath("quiz")} element={<QuizPage />} />
+            </Routes>
+          </Suspense>
+        </main>
+        <PortalCompanions />
+      </div>
+    </TooltipProvider>
   );
 }
 
 function App() {
-  return <BrowserRouter><AppSurface /></BrowserRouter>;
+  return (
+    <BrowserRouter>
+      <AppSurface />
+    </BrowserRouter>
+  );
 }
 
 export default App;
