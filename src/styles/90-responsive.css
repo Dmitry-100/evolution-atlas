@@ -252,8 +252,8 @@
       grid-template-columns: 1fr;
     }
 
-    .origin-hypotheses-grid {
-      grid-template-columns: 1fr;
+    .origin-story-card:nth-child(2n)::before {
+      display: none;
     }
 
     .dinosaur-facts-band {
@@ -1161,17 +1161,16 @@
       color: var(--muted);
     }
 
-    .origin-map {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .origin-map::before {
+    .origin-story-card::before {
       display: none;
     }
 
-    .origin-map span {
-      min-height: 50px;
-      font-size: 0.72rem;
+    .origin-story-grid {
+      row-gap: 0.65rem;
+    }
+
+    .origin-story-card:not(:first-child) {
+      margin-top: 0.75rem;
     }
 
     .cladogram-heading {
@@ -1416,9 +1415,10 @@
       grid-template-columns: auto minmax(0, 1fr);
     }
 
-    .luca-exhibit-heading .confidence-badge {
-      grid-column: 2;
-      justify-self: start;
+    .luca-exhibit .luca-detail {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+      padding: 1.25rem 0 0;
     }
 
     .luca-exhibit-grid,

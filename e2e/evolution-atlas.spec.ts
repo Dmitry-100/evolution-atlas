@@ -2748,9 +2748,9 @@ test.describe("Evolution Atlas", () => {
         exact: true,
       }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Что такое абиогенез", exact: true }),
-    ).toBeVisible();
+    await expect(page.locator(".page-header-description")).toContainText(
+      "Абиогенез — переход от неживой химии",
+    );
     await expect(
       page.getByRole("heading", {
         name: "Основные гипотезы происхождения жизни",
@@ -2770,11 +2770,9 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { name: "Панспермия" }),
     ).toBeVisible();
     await expect(page.locator(".origin-hero-image img")).toHaveCount(0);
-    await expect(
-      page.locator(".theory-bridge-band", {
-        hasText: "Что такое абиогенез",
-      }),
-    ).toBeVisible();
+    await expect(page.locator(".origin-story-note")).toContainText(
+      "порядок ранних процессов пока обсуждается",
+    );
     await expect(page.locator(".origin-story-card img")).toHaveCount(4);
     await expect(page.locator(".origin-hypothesis-card")).toHaveCount(6);
     await expect(page.locator(".origin-hypothesis-media img")).toHaveCount(6);

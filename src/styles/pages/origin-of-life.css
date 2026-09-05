@@ -14,7 +14,6 @@
       rgba(10, 13, 12, 0.88);
   }
 
-  .origin-hypothesis-media,
   .genetics-evidence-media,
   .molecule-card {
     overflow: hidden;
@@ -53,14 +52,16 @@
     color: var(--gold);
   }
 
-  .origin-section-heading h2 {
+  .origin-section-heading h2,
+  .origin-page .luca-exhibit-heading h2 {
     margin: 0.25rem 0 0.45rem;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.9rem;
+    font-size: clamp(1.5rem, 2.3vw, 2rem);
+    line-height: 1.15;
     letter-spacing: 0;
   }
 
-  .origin-section-heading p {
+  .origin-section-heading p:not(.eyebrow) {
     margin: 0;
     color: var(--muted);
     line-height: 1.62;
@@ -69,150 +70,117 @@
   .origin-story-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.85rem;
-    margin-top: 1rem;
+    gap: 0.7rem 1.2rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
   }
 
   .origin-story-card {
-    overflow: hidden;
-    border: 1px solid rgba(218, 185, 126, 0.14);
-    border-radius: var(--radius);
-    background:
-      linear-gradient(180deg, rgba(240, 201, 120, 0.07), transparent 46%),
-      rgba(8, 11, 11, 0.56);
+    position: relative;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 4;
+    min-width: 0;
+  }
+
+  .origin-story-card::before {
+    position: absolute;
+    top: 1rem;
+    left: 2.6rem;
+    right: -0.6rem;
+    border-top: 1px solid var(--line);
+    content: "";
+  }
+
+  .origin-story-card:nth-child(4n)::before {
+    display: none;
+  }
+
+  .origin-step-number {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
   }
 
   .origin-story-card img {
     display: block;
     width: 100%;
-    height: 150px;
+    height: 160px;
+    border-radius: var(--radius);
     object-fit: cover;
   }
 
-  .origin-story-card div {
-    display: grid;
-    gap: 0.34rem;
-    padding: 0.82rem;
-  }
-
-  .origin-story-card span {
-    color: var(--gold);
-    font-size: 0.68rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-  }
-
-  .origin-story-card strong {
+  .origin-story-card h3 {
+    margin: 0;
     color: var(--text);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.35rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.25;
   }
 
   .origin-story-card p {
     margin: 0;
     color: var(--muted);
     font-size: 0.9rem;
-    line-height: 1.48;
+    line-height: 1.6;
   }
 
-  .origin-map {
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 0.55rem;
-    margin-top: 1rem;
-    border: 1px solid rgba(218, 185, 126, 0.13);
-    border-radius: var(--radius);
-    background:
-      linear-gradient(
-        90deg,
-        rgba(130, 183, 179, 0.08),
-        rgba(240, 201, 120, 0.08)
-      ),
-      rgba(8, 11, 11, 0.42);
-    padding: 0.9rem;
-  }
-
-  .origin-map::before {
-    position: absolute;
-    right: 2rem;
-    left: 2rem;
-    top: 50%;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      rgba(130, 183, 179, 0.55),
-      rgba(240, 201, 120, 0.7)
-    );
-    content: "";
-    opacity: 0.5;
-  }
-
-  .origin-map span {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    min-height: 58px;
-    place-items: center;
-    border: 1px solid rgba(218, 185, 126, 0.15);
-    border-radius: 999px;
-    background: rgba(8, 11, 11, 0.72);
-    color: var(--text);
-    font-size: 0.78rem;
-    font-weight: 900;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .origin-story-note {
+    margin: 1.1rem 0 1.5rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
   }
 
   .origin-hypotheses-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 0.85rem 1rem;
     margin-top: 1rem;
   }
 
   .origin-hypothesis-card {
-    position: relative;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 8;
+    min-width: 0;
     overflow: hidden;
     padding: 1rem;
-    background:
-      radial-gradient(
-        circle at 12% 0%,
-        rgba(240, 201, 120, 0.12),
-        transparent 11rem
-      ),
-      rgba(8, 11, 11, 0.54);
-  }
-
-  .origin-hypothesis-card::after {
-    position: absolute;
-    right: -2rem;
-    bottom: -3rem;
-    width: 11rem;
-    height: 11rem;
-    border: 1px solid rgba(130, 183, 179, 0.16);
-    border-radius: 50%;
-    background:
-      radial-gradient(circle, rgba(130, 183, 179, 0.12), transparent 62%),
-      transparent;
-    content: "";
-    pointer-events: none;
+    background: rgba(8, 11, 11, 0.54);
   }
 
   .origin-hypothesis-media {
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    margin-bottom: 0.9rem;
-    border-radius: calc(var(--radius) - 2px);
-    background: rgba(3, 5, 5, 0.55);
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    margin: 0;
+    min-width: 0;
   }
 
   .origin-hypothesis-media img {
     display: block;
     width: 100%;
-    height: clamp(260px, 20vw, 380px);
+    height: 220px;
+    border-radius: calc(var(--radius) - 2px);
     object-fit: cover;
+  }
+
+  .origin-hypothesis-media figcaption {
+    border: 0;
+    padding: 0;
+    font-size: 0.78rem;
+    line-height: 1.5;
   }
 
   .genetics-evidence-media img {
@@ -225,63 +193,68 @@
   }
 
   .origin-card-heading {
-    position: relative;
-    z-index: 1;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 0.75rem;
-    align-items: start;
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    min-width: 0;
   }
 
-  .origin-card-heading svg {
-    margin-top: 0.22rem;
+  .origin-hypothesis-status {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
     color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.5;
   }
 
-  .origin-card-heading span {
-    display: block;
-    color: var(--gold);
-    font-size: 0.68rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  .origin-hypothesis-status svg {
+    flex-shrink: 0;
   }
 
-  .origin-card-heading h2 {
-    margin-top: 0.18rem;
+  .origin-card-heading h3 {
+    margin: 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.25;
   }
 
-  .origin-hypothesis-card > p,
-  .origin-hypothesis-card dl {
-    position: relative;
-    z-index: 1;
+  .origin-hypothesis-card > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
 
   .origin-hypothesis-card dl {
     display: grid;
-    gap: 0.65rem;
-    margin: 0.9rem 0 0;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    margin: 0;
   }
 
-  .origin-hypothesis-card dl div {
-    border: 1px solid rgba(218, 185, 126, 0.1);
-    border-radius: calc(var(--radius) - 2px);
-    background: rgba(8, 11, 11, 0.34);
-    padding: 0.7rem;
+  .origin-hypothesis-card dl > div {
+    border-top: 1px solid var(--line);
+    padding: 0.85rem 0 0.2rem;
   }
 
   .origin-hypothesis-card dt {
     color: var(--gold);
-    font-size: 0.68rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   .origin-hypothesis-card dd {
-    margin: 0.35rem 0 0;
+    margin: 0.45rem 0 0;
     color: var(--muted);
-    line-height: 1.52;
+    font-size: 0.95rem;
+    line-height: 1.65;
   }
 
   .origin-note {
@@ -435,16 +408,48 @@
     padding: 1rem;
   }
 
+  .luca-exhibit-heading {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .luca-age-note {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+  }
+
+  .luca-exhibit-heading .luca-age-note p {
+    font-size: 0.9rem;
+  }
+
+  .luca-age-note strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
   .luca-exhibit-grid {
-    grid-template-columns: minmax(280px, 0.95fr) minmax(0, 1fr);
+    grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .luca-exhibit .luca-detail {
+    border-left: 1px solid var(--line);
+    padding: 0 0 0 1.5rem;
+  }
+
+  .luca-root:focus-visible,
+  .luca-branch:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
   }
 
   .africa-origin-grid {
     grid-template-columns: minmax(0, 1.45fr) minmax(290px, 0.7fr);
   }
 
-  .luca-tree,
-  .luca-detail,
   .africa-map-panel,
   .africa-site-detail,
   .migration-route-detail,
@@ -459,9 +464,7 @@
   .luca-tree {
     display: grid;
     gap: 0.8rem;
-    align-content: center;
-    min-height: 320px;
-    padding: 1rem;
+    align-content: start;
   }
 
   .luca-root,
@@ -478,8 +481,17 @@
   }
 
   .luca-root {
-    justify-items: center;
-    text-align: center;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.25rem 0.6rem;
+  }
+
+  .luca-root svg {
+    grid-row: span 2;
+  }
+
+  .luca-root span {
+    grid-column: 2;
   }
 
   .luca-root svg,
@@ -534,6 +546,7 @@
   .luca-branch-group {
     display: grid;
     gap: 0.45rem;
+    align-content: start;
   }
 
   .luca-branch--nested {
