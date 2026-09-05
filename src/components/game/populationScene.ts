@@ -1,5 +1,6 @@
 import * as THREE from "three";
-import { PROFILES } from "../../game/content";
+import { visualProfiles } from "../../game/expedition";
+import type { Profile } from "../../game/types";
 import { count } from "../../game/engine";
 import type { GameState } from "../../game/types";
 import { islandConditions, type VisualEffect } from "./sceneState";
@@ -62,6 +63,7 @@ export function createPopulationScene(
       shown: 0,
       size: 1,
       warmth: 0,
+      profiles: [] as Profile[],
       stress: false,
       shelter: false,
     };
@@ -76,24 +78,18 @@ export function createPopulationScene(
       const population = count(state.regions[i]);
       avatar.target = Math.min(MAX, Math.ceil(population / 9));
       if (immediate) avatar.shown = avatar.target;
-      let size = 0,
-        warmth = 0;
-      state.regions[i].counts.forEach((n, profile) => {
-        size += n * PROFILES[profile][0];
-        warmth += n * PROFILES[profile][1];
-      });
-      avatar.size = 0.86 + (population ? size / population : 1) * 0.15;
-      avatar.warmth = population ? warmth / population : 0;
+      avatar.profiles = visualProfiles(state.regions[i].counts);
       const conditions = islandConditions(effects, i);
       avatar.stress =
         conditions.dry || conditions.snow || (conditions.ash && i === 5);
       avatar.shelter = conditions.refuge || conditions.cover;
-      const coat = new THREE.Color().setHSL(
-        0.105 - avatar.warmth * 0.018,
-        0.39,
-        0.66 - avatar.warmth * 0.07,
-      );
       for (let n = 0; n < MAX; n++) {
+        const profile = avatar.profiles[n] ?? [1, 1, 1, 1];
+        const coat = new THREE.Color().setHSL(
+          0.11 - profile[1] * 0.018,
+          0.36,
+          0.73 - profile[1] * 0.16,
+        );
         avatar.bodies.setColorAt(n, coat);
         avatar.tails.setColorAt(n, coat);
         for (let leg = 0; leg < 4; leg++)
@@ -118,7 +114,12 @@ export function createPopulationScene(
       avatar.legs.count = n * 4;
       for (let j = 0; j < n; j++) {
         const seed = j * 2.39996 + island * 1.7;
-        const pace = avatar.stress && !avatar.shelter ? 0.5 : 0.28;
+        const [bodySize, coat, diet, mobility] = avatar.profiles[j] ?? [
+          1, 1, 1, 1,
+        ];
+        const pace =
+          (avatar.stress && !avatar.shelter ? 0.5 : 0.28) *
+          (0.8 + mobility * 0.2);
         const cycle = time * pace * (0.72 + (j % 7) * 0.09) + seed;
         // A wandering loop alternates a visible walk with a pause to graze.
         const travel = cycle + 0.62 * Math.sin(cycle);
@@ -149,7 +150,8 @@ export function createPopulationScene(
         }
         const h = heightAt(x, z, island);
         const size =
-          avatar.size * Math.min(1, Math.max(0.01, avatar.shown - j));
+          (0.65 + bodySize * 0.29) *
+          Math.min(1, Math.max(0.01, avatar.shown - j));
         const stride = time * (avatar.stress ? 10 : 7) + seed;
         const bob = Math.abs(Math.sin(stride)) * 0.028 * walking;
         const cos = Math.cos(yaw),
@@ -175,9 +177,28 @@ export function createPopulationScene(
           dummy.updateMatrix();
           mesh.setMatrixAt(index, dummy.matrix);
         };
-        part(avatar.bodies, j, 0, 0.22, 0, 0.29, 0.16, 0.15);
+        part(
+          avatar.bodies,
+          j,
+          0,
+          0.22 + mobility * 0.018,
+          0,
+          0.29,
+          0.13 + coat * 0.035,
+          0.13 + coat * 0.02,
+        );
         const graze = (1 - walking) * 0.14;
-        part(avatar.heads, j, 0.28, 0.28 - graze, 0, 0.15, 0.115, 0.12, -graze);
+        part(
+          avatar.heads,
+          j,
+          0.28,
+          0.28 - graze,
+          0,
+          0.12 + diet * 0.045,
+          0.12 - diet * 0.012,
+          0.12,
+          -graze,
+        );
         part(
           avatar.tails,
           j,
@@ -201,7 +222,7 @@ export function createPopulationScene(
             0.09 + Math.max(0, step) * 0.04,
             side * 0.105,
             0.055,
-            0.11,
+            0.08 + mobility * 0.035,
             0.045,
             step * 0.4,
           );
@@ -222,10 +243,10 @@ export function createPopulationScene(
             avatar.ears,
             j * 2 + k,
             0.21,
-            0.4 - graze,
+            0.38 + coat * 0.025 - graze,
             side * 0.08,
             0.055,
-            0.083,
+            0.06 + coat * 0.03,
             0.035,
           );
         }

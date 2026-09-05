@@ -44,6 +44,7 @@ import {
   LESSONS,
   REGIONS,
   TRAITS,
+  DEFAULT_SETTINGS,
   TURNS,
   cardKind,
 } from "../game/content";
@@ -54,6 +55,8 @@ import {
   connected,
   count,
   createGame,
+  createExpedition,
+  keepCard,
   currentEvent,
   environment,
   forecast,
@@ -65,7 +68,6 @@ import {
   spent,
   swapCard,
   total,
-  traitCounts,
 } from "../game/engine";
 import {
   loadGame,
@@ -74,10 +76,32 @@ import {
   saveGame,
   saveRecord,
 } from "../game/storage";
-import type { GameAction, GameState } from "../game/types";
+import type { ExpeditionSettings, GameAction, GameState } from "../game/types";
 import { trackGoal } from "../lib/analytics";
 import { getVersionedAssetSrc } from "../lib/assetManifest";
 import "../styles/pages/game.css";
+import "../styles/pages/game-expedition.css";
+import {
+  TraitBars,
+  TraitExplanation,
+  FoodBudget,
+  AnimalComparison,
+} from "../components/game/TraitExplorer";
+import { ExpeditionSetup } from "../components/game/ExpeditionSetup";
+import {
+  FieldJournal,
+  FieldNote,
+  DiscoveryCards,
+} from "../components/game/FieldJournal";
+import {
+  MODEL_NOTE,
+  GALAPAGOS_INTRO,
+  cardImpact,
+  eventDescription,
+  missionStatus,
+  scouting,
+  sharedExpedition,
+} from "../game/expedition";
 
 const degrees = (temperature: number) =>
   Math.round(18 + temperature * 12) + "°";
@@ -99,7 +123,7 @@ const EVENT_ICONS = {
 export function GamePage() {
   const reducedMotion = useReducedMotion();
   useEffect(() => {
-    // All eight cards remain illustrated when the next hand is drawn offline.
+    // All cards remain illustrated when the next hand is drawn offline.
     Object.values(CARD_ART).forEach((src) => {
       const image = new Image();
       image.src = getVersionedAssetSrc(src);
@@ -107,9 +131,13 @@ export function GamePage() {
   }, []);
   const [loaded] = useState(() => loadGame());
   const [state, setState] = useState<GameState>(
-    () => loaded.state ?? createGame(20260905),
+    () => loaded.state ?? createExpedition(20260905),
   );
   const [started, setStarted] = useState(false);
+  const [setup, setSetup] = useState(false);
+  const [shared] = useState(() => sharedExpedition(window.location.search));
+  const [traitInfo, setTraitInfo] = useState(0);
+  const [tutorial, setTutorial] = useState<number | null>(null);
   const [selected, setSelected] = useState(0);
   const [cardId, setCardId] = useState<number | null>(null);
   const [destination, setDestination] = useState<number | undefined>();
@@ -118,7 +146,14 @@ export function GamePage() {
   const [error, setError] = useState("");
   const [noticeDismissed, setNoticeDismissed] = useState(false);
   const [panel, setPanel] = useState<
-    "help" | "history" | "island" | "event" | "report" | null
+    | "help"
+    | "history"
+    | "island"
+    | "event"
+    | "report"
+    | "trait"
+    | "journal"
+    | null
   >(null);
   const [restart, setRestart] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -136,13 +171,14 @@ export function GamePage() {
     ended &&
     finaleDismissed !== state.runId &&
     panel === null &&
-    !restart;
+    !restart &&
+    !setup;
   const preview = previewState(state);
   const env = environment(preview, selected);
   const population = total(state);
   const localPopulation = count(state.regions[selected]);
   const event = currentEvent(state),
-    eventInfo = EVENTS[event.kind],
+    eventInfo = { ...EVENTS[event.kind], description: eventDescription(state) },
     upcoming = forecast(state);
   const EventIcon =
     EVENT_ICONS[eventInfo.icon as keyof typeof EVENT_ICONS] ?? Sun;
@@ -158,15 +194,21 @@ export function GamePage() {
         };
   const candidateError = candidate ? actionError(state, candidate) : null;
   const report = state.history.at(-1);
-  const selectedTraits = traitCounts([state.regions[selected]]);
   const lesson = LESSONS[Math.min(2, Math.floor((state.turn - 1) / 6))];
 
   function persist(next: GameState) {
     setState(next);
     setStorageIssue(saveGame(next) ? null : "unavailable");
   }
-  function startNew(seed = crypto.getRandomValues(new Uint32Array(1))[0]) {
-    persist(createGame(seed, crypto.randomUUID()));
+  function startNew(
+    seed = crypto.getRandomValues(new Uint32Array(1))[0],
+    settings: ExpeditionSettings = state.settings ?? DEFAULT_SETTINGS,
+    teach = false,
+    version: 1 | 2 = 2,
+  ) {
+    persist(createGame(seed, crypto.randomUUID(), settings, version));
+    setSetup(false);
+    setTutorial(teach ? 0 : null);
     setStarted(true);
     setRestart(false);
     setSelected(0);
@@ -174,9 +216,10 @@ export function GamePage() {
     setError("");
     setPanel(null);
     lock.current = false;
-    trackGoal("game_started", { version: 1 });
+    trackGoal("game_started", { version });
   }
   function selectRegion(index: number) {
+    if (tutorial === 0) setTutorial(1);
     setSelected(index);
     setDestination(undefined);
     setError("");
@@ -185,6 +228,7 @@ export function GamePage() {
     if (!candidate) return;
     try {
       persist(addAction(state, candidate));
+      if (tutorial !== null) setTutorial(2);
       setCardId(null);
       setError("");
     } catch (e) {
@@ -197,10 +241,11 @@ export function GamePage() {
     try {
       const result = resolveTurn(state);
       persist(result);
+      if (tutorial !== null) setTutorial(3);
       setCardId(null);
       setPanel(null);
       if (state.turn === 1)
-        trackGoal("game_first_turn_completed", { version: 1 });
+        trackGoal("game_first_turn_completed", { version: state.version });
       if (CRISIS_TURNS.includes(state.turn))
         trackGoal("game_crisis_reached", {
           turn: state.turn,
@@ -222,40 +267,28 @@ export function GamePage() {
   }
   function continueTurn() {
     persist(nextTurn(state));
+    setTutorial(null);
     setCardId(null);
     setError("");
     setPanel(null);
   }
 
   const traitBars = (
-    <div className="game-traits">
-      {TRAITS.map((trait, index) => {
-        const values = selectedTraits[index];
-        const dominant = values.indexOf(Math.max(...values));
-        return (
-          <div className="game-trait" key={trait.name} title={trait.hint}>
-            <span>
-              {trait.name}
-              <strong>{localPopulation ? trait.values[dominant] : "—"}</strong>
-            </span>
-            <div
-              role="img"
-              aria-label={
-                trait.name +
-                ": " +
-                trait.values
-                  .map((label, i) => label + " " + values[i])
-                  .join(", ")
-              }
-            >
-              {values.map((value, i) => (
-                <i key={i} style={{ flex: localPopulation ? value : 1 }} />
-              ))}
-            </div>
-          </div>
-        );
-      })}
-    </div>
+    <TraitBars
+      state={state}
+      island={selected}
+      onExplain={(index) => {
+        setTraitInfo(index);
+        setPanel("trait");
+      }}
+    />
+  );
+  const candidatePreview =
+    candidate && !candidateError
+      ? previewState(addAction(state, candidate))
+      : preview;
+  const impact = cardImpact(preview, candidatePreview, selected).filter(
+    ([, a, b]) => Math.round(a) !== Math.round(b),
   );
 
   const environmentStats = (
@@ -311,6 +344,7 @@ export function GamePage() {
           <li key={i}>{note}</li>
         ))}
       </ul>
+      <DiscoveryCards state={state} />
       <div className="game-note">
         <h3>Почему так произошло?</h3>
         <p>
@@ -347,6 +381,7 @@ export function GamePage() {
     <section
       className={"game-studio" + (wide ? " is-expanded" : "")}
       data-game-phase={started ? state.phase : "intro"}
+      data-tutorial={tutorial ?? undefined}
     >
       <header className="game-heading">
         <div className="game-heading-title">
@@ -354,7 +389,7 @@ export function GamePage() {
             <Dna size={22} />
           </span>
           <div>
-            <span className="game-eyebrow">Живая лаборатория</span>
+            <span className="game-eyebrow">Галапагосы · Живая лаборатория</span>
             <h1>Острова эволюции</h1>
           </div>
         </div>
@@ -391,6 +426,14 @@ export function GamePage() {
           </button>
           <button
             className="game-icon-button"
+            onClick={() => setPanel("journal")}
+            aria-label="Дневник натуралиста"
+            title="Открытия, ветви и цель экспедиции"
+          >
+            <BookOpen size={18} />
+          </button>
+          <button
+            className="game-icon-button"
             onClick={() => setPanel("help")}
             aria-label="Как играть"
             title="Как играть"
@@ -416,12 +459,57 @@ export function GamePage() {
             state={state}
             selected={selected}
             onSelect={selectRegion}
-            paused={paused || finaleOpen}
+            paused={
+              paused || finaleOpen || setup || panel !== null || cardId !== null
+            }
             evolving={started && !planning}
             resetView={resetView}
             focusView={focusView}
           />
           <div className="game-world-vignette" />
+          {started &&
+            !setup &&
+            !finaleOpen &&
+            tutorial !== null &&
+            panel === null &&
+            cardId === null && (
+              <aside className="game-tutorial" aria-live="polite">
+                <span className="game-eyebrow">
+                  {tutorial < 3
+                    ? `Первый ход · ${tutorial + 1} / 3`
+                    : "Первое наблюдение"}
+                </span>
+                <strong>
+                  {
+                    [
+                      "Выберите остров на карте",
+                      "Откройте карточку и выберите действие",
+                      "Теперь смените поколения",
+                      "Посмотрите, что изменилось",
+                    ][tutorial]
+                  }
+                </strong>
+                <p>
+                  {
+                    [
+                      "Начните с Санта-Крус: там живут первые 80 существ. Пища и климат — условия острова, полосы — признаки животных.",
+                      "На ход есть 2 очка. Расселите часть колонии или поддержите пищу. В окне карты видны цена и последствия.",
+                      "Кнопка «Следующие поколения» применит план и рассчитает 20 поколений. До этого можно отменить выбор.",
+                      "В отчёте видны численность и переходы. Откройте разбор: он связывает ваши действия, условия и изменения популяции.",
+                    ][tutorial]
+                  }
+                </p>
+                <button
+                  onClick={() => setTutorial(null)}
+                  className="game-text-button"
+                >
+                  {tutorial === 3
+                    ? "Понятно, продолжить"
+                    : "Пропустить подсказки"}
+                  <ArrowRight size={13} />
+                </button>
+              </aside>
+            )}
           <div className="game-world-topline">
             <span className="game-world-caption">
               <span />
@@ -523,8 +611,8 @@ export function GamePage() {
                 <em>шанс продолжиться.</em>
               </h2>
               <p>
-                Меняйте условия, заселяйте острова и проведите свою ветвь жизни
-                через три больших кризиса.
+                Исследуйте условные Галапагосы: расселяйте животных и сохраните
+                свою ветвь жизни за 18 ходов.
               </p>
               <div className="game-intro-actions">
                 <button
@@ -534,7 +622,7 @@ export function GamePage() {
                       ? setStarted(true)
                       : loaded.issue === "invalid"
                         ? setRestart(true)
-                        : startNew()
+                        : setSetup(true)
                   }
                 >
                   {loaded.state ? "Продолжить экспедицию" : "Начать экспедицию"}
@@ -548,6 +636,15 @@ export function GamePage() {
                   <ArrowUpRight size={15} />
                 </button>
               </div>
+              {shared && (
+                <button
+                  className="game-shared-world game-text-button"
+                  onClick={() => setSetup(true)}
+                >
+                  Открыть мир по ссылке ·{" "}
+                  {shared.seed.toString(16).toUpperCase()}
+                </button>
+              )}
               <span className="game-intro-meta">
                 18 ходов
                 <span />3 кризиса
@@ -558,7 +655,7 @@ export function GamePage() {
           )}
           {!started && (
             <span className="game-intro-caption">
-              Вымышленный мир. Настоящие вопросы об эволюции.
+              Реальные острова. Условная модель эволюции.
             </span>
           )}
         </div>
@@ -576,7 +673,9 @@ export function GamePage() {
               options={islandOptions}
             />
             <div className="islands-region-heading">
-              <span>{REGIONS[selected].biome}</span>
+              <span title={REGIONS[selected].biome}>
+                {REGIONS[selected].subtitle}
+              </span>
               <h2>
                 {localPopulation}
                 <small> существ</small>
@@ -601,7 +700,7 @@ export function GamePage() {
             </div>
             <div className="game-traits-heading">
               <Dna size={14} />
-              <span>Наследуемые признаки</span>
+              <span>Признаки жителей · нажмите ⓘ</span>
             </div>
             {traitBars}
             <button
@@ -686,6 +785,17 @@ export function GamePage() {
                       state.draft.length >= 2
                     }
                     canSwap={!state.swapped}
+                    kept={(state.kept ?? []).includes(id)}
+                    canKeep={
+                      state.version === 2 &&
+                      ((state.kept ?? []).includes(id) ||
+                        (state.kept ?? []).length < 2)
+                    }
+                    onKeep={
+                      state.version === 2
+                        ? () => persist(keepCard(state, id))
+                        : undefined
+                    }
                     onSelect={() => {
                       setCardId(id);
                       setDestination(undefined);
@@ -720,7 +830,11 @@ export function GamePage() {
                     <>
                       <Dna size={16} />
                       <span>{GENERATIONS} поколений за один ход</span>
-                      <small>Карты меняют среду, а не гены.</small>
+                      <small>
+                        {state.version === 2
+                          ? "Закрепите до 2 карт; остальные обновятся."
+                          : "Карты меняют среду, а не гены."}
+                      </small>
                     </>
                   )}
                 </div>
@@ -792,7 +906,12 @@ export function GamePage() {
                         className="islands-primary"
                         onClick={() => {
                           trackGoal("game_restarted", { sameScenario: true });
-                          startNew(state.seed);
+                          startNew(
+                            state.seed,
+                            state.settings ?? DEFAULT_SETTINGS,
+                            false,
+                            state.version,
+                          );
                         }}
                       >
                         Те же условия
@@ -868,6 +987,26 @@ export function GamePage() {
             </div>
             <div className="game-action-settings">
               <p>{chosen.tradeoff}</p>
+              {impact.length > 0 && (
+                <div className="game-action-impact">
+                  <strong>Изменение условий с этой картой</strong>
+                  {impact.map(([label, a, b]) => (
+                    <p key={label}>
+                      <span>{label}</span>
+                      <b>
+                        {Math.round(a)} → {Math.round(b)}
+                      </b>
+                    </p>
+                  ))}
+                </div>
+              )}
+              <FieldNote kind={cardKind(cardId)} />
+              {cardKind(cardId) === "scout" && (
+                <p className="game-muted">
+                  После применения откройте событие над картой: в нём появится
+                  подробный прогноз.
+                </p>
+              )}
               <GameSelect
                 label="Остров"
                 value={String(selected)}
@@ -931,14 +1070,17 @@ export function GamePage() {
         open={panel === "island"}
         onOpenChange={(open) => !open && setPanel(null)}
         title={REGIONS[selected].name}
-        description={REGIONS[selected].biome}
+        description={`${REGIONS[selected].subtitle} · ${REGIONS[selected].biome}`}
       >
         <div className="game-observation">
           <span className="game-large-number">{localPopulation}</span> существ
           на острове
         </div>
         {environmentStats}
+        <FoodBudget state={preview} island={selected} />
+        <h3>Наследуемые признаки жителей</h3>
         {traitBars}
+        <AnimalComparison state={state} island={selected} />
         <div className="game-note">
           <h3>Соседние берега</h3>
           {neighbors(selected).map((index) => (
@@ -951,7 +1093,7 @@ export function GamePage() {
               <small>
                 {connected(preview, selected, index)
                   ? "Путь открыт"
-                  : "Нужен мост"}
+                  : "Нужен морской путь или плот"}
               </small>
               <ChevronRight size={15} />
             </button>
@@ -977,11 +1119,27 @@ export function GamePage() {
             </small>
           </span>
         </div>
+        <FieldNote kind={event.kind} />
+        {scouting(state).length > 0 && (
+          <div className="game-note">
+            <h3>Разведка: следующие события</h3>
+            {scouting(state).map(({ event: future, turn }) => (
+              <p key={turn}>
+                <strong>
+                  Ход {turn} · {EVENTS[future.kind].title}
+                </strong>
+                <br />
+                {REGIONS[future.region].name} ·{" "}
+                {EVENTS[future.kind].description}
+              </p>
+            ))}
+          </div>
+        )}
         {upcoming && (
           <div className="game-note">
             <span className="game-eyebrow">Прогноз • ход {upcoming.turn}</span>
             <h3>{EVENTS[upcoming.event.kind].title}</h3>
-            <p>{EVENTS[upcoming.event.kind].description}</p>
+            <p>{eventDescription(state, upcoming.event)}</p>
           </div>
         )}
       </GameDialog>
@@ -994,7 +1152,12 @@ export function GamePage() {
           onClose={() => setFinaleDismissed(state.runId)}
           onReplay={(same) => {
             trackGoal("game_restarted", { sameScenario: same });
-            startNew(same ? state.seed : undefined);
+            startNew(
+              same ? state.seed : undefined,
+              state.settings ?? DEFAULT_SETTINGS,
+              false,
+              same ? state.version : 2,
+            );
           }}
           onHistory={() => {
             setFinaleDismissed(state.runId);
@@ -1074,57 +1237,78 @@ export function GamePage() {
         title="Вы меняете условия. Жизнь отвечает."
         description="Цель — сохранить хотя бы одну популяцию после трёх кризисов."
       >
+        <div className="game-start-goal">
+          <Compass size={28} />
+          <div>
+            <h3>80 существ. 18 ходов. Сохраните живую колонию.</h3>
+            <p>
+              Впереди засуха, похолодание и извержение. Дополнительная цель:{" "}
+              {missionStatus(state).title.toLowerCase()}.
+            </p>
+          </div>
+        </div>
         <ol className="game-help-steps">
           <li>
             <span>01</span>
             <div>
-              <h3>Исследуйте острова</h3>
+              <h3>Оцените условия</h3>
               <p>
-                Поворачивайте архипелаг и выбирайте остров. Справа — пища,
-                температура и наследуемые признаки его обитателей. Кнопка с
-                биноклем приближает выбранный остров: можно рассмотреть животных
-                и изменения ландшафта. Компас возвращает общий вид. Фигурки
-                обозначают группы: точная численность указана на метках
-                островов.
+                Выберите остров. Сравните пищу и климат с признаками жителей.
+                Нажмите название признака для объяснения.
               </p>
             </div>
           </li>
           <li>
             <span>02</span>
             <div>
-              <h3>Разыграйте карты</h3>
+              <h3>Выберите действие</h3>
               <p>
-                На ход есть 2 очка. Откройте карту, выберите цель и добавьте
-                действие в план. Одну карту можно бесплатно заменить. Можно и
-                просто наблюдать. Полупрозрачные объекты на карте показывают ваш
-                план: он вступит в силу после нажатия «Следующие поколения».
+                На ход есть 2 очка. Откройте карту, выберите цель и добавьте в
+                план. План можно отменить; наблюдать без карт тоже можно.
               </p>
             </div>
           </li>
           <li>
             <span>03</span>
             <div>
-              <h3>Дайте смениться поколениям</h3>
+              <h3>Посмотрите результат</h3>
               <p>
-                После нажатия «Следующие поколения» пройдёт 20 поколений.
-                Смотрите прогноз и готовьтесь к засухе, зиме и извержению.
+                «Следующие поколения» применяет план и рассчитывает 20
+                поколений. В разборе видно, как изменились численность и
+                признаки.
               </p>
             </div>
           </li>
         </ol>
         <div className="game-note">
-          <h3>У каждого преимущества есть цена</h3>
+          <h3>Как обновляются карты</h3>
           <p>
-            Наследуются размер, теплоизоляция, рацион и расселение. Мутации
-            случайны, а не вызваны потребностями. Мир вымышленный, наследование
-            упрощено до бесполого размножения. Фигурки на карте представляют
-            группы существ.
+            {state.version === 2
+              ? "Закрепите значком булавки до двух карт на следующий ход. Остальные заменятся; одинаковых типов в руке нет. Одна бесплатная замена доступна сразу. Новые карты открываются на ходах 4 и 7."
+              : "В этой сохранённой партии действуют прежние правила: неиспользованные карты остаются в руке."}
           </p>
-          <Link className="game-article-link" to="/theory">
-            Как работает эволюция
-            <ArrowUpRight size={15} />
-          </Link>
         </div>
+        <details>
+          <summary>Почему Галапагосы?</summary>
+          <p>{GALAPAGOS_INTRO}</p>
+          <p>{MODEL_NOTE}</p>
+        </details>
+        <details>
+          <summary>Карта, камера и правила модели</summary>
+          <p>
+            Перетаскивайте карту для поворота, используйте бинокль для
+            приближения. Компас возвращает общий ракурс. Фигурки обозначают
+            представителей групп. Наследование упрощено до бесполого
+            размножения. Карты меняют условия, мутации возникают случайно
+            относительно потребностей.
+          </p>
+        </details>
+        <button
+          className="game-text-button"
+          onClick={() => setPanel("journal")}
+        >
+          Открытия и история островов <ArrowUpRight size={14} />
+        </button>
       </GameDialog>
       <GameDialog
         open={restart}
@@ -1140,11 +1324,41 @@ export function GamePage() {
           >
             Вернуться
           </button>
-          <button className="islands-primary" onClick={() => startNew()}>
-            Начать заново
+          <button
+            className="islands-primary"
+            onClick={() => {
+              setRestart(false);
+              setSetup(true);
+            }}
+          >
+            Настроить новую экспедицию
             <ArrowRight size={16} />
           </button>
         </div>
+      </GameDialog>
+      <ExpeditionSetup
+        key={setup ? "open" : "closed"}
+        open={setup}
+        initial={shared}
+        onClose={() => setSetup(false)}
+        onStart={(settings, seed, teach) => startNew(seed, settings, teach)}
+      />
+      <FieldJournal
+        state={state}
+        records={records}
+        open={panel === "journal"}
+        onClose={() => setPanel(null)}
+      />
+      <GameDialog
+        open={panel === "trait"}
+        onOpenChange={(open) => !open && setPanel(null)}
+        title={TRAITS[traitInfo].name}
+        description={`Признаки жителей · ${REGIONS[selected].name}`}
+      >
+        <TraitExplanation state={preview} island={selected} index={traitInfo} />
+        <button className="game-text-button" onClick={() => setPanel("island")}>
+          Все наблюдения острова <ArrowRight size={14} />
+        </button>
       </GameDialog>
     </section>
   );

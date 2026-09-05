@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { EDGES, cardKind } from "../../game/content";
+import { CARDS, EDGES, cardKind } from "../../game/content";
 import { connected, previewState } from "../../game/engine";
 import type { CardKind, GameState } from "../../game/types";
 import { ISLAND_CENTERS, islandConditions, sceneEffects } from "./sceneState";
@@ -134,6 +134,10 @@ export function createWorldEffects(
       "food",
       "mosaic",
       "cover",
+      "seedbank",
+      "stores",
+      "territory",
+      "scout",
     ] as CardKind[]) {
       const group = new THREE.Group();
       group.name = `card-${kind}-${i}`;
@@ -217,6 +221,70 @@ export function createWorldEffects(
         log.rotation.z = Math.PI / 2;
         log.rotation.y = 0.3;
         ring.position.set(0.85, heightAt(0.85, 1.1, i), 1.1);
+      } else if (kind === "stores") {
+        const x = -1.0,
+          z = 1.15,
+          h = heightAt(x, z, i);
+        for (let n = 0; n < 9; n++)
+          mesh(
+            group,
+            leafGeometry,
+            gold,
+            x + (n % 3) * 0.19,
+            h + 0.12 + Math.floor(n / 3) * 0.07,
+            z + Math.floor(n / 3) * 0.16,
+            0.12,
+            0.09,
+            0.1,
+          );
+        mesh(
+          group,
+          rockGeometry,
+          stone,
+          x + 0.2,
+          h + 0.5,
+          z + 0.15,
+          0.7,
+          0.16,
+          0.52,
+        );
+        ring.position.set(x + 0.2, h + 0.03, z + 0.15);
+      } else if (kind === "territory") {
+        for (let n = 0; n < 12; n++) {
+          const a = (n / 12) * TAU,
+            x = Math.cos(a) * 1.65,
+            z = Math.sin(a) * 1.6,
+            h = heightAt(x, z, i);
+          mesh(group, rockGeometry, gold, x, h + 0.15, z, 0.06, 0.22, 0.06);
+        }
+        ring.scale.setScalar(1.8);
+        ring.position.y = 0.4;
+      } else if (kind === "scout") {
+        const x = 1.3,
+          z = 0.3,
+          h = heightAt(x, z, i);
+        for (let n = 0; n < 3; n++)
+          mesh(
+            group,
+            rockGeometry,
+            wood,
+            x + Math.cos((n * TAU) / 3) * 0.17,
+            h + 0.4,
+            z + Math.sin((n * TAU) / 3) * 0.17,
+            0.05,
+            0.45,
+            0.05,
+          );
+        const glass = mesh(
+          group,
+          new THREE.CylinderGeometry(0.12, 0.09, 0.65, 10),
+          gold,
+          x,
+          h + 0.9,
+          z,
+        );
+        glass.rotation.z = Math.PI / 2;
+        ring.position.set(x, h + 0.03, z);
       } else if (kind === "shade") {
         const x = -0.8,
           z = -0.9,
@@ -247,7 +315,13 @@ export function createWorldEffects(
       } else {
         const x = kind === "food" ? -0.9 : 0.65,
           z = -0.25;
-        const h = ferns(group, x, z, i, kind === "mosaic");
+        const h = ferns(
+          group,
+          x,
+          z,
+          i,
+          kind === "mosaic" || kind === "seedbank",
+        );
         ring.position.set(x, h + 0.03, z);
       }
       // Individual materials let a queued action look translucent, without
@@ -409,7 +483,7 @@ export function createWorldEffects(
     };
   });
 
-  const routeVisuals = EDGES.map(({ a, b }, index) => {
+  const routeVisuals = EDGES.map(({ a, b }) => {
     const from = new THREE.Vector3(
       ISLAND_CENTERS[a][0],
       0.15,
@@ -433,29 +507,31 @@ export function createWorldEffects(
     );
     const bridge = new THREE.Group();
     bridge.name = `bridge-${a}-${b}`;
-    const causewayMaterial = stone.clone();
-    causewayMaterial.transparent = true;
+    const causewayMaterial = new THREE.MeshStandardMaterial({
+      color: "#71c2b7",
+      emissive: "#327d75",
+      emissiveIntensity: 0.25,
+      transparent: true,
+      opacity: 0.55,
+    });
     const causeway = new THREE.Mesh(
-      new THREE.TubeGeometry(curve, 30, 0.28, 6, false),
+      new THREE.TubeGeometry(curve, 30, 0.1, 5, false),
       causewayMaterial,
     );
-    causeway.scale.y = 0.75;
-    causeway.receiveShadow = true;
-    causeway.castShadow = true;
     bridge.add(causeway);
-    for (let n = 0; n < 15; n++) {
-      const p = curve.getPoint(n / 14);
-      mesh(
+    for (let n = 0; n < 12; n++) {
+      const p = curve.getPoint((n + 0.5) / 12),
+        t = curve.getTangent((n + 0.5) / 12);
+      const arrow = mesh(
         bridge,
-        rockGeometry,
+        new THREE.ConeGeometry(0.16, 0.45, 3),
         causewayMaterial,
         p.x,
         p.y,
         p.z,
-        0.34,
-        0.16 + random(n, index) * 0.1,
-        0.34,
       );
+      arrow.rotation.z = -Math.PI / 2;
+      arrow.rotation.y = -Math.atan2(t.z, t.x);
     }
     bridge.visible = false;
     scene.add(bridge);
@@ -517,6 +593,17 @@ export function createWorldEffects(
           0.07,
           0.025,
         );
+      for (let log = 0; log < 3; log++) {
+        const woodLog = mesh(
+          traveler,
+          new THREE.CylinderGeometry(0.035, 0.04, 0.53, 5),
+          wood,
+          0,
+          0.015,
+          (log - 1) * 0.12,
+        );
+        woodLog.rotation.z = Math.PI / 2;
+      }
       migration.add(traveler);
       travelers.push(traveler);
     }
@@ -533,6 +620,7 @@ export function createWorldEffects(
       trail,
       travelers,
       direction: 1,
+      bidirectional: false,
       planned: false,
       until: -1,
     };
@@ -661,7 +749,8 @@ export function createWorldEffects(
         leafColor.setRGB(base[n], base[n + 1], base[n + 2]);
         if (conditions.dry) leafColor.lerp(palettes.dry, 0.83);
         if (conditions.ash) leafColor.lerp(palettes.ash, 0.88);
-        if (conditions.snow) leafColor.lerp(palettes.snow, 0.9);
+        if (conditions.snow)
+          leafColor.lerp(palettes.snow, state.version === 2 ? 0.4 : 0.9);
         leafColor.toArray(colors, n);
       }
       if (
@@ -684,8 +773,8 @@ export function createWorldEffects(
         (effect) => effect.kind === "divide" && matches(effect),
       );
       route.bridge.visible = !!bridge && connected(preview, route.a, route.b);
-      route.causewayMaterial.opacity = bridge?.planned ? 0.5 : 1;
-      route.causewayMaterial.color.set(bridge?.planned ? "#dcca81" : "#a59b76");
+      route.causewayMaterial.opacity = bridge?.planned ? 0.35 : 0.7;
+      route.causewayMaterial.color.set(bridge?.planned ? "#dcca81" : "#71c2b7");
       route.divide.visible =
         !!divide ||
         effects.some(
@@ -694,7 +783,9 @@ export function createWorldEffects(
             (effect.region === route.a || effect.region === route.b),
         );
       const planned = effects.find(
-        (effect) => effect.kind === "migrate" && matches(effect),
+        (effect) =>
+          ["migrate", "raft", "exchange"].includes(effect.kind) &&
+          matches(effect),
       );
       const applied =
         previous?.runId === state.runId &&
@@ -702,13 +793,18 @@ export function createWorldEffects(
         state.phase !== "planning"
           ? previous.draft.find(
               (action) =>
-                cardKind(action.card) === "migrate" && matches(action),
+                CARDS[cardKind(action.card)].target === "migration" &&
+                matches(action),
             )
           : undefined;
       if (applied) route.until = time + 7;
       route.planned = !!planned;
       if (planned || applied)
         route.direction = (planned ?? applied)!.region === route.a ? 1 : -1;
+      if (planned || applied)
+        route.bidirectional =
+          planned?.kind === "exchange" ||
+          (applied != null && cardKind(applied.card) === "exchange");
       route.migration.visible = !!planned || route.until > time;
       (route.trail.material as THREE.MeshBasicMaterial).color.set(
         planned ? "#edcb7c" : "#91d5b6",
@@ -790,11 +886,13 @@ export function createWorldEffects(
       if (!route.migration.visible) return;
       route.travelers.forEach((traveler, n) => {
         let progress = (time * 0.18 + n / 6) % 1;
-        if (route.direction === -1) progress = 1 - progress;
+        const direction =
+          route.direction * (route.bidirectional && n % 2 ? -1 : 1);
+        if (direction === -1) progress = 1 - progress;
         traveler.position.copy(route.curve.getPoint(progress));
         const tangent = route.curve
           .getTangent(progress)
-          .multiplyScalar(route.direction);
+          .multiplyScalar(direction);
         traveler.rotation.y = -Math.atan2(tangent.z, tangent.x);
         traveler.position.y += Math.abs(Math.sin(time * 9 + n)) * 0.035;
       });

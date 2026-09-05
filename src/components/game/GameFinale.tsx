@@ -19,6 +19,9 @@ import {
   Sprout,
   Sun,
 } from "lucide-react";
+import { AttemptComparison } from "./FieldJournal";
+import { readRecords } from "../../game/storage";
+import { missionStatus } from "../../game/expedition";
 import { GameDialog } from "./GameDialog";
 import { expeditionSummary, type ExpeditionSummary } from "../../game/finale";
 import { GENERATIONS, TURNS } from "../../game/content";
@@ -29,7 +32,7 @@ const number = (value: number) => value.toLocaleString("ru-RU");
 const crisisDescriptions = {
   drought: "Сокращение запасов пищи на всех островах.",
   cold: "Похолодание и нехватка пищи в течение двух ходов.",
-  eruption: "Удар по Пепельному берегу и дефицит пищи во всём архипелаге.",
+  eruption: "Удар по Фернандине и дефицит пищи во всём архипелаге.",
 };
 
 function PopulationChart({ summary }: { summary: ExpeditionSummary }) {
@@ -215,6 +218,7 @@ export function GameFinale({
           <Tabs.Trigger value="overview">Вся экспедиция</Tabs.Trigger>
           <Tabs.Trigger value="explanation">Что повлияло</Tabs.Trigger>
           <Tabs.Trigger value="islands">По островам</Tabs.Trigger>
+          <Tabs.Trigger value="attempts">Цель и попытки</Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value="overview" className="game-finale-tab-panel">
           <PopulationChart summary={summary} />
@@ -390,6 +394,19 @@ export function GameFinale({
               </article>
             ))}
           </div>
+        </Tabs.Content>
+        <Tabs.Content value="attempts" className="game-finale-tab-panel">
+          <div className="game-note">
+            <h3>{missionStatus(state).title}</h3>
+            <p>
+              {missionStatus(state).achieved
+                ? "Цель достигнута."
+                : "Цель пока не достигнута."}{" "}
+              {missionStatus(state).description}
+            </p>
+            <strong>{missionStatus(state).progress}</strong>
+          </div>
+          <AttemptComparison state={state} records={readRecords()} />
         </Tabs.Content>
       </Tabs.Root>
       <div className="game-finale-footer">

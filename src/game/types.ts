@@ -102,7 +102,11 @@ export type ExpeditionSettings = {
   mutation: "low" | "normal" | "high";
   migration: "low" | "normal" | "high";
 };
-export type ColonyOrigin = { island: number; parent: number | null; turn: number };
+export type ColonyOrigin = {
+  island: number;
+  parent: number | null;
+  turn: number;
+};
 export type RunRecord = {
   version?: 1 | 2;
   settings?: ExpeditionSettings;

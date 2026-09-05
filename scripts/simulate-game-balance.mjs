@@ -2,7 +2,11 @@ import { build } from "esbuild";
 import { performance } from "node:perf_hooks";
 
 const built = await build({
-  entryPoints: ["src/game/engine.ts"],
+  stdin: {
+    contents:
+      'export * from "./src/game/engine.ts"; export {CARDS,cardKind} from "./src/game/content.ts";',
+    resolveDir: process.cwd(),
+  },
   bundle: true,
   platform: "node",
   format: "esm",
@@ -12,6 +16,7 @@ const engine = await import(
   `data:text/javascript;base64,${Buffer.from(built.outputFiles[0].text).toString("base64")}`
 );
 const samples = Math.max(1, Number(process.argv[2] ?? 100));
+const legacy = process.argv.includes("--legacy");
 const policies = ["observe", "random", "largest", "disperse"];
 for (const policy of policies) {
   let wins = 0,
@@ -19,7 +24,7 @@ for (const policy of policies) {
     population = 0;
   const times = [];
   for (let seed = 1; seed <= samples; seed++) {
-    let state = engine.createGame(seed),
+    let state = (legacy ? engine.createGame : engine.createExpedition)(seed),
       policySeed = seed;
     const random = () => {
       const [v, next] = engine.randomStep(policySeed);
@@ -32,15 +37,16 @@ for (const policy of policies) {
           const options = [];
           for (const card of state.hand)
             for (let region = 0; region < 6; region++) {
-              const kind = card % 8;
-              for (const destination of kind <= 2
+              const kind = engine.cardKind(card),
+                target = engine.CARDS[kind].target;
+              for (const destination of target !== "region"
                 ? engine.neighbors(region)
                 : [undefined]) {
                 const action = {
                   card,
                   region,
                   ...(destination !== undefined ? { destination } : {}),
-                  ...(kind === 2 ? { fraction: 0.25 } : {}),
+                  ...(target === "migration" ? { fraction: 0.25 } : {}),
                 };
                 if (!engine.actionError(state, action)) options.push(action);
               }
@@ -53,12 +59,17 @@ for (const policy of policies) {
             const score = (action) =>
               policy === "largest"
                 ? (action.region === largest ? 5 : 0) +
-                  ([3, 5, 7].includes(action.card % 8) ? 2 : 0)
+                  (["refuge", "food", "cover", "stores", "seedbank"].includes(
+                    engine.cardKind(action.card),
+                  )
+                    ? 2
+                    : 0)
                 : policy === "disperse"
-                  ? (action.card % 8 === 2 &&
-                    engine.count(state.regions[action.destination]) === 0
+                  ? (["migrate", "raft", "exchange"].includes(
+                      engine.cardKind(action.card),
+                    ) && engine.count(state.regions[action.destination]) === 0
                       ? 10
-                      : 0) + (action.card % 8 === 0 ? 4 : 0)
+                      : 0) + (engine.cardKind(action.card) === "bridge" ? 4 : 0)
                   : 0;
             return score(b) - score(a);
           });
@@ -82,6 +93,7 @@ for (const policy of policies) {
   times.sort((a, b) => a - b);
   console.log(
     JSON.stringify({
+      version: legacy ? 1 : 2,
       policy,
       samples,
       wins,

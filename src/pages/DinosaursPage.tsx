@@ -1,6 +1,6 @@
 import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/dinosaurs.css";
-import { ArrowLeft, ArrowRight, ChevronDown, GitBranch } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
 import {
   useEffect,
   useMemo,
@@ -13,13 +13,12 @@ import { Link } from "react-router-dom";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
 import { MobileStageDetail } from "../components/atlas/mobile/MobileStageDetail";
 import { ConstellationField } from "../components/ui/constellation-field";
-import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { ImageLightbox } from "../components/ui/image-lightbox";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { Slider } from "../components/ui/slider";
-import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
+import { CURIOSITY_FACTS } from "../data/curiosityFacts";
 import {
   birdDinosaurBranch,
   dinosaurCommonAncestor,
@@ -108,33 +107,48 @@ const dinosaurRouteStops = [
   },
 ];
 
-const dinosaurFacts = [
+const dinosaurMilestones = [
   {
-    label: "Мезозойская история",
-    value: "~165 млн лет",
-    text: "динозавровая ветвь существовала от позднего триаса до K-Pg; наземная доминация усилилась после триасово-юрского кризиса.",
+    id: "amniotes",
+    label: "Общий предок",
+    date: "~320 млн лет",
+    note: "Развилка двух линий",
   },
   {
-    label: "До первых птиц",
-    value: "~80 млн лет",
-    text: "прошло от ранних динозавров триаса до Archaeopteryx и близких ранних avialae.",
+    id: "early-dinosaurs",
+    label: "Ранние динозавры",
+    date: "~230 млн лет",
+    note: "До археоптерикса — ~80 млн лет",
   },
   {
-    label: "Рубеж K-Pg",
-    value: "66 млн лет",
-    text: "назад исчезли нептичьи динозавры, но часть птичьей ветви пережила глобальный кризис.",
+    id: "archaeopteryx",
+    label: "Археоптерикс",
+    date: "~150 млн лет",
+    note: "Перья и крылья",
   },
   {
-    label: "Живая ветвь",
-    value: "более 10 000 видов",
-    text: "современные птицы — самая разнообразная ныне живущая динозавровая линия.",
+    id: "kpg-survivors",
+    label: "Рубеж K–Pg",
+    date: "66 млн лет",
+    note: "~165 млн лет после первых динозавров",
   },
   {
-    label: "Наш общий предок",
-    value: "~320 млн лет",
-    text: "назад ранние амниоты дали две линии: синапсидную к млекопитающим и диапсидную к динозаврам/птицам.",
+    id: "modern-birds",
+    label: "Современные птицы",
+    date: "Сегодня",
+    note: "Более 10 000 видов",
   },
-];
+].map((milestone) => ({
+  ...milestone,
+  stageIndex: dinosaurJourney.findIndex((stage) => stage.id === milestone.id),
+}));
+
+const featherFact = CURIOSITY_FACTS.find(
+  (fact) => fact.id === "feathers-before-flight",
+)!;
+const featheredDinosaur = birdDinosaurBranch.find(
+  (stage) => stage.id === "feathered-dinosaurs",
+)!;
 
 const formatAge = (ageMa: number) => {
   if (ageMa === 0) {
@@ -701,6 +715,24 @@ export function DinosaursPage() {
       });
   }
 
+  function revealStage(stageId: string, moveFocus = false) {
+    setActiveJourneyId(stageId);
+    requestAnimationFrame(() => {
+      const target = pageRef.current?.querySelector<HTMLElement>(
+        isMobileDinosaurAxis
+          ? `[data-stage-id="${stageId}"]`
+          : "#dinosaur-chronology",
+      );
+      target?.scrollIntoView({ block: "start" });
+      if (moveFocus) {
+        const focusTarget = isMobileDinosaurAxis
+          ? target?.querySelector<HTMLButtonElement>(":scope > button")
+          : pageRef.current?.querySelector<HTMLElement>(".dinosaur-deep-axis");
+        focusTarget?.focus({ preventScroll: true });
+      }
+    });
+  }
+
   return (
     <section
       ref={pageRef}
@@ -748,6 +780,32 @@ export function DinosaursPage() {
         className="dinosaur-axis-section is-journey"
         aria-label="От общего предка к современным птицам"
       >
+        <nav
+          id="dinosaur-chronology"
+          className="dinosaur-chronology"
+          aria-label="Ключевые даты динозавровой ветви"
+        >
+          {dinosaurMilestones.map((milestone, index) => {
+            const next = dinosaurMilestones[index + 1];
+            const isCurrent =
+              activeIndex >= milestone.stageIndex &&
+              (!next || activeIndex < next.stageIndex);
+            return (
+              <button
+                key={milestone.id}
+                type="button"
+                aria-current={isCurrent ? "step" : undefined}
+                onClick={() => revealStage(milestone.id)}
+              >
+                <span className="dinosaur-chronology-label">
+                  {milestone.label}
+                </span>
+                <strong>{milestone.date}</strong>
+                <small>{milestone.note}</small>
+              </button>
+            );
+          })}
+        </nav>
         {isMobileDinosaurAxis ? (
           <MobileDinosaurJourney
             stages={dinosaurJourney}
@@ -808,34 +866,12 @@ export function DinosaursPage() {
         )}
       </section>
 
-      <section
-        className="wow-facts-band dinosaur-facts-band"
-        aria-label="Факты о динозаврах и птицах"
-      >
-        {dinosaurFacts.map(({ label, value }) => (
-          <article key={label}>
-            <span>{label}</span>
-            <strong>{value}</strong>
-          </article>
-        ))}
-      </section>
-
-      <section
-        id="dinosaur-common-ancestor"
-        className="dinosaur-common-ancestor"
-        aria-labelledby="dinosaur-common-ancestor-title"
-      >
-        <div className="dinosaur-section-heading">
-          <GitBranch aria-hidden="true" size={22} />
-          <div>
-            <p className="eyebrow">Общий предок с птицами</p>
-            <h2 id="dinosaur-common-ancestor-title">
-              {dinosaurCommonAncestor.titleRu}, {dinosaurCommonAncestor.valueRu}
-            </h2>
-            <p>{dinosaurCommonAncestor.summaryRu}</p>
-          </div>
-        </div>
-        <div className="dinosaur-ancestor-layout">
+      <div className="dinosaur-reading">
+        <section
+          id="dinosaur-common-ancestor"
+          className="dinosaur-reading-section dinosaur-common-ancestor"
+          aria-labelledby="dinosaur-common-ancestor-title"
+        >
           <DinosaurIllustration
             image={{
               src: "/assets/images/dinosaurs/common-ancestor-amniote-generated.jpg",
@@ -849,72 +885,85 @@ export function DinosaursPage() {
             title="Ранние амниоты"
             className="dinosaur-common-ancestor__media"
           />
-          <div
-            className="dinosaur-ancestor-tree"
-            aria-label="Две ветви после ранних амниот"
-          >
-            <div className="dinosaur-ancestor-root">
-              <span>Общая точка</span>
-              <strong>Ранние амниоты</strong>
-              <small>~320 млн лет назад</small>
-            </div>
-            <div className="dinosaur-common-ancestor__split">
+          <div className="dinosaur-reading-copy">
+            <p className="eyebrow">
+              Общий предок с птицами · {dinosaurCommonAncestor.valueRu}
+            </p>
+            <h2 id="dinosaur-common-ancestor-title">
+              {dinosaurCommonAncestor.titleRu}
+            </h2>
+            <p>{dinosaurCommonAncestor.summaryRu}</p>
+            <div
+              className="dinosaur-lineage-comparison"
+              aria-label="Две ветви после ранних амниот"
+            >
               <article>
-                <span>Наша линия</span>
-                <strong>Млекопитающие и человек</strong>
+                <span className="eyebrow">Наша линия</span>
+                <h3>Млекопитающие и человек</h3>
                 <p>{dinosaurCommonAncestor.humanBranchRu}</p>
-                <Link to="/primates">
+                <Link className="dinosaur-reading-link" to="/primates">
                   К приматам и человеку{" "}
                   <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               </article>
               <article>
-                <span>Линия птиц</span>
-                <strong>Динозавры и птицы</strong>
+                <span className="eyebrow">Линия птиц</span>
+                <h3>Динозавры и птицы</h3>
                 <p>{dinosaurCommonAncestor.dinosaurBranchRu}</p>
-                <a href="#dinosaur-timeline">
-                  К шкале <ArrowRight size={16} aria-hidden="true" />
-                </a>
+                <button
+                  className="dinosaur-reading-link"
+                  type="button"
+                  onClick={() => revealStage("diapsids", true)}
+                >
+                  Показать ветвь птиц{" "}
+                  <ArrowRight size={16} aria-hidden="true" />
+                </button>
               </article>
             </div>
+            <Link
+              className="dinosaur-reading-link dinosaur-atlas-link"
+              to="/?mode=all&stage=amniotes"
+            >
+              Общий предок в Атласе <ArrowRight size={16} aria-hidden="true" />
+            </Link>
           </div>
-        </div>
-      </section>
-      <CuriosityFacts
-        factIds={CURIOSITY_FACT_PAGE_GROUPS.dinosaurs}
-        eyebrow="От теропод к птицам"
-        title="Птичьи признаки собирались по частям"
-        description="Перо, лёгкий скелет и крыло складывались постепенно; разные детали сперва служили разным задачам."
-        headingId="dinosaurs-curiosity-facts"
-      />
+        </section>
 
-      <details className="dinosaur-context-facts">
-        <summary>
-          Подробнее о цифрах раздела{" "}
-          <ChevronDown size={18} aria-hidden="true" />
-        </summary>
-        <dl>
-          {dinosaurFacts.map(({ label, text }) => (
-            <div key={label}>
-              <dt>{label}</dt>
-              <dd>{text}</dd>
+        <section
+          id="dinosaurs-curiosity-facts"
+          className="dinosaur-reading-section dinosaur-feathers"
+          aria-labelledby="dinosaur-feathers-title"
+        >
+          <div className="dinosaur-reading-copy">
+            <p className="eyebrow">От теропод к птицам</p>
+            <h2 id="dinosaur-feathers-title">{featherFact.titleRu}</h2>
+            <p>{featherFact.shortRu}</p>
+            <p>{featherFact.detailRu}</p>
+            <div className="dinosaur-reading-actions">
+              <button
+                className="button button-secondary button-sm"
+                type="button"
+                onClick={() => revealStage(featheredDinosaur.id, true)}
+              >
+                Пернатые динозавры на шкале{" "}
+                <ArrowRight size={16} aria-hidden="true" />
+              </button>
+              <a
+                className="dinosaur-reading-link"
+                href={featherFact.source.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Источник <ExternalLink size={14} aria-hidden="true" />
+              </a>
             </div>
-          ))}
-        </dl>
-      </details>
-
-      <div className="dinosaurs-bridge">
-        <div>
-          <strong>А где наша линия?</strong>
-          <p>
-            Вернитесь в Атлас: там показано, почему млекопитающие и птицы
-            расходятся после амниот.
-          </p>
-        </div>
-        <Link className="button button-secondary button-md" to="/">
-          Открыть Атлас
-          <ArrowRight aria-hidden="true" size={17} />
-        </Link>
+          </div>
+          <DinosaurIllustration
+            image={featheredDinosaur.image}
+            title="Пернатые динозавры"
+            className="dinosaur-feathers-media"
+          />
+        </section>
       </div>
     </section>
   );

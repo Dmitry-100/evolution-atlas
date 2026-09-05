@@ -35,6 +35,15 @@ test("dinosaurs shares the primates layout and typography", async ({
           "font-weight",
           "line-height",
         ]),
+        copy: read(".stage-copy", ["padding"]),
+        date: read(".stage-copy .kicker", ["color", "font-size", "margin"]),
+        latin: read(".stage-copy .latin", ["color", "font-size", "margin"]),
+        summary: read(".stage-copy .lead", [
+          "color",
+          "font-size",
+          "margin",
+          "line-height",
+        ]),
         axis: read(".primate-deep-axis", ["height", "border-radius"]),
       };
     });
@@ -54,6 +63,19 @@ test("dinosaurs shares the primates layout and typography", async ({
     path: testInfo.outputPath("dinosaurs-matched.png"),
     animations: "disabled",
   });
+  await page
+    .getByRole("button", { name: "От динозавров к птицам", exact: true })
+    .click();
+  await expect(page.locator(".stage-copy h2")).toHaveText("Диапсиды");
+  await page
+    .getByRole("button", { name: "Увеличить иллюстрацию шкалы динозавров" })
+    .click();
+  const panorama = page.getByRole("dialog", {
+    name: "Увеличенная иллюстрация шкалы динозавров",
+  });
+  await expect(panorama).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(panorama).toHaveCount(0);
 });
 
 for (const width of [1920, 1280, 1100, 820, 391, 320]) {
@@ -67,6 +89,14 @@ for (const width of [1920, 1280, 1100, 820, 391, 320]) {
     test.setTimeout(60_000);
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/dinosaurs");
+    await expect(
+      page.getByRole("heading", { name: "Вымерли ли динозавры", exact: true }),
+    ).toBeVisible();
+    const illustration = page.locator(
+      width > 720 ? ".stage-plate-current" : ".mobile-stage-detail img",
+    );
+    await expect(illustration).toHaveJSProperty("complete", true);
+    await expect(illustration).not.toHaveJSProperty("naturalWidth", 0);
     await expect(page.locator(".dinosaur-hero-pair")).toHaveCount(0);
     await expect(page.locator(".page-header--with-aside")).toHaveCount(0);
     await page.screenshot({

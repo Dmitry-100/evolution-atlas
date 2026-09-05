@@ -79,7 +79,9 @@ export function createGame(
 ): GameState {
   const state: GameState = {
     version,
-    ...(version === 2 ? { settings, kept: [], lineages: [{ island: 0, parent: null, turn: 0 }] } : {}),
+    ...(version === 2
+      ? { settings, kept: [], lineages: [{ island: 0, parent: null, turn: 0 }] }
+      : {}),
     seed: seed >>> 0,
     runId,
     turn: 1,
@@ -120,7 +122,7 @@ export function createGame(
     "seeds",
     "predators",
     "flood",
-    ...(version === 2 ? ["garua", "elnino", "castaways"] as const : []),
+    ...(version === 2 ? (["garua", "elnino", "castaways"] as const) : []),
   ] as const;
   for (let turn = 1; turn <= TURNS; turn++) {
     const kind =
@@ -151,7 +153,11 @@ export function createGame(
   );
   return state;
 }
-export function createExpedition(seed: number, runId = `expedition-${seed}`, settings: ExpeditionSettings = DEFAULT_SETTINGS) {
+export function createExpedition(
+  seed: number,
+  runId = `expedition-${seed}`,
+  settings: ExpeditionSettings = DEFAULT_SETTINGS,
+) {
   return createGame(seed, runId, settings, 2);
 }
 export function currentEvent(state: GameState) {
@@ -162,7 +168,9 @@ export function forecast(state: GameState) {
   return turn ? { turn, event: state.events[turn - 1] } : null;
 }
 function activeEffects(state: GameState) {
-  return state.effects.filter((e) => e.until >= state.turn && (e.starts ?? 1) <= state.turn);
+  return state.effects.filter(
+    (e) => e.until >= state.turn && (e.starts ?? 1) <= state.turn,
+  );
 }
 export function environment(state: GameState, region: number): Environment {
   const base = REGIONS[region];
@@ -178,16 +186,28 @@ export function environment(state: GameState, region: number): Environment {
     if (effect.region !== region && effect.region !== -1) continue;
     switch (effect.kind) {
       case "seedbank":
-        env.foodB += 65; env.foodA = Math.max(0, env.foodA - 20); break;
+        env.foodB += 65;
+        env.foodA = Math.max(0, env.foodA - 20);
+        break;
       case "territory":
-        env.capacity = Math.min(200, env.capacity + 40); env.predators *= 1.25; break;
+        env.capacity = Math.min(200, env.capacity + 40);
+        env.predators *= 1.25;
+        break;
       case "stores":
-        if (effect.starts === state.turn) { env.foodA *= 0.75; env.foodB *= 0.75; }
+        if (effect.starts === state.turn) {
+          env.foodA *= 0.75;
+          env.foodB *= 0.75;
+        }
         break;
       case "garua":
-        env.foodA += 25; env.temperature -= 0.15; break;
+        env.foodA += 25;
+        env.temperature -= 0.15;
+        break;
       case "elnino":
-        env.foodA *= 1.45; env.foodB *= 0.8; env.temperature += 1 / 3; break;
+        env.foodA *= 1.45;
+        env.foodB *= 0.8;
+        env.temperature += 1 / 3;
+        break;
       case "refuge":
         env.refuge = true;
         break;
@@ -244,7 +264,17 @@ export function environment(state: GameState, region: number): Environment {
     }
   }
   // Stored resources are released after weather has affected fresh food.
-  if (activeEffects(state).some((e) => e.kind === "stores" && e.region === region && (e.starts ?? state.turn) < state.turn)) { env.foodA += 40; env.foodB += 40; }
+  if (
+    activeEffects(state).some(
+      (e) =>
+        e.kind === "stores" &&
+        e.region === region &&
+        (e.starts ?? state.turn) < state.turn,
+    )
+  ) {
+    env.foodA += 40;
+    env.foodB += 40;
+  }
   env.capacity = Math.floor(env.capacity);
   return env;
 }
@@ -313,8 +343,12 @@ export function actionError(
       );
       if (Math.floor(remaining * action.fraction) < 1)
         return "Популяция слишком мала для выбранного расселения.";
-      if (kind === "exchange" && !count(state.regions[action.destination!])) return "Для обмена нужны две живые колонии.";
-      if (kind !== "raft" && !connected(preview, action.region, action.destination!))
+      if (kind === "exchange" && !count(state.regions[action.destination!]))
+        return "Для обмена нужны две живые колонии.";
+      if (
+        kind !== "raft" &&
+        !connected(preview, action.region, action.destination!)
+      )
         return "Между островами сейчас нет открытого пути.";
     }
     if (
@@ -371,22 +405,39 @@ function draw(state: GameState, avoid: number[] = []) {
     if (next !== undefined) state.hand.push(next);
     return;
   }
-  const allowed = (id: number) => (CARDS[cardKind(id)].unlock ?? 1) <= state.turn && !state.hand.some((h) => cardKind(h) === cardKind(id));
-  let candidates = state.deck.map((id, i) => ({ id, i })).filter(({ id }) => allowed(id));
+  const allowed = (id: number) =>
+    (CARDS[cardKind(id)].unlock ?? 1) <= state.turn &&
+    !state.hand.some((h) => cardKind(h) === cardKind(id));
+  let candidates = state.deck
+    .map((id, i) => ({ id, i }))
+    .filter(({ id }) => allowed(id));
   if (!candidates.length && state.discard.some(allowed)) {
     state.deck.push(...shuffle(state.discard, stream(state, "cards")));
     state.discard = [];
-    candidates = state.deck.map((id, i) => ({ id, i })).filter(({ id }) => allowed(id));
+    candidates = state.deck
+      .map((id, i) => ({ id, i }))
+      .filter(({ id }) => allowed(id));
   }
-  const fresh = candidates.filter(({ id }) => !avoid.some((old) => cardKind(old) === cardKind(id)));
+  const fresh = candidates.filter(
+    ({ id }) => !avoid.some((old) => cardKind(old) === cardKind(id)),
+  );
   const picked = (fresh.length ? fresh : candidates).at(-1);
   if (picked) state.hand.push(...state.deck.splice(picked.i, 1));
 }
 export function keepCard(state: GameState, id: number): GameState {
-  if (state.version !== 2 || state.phase !== "planning" || !state.hand.includes(id)) return state;
+  if (
+    state.version !== 2 ||
+    state.phase !== "planning" ||
+    !state.hand.includes(id)
+  )
+    return state;
   const kept = state.kept ?? [];
-  if (!kept.includes(id) && kept.length >= 2) throw new Error("Можно сохранить до двух карт.");
-  return { ...state, kept: kept.includes(id) ? kept.filter((n) => n !== id) : [...kept, id] };
+  if (!kept.includes(id) && kept.length >= 2)
+    throw new Error("Можно сохранить до двух карт.");
+  return {
+    ...state,
+    kept: kept.includes(id) ? kept.filter((n) => n !== id) : [...kept, id],
+  };
 }
 export function swapCard(state: GameState, id: number): GameState {
   if (
@@ -437,11 +488,13 @@ export function relocate(
   const source = state.regions[a],
     target = state.regions[b];
   const wasEmpty = count(target) === 0;
-  const selected = selectedBefore ?? sampleWithoutReplacement(
-    source.counts,
-    Math.floor(count(source) * fraction),
-    random,
-  );
+  const selected =
+    selectedBefore ??
+    sampleWithoutReplacement(
+      source.counts,
+      Math.floor(count(source) * fraction),
+      random,
+    );
   selected.forEach((n, p) => {
     source.counts[p] -= n;
     const survived = binomial(n, survival + PROFILES[p][3] * 0.15, random);
@@ -449,28 +502,41 @@ export function relocate(
     report.migrations += survived;
     report.transitLosses += n - survived;
   });
-  if (wasEmpty && count(target) > 0 && nextOrigin(state, b)) state.lineages!.push({ island: b, parent: a, turn: state.turn });
+  if (wasEmpty && count(target) > 0 && nextOrigin(state, b))
+    state.lineages!.push({ island: b, parent: a, turn: state.turn });
 }
-function nextOrigin(state: GameState, island: number) { return !!state.lineages && !state.lineages.some((o) => o.island === island); }
+function nextOrigin(state: GameState, island: number) {
+  return !!state.lineages && !state.lineages.some((o) => o.island === island);
+}
 function naturalMigration(
   state: GameState,
   random: () => number,
   report: TurnReport,
 ) {
   const delta = state.regions.map(() => Array<number>(81).fill(0));
-  const factor = state.settings?.migration === "low" ? 0.4 : state.settings?.migration === "high" ? 2 : 1;
+  const factor =
+    state.settings?.migration === "low"
+      ? 0.4
+      : state.settings?.migration === "high"
+        ? 2
+        : 1;
   state.regions.forEach((region, a) => {
     const destinations = neighbors(a).filter((b) => connected(state, a, b));
     if (!destinations.length) return;
     region.counts.forEach((n, p) => {
       const mobility = PROFILES[p][3];
-      const migrants = binomial(n, [0.0004, 0.001, 0.002][mobility] * factor, random);
+      const migrants = binomial(
+        n,
+        [0.0004, 0.001, 0.002][mobility] * factor,
+        random,
+      );
       delta[a][p] -= migrants;
       for (let i = 0; i < migrants; i++) {
         const b = destinations[Math.floor(random() * destinations.length)];
         if (random() < 0.65 + mobility * 0.15) {
           delta[b][p]++;
-          if (nextOrigin(state, b)) state.lineages!.push({ island: b, parent: a, turn: state.turn });
+          if (nextOrigin(state, b))
+            state.lineages!.push({ island: b, parent: a, turn: state.turn });
           report.migrations++;
         } else report.transitLosses++;
       }
@@ -571,11 +637,44 @@ export function resolveTurn(state: GameState): GameState {
   for (const action of next.draft) {
     const kind = cardKind(action.card);
     if (CARDS[kind].target === "migration") {
-      const reverse = kind === "exchange" ? sampleWithoutReplacement(next.regions[action.destination!].counts, Math.floor(count(next.regions[action.destination!]) * action.fraction!), random) : undefined;
-      relocate(next, action.region, action.destination!, action.fraction!, random, report, kind === "raft" ? 0.4 : 0.65);
-      if (reverse) relocate(next, action.destination!, action.region, action.fraction!, random, report, 0.65, reverse);
+      const reverse =
+        kind === "exchange"
+          ? sampleWithoutReplacement(
+              next.regions[action.destination!].counts,
+              Math.floor(
+                count(next.regions[action.destination!]) * action.fraction!,
+              ),
+              random,
+            )
+          : undefined;
+      relocate(
+        next,
+        action.region,
+        action.destination!,
+        action.fraction!,
+        random,
+        report,
+        kind === "raft" ? 0.4 : 0.65,
+      );
+      if (reverse)
+        relocate(
+          next,
+          action.destination!,
+          action.region,
+          action.fraction!,
+          random,
+          report,
+          0.65,
+          reverse,
+        );
     } else {
-      addEffect(next, { kind, region: action.region, destination: action.destination, starts: next.turn, until: next.turn + CARDS[kind].duration - 1 });
+      addEffect(next, {
+        kind,
+        region: action.region,
+        destination: action.destination,
+        starts: next.turn,
+        until: next.turn + CARDS[kind].duration - 1,
+      });
     }
     next.hand = next.hand.filter((card) => card !== action.card);
     next.discard.push(action.card);
@@ -587,10 +686,15 @@ export function resolveTurn(state: GameState): GameState {
     until: next.turn + EVENTS[event.kind].duration - 1,
   });
   if (event.kind === "castaways") {
-    const sources = next.regions.map((r, i) => ({ i, n: i === event.region ? 0 : count(r) })).sort((a, b) => b.n - a.n);
+    const sources = next.regions
+      .map((r, i) => ({ i, n: i === event.region ? 0 : count(r) }))
+      .sort((a, b) => b.n - a.n);
     const before = report.migrations;
-    if (sources[0].n) relocate(next, sources[0].i, event.region, 0.08, random, report, 0.4);
-    report.notes.push(`Плавучие ветви: до острова ${REGIONS[event.region].name} добрались ${report.migrations - before} переселенцев.`);
+    if (sources[0].n)
+      relocate(next, sources[0].i, event.region, 0.08, random, report, 0.4);
+    report.notes.push(
+      `Плавучие ветви: до острова ${REGIONS[event.region].name} добрались ${report.migrations - before} переселенцев.`,
+    );
   }
   if (event.kind === "eruption") {
     const protectedRegion = environment(next, event.region).refuge;
@@ -605,8 +709,18 @@ export function resolveTurn(state: GameState): GameState {
   for (let g = 0; g < GENERATIONS && total(next) > 0; g++) {
     naturalMigration(next, random, report);
     next.regions.forEach((region, i) => {
-      const rate = next.settings?.mutation === "low" ? 0.002 : next.settings?.mutation === "high" ? 0.021 : MUTATION_RATE;
-      const result = generation(region.counts, environment(next, i), random, rate);
+      const rate =
+        next.settings?.mutation === "low"
+          ? 0.002
+          : next.settings?.mutation === "high"
+            ? 0.021
+            : MUTATION_RATE;
+      const result = generation(
+        region.counts,
+        environment(next, i),
+        random,
+        rate,
+      );
       region.counts = result.counts;
       report.mutations += result.mutations;
     });
@@ -614,7 +728,8 @@ export function resolveTurn(state: GameState): GameState {
   report.after = total(next);
   report.populations = next.regions.map(count);
   report.traits = traitCounts(next.regions);
-  if (next.version === 2) report.regionalTraits = next.regions.map((r) => traitCounts([r]));
+  if (next.version === 2)
+    report.regionalTraits = next.regions.map((r) => traitCounts([r]));
   report.populations.forEach((n, i) => {
     if (n && !beforeCounts[i])
       report.notes.push(`Новая колония: ${REGIONS[i].name}.`);
@@ -657,12 +772,19 @@ export function nextTurn(state: GameState): GameState {
   next.swapped = false;
   next.effects = next.effects.filter((e) => e.until >= next.turn);
   if (next.version === 2) {
-    const previous = [...next.hand, ...next.history.at(-1)?.actions?.map((a) => a.card) ?? []];
+    const previous = [
+      ...next.hand,
+      ...(next.history.at(-1)?.actions?.map((a) => a.card) ?? []),
+    ];
     const kept = next.kept ?? [];
     next.discard.push(...next.hand.filter((id) => !kept.includes(id)));
     next.hand = next.hand.filter((id) => kept.includes(id));
     next.kept = [];
-    while (next.hand.length < 4) { const before = next.hand.length; draw(next, previous); if (next.hand.length === before) break; }
+    while (next.hand.length < 4) {
+      const before = next.hand.length;
+      draw(next, previous);
+      if (next.hand.length === before) break;
+    }
   } else while (next.hand.length < 4) draw(next);
   return next;
 }

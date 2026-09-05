@@ -407,7 +407,6 @@
   .trait-accumulator-heading h2,
   .quiz-heading h2,
   .dinosaur-section-heading h2,
-  .dinosaur-detail-card h2,
   .dinosaurs-bridge strong,
   .origin-note h2 {
     margin: 0.25rem 0 0.4rem;
@@ -426,7 +425,6 @@
   .trait-accumulator-heading p,
   .quiz-heading p,
   .dinosaur-section-heading p,
-  .dinosaur-detail-card p,
   .dinosaurs-bridge p,
   .origin-hypothesis-card p,
   .origin-note p {
