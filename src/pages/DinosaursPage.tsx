@@ -3,20 +3,15 @@ import "../styles/pages/dinosaurs.css";
 import {
   ArrowLeft,
   ArrowRight,
-  Bird,
   BookOpen,
-  Camera,
-  Clock3,
-  Crown,
+  ChevronDown,
   GitBranch,
-  Maximize2,
-  MoveHorizontal,
-  ShieldAlert,
   Sparkles,
-  Waves,
 } from "lucide-react";
 import {
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type CSSProperties,
   type KeyboardEvent,
@@ -73,7 +68,7 @@ const timelineTicks = [
 const dinosaurRouteStops = [
   {
     id: "shared",
-    label: "Животн.",
+    label: "Животные",
     targetId: "early-animals",
     range: "575-320 млн лет",
     color: "#6aa8ad",
@@ -87,21 +82,21 @@ const dinosaurRouteStops = [
   },
   {
     id: "diapsids",
-    label: "Диапс.",
+    label: "Диапсиды",
     targetId: "diapsids",
     range: "310 млн лет",
     color: "#98ad70",
   },
   {
     id: "archosaurs",
-    label: "Архоз.",
+    label: "Архозавры",
     targetId: "archosaurs",
     range: "250 млн лет",
     color: "#d28c59",
   },
   {
     id: "dinosaurs",
-    label: "Диноз.",
+    label: "Динозавры",
     targetId: "early-dinosaurs",
     range: "230-160 млн лет",
     color: "#c7794d",
@@ -117,38 +112,33 @@ const dinosaurRouteStops = [
     id: "today",
     label: "Сегодня",
     targetId: "modern-birds",
-    range: "0 млн лет",
+    range: "наши дни",
     color: "#90b886",
   },
 ];
 
 const dinosaurFacts = [
   {
-    icon: Crown,
     label: "Мезозойская история",
     value: "~165 млн лет",
     text: "динозавровая ветвь существовала от позднего триаса до K-Pg; наземная доминация усилилась после триасово-юрского кризиса.",
   },
   {
-    icon: Clock3,
     label: "До первых птиц",
     value: "~80 млн лет",
     text: "прошло от ранних динозавров триаса до Archaeopteryx и близких ранних avialae.",
   },
   {
-    icon: Waves,
     label: "Рубеж K-Pg",
     value: "66 млн лет",
     text: "назад исчезли нептичьи динозавры, но часть птичьей ветви пережила глобальный кризис.",
   },
   {
-    icon: Bird,
     label: "Живая ветвь",
     value: "более 10 000 видов",
     text: "современные птицы — самая разнообразная ныне живущая динозавровая линия.",
   },
   {
-    icon: GitBranch,
     label: "Наш общий предок",
     value: "~320 млн лет",
     text: "назад ранние амниоты дали две линии: синапсидную к млекопитающим и диапсидную к динозаврам/птицам.",
@@ -162,15 +152,12 @@ const formatAge = (ageMa: number) => {
   return `${ageMa.toLocaleString("ru-RU")} млн лет назад`;
 };
 
-const getImage = (stage: BranchItem): StageImage => stage.image;
 const getWhyMatters = (stage: BranchItem) =>
   "whyMattersRu" in stage
     ? stage.whyMattersRu
     : "Этот этап помогает увидеть развилку, от которой дальше уходит птичья линия.";
 const getEvidence = (stage: BranchItem) =>
-  "evidenceRu" in stage
-    ? stage.evidenceRu
-    : "Эта точка уже описана в основной линии Атласа и переиспользуется здесь как общий животный фундамент.";
+  "evidenceRu" in stage ? stage.evidenceRu : null;
 const getJourneyLabel = (stage: BranchItem) =>
   birdDinosaurBranch.some((candidate) => candidate.id === stage.id)
     ? "динозавровая ветвь"
@@ -241,18 +228,26 @@ function getStepTarget(stages: BranchItem[], activeId: string, delta: number) {
   return stages[nextIndex] ?? fallback;
 }
 
-function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
-  const image = getImage(stage);
-  const [isImageExpanded, setIsImageExpanded] = useState(false);
-
+function DinosaurIllustration({
+  image,
+  title,
+  className = "",
+  zoomClassName = "",
+}: {
+  image: StageImage;
+  title: string;
+  className?: string;
+  zoomClassName?: string;
+}) {
+  const [expanded, setExpanded] = useState(false);
   return (
-    <article className="dinosaur-detail-card" aria-live="polite">
-      <figure className="dinosaur-detail-visual">
+    <>
+      <figure className={className}>
         <button
           type="button"
-          className="dinosaur-detail-image-zoom"
-          onClick={() => setIsImageExpanded(true)}
-          aria-label={`Увеличить изображение: ${stage.titleRu}`}
+          className={`dinosaur-image-zoom ${zoomClassName}`}
+          aria-label={`Увеличить изображение: ${title}`}
+          onClick={() => setExpanded(true)}
         >
           <OptimizedImage
             src={image.src}
@@ -260,23 +255,74 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
             loading="lazy"
             decoding="async"
           />
-          <span className="stage-plate-zoom-indicator">
-            <Maximize2 aria-hidden="true" size={15} />
-            Увеличить
-          </span>
         </button>
-        {image.kind === "generated-reconstruction" ? (
-          <figcaption>AI-реконструкция</figcaption>
-        ) : null}
+        <figcaption>
+          {image.kind === "generated-reconstruction"
+            ? "AI-реконструкция"
+            : image.credit}
+        </figcaption>
       </figure>
+      <ImageLightbox
+        image={
+          expanded
+            ? {
+                src: image.src,
+                alt: image.altRu,
+                caption: `${title}. ${image.altRu}`,
+              }
+            : null
+        }
+        ariaLabel="Увеличенное изображение вида"
+        onClose={() => setExpanded(false)}
+      />
+    </>
+  );
+}
 
-      <div className="dinosaur-detail-copy">
-        <p className="eyebrow">{label}</p>
+function DinosaurEvidence({ stage }: { stage: BranchItem }) {
+  const evidence = getEvidence(stage);
+  return (
+    <details className="dinosaur-evidence">
+      <summary>
+        <span>На чём основан вывод</span>
+        <ChevronDown size={17} aria-hidden="true" />
+      </summary>
+      {evidence && <p>{evidence}</p>}
+      <div className="dinosaur-sources">
+        {stage.sources.map((source) => (
+          <a
+            key={source.url}
+            href={source.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {source.label}
+          </a>
+        ))}
+      </div>
+    </details>
+  );
+}
+
+function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
+  return (
+    <article className="dinosaur-detail-card" aria-label="Активный вид">
+      <DinosaurIllustration
+        image={stage.image}
+        title={stage.titleRu}
+        className="dinosaur-detail-visual"
+        zoomClassName="dinosaur-detail-image-zoom"
+      />
+      <div className="stage-copy dinosaur-detail-copy">
+        <p className="kicker dinosaur-age">{formatAge(stage.ageMa)}</p>
         <h2>{stage.titleRu}</h2>
-        <p className="latin-name">{stage.latin}</p>
-        <p className="dinosaur-age">{formatAge(stage.ageMa)}</p>
-        <p>{stage.summaryRu}</p>
-
+        <p className="latin">{stage.latin}</p>
+        <p className="lead">{stage.summaryRu}</p>
+        <div className="dinosaur-traits" aria-label="Признаки ветви">
+          {stage.inherited.map((trait) => (
+            <span key={trait}>{trait}</span>
+          ))}
+        </div>
         <div className="dinosaur-proof">
           <strong>
             <Sparkles aria-hidden="true" size={17} />
@@ -284,86 +330,35 @@ function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
           </strong>
           <p>{getWhyMatters(stage)}</p>
         </div>
-
-        <div className="dinosaur-proof is-evidence">
-          <strong>
-            <ShieldAlert aria-hidden="true" size={17} />
-            На чем держится вывод
-          </strong>
-          <p>{getEvidence(stage)}</p>
-        </div>
-
-        <div className="dinosaur-traits">
-          {stage.inherited.map((trait) => (
-            <span key={trait}>{trait}</span>
-          ))}
-        </div>
+        <DinosaurEvidence key={stage.id} stage={stage} />
+        <p className="dinosaur-branch-label">{label}</p>
       </div>
-      <ImageLightbox
-        image={
-          isImageExpanded
-            ? {
-                src: image.src,
-                alt: image.altRu,
-                caption: `${stage.titleRu}. ${image.altRu}`,
-              }
-            : null
-        }
-        ariaLabel="Увеличенное изображение вида"
-        onClose={() => setIsImageExpanded(false)}
-      />
     </article>
   );
 }
 
 function MobileDinosaurStageDetail({ stage }: { stage: BranchItem }) {
-  const image = getImage(stage);
-  const [isImageExpanded, setIsImageExpanded] = useState(false);
-
   return (
     <div className="mobile-dinosaur-stage-detail">
-      <button
-        type="button"
-        className="mobile-dinosaur-stage-zoom"
-        onClick={() => setIsImageExpanded(true)}
-        aria-label={`Увеличить изображение: ${stage.titleRu}`}
-      >
-        <OptimizedImage
-          src={image.src}
-          alt={image.altRu}
-          loading="lazy"
-          decoding="async"
-        />
-        <span className="stage-plate-zoom-indicator">
-          <Maximize2 aria-hidden="true" size={15} />
-          Увеличить
-        </span>
-      </button>
+      <DinosaurIllustration
+        image={stage.image}
+        title={stage.titleRu}
+        className="mobile-dinosaur-visual"
+        zoomClassName="mobile-dinosaur-stage-zoom"
+      />
       <div className="mobile-dinosaur-stage-copy">
         <span>{formatAge(stage.ageMa)}</span>
         <h3>{stage.titleRu}</h3>
-        <p className="latin-name">{stage.latin}</p>
+        <p className="latin">{stage.latin}</p>
         <p>{stage.summaryRu}</p>
-        <div className="mobile-dinosaur-traits" aria-label="Признаки ветви">
+        <div className="dinosaur-traits" aria-label="Признаки ветви">
           {stage.inherited.slice(0, 4).map((trait) => (
             <span key={trait}>{trait}</span>
           ))}
         </div>
         <p className="mobile-dinosaur-why">{getWhyMatters(stage)}</p>
+        <DinosaurEvidence stage={stage} />
       </div>
-      <ImageLightbox
-        image={
-          isImageExpanded
-            ? {
-                src: image.src,
-                alt: image.altRu,
-                caption: `${stage.titleRu}. ${image.altRu}`,
-              }
-            : null
-        }
-        ariaLabel="Увеличенное изображение вида"
-        onClose={() => setIsImageExpanded(false)}
-      />
     </div>
   );
 }
@@ -422,6 +417,8 @@ function MobileDinosaurJourney({
           return (
             <article
               key={stage.id}
+              data-stage-id={stage.id}
+              data-is-kpg={stage.id === "kpg-survivors" ? "true" : undefined}
               className={
                 isActive
                   ? "mobile-dinosaur-stage-row is-active"
@@ -431,12 +428,21 @@ function MobileDinosaurJourney({
               <button
                 type="button"
                 aria-current={isActive ? "true" : undefined}
-                onClick={() => onSelect(stage)}
+                onClick={() => {
+                  onSelect(stage);
+                  requestAnimationFrame(() =>
+                    document
+                      .querySelector(`[data-stage-id="${stage.id}"]`)
+                      ?.scrollIntoView({ block: "start" }),
+                  );
+                }}
               >
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <strong>{stage.titleRu}</strong>
                 <small>{formatAge(stage.ageMa)}</small>
-                <em>{isBirdBranch ? "от динозавров к птицам" : "общая линия"}</em>
+                <em>
+                  {isBirdBranch ? "от динозавров к птицам" : "общая линия"}
+                </em>
               </button>
               {isActive ? <MobileDinosaurStageDetail stage={stage} /> : null}
             </article>
@@ -498,10 +504,13 @@ function DinosaurTimelineAxis({
       aria-label="Временная шкала динозавровой ветви"
     >
       <div className="axis-toolbar">
-        <span className="axis-toolbar-copy">
-          <MoveHorizontal aria-hidden="true" size={19} />
-          Нажимайте точки, двигайте ползунок или используйте стрелки
-        </span>
+        <div className="dinosaur-axis-current" aria-live="polite">
+          <span>
+            {formatAge(activeStage.ageMa)} · {activeIndex + 1} из{" "}
+            {stages.length}
+          </span>
+          <strong>{activeStage.titleRu}</strong>
+        </div>
         <div className="axis-step-controls" aria-label="Переключение этапов">
           <button
             type="button"
@@ -522,7 +531,6 @@ function DinosaurTimelineAxis({
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>
-        <strong>575 млн лет назад — наши дни</strong>
       </div>
 
       <div
@@ -541,7 +549,7 @@ function DinosaurTimelineAxis({
         />
         <OptimizedImage
           className="dinosaur-timeline-river-image"
-          src="/assets/images/dinosaurs/dinosaur-timeline-river.png"
+          src="/assets/images/dinosaurs/dinosaur-timeline-river.avif"
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -569,6 +577,13 @@ function DinosaurTimelineAxis({
           })}
         </div>
 
+        <span
+          className="dinosaur-kpg-boundary"
+          style={{ left: `${positionById.get("kpg-survivors")}%` }}
+          aria-hidden="true"
+        >
+          <span>K–Pg · 66 млн лет</span>
+        </span>
         <span
           className="deep-active-line"
           style={{ left: `${activeDisplayPosition}%` }}
@@ -601,10 +616,6 @@ function DinosaurTimelineAxis({
                 type="button"
                 aria-label={`${stage.titleRu}, ${formatAge(stage.ageMa)}`}
                 aria-current={isActive ? "true" : undefined}
-                onPointerDown={() => onSelect(stage)}
-                onMouseDown={() => onSelect(stage)}
-                onTouchStart={() => onSelect(stage)}
-                onFocus={() => onSelect(stage)}
                 onClick={() => onSelect(stage)}
               >
                 <span />
@@ -677,6 +688,7 @@ function DinosaurRouteNavigation({
             className={isActive ? "era-route-item is-active" : "era-route-item"}
             onClick={() => onSelect(stop.target)}
             aria-label={`${stop.label}, ${stop.range}`}
+            aria-current={isActive ? "step" : undefined}
           >
             <span className="era-route-marker" aria-hidden="true">
               <span
@@ -699,6 +711,20 @@ function DinosaurRouteNavigation({
 }
 
 export function DinosaursPage() {
+  const pageRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const header = document.querySelector(".topbar");
+    if (!header) return;
+    const update = () =>
+      pageRef.current?.style.setProperty(
+        "--dinosaurs-header-height",
+        `${header.getBoundingClientRect().height}px`,
+      );
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
   const isMobileDinosaurAxis = useMediaQuery("(max-width: 720px)");
   const [activeJourneyId, setActiveJourneyId] = useState(
     dinosaurJourney[0]?.id ?? "early-animals",
@@ -720,106 +746,85 @@ export function DinosaursPage() {
   const canStepNext = activeIndex < dinosaurJourney.length - 1;
 
   function moveActive(delta: number) {
-    setActiveJourneyId(
-      getStepTarget(dinosaurJourney, activeJourneyStage.id, delta).id,
-    );
+    const next = getStepTarget(dinosaurJourney, activeJourneyStage.id, delta);
+    setActiveJourneyId(next.id);
+    if (isMobileDinosaurAxis)
+      requestAnimationFrame(() => {
+        pageRef.current
+          ?.querySelector(`[data-stage-id="${next.id}"]`)
+          ?.scrollIntoView({ block: "start" });
+      });
   }
 
   return (
     <section
+      ref={pageRef}
       className="document-page dinosaurs-page"
       data-tour-stop-id="page-dinosaurs"
     >
       <PageHeader
+        className="atlas-hero dinosaur-hero"
         eyebrow="От амниот к птицам"
         title="Вымерли ли динозавры"
         aside={
-          <div className="dinosaurs-answer-card">
-            <Bird aria-hidden="true" size={36} />
-            <strong>{dinosaurAnswer}</strong>
-            <span>
-              Одна шкала ведёт от общего животного предка к современным птицам —
-              живой ветви динозавров.
-            </span>
+          <div
+            className="dinosaur-hero-pair"
+            aria-label="Динозавры и современные птицы"
+          >
+            {[
+              {
+                stage: birdDinosaurBranch.find(
+                  (stage) => stage.id === "theropods",
+                )!,
+                label: "Нептичьи тероподы",
+              },
+              {
+                stage: birdDinosaurBranch.find(
+                  (stage) => stage.id === "modern-birds",
+                )!,
+                label: "Современные птицы",
+              },
+            ].map(({ stage, label }) => (
+              <div key={stage.id}>
+                <DinosaurIllustration
+                  image={{
+                    ...stage.image,
+                    src: stage.image.src.replace(/\.jpg$/, ".avif"),
+                  }}
+                  title={label}
+                  className="dinosaur-hero-image"
+                />
+                <span>{label}</span>
+              </div>
+            ))}
           </div>
         }
       >
-        Короткий ответ звучит неожиданно: {dinosaurAnswer} Поэтому голубь за окном —
-        потомок <GlossaryTermById id="theropods">тероподной ветви</GlossaryTermById>{" "}
-        и ближе к нептичьим тероподам, чем к нашей млекопитающей линии.
+        {dinosaurAnswer} Проследите путь от общего предка позвоночных к
+        современным птицам.
       </PageHeader>
-
-      <div className="dinosaurs-map-note">
-        <Camera aria-hidden="true" size={21} />
-        <p>
-          Как в Атласе, всё на одной оси. До{" "}
-          <GlossaryTermById id="amniotes">амниот</GlossaryTermById> — общий
-          ствол; дальше{" "}
-          <GlossaryTermById id="diapsids">диапсиды</GlossaryTermById> ведут к
-          динозаврам и птицам.
-        </p>
+      <div className="primate-intro-tools dinosaur-intro-tools">
+        <span>575 млн лет истории · 18 этапов</span>
+        <nav className="primate-page-nav" aria-label="На этой странице">
+          <a href="#dinosaur-timeline">Шкала</a>
+          <a href="#dinosaur-common-ancestor">Общий предок</a>
+          <a href="#dinosaurs-curiosity-facts">Признаки птиц</a>
+        </nav>
       </div>
-
       <section
         className="dinosaur-facts-band"
         aria-label="Факты о динозаврах и птицах"
       >
-        {dinosaurFacts.map(({ icon: Icon, label, value, text }) => (
+        {dinosaurFacts.map(({ label, value }) => (
           <article key={label}>
-            <Icon aria-hidden="true" size={21} />
             <span>{label}</span>
             <strong>{value}</strong>
-            <p>{text}</p>
           </article>
         ))}
       </section>
 
-      <CuriosityFacts
-        factIds={CURIOSITY_FACT_PAGE_GROUPS.dinosaurs}
-        eyebrow="От теропод к птицам"
-        title="Птичьи признаки собирались по частям"
-        description="Перо, лёгкий скелет и крыло складывались постепенно; разные детали сперва служили разным задачам."
-        headingId="dinosaurs-curiosity-facts"
-      />
-
       <section
-        className="dinosaur-common-ancestor"
-        aria-labelledby="dinosaur-common-ancestor-title"
-      >
-        <div className="dinosaur-common-ancestor__lead">
-          <GitBranch aria-hidden="true" size={24} />
-          <div>
-            <p className="eyebrow">Общий предок с птицами</p>
-            <h2 id="dinosaur-common-ancestor-title">
-              {dinosaurCommonAncestor.titleRu}, {dinosaurCommonAncestor.valueRu}
-            </h2>
-            <p>{dinosaurCommonAncestor.summaryRu}</p>
-          </div>
-        </div>
-        <figure className="dinosaur-common-ancestor__media">
-          <OptimizedImage
-            src="/assets/images/dinosaurs/common-ancestor-amniote-generated.jpg"
-            alt="AI-реконструкция раннего амниота — близкого образа нашего общего предка с птицами."
-            loading="lazy"
-            decoding="async"
-          />
-        </figure>
-        <div
-          className="dinosaur-common-ancestor__split"
-          aria-label="Две ветви после ранних амниот"
-        >
-          <article>
-            <span>Наша линия</span>
-            <strong>{dinosaurCommonAncestor.humanBranchRu}</strong>
-          </article>
-          <article>
-            <span>Линия птиц</span>
-            <strong>{dinosaurCommonAncestor.dinosaurBranchRu}</strong>
-          </article>
-        </div>
-      </section>
-
-      <section
+        id="dinosaur-timeline"
         className="dinosaur-axis-section is-journey"
         aria-labelledby="bird-dinosaur-branch"
       >
@@ -827,17 +832,14 @@ export function DinosaursPage() {
           <GitBranch aria-hidden="true" size={22} />
           <div>
             <p className="eyebrow">От общего предка к птицам</p>
-            <h2 id="bird-dinosaur-branch">От общего предка к современным птицам</h2>
+            <h2 id="bird-dinosaur-branch">
+              От общего предка к современным птицам
+            </h2>
             <p>
-              Сначала идут общие животные предки позвоночных, затем после амниот
-              ось уходит в диапсидную ветвь. Дальше идут архозавры, динозавры,
-              перья,{" "}
-              <GlossaryTermById id="archaeopteryx">
-                Archaeopteryx
-              </GlossaryTermById>{" "}
-              и современные птицы. Точка развилки с нашей линией —{" "}
-              {dinosaurCommonAncestor.titleRu.toLowerCase()} (
-              {dinosaurCommonAncestor.valueRu}).
+              До <GlossaryTermById id="amniotes">амниот</GlossaryTermById> —
+              общая линия с нами. После развилки{" "}
+              <GlossaryTermById id="diapsids">диапсиды</GlossaryTermById> ведут
+              к динозаврам и птицам. Выберите этап на шкале или в маршруте.
             </p>
           </div>
         </div>
@@ -887,6 +889,89 @@ export function DinosaursPage() {
           </div>
         )}
       </section>
+
+      <section
+        id="dinosaur-common-ancestor"
+        className="dinosaur-common-ancestor"
+        aria-labelledby="dinosaur-common-ancestor-title"
+      >
+        <div className="dinosaur-section-heading">
+          <GitBranch aria-hidden="true" size={22} />
+          <div>
+            <p className="eyebrow">Общий предок с птицами</p>
+            <h2 id="dinosaur-common-ancestor-title">
+              {dinosaurCommonAncestor.titleRu}, {dinosaurCommonAncestor.valueRu}
+            </h2>
+            <p>{dinosaurCommonAncestor.summaryRu}</p>
+          </div>
+        </div>
+        <div className="dinosaur-ancestor-layout">
+          <DinosaurIllustration
+            image={{
+              src: "/assets/images/dinosaurs/common-ancestor-amniote-generated.jpg",
+              altRu:
+                "AI-реконструкция раннего амниота — близкого образа нашего общего предка с птицами.",
+              kind: "generated-reconstruction",
+              credit: "AI-реконструкция",
+              license: "AI-реконструкция",
+              sourceUrl: "https://openai.com/",
+            }}
+            title="Ранние амниоты"
+            className="dinosaur-common-ancestor__media"
+          />
+          <div
+            className="dinosaur-ancestor-tree"
+            aria-label="Две ветви после ранних амниот"
+          >
+            <div className="dinosaur-ancestor-root">
+              <span>Общая точка</span>
+              <strong>Ранние амниоты</strong>
+              <small>~320 млн лет назад</small>
+            </div>
+            <div className="dinosaur-common-ancestor__split">
+              <article>
+                <span>Наша линия</span>
+                <strong>Млекопитающие и человек</strong>
+                <p>{dinosaurCommonAncestor.humanBranchRu}</p>
+                <Link to="/primates">
+                  К приматам и человеку{" "}
+                  <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              </article>
+              <article>
+                <span>Линия птиц</span>
+                <strong>Динозавры и птицы</strong>
+                <p>{dinosaurCommonAncestor.dinosaurBranchRu}</p>
+                <a href="#dinosaur-timeline">
+                  К шкале <ArrowRight size={16} aria-hidden="true" />
+                </a>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+      <CuriosityFacts
+        factIds={CURIOSITY_FACT_PAGE_GROUPS.dinosaurs}
+        eyebrow="От теропод к птицам"
+        title="Птичьи признаки собирались по частям"
+        description="Перо, лёгкий скелет и крыло складывались постепенно; разные детали сперва служили разным задачам."
+        headingId="dinosaurs-curiosity-facts"
+      />
+
+      <details className="dinosaur-context-facts">
+        <summary>
+          Подробнее о цифрах раздела{" "}
+          <ChevronDown size={18} aria-hidden="true" />
+        </summary>
+        <dl>
+          {dinosaurFacts.map(({ label, text }) => (
+            <div key={label}>
+              <dt>{label}</dt>
+              <dd>{text}</dd>
+            </div>
+          ))}
+        </dl>
+      </details>
 
       <div className="dinosaurs-bridge">
         <div>
