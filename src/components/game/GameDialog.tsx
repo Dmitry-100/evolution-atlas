@@ -1,4 +1,4 @@
-import { useId, useRef, type ReactNode } from "react";
+import { useId, useRef, type ReactNode, type RefObject } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
@@ -10,6 +10,8 @@ export function GameDialog({
   children,
   className = "",
   alert = false,
+  eyebrow = "Полевой дневник",
+  returnFocusRef,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -18,6 +20,8 @@ export function GameDialog({
   children: ReactNode;
   className?: string;
   alert?: boolean;
+  eyebrow?: string;
+  returnFocusRef?: RefObject<HTMLElement | null>;
 }) {
   const descriptionId = useId();
   const previousFocus = useRef<HTMLElement | null>(null);
@@ -35,12 +39,13 @@ export function GameDialog({
           }}
           onCloseAutoFocus={(event) => {
             event.preventDefault();
-            previousFocus.current?.focus({ preventScroll: true });
+            const target = returnFocusRef?.current ?? previousFocus.current;
+            if (target?.isConnected) target.focus({ preventScroll: true });
           }}
         >
           <div className="game-dialog-heading">
             <div>
-              <span className="game-eyebrow">Полевой дневник</span>
+              <span className="game-eyebrow">{eyebrow}</span>
               <Dialog.Title>{title}</Dialog.Title>
             </div>
             <Dialog.Close className="game-icon-button" aria-label="Закрыть">

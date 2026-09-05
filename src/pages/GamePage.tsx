@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   BookOpen,
   Bug,
+  Binoculars,
   Check,
   ChevronRight,
   CloudRain,
@@ -32,6 +33,7 @@ import { IslandScene } from "../components/game/IslandScene";
 import { GameCard } from "../components/game/GameCard";
 import { CARD_ART } from "../game/art";
 import { GameDialog } from "../components/game/GameDialog";
+import { GameFinale } from "../components/game/GameFinale";
 import { GameSelect } from "../components/game/GameSelect";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import {
@@ -121,11 +123,20 @@ export function GamePage() {
   const [restart, setRestart] = useState(false);
   const [paused, setPaused] = useState(false);
   const [resetView, setResetView] = useState(0);
+  const [focusView, setFocusView] = useState(0);
+  const [finaleDismissed, setFinaleDismissed] = useState<string | null>(null);
+  const finaleTrigger = useRef<HTMLButtonElement>(null);
   const [records, setRecords] = useState(readRecords);
   const [wide, setWide] = useState(false);
   const lock = useRef(false);
   const planning = state.phase === "planning";
   const ended = state.phase === "won" || state.phase === "extinct";
+  const finaleOpen =
+    started &&
+    ended &&
+    finaleDismissed !== state.runId &&
+    panel === null &&
+    !restart;
   const preview = previewState(state);
   const env = environment(preview, selected);
   const population = total(state);
@@ -402,12 +413,13 @@ export function GamePage() {
       <div className="game-world-layout">
         <div className={"game-world" + (!started ? " is-intro" : "")}>
           <IslandScene
-            state={preview}
+            state={state}
             selected={selected}
             onSelect={selectRegion}
-            paused={paused}
+            paused={paused || finaleOpen}
             evolving={started && !planning}
             resetView={resetView}
+            focusView={focusView}
           />
           <div className="game-world-vignette" />
           <div className="game-world-topline">
@@ -416,6 +428,16 @@ export function GamePage() {
               Архипелаг • {chapter(state.turn)}
             </span>
             <div className="game-scene-controls">
+              {started && (
+                <button
+                  className="game-icon-button"
+                  aria-label="Рассмотреть выбранный остров"
+                  title="Рассмотреть животных и изменения на острове"
+                  onClick={() => setFocusView((value) => value + 1)}
+                >
+                  <Binoculars size={16} />
+                </button>
+              )}
               {!reducedMotion && (
                 <button
                   className="game-icon-button"
@@ -470,9 +492,15 @@ export function GamePage() {
                 <ChevronRight size={15} />
               </button>
               <div className="game-world-bottomline">
-                <span className="game-orbit-hint">
-                  <Map size={13} />
-                  Вращайте мир · выберите остров
+                <span
+                  className={
+                    state.draft.length ? "game-map-plan" : "game-orbit-hint"
+                  }
+                >
+                  {state.draft.length ? <Check size={13} /> : <Map size={13} />}
+                  {state.draft.length
+                    ? "Предпросмотр плана · изменения после хода"
+                    : "Вращайте мир · рассмотрите остров вблизи"}
                 </span>
                 <button
                   className="game-mobile-island"
@@ -706,7 +734,7 @@ export function GamePage() {
             report && (
               <div
                 className={"islands-report" + (ended ? " is-final" : "")}
-                aria-live="polite"
+                aria-live={ended ? undefined : "polite"}
               >
                 <div className="game-report-emblem">
                   {state.phase === "won" ? (
@@ -739,9 +767,12 @@ export function GamePage() {
                   </p>
                   <button
                     className="game-text-button"
-                    onClick={() => setPanel("report")}
+                    ref={ended ? finaleTrigger : undefined}
+                    onClick={() =>
+                      ended ? setFinaleDismissed(null) : setPanel("report")
+                    }
                   >
-                    Разобрать результат
+                    {ended ? "Итоги экспедиции" : "Разобрать результат"}
                     <ArrowUpRight size={14} />
                   </button>
                 </div>
@@ -954,6 +985,23 @@ export function GamePage() {
           </div>
         )}
       </GameDialog>
+      {ended && (
+        <GameFinale
+          key={state.runId}
+          state={state}
+          open={finaleOpen}
+          returnFocusRef={finaleTrigger}
+          onClose={() => setFinaleDismissed(state.runId)}
+          onReplay={(same) => {
+            trackGoal("game_restarted", { sameScenario: same });
+            startNew(same ? state.seed : undefined);
+          }}
+          onHistory={() => {
+            setFinaleDismissed(state.runId);
+            setPanel("history");
+          }}
+        />
+      )}
       <GameDialog
         open={panel === "report"}
         onOpenChange={(open) => !open && setPanel(null)}
@@ -1033,7 +1081,11 @@ export function GamePage() {
               <h3>Исследуйте острова</h3>
               <p>
                 Поворачивайте архипелаг и выбирайте остров. Справа — пища,
-                температура и наследуемые признаки его обитателей.
+                температура и наследуемые признаки его обитателей. Кнопка с
+                биноклем приближает выбранный остров: можно рассмотреть животных
+                и изменения ландшафта. Компас возвращает общий вид. Фигурки
+                обозначают группы: точная численность указана на метках
+                островов.
               </p>
             </div>
           </li>
@@ -1044,7 +1096,8 @@ export function GamePage() {
               <p>
                 На ход есть 2 очка. Откройте карту, выберите цель и добавьте
                 действие в план. Одну карту можно бесплатно заменить. Можно и
-                просто наблюдать.
+                просто наблюдать. Полупрозрачные объекты на карте показывают ваш
+                план: он вступит в силу после нажатия «Следующие поколения».
               </p>
             </div>
           </li>

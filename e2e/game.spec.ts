@@ -293,19 +293,20 @@ test("3D camera can rotate, reset and pause without changing game state", async 
   );
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await enter(page);
   const canvas = page.locator(".island-scene canvas");
   const label = page.locator(".island-scene-labels .islands-map-node").first();
   const initial = await label.getAttribute("style");
   const rect = (await canvas.boundingBox())!;
   await page.mouse.move(
-    rect.x + rect.width * 0.52,
-    rect.y + rect.height * 0.63,
+    rect.x + rect.width * 0.12,
+    rect.y + rect.height * 0.55,
   );
   await page.mouse.down();
   await page.mouse.move(
-    rect.x + rect.width * 0.73,
-    rect.y + rect.height * 0.64,
+    rect.x + rect.width * 0.3,
+    rect.y + rect.height * 0.56,
     { steps: 12 },
   );
   await page.mouse.up();
