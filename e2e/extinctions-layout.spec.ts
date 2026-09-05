@@ -2,9 +2,9 @@ import { expect, test } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 import { MASS_EXTINCTIONS } from "../src/data/extinctions";
 
-test.describe.configure({ mode: "parallel" });
+test.describe.configure({ mode: "serial" });
 
-for (const width of [1440, 1100, 820, 391, 320]) {
+for (const width of [1920, 1440, 1100, 820, 391, 320]) {
   test(`extinctions navigation, summaries and details at ${width}px`, async ({
     page,
   }, testInfo) => {
@@ -54,14 +54,31 @@ for (const width of [1440, 1100, 820, 391, 320]) {
       imageFit: getComputedStyle(
         document.querySelector(".extinction-image-zoom img")!,
       ).objectFit,
-      scrollHeight: document.documentElement.scrollHeight,
+      imageWidthRatio:
+        document
+          .querySelector(".extinction-image-zoom")!
+          .getBoundingClientRect().width /
+        document.querySelector(".extinction-card")!.getBoundingClientRect()
+          .width,
+      statsBelowImage:
+        document.querySelector(".extinction-stat-grid")!.getBoundingClientRect()
+          .top >=
+        document
+          .querySelector(".extinction-image-zoom")!
+          .getBoundingClientRect().bottom,
+      maxStatHeight: Math.max(
+        ...[...document.querySelectorAll(".extinction-stat-grid > div")].map(
+          (stat) => stat.getBoundingClientRect().height,
+        ),
+      ),
     }));
     expect(initialLayout.overflow).toBe(false);
     expect(initialLayout.navRows).toBe(1);
     expect(initialLayout.headerBeforeImage).toBe(true);
-    expect(initialLayout.imageFit).toBe("contain");
-    const maxScrollHeight = width >= 1000 ? 6500 : width >= 720 ? 8500 : 11000;
-    expect(initialLayout.scrollHeight).toBeLessThan(maxScrollHeight);
+    expect(initialLayout.imageFit).toBe("cover");
+    expect(initialLayout.imageWidthRatio).toBeGreaterThan(0.86);
+    expect(initialLayout.statsBelowImage).toBe(true);
+    expect(initialLayout.maxStatHeight).toBeLessThan(260);
     await page.screenshot({
       path: `${screenshots}/${width}-intro.png`,
       animations: "disabled",

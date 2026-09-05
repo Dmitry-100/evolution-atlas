@@ -60,22 +60,39 @@ export function ExtinctionsPage() {
     const cards = [...cardsRef.current.values()];
     if (!cards.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        const eventId = (visible?.target as HTMLElement | undefined)?.dataset
-          .eventId;
-        if (eventId) setActiveEventId(eventId);
-      },
-      {
-        rootMargin: "0px 0px -25% 0px",
-        threshold: [0, 0.1, 0.25, 0.5, 0.75],
-      },
-    );
-    cards.forEach((card) => observer.observe(card));
-    return () => observer.disconnect();
+    let frame = 0;
+    const updateActiveEvent = () => {
+      frame = 0;
+      const anchor = Math.min(window.innerHeight * 0.35, 320);
+      const cardAtAnchor =
+        cards.find((card) => {
+          const rect = card.getBoundingClientRect();
+          return rect.top <= anchor && rect.bottom > anchor;
+        }) ??
+        cards.reduce((nearest, card) => {
+          const distance = Math.abs(card.getBoundingClientRect().top - anchor);
+          const nearestDistance = Math.abs(
+            nearest.getBoundingClientRect().top - anchor,
+          );
+          return distance < nearestDistance ? card : nearest;
+        });
+
+      if (cardAtAnchor.dataset.eventId) {
+        setActiveEventId(cardAtAnchor.dataset.eventId);
+      }
+    };
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveEvent);
+    };
+
+    updateActiveEvent();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
   }, []);
 
   function openEvent(eventId: string) {
@@ -83,9 +100,7 @@ export function ExtinctionsPage() {
     setExpandedEventId(eventId);
     requestAnimationFrame(() => {
       cardsRef.current.get(eventId)?.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
+        behavior: "auto",
         block: "start",
       });
     });
@@ -191,7 +206,7 @@ export function ExtinctionsPage() {
         aria-label="Шесть крупных кризисов биоразнообразия"
       >
         {MASS_EXTINCTIONS.map((event) => {
-          const image = event.pageImage;
+          const image = event.image;
           const title = formatExtinctionTitleRu(event.titleRu);
           const isActive = event.id === activeEventId;
           const isExpanded = event.id === expandedEventId;
