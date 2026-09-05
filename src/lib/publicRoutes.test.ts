@@ -18,6 +18,7 @@ describe("public route configuration", () => {
       "/materials",
       "/sources",
       "/about",
+      "/game",
       "/quiz",
     ]);
     expect(publicRoutePath("genetics")).toBe("/genetics");

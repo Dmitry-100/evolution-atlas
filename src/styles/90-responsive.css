@@ -213,8 +213,7 @@
       aspect-ratio: auto;
     }
 
-    .dinosaur-detail-card,
-    .body-map-grid {
+    .dinosaur-detail-card {
       grid-template-columns: 1fr;
     }
 
@@ -251,14 +250,6 @@
 
     .dinosaur-common-ancestor {
       grid-template-columns: 1fr;
-    }
-
-    .body-trait-inspector {
-      position: static;
-    }
-
-    .body-map-layer-tabs {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
@@ -511,70 +502,6 @@
 
     .geologic-period-card .box-title {
       min-width: 0;
-    }
-
-    .body-map-layer-tabs {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.42rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .body-map-layer-heading {
-      display: grid;
-      gap: 0.55rem;
-      padding: 0.78rem;
-    }
-
-    .body-map-layer-heading h2 {
-      margin-top: 0;
-      font-size: 1.38rem;
-    }
-
-    .body-map-layer-heading p {
-      line-height: 1.42;
-    }
-
-    .body-map-layer-heading > span {
-      justify-self: start;
-      padding: 0.32rem 0.56rem;
-    }
-
-    .body-trait-pin {
-      width: 36px;
-      height: 36px;
-      min-width: 36px;
-      min-height: 36px;
-      justify-content: center;
-      gap: 0;
-      padding: 0;
-    }
-
-    .body-trait-pin span {
-      display: none !important;
-    }
-
-    .body-trait-pin:hover,
-    .body-trait-pin.is-active {
-      transform: translate(-50%, -50%) scale(1.06);
-    }
-
-    .body-trait-inspector {
-      gap: 0.72rem;
-      padding: 0.85rem;
-    }
-
-    .body-trait-inspector-heading {
-      gap: 0.55rem;
-    }
-
-    .body-trait-inspector-heading h2 {
-      font-size: 1.55rem;
-    }
-
-    .body-trait-stage,
-    .body-trait-source,
-    .body-trait-caveat {
-      padding: 0.72rem;
     }
 
     .era-route::before {

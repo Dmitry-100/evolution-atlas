@@ -16,6 +16,7 @@ const navItems = [
   "Вымерли ли динозавры",
   "Дополнительные материалы",
   "О проекте",
+  "Игра",
   "Проверь себя",
 ];
 
@@ -1747,16 +1748,14 @@ test.describe("Evolution Atlas", () => {
       "aria-selected",
       "true",
     );
-    await expect(page.locator(".body-trait-inspector")).toContainText(
-      "Мембраны",
-    );
+    await expect(page.locator(".body-map-selected")).toContainText("Мембраны");
 
     await page.getByRole("tab", { name: "Движение" }).click();
     await expect(page.getByRole("tab", { name: "Движение" })).toHaveAttribute(
       "aria-selected",
       "true",
     );
-    await expect(page.locator(".body-trait-inspector")).toContainText(
+    await expect(page.locator(".body-map-selected")).toContainText(
       "Парные придатки",
     );
 

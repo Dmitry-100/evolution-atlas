@@ -13,6 +13,12 @@ declare global {
 }
 
 export type AnalyticsGoalParams = {
+  game_started: { version: number };
+  game_first_turn_completed: { version: number };
+  game_crisis_reached: { turn: number; survived: boolean };
+  game_finished: { turn: number; outcome: "won" | "extinct"; population: number };
+  game_restarted: { sameScenario: boolean };
+  game_article_opened: { route: string; turn: number };
   darwin_opened: { route: string };
   darwin_answered: {
     route: string;

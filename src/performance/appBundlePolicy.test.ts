@@ -10,6 +10,7 @@ describe("app bundle policy", () => {
     expect(appSource).toContain("<Suspense");
 
     for (const pageName of [
+      "GamePage",
       "AboutPage",
       "BodyMapPage",
       "ExtinctionsPage",
