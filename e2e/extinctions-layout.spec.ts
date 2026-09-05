@@ -12,6 +12,7 @@ for (const width of [1920, 1440, 1100, 820, 391, 320]) {
       testInfo.project.name !== "desktop",
       "Explicit responsive viewports.",
     );
+    test.setTimeout(60_000);
     await page.setViewportSize({ width, height: 860 });
     await page.goto("/extinctions");
 
@@ -28,11 +29,11 @@ for (const width of [1920, 1440, 1100, 820, 391, 320]) {
     );
     await expect(cards).toHaveCount(MASS_EXTINCTIONS.length);
     await expect(page.locator(".extinction-details:not([hidden])")).toHaveCount(
-      1,
+      0,
     );
     await expect(
       page.locator(".extinction-details-toggle[aria-expanded=true]"),
-    ).toHaveCount(1);
+    ).toHaveCount(0);
     await expect(
       page.locator(".extinction-live-badge", { hasText: "Продолжается" }),
     ).toHaveCount(1);
@@ -60,25 +61,48 @@ for (const width of [1920, 1440, 1100, 820, 391, 320]) {
           .getBoundingClientRect().width /
         document.querySelector(".extinction-card")!.getBoundingClientRect()
           .width,
-      statsBelowImage:
-        document.querySelector(".extinction-stat-grid")!.getBoundingClientRect()
-          .top >=
-        document
+      summaries: [
+        ...document.querySelectorAll(".extinction-card-overview"),
+      ].map((overview) => {
+        const image = overview
           .querySelector(".extinction-image-zoom")!
-          .getBoundingClientRect().bottom,
-      maxStatHeight: Math.max(
-        ...[...document.querySelectorAll(".extinction-stat-grid > div")].map(
-          (stat) => stat.getBoundingClientRect().height,
-        ),
-      ),
+          .getBoundingClientRect();
+        const summary = overview
+          .querySelector(".extinction-summary")!
+          .getBoundingClientRect();
+        return {
+          beside: summary.left >= image.right,
+          below: summary.top >= image.bottom,
+        };
+      }),
     }));
     expect(initialLayout.overflow).toBe(false);
     expect(initialLayout.navRows).toBe(1);
     expect(initialLayout.headerBeforeImage).toBe(true);
-    expect(initialLayout.imageFit).toBe("cover");
-    expect(initialLayout.imageWidthRatio).toBeGreaterThan(0.86);
-    expect(initialLayout.statsBelowImage).toBe(true);
-    expect(initialLayout.maxStatHeight).toBeLessThan(260);
+    expect(initialLayout.imageFit).toBe("contain");
+    if (width > 900) {
+      expect(initialLayout.imageWidthRatio).toBeGreaterThan(0.5);
+      expect(initialLayout.imageWidthRatio).toBeLessThan(0.6);
+      expect(initialLayout.summaries.every((summary) => summary.beside)).toBe(
+        true,
+      );
+    } else {
+      expect(initialLayout.imageWidthRatio).toBeGreaterThan(0.98);
+      expect(initialLayout.summaries.every((summary) => summary.below)).toBe(
+        true,
+      );
+    }
+    const modern = cards.last();
+    await expect(modern.locator(".extinction-summary-label")).toHaveText(
+      "Под угрозой",
+    );
+    await expect(modern.locator(".extinction-loss-value")).toContainText(
+      "≈1 млн",
+    );
+    await expect(modern.locator(".extinction-loss-value")).toContainText(
+      "под угрозой исчезновения",
+    );
+
     await page.screenshot({
       path: `${screenshots}/${width}-intro.png`,
       animations: "disabled",
@@ -97,6 +121,15 @@ for (const width of [1920, 1440, 1100, 820, 391, 320]) {
     const zoom = kpgCard.getByRole("button", {
       name: /Увеличить изображение/,
     });
+    const headingBox = await kpgCard.locator("h2").boundingBox();
+    const navBox = await nav.boundingBox();
+    expect(headingBox!.y).toBeGreaterThanOrEqual(navBox!.y + navBox!.height);
+    await expect(zoom.locator("img")).toHaveJSProperty("complete", true);
+    await expect(zoom.locator("img")).not.toHaveJSProperty("naturalWidth", 0);
+    await page.screenshot({
+      path: `${screenshots}/${width}-kpg.png`,
+      animations: "disabled",
+    });
     await expect(zoom).toHaveCSS("cursor", "zoom-in");
     await zoom.click();
     const lightbox = page.getByRole("dialog", {
@@ -113,9 +146,5 @@ for (const width of [1920, 1440, 1100, 820, 391, 320]) {
     await expect(
       kpgCard.getByRole("button", { name: /^Подробнее/ }),
     ).toHaveAttribute("aria-expanded", "false");
-    await page.screenshot({
-      path: `${screenshots}/${width}-kpg.png`,
-      animations: "disabled",
-    });
   });
 }

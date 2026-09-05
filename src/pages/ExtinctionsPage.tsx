@@ -1,16 +1,6 @@
 import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/extinctions.css";
-import {
-  ArrowRight,
-  BarChart3,
-  ChevronDown,
-  Clock3,
-  FileText,
-  Flame,
-  RefreshCw,
-  Sparkles,
-  Waves,
-} from "lucide-react";
+import { ArrowRight, ChevronDown, FileText } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ImageLightbox } from "../components/ui/image-lightbox";
@@ -28,12 +18,11 @@ const EVENT_NAV_LABELS: Record<string, { title: string; date: string }> = {
 
 export function ExtinctionsPage() {
   const pageRef = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
   const cardsRef = useRef(new Map<string, HTMLElement>());
   const firstEventId = MASS_EXTINCTIONS[0]?.id ?? "";
   const [activeEventId, setActiveEventId] = useState(firstEventId);
-  const [expandedEventId, setExpandedEventId] = useState<string | null>(
-    firstEventId,
-  );
+  const [expandedEventId, setExpandedEventId] = useState<string | null>(null);
   const [expandedVisual, setExpandedVisual] = useState<{
     src: string;
     alt: string;
@@ -63,7 +52,8 @@ export function ExtinctionsPage() {
     let frame = 0;
     const updateActiveEvent = () => {
       frame = 0;
-      const anchor = Math.min(window.innerHeight * 0.35, 320);
+      const anchor =
+        (navRef.current?.getBoundingClientRect().bottom ?? 180) + 24;
       const cardAtAnchor =
         cards.find((card) => {
           const rect = card.getBoundingClientRect();
@@ -121,11 +111,25 @@ export function ExtinctionsPage() {
         освободившиеся ниши.
       </PageHeader>
 
+      <a
+        className="extinction-pdf-link"
+        href="/assets/materials/six-planet-apocalypses.pdf"
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Открыть PDF: Шесть апокалипсисов планеты"
+      >
+        <FileText aria-hidden="true" size={17} />
+        <span>
+          Шесть апокалипсисов планеты <span>· PDF</span>
+        </span>
+        <ArrowRight aria-hidden="true" size={15} />
+      </a>
+
       <nav
+        ref={navRef}
         className="extinction-event-nav"
         aria-label="Переходы по шести кризисам"
       >
-        <span className="extinction-event-nav-label">Хронология</span>
         <div className="extinction-event-nav-track">
           {MASS_EXTINCTIONS.map((event, index) => {
             const label = EVENT_NAV_LABELS[event.id] ?? {
@@ -156,61 +160,19 @@ export function ExtinctionsPage() {
         </div>
       </nav>
 
-      <section
-        className="extinction-overview-band"
-        aria-label="Как читать историю массовых вымираний"
-      >
-        <div className="extinction-overview">
-          <article>
-            <Waves aria-hidden="true" size={20} />
-            <div>
-              <h2>Жизнь сохраняется</h2>
-              <p>Кризисы меняют состав экосистем и освобождают новые ниши.</p>
-            </div>
-          </article>
-          <article>
-            <RefreshCw aria-hidden="true" size={20} />
-            <div>
-              <h2>Ветви получают шанс</h2>
-              <p>
-                После рубежа 66 млн лет особенно быстро росли млекопитающие.
-              </p>
-            </div>
-          </article>
-          <article>
-            <Clock3 aria-hidden="true" size={20} />
-            <div>
-              <h2>Кризис длится долго</h2>
-              <p>Удар бывает резким, а вымирание и восстановление — долгими.</p>
-            </div>
-          </article>
-        </div>
-        <a
-          className="extinction-material-link"
-          href="/assets/materials/six-planet-apocalypses.pdf"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Открыть PDF: Шесть апокалипсисов планеты"
-        >
-          <FileText aria-hidden="true" size={21} />
-          <span>
-            <strong>Шесть апокалипсисов планеты</strong>
-            <small>Слайды и диаграммы · PDF</small>
-          </span>
-          <ArrowRight aria-hidden="true" size={17} />
-        </a>
-      </section>
-
       <div
         className="extinction-timeline"
         aria-label="Шесть крупных кризисов биоразнообразия"
       >
-        {MASS_EXTINCTIONS.map((event) => {
+        {MASS_EXTINCTIONS.map((event, index) => {
           const image = event.image;
           const title = formatExtinctionTitleRu(event.titleRu);
           const isActive = event.id === activeEventId;
           const isExpanded = event.id === expandedEventId;
           const isCurrent = event.id === "holocene-anthropocene";
+          const loss = /^(?:около|примерно)\s+(\d+(?:%| млн))\s+(.+)$/.exec(
+            event.lossPercentRu,
+          );
 
           return (
             <article
@@ -226,20 +188,22 @@ export function ExtinctionsPage() {
               }`}
               style={
                 {
-                  borderColor: event.color,
                   "--extinction-color": event.color,
                 } as CSSProperties
               }
             >
               <header className="extinction-card-header">
                 <div className="extinction-card-meta">
+                  <span className="extinction-card-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                   <span className="extinction-card-date">{event.windowRu}</span>
                   {isCurrent ? (
                     <span className="extinction-live-badge">Продолжается</span>
                   ) : null}
                 </div>
                 <h2 id={`extinction-title-${event.id}`}>{title}</h2>
-                <p className="extinction-loss">{event.lossRu}</p>
+                <p className="extinction-lead">{event.lossRu}</p>
               </header>
 
               <div className="extinction-card-overview">
@@ -263,29 +227,44 @@ export function ExtinctionsPage() {
                       decoding="async"
                     />
                   </button>
+                  <figcaption>Художественная AI-реконструкция</figcaption>
                 </figure>
 
-                <div className="extinction-stat-grid">
-                  <div>
-                    <BarChart3 aria-hidden="true" size={18} />
-                    <span>масштаб потерь</span>
-                    <strong>{event.lossPercentRu}</strong>
+                <div className="extinction-summary">
+                  <div className="extinction-loss-stat">
+                    <span className="extinction-summary-label">
+                      {isCurrent ? "Под угрозой" : "Масштаб потерь"}
+                    </span>
+                    <p>
+                      <span className="sr-only">{event.lossPercentRu}</span>
+                      {loss ? (
+                        <span
+                          className="extinction-loss-value"
+                          aria-hidden="true"
+                        >
+                          <strong>≈{loss[1]}</strong>
+                          <span>{loss[2]}</span>
+                        </span>
+                      ) : (
+                        <span aria-hidden="true">{event.lossPercentRu}</span>
+                      )}
+                    </p>
                   </div>
-                  <div>
-                    <Sparkles aria-hidden="true" size={18} />
-                    <span>главная причина</span>
-                    <strong>{event.snapshotRu}</strong>
-                  </div>
-                  <div className="extinction-tempo-stat">
-                    <Clock3 aria-hidden="true" size={18} />
-                    <span>темп кризиса</span>
-                    <strong>{event.tempoRu}</strong>
-                  </div>
-                  <div className="extinction-result-stat">
-                    <RefreshCw aria-hidden="true" size={18} />
-                    <span>итог</span>
-                    <strong>{event.afterRu}</strong>
-                  </div>
+                  <dl className="extinction-explanation">
+                    {[
+                      ["Что произошло", event.snapshotRu],
+                      ["Как долго", event.tempoRu],
+                      ["Что изменилось", event.afterRu],
+                    ].map(([label, text]) => (
+                      <div key={label}>
+                        <dt>{label}</dt>
+                        <dd>
+                          {text.charAt(0).toLocaleUpperCase("ru") +
+                            text.slice(1)}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
                 </div>
               </div>
 
@@ -319,10 +298,7 @@ export function ExtinctionsPage() {
               >
                 <div className="extinction-details-grid">
                   <div className="extinction-causes">
-                    <strong>
-                      <Flame aria-hidden="true" size={16} />
-                      Возможные причины
-                    </strong>
+                    <strong>Возможные причины</strong>
                     <ul>
                       {event.likelyCausesRu.map((cause) => (
                         <li key={cause}>{cause}</li>

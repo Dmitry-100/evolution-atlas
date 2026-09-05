@@ -33,6 +33,7 @@ import { IslandScene } from "../components/game/IslandScene";
 import { GameCard } from "../components/game/GameCard";
 import { CARD_ART } from "../game/art";
 import { GameDialog } from "../components/game/GameDialog";
+import { GameFinale } from "../components/game/GameFinale";
 import { GameSelect } from "../components/game/GameSelect";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import {
@@ -123,11 +124,19 @@ export function GamePage() {
   const [paused, setPaused] = useState(false);
   const [resetView, setResetView] = useState(0);
   const [focusView, setFocusView] = useState(0);
+  const [finaleDismissed, setFinaleDismissed] = useState<string | null>(null);
+  const finaleTrigger = useRef<HTMLButtonElement>(null);
   const [records, setRecords] = useState(readRecords);
   const [wide, setWide] = useState(false);
   const lock = useRef(false);
   const planning = state.phase === "planning";
   const ended = state.phase === "won" || state.phase === "extinct";
+  const finaleOpen =
+    started &&
+    ended &&
+    finaleDismissed !== state.runId &&
+    panel === null &&
+    !restart;
   const preview = previewState(state);
   const env = environment(preview, selected);
   const population = total(state);
@@ -407,7 +416,7 @@ export function GamePage() {
             state={state}
             selected={selected}
             onSelect={selectRegion}
-            paused={paused}
+            paused={paused || finaleOpen}
             evolving={started && !planning}
             resetView={resetView}
             focusView={focusView}
@@ -758,9 +767,12 @@ export function GamePage() {
                   </p>
                   <button
                     className="game-text-button"
-                    onClick={() => setPanel("report")}
+                    ref={ended ? finaleTrigger : undefined}
+                    onClick={() =>
+                      ended ? setFinaleDismissed(null) : setPanel("report")
+                    }
                   >
-                    Разобрать результат
+                    {ended ? "Итоги экспедиции" : "Разобрать результат"}
                     <ArrowUpRight size={14} />
                   </button>
                 </div>
@@ -973,6 +985,23 @@ export function GamePage() {
           </div>
         )}
       </GameDialog>
+      {ended && (
+        <GameFinale
+          key={state.runId}
+          state={state}
+          open={finaleOpen}
+          returnFocusRef={finaleTrigger}
+          onClose={() => setFinaleDismissed(state.runId)}
+          onReplay={(same) => {
+            trackGoal("game_restarted", { sameScenario: same });
+            startNew(same ? state.seed : undefined);
+          }}
+          onHistory={() => {
+            setFinaleDismissed(state.runId);
+            setPanel("history");
+          }}
+        />
+      )}
       <GameDialog
         open={panel === "report"}
         onOpenChange={(open) => !open && setPanel(null)}

@@ -2329,12 +2329,12 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { name: /Мел-палеогеновое/i }),
     ).toBeVisible();
     await expect(
-      page.locator(".extinction-stat-grid strong", {
+      page.locator(".extinction-loss-stat", {
         hasText: /около 90% всех видов/i,
       }),
     ).toBeVisible();
     await expect(
-      page.locator(".extinction-stat-grid strong", {
+      page.locator(".extinction-loss-stat", {
         hasText: /примерно 75% видов/i,
       }),
     ).toBeVisible();
@@ -2347,7 +2347,7 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: /Открыть PDF/i }),
     ).toHaveAttribute("href", "/assets/materials/six-planet-apocalypses.pdf");
-    await expect(page.getByText(/млекопитающим/i).first()).toBeVisible();
+    await expect(page.locator(".extinction-explanation dd", { hasText: /млекопитающим/i }).first()).toBeVisible();
   });
 
   test("about route is reader-facing, not technical deploy notes", async ({
