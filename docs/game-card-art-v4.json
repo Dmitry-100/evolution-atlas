@@ -1,0 +1,44 @@
+[
+  {
+    "name": "seedbank",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: A close view of beautiful golden seed heads and native dry grasses growing among black volcanic stones beside the Galapagos ocean. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition with the main subject in the upper middle and quietly darker lower quarter for a UI title added later. No text, no typography, no card border, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/seedbank-v4.png",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "raft",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: A small natural floating tangle of driftwood branches carrying two tiny fictional mammal-like quadrupeds across a turquoise ocean channel, with volcanic Galapagos islands beyond. This is a natural vegetation raft, no human boat. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition with the main subject in the upper middle and quietly darker lower quarter for a UI title added later. No text, no typography, no card border, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/raft-v4.png",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "stores",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: A small sheltered hollow under volcanic rocks filled with dry seed pods, nuts and plant food, a quiet botanical still life of stored food. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition with the main subject in the upper middle and quietly darker lower quarter for a UI title added later. No text, no typography, no card border, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/stores-v4.png",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "territory",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: New open habitat on a Galapagos volcanic slope, a winding clearing between coastal grasses and lava rocks, distant wide blue-green bay. No buildings. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition with the main subject in the upper middle and quietly darker lower quarter for a UI title added later. No text, no typography, no card border, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/territory-v4.png",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "scout",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: An antique brass spyglass resting on an open unlettered naturalist field notebook on a volcanic rock, overlooking a far Galapagos coastline. No visible writing. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition with the main subject in the upper middle and quietly darker lower quarter for a UI title added later. No text, no typography, no card border, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/scout-v4.png",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "exchange",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: Two separate small groups of fictional mammal-like quadrupeds of different size and coat meeting on rocky coasts with a luminous ocean channel between their islands, a visual metaphor of exchanging populations. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition with the main subject in the upper middle and quietly darker lower quarter for a UI title added later. No text, no typography, no card border, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/exchange-v4.png",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "ocean-corridor",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: A sweeping visible turquoise ocean current carrying driftwood between two Galapagos volcanic islands. Clearly water all the way between islands, never a land bridge. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition with the main subject in the upper middle and quietly darker lower quarter for a UI title added later. No text, no typography, no card border, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/ocean-corridor-v4.png",
+    "tool": "built-in image_gen"
+  }
+]

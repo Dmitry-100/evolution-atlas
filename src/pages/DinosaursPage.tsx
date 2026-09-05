@@ -1,13 +1,6 @@
 import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/dinosaurs.css";
-import {
-  ArrowLeft,
-  ArrowRight,
-  BookOpen,
-  ChevronDown,
-  GitBranch,
-  Sparkles,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, GitBranch } from "lucide-react";
 import {
   useEffect,
   useMemo,
@@ -17,6 +10,9 @@ import {
   type KeyboardEvent,
 } from "react";
 import { Link } from "react-router-dom";
+import { StageDetailCard } from "../components/atlas/StageDetailCard";
+import { MobileStageDetail } from "../components/atlas/mobile/MobileStageDetail";
+import { ConstellationField } from "../components/ui/constellation-field";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { FloatingPaths } from "../components/ui/floating-paths";
@@ -43,13 +39,15 @@ const dinosaurJourney: BranchItem[] = [
 const dinosaurJourneyZones = [
   {
     id: "shared",
-    label: "общий фундамент позвоночных",
+    label: "Общая линия позвоночных",
+    color: "#82b7b3",
     fromId: "early-animals",
     toId: "amniotes",
   },
   {
     id: "birds",
-    label: "от динозавров к птицам",
+    label: "От динозавров к птицам",
+    color: "#d0a35b",
     fromId: "diapsids",
     toId: "modern-birds",
   },
@@ -108,13 +106,6 @@ const dinosaurRouteStops = [
     range: "150-66 млн лет",
     color: "#e4c06c",
   },
-  {
-    id: "today",
-    label: "Сегодня",
-    targetId: "modern-birds",
-    range: "наши дни",
-    color: "#90b886",
-  },
 ];
 
 const dinosaurFacts = [
@@ -152,17 +143,8 @@ const formatAge = (ageMa: number) => {
   return `${ageMa.toLocaleString("ru-RU")} млн лет назад`;
 };
 
-const getWhyMatters = (stage: BranchItem) =>
-  "whyMattersRu" in stage
-    ? stage.whyMattersRu
-    : "Этот этап помогает увидеть развилку, от которой дальше уходит птичья линия.";
 const getEvidence = (stage: BranchItem) =>
   "evidenceRu" in stage ? stage.evidenceRu : null;
-const getJourneyLabel = (stage: BranchItem) =>
-  birdDinosaurBranch.some((candidate) => candidate.id === stage.id)
-    ? "динозавровая ветвь"
-    : "общий фундамент животной линии";
-
 function agePosition(stages: BranchItem[], ageMa: number) {
   const ages = stages.map((stage) => stage.ageMa);
   const oldest = Math.max(...ages);
@@ -231,13 +213,11 @@ function getStepTarget(stages: BranchItem[], activeId: string, delta: number) {
 function DinosaurIllustration({
   image,
   title,
-  previewSrc,
   className = "",
   zoomClassName = "",
 }: {
   image: StageImage;
   title: string;
-  previewSrc?: string;
   className?: string;
   zoomClassName?: string;
 }) {
@@ -252,7 +232,7 @@ function DinosaurIllustration({
           onClick={() => setExpanded(true)}
         >
           <OptimizedImage
-            src={previewSrc ?? image.src}
+            src={image.src}
             alt={image.altRu}
             loading="lazy"
             decoding="async"
@@ -306,65 +286,6 @@ function DinosaurEvidence({ stage }: { stage: BranchItem }) {
   );
 }
 
-function BranchDetail({ stage, label }: { stage: BranchItem; label: string }) {
-  return (
-    <article className="dinosaur-detail-card" aria-label="Активный вид">
-      <DinosaurIllustration
-        image={stage.image}
-        title={stage.titleRu}
-        className="dinosaur-detail-visual"
-        zoomClassName="dinosaur-detail-image-zoom"
-      />
-      <div className="stage-copy dinosaur-detail-copy">
-        <p className="kicker dinosaur-age">{formatAge(stage.ageMa)}</p>
-        <h2>{stage.titleRu}</h2>
-        <p className="latin">{stage.latin}</p>
-        <p className="lead">{stage.summaryRu}</p>
-        <div className="dinosaur-traits" aria-label="Признаки ветви">
-          {stage.inherited.map((trait) => (
-            <span key={trait}>{trait}</span>
-          ))}
-        </div>
-        <div className="dinosaur-proof">
-          <strong>
-            <Sparkles aria-hidden="true" size={17} />
-            Почему это важно
-          </strong>
-          <p>{getWhyMatters(stage)}</p>
-        </div>
-        <DinosaurEvidence key={stage.id} stage={stage} />
-        <p className="dinosaur-branch-label">{label}</p>
-      </div>
-    </article>
-  );
-}
-
-function MobileDinosaurStageDetail({ stage }: { stage: BranchItem }) {
-  return (
-    <div className="mobile-dinosaur-stage-detail">
-      <DinosaurIllustration
-        image={stage.image}
-        title={stage.titleRu}
-        className="mobile-dinosaur-visual"
-        zoomClassName="mobile-dinosaur-stage-zoom"
-      />
-      <div className="mobile-dinosaur-stage-copy">
-        <span>{formatAge(stage.ageMa)}</span>
-        <h3>{stage.titleRu}</h3>
-        <p className="latin">{stage.latin}</p>
-        <p>{stage.summaryRu}</p>
-        <div className="dinosaur-traits" aria-label="Признаки ветви">
-          {stage.inherited.slice(0, 4).map((trait) => (
-            <span key={trait}>{trait}</span>
-          ))}
-        </div>
-        <p className="mobile-dinosaur-why">{getWhyMatters(stage)}</p>
-        <DinosaurEvidence stage={stage} />
-      </div>
-    </div>
-  );
-}
-
 function MobileDinosaurJourney({
   stages,
   activeStage,
@@ -384,10 +305,10 @@ function MobileDinosaurJourney({
 }) {
   return (
     <section
-      className="mobile-dinosaur-journey"
+      className="mobile-atlas mobile-dinosaur-journey"
       aria-label="Мобильная вертикальная ось динозавровой ветви"
     >
-      <div className="mobile-dinosaur-stepper" aria-label="Переключение этапов">
+      <div className="mobile-atlas-stepper" aria-label="Переключение этапов">
         <button
           type="button"
           aria-label="Предыдущий этап"
@@ -409,45 +330,63 @@ function MobileDinosaurJourney({
         </button>
       </div>
 
-      <div className="mobile-dinosaur-stage-map">
-        {stages.map((stage, index) => {
-          const isActive = stage.id === activeStage.id;
-          const isBirdBranch = birdDinosaurBranch.some(
-            (candidate) => candidate.id === stage.id,
-          );
-
+      <div className="mobile-stage-map" aria-label="Вертикальная карта этапов">
+        {dinosaurJourneyZones.map((zone) => {
+          const from = stages.findIndex((stage) => stage.id === zone.fromId);
+          const to = stages.findIndex((stage) => stage.id === zone.toId);
           return (
-            <article
-              key={stage.id}
-              data-stage-id={stage.id}
-              data-is-kpg={stage.id === "kpg-survivors" ? "true" : undefined}
-              className={
-                isActive
-                  ? "mobile-dinosaur-stage-row is-active"
-                  : "mobile-dinosaur-stage-row"
-              }
+            <section
+              className="mobile-era-group"
+              key={zone.id}
+              style={{ "--mobile-era-color": zone.color } as CSSProperties}
             >
-              <button
-                type="button"
-                aria-current={isActive ? "true" : undefined}
-                onClick={() => {
-                  onSelect(stage);
-                  requestAnimationFrame(() =>
-                    document
-                      .querySelector(`[data-stage-id="${stage.id}"]`)
-                      ?.scrollIntoView({ block: "start" }),
+              <div className="mobile-era-heading">
+                <span>{zone.label}</span>
+                <small>
+                  {formatAge(stages[from].ageMa)} —{" "}
+                  {formatAge(stages[to].ageMa)}
+                </small>
+              </div>
+              <div className="mobile-era-stages">
+                {stages.slice(from, to + 1).map((stage) => {
+                  const isActive = stage.id === activeStage.id;
+                  return (
+                    <article
+                      key={stage.id}
+                      data-stage-id={stage.id}
+                      data-is-kpg={
+                        stage.id === "kpg-survivors" ? "true" : undefined
+                      }
+                      className={`mobile-stage-row mobile-dinosaur-stage-row${isActive ? " is-active" : ""}`}
+                    >
+                      <button
+                        type="button"
+                        aria-current={isActive ? "true" : undefined}
+                        onClick={() => {
+                          onSelect(stage);
+                          requestAnimationFrame(() =>
+                            document
+                              .querySelector(`[data-stage-id="${stage.id}"]`)
+                              ?.scrollIntoView({ block: "start" }),
+                          );
+                        }}
+                      >
+                        <span>{formatAge(stage.ageMa)}</span>
+                        <strong>{stage.titleRu}</strong>
+                      </button>
+                      {isActive ? (
+                        <MobileStageDetail
+                          stage={stage}
+                          className="mobile-dinosaur-stage-detail"
+                          afterContent={<DinosaurEvidence stage={stage} />}
+                          lightboxAriaLabel="Увеличенное изображение вида"
+                        />
+                      ) : null}
+                    </article>
                   );
-                }}
-              >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{stage.titleRu}</strong>
-                <small>{formatAge(stage.ageMa)}</small>
-                <em>
-                  {isBirdBranch ? "от динозавров к птицам" : "общая линия"}
-                </em>
-              </button>
-              {isActive ? <MobileDinosaurStageDetail stage={stage} /> : null}
-            </article>
+                })}
+              </div>
+            </section>
           );
         })}
       </div>
@@ -470,18 +409,13 @@ function DinosaurTimelineAxis({
   canStepPrevious: boolean;
   canStepNext: boolean;
 }) {
+  const [isTimelineExpanded, setIsTimelineExpanded] = useState(false);
   const positions = useMemo(() => makeReadablePositions(stages), [stages]);
   const activeIndex = Math.max(
     0,
     stages.findIndex((stage) => stage.id === activeStage.id),
   );
   const activeDisplayPosition = positions[activeIndex] ?? 4;
-  const activeCardClass =
-    activeDisplayPosition > 82
-      ? "deep-active-card align-right"
-      : activeDisplayPosition < 18
-        ? "deep-active-card align-left"
-        : "deep-active-card";
   const positionById = useMemo(() => {
     const map = new Map<string, number>();
     stages.forEach((stage, index) => map.set(stage.id, positions[index] ?? 0));
@@ -502,11 +436,14 @@ function DinosaurTimelineAxis({
 
   return (
     <section
-      className="axis-panel dinosaur-time-panel"
+      className="axis-panel primate-focus-panel dinosaur-time-panel"
       aria-label="Временная шкала динозавровой ветви"
     >
       <div className="axis-toolbar">
-        <div className="dinosaur-axis-current" aria-live="polite">
+        <div
+          className="deep-time-selection dinosaur-axis-current"
+          aria-live="polite"
+        >
           <span>
             {formatAge(activeStage.ageMa)} · {activeIndex + 1} из{" "}
             {stages.length}
@@ -536,48 +473,54 @@ function DinosaurTimelineAxis({
       </div>
 
       <div
-        className="deep-time-axis dinosaur-deep-axis"
+        className="primate-zone-bands dinosaur-zone-bands"
+        aria-label="Группы этапов"
+      >
+        {dinosaurJourneyZones.map((zone) => {
+          const from = stages.findIndex((stage) => stage.id === zone.fromId);
+          const to = stages.findIndex((stage) => stage.id === zone.toId);
+          return (
+            <button
+              key={zone.id}
+              type="button"
+              style={{ "--primate-group-color": zone.color } as CSSProperties}
+              aria-pressed={activeIndex >= from && activeIndex <= to}
+              onClick={() => onSelect(stages[from])}
+            >
+              {zone.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div
+        className="deep-time-axis primate-deep-axis dinosaur-deep-axis"
         tabIndex={0}
         onKeyDown={handleKeyDown}
         aria-label="Шкала времени динозавровой ветви. Используйте стрелки влево и вправо."
       >
         <div
-          className="deep-time-water dinosaur-time-water"
+          className="deep-time-water primate-time-water"
           aria-hidden="true"
         />
         <FloatingPaths
-          className="deep-time-floating-paths dinosaur-time-floating-paths"
+          className="deep-time-floating-paths primate-time-floating-paths"
           density="panel"
         />
         <OptimizedImage
-          className="dinosaur-timeline-river-image"
+          className="primate-timeline-river-image dinosaur-timeline-river-image"
           src="/assets/images/dinosaurs/dinosaur-timeline-river-v2.jpg"
           alt=""
           aria-hidden="true"
           loading="lazy"
           decoding="async"
         />
-
-        <div className="dinosaur-zone-bands" aria-hidden="true">
-          {dinosaurJourneyZones.map((zone) => {
-            const from = positionById.get(zone.fromId);
-            const to = positionById.get(zone.toId);
-            if (from === undefined || to === undefined) return null;
-            const left = Math.min(from, to);
-            const right = Math.max(from, to);
-            return (
-              <span
-                key={zone.id}
-                style={{
-                  left: `${left}%`,
-                  width: `${Math.max(8, right - left)}%`,
-                }}
-              >
-                {zone.label}
-              </span>
-            );
-          })}
-        </div>
+        <button
+          type="button"
+          className="deep-time-image-zoom"
+          aria-label="Увеличить иллюстрацию шкалы динозавров"
+          onClick={() => setIsTimelineExpanded(true)}
+        />
 
         <span
           className="dinosaur-kpg-boundary"
@@ -587,21 +530,12 @@ function DinosaurTimelineAxis({
           <span>K–Pg · 66 млн лет</span>
         </span>
         <span
-          className="deep-active-line"
+          className="deep-active-line primate-deep-active-line"
           style={{ left: `${activeDisplayPosition}%` }}
           aria-hidden="true"
         />
         <div
-          className={activeCardClass}
-          style={{ left: `${activeDisplayPosition}%` }}
-        >
-          <span>{formatAge(activeStage.ageMa)}</span>
-          <strong>{activeStage.titleRu}</strong>
-          <small>{getJourneyLabel(activeStage)}</small>
-        </div>
-
-        <div
-          className="deep-stage-dots dinosaur-stage-dots"
+          className="deep-stage-dots primate-stage-dots dinosaur-stage-dots"
           role="list"
           aria-label="Этапы на шкале динозавровой ветви"
         >
@@ -642,11 +576,29 @@ function DinosaurTimelineAxis({
         }}
       />
 
-      <div className="deep-time-ticks dinosaur-time-ticks" aria-hidden="true">
+      <div className="deep-time-ticks primate-time-ticks" aria-hidden="true">
         {timelineTicks.map((tick) => (
           <span key={tick}>{tick}</span>
         ))}
       </div>
+      <p className="deep-time-instruction">
+        575 млн лет назад — сегодня. Выбирайте точки, двигайте ползунок или
+        используйте стрелки.
+      </p>
+      <ImageLightbox
+        image={
+          isTimelineExpanded
+            ? {
+                src: "/assets/images/dinosaurs/dinosaur-timeline-river-v2.jpg",
+                alt: "Панорамная иллюстрация пути от общих предков позвоночных к динозаврам и птицам",
+                caption:
+                  "От общего предка к современным птицам. AI-реконструкция.",
+              }
+            : null
+        }
+        ariaLabel="Увеличенная иллюстрация шкалы динозавров"
+        onClose={() => setIsTimelineExpanded(false)}
+      />
     </section>
   );
 }
@@ -673,9 +625,8 @@ function DinosaurRouteNavigation({
 
   return (
     <nav
-      className="era-route dinosaur-route"
+      className="primate-branch-milestones dinosaur-route"
       aria-label="Маршрут динозавровой ветви"
-      style={{ "--era-count": stops.length } as CSSProperties}
     >
       {stops.map((stop, index) => {
         const nextStop = stops[index + 1];
@@ -687,24 +638,16 @@ function DinosaurRouteNavigation({
           <button
             key={stop.id}
             type="button"
-            className={isActive ? "era-route-item is-active" : "era-route-item"}
+            className={`primate-branch-milestone${isActive ? " is-active" : ""}`}
+            style={{ "--primate-group-color": stop.color } as CSSProperties}
             onClick={() => onSelect(stop.target)}
             aria-label={`${stop.label}, ${stop.range}`}
             aria-current={isActive ? "step" : undefined}
           >
-            <span className="era-route-marker" aria-hidden="true">
-              <span
-                className="era-route-node"
-                style={{ background: stop.color }}
-              />
-            </span>
-            <span className="era-route-copy">
-              <span className="era-route-order">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <strong>{stop.label}</strong>
-              <small>{stop.range}</small>
-            </span>
+            <span className="primate-milestone-group">{stop.label}</span>
+            <span>{stop.range}</span>
+            <strong>{stop.target.titleRu}</strong>
+            <small>{stop.target.inherited.slice(0, 2).join(" · ")}</small>
           </button>
         );
       })}
@@ -761,89 +704,50 @@ export function DinosaursPage() {
   return (
     <section
       ref={pageRef}
-      className="document-page dinosaurs-page"
+      className="atlas dinosaurs-page"
       data-tour-stop-id="page-dinosaurs"
     >
       <PageHeader
         className="atlas-hero dinosaur-hero"
-        eyebrow="От амниот к птицам"
+        eyebrow="Динозавры и птицы"
         title="Вымерли ли динозавры"
-        aside={
-          <div
-            className="dinosaur-hero-pair"
-            aria-label="Динозавры и современные птицы"
-          >
-            {[
-              {
-                stage: birdDinosaurBranch.find(
-                  (stage) => stage.id === "theropods",
-                )!,
-                label: "Нептичьи тероподы",
-              },
-              {
-                stage: birdDinosaurBranch.find(
-                  (stage) => stage.id === "modern-birds",
-                )!,
-                label: "Современные птицы",
-              },
-            ].map(({ stage, label }) => (
-              <div key={stage.id}>
-                <DinosaurIllustration
-                  image={stage.image}
-                  previewSrc={stage.image.src.replace(/\.jpg$/, "-thumb.jpg")}
-                  title={`Сравнение: ${label}`}
-                  className="dinosaur-hero-image"
-                />
-                <span>{label}</span>
-              </div>
-            ))}
-          </div>
+        decoration={
+          !isMobileDinosaurAxis ? (
+            <>
+              <FloatingPaths className="atlas-hero-paths" />
+              <ConstellationField className="atlas-hero-constellation" />
+            </>
+          ) : null
         }
       >
-        {dinosaurAnswer} Проследите путь от общего предка позвоночных к
-        современным птицам.
+        {dinosaurAnswer} От общих предков позвоночных к современным птицам — 575
+        млн лет истории.
       </PageHeader>
-      <div className="primate-intro-tools dinosaur-intro-tools">
-        <span>575 млн лет истории · 18 этапов</span>
+      <div className="primate-intro-tools">
+        <details className="primate-context-note">
+          <summary>
+            <h2>Что связывает человека и динозавров?</h2>
+            <ChevronDown aria-hidden="true" size={17} />
+          </summary>
+          <p>
+            До <GlossaryTermById id="amniotes">амниот</GlossaryTermById> — общая
+            линия с нами. После развилки{" "}
+            <GlossaryTermById id="diapsids">диапсиды</GlossaryTermById> ведут к
+            динозаврам и птицам, а синапсиды — к млекопитающим и человеку.
+          </p>
+        </details>
         <nav className="primate-page-nav" aria-label="На этой странице">
           <a href="#dinosaur-timeline">Шкала</a>
           <a href="#dinosaur-common-ancestor">Общий предок</a>
           <a href="#dinosaurs-curiosity-facts">Признаки птиц</a>
         </nav>
       </div>
-      <section
-        className="dinosaur-facts-band"
-        aria-label="Факты о динозаврах и птицах"
-      >
-        {dinosaurFacts.map(({ label, value }) => (
-          <article key={label}>
-            <span>{label}</span>
-            <strong>{value}</strong>
-          </article>
-        ))}
-      </section>
 
       <section
         id="dinosaur-timeline"
         className="dinosaur-axis-section is-journey"
-        aria-labelledby="bird-dinosaur-branch"
+        aria-label="От общего предка к современным птицам"
       >
-        <div className="dinosaur-section-heading">
-          <GitBranch aria-hidden="true" size={22} />
-          <div>
-            <p className="eyebrow">От общего предка к птицам</p>
-            <h2 id="bird-dinosaur-branch">
-              От общего предка к современным птицам
-            </h2>
-            <p>
-              До <GlossaryTermById id="amniotes">амниот</GlossaryTermById> —
-              общая линия с нами. После развилки{" "}
-              <GlossaryTermById id="diapsids">диапсиды</GlossaryTermById> ведут
-              к динозаврам и птицам. Выберите этап на шкале или в маршруте.
-            </p>
-          </div>
-        </div>
-
         {isMobileDinosaurAxis ? (
           <MobileDinosaurJourney
             stages={dinosaurJourney}
@@ -855,7 +759,7 @@ export function DinosaursPage() {
             canStepNext={canStepNext}
           />
         ) : (
-          <div className="dinosaur-atlas-grid">
+          <div className="atlas-grid dinosaur-atlas-grid">
             <div className="center-stage">
               <DinosaurTimelineAxis
                 stages={dinosaurJourney}
@@ -867,12 +771,19 @@ export function DinosaursPage() {
               />
 
               <div
-                className="era-strip-card dinosaur-route-card"
+                className="primate-branch-panel dinosaur-route-card"
                 aria-label="Навигация по ветви динозавров"
               >
-                <div className="rail-heading">
-                  <BookOpen aria-hidden="true" size={19} />
-                  <span>Маршрут по ветви</span>
+                <div className="primate-branch-panel-heading">
+                  <div>
+                    <p className="eyebrow">Маршрут по ветви</p>
+                    <h2 id="bird-dinosaur-branch">
+                      От общего предка к современным птицам
+                    </h2>
+                  </div>
+                  <span>
+                    {activeIndex + 1} из {dinosaurJourney.length}
+                  </span>
                 </div>
                 <DinosaurRouteNavigation
                   stages={dinosaurJourney}
@@ -882,12 +793,31 @@ export function DinosaursPage() {
               </div>
             </div>
 
-            <BranchDetail
+            <StageDetailCard
               stage={activeJourneyStage}
-              label={getJourneyLabel(activeJourneyStage)}
+              className="dinosaur-detail-card"
+              afterContent={
+                <DinosaurEvidence
+                  key={activeJourneyStage.id}
+                  stage={activeJourneyStage}
+                />
+              }
+              lightboxAriaLabel="Увеличенное изображение вида"
             />
           </div>
         )}
+      </section>
+
+      <section
+        className="wow-facts-band dinosaur-facts-band"
+        aria-label="Факты о динозаврах и птицах"
+      >
+        {dinosaurFacts.map(({ label, value }) => (
+          <article key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </article>
+        ))}
       </section>
 
       <section

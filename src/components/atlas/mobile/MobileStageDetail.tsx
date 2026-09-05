@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Maximize2, ScanSearch } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { EvolutionStage } from "../../../data/lineage";
@@ -7,15 +7,23 @@ import { ImageLightbox } from "../../ui/image-lightbox";
 import { OptimizedImage } from "../../ui/optimized-image";
 
 type MobileStageDetailProps = {
-  stage: EvolutionStage;
+  stage: Omit<EvolutionStage, "eraId" | "lineageRole">;
+  className?: string;
+  afterContent?: ReactNode;
+  lightboxAriaLabel?: string;
 };
 
-export function MobileStageDetail({ stage }: MobileStageDetailProps) {
+export function MobileStageDetail({
+  stage,
+  className = "",
+  afterContent,
+  lightboxAriaLabel = "Увеличенное изображение этапа",
+}: MobileStageDetailProps) {
   const [isImageExpanded, setIsImageExpanded] = useState(false);
   const featuredTraits = stage.inherited.slice(0, 4);
 
   return (
-    <div className="mobile-stage-detail">
+    <div className={`mobile-stage-detail ${className}`.trim()}>
       <button
         type="button"
         className="mobile-stage-detail-zoom"
@@ -39,10 +47,7 @@ export function MobileStageDetail({ stage }: MobileStageDetailProps) {
         <h3>{stage.titleRu}</h3>
         <p className="latin">{stage.latin}</p>
         <p>{stage.summaryRu}</p>
-        <div
-          className="mobile-stage-traits"
-          aria-label="Карта признаков"
-        >
+        <div className="mobile-stage-traits" aria-label="Карта признаков">
           {featuredTraits.map((trait) => (
             <span key={trait}>{trait}</span>
           ))}
@@ -55,6 +60,7 @@ export function MobileStageDetail({ stage }: MobileStageDetailProps) {
           Карта признаков
         </Link>
         <p className="mobile-stage-why">{stage.whyMattersRu}</p>
+        {afterContent}
       </div>
       <ImageLightbox
         image={
@@ -66,7 +72,7 @@ export function MobileStageDetail({ stage }: MobileStageDetailProps) {
               }
             : null
         }
-        ariaLabel="Увеличенное изображение этапа"
+        ariaLabel={lightboxAriaLabel}
         onClose={() => setIsImageExpanded(false)}
       />
     </div>

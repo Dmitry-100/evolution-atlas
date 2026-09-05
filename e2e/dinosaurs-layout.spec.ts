@@ -1,5 +1,61 @@
 import { expect, test } from "@playwright/test";
 
+test("dinosaurs shares the primates layout and typography", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop", "Desktop design comparison.");
+  await page.setViewportSize({ width: 1440, height: 960 });
+  const styles = async () =>
+    page.evaluate(() => {
+      const read = (selector: string, props: string[]) => {
+        const element = document.querySelector(selector)!;
+        const css = getComputedStyle(element);
+        return Object.fromEntries(
+          props.map((prop) => [prop, css.getPropertyValue(prop)]),
+        );
+      };
+      return {
+        hero: read(".page-header h1", [
+          "font-family",
+          "font-size",
+          "font-weight",
+          "line-height",
+          "margin",
+        ]),
+        columns: read(".atlas-grid", ["grid-template-columns", "gap"]),
+        card: read(".stage-panel", [
+          "border",
+          "background-color",
+          "border-radius",
+        ]),
+        image: read(".stage-plate-media", ["aspect-ratio", "height"]),
+        title: read(".stage-copy h2", [
+          "font-family",
+          "font-size",
+          "font-weight",
+          "line-height",
+        ]),
+        axis: read(".primate-deep-axis", ["height", "border-radius"]),
+      };
+    });
+  await page.goto("/primates");
+  await expect(page.locator(".stage-plate-current")).toHaveClass(/is-loaded/);
+  const reference = await styles();
+  await page.screenshot({
+    path: testInfo.outputPath("primates-reference.png"),
+    animations: "disabled",
+  });
+  await page.goto("/dinosaurs");
+  await expect(page.locator(".stage-plate-current")).toHaveClass(/is-loaded/);
+  expect(await styles()).toEqual(reference);
+  const grid = await page.locator(".atlas-grid").boundingBox();
+  expect(grid!.y).toBeLessThan(480);
+  await page.screenshot({
+    path: testInfo.outputPath("dinosaurs-matched.png"),
+    animations: "disabled",
+  });
+});
+
 for (const width of [1920, 1280, 1100, 820, 391, 320]) {
   test(`dinosaurs layout and selection at ${width}px`, async ({
     page,
@@ -11,9 +67,8 @@ for (const width of [1920, 1280, 1100, 820, 391, 320]) {
     test.setTimeout(60_000);
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/dinosaurs");
-    await expect(
-      page.locator(".dinosaur-hero-image img").first(),
-    ).toHaveJSProperty("complete", true);
+    await expect(page.locator(".dinosaur-hero-pair")).toHaveCount(0);
+    await expect(page.locator(".page-header--with-aside")).toHaveCount(0);
     await page.screenshot({
       path: testInfo.outputPath(`${width}-intro.png`),
       animations: "disabled",
@@ -21,7 +76,7 @@ for (const width of [1920, 1280, 1100, 820, 391, 320]) {
     await page.getByRole("link", { name: "Шкала", exact: true }).click();
     const timeline = page.locator("#dinosaur-timeline");
     await expect(timeline).toBeInViewport();
-    const heading = await timeline.locator("h2").first().boundingBox();
+    const heading = await timeline.boundingBox();
     const header = await page.locator(".topbar").boundingBox();
     expect(heading!.y).toBeGreaterThanOrEqual(header!.y + header!.height);
 
@@ -32,35 +87,27 @@ for (const width of [1920, 1280, 1100, 820, 391, 320]) {
       const dinosaurs = route.getByRole("button", { name: /^Динозавры,/ });
       await dinosaurs.click();
       await expect(dinosaurs).toHaveAttribute("aria-current", "step");
-      await expect(page.locator(".dinosaur-detail-copy h2")).toHaveText(
-        "Ранние динозавры",
-      );
-      await expect(page.locator(".dinosaur-detail-visual img")).toHaveAttribute(
-        "src",
-        /early-dinosaurs-v2/,
-      );
+      await expect(
+        page.locator(".dinosaur-detail-card .stage-copy h2"),
+      ).toHaveText("Ранние динозавры");
+      await expect(
+        page.locator(".dinosaur-detail-card .stage-plate-current"),
+      ).toHaveAttribute("src", /early-dinosaurs-v2/);
       const axis = page.locator(".dinosaur-deep-axis");
       await axis.focus();
       await page.keyboard.press("ArrowRight");
-      await expect(page.locator(".dinosaur-detail-copy h2")).toHaveText(
-        "Тероподы",
-      );
+      await expect(
+        page.locator(".dinosaur-detail-card .stage-copy h2"),
+      ).toHaveText("Тероподы");
       await expect(page.locator(".dinosaur-axis-current span")).toContainText(
         "13 из 18",
       );
-      const popup = page.locator(".deep-active-card");
-      const popupBox = await popup.boundingBox();
-      const textBox = await popup.locator("small").boundingBox();
-      expect(textBox!.y + textBox!.height).toBeLessThan(
-        popupBox!.y + popupBox!.height,
-      );
+      await expect(page.locator(".deep-active-card")).toHaveCount(0);
       if (width > 1200) {
-        const grid = await page.locator(".dinosaur-atlas-grid").boundingBox();
         const detail = await page
           .locator(".dinosaur-detail-card")
           .boundingBox();
-        expect(detail!.width / grid!.width).toBeGreaterThan(0.4);
-        expect(detail!.width / grid!.width).toBeLessThan(0.5);
+        expect(detail!.width).toBe(width > 1320 ? 430 : 380);
       }
     } else {
       const row = page.locator('[data-stage-id="early-dinosaurs"]');
@@ -79,9 +126,15 @@ for (const width of [1920, 1280, 1100, 820, 391, 320]) {
       name: /^Увеличить изображение:/,
     });
     await expect(zoom).toHaveCSS("cursor", "zoom-in");
-    await expect(zoom.locator("img")).toHaveCSS("object-fit", "contain");
-    await expect(zoom.locator("img")).toHaveJSProperty("complete", true);
-    await expect(zoom.locator("img")).not.toHaveJSProperty("naturalWidth", 0);
+    await expect(
+      zoom.locator(width > 720 ? ".stage-plate-current" : "img"),
+    ).toHaveCSS("object-fit", "contain");
+    await expect(
+      zoom.locator(width > 720 ? ".stage-plate-current" : "img"),
+    ).toHaveJSProperty("complete", true);
+    await expect(
+      zoom.locator(width > 720 ? ".stage-plate-current" : "img"),
+    ).not.toHaveJSProperty("naturalWidth", 0);
     await zoom.scrollIntoViewIfNeeded();
     await page.screenshot({
       path: testInfo.outputPath(`${width}-selected.png`),

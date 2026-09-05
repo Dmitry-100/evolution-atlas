@@ -2623,9 +2623,9 @@ test.describe("Evolution Atlas", () => {
         name: "От общего предка к современным птицам",
       }),
     ).toBeVisible();
-    await expect(page.getByText("общий фундамент позвоночных")).toBeVisible();
+    await expect(page.getByText("Общая линия позвоночных")).toBeVisible();
     await expect(
-      page.getByText("от динозавров к птицам").first(),
+      page.getByText("От динозавров к птицам").first(),
     ).toBeVisible();
     await expect(page.getByText("~165 млн лет")).toBeVisible();
     await expect(
@@ -2679,11 +2679,11 @@ test.describe("Evolution Atlas", () => {
       );
     }
     await expect(
-      page.locator(".dinosaur-axis-section .dinosaur-detail-copy h2"),
+      page.locator(".dinosaur-axis-section .dinosaur-detail-card .stage-copy h2"),
     ).toHaveText("Современные птицы");
     await expect(
       page
-        .locator(".dinosaur-axis-section .dinosaur-detail-copy")
+        .locator(".dinosaur-axis-section .dinosaur-detail-card .stage-copy")
         .getByText(/птицы — живая динозавровая ветвь/i),
     ).toBeVisible();
   });
