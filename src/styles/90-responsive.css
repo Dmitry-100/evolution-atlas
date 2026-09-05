@@ -1044,6 +1044,10 @@
       margin-top: 0.75rem;
     }
 
+    .origin-story-card.tour-focus-target .origin-image-zoom img {
+      max-height: min(18dvh, 150px);
+    }
+
     .cladogram-heading {
       grid-template-columns: 1fr;
       padding: 1rem;
