@@ -231,11 +231,13 @@ function getStepTarget(stages: BranchItem[], activeId: string, delta: number) {
 function DinosaurIllustration({
   image,
   title,
+  previewSrc,
   className = "",
   zoomClassName = "",
 }: {
   image: StageImage;
   title: string;
+  previewSrc?: string;
   className?: string;
   zoomClassName?: string;
 }) {
@@ -250,7 +252,7 @@ function DinosaurIllustration({
           onClick={() => setExpanded(true)}
         >
           <OptimizedImage
-            src={image.src}
+            src={previewSrc ?? image.src}
             alt={image.altRu}
             loading="lazy"
             decoding="async"
@@ -549,7 +551,7 @@ function DinosaurTimelineAxis({
         />
         <OptimizedImage
           className="dinosaur-timeline-river-image"
-          src="/assets/images/dinosaurs/dinosaur-timeline-river.avif"
+          src="/assets/images/dinosaurs/dinosaur-timeline-river-v2.jpg"
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -787,11 +789,9 @@ export function DinosaursPage() {
             ].map(({ stage, label }) => (
               <div key={stage.id}>
                 <DinosaurIllustration
-                  image={{
-                    ...stage.image,
-                    src: stage.image.src.replace(/\.jpg$/, ".avif"),
-                  }}
-                  title={label}
+                  image={stage.image}
+                  previewSrc={stage.image.src.replace(/\.jpg$/, "-thumb.jpg")}
+                  title={`Сравнение: ${label}`}
                   className="dinosaur-hero-image"
                 />
                 <span>{label}</span>
