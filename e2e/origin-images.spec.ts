@@ -1,16 +1,13 @@
 import { expect, test } from "@playwright/test";
 
-test("origin illustrations open whole images and return to the selected card", async ({ page }, testInfo) => {
-  test.setTimeout(90_000);
-  await page.goto("/origin-of-life");
-  const triggers = page.locator(".origin-image-zoom");
-  await expect(triggers).toHaveCount(10);
-  const dialog = page.getByRole("dialog", { name: "Иллюстрация происхождения жизни" });
-
-  for (let index = 0; index < 10; index += 1) {
+for (let index = 0; index < 10; index += 1) {
+  test(`origin illustration ${index + 1} opens whole and returns to its card`, async ({ page }, testInfo) => {
+    await page.goto("/origin-of-life");
+    const triggers = page.locator(".origin-image-zoom");
+    await expect(triggers).toHaveCount(10);
     const trigger = triggers.nth(index);
-    const preview = trigger.locator("img");
-    const src = await preview.getAttribute("src");
+    const src = await trigger.locator("img").getAttribute("src");
+    const dialog = page.getByRole("dialog", { name: "Иллюстрация происхождения жизни" });
     await trigger.scrollIntoViewIfNeeded();
     if (testInfo.project.name === "desktop") {
       await trigger.focus();
@@ -43,8 +40,11 @@ test("origin illustrations open whole images and return to the selected card", a
     await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
     await expect(trigger).toBeFocused();
     await expect(trigger).toBeInViewport();
-  }
+  });
+}
 
+test("origin hypothesis previews keep their aspect ratio without overflow", async ({ page }, testInfo) => {
+  await page.goto("/origin-of-life");
   const firstHypothesis = page.locator(".origin-hypothesis-card").first();
   await firstHypothesis.scrollIntoViewIfNeeded();
   const preview = firstHypothesis.locator("img");
