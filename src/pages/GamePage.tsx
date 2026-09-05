@@ -734,7 +734,7 @@ export function GamePage() {
             report && (
               <div
                 className={"islands-report" + (ended ? " is-final" : "")}
-                aria-live="polite"
+                aria-live={ended ? undefined : "polite"}
               >
                 <div className="game-report-emblem">
                   {state.phase === "won" ? (

@@ -2347,7 +2347,11 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: /Открыть PDF/i }),
     ).toHaveAttribute("href", "/assets/materials/six-planet-apocalypses.pdf");
-    await expect(page.locator(".extinction-explanation dd", { hasText: /млекопитающим/i }).first()).toBeVisible();
+    await expect(
+      page.locator(".extinction-explanation dd", {
+        hasText: /млекопитающим/i,
+      }).first(),
+    ).toBeVisible();
   });
 
   test("about route is reader-facing, not technical deploy notes", async ({

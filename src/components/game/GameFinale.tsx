@@ -1,4 +1,11 @@
-import { useId, useMemo, type RefObject } from "react";
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import {
   ArrowRight,
@@ -27,23 +34,33 @@ const crisisDescriptions = {
 
 function PopulationChart({ summary }: { summary: ExpeditionSummary }) {
   const gradient = useId();
+  const figure = useRef<HTMLElement>(null);
+  const [width, setWidth] = useState(780);
+  useEffect(() => {
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry.contentRect.width)
+        setWidth(Math.max(260, Math.round(entry.contentRect.width)));
+    });
+    if (figure.current) observer.observe(figure.current);
+    return () => observer.disconnect();
+  }, []);
   const maximum = Math.max(100, Math.ceil(summary.peak.population / 100) * 100);
-  const x = (turn: number) => 40 + (turn / TURNS) * 708;
-  const y = (population: number) => 115 - (population / maximum) * 93;
+  const x = (turn: number) => 35 + (turn / TURNS) * (width - 50);
+  const y = (population: number) => 91 - (population / maximum) * 72;
   const line = summary.points
     .map((p, i) => `${i ? "L" : "M"}${x(p.turn)},${y(p.population)}`)
     .join(" ");
   const last = summary.points.at(-1)!;
   return (
-    <figure className="game-finale-chart">
+    <figure className="game-finale-chart" ref={figure}>
       <figcaption>
-        <span>История численности</span>
+        <span>Численность по ходам</span>
         <small>
           Пик: {number(summary.peak.population)} · ход {summary.peak.turn}
         </small>
       </figcaption>
       <svg
-        viewBox="0 0 780 142"
+        viewBox={`0 0 ${width} 112`}
         role="img"
         aria-label={`Численность по ходам: ${summary.points.map((p) => `${p.turn}: ${p.population}`).join(", ")}`}
       >
@@ -57,12 +74,12 @@ function PopulationChart({ summary }: { summary: ExpeditionSummary }) {
           <g key={n}>
             <line
               className="game-finale-gridline"
-              x1="40"
-              x2="748"
+              x1="35"
+              x2={width - 15}
               y1={y(n)}
               y2={y(n)}
             />
-            <text x="30" y={y(n) + 3} textAnchor="end">
+            <text x="27" y={y(n) + 3} textAnchor="end">
               {number(n)}
             </text>
           </g>
@@ -71,14 +88,14 @@ function PopulationChart({ summary }: { summary: ExpeditionSummary }) {
           <rect
             key={crisis.turn}
             className="game-finale-crisis-band"
-            x={x(crisis.turn)}
+            x={x(crisis.turn - 1)}
             y="14"
-            width={x(crisis.end) - x(crisis.turn)}
-            height="101"
+            width={x(crisis.end) - x(crisis.turn - 1)}
+            height="77"
           />
         ))}
         <path
-          d={`${line} L${x(last.turn)},115 L40,115 Z`}
+          d={`${line} L${x(last.turn)},91 L35,91 Z`}
           fill={`url(#${gradient})`}
         />
         <path
@@ -101,13 +118,10 @@ function PopulationChart({ summary }: { summary: ExpeditionSummary }) {
           />
         ))}
         {[0, 5, 6, 11, 12, 17, 18].map((turn) => (
-          <text key={turn} x={x(turn)} y="133" textAnchor="middle">
+          <text key={turn} x={x(turn)} y="107" textAnchor="middle">
             {turn}
           </text>
         ))}
-        <text x="760" y="133">
-          ход
-        </text>
       </svg>
       <p>
         Затемнены два хода каждого кризиса. Изменение численности включает
