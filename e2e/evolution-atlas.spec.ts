@@ -2803,12 +2803,7 @@ test.describe("Evolution Atlas", () => {
         exact: true,
       }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("heading", {
-        name: "Молекулярно-генетические доказательства эволюции",
-        exact: true,
-      }),
-    ).toBeVisible();
+    await expect(page.locator(".page-header-description")).toContainText("Общий генетический код");
     await expect(
       page.getByRole("heading", {
         name: "Насколько похожа ДНК человека и шимпанзе?",
@@ -2821,16 +2816,12 @@ test.describe("Evolution Atlas", () => {
         exact: true,
       }),
     ).toBeVisible();
-    await expect(page.locator(".genetics-flow article")).toHaveCount(5);
+    await expect(page.locator(".genetics-flow > li")).toHaveCount(5);
     await expect(page.locator(".genetics-hero-image img")).toHaveCount(0);
-    await expect(
-      page.locator(".theory-bridge-band", {
-        hasText: "Молекулярно-генетические доказательства эволюции",
-      }),
-    ).toBeVisible();
+    await expect(page.locator(".genetics-page .theory-bridge-band")).toHaveCount(0);
     await expect(page.locator(".molecule-card img")).toHaveCount(3);
     await expect(page.locator(".genome-comparison-card")).toHaveCount(5);
-    await expect(page.locator(".genome-comparison-metric")).toHaveCount(5);
+    await expect(page.locator(".genome-comparison-metric")).toHaveCount(3);
     await expect(
       page.locator(".genome-comparison-card", { hasText: "Человек и банан" }),
     ).toBeVisible();

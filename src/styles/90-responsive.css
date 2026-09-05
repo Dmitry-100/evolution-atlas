@@ -221,16 +221,8 @@
       grid-template-columns: 1fr;
     }
 
-    .genetics-flow,
-    .genome-comparison-grid,
-    .genetics-evidence-grid,
-    .origin-story-grid,
-    .molecule-gallery-grid {
+    .origin-story-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .codon-lab {
-      grid-template-columns: 1fr;
     }
 
     .dinosaur-detail-copy {
@@ -514,13 +506,8 @@
     .theory-principles,
     .extinction-overview,
     .dinosaur-detail-card,
-    .codon-lab,
-    .genetics-flow,
-    .genome-comparison-grid,
-    .genetics-evidence-grid,
     .origin-story-grid,
     .origin-hypotheses-grid,
-    .molecule-gallery-grid,
     .reading-grid,
     .watch-grid,
     .source-card,
@@ -889,37 +876,8 @@
       flex-direction: column;
     }
 
-    .genetics-flow article:not(:last-child)::after {
-      display: none;
-    }
-
-    .codon-reader {
+    .origin-section-heading {
       grid-template-columns: 1fr;
-    }
-
-    .codon-reader > svg {
-      justify-self: center;
-      transform: rotate(90deg);
-    }
-
-    .genome-comparison-card {
-      min-height: auto;
-    }
-
-    .genetics-note,
-    .genetics-bridge > div,
-    .origin-section-heading,
-    .genetics-section-heading {
-      grid-template-columns: 1fr;
-    }
-
-    .genetics-evidence-media img {
-      height: 170px;
-    }
-
-    .genetics-bridge {
-      align-items: flex-start;
-      flex-direction: column;
     }
 
     .dinosaurs-answer-card strong {
