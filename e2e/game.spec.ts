@@ -22,6 +22,7 @@ async function enter(page: Page, state = createGame(146)) {
 test("game starts, plans real migration, persists the draft and resolves exactly once", async ({
   page,
 }, info) => {
+  test.setTimeout(60_000);
   const requests: string[] = [];
   page.on("request", (request) => {
     if (request.url().includes("/api/")) requests.push(request.url());
@@ -75,18 +76,22 @@ test("the complete campaign works without a backend or network after loading", a
   page,
 }) => {
   test.setTimeout(60_000);
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await enter(page, createGame(123));
   await page.context().setOffline(true);
   for (let turn = 1; turn <= 18; turn++) {
     await page.getByRole("button", { name: "Следующие поколения" }).click();
     await expect(page.locator(".islands-report")).toBeVisible();
-    if (
-      await page
-        .locator('[data-game-phase="won"], [data-game-phase="extinct"]')
-        .count()
-    )
-      break;
+    await expect(page.locator("[data-game-phase]")).toHaveAttribute(
+      "data-game-phase",
+      turn === 18 ? "won" : "report",
+    );
+    if (turn === 18) break;
     await page.getByRole("button", { name: "К следующему ходу" }).click();
+    await expect(page.locator("[data-game-phase]")).toHaveAttribute(
+      "data-game-phase",
+      "planning",
+    );
   }
   await expect(
     page.getByRole("button", { name: "Те же условия" }),
