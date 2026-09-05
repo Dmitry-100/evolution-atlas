@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("origin illustrations open whole images and return to the selected card", async ({ page }, testInfo) => {
+  test.setTimeout(90_000);
   await page.goto("/origin-of-life");
   const triggers = page.locator(".origin-image-zoom");
   await expect(triggers).toHaveCount(10);

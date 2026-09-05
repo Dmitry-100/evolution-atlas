@@ -889,7 +889,7 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("dialog", { name: "Дарвин встречает посетителя" }),
     ).toBeVisible();
     await expect(page).toHaveScreenshot(
-      `darwin-dialog-${testInfo.project.name}.png`,
+      `darwin-dialog-${testInfo.project.name}${process.platform === "linux" ? "-linux" : ""}.png`,
     );
   });
 

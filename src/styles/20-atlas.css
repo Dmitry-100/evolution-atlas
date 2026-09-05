@@ -71,6 +71,10 @@
     font-size: 0.88rem;
   }
 
+  .atlas-home .page-header-description {
+    max-width: 100%;
+  }
+
   .eyebrow,
   .kicker {
     margin: 0;

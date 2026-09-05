@@ -80,7 +80,7 @@ const TIME_REGION_LABELS = [
     eraId: "animals",
     detail: "тела, ткани и хорда",
     align: "center",
-    labelPosition: 42,
+    labelPosition: 39,
     lane: 1,
   },
   {
@@ -101,7 +101,7 @@ const TIME_REGION_LABELS = [
     eraId: "synapsids",
     detail: "челюсти, зубы, будущий слух",
     align: "center",
-    labelPosition: 66,
+    labelPosition: 70,
     lane: 1,
   },
   {

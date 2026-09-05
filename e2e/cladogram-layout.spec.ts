@@ -1,9 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
 
-const screenshots =
-  "/Users/Sotnikov/.codex/visualizations/2026/09/04/01a06e1c-a965-70c2-a9bf-7a41614aab48/portal-audit/cladogram-after";
-
 for (const width of [1440, 1100, 960, 820, 391, 320]) {
   test(`cladogram selection, photo and scroll at ${width}px`, async ({
     page,
@@ -14,6 +11,7 @@ for (const width of [1440, 1100, 960, 820, 391, 320]) {
     );
     await page.setViewportSize({ width, height: 860 });
     await page.goto("/cladogram");
+    const screenshots = testInfo.outputPath("screenshots");
     await mkdir(screenshots, { recursive: true });
     await expect(
       page.getByRole("heading", { name: "Дерево родства", exact: true }),
