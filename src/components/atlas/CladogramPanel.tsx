@@ -1,5 +1,11 @@
-import { useMemo } from "react";
-import { ArrowDown, GitFork, Milestone, Sparkles } from "lucide-react";
+import { useMemo, useRef } from "react";
+import {
+  ArrowDown,
+  GitFork,
+  LocateFixed,
+  Milestone,
+  Sparkles,
+} from "lucide-react";
 import { getGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage } from "../../data/lineage";
 import type { Cladogram, CladogramBranch } from "../../lib/cladogram";
@@ -28,6 +34,14 @@ export function CladogramPanel({
   onActivate,
   onInspectBranch,
 }: CladogramPanelProps) {
+  const panelRef = useRef<HTMLElement>(null);
+  function revealSelection() {
+    const selected = panelRef.current?.querySelector<HTMLButtonElement>(
+      '.cladogram-map button[aria-current="true"]',
+    );
+    selected?.scrollIntoView({ block: "center", behavior: "instant" });
+    selected?.focus({ preventScroll: true });
+  }
   const cladogramTerm = getGlossaryTerm("cladogram");
   const visibleBranches =
     branchMode === "living" ? tree.livingBranches : tree.branches;
@@ -62,46 +76,44 @@ export function CladogramPanel({
   }, [visibleBranches]);
 
   return (
-    <section className="cladogram-panel" aria-labelledby="cladogram-heading">
-      <div className="cladogram-heading">
-        <GitFork aria-hidden="true" size={23} />
-        <div>
-          <div className="eyebrow">
-            {cladogramTerm ? (
-              <GlossaryTerm term={cladogramTerm} />
-            ) : (
-              "Кладограмма"
-            )}
-          </div>
-          <h2 id="cladogram-heading">Дерево родства</h2>
-          <p>
-            Homo sapiens находится на выделенной ветви; карточки справа отвечают,
-            какие общие предки связывают нас с соседними живущими и ископаемыми
-            линиями.
-          </p>
-        </div>
-      </div>
-
+    <section
+      ref={panelRef}
+      className="cladogram-panel"
+      aria-label="Интерактивное дерево родства"
+    >
       <div className="cladogram-body">
-        <div
-          className="cladogram-mode-toggle"
-          role="group"
-          aria-label="Режим отображения ветвей"
-        >
+        <div className="cladogram-controls">
+          <div
+            className="cladogram-mode-toggle"
+            role="group"
+            aria-label="Режим отображения ветвей"
+          >
+            <button
+              type="button"
+              aria-pressed={branchMode === "all"}
+              onClick={() => onChangeBranchMode("all")}
+            >
+              Все ветви
+            </button>
+            <button
+              type="button"
+              aria-pressed={branchMode === "living"}
+              onClick={() => onChangeBranchMode("living")}
+            >
+              Живущие сегодня
+            </button>
+          </div>
+
           <button
             type="button"
-            aria-pressed={branchMode === "all"}
-            onClick={() => onChangeBranchMode("all")}
+            className="cladogram-jump"
+            onClick={revealSelection}
           >
-            Все ветви
+            <LocateFixed size={16} aria-hidden="true" />К выбранному узлу
           </button>
-          <button
-            type="button"
-            aria-pressed={branchMode === "living"}
-            onClick={() => onChangeBranchMode("living")}
-          >
-            Живущие сегодня
-          </button>
+          <p className="cladogram-branch-count" role="status">
+            Соседних ветвей: {visibleBranches.length}
+          </p>
         </div>
 
         <div
@@ -120,6 +132,7 @@ export function CladogramPanel({
             <Milestone aria-hidden="true" size={17} />
             Общий предок с нами
           </span>
+          {cladogramTerm ? <GlossaryTerm term={cladogramTerm} /> : null}
         </div>
 
         <div
@@ -155,7 +168,7 @@ export function CladogramPanel({
           {displayedTrunk.map((stage) => {
             const index = tree.trunk.findIndex((item) => item.id === stage.id);
             const branches = branchesByParent.get(stage.id) ?? [];
-            const isActive = stage.id === activeStage.id;
+            const isActive = !activeBranch && stage.id === activeStage.id;
             const isInActivePath =
               activeBranchParentIndex >= 0 && index <= activeBranchParentIndex;
             const hasActiveBranch = branches.some(
@@ -188,7 +201,6 @@ export function CladogramPanel({
                     </span>
                     <span className="cladogram-node-dot" aria-hidden="true" />
                     <span className="cladogram-node-copy">
-                      <small>ветвь Homo sapiens</small>
                       <strong>{stage.titleRu}</strong>
                       <em>{formatAgeRu(stage.ageMa)}</em>
                     </span>
@@ -201,7 +213,7 @@ export function CladogramPanel({
                 <div className="cladogram-branch-cell">
                   {branches.map((branch) => {
                     const branchIsActive =
-                      branch.stage?.id === activeStage.id ||
+                      (!activeBranch && branch.stage?.id === activeStage.id) ||
                       branch.id === activeBranch?.id;
                     const branchClassName = [
                       "cladogram-branch",
@@ -233,14 +245,11 @@ export function CladogramPanel({
                           />
                         </span>
                         <span className="cladogram-branch-copy">
-                          <small>
-                            общий предок с нами:{" "}
-                            {branch.commonAncestor.titleRu}
-                          </small>
                           <strong>{branch.titleRu}</strong>
-                          <em>
-                            {formatAgeRu(branch.commonAncestor.ageMa)}
-                          </em>
+                          <small>
+                            Общий предок: {branch.commonAncestor.titleRu}
+                          </small>
+                          <em>{formatAgeRu(branch.commonAncestor.ageMa)}</em>
                           {branch.isLivingComparison ? (
                             <span className="cladogram-living-badge">
                               живут сегодня

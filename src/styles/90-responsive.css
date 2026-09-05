@@ -1,6 +1,5 @@
 @layer evolution-responsive {
   @media (max-width: 720px) {
-
     .primates-page .primate-intro-tools {
       gap: 0;
       margin-bottom: 0;
@@ -25,7 +24,6 @@
   }
 
   @media (max-width: 1320px) {
-
     .atlas-grid {
       grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
     }
@@ -216,8 +214,7 @@
     }
 
     .dinosaur-detail-card,
-    .body-map-grid,
-    .cladogram-page-grid {
+    .body-map-grid {
       grid-template-columns: 1fr;
     }
 
@@ -256,11 +253,6 @@
       grid-template-columns: 1fr;
     }
 
-    .cladogram-page-grid .cladogram-inspector {
-      position: static;
-      max-height: none;
-    }
-
     .body-trait-inspector {
       position: static;
     }
@@ -274,13 +266,6 @@
     .cladogram-page-grid {
       grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
       align-items: start;
-    }
-
-    .cladogram-page-grid .cladogram-inspector {
-      position: sticky;
-      top: 0.85rem;
-      max-height: calc(100dvh - 1.7rem);
-      overflow: hidden auto;
     }
   }
 
@@ -1267,10 +1252,6 @@
     .cladogram-branch-thumb {
       width: 74px;
       height: 74px;
-    }
-
-    .cladogram-inspector-media {
-      min-height: 220px;
     }
 
     .cladogram-inspector-split {
