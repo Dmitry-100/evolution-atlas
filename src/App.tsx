@@ -311,14 +311,14 @@ function PortalCompanions() {
   return <><TourPlayer /><DarwinGuide /></>;
 }
 
-function App() {
+function AppSurface() {
+  const { pathname } = useLocation();
+  const isGame = pathname === "/game" || pathname === "/game/";
   return (
-    <BrowserRouter>
       <TooltipProvider delayDuration={160}>
         <RouteExperienceObserver />
-        <EtherealInk className="app-ethereal-background" />
-        <ScrollProgress />
-        <div className="app-shell">
+        {!isGame && <><EtherealInk className="app-ethereal-background" /><ScrollProgress /></>}
+        <div className={`app-shell${isGame ? " is-game-shell" : ""}`}>
           <AppHeader />
           <main>
             <Suspense
@@ -393,8 +393,11 @@ function App() {
           <PortalCompanions />
         </div>
       </TooltipProvider>
-    </BrowserRouter>
   );
+}
+
+function App() {
+  return <BrowserRouter><AppSurface /></BrowserRouter>;
 }
 
 export default App;

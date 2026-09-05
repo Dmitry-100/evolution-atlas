@@ -33,6 +33,12 @@
     }
   }
 
+  @media (min-width: 1201px) and (max-width: 1320px) {
+    .brand {
+      flex-basis: 280px;
+    }
+  }
+
   @media (max-width: 1200px) {
     .topbar {
       align-items: flex-start;
@@ -1036,6 +1042,10 @@
 
     .origin-story-card:not(:first-child) {
       margin-top: 0.75rem;
+    }
+
+    .origin-story-card.tour-focus-target .origin-image-zoom img {
+      max-height: min(18dvh, 150px);
     }
 
     .cladogram-heading {
