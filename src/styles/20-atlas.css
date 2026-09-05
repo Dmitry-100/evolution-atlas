@@ -40,17 +40,6 @@
     box-shadow: inset 0 0 0 2px rgba(240, 201, 120, 0.45);
   }
 
-  .atlas-hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    align-items: start;
-    padding: 0.65rem 0 1rem;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
   .atlas-hero-paths {
     right: -7vw;
     bottom: -4rem;
@@ -70,10 +59,16 @@
     opacity: 0.42;
   }
 
-  .atlas-title {
-    position: relative;
-    z-index: 1;
-    max-width: 1120px;
+  .atlas-home .atlas-note-band {
+    margin-top: 0.35rem;
+    padding: 0.5rem 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .atlas-home .atlas-note-band p {
+    font-size: 0.88rem;
   }
 
   .eyebrow,
@@ -84,40 +79,6 @@
     font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-  }
-
-  .atlas-title h1,
-  .document-header h1,
-  .dinosaurs-hero h1,
-  .origin-hero h1,
-  .genetics-hero h1 {
-    margin: 0.35rem 0 1rem;
-    max-width: 1050px;
-    font-family: var(--font-display);
-    font-size: var(--display-title-size);
-    font-weight: 700;
-    line-height: var(--display-title-line);
-    letter-spacing: 0;
-  }
-
-  .atlas-title h1 {
-    max-width: 1120px;
-  }
-
-  .atlas-title p,
-  .document-header p {
-    margin: 0;
-    max-width: 920px;
-    color: var(--muted);
-    font-size: 1.08rem;
-  }
-
-  .hero-subtitle {
-    margin: -0.35rem 0 0.9rem !important;
-    color: var(--amber) !important;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.38rem !important;
-    font-style: italic;
   }
 
   .hero-actions {
@@ -389,29 +350,6 @@
   .mobile-atlas {
     display: grid;
     gap: 1rem;
-  }
-
-  .mobile-atlas-hero {
-    display: grid;
-    gap: 0.55rem;
-    padding: 1rem;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.035);
-  }
-
-  .mobile-atlas-hero h1 {
-    margin: 0;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.8rem;
-    line-height: 1.08;
-  }
-
-  .mobile-atlas-hero p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.5;
   }
 
   .mobile-atlas-tabs {
@@ -1189,11 +1127,12 @@
   }
 
   .extinction-marker {
-    --marker-label-offset: 0px;
     position: absolute;
     bottom: var(--marker-y);
     display: flex;
-    width: 76px;
+    width: 36px;
+    min-height: 36px;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 0.25rem;
@@ -1201,8 +1140,6 @@
     border: 0;
     background: transparent;
     color: rgba(245, 225, 186, 0.86);
-    font-size: 0.54rem;
-    font-weight: 800;
     font: inherit;
     letter-spacing: 0.1em;
     pointer-events: auto;
@@ -1274,30 +1211,6 @@
     transform: rotate(-45deg);
   }
 
-  .extinction-marker strong {
-    position: relative;
-    z-index: 1;
-    border: 1px solid rgba(218, 185, 126, 0.28);
-    border-radius: 8px;
-    background: rgba(8, 11, 11, 0.82);
-    padding: 0.24rem 0.34rem;
-    text-align: center;
-    transform: translateX(var(--marker-label-offset));
-    transition:
-      border-color 160ms ease,
-      transform 160ms ease;
-  }
-
-  .extinction-marker small {
-    position: relative;
-    z-index: 1;
-    color: var(--faint);
-    font-size: 0.52rem;
-    letter-spacing: 0.08em;
-    text-transform: none;
-    transform: translateX(var(--marker-label-offset));
-  }
-
   .extinction-tooltip {
     width: min(360px, calc(100vw - 2rem));
     padding: 0;
@@ -1349,11 +1262,10 @@
     line-height: 1.35;
   }
 
-  .extinction-marker:hover strong,
-  .extinction-marker:focus-visible strong,
-  .extinction-marker.is-active strong {
-    border-color: var(--extinction-color);
-    transform: translateX(var(--marker-label-offset)) translateY(-2px);
+  .extinction-marker:focus-visible {
+    outline: 2px solid var(--extinction-color);
+    outline-offset: 3px;
+    border-radius: 50%;
   }
 
   .extinction-marker.is-active span {
@@ -1533,6 +1445,90 @@
     font-size: 0.76rem;
   }
 
+  .deep-time-selection {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .deep-time-selection span {
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .deep-time-selection strong {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+
+  .deep-time-panel .deep-time-ticks {
+    color: var(--muted);
+  }
+
+  .extinction-legend {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .extinction-legend-item {
+    display: grid;
+    grid-template-columns: 0.6rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.12rem 0.45rem;
+    min-width: 0;
+    min-height: 52px;
+    padding: 0.55rem 0.6rem;
+    border: 1px solid rgba(218, 185, 126, 0.16);
+    border-radius: var(--radius);
+    background: rgba(8, 11, 11, 0.64);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .extinction-legend-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--extinction-color);
+  }
+
+  .extinction-legend-item strong {
+    font-size: 0.8rem;
+    font-weight: 650;
+  }
+
+  .extinction-legend-item small {
+    grid-column: 2;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  .extinction-legend-item:hover,
+  .extinction-legend-item[aria-pressed="true"] {
+    border-color: var(--extinction-color);
+    background: color-mix(in srgb, var(--extinction-color) 12%, #101411);
+  }
+
+  .extinction-legend-item:focus-visible {
+    outline: 2px solid var(--extinction-color);
+    outline-offset: 2px;
+  }
+
+  .deep-time-instruction {
+    margin: 0.65rem 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
   .geologic-period-card {
     --period-color: var(--gold);
     position: relative;
@@ -1649,12 +1645,112 @@
   }
 
   .primate-focus-panel {
-    min-height: 520px;
+    min-height: 0;
+  }
+
+  .primate-intro-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.3rem 1.5rem;
+    margin: 0.25rem 0 1rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.5rem;
   }
 
   .primate-context-note {
-    width: min(1180px, 100%);
-    margin-bottom: 1.35rem;
+    flex: 1 1 26rem;
+    min-width: 0;
+  }
+
+  .primate-context-note summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 44px;
+    max-width: 34rem;
+    padding: 0.4rem 0;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .primate-context-note summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .primate-context-note h2 {
+    margin: 0;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .primate-context-note summary svg {
+    flex-shrink: 0;
+    color: var(--gold);
+  }
+
+  .primate-context-note[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .primate-context-note > p {
+    max-width: 72ch;
+    margin: 0.4rem 0 0.7rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .primate-page-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem;
+  }
+
+  .primate-page-nav a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius);
+    color: var(--gold);
+    font-size: 0.88rem;
+    text-decoration: none;
+  }
+
+  .primate-page-nav a:hover {
+    background: rgba(240, 201, 120, 0.08);
+  }
+
+  .primate-page-nav a:focus-visible,
+  .primate-context-note summary:focus-visible,
+  .primate-zone-bands button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .primates-page #primate-timeline,
+  .primates-page #primate-branches,
+  .primates-page #africa-origin-title,
+  .primates-page .mobile-stage-row {
+    scroll-margin-top: 10rem;
+  }
+
+  .primate-focus-panel .axis-toolbar {
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .mobile-selection-age {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--gold);
+    font-size: 0.72rem;
   }
 
   .primate-time-stat {
@@ -1725,12 +1821,13 @@
   .primate-branch-milestones {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.65rem;
+    gap: 0.45rem 0.65rem;
   }
 
   .primate-branch-milestone {
     display: grid;
-    min-height: 8rem;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
     padding: 0.8rem;
     border: 1px solid rgba(218, 185, 126, 0.18);
     border-radius: 8px;
@@ -1775,7 +1872,7 @@
   }
 
   .primate-branch-milestone strong {
-    align-self: end;
+    align-self: start;
     font-size: 1.02rem;
     line-height: 1.15;
   }
@@ -1783,6 +1880,18 @@
   .primate-branch-milestone small {
     color: var(--muted);
     font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .primate-branch-milestone .primate-milestone-group {
+    width: fit-content;
+    margin-bottom: 0.2rem;
+    padding: 0.22rem 0.4rem;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--primate-group-color) 10%, transparent);
+    color: var(--primate-group-color);
+    font-size: 0.62rem;
+    letter-spacing: 0.035em;
     line-height: 1.35;
   }
 
@@ -1851,35 +1960,37 @@
   }
 
   .primate-zone-bands {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    pointer-events: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
   }
 
-  .primate-zone-bands span {
-    position: absolute;
-    top: 6.35rem;
-    display: grid;
-    place-items: center;
-    min-height: 2rem;
-    border: 1px solid rgba(218, 185, 126, 0.11);
-    border-radius: 999px;
-    background:
-      linear-gradient(
-        90deg,
-        rgba(130, 183, 179, 0.11),
-        rgba(240, 201, 120, 0.09)
-      ),
-      rgba(8, 11, 11, 0.28);
-    color: rgba(235, 228, 212, 0.82);
-    font-size: 0.66rem;
-    font-weight: 900;
-    letter-spacing: 0.16em;
-    line-height: 1.15;
-    padding: 0.25rem 0.55rem;
+  .primate-zone-bands button {
+    min-width: 0;
+    min-height: 44px;
+    border: 1px solid transparent;
+    border-bottom: 2px solid color-mix(in srgb, var(--primate-group-color) 40%, transparent);
+    border-radius: 5px 5px 0 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 650;
+    line-height: 1.35;
+    padding: 0.4rem;
     text-align: center;
-    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .primate-zone-bands button:hover,
+  .primate-zone-bands button[aria-pressed="true"] {
+    color: var(--primate-group-color);
+    background: color-mix(in srgb, var(--primate-group-color) 9%, transparent);
+    border-bottom-color: var(--primate-group-color);
+  }
+
+  .primate-zone-bands button[aria-pressed="true"] {
+    border-top-color: color-mix(in srgb, var(--primate-group-color) 22%, transparent);
   }
 
   .primate-stage-dots .deep-stage-dot {
@@ -2379,19 +2490,19 @@
 
   .stage-plate figcaption {
     padding: 0.5rem 0.85rem;
-    color: var(--faint);
-    font-size: 0.74rem;
+    color: var(--muted);
+    font-size: 0.8rem;
   }
 
   .stage-copy {
-    padding: 1.45rem;
+    padding: 1.25rem;
   }
 
   .stage-copy h2 {
-    margin: 0.35rem 0 0.1rem;
+    margin: 0.45rem 0 0.35rem;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 2.8rem;
-    line-height: 1.02;
+    font-size: 2rem;
+    line-height: 1.14;
     letter-spacing: 0;
   }
 
@@ -2407,6 +2518,28 @@
     margin: 0;
     color: var(--muted);
     font-size: 1.05rem;
+  }
+
+  .stage-copy .latin {
+    margin-bottom: 0.85rem;
+    font-size: 1.08rem;
+    line-height: 1.4;
+  }
+
+  .stage-copy .lead,
+  .stage-copy .why-box {
+    color: #c5beb0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .stage-copy .inheritance-box,
+  .stage-copy .why-box,
+  .stage-copy .extinction-detail-box {
+    margin-top: 1.25rem;
+    padding: 0.85rem;
+    border-color: rgba(218, 185, 126, 0.14);
+    background: rgba(217, 173, 97, 0.04);
   }
 
   .inheritance-box,
@@ -2466,7 +2599,7 @@
   }
 
   .extinction-detail-panel .stage-copy h2 {
-    font-size: 2.32rem;
+    font-size: 1.9rem;
   }
 
   .extinction-detail-panel .latin {
@@ -2557,24 +2690,46 @@
   .wow-facts-band {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.85rem;
-    margin: 1rem 0 2rem;
+    gap: 0;
+    margin: 0.75rem 0 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+    overflow: hidden;
   }
 
   .wow-facts-band article {
-    border-radius: var(--radius);
-    background:
-      radial-gradient(
-        circle at 92% 0%,
-        rgba(240, 201, 120, 0.11),
-        transparent 9rem
-      ),
-      var(--panel);
-    padding: 1rem;
+    position: relative;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .wow-facts-band article + article {
+    border-left: 1px solid rgba(218, 185, 126, 0.14);
+  }
+
+  .wow-fact-heading,
+  .wow-fact-value {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .wow-fact-heading {
+    padding-right: 1rem;
+  }
+
+  .wow-fact-value {
+    margin-top: 0.5rem;
   }
 
   .wow-facts-band svg {
     color: var(--gold);
+    flex-shrink: 0;
   }
 
   .wow-facts-band span,
@@ -2584,34 +2739,40 @@
   }
 
   .wow-facts-band span {
-    margin-top: 0.55rem;
+    margin: 0;
     color: var(--muted);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
   .wow-facts-band strong {
-    margin-top: 0.22rem;
+    flex-shrink: 0;
+    margin: 0;
     color: var(--text);
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.85rem;
+    font-size: 1.7rem;
     line-height: 1;
   }
 
   .wow-facts-band p {
-    margin: 0.55rem 0 0;
+    margin: 0;
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 1.35;
   }
 
   .wow-fact-link {
+    position: absolute;
+    top: 0;
+    right: 0;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    margin-top: 0.65rem;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
     color: var(--gold);
     font-size: 0.82rem;
     font-weight: 800;
@@ -2619,6 +2780,12 @@
 
   .wow-fact-link svg {
     flex: 0 0 auto;
+  }
+
+  .wow-fact-link:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: -4px;
+    border-radius: var(--radius);
   }
 
   .takeaway-band {
@@ -2705,7 +2872,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: 0.5rem;
   }
 
   .theory-principle {
@@ -2734,8 +2901,8 @@
 
   .darwin-spotlight {
     display: grid;
-    grid-template-columns: minmax(260px, 0.58fr) minmax(0, 1fr);
-    gap: 1rem;
+    grid-template-columns: minmax(200px, 0.28fr) minmax(0, 1fr);
+    gap: 0;
     margin-top: 1rem;
     border: 1px solid rgba(218, 185, 126, 0.2);
     border-radius: var(--radius);
@@ -2756,7 +2923,7 @@
 
   .darwin-portrait {
     position: relative;
-    min-height: 430px;
+    min-height: 260px;
     margin: 0;
     border-right: 1px solid rgba(218, 185, 126, 0.18);
     background: #050706;
@@ -2778,9 +2945,11 @@
   }
 
   .darwin-portrait img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    min-height: 430px;
+    min-height: 0;
     object-fit: cover;
     object-position: center 18%;
     display: block;
@@ -2794,7 +2963,7 @@
     bottom: 1rem;
     z-index: 1;
     color: var(--text);
-    font-size: 0.95rem;
+    font-size: 0.76rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -2802,16 +2971,16 @@
   .darwin-copy {
     display: grid;
     align-content: center;
-    gap: 0.95rem;
-    padding: clamp(1.1rem, 3vw, 2rem);
+    gap: 0.7rem;
+    padding: 1.25rem 1.5rem;
   }
 
   .darwin-copy h2 {
-    max-width: 12em;
+    max-width: 28em;
     margin: 0;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1.9rem, 3.4vw, 3.2rem);
-    line-height: 0.98;
+    font-size: clamp(1.55rem, 2.3vw, 2rem);
+    line-height: 1.15;
     letter-spacing: 0;
   }
 
@@ -2819,31 +2988,81 @@
     max-width: 62rem;
     margin: 0;
     color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+
+  .theory-mechanism {
+    margin-top: 1rem;
+    padding: 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(130, 183, 179, 0.07), rgba(240, 201, 120, 0.04));
+  }
+
+  .theory-section-heading h2 {
+    margin: 0.35rem 0 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.3vw, 2rem);
+    line-height: 1.15;
   }
 
   .darwin-flow {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.7rem;
-    margin-top: 0.35rem;
+    gap: 1rem;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .darwin-flow span {
+  .darwin-flow li {
+    position: relative;
     display: grid;
     align-content: start;
-    gap: 0.55rem;
-    min-height: 9rem;
-    padding: 0.9rem;
-    border: 1px solid rgba(218, 185, 126, 0.16);
-    border-radius: calc(var(--radius) * 0.65);
-    background: rgba(0, 0, 0, 0.24);
-    color: var(--muted);
+    justify-items: center;
+    gap: 0.7rem;
+    text-align: center;
   }
 
-  .darwin-flow strong {
+  .darwin-flow li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 1.25rem;
+    left: calc(50% + 1.55rem);
+    width: calc(100% - 2.1rem);
+    height: 1px;
+    background: rgba(218, 185, 126, 0.38);
+  }
+
+  .darwin-step-number {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid rgba(218, 185, 126, 0.5);
+    border-radius: 50%;
+    background: rgba(240, 201, 120, 0.06);
     color: var(--gold);
-    font-size: 0.84rem;
-    letter-spacing: 0.16em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .darwin-flow h3 {
+    margin: 0 0 0.35rem;
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .darwin-flow p {
+    max-width: 28ch;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
   }
 
   .theory-page .evidence-section {
@@ -2852,7 +3071,7 @@
 
   .evidence-section {
     display: grid;
-    grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     margin-top: 1rem;
     border: 1px solid var(--line);
@@ -2865,32 +3084,36 @@
   }
 
   .evidence-intro {
-    border-right: 1px solid rgba(218, 185, 126, 0.18);
-    padding: 0.5rem 1rem 0.5rem 0.35rem;
+    max-width: 980px;
+    padding: 0.25rem 0.25rem 0.5rem;
   }
 
   .evidence-intro h2 {
-    margin: 0.45rem 0 1rem;
+    margin: 0.4rem 0 0.7rem;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 2.45rem;
-    line-height: 1.02;
+    font-size: clamp(1.55rem, 2.4vw, 2.1rem);
+    line-height: 1.15;
     letter-spacing: 0;
   }
 
   .evidence-intro p:not(.eyebrow) {
     margin: 0;
     color: var(--muted);
-    font-size: 1.02rem;
+    font-size: 0.96rem;
+    line-height: 1.6;
   }
 
   .evidence-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
+    gap: 0.6rem 0.75rem;
   }
 
   .evidence-card {
-    min-height: 225px;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 5;
+    min-width: 0;
     border: 1px solid rgba(218, 185, 126, 0.18);
     border-radius: var(--radius);
     background: rgba(255, 255, 255, 0.035);
@@ -2902,9 +3125,10 @@
   }
 
   .evidence-card h3 {
-    margin: 0.7rem 0 0.45rem;
+    margin: 0.1rem 0 0;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 1.25rem;
+    line-height: 1.25;
     letter-spacing: 0;
   }
 
@@ -2912,11 +3136,12 @@
     margin: 0;
     color: var(--muted);
     font-size: 0.9rem;
+    line-height: 1.55;
   }
 
   .evidence-card strong {
     display: block;
-    margin-top: 0.75rem;
+    margin-top: 0.15rem;
     color: var(--text);
     font-size: 0.85rem;
     line-height: 1.35;
@@ -2924,38 +3149,99 @@
 
   .evidence-card a {
     display: inline-flex;
-    margin-top: 0.75rem;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 0;
     color: var(--gold);
     font-size: 0.78rem;
     text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .evidence-card a:hover {
+    text-decoration: underline;
+  }
+
+  .evidence-card a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
   }
 
   .evidence-faq {
-    grid-column: 1 / -1;
+    margin-top: 2rem;
+    padding-bottom: 1rem;
+    scroll-margin-top: 9rem;
+  }
+
+  .evidence-faq .theory-section-heading {
+    margin-bottom: 1.25rem;
+  }
+
+  .evidence-faq-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(130, 183, 179, 0.035);
   }
 
   .evidence-faq-card {
-    border: 1px solid rgba(218, 185, 126, 0.18);
-    border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.035);
-    padding: 1rem;
+    min-width: 0;
+    padding: 1.5rem 2rem;
+  }
+
+  .evidence-faq-card:nth-child(odd) {
+    border-right: 1px solid var(--line);
+  }
+
+  .evidence-faq-card:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .evidence-faq-topic {
+    display: block;
+    margin-bottom: 0.65rem;
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   .evidence-faq-card h3 {
-    margin: 0 0 0.5rem;
+    max-width: 38ch;
+    margin: 0 0 0.65rem;
     color: var(--text);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.1rem;
-    line-height: 1.2;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
   }
 
   .evidence-faq-card p {
+    max-width: 62ch;
     margin: 0;
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 720px) {
+    .evidence-faq-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .evidence-faq-card {
+      padding: 1.25rem 1rem;
+    }
+
+    .evidence-faq-card:nth-child(odd) {
+      border-right: 0;
+    }
+
+    .evidence-faq-card + .evidence-faq-card {
+      border-top: 1px solid var(--line);
+    }
   }
 
   .trait-accumulator {

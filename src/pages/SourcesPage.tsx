@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import { ExternalLink } from "lucide-react";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { sortedStages } from "../data/lineage";
@@ -22,14 +23,10 @@ const readableLicense = (value: string) => {
 export function SourcesPage() {
   return (
     <section className="document-page" data-tour-stop-id="page-sources">
-      <div className="document-header">
-        <p className="eyebrow">Прозрачность</p>
-        <h1>Источники, лицензии и изображения</h1>
-        <p>
-          Изображения, авторские указания и ссылки для проверки визуального ряда
-          атласа. Если для этапа использована реконструкция, она помечена отдельно.
-        </p>
-      </div>
+      <PageHeader eyebrow="Прозрачность" title="Источники, лицензии и изображения">
+        Изображения, авторские указания и ссылки для проверки визуального ряда
+        атласа. Если для этапа использована реконструкция, она помечена отдельно.
+      </PageHeader>
 
       <section className="science-sources" aria-labelledby="science-sources-title">
         <div className="science-sources-heading">

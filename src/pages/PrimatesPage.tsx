@@ -1,6 +1,9 @@
+import { PageHeader } from "../components/ui/PageHeader";
+// AfricaOriginMap shares the existing exhibit styles with the origin-of-life page.
+import "../styles/pages/origin-of-life.css";
 import { useMemo, useRef, type CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { ArrowRight, Dna, Globe2, Search, Star } from "lucide-react";
+import { ArrowRight, ChevronDown, Dna, Globe2, Search } from "lucide-react";
 import { AfricaOriginMap } from "../components/education/AfricaOriginMap";
 import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { MobileAtlas } from "../components/atlas/mobile/MobileAtlas";
@@ -9,6 +12,7 @@ import { StageDetailCard } from "../components/atlas/StageDetailCard";
 import { ConstellationField } from "../components/ui/constellation-field";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { ERAS, primateStages, sortedStages, type EvolutionStage } from "../data/lineage";
+import { PRIMATE_READING_GROUPS, getPrimateReadingGroup } from "../data/primateGroups";
 import { getAccumulatedTraitGroups } from "../lib/accumulatedTraits";
 import { getDefaultAtlasStage, parsePrimateUrlState, toStageSearchParams } from "../lib/atlasUrlState";
 import { formatAgeRu } from "../lib/timeline";
@@ -30,6 +34,52 @@ const PRIMATE_BRANCH_STAGE_IDS = [
   "early-homo",
   "sapiens",
 ] as const;
+
+function PrimateIntro({ mobile }: { mobile: boolean }) {
+  return (
+    <>
+      <PageHeader
+        className="atlas-hero"
+        eyebrow="Приматы и человек"
+        title="Эволюция человека: от ранних приматов до Homo sapiens"
+        decoration={
+          !mobile ? (
+            <>
+              <FloatingPaths className="atlas-hero-paths" />
+              <ConstellationField className="atlas-hero-constellation" />
+            </>
+          ) : null
+        }
+      >
+        66 млн лет истории нашей ветви. Людей и других приматов связывают общие
+        предки.
+      </PageHeader>
+
+      <div className="primate-intro-tools">
+        <details className="primate-context-note">
+          <summary>
+            <h2>Кто был общим предком человека и обезьян?</h2>
+            <ChevronDown aria-hidden="true" size={17} />
+          </summary>
+          <p>
+            Человек не произошел от современной обезьяны. Общие предки — это
+            древние популяции. Например, линии людей и шимпанзе разошлись примерно
+            7 млн лет назад; после разделения обе ветви эволюционировали независимо.
+            Хронология показывает, где появляются{" "}
+            <GlossaryTermById id="anthropoids">антропоиды</GlossaryTermById>,{" "}
+            <GlossaryTermById id="apes">человекообразные</GlossaryTermById> и{" "}
+            <GlossaryTermById id="hominins">гоминины</GlossaryTermById>.
+          </p>
+        </details>
+        <nav className="primate-page-nav" aria-label="На этой странице">
+          <a href="#primate-timeline">Шкала</a>
+          <a href="#primate-branches">Развилки</a>
+          <a href="#africa-origin-title">Африка</a>
+        </nav>
+      </div>
+    </>
+  );
+}
 
 export function PrimatesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -71,10 +121,49 @@ export function PrimatesPage() {
     activateStage(visibleStages[nextIndex], options);
   }
 
+  const branchMilestones = (
+    <section id="primate-branches" className="primate-branch-panel" aria-labelledby="primate-branch-title">
+      <div className="primate-branch-panel-heading">
+        <div>
+          <p className="eyebrow">Развилки ветви</p>
+          <h2 id="primate-branch-title">Этапы эволюции человека в хронологическом порядке</h2>
+        </div>
+        <span>{activeIndex + 1} из {visibleStages.length}</span>
+      </div>
+      <div className="primate-branch-milestones" aria-label="Этапы ветви приматов">
+        {branchStages.map((stage) => {
+          const group = getPrimateReadingGroup(stage);
+          return (
+            <button
+              key={stage.id}
+              type="button"
+              className={`primate-branch-milestone${stage.id === activeStage.id ? " is-active" : ""}`}
+              style={{ "--primate-group-color": group?.color } as CSSProperties}
+              aria-current={stage.id === activeStage.id ? "true" : undefined}
+              onClick={() => {
+                activateStage(stage, { replace: false });
+                if (isMobileAtlas) {
+                  requestAnimationFrame(() => {
+                    atlasRef.current?.querySelector(".mobile-stage-row.is-active")?.scrollIntoView({ block: "start" });
+                  });
+                }
+              }}
+            >
+              <span className="primate-milestone-group">{group?.titleRu}</span>
+              <span>{formatAgeRu(stage.ageMa)}</span>
+              <strong>{stage.titleRu}</strong>
+              <small>{stage.inherited.slice(0, 2).join(" · ")}</small>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+
   if (isMobileAtlas) {
     return (
       <div
-        className="atlas atlas-mobile-shell"
+        className="atlas atlas-mobile-shell primates-page"
         data-tour-stop-id="page-primates"
         ref={atlasRef}
         tabIndex={0}
@@ -94,9 +183,11 @@ export function PrimatesPage() {
           Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
         </p>
         <MobileAtlas
-          eyebrow="Приматы и человек"
-          title="Эволюция человека: от ранних приматов до Homo sapiens"
-          description="Человек не произошел от современной обезьяны. Люди и другие приматы унаследовали признаки от общих предков, а затем их ветви развивались независимо."
+          header={<PrimateIntro mobile />}
+          afterMap={branchMilestones}
+          timelineId="primate-timeline"
+          groups={PRIMATE_READING_GROUPS}
+          showSelectedAge
           showAfricaOriginMap
           showTraitAccumulator={false}
           stages={visibleStages}
@@ -134,37 +225,7 @@ export function PrimatesPage() {
         Выбран этап {activeStage.titleRu}, {formatAgeRu(activeStage.ageMa)}
       </p>
 
-      <section className="atlas-hero">
-        <FloatingPaths className="atlas-hero-paths" />
-        <ConstellationField className="atlas-hero-constellation" />
-        <div className="atlas-title">
-          <h1>Эволюция человека: от ранних приматов до Homo sapiens</h1>
-          <p className="hero-subtitle">Этапы развития нашей ветви за последние 66 млн лет.</p>
-          <p>
-            Человек не произошел от современной обезьяны. Люди и другие приматы
-            унаследовали признаки от общих предков, а затем их ветви развивались
-            независимо.
-          </p>
-        </div>
-      </section>
-
-      <section className="theory-bridge-band atlas-note-band primate-context-note">
-        <div>
-          <Star aria-hidden="true" size={22} />
-          <div>
-            <h2>Кто был общим предком человека и обезьян?</h2>
-            <p>
-              Это не один современный вид, а последовательность древних популяций.
-              Например, линии людей и шимпанзе разошлись примерно 7 млн лет назад;
-              после разделения обе ветви эволюционировали независимо. Хронология
-              ниже показывает, где в этой истории появляются{" "}
-              <GlossaryTermById id="anthropoids">антропоиды</GlossaryTermById>,{" "}
-              <GlossaryTermById id="apes">человекообразные</GlossaryTermById> и{" "}
-              <GlossaryTermById id="hominins">гоминины</GlossaryTermById>.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PrimateIntro mobile={false} />
 
       <section className="atlas-grid" data-tour-stop-id="page-primates">
         <div className="center-stage">
@@ -177,35 +238,7 @@ export function PrimatesPage() {
             canStepNext={canStepNext}
           />
 
-          <section className="primate-branch-panel" aria-labelledby="primate-branch-title">
-            <div className="primate-branch-panel-heading">
-              <div>
-                <p className="eyebrow">Развилки ветви</p>
-                <h2 id="primate-branch-title">Этапы эволюции человека в хронологическом порядке</h2>
-              </div>
-              <span>{activeIndex + 1} из {visibleStages.length}</span>
-            </div>
-
-            <div className="primate-branch-milestones" role="list" aria-label="Этапы ветви приматов">
-              {branchStages.map((stage) => (
-                <button
-                  key={stage.id}
-                  type="button"
-                  className={
-                    stage.id === activeStage.id
-                      ? "primate-branch-milestone is-active"
-                      : "primate-branch-milestone"
-                  }
-                  aria-current={stage.id === activeStage.id ? "true" : undefined}
-                  onClick={() => activateStage(stage)}
-                >
-                  <span>{formatAgeRu(stage.ageMa)}</span>
-                  <strong>{stage.titleRu}</strong>
-                  <small>{stage.inherited.slice(0, 2).join(" · ")}</small>
-                </button>
-              ))}
-            </div>
-          </section>
+          {branchMilestones}
         </div>
 
         <StageDetailCard stage={activeStage} />

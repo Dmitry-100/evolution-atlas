@@ -1,13 +1,15 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/cladogram.css";
 import {
   ArrowRight,
   Fingerprint,
   GitFork,
-  Maximize2,
-  Milestone,
+  ArrowLeft,
   ScanSearch,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { createPortal } from "react-dom";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { Link, useSearchParams } from "react-router-dom";
 import {
   CladogramPanel,
@@ -23,6 +25,7 @@ import { TREE_OF_LIFE_POSTER } from "../data/treeOfLifePoster";
 import { buildCladogram, type CladogramBranch } from "../lib/cladogram";
 import { getStageHref } from "../lib/atlasUrlState";
 import { formatAgeRu } from "../lib/timeline";
+import { lockBodyScroll } from "../lib/bodyScrollLock";
 
 function getStageFromParams(stageSlug: string | null) {
   return (
@@ -38,98 +41,117 @@ type CladogramInspectorProps = {
   stage: EvolutionStage;
   branch: CladogramBranch | null;
   onSelectStage: (stage: EvolutionStage) => void;
+  lightboxContainer?: RefObject<HTMLDialogElement | null>;
 };
 
 function CladogramInspector({
   stage,
   branch,
   onSelectStage,
+  lightboxContainer,
 }: CladogramInspectorProps) {
   const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const inspectorRef = useRef<HTMLElement>(null);
   const inspectorImage = branch?.image ?? stage.image;
   const inspectorTitle = branch?.titleRu ?? stage.titleRu;
-  const lightboxLabel = branch
-    ? "Увеличенное изображение ветви"
-    : "Увеличенное изображение узла";
+  const latin = branch ? branch.latin : stage.latin;
 
-  if (branch) {
-    return (
-      <aside
-        className="cladogram-inspector"
-        aria-label="Выбранная ветвь дерева"
-      >
-        <figure className="cladogram-inspector-media">
-          <button
-            type="button"
-            className="cladogram-inspector-image-zoom"
-            onClick={() => setIsImageExpanded(true)}
-            aria-label={`Увеличить изображение: ${branch.titleRu}`}
-          >
-            <OptimizedImage
-              src={branch.image.src}
-              alt={branch.image.altRu}
-              loading="eager"
-              decoding="async"
-            />
-            <span className="stage-plate-zoom-indicator">
-              <Maximize2 aria-hidden="true" size={15} />
-              Увеличить
-            </span>
-          </button>
-        </figure>
+  useEffect(() => {
+    // Each selection starts with its title and photograph, even if the previous
+    // card was scrolled to its last paragraph.
+    if (inspectorRef.current) inspectorRef.current.scrollTop = 0;
+  }, [stage.id, branch?.id]);
 
-        <div className="cladogram-inspector-marker">
-          <Milestone aria-hidden="true" size={22} />
-          <span>
-            {branch.isLivingComparison ? "общий предок с нами" : "общий предок"}
-          </span>
-        </div>
-        <p className="kicker">
-          ветвь: <strong>{branch.titleRu}</strong>
+  return (
+    <aside
+      ref={inspectorRef}
+      className="cladogram-inspector"
+      aria-label={branch ? "Выбранная ветвь дерева" : "Выбранный узел дерева"}
+    >
+      <div className="cladogram-inspector-copy">
+        <p className="eyebrow">{branch ? "Соседняя ветвь" : "Узел дерева"}</p>
+        <h2 id="cladogram-inspector-title">{inspectorTitle}</h2>
+        {latin ? <p className="latin">{latin}</p> : null}
+        <p className="cladogram-inspector-age">
+          {branch ? "Разделение ветвей: " : ""}
+          {formatAgeRu(branch?.commonAncestor.ageMa ?? stage.ageMa)}
         </p>
-        <h2>{branch.titleRu}</h2>
-        {branch.latin ? <p className="latin">{branch.latin}</p> : null}
-        <p className="lead">{branch.descriptionRu}</p>
-
-        <div className="cladogram-inspector-note">
-          <span>Наш общий предок</span>
-          <strong>{branch.commonAncestor.titleRu}</strong>
-          <small>{formatAgeRu(branch.commonAncestor.ageMa)}</small>
-          <p>{branch.commonAncestor.relationRu}</p>
-        </div>
-
-        <div
-          className="cladogram-inspector-split"
-          aria-label="Две ветви после общего предка"
+        <p className="lead">{branch?.descriptionRu ?? stage.summaryRu}</p>
+      </div>
+      <figure className="cladogram-inspector-media">
+        <button
+          type="button"
+          className="cladogram-inspector-image-zoom"
+          onClick={() => setIsImageExpanded(true)}
+          aria-haspopup="dialog"
+          aria-label={`Увеличить изображение: ${inspectorTitle}`}
         >
-          <span>
-            <strong>Наша ветвь</strong>
-            <small>От {branch.commonAncestor.titleRu} к Homo sapiens</small>
-          </span>
-          <span>
-            <strong>Их ветвь</strong>
-            <small>
-              От {branch.commonAncestor.titleRu} к {branch.titleRu}
-            </small>
-          </span>
-        </div>
-
-        {branch.isLivingComparison ? (
-          <p className="cladogram-inspector-relationship">
-            Это не предок человека, а современная соседняя ветвь.
-          </p>
+          <OptimizedImage
+            src={inspectorImage.src}
+            alt={inspectorImage.altRu}
+            loading="eager"
+            decoding="async"
+          />
+        </button>
+        {inspectorImage.kind === "generated-reconstruction" ? (
+          <figcaption>AI-реконструкция</figcaption>
         ) : null}
-
-        <div className="cladogram-inspector-actions">
-          {branch.stage ? (
-            <Link
-              className="button button-secondary button-md"
-              to={getStageHref(branch.stage)}
+      </figure>
+      <div className="cladogram-inspector-copy">
+        {branch ? (
+          <>
+            <div className="cladogram-inspector-note">
+              <h3>
+                {branch.isLivingComparison
+                  ? "Общий предок с нами"
+                  : "Наш общий предок"}
+              </h3>
+              <strong>{branch.commonAncestor.titleRu}</strong>
+              <p>{branch.commonAncestor.relationRu}</p>
+            </div>
+            <div
+              className="cladogram-inspector-split"
+              aria-label="Две ветви после общего предка"
             >
-              Открыть в Атласе
-              <ArrowRight aria-hidden="true" size={16} />
-            </Link>
-          ) : (
+              <div>
+                <h3>Наша ветвь</h3>
+                <p>От {branch.commonAncestor.titleRu} к Homo sapiens</p>
+              </div>
+              <div>
+                <h3>Их ветвь</h3>
+                <p>
+                  От {branch.commonAncestor.titleRu} к {branch.titleRu}
+                </p>
+              </div>
+            </div>
+            {branch.isLivingComparison ? (
+              <p className="cladogram-inspector-relationship">
+                Это не предок человека, а современная соседняя ветвь.
+              </p>
+            ) : null}
+          </>
+        ) : (
+          <div className="cladogram-inspector-traits">
+            <Fingerprint aria-hidden="true" size={18} />
+            <div>
+              <h3>Карта признаков</h3>
+              <ul>
+                {stage.inherited.slice(0, 3).map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <Link
+                className="button button-secondary button-sm trait-map-link"
+                to="/body-map"
+              >
+                <ScanSearch aria-hidden="true" size={15} />
+                Карта признаков
+              </Link>
+            </div>
+          </div>
+        )}
+        <div className="cladogram-inspector-actions">
+          {branch && !branch.stage ? (
             <button
               type="button"
               className="button button-secondary button-md"
@@ -138,83 +160,15 @@ function CladogramInspector({
               Показать узел-родитель
               <ArrowRight aria-hidden="true" size={16} />
             </button>
-          )}
-        </div>
-        <ImageLightbox
-          image={
-            isImageExpanded
-              ? {
-                  src: inspectorImage.src,
-                  alt: inspectorImage.altRu,
-                  caption: `${inspectorTitle}. ${inspectorImage.altRu}`,
-                }
-              : null
-          }
-          ariaLabel={lightboxLabel}
-          onClose={() => setIsImageExpanded(false)}
-        />
-      </aside>
-    );
-  }
-
-  return (
-    <aside className="cladogram-inspector" aria-label="Выбранный узел дерева">
-      <figure className="cladogram-inspector-media">
-        <button
-          type="button"
-          className="cladogram-inspector-image-zoom"
-          onClick={() => setIsImageExpanded(true)}
-          aria-label={`Увеличить изображение: ${stage.titleRu}`}
-        >
-          <OptimizedImage
-            src={stage.image.src}
-            alt={stage.image.altRu}
-            loading="eager"
-            decoding="async"
-          />
-          <span className="stage-plate-zoom-indicator">
-            <Maximize2 aria-hidden="true" size={15} />
-            Увеличить
-          </span>
-        </button>
-        {stage.image.kind === "generated-reconstruction" ? (
-          <figcaption>AI-реконструкция</figcaption>
-        ) : null}
-      </figure>
-
-      <div className="cladogram-inspector-copy">
-        <p className="kicker">{formatAgeRu(stage.ageMa)}</p>
-        <h2>{stage.titleRu}</h2>
-        <p className="latin">{stage.latin}</p>
-        <p className="lead">{stage.summaryRu}</p>
-
-        <div className="cladogram-inspector-traits">
-          <Fingerprint aria-hidden="true" size={18} />
-          <div>
-            <strong>Карта признаков</strong>
-            <ul>
-              {stage.inherited.slice(0, 3).map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+          ) : (
             <Link
-              className="button button-secondary button-sm trait-map-link"
-              to="/body-map"
+              className="button button-secondary button-md"
+              to={getStageHref(branch?.stage ?? stage)}
             >
-              <ScanSearch aria-hidden="true" size={15} />
-              Карта признаков
+              Открыть в Атласе
+              <ArrowRight aria-hidden="true" size={16} />
             </Link>
-          </div>
-        </div>
-
-        <div className="cladogram-inspector-actions">
-          <Link
-            className="button button-secondary button-md"
-            to={getStageHref(stage)}
-          >
-            Открыть в Атласе
-            <ArrowRight aria-hidden="true" size={16} />
-          </Link>
+          )}
         </div>
       </div>
       <ImageLightbox
@@ -227,15 +181,73 @@ function CladogramInspector({
               }
             : null
         }
-        ariaLabel={lightboxLabel}
+        ariaLabel={
+          branch
+            ? "Увеличенное изображение ветви"
+            : "Увеличенное изображение узла"
+        }
+        portalTarget={lightboxContainer?.current}
         onClose={() => setIsImageExpanded(false)}
       />
     </aside>
   );
 }
 
+function CladogramDetailsDialog({
+  onClose,
+  ...props
+}: CladogramInspectorProps & { onClose: () => void }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const returnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    const trigger = document.activeElement;
+    const unlockScroll = lockBodyScroll();
+    dialog?.showModal();
+    returnRef.current?.focus({ preventScroll: true });
+    return () => {
+      dialog?.close();
+      unlockScroll();
+      if (trigger instanceof HTMLElement && trigger.isConnected)
+        trigger.focus({ preventScroll: true });
+    };
+  }, []);
+
+  return createPortal(
+    <dialog
+      ref={dialogRef}
+      className="cladogram-mobile-panel"
+      aria-labelledby="cladogram-inspector-title"
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
+    >
+      <div className="cladogram-mobile-toolbar">
+        <button
+          ref={returnRef}
+          className="button button-secondary button-md"
+          type="button"
+          onClick={onClose}
+        >
+          <ArrowLeft size={18} aria-hidden="true" />
+          Вернуться к дереву
+        </button>
+      </div>
+      <CladogramInspector {...props} lightboxContainer={dialogRef} />
+    </dialog>,
+    document.body,
+  );
+}
+
 export function CladogramPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const pageRef = useRef<HTMLElement>(null);
+  const isCompact = useMediaQuery("(max-width: 959px)");
+  const [inspectorOpen, setInspectorOpen] = useState(() =>
+    searchParams.has("stage"),
+  );
   const [activeBranch, setActiveBranch] = useState<CladogramBranch | null>(
     null,
   );
@@ -243,6 +255,31 @@ export function CladogramPage() {
   const [isPosterExpanded, setIsPosterExpanded] = useState(false);
   const tree = useMemo(() => buildCladogram(sortedStages), []);
   const activeStage = getStageFromParams(searchParams.get("stage"));
+
+  useEffect(() => {
+    const header = document.querySelector(".topbar");
+    const page = pageRef.current;
+    if (!header || !page) return;
+    const update = () =>
+      page.style.setProperty(
+        "--cladogram-header-height",
+        `${header.getBoundingClientRect().height}px`,
+      );
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+
+  function inspectStage(stage: EvolutionStage) {
+    activateStage(stage);
+    setInspectorOpen(true);
+  }
+
+  function inspectBranch(branch: CladogramBranch) {
+    setActiveBranch(branch);
+    setInspectorOpen(true);
+  }
 
   function activateStage(stage: EvolutionStage) {
     setActiveBranch(null);
@@ -277,17 +314,42 @@ export function CladogramPage() {
   return (
     <TooltipProvider delayDuration={160}>
       <section
+        ref={pageRef}
         className="document-page cladogram-page"
         data-tour-stop-id="page-cladogram"
       >
-        <div className="document-header">
-          <p className="eyebrow">Кладограмма</p>
-          <h1>Дерево родства</h1>
-          <p>
-            Кладограмма показывает родство без временной шкалы: где находится
-            ветвь Homo sapiens и от каких узлов отходят современные и ископаемые
-            родственники.
-          </p>
+        <PageHeader eyebrow="Кладограмма" title="Дерево родства">
+          Homo sapiens находится на выделенной ветви. Кладограмма показывает,
+          где расходятся современные и ископаемые родственники; расстояние между
+          узлами не отражает время.
+        </PageHeader>
+
+        <div className="cladogram-page-grid">
+          <CladogramPanel
+            tree={tree}
+            activeStage={activeStage}
+            activeBranch={activeBranch}
+            branchMode={branchMode}
+            onChangeBranchMode={changeBranchMode}
+            onActivate={inspectStage}
+            onInspectBranch={inspectBranch}
+          />
+          {isCompact ? (
+            inspectorOpen ? (
+              <CladogramDetailsDialog
+                stage={activeStage}
+                branch={activeBranch}
+                onSelectStage={activateStage}
+                onClose={() => setInspectorOpen(false)}
+              />
+            ) : null
+          ) : (
+            <CladogramInspector
+              stage={activeStage}
+              branch={activeBranch}
+              onSelectStage={activateStage}
+            />
+          )}
         </div>
 
         <figure
@@ -306,10 +368,6 @@ export function CladogramPage() {
               loading="lazy"
               decoding="async"
             />
-            <span className="stage-plate-zoom-indicator">
-              <Maximize2 aria-hidden="true" size={15} />
-              Рассмотреть постер
-            </span>
           </button>
           <figcaption>
             <span className="eyebrow">Плакат</span>
@@ -323,23 +381,6 @@ export function CladogramPage() {
             </p>
           </figcaption>
         </figure>
-
-        <div className="cladogram-page-grid">
-          <CladogramPanel
-            tree={tree}
-            activeStage={activeStage}
-            activeBranch={activeBranch}
-            branchMode={branchMode}
-            onChangeBranchMode={changeBranchMode}
-            onActivate={activateStage}
-            onInspectBranch={setActiveBranch}
-          />
-          <CladogramInspector
-            stage={activeStage}
-            branch={activeBranch}
-            onSelectStage={activateStage}
-          />
-        </div>
 
         <CuriosityFacts
           factIds={CURIOSITY_FACT_PAGE_GROUPS.cladogram}

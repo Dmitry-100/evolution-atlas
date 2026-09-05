@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import {
   BookOpen,
   Download,
@@ -20,14 +21,13 @@ import { TREE_OF_LIFE_POSTER } from "../data/treeOfLifePoster";
 export function MaterialsPage() {
   return (
     <section className="document-page materials-page" data-tour-stop-id="page-materials">
-      <div className="document-header">
-        <p className="eyebrow">Дополнительные материалы</p>
-        <h1>Презентации, книги, музеи и видео</h1>
-        <p>
-          Их можно читать отдельно или после разделов Атласа. PDF открываются
-          прямо в браузере.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Дополнительные материалы"
+        title="Презентации, книги, музеи и видео"
+      >
+        Их можно читать отдельно или после разделов Атласа. PDF открываются прямо в
+        браузере.
+      </PageHeader>
 
       <section className="poster-download-card is-compact" aria-labelledby="poster-download-title">
         <div className="poster-download-media">

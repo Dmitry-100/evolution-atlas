@@ -1,6 +1,7 @@
-import { ArrowLeft, ArrowRight, Maximize2, MoveHorizontal } from "lucide-react";
+import { ArrowLeft, ArrowRight, Maximize2 } from "lucide-react";
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import type { EvolutionStage } from "../../data/lineage";
+import { PRIMATE_READING_GROUPS } from "../../data/primateGroups";
 import { ageMaToPosition, formatAgeRu } from "../../lib/timeline";
 import { FloatingPaths } from "../ui/floating-paths";
 import { ImageLightbox } from "../ui/image-lightbox";
@@ -18,12 +19,6 @@ type PrimateAxisProps = {
 };
 
 const PRIMATE_SCALE = { minMa: 0.25, maxMa: 66 };
-const primateAxisZones = [
-  { id: "roots", label: "древесные приматы", fromId: "early-primates", toId: "anthropoids" },
-  { id: "monkeys", label: "обезьяны", fromId: "anthropoids", toId: "catarrhini" },
-  { id: "apes", label: "человекообразные", fromId: "early-apes", toId: "hominins" },
-  { id: "homo", label: "линия Homo", fromId: "early-homo", toId: "sapiens" },
-];
 
 function makeReadablePositions(stages: EvolutionStage[]) {
   const raw = stages.map((stage) => Math.max(6, Math.min(94, ageMaToPosition(stage.ageMa, PRIMATE_SCALE) * 100)));
@@ -65,37 +60,28 @@ export function PrimateAxis({
   const positions = useMemo(() => makeReadablePositions(stages), [stages]);
   const activeIndex = Math.max(0, stages.findIndex((stage) => stage.id === activeStage.id));
   const activePosition = positions[activeIndex] ?? 2;
-  const activeCardClass =
-    activePosition > 82
-      ? "deep-active-card align-right"
-      : activePosition < 18
-        ? "deep-active-card align-left"
-        : "deep-active-card";
-  const positionById = useMemo(() => {
-    const map = new Map<string, number>();
-    stages.forEach((stage, index) => map.set(stage.id, positions[index] ?? 0));
-    return map;
-  }, [positions, stages]);
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.key === "ArrowRight" && canStepNext) {
       event.preventDefault();
+      event.stopPropagation();
       onStep(1);
     }
 
     if (event.key === "ArrowLeft" && canStepPrevious) {
       event.preventDefault();
+      event.stopPropagation();
       onStep(-1);
     }
   }
 
   return (
-    <section className="axis-panel primate-focus-panel" aria-label="Временная шкала от ранних приматов к человеку">
+    <section id="primate-timeline" className="axis-panel primate-focus-panel" aria-label="Временная шкала от ранних приматов к человеку">
       <div className="axis-toolbar">
-        <span className="axis-toolbar-copy">
-          <MoveHorizontal aria-hidden="true" size={19} />
-          Нажимайте точки, двигайте ползунок или используйте стрелки
-        </span>
+        <div className="deep-time-selection" aria-label="Выбранная точка">
+          <span>{formatAgeRu(activeStage.ageMa)}</span>
+          <strong>{activeStage.titleRu}</strong>
+        </div>
         <div className="axis-step-controls" aria-label="Переключение этапов">
           <button
             type="button"
@@ -116,7 +102,20 @@ export function PrimateAxis({
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>
-        <strong>66 млн лет назад — наши дни</strong>
+      </div>
+
+      <div className="primate-zone-bands" aria-label="Группы этапов">
+        {PRIMATE_READING_GROUPS.map((group) => (
+          <button
+            key={group.id}
+            type="button"
+            style={{ "--primate-group-color": group.color } as CSSProperties}
+            aria-pressed={group.stages.some((stage) => stage.id === activeStage.id)}
+            onClick={() => onActivate(group.stages[0])}
+          >
+            {group.titleRu}
+          </button>
+        ))}
       </div>
 
       <div
@@ -146,26 +145,7 @@ export function PrimateAxis({
           </span>
         </button>
 
-        <div className="primate-zone-bands" aria-hidden="true">
-          {primateAxisZones.map((zone) => {
-            const from = positionById.get(zone.fromId);
-            const to = positionById.get(zone.toId);
-            if (from === undefined || to === undefined) return null;
-            const left = Math.min(from, to);
-            const right = Math.max(from, to);
-            return (
-              <span key={zone.id} style={{ left: `${left}%`, width: `${Math.max(8, right - left)}%` }}>
-                {zone.label}
-              </span>
-            );
-          })}
-        </div>
-
         <span className="deep-active-line primate-deep-active-line" style={{ left: `${activePosition}%` }} aria-hidden="true" />
-        <div className={activeCardClass} style={{ left: `${activePosition}%` }}>
-          <span>{formatAgeRu(activeStage.ageMa)}</span>
-          <strong>{activeStage.titleRu}</strong>
-        </div>
 
         <div className="deep-stage-dots primate-stage-dots" role="list" aria-label="Этапы на шкале приматов">
           {stages.map((stage, index) => {
@@ -208,6 +188,7 @@ export function PrimateAxis({
         <span>7 млн</span>
         <span>сегодня</span>
       </div>
+      <p className="deep-time-instruction">66 млн лет назад — сегодня. Выбирайте точки, двигайте ползунок или используйте стрелки.</p>
       <JourneyControls
         stages={stages}
         activeStage={activeStage}

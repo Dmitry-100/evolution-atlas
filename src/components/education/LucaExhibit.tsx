@@ -30,7 +30,10 @@ export function LucaExhibit() {
             <span>{LUCA_EXHIBIT.acronymEn}</span> — {LUCA_EXHIBIT.acronymRu}.
           </p>
         </div>
-        <ConfidenceBadge level={LUCA_EXHIBIT.confidence} />
+        <div className="luca-age-note">
+          <p><strong>Оценка возраста:</strong> {LUCA_EXHIBIT.ageRu}.</p>
+          <ConfidenceBadge level={LUCA_EXHIBIT.confidence} />
+        </div>
       </div>
 
       <div className="luca-exhibit-grid">
@@ -38,11 +41,13 @@ export function LucaExhibit() {
           <button
             type="button"
             className={activeNodeId === "luca" ? "luca-root is-active" : "luca-root"}
+            aria-pressed={activeNodeId === "luca"}
+            aria-controls="luca-selected-detail"
             onClick={() => setActiveNodeId("luca")}
           >
             <Atom aria-hidden="true" size={22} />
             <strong>LUCA</strong>
-            <span>{LUCA_EXHIBIT.ageRu}</span>
+            <span>Общий предок</span>
           </button>
 
           <div className="luca-branches">
@@ -51,6 +56,8 @@ export function LucaExhibit() {
                 <button
                   type="button"
                   className={node.id === activeNodeId ? "luca-branch is-active" : "luca-branch"}
+                  aria-pressed={node.id === activeNodeId}
+                  aria-controls="luca-selected-detail"
                   onClick={() => setActiveNodeId(node.id)}
                 >
                   <GitFork aria-hidden="true" size={17} />
@@ -67,6 +74,8 @@ export function LucaExhibit() {
                         : "luca-branch luca-branch--nested"
                     }
                     onClick={() => setActiveNodeId(childNode.id)}
+                    aria-pressed={childNode.id === activeNodeId}
+                    aria-controls="luca-selected-detail"
                   >
                     <GitFork aria-hidden="true" size={17} />
                     <strong>{childNode.titleRu}</strong>
@@ -78,9 +87,9 @@ export function LucaExhibit() {
           </div>
         </div>
 
-        <article className="luca-detail" aria-live="polite">
+        <article className="luca-detail" id="luca-selected-detail" aria-live="polite" aria-atomic="true">
           <div className="luca-detail-kicker">
-            <span>{activeNode.subtitleRu}</span>
+            <span>{activeNode.id === "luca" ? "Реконструкция предка" : activeNode.subtitleRu}</span>
             <ConfidenceBadge level={activeNode.confidence} />
           </div>
           <h3>{activeNode.titleRu}</h3>

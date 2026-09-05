@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/dinosaurs.css";
 import {
   ArrowLeft,
@@ -729,26 +730,24 @@ export function DinosaursPage() {
       className="document-page dinosaurs-page"
       data-tour-stop-id="page-dinosaurs"
     >
-      <div className="dinosaurs-hero">
-        <div>
-          <p className="eyebrow">От амниот к птицам</p>
-          <h1>Вымерли ли динозавры</h1>
-          <p>
-            Короткий ответ звучит неожиданно: {dinosaurAnswer} Поэтому голубь за
-            окном — потомок{" "}
-            <GlossaryTermById id="theropods">тероподной ветви</GlossaryTermById>{" "}
-            и ближе к нептичьим тероподам, чем к нашей млекопитающей линии.
-          </p>
-        </div>
-        <div className="dinosaurs-answer-card">
-          <Bird aria-hidden="true" size={36} />
-          <strong>{dinosaurAnswer}</strong>
-          <span>
-            Одна шкала ведёт от общего животного предка к современным птицам —
-            живой ветви динозавров.
-          </span>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="От амниот к птицам"
+        title="Вымерли ли динозавры"
+        aside={
+          <div className="dinosaurs-answer-card">
+            <Bird aria-hidden="true" size={36} />
+            <strong>{dinosaurAnswer}</strong>
+            <span>
+              Одна шкала ведёт от общего животного предка к современным птицам —
+              живой ветви динозавров.
+            </span>
+          </div>
+        }
+      >
+        Короткий ответ звучит неожиданно: {dinosaurAnswer} Поэтому голубь за окном —
+        потомок <GlossaryTermById id="theropods">тероподной ветви</GlossaryTermById>{" "}
+        и ближе к нептичьим тероподам, чем к нашей млекопитающей линии.
+      </PageHeader>
 
       <div className="dinosaurs-map-note">
         <Camera aria-hidden="true" size={21} />

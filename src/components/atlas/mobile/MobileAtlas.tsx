@@ -1,17 +1,25 @@
+import { PageHeader } from "../../ui/PageHeader";
 import { ChevronLeft, ChevronRight, Compass, Search } from "lucide-react";
+import type { ReactNode } from "react";
 import { AfricaOriginMap } from "../../education/AfricaOriginMap";
 import type { EvolutionEra, EvolutionStage } from "../../../data/lineage";
 import type { AccumulatedTraitGroup } from "../../../lib/accumulatedTraits";
 import type { AtlasUrlMode } from "../../../lib/atlasUrlState";
 import { Tabs, TabsList, TabsTrigger } from "../../ui/tabs";
 import { TraitAccumulator } from "../TraitAccumulator";
-import { MobileStageMap } from "./MobileStageMap";
+import { MobileStageMap, type MobileStageGroup } from "./MobileStageMap";
+import { formatAgeRu } from "../../../lib/timeline";
 
 type MobileAtlasProps = {
   mode?: AtlasUrlMode;
   eyebrow?: string;
   title?: string;
   description?: string;
+  header?: ReactNode;
+  afterMap?: ReactNode;
+  timelineId?: string;
+  groups?: MobileStageGroup[];
+  showSelectedAge?: boolean;
   showAfricaOriginMap?: boolean;
   showTraitAccumulator?: boolean;
   stages: EvolutionStage[];
@@ -31,6 +39,11 @@ export function MobileAtlas({
   eyebrow = "Атлас эволюции",
   title = "Человек произошел от обезьяны... а от кого произошла обезьяна?",
   description = "Двигайтесь по этапам и раскрывайте активную карточку прямо внутри карты.",
+  header,
+  afterMap,
+  timelineId,
+  groups,
+  showSelectedAge = false,
   showAfricaOriginMap = false,
   showTraitAccumulator = true,
   stages,
@@ -48,11 +61,7 @@ export function MobileAtlas({
 
   return (
     <section className="mobile-atlas" aria-label="Мобильный атлас эволюции">
-      <div className="mobile-atlas-hero">
-        <p className="eyebrow">{eyebrow}</p>
-        <h1>{title}</h1>
-        <p>{description}</p>
-      </div>
+      {header ?? <PageHeader eyebrow={eyebrow} title={title}>{description}</PageHeader>}
 
       {showModeTabs ? (
         <Tabs
@@ -72,7 +81,7 @@ export function MobileAtlas({
         </Tabs>
       ) : null}
 
-      <div className="mobile-atlas-stepper" aria-label="Переключение этапов">
+      <div className="mobile-atlas-stepper" id={timelineId} aria-label="Переключение этапов">
         <button
           type="button"
           onClick={() => onStep(-1)}
@@ -82,6 +91,7 @@ export function MobileAtlas({
           <ChevronLeft aria-hidden="true" size={20} />
         </button>
         <span aria-live="polite">
+          {showSelectedAge ? <small className="mobile-selection-age">{formatAgeRu(activeStage.ageMa)}</small> : null}
           {activeIndex + 1} из {stages.length}: {activeStage.titleRu}
         </span>
         <button
@@ -99,7 +109,10 @@ export function MobileAtlas({
         stages={stages}
         activeStage={activeStage}
         onActivate={onActivateStage}
+        groups={groups}
       />
+
+      {afterMap}
 
       {showTraitAccumulator ? (
         <TraitAccumulator groups={accumulatedTraitGroups} />

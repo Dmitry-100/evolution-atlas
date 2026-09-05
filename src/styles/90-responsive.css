@@ -1,15 +1,41 @@
 @layer evolution-responsive {
-  @media (max-width: 1320px) {
-    .atlas-title h1 {
-      font-size: 2.6rem;
+  @media (max-width: 720px) {
+    .primates-page .primate-intro-tools {
+      gap: 0;
+      margin-bottom: 0;
     }
 
+    .primates-page .primate-branch-panel-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .primates-page .primate-branch-milestones {
+      grid-template-columns: 1fr;
+    }
+
+    .primates-page #primate-timeline,
+    .primates-page #primate-branches,
+    .primates-page #africa-origin-title,
+    .primates-page .mobile-stage-row {
+      scroll-margin-top: 6.5rem;
+    }
+  }
+
+  @media (max-width: 1320px) {
     .atlas-grid {
       grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
     }
 
     .dinosaur-atlas-grid {
       grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+    }
+  }
+
+  @media (min-width: 1201px) and (max-width: 1320px) {
+    .brand {
+      flex-basis: 280px;
     }
   }
 
@@ -43,23 +69,15 @@
       white-space: normal;
     }
 
-    .atlas {
+    .atlas,
+    .document-page,
+    .quiz-page {
       padding: 1rem;
     }
 
-    .atlas-hero,
     .atlas-grid,
     .dinosaur-atlas-grid {
       grid-template-columns: 1fr;
-    }
-
-    .atlas-title h1,
-    .document-header h1,
-    .dinosaurs-hero h1,
-    .genetics-hero h1,
-    .origin-hero h1 {
-      font-size: 1.8rem;
-      line-height: 1.04;
     }
 
     .hero-actions {
@@ -84,6 +102,14 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .wow-facts-band article:nth-child(3) {
+      border-left: 0;
+    }
+
+    .wow-facts-band article:nth-child(n + 3) {
+      border-top: 1px solid rgba(218, 185, 126, 0.14);
+    }
+
     .primate-branch-milestones {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -104,6 +130,10 @@
       height: 320px;
     }
 
+    .deep-time-panel .deep-time-axis {
+      height: 360px;
+    }
+
     .geologic-period-card {
       grid-template-columns: minmax(280px, 0.38fr) minmax(0, 1fr);
     }
@@ -114,29 +144,8 @@
     }
 
     .theory-principles,
-    .darwin-spotlight,
     .evidence-section {
       grid-template-columns: 1fr;
-    }
-
-    .evidence-faq {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .darwin-portrait {
-      min-height: 340px;
-      border-right: 0;
-      border-bottom: 1px solid rgba(218, 185, 126, 0.18);
-    }
-
-    .darwin-portrait img {
-      min-height: 340px;
-      max-height: 520px;
-      object-position: center 14%;
-    }
-
-    .darwin-flow {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .material-card {
@@ -188,9 +197,7 @@
     }
 
     .evidence-intro {
-      border-right: 0;
-      border-bottom: 1px solid rgba(218, 185, 126, 0.18);
-      padding: 0.25rem 0 1rem;
+      padding: 0.25rem 0 0.5rem;
     }
 
     .evidence-grid {
@@ -212,25 +219,12 @@
       aspect-ratio: auto;
     }
 
-    .dinosaurs-hero,
-    .genetics-hero,
-    .origin-hero,
-    .dinosaur-detail-card,
-    .body-map-grid,
-    .cladogram-page-grid {
+    .dinosaur-detail-card {
       grid-template-columns: 1fr;
     }
 
-    .genetics-flow,
-    .genome-comparison-grid,
-    .genetics-evidence-grid,
-    .origin-story-grid,
-    .molecule-gallery-grid {
+    .origin-story-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .codon-lab {
-      grid-template-columns: 1fr;
     }
 
     .dinosaur-detail-copy {
@@ -252,8 +246,8 @@
       grid-template-columns: 1fr;
     }
 
-    .origin-hypotheses-grid {
-      grid-template-columns: 1fr;
+    .origin-story-card:nth-child(2n)::before {
+      display: none;
     }
 
     .dinosaur-facts-band {
@@ -263,19 +257,6 @@
     .dinosaur-common-ancestor {
       grid-template-columns: 1fr;
     }
-
-    .cladogram-page-grid .cladogram-inspector {
-      position: static;
-      max-height: none;
-    }
-
-    .body-trait-inspector {
-      position: static;
-    }
-
-    .body-map-layer-tabs {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
   }
 
   @media (min-width: 960px) and (max-width: 1200px) {
@@ -283,16 +264,23 @@
       grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
       align-items: start;
     }
-
-    .cladogram-page-grid .cladogram-inspector {
-      position: sticky;
-      top: 0.85rem;
-      max-height: calc(100dvh - 1.7rem);
-      overflow: hidden auto;
-    }
   }
 
   @media (max-width: 860px) {
+    .deep-time-region-label {
+      max-width: 22%;
+      text-align: center;
+    }
+
+    .deep-time-region-label strong {
+      white-space: normal;
+      line-height: 1.25;
+    }
+
+    .deep-time-region-label small {
+      display: none;
+    }
+
     .about-origin-story {
       grid-template-columns: 1fr;
     }
@@ -438,25 +426,19 @@
       overflow-wrap: anywhere;
     }
 
-    .atlas-title h1,
-    .document-header h1,
-    .dinosaurs-hero h1,
-    .genetics-hero h1,
-    .origin-hero h1 {
-      font-size: 1.55rem;
+    .darwin-spotlight {
+      grid-template-columns: 1fr;
     }
 
-    .atlas-title p,
-    .document-header p,
-    .dinosaurs-hero p,
-    .genetics-hero p,
-    .origin-hero p {
-      font-size: 1rem;
+    .darwin-portrait {
+      min-height: 0;
+      height: 240px;
+      border-right: 0;
+      border-bottom: 1px solid rgba(218, 185, 126, 0.18);
     }
 
-    .darwin-portrait,
     .darwin-portrait img {
-      min-height: 300px;
+      object-position: center 5%;
     }
 
     .darwin-copy {
@@ -467,12 +449,23 @@
       grid-template-columns: 1fr;
     }
 
-    .darwin-flow span {
-      min-height: auto;
+    .darwin-flow li {
+      grid-template-columns: 2.5rem minmax(0, 1fr);
+      justify-items: start;
+      gap: 0.85rem;
+      text-align: left;
     }
 
-    .hero-subtitle {
-      font-size: 1.28rem !important;
+    .darwin-flow li:not(:last-child)::after {
+      top: 2.85rem;
+      left: 1.25rem;
+      width: 1px;
+      height: calc(100% - 2.2rem);
+    }
+
+    .darwin-flow p {
+      max-width: none;
+      margin: 0;
     }
 
     .hero-actions,
@@ -494,17 +487,9 @@
     .theory-bridge-band,
     .theory-principles,
     .extinction-overview,
-    .dinosaurs-hero,
-    .genetics-hero,
-    .origin-hero,
     .dinosaur-detail-card,
-    .codon-lab,
-    .genetics-flow,
-    .genome-comparison-grid,
-    .genetics-evidence-grid,
     .origin-story-grid,
     .origin-hypotheses-grid,
-    .molecule-gallery-grid,
     .reading-grid,
     .watch-grid,
     .source-card,
@@ -523,70 +508,6 @@
 
     .geologic-period-card .box-title {
       min-width: 0;
-    }
-
-    .body-map-layer-tabs {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.42rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .body-map-layer-heading {
-      display: grid;
-      gap: 0.55rem;
-      padding: 0.78rem;
-    }
-
-    .body-map-layer-heading h2 {
-      margin-top: 0;
-      font-size: 1.38rem;
-    }
-
-    .body-map-layer-heading p {
-      line-height: 1.42;
-    }
-
-    .body-map-layer-heading > span {
-      justify-self: start;
-      padding: 0.32rem 0.56rem;
-    }
-
-    .body-trait-pin {
-      width: 36px;
-      height: 36px;
-      min-width: 36px;
-      min-height: 36px;
-      justify-content: center;
-      gap: 0;
-      padding: 0;
-    }
-
-    .body-trait-pin span {
-      display: none !important;
-    }
-
-    .body-trait-pin:hover,
-    .body-trait-pin.is-active {
-      transform: translate(-50%, -50%) scale(1.06);
-    }
-
-    .body-trait-inspector {
-      gap: 0.72rem;
-      padding: 0.85rem;
-    }
-
-    .body-trait-inspector-heading {
-      gap: 0.55rem;
-    }
-
-    .body-trait-inspector-heading h2 {
-      font-size: 1.55rem;
-    }
-
-    .body-trait-stage,
-    .body-trait-source,
-    .body-trait-caveat {
-      padding: 0.72rem;
     }
 
     .era-route::before {
@@ -736,7 +657,7 @@
     }
 
     .stage-copy h2 {
-      font-size: 2.1rem;
+      font-size: 1.8rem;
     }
 
     .document-page {
@@ -856,10 +777,6 @@
       top: 1.5rem;
     }
 
-    .evidence-intro h2 {
-      font-size: 2rem;
-    }
-
     .extinction-card {
       margin-left: 1.85rem;
     }
@@ -877,42 +794,8 @@
       flex-direction: column;
     }
 
-    .genetics-flow article:not(:last-child)::after {
-      display: none;
-    }
-
-    .codon-reader {
+    .origin-section-heading {
       grid-template-columns: 1fr;
-    }
-
-    .codon-reader > svg {
-      justify-self: center;
-      transform: rotate(90deg);
-    }
-
-    .genome-comparison-card {
-      min-height: auto;
-    }
-
-    .genetics-note,
-    .genetics-bridge > div,
-    .origin-section-heading,
-    .genetics-section-heading {
-      grid-template-columns: 1fr;
-    }
-
-    .origin-story-card img,
-    .genetics-evidence-media img {
-      height: 170px;
-    }
-
-    .origin-hypothesis-media img {
-      height: 220px;
-    }
-
-    .genetics-bridge {
-      align-items: flex-start;
-      flex-direction: column;
     }
 
     .dinosaurs-answer-card strong {
@@ -1149,17 +1032,16 @@
       color: var(--muted);
     }
 
-    .origin-map {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .origin-map::before {
+    .origin-story-card::before {
       display: none;
     }
 
-    .origin-map span {
-      min-height: 50px;
-      font-size: 0.72rem;
+    .origin-story-grid {
+      row-gap: 0.65rem;
+    }
+
+    .origin-story-card:not(:first-child) {
+      margin-top: 0.75rem;
     }
 
     .cladogram-heading {
@@ -1305,10 +1187,6 @@
       height: 74px;
     }
 
-    .cladogram-inspector-media {
-      min-height: 220px;
-    }
-
     .cladogram-inspector-split {
       grid-template-columns: 1fr;
     }
@@ -1404,9 +1282,10 @@
       grid-template-columns: auto minmax(0, 1fr);
     }
 
-    .luca-exhibit-heading .confidence-badge {
-      grid-column: 2;
-      justify-self: start;
+    .luca-exhibit .luca-detail {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+      padding: 1.25rem 0 0;
     }
 
     .luca-exhibit-grid,

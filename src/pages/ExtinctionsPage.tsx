@@ -1,3 +1,4 @@
+import { PageHeader } from "../components/ui/PageHeader";
 import {
   ArrowRight,
   BarChart3,
@@ -19,15 +20,14 @@ export function ExtinctionsPage() {
       className="document-page extinction-page"
       data-tour-stop-id="page-extinctions"
     >
-      <div className="document-header">
-        <p className="eyebrow">История жизни</p>
-        <h1>Глобальные вымирания: шесть кризисов жизни</h1>
-        <p>
-          Эволюция идёт неровно. Климат, океаны, вулканы, удары из космоса
-          не раз резко обрушивали разнообразие жизни. Уцелевшие ветви
-          потом занимали освободившиеся ниши.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="История жизни"
+        title="Глобальные вымирания: шесть кризисов жизни"
+      >
+        Эволюция идёт неровно. Климат, океаны, вулканы, удары из космоса не раз
+        резко обрушивали разнообразие жизни. Уцелевшие ветви потом занимали
+        освободившиеся ниши.
+      </PageHeader>
 
       <div className="extinction-overview">
         <article>

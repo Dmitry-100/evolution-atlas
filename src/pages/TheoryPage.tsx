@@ -1,5 +1,8 @@
+import { PageHeader } from "../components/ui/PageHeader";
+// CuriosityFacts uses the shared educational exhibit styles.
+import "../styles/pages/origin-of-life.css";
 import { BookOpenCheck, Network, ScrollText, ShieldCheck } from "lucide-react";
-import { EvidenceSection } from "../components/atlas/EvidenceSection";
+import { EvidenceFaq, EvidenceSection } from "../components/atlas/EvidenceSection";
 import { CuriosityFacts } from "../components/education/CuriosityFacts";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
@@ -22,18 +25,24 @@ const principles = [
   },
 ];
 
+const evolutionSteps = [
+  { title: "Есть различия", text: "Организмы в популяции отличаются друг от друга." },
+  { title: "Часть различий наследуется", text: "Потомки получают признаки от родителей." },
+  { title: "Частоты признаков меняются", text: "На них влияют естественный отбор и дрейф генов." },
+  { title: "Линии могут разойтись", text: "Со временем складывается ветвящееся родство." },
+];
+
 export function TheoryPage() {
   return (
     <section className="document-page theory-page" data-tour-stop-id="page-theory">
-      <div className="document-header">
-        <p className="eyebrow">Теория эволюции</p>
-        <h1>Почему эволюция называется теорией</h1>
-        <p>
-          В науке теория — не догадка, а проверяемая система объяснений. Эволюцию
-          подтверждают ископаемые, ДНК, анатомия, биогеография и наблюдаемые
-          изменения популяций.
-        </p>
-      </div>
+      <PageHeader
+        eyebrow="Теория эволюции"
+        title="Почему эволюция называется теорией"
+      >
+        В науке теория — не догадка, а проверяемая система объяснений. Эволюцию
+        подтверждают ископаемые, ДНК, анатомия, биогеография и наблюдаемые изменения
+        популяций.
+      </PageHeader>
 
       <div className="theory-principles">
         {principles.map(({ icon: Icon, title, text }) => (
@@ -44,6 +53,26 @@ export function TheoryPage() {
           </article>
         ))}
       </div>
+
+      <section className="theory-mechanism" aria-labelledby="theory-mechanism-title">
+        <div className="theory-section-heading">
+          <p className="eyebrow">От различий к ветвлению</p>
+          <h2 id="theory-mechanism-title">Как работает эволюция</h2>
+        </div>
+        <ol className="darwin-flow" aria-label="Четыре шага эволюционных изменений">
+          {evolutionSteps.map(({ title, text }, index) => (
+            <li key={title}>
+              <span className="darwin-step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <EvidenceSection />
 
       <article className="darwin-spotlight">
         <figure className="darwin-portrait">
@@ -71,24 +100,6 @@ export function TheoryPage() {
             наследственную изменчивость, отбор и другие процессы. Современная теория эволюции шире Дарвина: к отбору
             добавились генетика, дрейф генов, палеонтология и статистические модели родства.
           </p>
-          <div className="darwin-flow" aria-label="Как работает дарвиновская идея">
-            <span>
-              <strong>01</strong>
-              есть различия
-            </span>
-            <span>
-              <strong>02</strong>
-              часть различий наследуется
-            </span>
-            <span>
-              <strong>03</strong>
-              среда и дрейф меняют частоты
-            </span>
-            <span>
-              <strong>04</strong>
-              линии ветвятся со временем
-            </span>
-          </div>
         </div>
       </article>
 
@@ -100,7 +111,7 @@ export function TheoryPage() {
         headingId="theory-curiosity-facts"
       />
 
-      <EvidenceSection />
+      <EvidenceFaq />
     </section>
   );
 }

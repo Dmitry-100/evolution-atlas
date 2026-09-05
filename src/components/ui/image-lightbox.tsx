@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { OptimizedImage } from "./optimized-image";
+import { lockBodyScroll } from "../../lib/bodyScrollLock";
 
 type LightboxImage = {
   src: string;
@@ -13,6 +14,7 @@ type ImageLightboxProps = {
   image: LightboxImage | null;
   ariaLabel?: string;
   displayMode?: "fit" | "natural";
+  portalTarget?: HTMLElement | null;
   onClose: () => void;
 };
 
@@ -20,23 +22,38 @@ export function ImageLightbox({
   image,
   ariaLabel = "Увеличенное изображение",
   displayMode = "fit",
+  portalTarget,
   onClose,
 }: ImageLightboxProps) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     if (!image) return undefined;
 
-    const originalOverflow = document.body.style.overflow;
+    const unlockScroll = lockBodyScroll();
+    const trigger = document.activeElement;
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+      }
+      // The close button is the dialog's only interactive control.
+      if (event.key === "Tab") {
+        event.preventDefault();
+        closeButtonRef.current?.focus();
+      }
     }
 
-    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus({ preventScroll: true });
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      unlockScroll();
       document.removeEventListener("keydown", handleKeyDown);
+      if (trigger instanceof HTMLElement && trigger.isConnected) {
+        trigger.focus({ preventScroll: true });
+      }
     };
   }, [image, onClose]);
 
@@ -59,6 +76,7 @@ export function ImageLightbox({
         onClick={(event) => event.stopPropagation()}
       >
         <button
+          ref={closeButtonRef}
           type="button"
           className="image-lightbox-close"
           onClick={onClose}
@@ -70,6 +88,6 @@ export function ImageLightbox({
         {image.caption ? <p>{image.caption}</p> : null}
       </div>
     </div>,
-    document.body,
+    portalTarget ?? document.body,
   );
 }

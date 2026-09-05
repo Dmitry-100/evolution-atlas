@@ -86,7 +86,11 @@ async function expectImageToRenderNonBlank(image: Locator) {
     .poll(() =>
       image.evaluate((node) => {
         const img = node as HTMLImageElement;
-        if (!img.complete || img.naturalWidth === 0 || img.naturalHeight === 0) {
+        if (
+          !img.complete ||
+          img.naturalWidth === 0 ||
+          img.naturalHeight === 0
+        ) {
           return false;
         }
 
@@ -120,9 +124,7 @@ async function expectImageToRenderNonBlank(image: Locator) {
 
 async function expectImageNotToUseAvif(image: Locator) {
   await expect
-    .poll(() =>
-      image.evaluate((node) => (node as HTMLImageElement).currentSrc),
-    )
+    .poll(() => image.evaluate((node) => (node as HTMLImageElement).currentSrc))
     .not.toMatch(/\.avif(?:$|\?)/);
 }
 
@@ -758,11 +760,9 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".cladogram-panel")).toHaveCount(0);
     await expect(page.locator(".atlas-note-band")).toHaveCount(1);
     await expect(
-      page
-        .locator(".atlas-note-band")
-        .getByRole("heading", {
-          name: "Хронология эволюции жизни на Земле",
-        }),
+      page.locator(".atlas-note-band").getByRole("heading", {
+        name: "Хронология эволюции жизни на Земле",
+      }),
     ).toBeVisible();
 
     const heroBox = await page.locator(".atlas-hero").boundingBox();
@@ -782,7 +782,9 @@ test.describe("Evolution Atlas", () => {
       );
       expect(
         atlasGridBox.y - (factsBox.y + factsBox.height),
-      ).toBeGreaterThanOrEqual(24);
+      ).toBeGreaterThanOrEqual(16);
+      expect(factsBox.height).toBeLessThan(110);
+      expect(atlasGridBox.y).toBeLessThan(520);
     }
 
     const hasOverflow = await page.evaluate(
@@ -822,6 +824,7 @@ test.describe("Evolution Atlas", () => {
   }) => {
     await page.goto("/theory");
     const image = page.locator(".darwin-portrait img");
+    await image.scrollIntoViewIfNeeded();
     await expect(image).toBeVisible();
     await expect
       .poll(() =>
@@ -1078,9 +1081,7 @@ test.describe("Evolution Atlas", () => {
       name: /Спросить Дарвина/i,
     });
     await expect(
-      darwinDialog.getByText(
-        /человек не произошел от современной обезьяны/i,
-      ),
+      darwinDialog.getByText(/человек не произошел от современной обезьяны/i),
     ).toBeVisible();
     await expect(page.getByText(/Современная научная заметка/i)).toBeVisible();
     await expect(
@@ -1219,7 +1220,7 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.locator(".primate-stage-dots .deep-stage-dot"),
     ).toHaveCount(17);
-    await expect(page.locator(".primate-zone-bands span")).toHaveCount(4);
+    await expect(page.locator(".primate-zone-bands button")).toHaveCount(3);
     await expect(page.getByText(/66 млн лет назад.*сегодня/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
     await expect(
@@ -1499,7 +1500,9 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { level: 1, name: "Дерево родства" }),
     ).toBeVisible();
     await expect(
-      cladogram.getByText(/Homo sapiens находится на выделенной ветви/i),
+      page
+        .locator(".page-header")
+        .getByText(/Homo sapiens находится на выделенной ветви/i),
     ).toBeVisible();
     await expect(
       cladogram
@@ -1582,8 +1585,8 @@ test.describe("Evolution Atlas", () => {
       cladogram.getByRole("button", { name: /Неандертальцы/i }),
     ).toBeVisible();
     await expect(page.locator(".stage-panel")).toHaveCount(0);
-    await expect(page.locator(".cladogram-inspector")).toBeVisible();
-    if ((page.viewportSize()?.width ?? 0) >= 1080) {
+    if ((page.viewportSize()?.width ?? 0) >= 960) {
+      await expect(page.locator(".cladogram-inspector")).toBeVisible();
       await expect
         .poll(() =>
           page
@@ -1613,6 +1616,11 @@ test.describe("Evolution Atlas", () => {
       )
       .toBe(true);
 
+    if ((page.viewportSize()?.width ?? 0) < 960) {
+      await page
+        .getByRole("button", { name: "Вернуться к дереву", exact: true })
+        .click();
+    }
     await cladogram
       .locator(".cladogram-branch")
       .filter({ hasText: "Неандертальцы" })
@@ -1621,6 +1629,11 @@ test.describe("Evolution Atlas", () => {
       "Неандертальцы",
     );
     await expect(page).toHaveURL(/stage=neanderthals/);
+    if ((page.viewportSize()?.width ?? 0) < 960) {
+      await page
+        .getByRole("button", { name: "Вернуться к дереву", exact: true })
+        .click();
+    }
 
     await cladogram.getByRole("button", { name: "Живущие сегодня" }).click();
     await expect(
@@ -1669,7 +1682,7 @@ test.describe("Evolution Atlas", () => {
       .filter({ hasText: "Шимпанзе и бонобо" })
       .click();
     await expect(page.locator(".cladogram-inspector")).toContainText(
-      "общий предок с нами",
+      /Общий предок с нами/i,
     );
     await expect(page.locator(".cladogram-inspector")).toContainText(
       "Предок линии Homo-Pan",
@@ -1735,16 +1748,14 @@ test.describe("Evolution Atlas", () => {
       "aria-selected",
       "true",
     );
-    await expect(page.locator(".body-trait-inspector")).toContainText(
-      "Мембраны",
-    );
+    await expect(page.locator(".body-map-selected")).toContainText("Мембраны");
 
     await page.getByRole("tab", { name: "Движение" }).click();
     await expect(page.getByRole("tab", { name: "Движение" })).toHaveAttribute(
       "aria-selected",
       "true",
     );
-    await expect(page.locator(".body-trait-inspector")).toContainText(
+    await expect(page.locator(".body-map-selected")).toContainText(
       "Парные придатки",
     );
 
@@ -2069,8 +2080,12 @@ test.describe("Evolution Atlas", () => {
       await expect(page.getByText(glossaryCase.readyText).first()).toBeVisible({
         timeout: 15_000,
       });
+      if (glossaryCase.path === "/primates") {
+        await page.locator(".primate-context-note summary").click();
+      }
       const term = page
-        .getByRole("button", { name: glossaryCase.trigger })
+        .locator(".glossary-term")
+        .filter({ hasText: new RegExp(`^${glossaryCase.trigger}$`, "i") })
         .first();
       await expect(term).toBeVisible();
       await term.hover();
@@ -2600,10 +2615,14 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { name: "Вымерли ли динозавры" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "От общего предка к современным птицам" }),
+      page.getByRole("heading", {
+        name: "От общего предка к современным птицам",
+      }),
     ).toBeVisible();
     await expect(page.getByText("общий фундамент позвоночных")).toBeVisible();
-    await expect(page.getByText("от динозавров к птицам").first()).toBeVisible();
+    await expect(
+      page.getByText("от динозавров к птицам").first(),
+    ).toBeVisible();
     await expect(page.getByText("~165 млн лет")).toBeVisible();
     await expect(
       page.locator(".dinosaur-facts-band").getByText("~320 млн лет"),
@@ -2742,9 +2761,9 @@ test.describe("Evolution Atlas", () => {
         exact: true,
       }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Что такое абиогенез", exact: true }),
-    ).toBeVisible();
+    await expect(page.locator(".page-header-description")).toContainText(
+      "Абиогенез — переход от неживой химии",
+    );
     await expect(
       page.getByRole("heading", {
         name: "Основные гипотезы происхождения жизни",
@@ -2764,11 +2783,9 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { name: "Панспермия" }),
     ).toBeVisible();
     await expect(page.locator(".origin-hero-image img")).toHaveCount(0);
-    await expect(
-      page.locator(".theory-bridge-band", {
-        hasText: "Что такое абиогенез",
-      }),
-    ).toBeVisible();
+    await expect(page.locator(".origin-story-note")).toContainText(
+      "порядок ранних процессов пока обсуждается",
+    );
     await expect(page.locator(".origin-story-card img")).toHaveCount(4);
     await expect(page.locator(".origin-hypothesis-card")).toHaveCount(6);
     await expect(page.locator(".origin-hypothesis-media img")).toHaveCount(6);
@@ -2799,12 +2816,9 @@ test.describe("Evolution Atlas", () => {
         exact: true,
       }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("heading", {
-        name: "Молекулярно-генетические доказательства эволюции",
-        exact: true,
-      }),
-    ).toBeVisible();
+    await expect(page.locator(".page-header-description")).toContainText(
+      "Общий генетический код",
+    );
     await expect(
       page.getByRole("heading", {
         name: "Насколько похожа ДНК человека и шимпанзе?",
@@ -2817,16 +2831,14 @@ test.describe("Evolution Atlas", () => {
         exact: true,
       }),
     ).toBeVisible();
-    await expect(page.locator(".genetics-flow article")).toHaveCount(5);
+    await expect(page.locator(".genetics-flow > li")).toHaveCount(5);
     await expect(page.locator(".genetics-hero-image img")).toHaveCount(0);
     await expect(
-      page.locator(".theory-bridge-band", {
-        hasText: "Молекулярно-генетические доказательства эволюции",
-      }),
-    ).toBeVisible();
+      page.locator(".genetics-page .theory-bridge-band"),
+    ).toHaveCount(0);
     await expect(page.locator(".molecule-card img")).toHaveCount(3);
     await expect(page.locator(".genome-comparison-card")).toHaveCount(5);
-    await expect(page.locator(".genome-comparison-metric")).toHaveCount(5);
+    await expect(page.locator(".genome-comparison-metric")).toHaveCount(3);
     await expect(
       page.locator(".genome-comparison-card", { hasText: "Человек и банан" }),
     ).toBeVisible();

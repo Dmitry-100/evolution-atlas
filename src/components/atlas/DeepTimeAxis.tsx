@@ -5,7 +5,6 @@ import {
   ArrowRight,
   BookOpen,
   Maximize2,
-  MoveHorizontal,
 } from "lucide-react";
 import {
   formatExtinctionTitleRu,
@@ -170,19 +169,6 @@ export function DeepTimeAxis({
   const activePosition = visualTimePosition(activeItem.ageMa) * 100;
   const activeColor =
     activeItem.kind === "extinction" ? activeItem.event.color : "var(--amber)";
-  const showActiveCard = activeItem.kind === "stage";
-  const activeCardClass = [
-    "deep-active-card",
-    activePosition > 82
-      ? "align-right"
-      : activePosition < 18
-        ? "align-left"
-        : null,
-    activePosition > 70 ? "late-region" : null,
-    activeItem.kind === "extinction" ? "is-extinction" : null,
-  ]
-    .filter(Boolean)
-    .join(" ");
   const activeAgeLabel =
     activeItem.kind === "extinction"
       ? formatExtinctionAge(activeItem.event)
@@ -211,10 +197,10 @@ export function DeepTimeAxis({
       aria-label="Глубокая шкала времени"
     >
       <div className="axis-toolbar">
-        <span className="axis-toolbar-copy">
-          <MoveHorizontal aria-hidden="true" size={19} />
-          Нажимайте точки, двигайте ползунок или используйте стрелки
-        </span>
+        <div className="deep-time-selection" aria-label="Выбранная точка">
+          <span>{activeAgeLabel}</span>
+          <strong>{activeItem.titleRu}</strong>
+        </div>
         <div className="axis-step-controls" aria-label="Переключение этапов">
           <button
             type="button"
@@ -235,7 +221,6 @@ export function DeepTimeAxis({
             <ArrowRight aria-hidden="true" size={18} />
           </button>
         </div>
-        <strong>4 млрд лет одним взглядом</strong>
       </div>
 
       <div
@@ -304,8 +289,6 @@ export function DeepTimeAxis({
             const item = toExtinctionTimelineItem(event);
             const isActive =
               activeItem.kind === "extinction" && activeItem.event.id === event.id;
-            const offset =
-              index === visibleExtinctions.length - 1 ? 0 : (index - 1.5) * 58;
             return (
               <Tooltip key={event.id}>
                 <TooltipTrigger asChild>
@@ -319,8 +302,7 @@ export function DeepTimeAxis({
                       {
                         left: `${position}%`,
                         "--extinction-color": event.color,
-                        "--marker-label-offset": `${offset}px`,
-                        "--marker-y": `${24 + (index % 2) * 76}px`,
+                        "--marker-y": `${52 + (index % 2) * 36}px`,
                       } as CSSProperties
                     }
                     type="button"
@@ -329,10 +311,9 @@ export function DeepTimeAxis({
                     onClick={() => onActivateItem(item)}
                   >
                     <span aria-hidden="true" />
-                    <strong>
+                    <strong className="sr-only">
                       {extinctionLabels[event.id] ?? event.titleRu}
                     </strong>
-                    <small>{formatExtinctionAge(event)}</small>
                   </button>
                 </TooltipTrigger>
                 <TooltipContent className="tooltip-content extinction-tooltip">
@@ -365,20 +346,6 @@ export function DeepTimeAxis({
           }
           aria-hidden="true"
         />
-        {showActiveCard ? (
-          <div
-            className={activeCardClass}
-            style={
-              {
-                left: `${activePosition}%`,
-                "--active-item-color": activeColor,
-              } as CSSProperties
-            }
-          >
-            <span>{activeAgeLabel}</span>
-            <strong>{activeItem.titleRu}</strong>
-          </div>
-        ) : null}
 
         <div
           className="deep-stage-dots"
@@ -430,6 +397,27 @@ export function DeepTimeAxis({
         <span>66 млн</span>
         <span>сегодня</span>
       </div>
+
+      <div className="extinction-legend" aria-label="Выбрать массовое вымирание">
+        {visibleExtinctions.map((event) => (
+          <button
+            key={event.id}
+            type="button"
+            className="extinction-legend-item"
+            style={{ "--extinction-color": event.color } as CSSProperties}
+            aria-label={`${event.titleRu} вымирание, ${event.windowRu}`}
+            aria-pressed={activeItem.kind === "extinction" && activeItem.event.id === event.id}
+            onClick={() => onActivateItem(toExtinctionTimelineItem(event))}
+          >
+            <span className="extinction-legend-dot" aria-hidden="true" />
+            <strong>{extinctionLabels[event.id] ?? event.titleRu}</strong>
+            <small>{formatExtinctionAge(event).replace(" лет назад", " лет")}</small>
+          </button>
+        ))}
+      </div>
+      <p className="deep-time-instruction">
+        Выбирайте точки и вымирания, двигайте ползунок или используйте стрелки.
+      </p>
 
       {geologicContext ? (
         <aside
