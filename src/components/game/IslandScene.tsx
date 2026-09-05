@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Bug, Mountain } from "lucide-react";
 import { IslandMap } from "./IslandMap";
 import { REGIONS } from "../../game/content";
-import { count } from "../../game/engine";
+import { count, previewState } from "../../game/engine";
 import type { GameState } from "../../game/types";
 import type { SceneController } from "./archipelagoScene";
 import { populationChanges, sceneEffects } from "./sceneState";
@@ -82,7 +82,11 @@ export function IslandScene({
   return (
     <div className="island-scene" ref={host} data-renderer={status}>
       {status !== "ready" && (
-        <IslandMap state={state} selected={selected} onSelect={onSelect} />
+        <IslandMap
+          state={previewState(state)}
+          selected={selected}
+          onSelect={onSelect}
+        />
       )}
       <div
         className="island-scene-labels"

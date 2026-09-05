@@ -174,12 +174,20 @@ export function createArchipelago(options: SceneOptions): SceneController {
   controls.addEventListener("change", () => {
     dirty = true;
   });
+  let flight: {
+    from: THREE.Vector3;
+    to: THREE.Vector3;
+    fromTarget: THREE.Vector3;
+    target: THREE.Vector3;
+    start: number;
+  } | null = null;
   function reset() {
+    flight = null;
     const ratio = host.clientWidth / Math.max(1, host.clientHeight);
     const portrait = ratio < 1.2;
     const distance = portrait
-      ? Math.max(30, 29 / ratio)
-      : Math.max(24, 39 / ratio);
+      ? Math.max(29, 27 / ratio)
+      : Math.max(21.5, 39 / ratio);
     camera.position.set(
       portrait ? distance * 0.78 : 0,
       distance * 0.62,
@@ -190,14 +198,27 @@ export function createArchipelago(options: SceneOptions): SceneController {
     dirty = true;
   }
   function focus() {
+    const volcano = selected === 5;
     const target = new THREE.Vector3(
       CENTERS[selected][0],
-      0.6,
+      volcano ? 1.8 : selected === 2 ? 1.1 : 0.6,
       CENTERS[selected][1],
     );
     const direction = camera.position.clone().sub(controls.target).normalize();
-    controls.target.copy(target);
-    camera.position.copy(target).addScaledVector(direction, 10.5);
+    const to = target.clone().addScaledVector(direction, volcano ? 14 : 10.5);
+    if (paused || reduced) {
+      flight = null;
+      controls.target.copy(target);
+      camera.position.copy(to);
+    } else {
+      flight = {
+        from: camera.position.clone(),
+        fromTarget: controls.target.clone(),
+        to,
+        target,
+        start: elapsed,
+      };
+    }
     controls.update();
     dirty = true;
   }
@@ -548,6 +569,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
     pointer = new THREE.Vector2();
   let startPointer = { x: 0, y: 0 };
   const down = (event: PointerEvent) => {
+    flight = null;
     startPointer = { x: event.clientX, y: event.clientY };
   };
   const up = (event: PointerEvent) => {
@@ -590,17 +612,19 @@ export function createArchipelago(options: SceneOptions): SceneController {
         .project(camera);
       const x = (project.x * 0.5 + 0.5) * width,
         y = (-project.y * 0.5 + 0.5) * height;
+      const visible =
+        project.z < 1 && x >= 0 && x <= width && y >= 0 && y <= height;
+      const marginX = label.offsetWidth / 2 + 5,
+        marginY = label.offsetHeight / 2 + 5;
       label.style.transform =
         "translate(-50%, -50%) translate(" +
-        x.toFixed(1) +
+        THREE.MathUtils.clamp(x, marginX, width - marginX).toFixed(1) +
         "px, " +
-        y.toFixed(1) +
+        THREE.MathUtils.clamp(y, marginY, height - marginY).toFixed(1) +
         "px)";
-      label.style.opacity =
-        project.z > 1 || x < -20 || x > width + 20 || y < 0 || y > height
-          ? "0"
-          : "1";
-      label.style.pointerEvents = project.z > 1 ? "none" : "auto";
+      label.style.opacity = visible ? "1" : "0";
+      label.style.visibility = visible ? "visible" : "hidden";
+      label.style.pointerEvents = visible ? "auto" : "none";
     });
   }
   function resize() {
@@ -671,6 +695,16 @@ export function createArchipelago(options: SceneOptions): SceneController {
     lastTime = time;
     const moving = !paused && !reduced;
     if (moving) elapsed += delta;
+    if (flight) {
+      const progress = !moving
+        ? 1
+        : Math.min(1, (elapsed - flight.start) / 0.85);
+      const eased = 1 - (1 - progress) ** 3;
+      camera.position.lerpVectors(flight.from, flight.to, eased);
+      controls.target.lerpVectors(flight.fromTarget, flight.target, eased);
+      dirty = true;
+      if (progress === 1) flight = null;
+    }
     controls.update();
     // Cap animation to 30 fps; paused/reduced-motion scenes render only on change.
     if (time - labelTick < 32 && !dirty) return;

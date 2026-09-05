@@ -119,22 +119,33 @@ export function createPopulationScene(
       for (let j = 0; j < n; j++) {
         const seed = j * 2.39996 + island * 1.7;
         const pace = avatar.stress && !avatar.shelter ? 0.5 : 0.28;
-        const cycle = time * pace + seed;
+        const cycle = time * pace * (0.72 + (j % 7) * 0.09) + seed;
         // A wandering loop alternates a visible walk with a pause to graze.
         const travel = cycle + 0.62 * Math.sin(cycle);
         const walking = 0.38 + 0.62 * (0.5 + 0.5 * Math.cos(cycle));
         let x: number, z: number, yaw: number;
         if (island === 2 || island === 5) {
-          const r = 1.87 + (j % 3) * 0.13;
+          const r = 1.85 + (j % 3) * 0.1 + Math.sin(cycle * 0.7 + seed) * 0.12;
           x = Math.cos(travel) * r;
           z = Math.sin(travel) * r;
           yaw = travel + Math.PI / 2;
         } else {
-          const rx = 0.82 + (j % 4) * 0.19,
-            rz = 0.35 + (j % 3) * 0.18;
-          x = Math.cos(travel) * rx;
-          z = 0.65 + Math.sin(travel) * rz;
-          yaw = Math.atan2(Math.cos(travel) * rz, -Math.sin(travel) * rx);
+          const rx = 0.5 + (j % 5) * 0.17,
+            rz = 0.23 + (j % 4) * 0.12;
+          const wander = travel * 1.37 + seed;
+          x =
+            Math.cos(travel) * rx +
+            Math.sin(wander) * 0.2 +
+            Math.sin(seed) * 0.25;
+          z =
+            0.6 +
+            Math.sin(travel) * rz +
+            Math.cos(wander) * 0.18 +
+            Math.cos(seed) * 0.28;
+          yaw = Math.atan2(
+            Math.cos(travel) * rz - Math.sin(wander) * 0.18 * 1.37,
+            -Math.sin(travel) * rx + Math.cos(wander) * 0.2 * 1.37,
+          );
         }
         const h = heightAt(x, z, island);
         const size =

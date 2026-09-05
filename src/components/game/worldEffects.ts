@@ -47,6 +47,7 @@ export function createWorldEffects(
     emissiveIntensity: 0.3,
   });
   const features: Partial<Record<CardKind, Feature>>[] = [];
+  const sourceMaterials = new Set<THREE.Material>([stone, green, wood, gold]);
   const originalLeafColors = leaves.map((mesh) =>
     Float32Array.from(mesh.instanceColor!.array),
   );
@@ -253,6 +254,7 @@ export function createWorldEffects(
       // changing the appearance of objects on another island.
       group.traverse((object) => {
         if (object instanceof THREE.Mesh && object !== ring) {
+          sourceMaterials.add(object.material as THREE.Material);
           object.material = (object.material as THREE.Material).clone();
           (object.material as THREE.Material).transparent = true;
         }
@@ -329,7 +331,8 @@ export function createWorldEffects(
     );
     const particleMaterial = new THREE.PointsMaterial({
       color: "#e8ede7",
-      size: 0.12,
+      map: mist,
+      size: 0.18,
       transparent: true,
       opacity: 0.85,
       depthWrite: false,
@@ -576,7 +579,8 @@ export function createWorldEffects(
     emberGeometry,
     new THREE.PointsMaterial({
       color: "#ffc267",
-      size: 0.14,
+      map: mist,
+      size: 0.2,
       transparent: true,
       opacity: 0.95,
       blending: THREE.AdditiveBlending,
@@ -823,10 +827,7 @@ export function createWorldEffects(
   }
   // These source materials are cloned for per-island previews.
   function dispose() {
-    stone.dispose();
-    green.dispose();
-    wood.dispose();
-    gold.dispose();
+    sourceMaterials.forEach((material) => material.dispose());
   }
   return { update, animate, dispose };
 }
