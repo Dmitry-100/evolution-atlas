@@ -16,6 +16,7 @@ const navItems = [
   "Вымерли ли динозавры",
   "Дополнительные материалы",
   "О проекте",
+  "Игра",
   "Проверь себя",
 ];
 
@@ -1483,7 +1484,7 @@ test.describe("Evolution Atlas", () => {
     await page.goto("/?mode=primates&stage=homo-sapiens");
     await expect(page).toHaveURL(/\/primates\?stage=homo-sapiens/);
     await expect(
-      page.getByRole("heading", { name: "Homo sapiens" }),
+      page.getByRole("heading", { name: "Homo sapiens", exact: true }),
     ).toBeVisible();
   });
 

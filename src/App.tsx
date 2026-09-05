@@ -16,6 +16,7 @@ import {
   Fingerprint,
   FlaskConical,
   GitFork,
+  Gamepad2,
   HelpCircle,
   Home,
   Info,
@@ -45,6 +46,8 @@ import {
 import { PUBLIC_ROUTES, publicRoutePath } from "./lib/publicRoutes";
 
 const pageLoaders = {
+  game: () =>
+    import("./pages/GamePage").then(({ GamePage }) => ({ default: GamePage })),
   about: () =>
     import("./pages/AboutPage").then(({ AboutPage }) => ({
       default: AboutPage,
@@ -96,6 +99,7 @@ const pageLoaders = {
 };
 
 const AboutPage = lazy(pageLoaders.about);
+const GamePage = lazy(pageLoaders.game);
 const ExtinctionsPage = lazy(pageLoaders.extinctions);
 const MaterialsPage = lazy(pageLoaders.materials);
 const SourcesPage = lazy(pageLoaders.sources);
@@ -126,6 +130,7 @@ type NavItem = {
 };
 
 const iconsByRoute: Record<string, LucideIcon> = {
+  game: Gamepad2,
   atlas: Home,
   primates: UsersRound,
   theory: BookOpen,
@@ -300,6 +305,12 @@ function AppHeader() {
   );
 }
 
+function PortalCompanions() {
+  const { pathname } = useLocation();
+  if (pathname === "/game" || pathname === "/game/") return null;
+  return <><TourPlayer /><DarwinGuide /></>;
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -318,6 +329,7 @@ function App() {
               }
             >
               <Routes>
+                <Route path={publicRoutePath("game")} element={<GamePage />} />
                 <Route
                   path={publicRoutePath("atlas")}
                   element={<AtlasPage />}
@@ -378,8 +390,7 @@ function App() {
               </Routes>
             </Suspense>
           </main>
-          <TourPlayer />
-          <DarwinGuide />
+          <PortalCompanions />
         </div>
       </TooltipProvider>
     </BrowserRouter>

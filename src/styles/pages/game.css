@@ -1,0 +1,1156 @@
+@layer evolution-pages-common {
+  .islands-page {
+    padding-bottom: 2rem;
+  }
+  .islands-page button,
+  .islands-page select {
+    font: inherit;
+  }
+  .islands-page button {
+    cursor: pointer;
+  }
+  .islands-page button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+  .islands-page :is(button, select, a, summary):focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
+  .islands-page .page-header {
+    margin-bottom: 1.2rem;
+  }
+  .islands-page .page-header--with-aside {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .islands-help-button,
+  .islands-icon-button,
+  .islands-text-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text);
+    min-height: 44px;
+    padding: 0.65rem 0.9rem;
+    text-decoration: none;
+  }
+  .islands-icon-button {
+    padding: 0.6rem;
+  }
+  .islands-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    padding: 0.85rem 1.15rem;
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    background: var(--gold);
+    color: #14170f;
+    min-height: 48px;
+    font-weight: 750 !important;
+    text-decoration: none;
+  }
+  .islands-primary:hover:not(:disabled) {
+    background: var(--amber);
+    border-color: var(--amber);
+  }
+  .islands-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-weight: 650;
+  }
+  .islands-kicker > span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--moss);
+  }
+  .islands-help-panel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.3rem;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .islands-help-panel p {
+    color: var(--muted);
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+  .islands-help-panel a {
+    color: var(--gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .islands-storage-note,
+  .islands-error {
+    padding: 0.85rem 1rem;
+    margin: 0 0 1rem;
+    border: 1px solid #9e7145;
+    border-radius: var(--radius);
+    background: #322718;
+    color: #e8c69a;
+    font-size: 0.9rem;
+  }
+  .islands-intro {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--panel);
+  }
+  .islands-intro .islands-map {
+    height: 100%;
+    min-height: 390px;
+  }
+  .islands-intro-copy {
+    align-self: center;
+    padding: clamp(1.4rem, 3vw, 2.6rem);
+  }
+  .islands-intro-copy h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 2.7vw, 2.65rem);
+    line-height: 1.16;
+    letter-spacing: -0.025em;
+    margin: 1rem 0;
+  }
+  .islands-intro-copy p {
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+  .islands-intro-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin: 1.5rem 0;
+    font-size: 0.875rem;
+    color: var(--text);
+  }
+  .islands-intro-facts span {
+    display: flex;
+    gap: 0.35rem;
+    align-items: center;
+  }
+  .islands-intro-facts svg {
+    color: var(--moss);
+  }
+  .islands-intro-copy > small {
+    display: block;
+    color: var(--muted);
+    margin-top: 1rem;
+    font-size: 0.8rem;
+  }
+  .islands-intro-copy > .islands-text-button {
+    margin: 0.75rem 0.5rem 0 0;
+  }
+  .islands-status-bar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 1.3rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: var(--panel);
+  }
+  .islands-chapter {
+    margin-right: auto;
+  }
+  .islands-chapter > strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 400;
+  }
+  .islands-stat {
+    display: flex;
+    flex-direction: column;
+  }
+  .islands-stat > span {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .islands-stat > strong {
+    font-size: 1.45rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  .islands-stat small {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .islands-timeline {
+    display: flex;
+    gap: 4px;
+    margin: 0 0 1rem;
+  }
+  .islands-timeline > span {
+    height: 4px;
+    flex: 1;
+    background: #323d35;
+  }
+  .islands-timeline > .is-past {
+    background: var(--moss);
+  }
+  .islands-timeline > .is-crisis {
+    background: #715045;
+  }
+  .islands-timeline > .is-crisis.is-past {
+    background: #d59271;
+  }
+  .islands-timeline > .is-current {
+    background: var(--gold);
+  }
+  .islands-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 290px;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  .islands-board {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #061b1e;
+    min-width: 0;
+  }
+  .islands-event {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    min-height: 110px;
+    padding: 1rem 1.15rem;
+    background: #141d1a;
+    border-bottom: 1px solid var(--line);
+  }
+  .islands-event.is-crisis {
+    background: #272019;
+  }
+  .islands-event-icon {
+    color: var(--gold);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    height: 42px;
+    margin-top: 0.2rem;
+  }
+  .islands-event strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 0.15rem 0;
+  }
+  .islands-event p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+  .islands-map {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    background: #062428;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .islands-map-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    opacity: 0.91;
+  }
+  .islands-routes {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .islands-routes line {
+    stroke: #ead7a9;
+    stroke-width: 0.24;
+    stroke-dasharray: 1 1;
+    opacity: 0.67;
+  }
+  .islands-routes .is-closed {
+    stroke: #9eaaa5;
+    stroke-dasharray: 0.4 1.5;
+    opacity: 0.35;
+  }
+  .islands-compass {
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.35rem;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #b6c1ba;
+  }
+  .islands-map-node {
+    position: absolute;
+    width: 29%;
+    transform: translate(-50%, -33%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 0;
+    padding: 0.45rem 0;
+    background: transparent;
+    color: var(--text);
+    z-index: 1;
+  }
+  .islands-map-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid #adbaac85;
+    background: #0a1b18e8;
+    box-shadow: 0 2px 12px #0007;
+    padding: 0.45rem 0.65rem;
+    border-radius: 99px;
+    font-size: 0.9rem;
+  }
+  .islands-map-marker svg {
+    color: var(--island-color);
+  }
+  .islands-map-node.is-selected .islands-map-marker {
+    border-color: var(--gold);
+    outline: 3px solid #dbb16430;
+    color: var(--gold);
+  }
+  .islands-map-node.is-target .islands-map-marker {
+    outline: 3px solid #84bfb366;
+  }
+  .islands-map-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    max-width: 100%;
+    margin-top: 0.4rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 4px;
+    background: #071917e8;
+    font-size: 0.8rem;
+    line-height: 1.25;
+    box-shadow: 0 2px 8px #0004;
+  }
+  .islands-region-number {
+    font-size: 0.7rem;
+    color: var(--island-color);
+  }
+  .islands-life-dots {
+    display: flex;
+    gap: 5px;
+    padding: 7px;
+    height: 18px;
+  }
+  .islands-life-dots i {
+    width: 4px;
+    height: 4px;
+    background: var(--island-color);
+    box-shadow: 0 0 7px var(--island-color);
+    border-radius: 50%;
+  }
+  .is-evolving .islands-life-dots i {
+    animation: islands-life 1.5s ease-in-out 3;
+    animation-delay: calc(var(--dot) * 0.13s);
+  }
+  .islands-map-key {
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+    bottom: 0.7rem;
+    left: 1rem;
+    color: #c0c9bc;
+    font-size: 0.75rem;
+  }
+  .islands-map-key span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .islands-map-key i {
+    width: 20px;
+    height: 1px;
+    border-top: 1px dashed #ead7a9;
+  }
+  .islands-map-key .is-closed {
+    border-color: #9eaaa5;
+    opacity: 0.6;
+  }
+  .islands-forecast {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.8rem 1rem;
+    background: #15211e;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .islands-forecast svg,
+  .islands-forecast strong {
+    color: var(--gold);
+  }
+  .islands-forecast > span:last-child {
+    margin-left: auto;
+    font-size: 0.75rem;
+  }
+  .islands-forecast.is-imminent {
+    background: #30271b;
+  }
+  .islands-skip {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--line);
+    color: var(--text);
+    background: #15211e;
+    border-radius: var(--radius);
+    min-height: 40px;
+    padding: 0.5rem;
+    font-size: 0.8rem !important;
+  }
+  .islands-region-panel {
+    min-width: 0;
+    padding: 1.1rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .islands-page select {
+    max-width: 100%;
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    min-height: 44px;
+    padding: 0.5rem 0.65rem;
+    background: #111c18;
+    color: var(--text);
+    font-size: 0.875rem;
+  }
+  .islands-region-panel > select {
+    margin-top: 0.5rem;
+  }
+  .islands-region-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0.9rem 0;
+  }
+  .islands-region-heading > span {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .islands-region-heading > strong {
+    font-size: 1.75rem;
+    font-weight: 500;
+  }
+  .islands-region-heading small {
+    font-size: 0.875rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .islands-environment {
+    display: grid;
+    gap: 0.4rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .islands-environment > span {
+    display: flex;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+    align-items: center;
+  }
+  .islands-environment b {
+    margin-left: auto;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .islands-preview-label {
+    color: var(--gold);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+  .islands-traits h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.15rem;
+    margin: 0.9rem 0 0.6rem;
+  }
+  .islands-traits p {
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .islands-trait {
+    margin-bottom: 0.7rem;
+  }
+  .islands-trait > span {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--muted);
+    gap: 0.5rem;
+  }
+  .islands-trait b {
+    color: var(--text);
+    font-weight: 400;
+  }
+  .islands-trait-bar {
+    display: flex;
+    gap: 2px;
+    height: 5px;
+    margin-top: 0.35rem;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .islands-trait-bar i {
+    background: var(--moss);
+  }
+  .islands-trait-bar i:nth-child(2) {
+    background: var(--gold);
+  }
+  .islands-trait-bar i:nth-child(3) {
+    background: var(--teal);
+  }
+  .islands-links {
+    border-top: 1px solid var(--line);
+    padding-top: 0.8rem;
+  }
+  .islands-links button {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    width: 100%;
+    gap: 0.1rem;
+    text-align: left;
+    border: 0;
+    color: var(--text);
+    background: transparent;
+    min-height: 48px;
+    padding: 0.45rem 0;
+    font-size: 0.8rem;
+  }
+  .islands-links small {
+    color: var(--muted);
+    grid-column: 1;
+    font-size: 0.75rem;
+  }
+  .islands-links svg {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+    color: var(--gold);
+  }
+  .islands-planning {
+    margin-top: 1.2rem;
+    padding: 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+  .islands-hand-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .islands-hand-heading h2 {
+    margin: 0.2rem 0 0.9rem;
+    font: 400 1.55rem / 1.25 var(--font-display);
+  }
+  .islands-points {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    color: var(--gold);
+    font-size: 0.875rem;
+  }
+  .islands-points i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .islands-points .is-spent {
+    background: #4b4634;
+  }
+  .islands-tutorial {
+    margin: 0 0 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    max-width: 850px;
+  }
+  .islands-hand {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+  .islands-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #171e17;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .islands-card.is-selected {
+    border-color: var(--gold);
+    background: #292819;
+  }
+  .islands-card.is-queued {
+    border-color: var(--moss);
+  }
+  .islands-card-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    flex: 1;
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+    border: 0;
+    color: var(--text);
+    background: transparent;
+  }
+  .islands-card-top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--moss);
+  }
+  .islands-card-top b {
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 0.8rem;
+    color: var(--gold);
+  }
+  .islands-card-main > strong {
+    font: 400 1.15rem / 1.2 var(--font-display);
+  }
+  .islands-card-main > span:not(.islands-card-top) {
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+  .islands-card-main > small {
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: var(--gold);
+  }
+  .islands-card-swap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border: 0;
+    border-top: 1px solid var(--line);
+    background: #0b120e55;
+    color: var(--muted);
+    min-height: 40px;
+    font-size: 0.75rem !important;
+  }
+  .islands-card-editor {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: #25261a;
+  }
+  .islands-card-editor strong {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-weight: 600;
+  }
+  .islands-card-editor p {
+    margin: 0.4rem 0 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .islands-card-fields {
+    display: flex;
+    align-items: end;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .islands-card-fields label {
+    flex: 1;
+    min-width: 160px;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .islands-card-fields select {
+    display: block;
+    margin-top: 0.3rem;
+  }
+  .islands-card-editor .islands-field-hint {
+    color: var(--gold);
+    margin: 0.8rem 0 0;
+  }
+  .islands-draft {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 58px;
+    padding: 0.85rem 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .islands-draft-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.15rem 0.3rem 0.15rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+  }
+  .islands-draft-item button {
+    background: transparent;
+    color: var(--gold);
+    border: 0;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    min-height: 38px;
+  }
+  .islands-draft small {
+    width: 100%;
+    font-size: 0.75rem;
+  }
+  .islands-turn-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+  }
+  .islands-turn-footer > span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  .islands-report {
+    padding: 1.4rem;
+    margin-top: 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+  .islands-report.is-final {
+    border-color: var(--line-strong);
+    background: #1e2319;
+  }
+  .islands-report h2 {
+    font: 400 clamp(1.65rem, 2.8vw, 2.3rem) / 1.2 var(--font-display);
+    margin: 0.5rem 0;
+  }
+  .islands-report-heading p {
+    color: var(--muted);
+  }
+  .islands-report-numbers {
+    display: flex;
+    gap: clamp(1rem, 4vw, 4rem);
+    padding: 1rem 0;
+    border-block: 1px solid var(--line);
+  }
+  .islands-report-numbers > span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .islands-report-numbers strong {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .islands-report-numbers strong svg {
+    color: var(--gold);
+  }
+  .islands-report-notes {
+    padding-left: 1.2rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+  .islands-report-notes li {
+    margin: 0.4rem 0;
+  }
+  .islands-why summary {
+    color: var(--gold);
+    cursor: pointer;
+    padding: 0.5rem 0;
+  }
+  .islands-why p {
+    color: var(--muted);
+    max-width: 900px;
+    font-size: 0.9rem;
+  }
+  .islands-report-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .islands-report-footer > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.875rem;
+  }
+  .islands-replay-buttons {
+    display: flex;
+    gap: 0.65rem;
+  }
+  .islands-history {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-top: 1rem;
+    background: var(--panel);
+  }
+  .islands-history > summary {
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+  }
+  .islands-history > summary span {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-left: 0.5rem;
+  }
+  .islands-history-scroll {
+    overflow-x: auto;
+    padding: 0 1rem 1rem;
+  }
+  .islands-history table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 620px;
+    font-size: 0.85rem;
+    text-align: left;
+  }
+  .islands-history caption {
+    color: var(--muted);
+    text-align: left;
+    margin-bottom: 0.8rem;
+  }
+  .islands-history th,
+  .islands-history td {
+    padding: 0.65rem 0.45rem;
+    border-bottom: 1px solid var(--line);
+    font-weight: 400;
+  }
+  .islands-history th {
+    color: var(--muted);
+  }
+  .islands-history td {
+    color: var(--faint);
+  }
+  .islands-history .is-alive {
+    color: var(--moss);
+  }
+  .islands-history > p {
+    padding: 0 1rem 0.7rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .islands-model-note {
+    color: var(--muted);
+    font-size: 0.75rem;
+    margin: 1.3rem 0 0;
+  }
+  .islands-records {
+    padding: 0 1.2rem 1.2rem;
+    list-style: none;
+    margin: 0;
+  }
+  .islands-records li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-top: 1px solid var(--line);
+    padding: 0.7rem 0;
+    font-size: 0.875rem;
+  }
+  .islands-records strong {
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .islands-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: #030805da;
+  }
+  .islands-confirm-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    max-width: 480px;
+    width: calc(100% - 2rem);
+    padding: 1.5rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: #192018;
+    box-shadow: var(--shadow);
+  }
+  .islands-confirm-content h2 {
+    font: 400 1.7rem / 1.2 var(--font-display);
+    margin: 0;
+  }
+  .islands-confirm-content p {
+    color: var(--muted);
+  }
+  .islands-confirm-content > div {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: flex-end;
+  }
+  @keyframes islands-life {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-8px);
+      opacity: 1;
+    }
+  }
+  @media (max-width: 1000px) {
+    .islands-intro {
+      grid-template-columns: 1.25fr 1fr;
+    }
+    .islands-intro .islands-map {
+      min-height: 430px;
+    }
+    .islands-workspace {
+      grid-template-columns: minmax(0, 1fr) 255px;
+    }
+    .islands-map-name {
+      font-size: 0.75rem;
+    }
+    .islands-forecast > span:last-child {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    .islands-intro {
+      grid-template-columns: 1fr;
+    }
+    .islands-intro .islands-map {
+      min-height: 0;
+    }
+    .islands-intro-copy {
+      padding: 1.3rem;
+    }
+    .islands-intro-copy h2 br {
+      display: none;
+    }
+    .islands-intro-copy p {
+      margin: 0.75rem 0;
+    }
+    .islands-intro-facts {
+      margin: 1rem 0;
+    }
+    .islands-help-panel {
+      grid-template-columns: 1fr;
+    }
+    .islands-workspace {
+      grid-template-columns: 1fr;
+    }
+    .islands-status-bar {
+      flex-wrap: wrap;
+      gap: 0.7rem 1.3rem;
+      padding: 0.9rem;
+    }
+    .islands-chapter {
+      flex-basis: 100%;
+    }
+    .islands-status-bar .islands-icon-button {
+      margin-left: auto;
+    }
+    .islands-stat > strong {
+      font-size: 1.25rem;
+    }
+    .islands-event {
+      min-height: 0;
+      padding: 0.9rem;
+      gap: 0.65rem;
+    }
+    .islands-event-icon {
+      flex-basis: 34px;
+      height: 34px;
+    }
+    .islands-event-icon > svg {
+      width: 19px;
+    }
+    .islands-region-panel {
+      padding: 1rem;
+    }
+    .islands-region-heading {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .islands-environment {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 1.2rem;
+    }
+    .islands-traits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1rem;
+    }
+    .islands-traits h3,
+    .islands-traits > p {
+      grid-column: 1 / -1;
+    }
+    .islands-links {
+      display: none;
+    }
+    .islands-planning {
+      padding: 1rem;
+    }
+    .islands-hand {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
+    .islands-hand-heading {
+      flex-wrap: wrap;
+      gap: 0.2rem;
+      margin-bottom: 1rem;
+    }
+    .islands-hand-heading h2 {
+      margin-bottom: 0.3rem;
+    }
+    .islands-card-main {
+      padding: 0.8rem;
+      gap: 0.65rem;
+    }
+    .islands-card-main > strong {
+      font-size: 1.05rem;
+    }
+    .islands-card-fields {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .islands-turn-footer {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+    .islands-turn-footer > span {
+      justify-content: center;
+    }
+    .islands-map-name {
+      font-size: 0.75rem;
+    }
+    .islands-report {
+      padding: 1rem;
+    }
+    .islands-report-numbers {
+      gap: 0.9rem;
+    }
+    .islands-report-numbers > span {
+      font-size: 0.75rem;
+    }
+    .islands-report-numbers strong {
+      font-size: 1.2rem;
+      gap: 0.4rem;
+    }
+    .islands-report-footer {
+      align-items: stretch;
+      flex-direction: column;
+    }
+    .islands-replay-buttons {
+      flex-direction: column;
+    }
+  }
+  @media (max-width: 380px) {
+    .islands-map-marker {
+      padding: 0.3rem 0.45rem;
+    }
+    .islands-map-name {
+      font-size: 0.75rem;
+      padding: 0.25rem;
+    }
+    .islands-map-key {
+      gap: 0.6rem;
+      left: 0.5rem;
+      font-size: 0.75rem;
+    }
+    .islands-traits {
+      grid-template-columns: 1fr;
+    }
+    .islands-environment {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .islands-page *,
+    .islands-page *::before,
+    .islands-page *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}

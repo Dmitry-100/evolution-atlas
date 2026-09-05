@@ -12,6 +12,8 @@
     "test": "node ./node_modules/vitest/vitest.mjs run",
     "test:watch": "node ./node_modules/vitest/vitest.mjs",
     "e2e": "playwright test",
+    "e2e:game": "pnpm build && node scripts/prepare-game-preview.mjs && playwright test --config=playwright.game.config.ts",
+    "game:balance": "node scripts/simulate-game-balance.mjs",
     "test:css-compat": "node scripts/assert-css-compat.mjs",
     "build:ask-darwin-function": "node scripts/build-ask-darwin-function.mjs",
     "build:plan-tour-function": "node scripts/build-plan-tour-function.mjs",
