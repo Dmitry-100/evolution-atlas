@@ -17,6 +17,7 @@ async function enter(page: Page, state = createGame(146)) {
   await page
     .getByRole("button", { name: "Продолжить экспедицию", exact: true })
     .click();
+  await expect(page.locator(".island-scene")).toHaveAttribute("data-renderer", "ready");
 }
 
 test("game starts, plans real migration, persists the draft and resolves exactly once", async ({
@@ -36,7 +37,8 @@ test("game starts, plans real migration, persists the draft and resolves exactly
     .locator(".islands-card-main")
     .filter({ hasText: "Расселение" })
     .click();
-  await page.getByLabel("Соседний берег", { exact: true }).selectOption("1");
+  await page.getByRole("combobox", { name: "Соседний берег", exact: true }).click();
+  await page.getByRole("option", { name: /Ветровая равнина/ }).click();
   await page.getByRole("button", { name: "Добавить в план" }).click();
   await expect(page.locator(".islands-draft")).toContainText("Расселение");
   await page.reload();
@@ -96,7 +98,9 @@ test("the complete campaign works without a backend or network after loading", a
   await expect(
     page.getByRole("button", { name: "Те же условия" }),
   ).toBeVisible();
+  await page.getByRole("button", { name: "История популяций", exact: true }).click();
   await expect(page.locator(".islands-history")).toBeVisible();
+  await page.getByRole("button", { name: "Закрыть", exact: true }).click();
   await page.getByRole("button", { name: "Те же условия" }).click();
   await expect(page.getByTestId("game-population")).toHaveText("80");
 });
@@ -170,8 +174,8 @@ test("small screen, reduced motion, keyboard and assets remain usable", async ({
   await expect
     .poll(() =>
       page
-        .locator(".islands-map-art")
-        .evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0),
+        .locator(".game-card-art img")
+        .evaluateAll((images: HTMLImageElement[]) => images.every(el => el.complete && el.naturalWidth > 0)),
     )
     .toBe(true);
   expect(
@@ -179,12 +183,12 @@ test("small screen, reduced motion, keyboard and assets remain usable", async ({
       () => document.documentElement.scrollWidth <= window.innerWidth + 1,
     ),
   ).toBe(true);
-  await page
-    .getByLabel("Исследовать остров", { exact: true })
-    .selectOption("3");
-  await expect(page.locator(".islands-region-heading")).toContainText(
+  await page.getByRole("button", { name: /^Тихая бухта: / }).click();
+  await page.locator(".game-mobile-island").click();
+  await expect(page.getByRole("dialog")).toContainText(
     "Тёплое побережье",
   );
+  await page.getByRole("button", { name: "Закрыть", exact: true }).click();
   await page.getByRole("button", { name: "Следующие поколения" }).focus();
   await page.keyboard.press("Enter");
   await expect(page.locator(".islands-report")).toBeVisible();
@@ -196,4 +200,67 @@ test("small screen, reduced motion, keyboard and assets remain usable", async ({
     fullPage: true,
     animations: "disabled",
   });
+});
+
+test("the world and every turn control fit one screen, with illustrated themed menus", async ({ page }, info) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await enter(page);
+  const sizes = info.project.name === "mobile"
+    ? [{ width: 390, height: 844 }, { width: 320, height: 568 }]
+    : [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 1280, height: 720 }];
+  for (const size of sizes) {
+    await page.setViewportSize(size);
+    await expect.poll(() => page.evaluate(() => ({
+      horizontal: document.documentElement.scrollWidth > innerWidth + 1,
+      vertical: document.documentElement.scrollHeight > innerHeight + 1,
+    }))).toEqual({ horizontal: false, vertical: false });
+    for (const button of [page.getByRole("button", { name: "Следующие поколения" }), ...await page.locator(".islands-card-main").all()]) {
+      await expect(button).toBeInViewport({ ratio: 1 });
+    }
+    await page.screenshot({ path: info.outputPath("viewport-" + size.width + ".png"), animations: "disabled" });
+  }
+  await page.locator(".islands-card-main").filter({ hasText: "Расселение" }).click();
+  await page.getByRole("combobox", { name: "Остров", exact: true }).click();
+  await expect(page.getByRole("listbox")).toBeVisible();
+  await expect(page.locator("select:visible")).toHaveCount(0);
+  await page.screenshot({ path: info.outputPath("themed-menu.png"), animations: "disabled" });
+  await page.keyboard.press("Escape");
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+});
+
+test("3D camera can rotate, reset and pause without changing game state", async ({ page }, info) => {
+  test.skip(info.project.name === "mobile", "Pointer drag is checked on desktop.");
+  const errors: string[] = [];
+  page.on("pageerror", error => errors.push(error.message));
+  await enter(page);
+  const canvas = page.locator(".island-scene canvas");
+  const label = page.locator(".island-scene-labels .islands-map-node").first();
+  const initial = await label.getAttribute("style");
+  const rect = (await canvas.boundingBox())!;
+  await page.mouse.move(rect.x + rect.width * .52, rect.y + rect.height * .63);
+  await page.mouse.down();
+  await page.mouse.move(rect.x + rect.width * .73, rect.y + rect.height * .64, { steps: 12 });
+  await page.mouse.up();
+  await expect.poll(() => label.getAttribute("style")).not.toBe(initial);
+  await page.getByRole("button", { name: "Вернуть ракурс" }).click();
+  await page.getByRole("button", { name: "Остановить анимацию" }).click();
+  await expect(page.getByRole("button", { name: "Включить анимацию" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByTestId("game-population")).toHaveText("80");
+  expect(errors).toEqual([]);
+});
+
+test("a browser without WebGL retains a playable illustrated map", async ({ page }) => {
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function(type: string, ...args: unknown[]) {
+      if (type === "webgl" || type === "webgl2" || type === "experimental-webgl") return null;
+      return original.call(this, type, ...args);
+    } as typeof original;
+  });
+  await page.goto("/game");
+  await expect(page.locator(".island-scene")).toHaveAttribute("data-renderer", "fallback");
+  await page.getByRole("button", { name: "Начать экспедицию", exact: true }).click();
+  await page.getByRole("button", { name: "Следующие поколения" }).click();
+  await expect(page.locator(".islands-report")).toBeVisible();
 });

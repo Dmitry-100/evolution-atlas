@@ -7,8 +7,6 @@ import {
 import { getStageById } from "../src/data/lineage";
 import { CONFIDENCE_LABELS } from "../src/data/confidence";
 
-const screenshots =
-  "/Users/Sotnikov/.codex/visualizations/2026/09/04/01a06e1c-a965-70c2-a9bf-7a41614aab48/portal-audit/body-map-after";
 test.describe.configure({ mode: "parallel" });
 
 for (const width of [1440, 1100, 960, 820, 391, 320]) {
@@ -23,6 +21,7 @@ for (const width of [1440, 1100, 960, 820, 391, 320]) {
     await page.setViewportSize({ width, height: 860 });
     await page.goto("/body-map");
     await expect(page.locator(".body-map-canvas img")).toBeVisible();
+    const screenshots = testInfo.outputPath("screenshots");
     await mkdir(screenshots, { recursive: true });
     const initial = await page.evaluate(() => ({
       overflow: document.documentElement.scrollWidth > innerWidth,

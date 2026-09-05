@@ -28,7 +28,7 @@ function radiusAt(angle: number, island: number) {
 }
 function heightAt(x: number, z: number, island: number) {
   const r = Math.hypot(x,z), normalized = r / radiusAt(Math.atan2(z,x),island);
-  if (normalized > 1) return -.25;
+  if (normalized > 1.001) return -.25;
   const center = Math.max(0,1 - normalized);
   let height = .14 + Math.pow(center,.7) * .7;
   height += (Math.sin(x * 2.4 + island) * Math.cos(z * 2.1) + Math.sin(z * 3.5 + x)) * .085 * Math.min(1,center*4);
@@ -55,7 +55,7 @@ function terrain(island: number) {
   function vertex(p: number[]) {
     positions.push(p[0],p[1],p[2]);
     const c = baseColor.clone();
-    if(p[3] > .84) c.lerp(sand,Math.min(1,(p[3]-.84)*8));
+    if(p[3] > .92) c.lerp(sand,Math.min(1,(p[3]-.92)*13));
     if(island === 2 && p[1] > 1.2) c.lerp(stone,Math.min(1,(p[1]-1.2)*2));
     if(island === 2 && p[1] > 2.1) c.lerp(snow,Math.min(1,(p[1]-2.1)*2.2));
     if(island === 5 && p[1] > 1) c.lerp(new THREE.Color("#45483f"),.7);
@@ -86,7 +86,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.5));
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=1.28;
+  renderer.toneMappingExposure=1.08;
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.domElement.setAttribute("aria-label","Трёхмерный архипелаг. Поворот перетаскиванием, масштаб колесом или двумя пальцами.");
@@ -97,18 +97,19 @@ export function createArchipelago(options: SceneOptions): SceneController {
   const controls = new OrbitControls(camera,renderer.domElement);
   controls.enableDamping=true; controls.dampingFactor=.075;
   controls.enablePan=false; controls.minPolarAngle=.25; controls.maxPolarAngle=1.15;
-  controls.minDistance=17; controls.maxDistance=65;
+  controls.minDistance=12; controls.maxDistance=65;
   controls.rotateSpeed=.45; controls.zoomSpeed=.6;
   controls.addEventListener("change",()=> { dirty=true; });
   function reset() {
-    const narrow = host.clientWidth/Math.max(1,host.clientHeight) < 1.25;
-    camera.position.set(narrow ? 1 : 0,narrow ? 28 : 17,narrow ? 31 : 19);
+    const ratio = host.clientWidth/Math.max(1,host.clientHeight);
+    const distance = Math.max(17,36/ratio);
+    camera.position.set(0,distance*.62,distance*.78);
     controls.target.set(0,0,0);
     controls.update(); dirty=true;
   }
   reset();
-  const sky = new THREE.HemisphereLight("#d3e6d2","#193431",2.6); scene.add(sky);
-  const sunlight = new THREE.DirectionalLight("#ffdb95",3.5);
+  const sky = new THREE.HemisphereLight("#d3e6d2","#193431",2.1); scene.add(sky);
+  const sunlight = new THREE.DirectionalLight("#ffdb95",2.8);
   sunlight.position.set(-9,16,6); sunlight.castShadow=true;
   sunlight.shadow.mapSize.set(1024,1024);
   Object.assign(sunlight.shadow.camera,{left:-16,right:16,top:13,bottom:-13,near:1,far:45});
@@ -127,7 +128,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
   const shoreMaterial = new THREE.MeshBasicMaterial({color:"#5eaba0",transparent:true,opacity:.12,depthWrite:false});
   const islands: THREE.Group[] = [], hits: THREE.Mesh[] = [], halos: THREE.Mesh[] = [];
   const trunks = new THREE.CylinderGeometry(.06,.1,1,5);
-  const crown = new THREE.IcosahedronGeometry(.56,1);
+  const crown = new THREE.IcosahedronGeometry(.4,2);
   const conifer = new THREE.ConeGeometry(.56,1.65,7);
   const rock = new THREE.DodecahedronGeometry(.4,0);
   const trunkMaterial = new THREE.MeshStandardMaterial({color:"#534b2c",roughness:1});
@@ -151,8 +152,8 @@ export function createArchipelago(options: SceneOptions): SceneController {
     coast.rotation.x=-Math.PI/2; coast.scale.set(1,.94,1); coast.position.y=-.04; group.add(coast);
     const halo = new THREE.Mesh(new THREE.RingGeometry(2.87,2.91,80),new THREE.MeshBasicMaterial({color:"#d8c985",transparent:true,opacity:.65,side:THREE.DoubleSide,depthWrite:false}));
     halo.rotation.x=-Math.PI/2; halo.position.y=.02; halo.visible=island===selected; group.add(halo); halos.push(halo);
-    const treesCount=[32,8,10,11,38,6][island];
-    const leafMaterial = new THREE.MeshStandardMaterial({color:FOLIAGE[island],roughness:1,flatShading:true});
+    const treesCount=[45,10,10,14,48,7][island];
+    const leafMaterial = new THREE.MeshStandardMaterial({color:"#ffffff",roughness:1,flatShading:false});
     const leaves=new THREE.InstancedMesh(island===2?conifer:crown,leafMaterial,treesCount*3);
     const stems=new THREE.InstancedMesh(trunks,trunkMaterial,treesCount);
     leaves.castShadow=true; leaves.receiveShadow=true; stems.castShadow=true;
@@ -181,6 +182,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
     const bodies=new THREE.InstancedMesh(bodyGeometry,bodyMaterial,14);
     const heads=new THREE.InstancedMesh(bodyGeometry,headsMaterial,14);
     const eyes=new THREE.InstancedMesh(bodyGeometry,eyeMaterial,28);
+    bodies.frustumCulled=false; heads.frustumCulled=false; eyes.frustumCulled=false;
     bodies.castShadow=true; heads.castShadow=true;
     group.add(bodies,heads,eyes);
     animalGroups.push({bodies,heads,eyes,seeds:Array.from({length:14},(_,n)=>noise(n,8,island)*TAU)});
@@ -199,23 +201,29 @@ export function createArchipelago(options: SceneOptions): SceneController {
   const lava=new THREE.Mesh(new THREE.CircleGeometry(.34,28),lavaMaterial);lava.rotation.x=-Math.PI/2;
   lava.position.set(CENTERS[5][0]+.25,heightAt(.25,-.3,5)+.015,CENTERS[5][1]-.3);scene.add(lava);
   const lavaLight=new THREE.PointLight("#fba446",3,5);lavaLight.position.copy(lava.position).add(new THREE.Vector3(0,.3,0));scene.add(lavaLight);
-  const cloudMaterial=new THREE.MeshStandardMaterial({color:"#afc2b4",transparent:true,opacity:.18,roughness:1,depthWrite:false});
-  const clouds=new THREE.Group(); const cloudParts:THREE.Mesh[]=[];
+  const mistPixels=new Uint8Array(32*32*4);
+  for(let y=0;y<32;y++)for(let x=0;x<32;x++){
+    const offset=(y*32+x)*4,r=Math.hypot((x-15.5)/15.5,(y-15.5)/15.5);
+    mistPixels.set([255,255,255,Math.round(Math.pow(Math.max(0,1-r*r),3)*255)],offset);
+  }
+  const mistTexture=new THREE.DataTexture(mistPixels,32,32);mistTexture.needsUpdate=true;
+  const cloudMaterial=new THREE.SpriteMaterial({color:"#b8d1c1",map:mistTexture,transparent:true,opacity:.13,depthWrite:false});
+  const clouds=new THREE.Group(); const cloudParts:THREE.Sprite[]=[];
   for(let n=0;n<12;n++) {
-    const cloud=new THREE.Mesh(new THREE.IcosahedronGeometry(1,1),cloudMaterial);
+    const cloud=new THREE.Sprite(cloudMaterial);
     cloud.position.set(-12+n*2.1,5.6+noise(n,10,2),Math.sin(n*1.7)*5);
-    cloud.scale.set(1.4+noise(n,4,1),.17,.5+noise(n,3,1));clouds.add(cloud);cloudParts.push(cloud);
+    cloud.scale.set(4+noise(n,4,1),1.2,1);clouds.add(cloud);cloudParts.push(cloud);
   }
   scene.add(clouds);
   const smokeGeometry=new THREE.BufferGeometry();
   const smokePositions=new Float32Array(90*3);
   smokeGeometry.setAttribute("position",new THREE.BufferAttribute(smokePositions,3));
-  const smokeMaterial=new THREE.PointsMaterial({color:"#b0aea0",size:.36,transparent:true,opacity:.24,depthWrite:false});
+  const smokeMaterial=new THREE.PointsMaterial({color:"#b0aea0",map:mistTexture,size:.65,transparent:true,opacity:.3,depthWrite:false});
   const smoke=new THREE.Points(smokeGeometry,smokeMaterial);scene.add(smoke);
   const snowPositions=new Float32Array(230*3);
   for(let n=0;n<230;n++){snowPositions[n*3]=(noise(n,4,8)-.5)*26;snowPositions[n*3+1]=noise(n,5,8)*8;snowPositions[n*3+2]=(noise(n,6,8)-.5)*17;}
   const weatherGeometry=new THREE.BufferGeometry();weatherGeometry.setAttribute("position",new THREE.BufferAttribute(snowPositions,3));
-  const weatherMaterial=new THREE.PointsMaterial({color:"#e0e6d7",size:.06,transparent:true,opacity:.65,depthWrite:false});
+  const weatherMaterial=new THREE.PointsMaterial({color:"#e0e6d7",map:mistTexture,size:.09,transparent:true,opacity:.65,depthWrite:false});
   const weather=new THREE.Points(weatherGeometry,weatherMaterial);weather.visible=false;scene.add(weather);
   const paths=new THREE.Group();scene.add(paths);
   const pathMaterials:THREE.Material[]=[];
@@ -275,7 +283,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
       const n=Math.min(14,Math.ceil(count(state.regions[i])/16));
       bodies.count=n;heads.count=n;eyes.count=n*2;
       for(let j=0;j<n;j++){
-        const seed=seeds[j],a=seed+Math.sin(time*.15+seed)*.22,r=.85+(j%4)*.16;
+        const seed=seeds[j],a=seed+Math.sin(time*.15+seed)*.22,r=1.6+(j%4)*.1;
         const x=Math.cos(a)*r,z=Math.sin(a)*r,h=heightAt(x,z,i),yaw=a+Math.PI/2;
         const bob=Math.sin(time*(evolving?6:3)+seed)*.016;
         dummy.position.set(x,h+.12+bob,z);dummy.rotation.set(0,-yaw,0);dummy.scale.set(.18,.105,.105);dummy.updateMatrix();bodies.setMatrixAt(j,dummy.matrix);
@@ -350,7 +358,7 @@ export function createArchipelago(options: SceneOptions): SceneController {
       const geometries=new Set<THREE.BufferGeometry>(),materials=new Set<THREE.Material>();
       scene.traverse(object=>{if(object instanceof THREE.Mesh||object instanceof THREE.Points||object instanceof THREE.Line){geometries.add(object.geometry);(Array.isArray(object.material)?object.material:[object.material]).forEach(material=>materials.add(material));}});
       geometries.forEach(geometry=>geometry.dispose());materials.forEach(material=>material.dispose());decorativeResources.forEach(resource=>resource.dispose());pathMaterials.forEach(material=>material.dispose());
-      renderer.dispose();renderer.domElement.remove();scene.clear();
+      cloudMaterial.dispose();mistTexture.dispose();renderer.dispose();renderer.domElement.remove();scene.clear();
     },
   };
 }

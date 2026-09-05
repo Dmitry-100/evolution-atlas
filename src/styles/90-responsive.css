@@ -37,6 +37,10 @@
     .brand {
       flex-basis: 280px;
     }
+
+    .topbar-nav .darwin-welcome-trigger strong {
+      display: none;
+    }
   }
 
   @media (max-width: 1200px) {

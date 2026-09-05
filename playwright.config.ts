@@ -17,6 +17,8 @@ export default defineConfig({
   },
   use: {
     baseURL: "http://127.0.0.1:4173",
+    // Keep decorative WebGL animation from starving browser actions on CI.
+    reducedMotion: "reduce",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },

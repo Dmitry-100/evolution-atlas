@@ -1,8 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, BookOpen, Bug, Check, ChevronRight, CloudRain, Compass, Dna, Expand, HelpCircle, History, Leaf, Map, Mountain, Pause, Play, RotateCcw, Shield, Snowflake, Sun, Thermometer, Waves, Wind, X } from "lucide-react";
 import { IslandScene } from "../components/game/IslandScene";
-import { GameCard, CARD_ART } from "../components/game/GameCard";
+import { GameCard } from "../components/game/GameCard";
+import { CARD_ART } from "../game/art";
 import { GameDialog } from "../components/game/GameDialog";
 import { GameSelect } from "../components/game/GameSelect";
 import { OptimizedImage } from "../components/ui/optimized-image";
@@ -11,6 +13,7 @@ import { actionError, addAction, chapter, connected, count, createGame, currentE
 import { loadGame, occupied, readRecords, saveGame, saveRecord } from "../game/storage";
 import type { GameAction, GameState } from "../game/types";
 import { trackGoal } from "../lib/analytics";
+import { getVersionedAssetSrc } from "../lib/assetManifest";
 import "../styles/pages/game.css";
 
 const degrees = (temperature: number) => Math.round(18 + temperature * 12) + "°";
@@ -18,6 +21,11 @@ const islandOptions = REGIONS.map((region, index) => ({ value: String(index), la
 const EVENT_ICONS = { sun: Sun, rain: CloudRain, snow: Snowflake, leaf: Leaf, paw: Bug, wave: Waves, volcano: Mountain };
 
 export function GamePage() {
+  const reducedMotion = useReducedMotion();
+  useEffect(() => {
+    // All eight cards remain illustrated when the next hand is drawn offline.
+    Object.values(CARD_ART).forEach(src => { const image = new Image(); image.src = getVersionedAssetSrc(src); });
+  }, []);
   const [loaded] = useState(() => loadGame());
   const [state, setState] = useState<GameState>(() => loaded.state ?? createGame(20260905));
   const [started, setStarted] = useState(false);
@@ -130,7 +138,7 @@ export function GamePage() {
         <div className="game-world-topline">
           <span className="game-world-caption"><span />Архипелаг • {chapter(state.turn)}</span>
           <div className="game-scene-controls">
-            <button className="game-icon-button" aria-label={paused ? "Включить анимацию" : "Остановить анимацию"} aria-pressed={paused} onClick={() => setPaused(!paused)} title={paused ? "Включить движение" : "Пауза анимации"}>{paused ? <Play size={15} /> : <Pause size={15} />}</button>
+            {!reducedMotion && <button className="game-icon-button" aria-label={paused ? "Включить анимацию" : "Остановить анимацию"} aria-pressed={paused} onClick={() => setPaused(!paused)} title={paused ? "Включить движение" : "Пауза анимации"}>{paused ? <Play size={15} /> : <Pause size={15} />}</button>}
             <button className="game-icon-button" aria-label="Вернуть ракурс" onClick={() => setResetView(value => value + 1)} title="Вернуть ракурс"><Compass size={16} /></button>
             <button className="game-icon-button game-expand" aria-label={wide ? "Обычный экран" : "Развернуть игру"} onClick={() => setWide(!wide)} title="Развернуть игру"><Expand size={15} /></button>
           </div>
