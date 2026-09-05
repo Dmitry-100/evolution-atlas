@@ -275,8 +275,9 @@ export function GeneticsPage() {
               ))}
             </div>
             <p className="codon-transcription-note">
-              Выделены T и U в записях ДНК и РНК. Это переписывание, а не
-              мутация.
+              {activeCodon?.dnaRu === activeCodon?.rnaRu
+                ? "В этом примере запись одинакова: GGC в ДНК и РНК."
+                : "Выделены T и U в записях ДНК и РНК. Это переписывание, а не мутация."}
             </p>
           </div>
 
@@ -527,7 +528,7 @@ export function GeneticsPage() {
                     <dt>Что это показывает</dt>
                     <dd>
                       {item.id === "viral-fossils"
-                        ? marker?.explanationRu
+                        ? "Совпадение редких вставок в одних и тех же местах помогает проверять родство линий."
                         : item.whyItMattersRu}
                     </dd>
                   </div>

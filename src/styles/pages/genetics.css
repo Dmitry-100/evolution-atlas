@@ -289,6 +289,7 @@
     margin: 0;
     font-family: var(--font-display);
     font-size: 1.4rem;
+    font-weight: 700;
     line-height: 1.25;
     letter-spacing: 0;
   }
@@ -336,6 +337,7 @@
     color: var(--gold);
     font-family: var(--font-display);
     font-size: 1.4rem;
+    font-weight: 700;
     line-height: 1.25;
   }
   .genome-comparison-metric p {
@@ -652,10 +654,18 @@
 }
 
 @layer evolution-responsive {
-  .genetics-page .curiosity-facts-heading { padding: 0; grid-template-columns: auto minmax(0, 1fr); }
-  .genetics-page .curiosity-facts-grid { padding: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .genetics-page .curiosity-facts-heading {
+    padding: 0;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .genetics-page .curiosity-facts-grid {
+    padding: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   @media (max-width: 720px) {
     .genetics-page .curiosity-facts-heading,
-    .genetics-page .curiosity-facts-grid { grid-template-columns: 1fr; }
+    .genetics-page .curiosity-facts-grid {
+      grid-template-columns: 1fr;
+    }
   }
 }
