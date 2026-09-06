@@ -1,6 +1,9 @@
+import { useEffect, useRef, useState } from "react";
+import "../styles/pages/materials.css";
 import { PageHeader } from "../components/ui/PageHeader";
 import {
   BookOpen,
+  ChevronDown,
   Download,
   ExternalLink,
   FileText,
@@ -9,35 +12,120 @@ import {
   MapPin,
   PlayCircle,
 } from "lucide-react";
+import { ImageLightbox } from "../components/ui/image-lightbox";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import {
   MUSEUM_RECOMMENDATIONS,
   PORTAL_MATERIALS,
   READING_RECOMMENDATIONS,
+  READING_TOPICS,
+  type ReadingTopic,
   WATCH_RECOMMENDATIONS,
 } from "../data/materials";
 import { TREE_OF_LIFE_POSTER } from "../data/treeOfLifePoster";
 
+const materialSections = [
+  { id: "materials-poster", label: "Постер", icon: GitFork, count: 1 },
+  {
+    id: "materials-presentations",
+    label: "Презентации",
+    icon: FileText,
+    count: PORTAL_MATERIALS.length,
+  },
+  {
+    id: "materials-reading",
+    label: "Книги",
+    icon: BookOpen,
+    count: READING_RECOMMENDATIONS.length,
+  },
+  {
+    id: "materials-museums",
+    label: "Музеи",
+    icon: Landmark,
+    count: MUSEUM_RECOMMENDATIONS.length,
+  },
+  {
+    id: "materials-watch",
+    label: "Видео",
+    icon: PlayCircle,
+    count: WATCH_RECOMMENDATIONS.length,
+  },
+];
+
+const posterImage = {
+  src: TREE_OF_LIFE_POSTER.src,
+  alt: TREE_OF_LIFE_POSTER.altRu,
+  caption:
+    "Дерево жизни. Прокручивайте изображение, чтобы рассмотреть все ветви.",
+};
+
 export function MaterialsPage() {
+  const pageRef = useRef<HTMLElement>(null);
+  const [isPosterOpen, setIsPosterOpen] = useState(false);
+  const [readingTopic, setReadingTopic] = useState<ReadingTopic | "all">("all");
+  const visibleBooks =
+    readingTopic === "all"
+      ? READING_RECOMMENDATIONS
+      : READING_RECOMMENDATIONS.filter((book) =>
+          book.topics.includes(readingTopic),
+        );
+
+  useEffect(() => {
+    const header = document.querySelector(".topbar");
+    if (!header) return;
+    const update = () =>
+      pageRef.current?.style.setProperty(
+        "--materials-header-height",
+        `${header.getBoundingClientRect().height}px`,
+      );
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="document-page materials-page" data-tour-stop-id="page-materials">
+    <section
+      ref={pageRef}
+      className="document-page materials-page"
+      data-tour-stop-id="page-materials"
+    >
       <PageHeader
         eyebrow="Дополнительные материалы"
         title="Презентации, книги, музеи и видео"
       >
-        Их можно читать отдельно или после разделов Атласа. PDF открываются прямо в
-        браузере.
+        Их можно читать отдельно или после разделов Атласа. PDF открываются
+        прямо в браузере.
       </PageHeader>
 
-      <section className="poster-download-card is-compact" aria-labelledby="poster-download-title">
-        <div className="poster-download-media">
+      <nav className="materials-page-nav" aria-label="Разделы материалов">
+        {materialSections.map(({ id, label, icon: Icon, count }) => (
+          <a key={id} href={`#${id}`}>
+            <Icon aria-hidden="true" size={18} />
+            <span>{label}</span>
+            <small>{count}</small>
+          </a>
+        ))}
+      </nav>
+
+      <section
+        id="materials-poster"
+        className="poster-download-card"
+        aria-labelledby="poster-download-title"
+      >
+        <button
+          type="button"
+          className="poster-download-media"
+          onClick={() => setIsPosterOpen(true)}
+          aria-label="Увеличить постер «Дерево жизни»"
+        >
           <OptimizedImage
-            src={TREE_OF_LIFE_POSTER.src}
+            src={TREE_OF_LIFE_POSTER.previewSrc}
             alt={TREE_OF_LIFE_POSTER.altRu}
             loading="lazy"
             decoding="async"
           />
-        </div>
+        </button>
         <div className="poster-download-copy">
           <div className="materials-section-heading">
             <GitFork aria-hidden="true" size={23} />
@@ -61,80 +149,160 @@ export function MaterialsPage() {
         </div>
       </section>
 
-      <div className="materials-grid">
-        {PORTAL_MATERIALS.map((material) => (
-          <article key={material.id} className="material-card">
-            <div className="material-card-media" aria-hidden="true">
-              <OptimizedImage src={material.coverSrc} alt="" loading="lazy" decoding="async" />
-            </div>
-            <div className="material-card-body">
-              <div className="material-card-kicker">
-                <span>{material.slideCount} слайдов</span>
-                <span>{material.audienceRu}</span>
+      <section
+        id="materials-presentations"
+        className="materials-recommendations"
+        aria-labelledby="presentations-title"
+      >
+        <div className="materials-section-heading">
+          <FileText aria-hidden="true" size={23} />
+          <div>
+            <p className="eyebrow">Готовые лекции</p>
+            <h2 id="presentations-title">Презентации</h2>
+            <p>
+              Пять маршрутов по Атласу — для самостоятельного чтения, занятий и
+              семейного просмотра.
+            </p>
+          </div>
+        </div>
+        <div className="materials-grid">
+          {PORTAL_MATERIALS.map((material) => (
+            <article key={material.id} className="material-card">
+              <div className="material-card-media" aria-hidden="true">
+                <OptimizedImage
+                  src={material.coverSrc}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
-              <h2>{material.titleRu}</h2>
-              <p className="material-subtitle">{material.subtitleRu}</p>
-              <p>{material.summaryRu}</p>
+              <div className="material-card-body">
+                <div className="material-card-kicker">
+                  <span>{material.slideCount} слайдов</span>
+                  <span>{material.audienceRu}</span>
+                </div>
+                <h3>{material.titleRu}</h3>
+                <p className="material-subtitle">{material.subtitleRu}</p>
+                <p>{material.summaryRu}</p>
 
-              <div className="material-tags" aria-label="Темы">
-                {material.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
-
-              <div className="material-highlights">
-                <strong>Что внутри</strong>
-                <ul>
-                  {material.highlightsRu.map((item) => (
-                    <li key={item}>{item}</li>
+                <div className="material-tags" aria-label="Темы">
+                  {material.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
                   ))}
-                </ul>
-              </div>
+                </div>
 
-              <div className="material-actions">
-                <a className="button button-secondary button-sm" href={material.pdfHref} target="_blank" rel="noreferrer">
-                  <FileText aria-hidden="true" size={16} />
-                  Открыть PDF
-                  <ExternalLink aria-hidden="true" size={14} />
-                </a>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+                <details className="material-highlights">
+                  <summary>
+                    Что внутри <ChevronDown aria-hidden="true" size={17} />
+                  </summary>
+                  <ul>
+                    {material.highlightsRu.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </details>
 
-      <section className="materials-recommendations" aria-labelledby="reading-title">
+                <div className="material-actions">
+                  <a
+                    className="button button-secondary button-sm"
+                    href={material.pdfHref}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <FileText aria-hidden="true" size={16} />
+                    Открыть PDF
+                    <ExternalLink aria-hidden="true" size={14} />
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="materials-reading"
+        className="materials-recommendations"
+        aria-labelledby="reading-title"
+      >
         <div className="materials-section-heading">
           <BookOpen aria-hidden="true" size={23} />
           <div>
             <p className="eyebrow">Книжная полка</p>
             <h2 id="reading-title">Что почитать</h2>
             <p>
-              Короткая подборка из личной библиотеки: от доказательств
-              эволюции, генетики и происхождения жизни до антропогенеза и
-              дерева LUCA.
+              Короткая подборка из личной библиотеки: от доказательств эволюции,
+              генетики и происхождения жизни до антропогенеза и дерева LUCA.
             </p>
           </div>
         </div>
 
-        <div className="reading-grid">
-          {READING_RECOMMENDATIONS.map((book) => (
+        <div className="reading-filter-bar">
+          <div className="reading-filters" role="group" aria-label="Темы книг">
+            <button
+              type="button"
+              aria-pressed={readingTopic === "all"}
+              aria-controls="reading-list"
+              onClick={() => setReadingTopic("all")}
+            >
+              Все <span>{READING_RECOMMENDATIONS.length}</span>
+            </button>
+            {READING_TOPICS.map((topic) => (
+              <button
+                key={topic.id}
+                type="button"
+                aria-pressed={readingTopic === topic.id}
+                aria-controls="reading-list"
+                onClick={() => setReadingTopic(topic.id)}
+              >
+                {topic.labelRu}{" "}
+                <span>
+                  {
+                    READING_RECOMMENDATIONS.filter((book) =>
+                      book.topics.includes(topic.id),
+                    ).length
+                  }
+                </span>
+              </button>
+            ))}
+          </div>
+          <p className="reading-result-count" role="status">
+            Показано {visibleBooks.length} из {READING_RECOMMENDATIONS.length}
+          </p>
+        </div>
+        <div id="reading-list" className="reading-grid">
+          {visibleBooks.map((book) => (
             <article key={book.id} className="reading-card">
               {book.coverSrc ? (
-                <OptimizedImage src={book.coverSrc} alt={book.coverAltRu ?? ""} loading="lazy" decoding="async" />
+                <OptimizedImage
+                  src={book.coverSrc}
+                  alt={book.coverAltRu ?? ""}
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
-                <div className="reading-card-cover-placeholder" aria-hidden="true">
+                <div
+                  className="reading-card-cover-placeholder"
+                  aria-hidden="true"
+                >
                   <span>{book.authorRu}</span>
                   <strong>{book.titleRu}</strong>
                 </div>
               )}
               <div className="reading-card-copy">
-                <span>{book.themeRu}</span>
-                <h3>{book.titleRu}</h3>
-                <strong>{book.authorRu}</strong>
+                <div className="reading-card-intro">
+                  <span className="recommendation-kicker">{book.themeRu}</span>
+                  <h3>{book.titleRu}</h3>
+                  <strong className="reading-author">{book.authorRu}</strong>
+                </div>
                 <p>{book.descriptionRu}</p>
                 <small>{book.whyReadRu}</small>
-                <a className="button button-secondary button-sm" href={book.publisherHref} target="_blank" rel="noreferrer">
+                <a
+                  className="button button-secondary button-sm"
+                  href={book.publisherHref}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {book.linkLabelRu ?? "Страница издательства"}
                   <ExternalLink aria-hidden="true" size={14} />
                 </a>
@@ -144,7 +312,11 @@ export function MaterialsPage() {
         </div>
       </section>
 
-      <section className="materials-recommendations" aria-labelledby="museum-title">
+      <section
+        id="materials-museums"
+        className="materials-recommendations"
+        aria-labelledby="museum-title"
+      >
         <div className="materials-section-heading">
           <Landmark aria-hidden="true" size={23} />
           <div>
@@ -168,7 +340,12 @@ export function MaterialsPage() {
               </p>
               <p>{museum.descriptionRu}</p>
               <small>{museum.whyVisitRu}</small>
-              <a className="button button-secondary button-sm" href={museum.href} target="_blank" rel="noreferrer">
+              <a
+                className="button button-secondary button-sm"
+                href={museum.href}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Сайт музея
                 <ExternalLink aria-hidden="true" size={14} />
               </a>
@@ -177,7 +354,11 @@ export function MaterialsPage() {
         </div>
       </section>
 
-      <section className="materials-recommendations" aria-labelledby="watch-title">
+      <section
+        id="materials-watch"
+        className="materials-recommendations"
+        aria-labelledby="watch-title"
+      >
         <div className="materials-section-heading">
           <PlayCircle aria-hidden="true" size={23} />
           <div>
@@ -193,8 +374,19 @@ export function MaterialsPage() {
         <div className="watch-grid">
           {WATCH_RECOMMENDATIONS.map((item) => (
             <article key={item.id} className="watch-card">
-              <a className="watch-card-media" href={item.href} target="_blank" rel="noreferrer" aria-label={item.titleRu}>
-                <OptimizedImage src={item.imageSrc} alt={item.imageAltRu} loading="lazy" decoding="async" />
+              <a
+                className="watch-card-media"
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={item.titleRu}
+              >
+                <OptimizedImage
+                  src={item.imageSrc}
+                  alt={item.imageAltRu}
+                  loading="lazy"
+                  decoding="async"
+                />
                 <PlayCircle aria-hidden="true" size={32} />
               </a>
               <div className="watch-card-copy">
@@ -202,8 +394,13 @@ export function MaterialsPage() {
                 <h3>{item.titleRu}</h3>
                 <p>{item.descriptionRu}</p>
                 <small>{item.whyWatchRu}</small>
-                <a className="button button-secondary button-sm" href={item.href} target="_blank" rel="noreferrer">
-                  Открыть
+                <a
+                  className="button button-secondary button-sm"
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Смотреть
                   <ExternalLink aria-hidden="true" size={14} />
                 </a>
               </div>
@@ -211,6 +408,12 @@ export function MaterialsPage() {
           ))}
         </div>
       </section>
+      <ImageLightbox
+        image={isPosterOpen ? posterImage : null}
+        ariaLabel="Постер «Дерево жизни»"
+        displayMode="natural"
+        onClose={() => setIsPosterOpen(false)}
+      />
     </section>
   );
 }

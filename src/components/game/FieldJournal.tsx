@@ -1,12 +1,18 @@
+import { CARD_NOTES } from "../../game/cardNotes";
 import { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Check, Copy, GitBranch, Leaf } from "lucide-react";
-import { REGIONS, describeAction } from "../../game/content";
+import { ArrowUpRight, Check, Copy, GitBranch } from "lucide-react";
+import { REGIONS, TRAITS, describeAction } from "../../game/content";
 import { count } from "../../game/engine";
 import {
+  branchDifference,
+  discoveryHistory,
+  isolatedTurns,
+} from "../../game/observations";
+import { OptimizedImage } from "../ui/optimized-image";
+import {
   comparisonRun,
-  discoveries,
   expeditionLink,
   FIELD_NOTES,
   FIELD_SOURCES,
@@ -17,6 +23,33 @@ import {
 import type { GameState, RunRecord } from "../../game/types";
 import { GameDialog } from "./GameDialog";
 
+export function CardStory({
+  kind,
+}: {
+  kind: import("../../game/types").CardKind;
+}) {
+  const note = CARD_NOTES[kind];
+  return (
+    <aside className="game-card-story">
+      <span className="game-eyebrow">{note.topic}</span>
+      <h3>{note.title}</h3>
+      <p>{note.text}</p>
+      <div>
+        <Link to={note.atlas}>
+          Открыть в атласе <ArrowUpRight size={12} />
+        </Link>
+        <a
+          href={note.source}
+          target="_blank"
+          rel="noreferrer"
+          title={note.sourceTitle}
+        >
+          Источник <ArrowUpRight size={12} />
+        </a>
+      </div>
+    </aside>
+  );
+}
 export function FieldNote({ kind }: { kind: string }) {
   const note = FIELD_NOTES[kind as keyof typeof FIELD_NOTES];
   if (!note) return null;
@@ -33,17 +66,40 @@ export function FieldNote({ kind }: { kind: string }) {
   );
 }
 export function DiscoveryCards({ state }: { state: GameState }) {
+  const notes = discoveryHistory(state);
   return (
     <div className="game-discoveries">
-      {discoveries(state).map((note) => (
-        <article key={note.title}>
-          <Leaf size={21} />
-          <h3>{note.title}</h3>
-          <p>{note.text}</p>
-          <Link to={note.href}>
-            {note.label}
-            <ArrowUpRight size={14} />
-          </Link>
+      {!notes.length && (
+        <p className="game-muted">
+          Первые открытия появятся после хода. Наблюдайте, что меняется у
+          потомков.
+        </p>
+      )}
+      {notes.map((note) => (
+        <article key={note.id}>
+          <OptimizedImage
+            src={`/assets/images/game/discoveries/${note.art}-v5.jpg`}
+            alt={note.alt}
+            width={900}
+            height={600}
+          />
+          <div className="game-discovery-copy">
+            <span className="game-eyebrow">Открытие · ход {note.turn}</span>
+            <h3>{note.title}</h3>
+            <p>{note.text}</p>
+            <Link to={note.href}>
+              {note.label}
+              <ArrowUpRight size={14} />
+            </Link>
+            <a
+              className="game-discovery-source"
+              href={note.source}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Источник <ArrowUpRight size={12} />
+            </a>
+          </div>
         </article>
       ))}
     </div>
@@ -84,47 +140,87 @@ function ColonyTree({ state }: { state: GameState }) {
       </p>
       {origins.length ? (
         <ol className="game-colony-tree">
-          {origins.map((o) => (
-            <li
-              key={o.island}
-              style={{ marginLeft: `${depth(o.island) * 20}px` }}
-            >
-              <GitBranch size={18} />
-              <div>
-                <strong>{REGIONS[o.island].name}</strong>
-                <p>
-                  {o.parent === null
-                    ? "Исходная популяция"
-                    : `С острова ${REGIONS[o.parent].name} · ход ${o.turn}`}
-                </p>
-                <label>
-                  Название ветви
-                  <input
-                    maxLength={40}
-                    value={names[o.island] ?? ""}
-                    placeholder="Дайте колонии имя"
-                    onChange={(e) => {
-                      const next = { ...names, [o.island]: e.target.value };
-                      setNames(next);
-                      try {
-                        localStorage.setItem(storageKey, JSON.stringify(next));
-                      } catch {
-                        /* Names remain editable in memory. */
-                      }
-                    }}
-                  />
-                </label>
-              </div>
-              <span>
-                {count(state.regions[o.island]) || "—"}
-                <small>
-                  {count(state.regions[o.island])
-                    ? "живут сейчас"
-                    : "не сохранилась"}
-                </small>
-              </span>
-            </li>
-          ))}
+          {origins.map((o) => {
+            const difference = branchDifference(state, o.island, o.parent);
+            const isolated = isolatedTurns(state, o.island);
+            return (
+              <li
+                key={o.island}
+                style={{ marginLeft: `${depth(o.island) * 20}px` }}
+              >
+                <GitBranch size={18} />
+                <div>
+                  <strong>{REGIONS[o.island].name}</strong>
+                  <p>
+                    {o.parent === null
+                      ? "Исходная популяция"
+                      : `С острова ${REGIONS[o.parent].name} · ход ${o.turn}`}
+                  </p>
+                  <label>
+                    Название ветви
+                    <input
+                      maxLength={40}
+                      value={names[o.island] ?? ""}
+                      placeholder="Дайте колонии имя"
+                      onChange={(e) => {
+                        const next = { ...names, [o.island]: e.target.value };
+                        setNames(next);
+                        try {
+                          localStorage.setItem(
+                            storageKey,
+                            JSON.stringify(next),
+                          );
+                        } catch {
+                          /* Names remain editable in memory. */
+                        }
+                      }}
+                    />
+                  </label>
+                  {difference && (
+                    <div className="game-branch-difference">
+                      <small>{difference.label}</small>
+                      <p>
+                        {difference.change.name} ·{" "}
+                        {difference.change.value.toLowerCase()}:{" "}
+                        <strong>
+                          {Math.round(difference.change.before * 100)}% →{" "}
+                          {Math.round(difference.change.after * 100)}%
+                        </strong>
+                      </p>
+                      <div
+                        className="game-branch-traits"
+                        aria-label="Наиболее частые признаки колонии"
+                      >
+                        {difference.after.map((v, t) => (
+                          <span key={t}>
+                            {TRAITS[t].name}:{" "}
+                            <b>
+                              {TRAITS[t].values[
+                                v.indexOf(Math.max(...v))
+                              ].toLowerCase()}
+                            </b>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {isolated > 0 && (
+                    <small className="game-branch-isolation">
+                      Без морских путей: {isolated} ход.
+                    </small>
+                  )}
+                </div>
+                <span>
+                  {count(state.regions[o.island]) || "—"}
+                  <small>
+                    {count(state.regions[o.island])
+                      ? "живут сейчас"
+                      : "не сохранилась"}
+                  </small>
+                </span>
+              </li>
+            );
+          })}
         </ol>
       ) : (
         <p>
@@ -151,7 +247,7 @@ export function AttemptComparison({
         <p>
           Завершите экспедицию и повторите «Те же условия». Здесь появятся оба
           графика и различия в сыгранных картах. Сравниваются партии с
-          одинаковыми кодом, правилами и настройками.
+          одинаковым начальным миром, правилами и настройками.
         </p>
       </div>
     );
@@ -277,11 +373,10 @@ export function FieldJournal({
         </Tabs.Content>
         <Tabs.Content value="compare">
           <AttemptComparison state={state} records={records} />
-          {state.version === 2 && (
+          {state.version >= 2 && (
             <div className="game-share-expedition">
               <h3>Пригласите друга в тот же мир</h3>
               <p>
-                Код: <strong>{state.seed.toString(16).toUpperCase()}</strong>.
                 Ссылка содержит настройки и начальный мир; ваши ходы и
                 сохранения остаются в браузере.
               </p>

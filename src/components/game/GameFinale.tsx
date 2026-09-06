@@ -401,7 +401,7 @@ export function GameFinale({
             <p>
               {missionStatus(state).achieved
                 ? "Цель достигнута."
-                : "Цель пока не достигнута."}{" "}
+                : "Цель не достигнута."}{" "}
               {missionStatus(state).description}
             </p>
             <strong>{missionStatus(state).progress}</strong>

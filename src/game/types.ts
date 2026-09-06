@@ -27,7 +27,9 @@ export type EventKind =
   | "eruption"
   | "garua"
   | "elnino"
-  | "castaways";
+  | "castaways"
+  | "reprieve"
+  | "passage";
 export type Phase = "planning" | "report" | "won" | "extinct";
 export type Profile = readonly [number, number, number, number];
 export type GameAction = {
@@ -43,7 +45,11 @@ export type Effect = {
   until: number;
   starts?: number;
 };
-export type WorldEvent = { kind: EventKind; region: number };
+export type WorldEvent = {
+  kind: EventKind;
+  region: number;
+  destination?: number;
+};
 export type Region = { counts: number[] };
 export type RegionDefinition = {
   name: string;
@@ -75,9 +81,12 @@ export type TurnReport = {
   event: WorldEvent;
   regionalTraits?: number[][][];
   actions?: GameAction[];
+  regionalArrivals?: number[];
+  isolated?: boolean[];
+  regionalCounts?: number[][];
 };
 export type GameState = {
-  version: 1 | 2;
+  version: 1 | 2 | 3;
   settings?: ExpeditionSettings;
   kept?: number[];
   lineages?: ColonyOrigin[];
@@ -108,7 +117,7 @@ export type ColonyOrigin = {
   turn: number;
 };
 export type RunRecord = {
-  version?: 1 | 2;
+  version?: 1 | 2 | 3;
   settings?: ExpeditionSettings;
   points?: number[];
   actions?: string[][];

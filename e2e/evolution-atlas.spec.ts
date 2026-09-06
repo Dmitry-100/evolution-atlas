@@ -2627,16 +2627,16 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByText("От динозавров к птицам").first(),
     ).toBeVisible();
-    await expect(page.getByText("~165 млн лет")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Рубеж K–Pg, 66 млн лет", exact: true })).toHaveAttribute("aria-description", "~165 млн лет после первых динозавров");
     await expect(
-      page.locator(".dinosaur-facts-band").getByText("~320 млн лет"),
+      page.locator(".dinosaur-chronology").getByText("~320", { exact: true }),
     ).toBeVisible();
     await expect(
       page.getByText(/синапсидная линия ведет к млекопитающим/i),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: /Ранние амниоты, ~320 млн лет назад/i,
+        name: "Ранние амниоты", exact: true,
       }),
     ).toBeVisible();
     await expect(

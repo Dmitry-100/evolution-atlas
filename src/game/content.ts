@@ -221,7 +221,7 @@ export const CARDS: Record<
   },
   raft: {
     title: "Плот из коряг",
-    cost: 1,
+    cost: 2,
     duration: 0,
     target: "migration",
     unlock: 1,
@@ -236,7 +236,7 @@ export const CARDS: Record<
     target: "region",
     unlock: 4,
     description:
-      "Меньше пищи сейчас, по 40 единиц обоих ресурсов в следующие 2 хода.",
+      "Меньше пищи сейчас, по 25 единиц обоих ресурсов в следующие 2 хода.",
     tradeoff:
       "В этом ходу недоступны 25% побегов и семян. Запасы добавляются после погодных потерь; откладывать их при голоде рискованно.",
   },
@@ -350,7 +350,7 @@ export const EVENTS: Record<
     duration: 2,
   },
   cold: {
-    title: "Долгая зима",
+    title: "Резкое похолодание",
     description:
       "Все острова остынут на 28°, пищи станет на 20% меньше. Холод продлится 2 хода. Тёплые берега и убежища могут сохранить популяции.",
     icon: "snow",
@@ -384,8 +384,33 @@ export const EVENTS: Record<
     icon: "wave",
     duration: 1,
   },
+  reprieve: {
+    title: "Хищники отступили",
+    description:
+      "На этом острове хищников не будет два хода. Можно восстановить колонию, но пищи и места больше не станет.",
+    icon: "paw",
+    duration: 2,
+  },
+  passage: {
+    title: "Попутное течение",
+    description:
+      "На один ход течение открыло закрытый морской путь. Это шанс для расселения; само течение не переносит всю колонию.",
+    icon: "wave",
+    duration: 1,
+  },
 };
 export const CRISIS_TURNS = [5, 11, 17];
+export function cardDefinition(version: number, kind: CardKind) {
+  const card = CARDS[kind];
+  if (version < 3 && kind === "raft") return { ...card, cost: 1 };
+  if (version < 3 && kind === "stores")
+    return {
+      ...card,
+      description:
+        "Меньше пищи сейчас, по 40 единиц обоих ресурсов в следующие 2 хода.",
+    };
+  return card;
+}
 export const CHAPTERS = ["Расселение", "Разделение", "Сохранение линии"];
 export const LESSONS = [
   {

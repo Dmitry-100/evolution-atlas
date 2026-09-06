@@ -222,8 +222,8 @@ export function createWorldEffects(
         log.rotation.y = 0.3;
         ring.position.set(0.85, heightAt(0.85, 1.1, i), 1.1);
       } else if (kind === "stores") {
-        const x = -1.0,
-          z = 1.15,
+        const x = -1.25,
+          z = 1.65,
           h = heightAt(x, z, i);
         for (let n = 0; n < 9; n++)
           mesh(
@@ -260,8 +260,8 @@ export function createWorldEffects(
         ring.scale.setScalar(1.8);
         ring.position.y = 0.4;
       } else if (kind === "scout") {
-        const x = 1.3,
-          z = 0.3,
+        const x = 1.35,
+          z = 1.3,
           h = heightAt(x, z, i);
         for (let n = 0; n < 3; n++)
           mesh(
@@ -314,7 +314,7 @@ export function createWorldEffects(
         ring.position.set(x, h + 0.03, z);
       } else {
         const x = kind === "food" ? -0.9 : 0.65,
-          z = -0.25;
+          z = kind === "seedbank" ? 1.45 : -0.25;
         const h = ferns(
           group,
           x,
@@ -453,6 +453,53 @@ export function createWorldEffects(
     }
     flood.visible = false;
     island.add(flood);
+    const arrivalRaft = new THREE.Group();
+    arrivalRaft.name = `castaway-driftwood-${i}`;
+    for (let n = 0; n < 5; n++) {
+      const log = mesh(
+        arrivalRaft,
+        new THREE.CylinderGeometry(0.055, 0.075, 0.9, 5),
+        wood,
+        0,
+        0.03,
+        (n - 2) * 0.14,
+      );
+      log.rotation.z = Math.PI / 2 + Math.sin(n) * 0.15;
+      if (n % 2 === 0)
+        mesh(
+          arrivalRaft,
+          leafGeometry,
+          green,
+          0.2,
+          0.12,
+          (n - 2) * 0.14,
+          0.16,
+          0.06,
+          0.12,
+        );
+    }
+    arrivalRaft.position.set(2.9, 0.08, 0.4);
+    arrivalRaft.visible = false;
+    island.add(arrivalRaft);
+    const predator = new THREE.Group();
+    predator.name = `retreating-predator-${i}`;
+    mesh(predator, leafGeometry, wood, 0, 0, 0, 0.18, 0.07, 0.1);
+    for (const side of [-1, 1]) {
+      const wing = mesh(
+        predator,
+        leafGeometry,
+        wood,
+        0,
+        0,
+        side * 0.23,
+        0.18,
+        0.035,
+        0.3,
+      );
+      wing.name = "wing";
+    }
+    predator.visible = false;
+    island.add(predator);
     const glow = mesh(
       island,
       new THREE.RingGeometry(2.75, 2.82, 70),
@@ -477,6 +524,9 @@ export function createWorldEffects(
       rain,
       streakPositions,
       flood,
+      arrivalRaft,
+      predator,
+      retreatStarted: -100,
       glow,
       conditions: islandConditions([], i),
       pulse: 0,
@@ -703,6 +753,8 @@ export function createWorldEffects(
       });
     weather.forEach((item, i) => {
       const conditions = islandConditions(effects, i);
+      if (conditions.reprieve && !item.conditions.reprieve)
+        item.retreatStarted = time;
       item.conditions = conditions;
       item.overlay.visible =
         conditions.dry || conditions.snow || conditions.ash;
@@ -716,6 +768,7 @@ export function createWorldEffects(
           : 0.48;
       item.fissures.visible = conditions.dry && !conditions.snow;
       item.flood.visible = conditions.flood;
+      item.arrivalRaft.visible = conditions.arrival;
       item.particles.visible =
         conditions.snow || conditions.ash || conditions.dry;
       item.rain.visible = conditions.rain && !conditions.snow;
@@ -750,7 +803,7 @@ export function createWorldEffects(
         if (conditions.dry) leafColor.lerp(palettes.dry, 0.83);
         if (conditions.ash) leafColor.lerp(palettes.ash, 0.88);
         if (conditions.snow)
-          leafColor.lerp(palettes.snow, state.version === 2 ? 0.4 : 0.9);
+          leafColor.lerp(palettes.snow, state.version >= 2 ? 0.4 : 0.9);
         leafColor.toArray(colors, n);
       }
       if (
@@ -767,7 +820,9 @@ export function createWorldEffects(
         (effect.region === route.a && effect.destination === route.b) ||
         (effect.region === route.b && effect.destination === route.a);
       const bridge = effects.find(
-        (effect) => effect.kind === "bridge" && matches(effect),
+        (effect) =>
+          (effect.kind === "bridge" || effect.kind === "passage") &&
+          matches(effect),
       );
       const divide = effects.find(
         (effect) => effect.kind === "divide" && matches(effect),
@@ -847,6 +902,28 @@ export function createWorldEffects(
     );
     weather.forEach((item, i) => {
       const { snow, ash, dry } = item.conditions;
+      const flight = Math.max(0, time - item.retreatStarted);
+      item.predator.visible = item.conditions.reprieve
+        ? !immediate && flight < 6
+        : item.conditions.predators;
+      if (item.predator.visible) {
+        const leaving = item.conditions.reprieve ? flight : 0;
+        item.predator.position.set(
+          Math.cos(time + i) * 1.7 + leaving,
+          2 + leaving * 0.45,
+          Math.sin(time + i) * 1.7,
+        );
+        item.predator.rotation.y = -time - i;
+        item.predator.children
+          .filter((c) => c.name === "wing")
+          .forEach((wing, n) => {
+            wing.rotation.x = Math.sin(time * 6) * (n ? 0.45 : -0.45);
+          });
+      }
+      if (item.arrivalRaft.visible) {
+        item.arrivalRaft.position.y = 0.08 + Math.sin(time * 1.7 + i) * 0.035;
+        item.arrivalRaft.rotation.y = -0.25 + Math.sin(time * 0.3 + i) * 0.2;
+      }
       if (item.particles.visible) {
         for (let n = 0; n < 120; n++) {
           const speed = snow ? 0.65 : ash ? 0.48 : 0.25;
@@ -879,6 +956,11 @@ export function createWorldEffects(
       item.glow.scale.setScalar(1 + (1 - remaining / 3) * 0.23);
     });
     routeVisuals.forEach((route) => {
+      if (route.bridge.visible)
+        route.bridge.children.slice(1).forEach((arrow, n) => {
+          const progress = ((n + 0.5) / 12 + time * 0.05) % 1;
+          arrow.position.copy(route.curve.getPoint(progress));
+        });
       route.divide.children.forEach((wave, n) => {
         wave.position.y = Math.sin(time * 2.4 + n) * 0.09;
       });

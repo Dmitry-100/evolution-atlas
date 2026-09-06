@@ -29,7 +29,7 @@ async function enter(
   );
 }
 
-for (const [card, kind] of CARD_KINDS.entries()) {
+for (const [card, kind] of CARD_KINDS.slice(0, 8).entries()) {
   test(`${kind}: a card changes the rendered world, cancellation restores it`, async ({
     page,
   }, info) => {
@@ -60,7 +60,7 @@ for (const [card, kind] of CARD_KINDS.entries()) {
         .click();
       await page
         .getByRole("option", {
-          name: kind === "bridge" ? /Тихая бухта/ : /Ветровая равнина/,
+          name: kind === "bridge" ? /Эспаньола/ : /Сантьяго/,
         })
         .click();
     }

@@ -93,7 +93,7 @@ for (const policy of policies) {
   times.sort((a, b) => a - b);
   console.log(
     JSON.stringify({
-      version: legacy ? 1 : 2,
+      version: legacy ? 1 : 3,
       policy,
       samples,
       wins,

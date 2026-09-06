@@ -47,6 +47,55 @@ test("dinosaurs shares the primates layout and typography", async ({
         axis: read(".primate-deep-axis", ["height", "border-radius"]),
       };
     });
+  const introStyles = () =>
+    page.evaluate(() => {
+      const targets = {
+        ".atlas-note-band": ["padding", "margin-top", "background", "border"],
+        ".atlas-note-band h2": [
+          "font-family",
+          "font-size",
+          "font-weight",
+          "line-height",
+        ],
+        ".atlas-note-band p": ["font-size", "color"],
+        ".wow-facts-band": [
+          "margin",
+          "border",
+          "border-radius",
+          "background-color",
+        ],
+        ".wow-facts-band article": ["padding"],
+        ".wow-fact-heading span": [
+          "font-size",
+          "font-weight",
+          "letter-spacing",
+          "color",
+        ],
+        ".wow-fact-value strong": [
+          "font-family",
+          "font-size",
+          "font-weight",
+          "line-height",
+        ],
+        ".wow-fact-value p": ["font-size", "line-height", "color"],
+      };
+      return Object.fromEntries(
+        Object.entries(targets).map(([selector, properties]) => {
+          const css = getComputedStyle(document.querySelector(selector)!);
+          return [
+            selector,
+            properties.map((property) => css.getPropertyValue(property)),
+          ];
+        }),
+      );
+    });
+  await page.goto("/");
+  await expect(page.locator(".wow-facts-band")).toBeVisible();
+  const atlasIntro = await introStyles();
+  await page.screenshot({
+    path: testInfo.outputPath("atlas-header-reference.png"),
+    animations: "disabled",
+  });
   await page.goto("/primates");
   await expect(page.locator(".stage-plate-current")).toHaveClass(/is-loaded/);
   const reference = await styles();
@@ -57,8 +106,11 @@ test("dinosaurs shares the primates layout and typography", async ({
   await page.goto("/dinosaurs");
   await expect(page.locator(".stage-plate-current")).toHaveClass(/is-loaded/);
   expect(await styles()).toEqual(reference);
+  expect(await introStyles()).toEqual(atlasIntro);
   const grid = await page.locator(".atlas-grid").boundingBox();
-  expect(grid!.y).toBeLessThan(480);
+  expect(grid!.y).toBeLessThan(640);
+  const chronology = await page.locator(".dinosaur-chronology").boundingBox();
+  expect(chronology!.y + chronology!.height).toBeLessThan(grid!.y);
   await page.screenshot({
     path: testInfo.outputPath("dinosaurs-matched.png"),
     animations: "disabled",
@@ -196,6 +248,82 @@ for (const width of [1920, 1280, 1100, 820, 391, 320]) {
     await expect(dialog).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(ancestorZoom).toBeFocused();
+    await page
+      .getByRole("button", { name: "Показать ветвь птиц", exact: true })
+      .click();
+    await expect(
+      page.locator(width > 720 ? ".stage-copy h2" : ".mobile-stage-detail h3"),
+    ).toHaveText("Диапсиды");
+    await expect(
+      page.locator(
+        width > 720
+          ? ".dinosaur-deep-axis"
+          : '[data-stage-id="diapsids"] > button',
+      ),
+    ).toBeFocused();
+
+    await page
+      .getByRole("link", { name: "Признаки птиц", exact: true })
+      .click();
+    const feathers = page.locator("#dinosaurs-curiosity-facts");
+    await expect(feathers).toBeInViewport();
+    const featherZoom = feathers.getByRole("button", {
+      name: /^Увеличить изображение:/,
+    });
+    await expect(featherZoom.locator("img")).toHaveJSProperty("complete", true);
+    await featherZoom.click();
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator("img")).toHaveAttribute(
+      "src",
+      /feathered-dinosaurs/,
+    );
+    await page.keyboard.press("Escape");
+    await expect(featherZoom).toBeFocused();
+    await page.screenshot({
+      path: testInfo.outputPath(`${width}-feathers.png`),
+      animations: "disabled",
+    });
+    await page
+      .getByRole("button", { name: "Пернатые динозавры на шкале", exact: true })
+      .click();
+    await expect(
+      page.locator(width > 720 ? ".stage-copy h2" : ".mobile-stage-detail h3"),
+    ).toHaveText("Пернатые целурозавры");
+
+    const dates = page.getByRole("navigation", {
+      name: "Ключевые даты динозавровой ветви",
+    });
+    await expect(dates.getByRole("button")).toHaveCount(5);
+    for (const [index, title] of [
+      "Амниоты",
+      "Ранние динозавры",
+      "Археоптерикс",
+      "Рубеж K-Pg",
+      "Современные птицы",
+    ].entries()) {
+      const date = dates.getByRole("button").nth(index);
+      await date.click();
+      await expect(date).toHaveAttribute("aria-current", "step");
+      await expect(
+        page.locator(
+          width > 720 ? ".stage-copy h2" : ".mobile-stage-detail h3",
+        ),
+      ).toHaveText(title);
+    }
+    if (width > 720) {
+      const datesBox = await dates.boundingBox();
+      expect(datesBox!.y).toBeGreaterThanOrEqual(header!.y + header!.height);
+    } else {
+      const active = await page
+        .locator(".mobile-dinosaur-stage-row.is-active")
+        .boundingBox();
+      expect(active!.y).toBeGreaterThanOrEqual(header!.y + header!.height);
+    }
+    await expect(
+      page.locator(
+        ".dinosaur-ancestor-tree, .dinosaur-context-facts, .dinosaurs-bridge, .curiosity-card",
+      ),
+    ).toHaveCount(0);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth,

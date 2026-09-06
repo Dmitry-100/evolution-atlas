@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { Link } from "react-router-dom";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -30,6 +29,7 @@ import {
   X,
 } from "lucide-react";
 import { IslandScene } from "../components/game/IslandScene";
+import { TurnSummary } from "../components/game/TurnSummary";
 import { GameCard } from "../components/game/GameCard";
 import { CARD_ART } from "../game/art";
 import { GameDialog } from "../components/game/GameDialog";
@@ -38,12 +38,11 @@ import { GameSelect } from "../components/game/GameSelect";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import {
   CARDS,
+  cardDefinition,
   CRISIS_TURNS,
   EVENTS,
   GENERATIONS,
-  LESSONS,
   REGIONS,
-  TRAITS,
   DEFAULT_SETTINGS,
   TURNS,
   cardKind,
@@ -91,7 +90,7 @@ import { ExpeditionSetup } from "../components/game/ExpeditionSetup";
 import {
   FieldJournal,
   FieldNote,
-  DiscoveryCards,
+  CardStory,
 } from "../components/game/FieldJournal";
 import {
   MODEL_NOTE,
@@ -101,6 +100,7 @@ import {
   missionStatus,
   scouting,
   sharedExpedition,
+  foodBudget,
 } from "../game/expedition";
 
 const degrees = (temperature: number) =>
@@ -136,7 +136,6 @@ export function GamePage() {
   const [started, setStarted] = useState(false);
   const [setup, setSetup] = useState(false);
   const [shared] = useState(() => sharedExpedition(window.location.search));
-  const [traitInfo, setTraitInfo] = useState(0);
   const [tutorial, setTutorial] = useState<number | null>(null);
   const [selected, setSelected] = useState(0);
   const [cardId, setCardId] = useState<number | null>(null);
@@ -182,7 +181,8 @@ export function GamePage() {
     upcoming = forecast(state);
   const EventIcon =
     EVENT_ICONS[eventInfo.icon as keyof typeof EVENT_ICONS] ?? Sun;
-  const chosen = cardId === null ? null : CARDS[cardKind(cardId)];
+  const chosen =
+    cardId === null ? null : cardDefinition(state.version, cardKind(cardId));
   const candidate: GameAction | null =
     cardId === null
       ? null
@@ -194,7 +194,6 @@ export function GamePage() {
         };
   const candidateError = candidate ? actionError(state, candidate) : null;
   const report = state.history.at(-1);
-  const lesson = LESSONS[Math.min(2, Math.floor((state.turn - 1) / 6))];
 
   function persist(next: GameState) {
     setState(next);
@@ -204,7 +203,7 @@ export function GamePage() {
     seed = crypto.getRandomValues(new Uint32Array(1))[0],
     settings: ExpeditionSettings = state.settings ?? DEFAULT_SETTINGS,
     teach = false,
-    version: 1 | 2 = 2,
+    version: 1 | 2 | 3 = 3,
   ) {
     persist(createGame(seed, crypto.randomUUID(), settings, version));
     setSetup(false);
@@ -241,9 +240,9 @@ export function GamePage() {
     try {
       const result = resolveTurn(state);
       persist(result);
-      if (tutorial !== null) setTutorial(3);
+      setTutorial(null);
       setCardId(null);
-      setPanel(null);
+      setPanel(result.phase === "report" ? "report" : null);
       if (state.turn === 1)
         trackGoal("game_first_turn_completed", { version: state.version });
       if (CRISIS_TURNS.includes(state.turn))
@@ -277,10 +276,7 @@ export function GamePage() {
     <TraitBars
       state={state}
       island={selected}
-      onExplain={(index) => {
-        setTraitInfo(index);
-        setPanel("trait");
-      }}
+      onExplain={() => setPanel("trait")}
     />
   );
   const candidatePreview =
@@ -320,60 +316,6 @@ export function GamePage() {
               : "Умеренно"}
         </strong>
       </span>
-    </div>
-  );
-
-  const reportDetails = report && (
-    <div className="game-report-details">
-      <div className="game-report-numbers">
-        <span>
-          Численность
-          <strong>
-            {report.before} → {report.after}
-          </strong>
-        </span>
-        <span>
-          Успешные переходы<strong>{report.migrations}</strong>
-        </span>
-        <span>
-          Потери в пути<strong>{report.transitLosses}</strong>
-        </span>
-      </div>
-      <ul>
-        {report.notes.map((note, i) => (
-          <li key={i}>{note}</li>
-        ))}
-      </ul>
-      <DiscoveryCards state={state} />
-      <div className="game-note">
-        <h3>Почему так произошло?</h3>
-        <p>
-          {event.kind === "drought" || event.kind === "eruption"
-            ? "Пищи стало меньше. В модели особям с меньшими энергетическими затратами и доступным рационом проще оставить потомство."
-            : event.kind === "cold" || event.kind === "chill"
-              ? "Холод снижает ожидаемое число потомков. Сильная теплоизоляция уменьшает этот штраф, но исход также зависит от пищи и случайности."
-              : "Вклад в следующее поколение зависит от температуры, доступной пищи и давления хищников. Миграция переносит существующие варианты, мутации могут создавать новые."}
-        </p>
-        <p>
-          Изменений наследуемого профиля в этом ходе: {report.mutations}. Они
-          возникали случайно относительно потребностей популяции. Это объяснение
-          правил упрощённой модели.
-        </p>
-      </div>
-      <Link
-        className="game-article-link"
-        to={lesson.href}
-        onClick={() =>
-          trackGoal("game_article_opened", {
-            route: lesson.href,
-            turn: state.turn,
-          })
-        }
-      >
-        <BookOpen size={16} />
-        {lesson.label}
-        <ArrowUpRight size={16} />
-      </Link>
     </div>
   );
 
@@ -460,7 +402,11 @@ export function GamePage() {
             selected={selected}
             onSelect={selectRegion}
             paused={
-              paused || finaleOpen || setup || panel !== null || cardId !== null
+              paused ||
+              finaleOpen ||
+              setup ||
+              (panel !== null && panel !== "report") ||
+              cardId !== null
             }
             evolving={started && !planning}
             resetView={resetView}
@@ -619,7 +565,8 @@ export function GamePage() {
                   className="islands-primary"
                   onClick={() =>
                     loaded.state
-                      ? setStarted(true)
+                      ? (setStarted(true),
+                        state.phase === "report" && setPanel("report"))
                       : loaded.issue === "invalid"
                         ? setRestart(true)
                         : setSetup(true)
@@ -641,8 +588,7 @@ export function GamePage() {
                   className="game-shared-world game-text-button"
                   onClick={() => setSetup(true)}
                 >
-                  Открыть мир по ссылке ·{" "}
-                  {shared.seed.toString(16).toUpperCase()}
+                  Открыть экспедицию по ссылке
                 </button>
               )}
               <span className="game-intro-meta">
@@ -690,17 +636,20 @@ export function GamePage() {
               <span>
                 <Leaf size={15} />
                 <strong>{Math.round(env.foodA + env.foodB)}</strong>
-                <small>Пища</small>
+                <small>
+                  Пища ·{" "}
+                  {!localPopulation
+                    ? "нет жителей"
+                    : foodBudget(preview, selected).some((f) => f.shortage)
+                      ? "дефицит"
+                      : "хватает"}
+                </small>
               </span>
               <span>
                 <Bug size={15} />
                 <strong>{Math.round(env.capacity)}</strong>
                 <small>Места</small>
               </span>
-            </div>
-            <div className="game-traits-heading">
-              <Dna size={14} />
-              <span>Признаки жителей · нажмите ⓘ</span>
             </div>
             {traitBars}
             <button
@@ -779,20 +728,21 @@ export function GamePage() {
                   <GameCard
                     key={id}
                     id={id}
+                    version={state.version}
                     selected={id === cardId}
                     disabled={
-                      CARDS[cardKind(id)].cost > 2 - spent(state) ||
-                      state.draft.length >= 2
+                      cardDefinition(state.version, cardKind(id)).cost >
+                        2 - spent(state) || state.draft.length >= 2
                     }
                     canSwap={!state.swapped}
                     kept={(state.kept ?? []).includes(id)}
                     canKeep={
-                      state.version === 2 &&
+                      state.version >= 2 &&
                       ((state.kept ?? []).includes(id) ||
                         (state.kept ?? []).length < 2)
                     }
                     onKeep={
-                      state.version === 2
+                      state.version >= 2
                         ? () => persist(keepCard(state, id))
                         : undefined
                     }
@@ -831,7 +781,7 @@ export function GamePage() {
                       <Dna size={16} />
                       <span>{GENERATIONS} поколений за один ход</span>
                       <small>
-                        {state.version === 2
+                        {state.version >= 2
                           ? "Закрепите до 2 карт; остальные обновятся."
                           : "Карты меняют среду, а не гены."}
                       </small>
@@ -846,10 +796,7 @@ export function GamePage() {
             </div>
           ) : (
             report && (
-              <div
-                className={"islands-report" + (ended ? " is-final" : "")}
-                aria-live={ended ? undefined : "polite"}
-              >
+              <div className={"islands-report" + (ended ? " is-final" : "")}>
                 <div className="game-report-emblem">
                   {state.phase === "won" ? (
                     <Dna size={36} />
@@ -977,7 +924,7 @@ export function GamePage() {
                   src={CARD_ART[cardKind(cardId)]}
                   alt=""
                   width={400}
-                  height={500}
+                  height={533}
                 />
               )}
               <span>
@@ -1000,7 +947,7 @@ export function GamePage() {
                   ))}
                 </div>
               )}
-              <FieldNote kind={cardKind(cardId)} />
+
               {cardKind(cardId) === "scout" && (
                 <p className="game-muted">
                   После применения откройте событие над картой: в нём появится
@@ -1062,6 +1009,7 @@ export function GamePage() {
                 <Check size={17} />
               </button>
             </div>
+            <CardStory kind={cardKind(cardId)} />
           </>
         )}
       </GameDialog>
@@ -1078,9 +1026,8 @@ export function GamePage() {
         </div>
         {environmentStats}
         <FoodBudget state={preview} island={selected} />
-        <h3>Наследуемые признаки жителей</h3>
         {traitBars}
-        <AnimalComparison state={state} island={selected} />
+        <AnimalComparison state={state} island={selected} paused={paused} />
         <div className="game-note">
           <h3>Соседние берега</h3>
           {neighbors(selected).map((index) => (
@@ -1156,7 +1103,7 @@ export function GamePage() {
               same ? state.seed : undefined,
               state.settings ?? DEFAULT_SETTINGS,
               false,
-              same ? state.version : 2,
+              same ? state.version : 3,
             );
           }}
           onHistory={() => {
@@ -1168,10 +1115,16 @@ export function GamePage() {
       <GameDialog
         open={panel === "report"}
         onOpenChange={(open) => !open && setPanel(null)}
-        title={"Итоги хода " + state.turn}
-        description="Что изменилось за двадцать поколений"
+        title={`Итоги хода ${report?.turn ?? state.turn}`}
+        eyebrow="20 поколений спустя"
+        className="game-turn-dialog"
       >
-        {reportDetails}
+        <TurnSummary
+          state={state}
+          paused={paused}
+          onContinue={continueTurn}
+          onJournal={() => setPanel("journal")}
+        />
       </GameDialog>
       <GameDialog
         open={panel === "history"}
@@ -1254,7 +1207,7 @@ export function GamePage() {
               <h3>Оцените условия</h3>
               <p>
                 Выберите остров. Сравните пищу и климат с признаками жителей.
-                Нажмите название признака для объяснения.
+                Общая подсказка рядом с полосами объясняет все четыре признака.
               </p>
             </div>
           </li>
@@ -1283,7 +1236,7 @@ export function GamePage() {
         <div className="game-note">
           <h3>Как обновляются карты</h3>
           <p>
-            {state.version === 2
+            {state.version >= 2
               ? "Закрепите значком булавки до двух карт на следующий ход. Остальные заменятся; одинаковых типов в руке нет. Одна бесплатная замена доступна сразу. Новые карты открываются на ходах 4 и 7."
               : "В этой сохранённой партии действуют прежние правила: неиспользованные карты остаются в руке."}
           </p>
@@ -1341,7 +1294,9 @@ export function GamePage() {
         open={setup}
         initial={shared}
         onClose={() => setSetup(false)}
-        onStart={(settings, seed, teach) => startNew(seed, settings, teach)}
+        onStart={(settings, seed, teach) =>
+          startNew(seed, settings, teach, shared?.version ?? 3)
+        }
       />
       <FieldJournal
         state={state}
@@ -1352,13 +1307,10 @@ export function GamePage() {
       <GameDialog
         open={panel === "trait"}
         onOpenChange={(open) => !open && setPanel(null)}
-        title={TRAITS[traitInfo].name}
-        description={`Признаки жителей · ${REGIONS[selected].name}`}
+        title="Признаки"
+        className="game-traits-dialog"
       >
-        <TraitExplanation state={preview} island={selected} index={traitInfo} />
-        <button className="game-text-button" onClick={() => setPanel("island")}>
-          Все наблюдения острова <ArrowRight size={14} />
-        </button>
+        <TraitExplanation />
       </GameDialog>
     </section>
   );

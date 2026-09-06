@@ -1,3 +1,4 @@
+import { firstTraits } from "./observations";
 import {
   CARDS,
   DEFAULT_SETTINGS,
@@ -7,7 +8,7 @@ import {
   TRAITS,
   cardKind,
 } from "./content";
-import { count, createGame, environment, total, traitCounts } from "./engine";
+import { count, environment, total, traitCounts } from "./engine";
 import type {
   ExpeditionSettings,
   GameState,
@@ -40,6 +41,10 @@ export const FIELD_SOURCES = [
     title: "Фонд Дарвина: последствия Эль-Ниньо",
     url: "https://www.darwinfoundation.org/es/documents/371/NG_41_1985.pdf",
   },
+  {
+    title: "Galapagos Conservation Trust · Гаруа",
+    url: "https://galapagosconservation.org.uk/what-to-see-in-november/",
+  },
 ];
 export const FIELD_NOTES = {
   raft: {
@@ -55,7 +60,7 @@ export const FIELD_NOTES = {
   garua: {
     title: "Влага, которую почти не видно",
     text: "Гаруа — мелкая морось и туман прохладного сезона Галапагосов. В нашем наземном сценарии дополнительная влага поддерживает растительность. Эффект на один остров — игровое упрощение.",
-    source: 3,
+    source: 5,
   },
   elnino: {
     title: "Одно событие — разные последствия",
@@ -66,6 +71,16 @@ export const FIELD_NOTES = {
     title: "Новая колония начинается с немногих",
     text: "Небольшая группа может перенести на другой берег лишь часть разнообразия исходной колонии. В игре переселенцы выбираются случайно; нужные для острова признаки не выдаются им заранее.",
     source: 3,
+  },
+  passage: {
+    title: "Окно в океане",
+    text: "Течения могут помогать переносу живых организмов. В игре такой путь открыт один ход: воспользуйтесь расселением или оставьте переход естественной миграции.",
+    source: 3,
+  },
+  reprieve: {
+    title: "Передышка не отменяет голод",
+    text: "Хищники временно перестают влиять на выживание. Пищи больше не стало: следите за её запасами, пока колония растёт.",
+    source: 2,
   },
 };
 export const MISSIONS = {
@@ -118,48 +133,6 @@ export function foodBudget(state: GameState, island: number) {
     shortage: need > (i ? env.foodB : env.foodA),
   }));
 }
-export function discoveries(state: GameState) {
-  const last = state.history.at(-1);
-  if (!last)
-    return [
-      {
-        title: "Острова задают вопрос",
-        text: "Почему на соседних берегах потомки общего предка могут стать разными? Сравните условия и проследите несколько поколений.",
-        href: "/theory",
-        label: "Как работает отбор",
-      },
-    ];
-  const notes = [];
-  if (last.migrations)
-    notes.push({
-      title: "Различия путешествуют вместе с животными",
-      text: `За ход произошло ${last.migrations} успешных переходов. Переселенцы принесли уже существовавшие наследуемые варианты.`,
-      href: "/genetics",
-      label: "Наследование и изменчивость",
-    });
-  if (last.after < last.before * 0.6)
-    notes.push({
-      title: "После резкого сокращения",
-      text: `Численность изменилась с ${last.before} до ${last.after}. Потеряться могут и редкие варианты. Одного изменения численности недостаточно, чтобы назвать единственную причину.`,
-      href: "/extinctions",
-      label: "Кризисы в истории жизни",
-    });
-  if (state.regions.filter((r) => count(r)).length > 1)
-    notes.push({
-      title: "Общий предок, разные берега",
-      text: "Колонии живут в разных условиях. Сравнивайте их признаки в дневнике: отдельная колония ещё не означает новый вид.",
-      href: "/cladogram",
-      label: "Как читать дерево родства",
-    });
-  if (last.mutations)
-    notes.push({
-      title: "Варианты появляются без готового плана",
-      text: `За ход возникло ${last.mutations} мутационных изменений. Среда не выбирает, какая именно мутация возникнет; не все варианты сохранятся.`,
-      href: "/genetics",
-      label: "Откуда берутся наследуемые различия",
-    });
-  return notes.slice(0, 3);
-}
 export function visualProfiles(counts: number[], slots = 24) {
   const n = counts.reduce((a, b) => a + b, 0);
   if (!n) return [];
@@ -172,19 +145,7 @@ export function visualProfiles(counts: number[], slots = 24) {
   });
 }
 export function traitComparison(state: GameState, island: number) {
-  const initial = createGame(state.seed);
-  const first =
-    island === 0
-      ? { turn: 0, traits: traitCounts([initial.regions[0]]) }
-      : state.history.find((r) => r.populations[island] > 0 && r.regionalTraits)
-            ?.regionalTraits
-        ? (() => {
-            const r = state.history.find(
-              (r) => r.populations[island] > 0 && r.regionalTraits,
-            )!;
-            return { turn: r.turn, traits: r.regionalTraits![island] };
-          })()
-        : null;
+  const first = firstTraits(state, island);
   const now = traitCounts([state.regions[island]]);
   return {
     first,
@@ -213,6 +174,7 @@ export function expeditionLink(state: GameState, origin: string) {
   const url = new URL("/game", origin);
   url.searchParams.set("expedition", state.seed.toString(16));
   url.searchParams.set("mission", settings.mission);
+  url.searchParams.set("rules", String(state.version));
   if (settings.mode === "sandbox") {
     url.searchParams.set("mode", "sandbox");
     url.searchParams.set("mutation", settings.mutation);
@@ -222,7 +184,7 @@ export function expeditionLink(state: GameState, origin: string) {
 }
 export function sharedExpedition(
   search: string,
-): { seed: number; settings: ExpeditionSettings } | null {
+): { seed: number; settings: ExpeditionSettings; version: 2 | 3 } | null {
   const p = new URLSearchParams(search),
     seed = p.get("expedition");
   if (!seed || !/^[a-f\d]{1,8}$/i.test(seed)) return null;
@@ -232,6 +194,7 @@ export function sharedExpedition(
   const mission = p.get("mission");
   return {
     seed: parseInt(seed, 16),
+    version: p.get("rules") === "3" ? 3 : 2,
     settings: {
       mission:
         mission === "colonies" || mission === "diversity" ? mission : "survive",
@@ -291,7 +254,9 @@ export function eventDescription(
   state: GameState,
   event: WorldEvent = state.events[state.turn - 1],
 ) {
-  return event.kind === "cold" && state.version === 2
-    ? "Все острова остынут на 14°, пищи станет на 20% меньше на два хода. Это усиленный игровой климатический эксперимент, а не обычная погода Галапагосов."
+  if (event.kind === "passage" && event.destination !== undefined)
+    return `${REGIONS[event.region].name} → ${REGIONS[event.destination].name}. ${EVENTS.passage.description}`;
+  return event.kind === "cold" && state.version >= 2
+    ? "Все острова остынут на 24°, пищи станет на 20% меньше на два хода. Это усиленный игровой климатический эксперимент, а не обычная погода Галапагосов."
     : EVENTS[event.kind].description;
 }

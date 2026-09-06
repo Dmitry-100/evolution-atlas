@@ -1,0 +1,29 @@
+{
+  "mode": "builtin-imagegen",
+  "entries": [
+    {
+      "id": "migration",
+      "prompt": "Use case: illustration-story. Asset type: horizontal 3:2 editorial illustration for an evolution game's field diary. A small family of fictional shrew-like mammals with diverse sizes and tan, brown and olive coats arriving on driftwood at a new black volcanic shore, a second island across teal ocean. Clear story of animals carrying existing diversity across the sea. Style: refined nineteenth-century naturalist gouache and oil study with subtle paper grain, painterly realism, the portal's muted forest green, ochre gold, stone brown and teal palette. Rich atmospheric light, coherent anatomy, compelling readable focal subject even at small width. Full-bleed landscape composition. No lettering, labels, logos, border, UI or watermark. All mammals are deliberately fictional, not claimed native Galapagos fauna.",
+      "source": "/Users/Sotnikov/.codex/generated_images/01a07199-5dfe-7eb2-ab7b-0c41f15d73dd/exec-c23aca62-5126-4cf7-a06f-334452a8dafd.png",
+      "output": "public/assets/images/game/discoveries/migration-v5.jpg"
+    },
+    {
+      "id": "isolation",
+      "prompt": "Use case: illustration-story. Asset type: horizontal 3:2 editorial illustration for an evolution game's field diary. Two neighboring Galapagos volcanic shores divided by a deep blue-green channel. Related fictional shrew-like mammals: on one shore small sleek pale creatures forage in dry grasses, on the other stockier fluffy brown creatures browse humid fern growth. Not real species. A subtle distant shared horizon unifies the composition. Style: refined nineteenth-century naturalist gouache and oil study with subtle paper grain, painterly realism, the portal's muted forest green, ochre gold, stone brown and teal palette. Rich atmospheric light, coherent anatomy, compelling readable focal subject even at small width. Full-bleed landscape composition. No lettering, labels, logos, border, UI or watermark. All mammals are deliberately fictional, not claimed native Galapagos fauna.",
+      "source": "/Users/Sotnikov/.codex/generated_images/01a07199-5dfe-7eb2-ab7b-0c41f15d73dd/exec-51e5861c-ff29-4751-bc6b-3af76b46a3f7.png",
+      "output": "public/assets/images/game/discoveries/isolation-v5.jpg"
+    },
+    {
+      "id": "bottleneck",
+      "prompt": "Use case: illustration-story. Asset type: horizontal 3:2 editorial illustration for an evolution game's field diary. After a severe dry season on a Galapagos-like island, just a few fictional small mammals shelter beside surviving green shoots amid dry golden vegetation and black volcanic rocks. Signs of environmental hardship but no dead animals, no gore. Intimate hopeful natural history composition. Style: refined nineteenth-century naturalist gouache and oil study with subtle paper grain, painterly realism, the portal's muted forest green, ochre gold, stone brown and teal palette. Rich atmospheric light, coherent anatomy, compelling readable focal subject even at small width. Full-bleed landscape composition. No lettering, labels, logos, border, UI or watermark. All mammals are deliberately fictional, not claimed native Galapagos fauna.",
+      "source": "/Users/Sotnikov/.codex/generated_images/01a07199-5dfe-7eb2-ab7b-0c41f15d73dd/exec-fc6a2c52-5598-4b06-b201-a72da325f5f8.png",
+      "output": "public/assets/images/game/discoveries/bottleneck-v5.jpg"
+    },
+    {
+      "id": "variation",
+      "prompt": "Use case: illustration-story. Asset type: horizontal 3:2 editorial illustration for an evolution game's field diary. An intimate natural history scene of a family of fictional shrew-like mammals in Galapagos fern undergrowth: young and adults with naturally differing coat thickness, body size and small muzzle variations. No magical transformation, no DNA strands, no scientific text. Visual theme of inherited diversity, variation rather than improvement. Style: refined nineteenth-century naturalist gouache and oil study with subtle paper grain, painterly realism, the portal's muted forest green, ochre gold, stone brown and teal palette. Rich atmospheric light, coherent anatomy, compelling readable focal subject even at small width. Full-bleed landscape composition. No lettering, labels, logos, border, UI or watermark. All mammals are deliberately fictional, not claimed native Galapagos fauna.",
+      "source": "/Users/Sotnikov/.codex/generated_images/01a07199-5dfe-7eb2-ab7b-0c41f15d73dd/exec-0dd2b0f2-5348-4790-99d1-9e1499f4c645.png",
+      "output": "public/assets/images/game/discoveries/variation-v5.jpg"
+    }
+  ]
+}

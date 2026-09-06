@@ -8,7 +8,7 @@ import {
   cardKind,
   describeAction,
 } from "./content";
-import { addAction, count, createGame, total } from "./engine";
+import { addAction, count, createGame, total, traitCounts } from "./engine";
 import type {
   ExpeditionSettings,
   GameAction,
@@ -47,7 +47,7 @@ export function parseGame(raw: string): GameState | null {
     const s: unknown = JSON.parse(raw);
     if (
       !object(s) ||
-      (s.version !== 1 && s.version !== 2) ||
+      (s.version !== 1 && s.version !== 2 && s.version !== 3) ||
       !integer(s.seed, 0, 0xffffffff) ||
       !text(s.runId, 80) ||
       !s.runId ||
@@ -57,9 +57,9 @@ export function parseGame(raw: string): GameState | null {
     if (!["planning", "report", "won", "extinct"].includes(String(s.phase)))
       return null;
     const turn = s.turn;
-    const deckSize = s.version === 2 ? DECK_SIZE : 16;
+    const deckSize = s.version >= 2 ? DECK_SIZE : 16;
     if (
-      s.version === 2 &&
+      s.version !== 1 &&
       (!validSettings(s.settings) ||
         !Array.isArray(s.kept) ||
         s.kept.length > 2 ||
@@ -97,7 +97,7 @@ export function parseGame(raw: string): GameState | null {
     const expectedEvents = createGame(
       s.seed,
       s.runId,
-      s.version === 2 ? (s.settings as ExpeditionSettings) : undefined,
+      s.version >= 2 ? (s.settings as ExpeditionSettings) : undefined,
       s.version,
     ).events;
     if (
@@ -107,7 +107,8 @@ export function parseGame(raw: string): GameState | null {
         (e, i) =>
           object(e) &&
           e.kind === expectedEvents[i].kind &&
-          e.region === expectedEvents[i].region,
+          e.region === expectedEvents[i].region &&
+          e.destination === expectedEvents[i].destination,
       )
     )
       return null;
@@ -124,7 +125,7 @@ export function parseGame(raw: string): GameState | null {
           (e.starts !== undefined && !integer(e.starts, 1, turn))
         )
           return false;
-        if (e.kind === "bridge" || e.kind === "divide")
+        if (e.kind === "bridge" || e.kind === "divide" || e.kind === "passage")
           return EDGES.some(
             (edge) =>
               (edge.a === e.region && edge.b === e.destination) ||
@@ -195,11 +196,12 @@ export function parseGame(raw: string): GameState | null {
           integer(r.mutations, 0, 100000) &&
           object(r.event) &&
           r.event.kind === expectedEvents[i].kind &&
-          r.event.region === expectedEvents[i].region,
+          r.event.region === expectedEvents[i].region &&
+          r.event.destination === expectedEvents[i].destination,
       )
     )
       return null;
-    if (s.version === 2) {
+    if (s.version !== 1) {
       if (
         !(s.kept as number[]).every(
           (id) =>
@@ -249,6 +251,28 @@ export function parseGame(raw: string): GameState | null {
         return null;
     }
     const state = s as unknown as GameState;
+    if (
+      state.version === 3 &&
+      !state.history.every(
+        (r) =>
+          Array.isArray(r.regionalCounts) &&
+          r.regionalCounts.length === 6 &&
+          r.regionalCounts.every(
+            (counts, i) =>
+              vector(counts, 81, 200) &&
+              counts.reduce((a, b) => a + b, 0) === r.populations[i] &&
+              traitCounts([{ counts }]).every((variants, t) =>
+                variants.every((n, v) => n === r.regionalTraits?.[i]?.[t]?.[v]),
+              ),
+          ) &&
+          vector(r.regionalArrivals, 6, 100000) &&
+          r.regionalArrivals.reduce((a, b) => a + b, 0) === r.migrations &&
+          Array.isArray(r.isolated) &&
+          r.isolated.length === 6 &&
+          r.isolated.every((v) => typeof v === "boolean"),
+      )
+    )
+      return null;
     const population = total(state);
     if (
       (state.phase === "extinct") !== (population === 0) ||
@@ -313,7 +337,10 @@ export function readRecords(storage?: StorageLike): RunRecord[] {
         integer(r.turns, 1, 18) &&
         integer(r.population, 0, 1200) &&
         integer(r.crises, 0, 3) &&
-        (r.version === undefined || r.version === 1 || r.version === 2) &&
+        (r.version === undefined ||
+          r.version === 1 ||
+          r.version === 2 ||
+          r.version === 3) &&
         (r.settings === undefined || validSettings(r.settings)) &&
         (r.points === undefined ||
           (vector(r.points, Number(r.turns) + 1, 1200) &&

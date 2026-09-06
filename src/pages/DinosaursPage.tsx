@@ -1,6 +1,17 @@
 import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/dinosaurs.css";
-import { ArrowLeft, ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Bird,
+  ChevronDown,
+  Clock3,
+  ExternalLink,
+  Feather,
+  Fingerprint,
+  GitBranch,
+  Star,
+} from "lucide-react";
 import {
   useEffect,
   useMemo,
@@ -13,7 +24,6 @@ import { Link } from "react-router-dom";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
 import { MobileStageDetail } from "../components/atlas/mobile/MobileStageDetail";
 import { ConstellationField } from "../components/ui/constellation-field";
-import { GlossaryTermById } from "../components/education/GlossaryTerm";
 import { FloatingPaths } from "../components/ui/floating-paths";
 import { ImageLightbox } from "../components/ui/image-lightbox";
 import { OptimizedImage } from "../components/ui/optimized-image";
@@ -111,30 +121,45 @@ const dinosaurMilestones = [
   {
     id: "amniotes",
     label: "Общий предок",
+    icon: GitBranch,
+    value: "~320",
+    text: "млн лет назад",
     date: "~320 млн лет",
     note: "Развилка двух линий",
   },
   {
     id: "early-dinosaurs",
     label: "Ранние динозавры",
+    icon: Fingerprint,
+    value: "~230",
+    text: "млн лет назад",
     date: "~230 млн лет",
     note: "До археоптерикса — ~80 млн лет",
   },
   {
     id: "archaeopteryx",
     label: "Археоптерикс",
+    icon: Feather,
+    value: "~150",
+    text: "млн лет назад",
     date: "~150 млн лет",
     note: "Перья и крылья",
   },
   {
     id: "kpg-survivors",
     label: "Рубеж K–Pg",
+    icon: Clock3,
+    value: "66",
+    text: "млн лет назад",
     date: "66 млн лет",
     note: "~165 млн лет после первых динозавров",
   },
   {
     id: "modern-birds",
     label: "Современные птицы",
+    icon: Bird,
+    value: "10 000+",
+    text: "видов живут сегодня",
     date: "Сегодня",
     note: "Более 10 000 видов",
   },
@@ -752,28 +777,24 @@ export function DinosaursPage() {
           ) : null
         }
       >
-        {dinosaurAnswer} От общих предков позвоночных к современным птицам — 575
-        млн лет истории.
+        {dinosaurAnswer}
       </PageHeader>
-      <div className="primate-intro-tools">
-        <details className="primate-context-note">
-          <summary>
-            <h2>Что связывает человека и динозавров?</h2>
-            <ChevronDown aria-hidden="true" size={17} />
-          </summary>
-          <p>
-            До <GlossaryTermById id="amniotes">амниот</GlossaryTermById> — общая
-            линия с нами. После развилки{" "}
-            <GlossaryTermById id="diapsids">диапсиды</GlossaryTermById> ведут к
-            динозаврам и птицам, а синапсиды — к млекопитающим и человеку.
-          </p>
-        </details>
+      <section className="theory-bridge-band atlas-note-band">
+        <div>
+          <Star aria-hidden="true" size={22} />
+          <div>
+            <h2>Хронология динозавров и птиц</h2>
+            <p>
+              575 млн лет. От общих предков позвоночных к современным птицам.
+            </p>
+          </div>
+        </div>
         <nav className="primate-page-nav" aria-label="На этой странице">
           <a href="#dinosaur-timeline">Шкала</a>
           <a href="#dinosaur-common-ancestor">Общий предок</a>
           <a href="#dinosaurs-curiosity-facts">Признаки птиц</a>
         </nav>
-      </div>
+      </section>
 
       <section
         id="dinosaur-timeline"
@@ -782,7 +803,7 @@ export function DinosaursPage() {
       >
         <nav
           id="dinosaur-chronology"
-          className="dinosaur-chronology"
+          className="wow-facts-band dinosaur-chronology"
           aria-label="Ключевые даты динозавровой ветви"
         >
           {dinosaurMilestones.map((milestone, index) => {
@@ -790,19 +811,29 @@ export function DinosaursPage() {
             const isCurrent =
               activeIndex >= milestone.stageIndex &&
               (!next || activeIndex < next.stageIndex);
+            const Icon = milestone.icon;
             return (
-              <button
-                key={milestone.id}
-                type="button"
-                aria-current={isCurrent ? "step" : undefined}
-                onClick={() => revealStage(milestone.id)}
-              >
-                <span className="dinosaur-chronology-label">
-                  {milestone.label}
-                </span>
-                <strong>{milestone.date}</strong>
-                <small>{milestone.note}</small>
-              </button>
+              <article key={milestone.id}>
+                <div className="wow-fact-heading">
+                  <Icon aria-hidden="true" size={16} />
+                  <span>{milestone.label}</span>
+                </div>
+                <div className="wow-fact-value">
+                  <strong>{milestone.value}</strong>
+                  <p>{milestone.text}</p>
+                </div>
+                <button
+                  className="dinosaur-milestone-select"
+                  type="button"
+                  aria-label={`${milestone.label}, ${milestone.date}`}
+                  aria-description={milestone.note}
+                  title={`${milestone.date}. ${milestone.note}`}
+                  aria-current={isCurrent ? "step" : undefined}
+                  onClick={() => revealStage(milestone.id)}
+                >
+                  <ArrowRight aria-hidden="true" size={15} />
+                </button>
+              </article>
             );
           })}
         </nav>
