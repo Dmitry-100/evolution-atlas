@@ -11,11 +11,21 @@ export type PortalMaterial = {
   tags: string[];
 };
 
+export const READING_TOPICS = [
+  { id: "human", labelRu: "Человек" },
+  { id: "genetics", labelRu: "Генетика" },
+  { id: "origin", labelRu: "Происхождение жизни" },
+  { id: "evolution", labelRu: "Эволюция и отбор" },
+] as const;
+
+export type ReadingTopic = (typeof READING_TOPICS)[number]["id"];
+
 export type ReadingRecommendation = {
   id: string;
   titleRu: string;
   authorRu: string;
   themeRu: string;
+  topics: ReadingTopic[];
   coverSrc?: string;
   coverAltRu?: string;
   publisherHref: string;
@@ -140,6 +150,7 @@ export const PORTAL_MATERIALS: PortalMaterial[] = [
 export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   {
     id: "drobyshevsky-missing-link-1",
+    topics: ["human"],
     titleRu: "Достающее звено. Книга первая",
     authorRu: "Станислав Дробышевский",
     themeRu: "палеоантропология",
@@ -153,6 +164,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "drobyshevsky-missing-link-2",
+    topics: ["human"],
     titleRu: "Достающее звено. Книга вторая",
     authorRu: "Станислав Дробышевский",
     themeRu: "эволюция человека",
@@ -166,6 +178,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "markov-human-evolution",
+    topics: ["human", "genetics"],
     titleRu: "Эволюция человека",
     authorRu: "Александр Марков",
     themeRu: "антропогенез и генетика",
@@ -179,6 +192,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "kukushkin-one-hand-clap",
+    topics: ["human"],
     titleRu: "Хлопок одной ладонью",
     authorRu: "Николай Кукушкин",
     themeRu: "нейробиология и эволюция разума",
@@ -192,6 +206,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "mukherjee-gene",
+    topics: ["genetics"],
     titleRu: "Ген. Очень личная история",
     authorRu: "Сиддхартха Мукерджи",
     themeRu: "история генетики",
@@ -206,6 +221,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "kleshchenko-dna-person",
+    topics: ["genetics"],
     titleRu: "ДНК и ее человек",
     authorRu: "Елена Клещенко",
     themeRu: "ДНК-идентификация",
@@ -219,6 +235,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "heyer-gene-odyssey",
+    topics: ["human", "genetics"],
     titleRu: "Одиссея генов",
     authorRu: "Эвелин Эйер",
     themeRu: "популяционная генетика",
@@ -233,6 +250,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "aleksenko-sex-with-scientists",
+    topics: ["genetics", "evolution"],
     titleRu: "Секс с учеными",
     authorRu: "Алексей Алексенко",
     themeRu: "половое размножение",
@@ -246,6 +264,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "dawkins-greatest-show",
+    topics: ["evolution"],
     titleRu: "Самое грандиозное шоу на Земле",
     authorRu: "Ричард Докинз",
     themeRu: "доказательства эволюции",
@@ -259,6 +278,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "dawkins-selfish-gene",
+    topics: ["genetics", "evolution"],
     titleRu: "Эгоистичный ген",
     authorRu: "Ричард Докинз",
     themeRu: "отбор и поведение",
@@ -272,6 +292,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "dawkins-extended-phenotype",
+    topics: ["genetics", "evolution"],
     titleRu: "Расширенный фенотип",
     authorRu: "Ричард Докинз",
     themeRu: "гены за пределами тела",
@@ -285,6 +306,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "nikitin-origin-life",
+    topics: ["origin"],
     titleRu: "Происхождение жизни",
     authorRu: "Михаил Никитин",
     themeRu: "абиогенез",
@@ -298,6 +320,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "parthasarathy-simple-beginning",
+    topics: ["origin"],
     titleRu: "Простое начало",
     authorRu: "Рагувир Партасарати",
     themeRu: "биофизика жизни",
@@ -311,6 +334,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "vinarsky-luca",
+    topics: ["origin", "evolution"],
     titleRu: "Евангелие от LUCA",
     authorRu: "Максим Винарский",
     themeRu: "дерево жизни",
@@ -324,6 +348,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "yastrebov-atoms-tree",
+    topics: ["origin", "evolution"],
     titleRu: "От атомов к древу",
     authorRu: "Сергей Ястребов",
     themeRu: "современная биология",
@@ -337,6 +362,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "darwin-origin-species",
+    topics: ["evolution"],
     titleRu: "Происхождение видов",
     authorRu: "Чарльз Дарвин",
     themeRu: "естественный отбор",
@@ -351,6 +377,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "darwin-descent-man",
+    topics: ["human", "evolution"],
     titleRu: "Происхождение человека и половой отбор",
     authorRu: "Чарльз Дарвин",
     themeRu: "антропогенез",
@@ -366,6 +393,7 @@ export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   },
   {
     id: "drobyshevsky-botanika",
+    topics: ["human"],
     titleRu: "Ботаника антрополога. Елки-палки",
     authorRu: "Станислав Дробышевский",
     themeRu: "растения и человек",

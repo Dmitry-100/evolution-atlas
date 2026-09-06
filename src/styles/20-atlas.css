@@ -59,7 +59,8 @@
     opacity: 0.42;
   }
 
-  .atlas-home .atlas-note-band {
+  .atlas-home .atlas-note-band,
+  .dinosaurs-page .atlas-note-band {
     margin-top: 0.35rem;
     padding: 0.5rem 0;
     border: 0;
@@ -67,7 +68,8 @@
     box-shadow: none;
   }
 
-  .atlas-home .atlas-note-band p {
+  .atlas-home .atlas-note-band p,
+  .dinosaurs-page .atlas-note-band p {
     font-size: 0.88rem;
   }
 

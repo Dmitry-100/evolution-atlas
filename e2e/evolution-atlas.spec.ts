@@ -2127,20 +2127,27 @@ test.describe("Evolution Atlas", () => {
     const progress = await quiz.locator(".quiz-progress").innerText();
     const totalQuestions = Number(progress.match(/из\s+(\d+)/i)?.[1]);
     expect(totalQuestions).toBe(10);
+    const progressbar = quiz.getByRole("progressbar", {
+      name: "Пройдено вопросов",
+    });
+    await expect(progressbar).toHaveAttribute("aria-valuenow", "0");
 
     for (let index = 0; index < totalQuestions; index += 1) {
       if ((await quiz.locator(".quiz-order-list").count()) > 0) {
         await quiz.getByRole("button", { name: "Проверить" }).click();
       } else if ((await quiz.locator(".quiz-branch-node").count()) > 0) {
-        await quiz
-          .locator(".quiz-branch-node")
-          .first()
-          .evaluate((node) => (node as HTMLButtonElement).click());
+        await quiz.locator(".quiz-branch-node").first().click();
       } else {
-        await quiz
-          .locator(".quiz-option")
-          .first()
-          .evaluate((node) => (node as HTMLButtonElement).click());
+        await quiz.locator(".quiz-option").first().press("Enter");
+      }
+
+      await expect(progressbar).toHaveAttribute(
+        "aria-valuenow",
+        String(index + 1),
+      );
+      await expect(quiz.getByRole("status")).toBeVisible();
+      for (const answer of await quiz.locator(".quiz-answer").all()) {
+        await expect(answer).toBeDisabled();
       }
 
       const nextButton = quiz.getByRole("button", {
@@ -2150,7 +2157,12 @@ test.describe("Evolution Atlas", () => {
             : "Следующий вопрос",
       });
       await expect(nextButton).toBeEnabled();
-      await nextButton.evaluate((node) => (node as HTMLButtonElement).click());
+      await nextButton.click();
+      await expect(
+        quiz.locator(
+          index === totalQuestions - 1 ? ".quiz-score" : "#quiz-question",
+        ),
+      ).toBeFocused();
     }
 
     await expect(quiz.getByText(/Ваш результат/)).toBeVisible();
@@ -2188,6 +2200,14 @@ test.describe("Evolution Atlas", () => {
       ).toBeVisible();
       await expect(quiz.locator(".quiz-route-perfect a")).toHaveCount(3);
     }
+
+    await quiz.getByRole("button", { name: "Пройти ещё раз" }).click();
+    await expect(progressbar).toHaveAttribute("aria-valuenow", "0");
+    await expect(quiz.locator(".quiz-progress")).toContainText(
+      "Вопрос 1 из 10",
+    );
+    await expect(quiz.locator("#quiz-question")).toBeFocused();
+    await expect(quiz.getByRole("status")).toHaveCount(0);
   });
 
   test("atlas no longer shows the unclear comparison panel", async ({
@@ -2329,12 +2349,12 @@ test.describe("Evolution Atlas", () => {
       page.getByRole("heading", { name: /Мел-палеогеновое/i }),
     ).toBeVisible();
     await expect(
-      page.locator(".extinction-stat-grid strong", {
+      page.locator(".extinction-loss-stat", {
         hasText: /около 90% всех видов/i,
       }),
     ).toBeVisible();
     await expect(
-      page.locator(".extinction-stat-grid strong", {
+      page.locator(".extinction-loss-stat", {
         hasText: /примерно 75% видов/i,
       }),
     ).toBeVisible();
@@ -2347,7 +2367,13 @@ test.describe("Evolution Atlas", () => {
     await expect(
       page.getByRole("link", { name: /Открыть PDF/i }),
     ).toHaveAttribute("href", "/assets/materials/six-planet-apocalypses.pdf");
-    await expect(page.getByText(/млекопитающим/i).first()).toBeVisible();
+    await expect(
+      page
+        .locator(".extinction-explanation dd", {
+          hasText: /млекопитающим/i,
+        })
+        .first(),
+    ).toBeVisible();
   });
 
   test("about route is reader-facing, not technical deploy notes", async ({
@@ -2619,20 +2645,26 @@ test.describe("Evolution Atlas", () => {
         name: "От общего предка к современным птицам",
       }),
     ).toBeVisible();
-    await expect(page.getByText("общий фундамент позвоночных")).toBeVisible();
+    await expect(page.getByText("Общая линия позвоночных")).toBeVisible();
     await expect(
-      page.getByText("от динозавров к птицам").first(),
+      page.getByText("От динозавров к птицам").first(),
     ).toBeVisible();
-    await expect(page.getByText("~165 млн лет")).toBeVisible();
     await expect(
-      page.locator(".dinosaur-facts-band").getByText("~320 млн лет"),
+      page.getByRole("button", { name: "Рубеж K–Pg, 66 млн лет", exact: true }),
+    ).toHaveAttribute(
+      "aria-description",
+      "~165 млн лет после первых динозавров",
+    );
+    await expect(
+      page.locator(".dinosaur-chronology").getByText("~320", { exact: true }),
     ).toBeVisible();
     await expect(
       page.getByText(/синапсидная линия ведет к млекопитающим/i),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", {
-        name: /Ранние амниоты, ~320 млн лет назад/i,
+        name: "Ранние амниоты",
+        exact: true,
       }),
     ).toBeVisible();
     await expect(
@@ -2675,11 +2707,13 @@ test.describe("Evolution Atlas", () => {
       );
     }
     await expect(
-      page.locator(".dinosaur-axis-section .dinosaur-detail-copy h2"),
+      page.locator(
+        ".dinosaur-axis-section .dinosaur-detail-card .stage-copy h2",
+      ),
     ).toHaveText("Современные птицы");
     await expect(
       page
-        .locator(".dinosaur-axis-section .dinosaur-detail-copy")
+        .locator(".dinosaur-axis-section .dinosaur-detail-card .stage-copy")
         .getByText(/птицы — живая динозавровая ветвь/i),
     ).toBeVisible();
   });

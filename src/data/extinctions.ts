@@ -70,7 +70,7 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
       src: "/assets/images/extinctions/ordovician-silurian.jpg",
       altRu:
         "AI-реконструкция позднеордовикского вымирания: ледяное мелководное море, берег с погибшими трилобитами, брахиоподами и другими морскими беспозвоночными",
-      creditRu: "AI-реконструкция / локальный визуальный слот",
+      creditRu: "Художественная AI-реконструкция",
     },
     pageImage: portraitImage(
       "ordovician-silurian.jpg",
@@ -121,8 +121,8 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     image: {
       src: "/assets/images/extinctions/late-devonian.jpg",
       altRu:
-        "Слайд о девонском вымирании: механизм кризиса, серые пульсации, иллюстрация падения разнообразия",
-      creditRu: "Презентация “Шесть апокалипсисов планеты”, слайд 5",
+        "AI-реконструкция девонского вымирания: погибшие панцирные рыбы и морские беспозвоночные на опустевшем рифовом мелководье",
+      creditRu: "Художественная AI-реконструкция",
     },
     pageImage: portraitImage(
       "late-devonian.jpg",
@@ -174,8 +174,8 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     image: {
       src: "/assets/images/extinctions/permian-triassic.jpg",
       altRu:
-        "Слайд о пермско-триасовом вымирании: Сибирские траппы, выбросы газов, нагрев океана и масштаб потерь",
-      creditRu: "Презентация “Шесть апокалипсисов планеты”, слайд 7",
+        "AI-реконструкция пермского вымирания: лавовые потоки и столбы дыма над берегом с погибшими морскими животными",
+      creditRu: "Художественная AI-реконструкция",
     },
     pageImage: portraitImage(
       "permian-triassic.jpg",
@@ -226,8 +226,8 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     image: {
       src: "/assets/images/extinctions/triassic-jurassic.jpg",
       altRu:
-        "Слайд о триасово-юрском вымирании: вулканизм, CO2, кислотные дожди и начало эпохи динозавров",
-      creditRu: "Презентация “Шесть апокалипсисов планеты”, слайд 9",
+        "AI-реконструкция триасово-юрского вымирания: извержения на горизонте, погибшие животные у воды и силуэты динозавров вдали",
+      creditRu: "Художественная AI-реконструкция",
     },
     pageImage: portraitImage(
       "triassic-jurassic.jpg",
@@ -278,8 +278,7 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
       src: "/assets/images/extinctions/cretaceous-paleogene.jpg",
       altRu:
         "AI-реконструкция рубежа K-Pg: темное небо, пожары, падающие обломки и динозавры на фоне глобальной катастрофы",
-      creditRu:
-        "AI-реконструкция / локальный визуальный слот из раздела динозавров",
+      creditRu: "Художественная AI-реконструкция из раздела динозавров",
     },
     pageImage: portraitImage(
       "cretaceous-paleogene.jpg",
@@ -331,8 +330,8 @@ export const MASS_EXTINCTIONS: MassExtinctionEvent[] = [
     image: {
       src: "/assets/images/extinctions/holocene-anthropocene.jpg",
       altRu:
-        "Слайд о шестом глобальном вымирании: человеческий фактор, драйверы и темпы исчезновения видов",
-      creditRu: "Презентация “Шесть апокалипсисов планеты”, слайд 14",
+        "AI-реконструкция современного кризиса биоразнообразия: погибшие рыбы, пластик и обломки кораллов на берегу, вырубка леса и промышленный дым вдали",
+      creditRu: "Художественная AI-реконструкция",
     },
     pageImage: portraitImage(
       "holocene-anthropocene.jpg",

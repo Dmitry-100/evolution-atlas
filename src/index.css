@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@layer evolution-foundation, evolution-shell, evolution-atlas, evolution-pages-common, evolution-dinosaurs, evolution-cladogram, evolution-origin, evolution-genetics, evolution-body-map, evolution-responsive;
+@layer evolution-foundation, evolution-shell, evolution-atlas, evolution-pages-common, evolution-extinctions, evolution-dinosaurs, evolution-cladogram, evolution-origin, evolution-genetics, evolution-body-map, evolution-responsive, evolution-materials, evolution-about, evolution-quiz;
 @import "./styles/00-foundation.css";
 @import "./styles/10-shell-navigation.css";
 @import "./styles/20-atlas.css";

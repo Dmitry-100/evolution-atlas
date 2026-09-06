@@ -1,5 +1,11 @@
 import { Fingerprint, Maximize2, ScanSearch, Sparkles } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { Link } from "react-router-dom";
 import { getStageGlossaryTerm } from "../../data/glossary";
 import type { EvolutionStage, StageImage } from "../../data/lineage";
@@ -12,10 +18,18 @@ import { OptimizedImage } from "../ui/optimized-image";
 import { GlossaryTerm } from "./GlossaryTerm";
 
 type StageDetailCardProps = {
-  stage: EvolutionStage;
+  stage: Omit<EvolutionStage, "eraId" | "lineageRole">;
+  className?: string;
+  afterContent?: ReactNode;
+  lightboxAriaLabel?: string;
 };
 
-export function StageDetailCard({ stage }: StageDetailCardProps) {
+export function StageDetailCard({
+  stage,
+  className = "",
+  afterContent,
+  lightboxAriaLabel = "Увеличенное изображение этапа",
+}: StageDetailCardProps) {
   const imageRef = useRef<HTMLImageElement>(null);
   const previousImageRef = useRef<StageImage>(stage.image);
   const [previousImage, setPreviousImage] = useState<StageImage | null>(null);
@@ -57,7 +71,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
 
   return (
     <aside
-      className="stage-panel"
+      className={`stage-panel ${className}`.trim()}
       data-tour-stop-id={`stage-${stage.id}`}
       aria-label="Активный вид"
     >
@@ -147,6 +161,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
           <Sparkles aria-hidden="true" size={18} />
           <p>{stage.whyMattersRu}</p>
         </div>
+        {afterContent}
       </div>
       <ImageLightbox
         image={
@@ -158,7 +173,7 @@ export function StageDetailCard({ stage }: StageDetailCardProps) {
               }
             : null
         }
-        ariaLabel="Увеличенное изображение этапа"
+        ariaLabel={lightboxAriaLabel}
         onClose={() => setIsImageExpanded(false)}
       />
     </aside>

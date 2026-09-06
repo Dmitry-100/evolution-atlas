@@ -1,5 +1,12 @@
-import { ArrowDown, ArrowUp, CheckCircle2, HelpCircle, RotateCcw, XCircle } from "lucide-react";
-import { useMemo, useState } from "react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUp,
+  CheckCircle2,
+  RotateCcw,
+  XCircle,
+} from "lucide-react";
+import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Link } from "react-router-dom";
 import {
   createQuizAttempt,
@@ -14,16 +21,50 @@ import {
 import { trackGoal } from "../../lib/analytics";
 
 export function QuizPanel() {
-  const [attemptQuestions, setAttemptQuestions] = useState(() => createQuizAttempt());
+  const [attemptQuestions, setAttemptQuestions] = useState(() =>
+    createQuizAttempt(),
+  );
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, QuizAnswerValue>>({});
   const [orderDrafts, setOrderDrafts] = useState<Record<string, string[]>>({});
   const [isFinished, setIsFinished] = useState(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const feedbackRef = useRef<HTMLDivElement>(null);
+  const shouldFocusHeading = useRef(false);
   const question = attemptQuestions[questionIndex];
   const selectedAnswer = question ? answers[question.id] : undefined;
   const hasSubmittedAnswer = selectedAnswer !== undefined;
-  const isCurrentAnswerCorrect = question ? isQuizAnswerCorrect(question, selectedAnswer) : false;
-  const result = useMemo(() => scoreQuiz(answers, attemptQuestions), [answers, attemptQuestions]);
+  const isCurrentAnswerCorrect = question
+    ? isQuizAnswerCorrect(question, selectedAnswer)
+    : false;
+  const result = useMemo(
+    () => scoreQuiz(answers, attemptQuestions),
+    [answers, attemptQuestions],
+  );
+  const completedCount = Object.keys(answers).length;
+
+  useEffect(() => {
+    if (shouldFocusHeading.current) {
+      headingRef.current?.focus({ preventScroll: true });
+      headingRef.current?.scrollIntoView({
+        block: "nearest",
+        behavior: "instant",
+      });
+      shouldFocusHeading.current = false;
+    }
+  }, [questionIndex, isFinished, attemptQuestions]);
+
+  useEffect(() => {
+    if (hasSubmittedAnswer && !isFinished) {
+      if (question?.type === "order") {
+        feedbackRef.current?.focus({ preventScroll: true });
+      }
+      feedbackRef.current?.scrollIntoView({
+        block: "nearest",
+        behavior: "instant",
+      });
+    }
+  }, [hasSubmittedAnswer, isFinished, question?.type]);
 
   function selectAnswer(answer: QuizAnswerValue) {
     if (!question || hasSubmittedAnswer) {
@@ -36,10 +77,17 @@ export function QuizPanel() {
   }
 
   function orderFor(questionToOrder: OrderQuizQuestion) {
-    return orderDrafts[questionToOrder.id] ?? questionToOrder.items.map((item) => item.id);
+    return (
+      orderDrafts[questionToOrder.id] ??
+      questionToOrder.items.map((item) => item.id)
+    );
   }
 
-  function moveOrderItem(questionToOrder: OrderQuizQuestion, itemIndex: number, direction: -1 | 1) {
+  function moveOrderItem(
+    questionToOrder: OrderQuizQuestion,
+    itemIndex: number,
+    direction: -1 | 1,
+  ) {
     if (answers[questionToOrder.id] !== undefined) {
       return;
     }
@@ -51,8 +99,14 @@ export function QuizPanel() {
     }
 
     const nextOrder = [...currentOrder];
-    [nextOrder[itemIndex], nextOrder[nextIndex]] = [nextOrder[nextIndex], nextOrder[itemIndex]];
-    setOrderDrafts((current) => ({ ...current, [questionToOrder.id]: nextOrder }));
+    [nextOrder[itemIndex], nextOrder[nextIndex]] = [
+      nextOrder[nextIndex],
+      nextOrder[itemIndex],
+    ];
+    setOrderDrafts((current) => ({
+      ...current,
+      [questionToOrder.id]: nextOrder,
+    }));
   }
 
   function submitOrder(questionToOrder: OrderQuizQuestion) {
@@ -60,6 +114,8 @@ export function QuizPanel() {
   }
 
   function moveNext() {
+    if (!hasSubmittedAnswer) return;
+    shouldFocusHeading.current = true;
     if (questionIndex < attemptQuestions.length - 1) {
       setQuestionIndex((current) => current + 1);
       return;
@@ -72,6 +128,7 @@ export function QuizPanel() {
   }
 
   function restart() {
+    shouldFocusHeading.current = true;
     setAttemptQuestions(createQuizAttempt());
     setQuestionIndex(0);
     setAnswers({});
@@ -80,26 +137,55 @@ export function QuizPanel() {
   }
 
   return (
-    <section className="quiz-panel" aria-labelledby="quiz-heading">
-      <div className="quiz-heading">
-        <HelpCircle aria-hidden="true" size={23} />
-        <div>
-          <p className="eyebrow">Короткая проверка</p>
-          <h2 id="quiz-heading">10 вопросов по Атласу</h2>
-          <p>Несколько быстрых вопросов, чтобы закрепить главную мысль: эволюция — это дерево родства.</p>
+    <section className="quiz-panel" aria-label="Тест по Атласу">
+      <div className="quiz-progress">
+        <div className="quiz-progress-label">
+          <span>
+            {isFinished
+              ? "Тест завершён"
+              : `Вопрос ${questionIndex + 1} из ${attemptQuestions.length}`}
+          </span>
+        </div>
+        <div
+          className="quiz-progress-track"
+          role="progressbar"
+          aria-label="Пройдено вопросов"
+          aria-valuemin={0}
+          aria-valuemax={attemptQuestions.length}
+          aria-valuenow={completedCount}
+        >
+          {attemptQuestions.map((item, index) => (
+            <span
+              key={item.id}
+              className={
+                answers[item.id] !== undefined
+                  ? "is-complete"
+                  : index === questionIndex && !isFinished
+                    ? "is-current"
+                    : ""
+              }
+            />
+          ))}
         </div>
       </div>
 
       {isFinished || !question ? (
-        <QuizResult result={result} onRestart={restart} />
+        <QuizResult
+          result={result}
+          onRestart={restart}
+          headingRef={headingRef}
+        />
       ) : (
-        <div className="quiz-body">
-          <div className="quiz-progress">
-            Вопрос {questionIndex + 1} из {attemptQuestions.length}
-          </div>
-          <h3>{question.promptRu}</h3>
+        <div className="quiz-body" key={question.id}>
+          <h2 id="quiz-question" ref={headingRef} tabIndex={-1}>
+            {question.promptRu}
+          </h2>
           {question.type === "single-choice" ? (
-            <SingleChoiceQuestion question={question} selectedAnswer={selectedAnswer} onSelect={selectAnswer} />
+            <SingleChoiceQuestion
+              question={question}
+              selectedAnswer={selectedAnswer}
+              onSelect={selectAnswer}
+            />
           ) : null}
           {question.type === "order" ? (
             <OrderQuestion
@@ -111,24 +197,49 @@ export function QuizPanel() {
             />
           ) : null}
           {question.type === "branch-choice" ? (
-            <BranchChoiceQuestion question={question} selectedAnswer={selectedAnswer} onSelect={selectAnswer} />
+            <BranchChoiceQuestion
+              question={question}
+              selectedAnswer={selectedAnswer}
+              onSelect={selectAnswer}
+            />
           ) : null}
 
           {hasSubmittedAnswer ? (
-            <div className={isCurrentAnswerCorrect ? "quiz-explanation is-correct" : "quiz-explanation is-wrong"}>
-              <strong>{isCurrentAnswerCorrect ? "Верно" : "Не совсем"}</strong>
-              <p>{question.explanationRu}</p>
+            <div className="quiz-feedback" ref={feedbackRef} tabIndex={-1}>
+              <div
+                className={
+                  isCurrentAnswerCorrect
+                    ? "quiz-explanation is-correct"
+                    : "quiz-explanation is-wrong"
+                }
+                role="status"
+              >
+                <strong>
+                  {isCurrentAnswerCorrect ? (
+                    <CheckCircle2 aria-hidden="true" size={19} />
+                  ) : (
+                    <XCircle aria-hidden="true" size={19} />
+                  )}
+                  {isCurrentAnswerCorrect ? "Верно" : "Не совсем"}
+                </strong>
+                <p>{question.explanationRu}</p>
+              </div>
+              <button
+                className="button button-primary button-md quiz-next"
+                type="button"
+                onClick={moveNext}
+              >
+                {questionIndex === attemptQuestions.length - 1
+                  ? "Показать результат"
+                  : "Следующий вопрос"}
+                <ArrowRight aria-hidden="true" size={18} />
+              </button>
             </div>
+          ) : question.type !== "order" ? (
+            <p className="quiz-hint">
+              Выберите один ответ — затем появится объяснение.
+            </p>
           ) : null}
-
-          <button
-            className="button button-secondary button-md"
-            type="button"
-            disabled={!hasSubmittedAnswer}
-            onClick={moveNext}
-          >
-            {questionIndex === attemptQuestions.length - 1 ? "Показать результат" : "Следующий вопрос"}
-          </button>
         </div>
       )}
     </section>
@@ -144,12 +255,13 @@ function SingleChoiceQuestion({
   selectedAnswer: QuizAnswerValue | undefined;
   onSelect: (answer: QuizAnswerValue) => void;
 }) {
-  const selectedOptionId = typeof selectedAnswer === "string" ? selectedAnswer : undefined;
+  const selectedOptionId =
+    typeof selectedAnswer === "string" ? selectedAnswer : undefined;
   const showState = selectedAnswer !== undefined;
 
   return (
-    <div className="quiz-options">
-      {question.options.map((option) => {
+    <div className="quiz-options" role="group" aria-labelledby="quiz-question">
+      {question.options.map((option, index) => {
         const isSelected = selectedOptionId === option.id;
         const className = [
           "quiz-option",
@@ -161,14 +273,75 @@ function SingleChoiceQuestion({
           .join(" ");
 
         return (
-          <button key={option.id} className={className} type="button" onClick={() => onSelect(option.id)}>
-            {showState && option.isCorrect ? <CheckCircle2 aria-hidden="true" size={17} /> : null}
-            {showState && isSelected && !option.isCorrect ? <XCircle aria-hidden="true" size={17} /> : null}
-            <span>{option.textRu}</span>
-          </button>
+          <QuizChoice
+            key={option.id}
+            className={className}
+            index={index}
+            text={option.textRu}
+            isSelected={isSelected}
+            isCorrect={option.isCorrect}
+            showState={showState}
+            onSelect={() => onSelect(option.id)}
+          />
         );
       })}
     </div>
+  );
+}
+
+function QuizChoice({
+  className,
+  index,
+  text,
+  detail,
+  isSelected,
+  isCorrect,
+  showState,
+  onSelect,
+}: {
+  className: string;
+  index: number;
+  text: string;
+  detail?: string;
+  isSelected: boolean;
+  isCorrect: boolean;
+  showState: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      className={`quiz-answer ${className}`}
+      type="button"
+      aria-pressed={isSelected}
+      aria-disabled={showState}
+      tabIndex={showState && !isSelected ? -1 : 0}
+      onClick={() => {
+        if (!showState) onSelect();
+      }}
+    >
+      <span className="quiz-answer-marker" aria-hidden="true">
+        {showState && isCorrect ? (
+          <CheckCircle2 size={21} />
+        ) : showState && isSelected ? (
+          <XCircle size={21} />
+        ) : (
+          String(index + 1).padStart(2, "0")
+        )}
+      </span>
+      <span className="quiz-answer-copy">
+        <span className={detail ? "quiz-answer-title" : undefined}>{text}</span>
+        {detail ? <span className="quiz-answer-detail">{detail}</span> : null}
+      </span>
+      {showState && (isSelected || isCorrect) ? (
+        <span className="quiz-answer-state">
+          {isCorrect
+            ? isSelected
+              ? "Верно · ваш ответ"
+              : "Верный ответ"
+            : "Ваш ответ"}
+        </span>
+      ) : null}
+    </button>
   );
 }
 
@@ -182,7 +355,11 @@ function OrderQuestion({
   question: OrderQuizQuestion;
   orderIds: string[];
   hasSubmittedAnswer: boolean;
-  onMove: (question: OrderQuizQuestion, itemIndex: number, direction: -1 | 1) => void;
+  onMove: (
+    question: OrderQuizQuestion,
+    itemIndex: number,
+    direction: -1 | 1,
+  ) => void;
   onSubmit: (question: OrderQuizQuestion) => void;
 }) {
   return (
@@ -190,7 +367,9 @@ function OrderQuestion({
       <p className="quiz-instruction">{question.instructionRu}</p>
       <ol className="quiz-order-list">
         {orderIds.map((itemId, index) => {
-          const item = question.items.find((candidate) => candidate.id === itemId);
+          const item = question.items.find(
+            (candidate) => candidate.id === itemId,
+          );
           if (!item) return null;
 
           return (
@@ -219,14 +398,15 @@ function OrderQuestion({
           );
         })}
       </ol>
-      <button
-        className="button button-secondary button-md"
-        type="button"
-        disabled={hasSubmittedAnswer}
-        onClick={() => onSubmit(question)}
-      >
-        Проверить
-      </button>
+      {!hasSubmittedAnswer ? (
+        <button
+          className="button button-secondary button-md"
+          type="button"
+          onClick={() => onSubmit(question)}
+        >
+          Проверить
+        </button>
+      ) : null}
     </div>
   );
 }
@@ -240,14 +420,19 @@ function BranchChoiceQuestion({
   selectedAnswer: QuizAnswerValue | undefined;
   onSelect: (answer: QuizAnswerValue) => void;
 }) {
-  const selectedNodeId = typeof selectedAnswer === "string" ? selectedAnswer : undefined;
+  const selectedNodeId =
+    typeof selectedAnswer === "string" ? selectedAnswer : undefined;
   const showState = selectedAnswer !== undefined;
 
   return (
     <div className="quiz-branch">
       <p className="quiz-instruction">{question.instructionRu}</p>
-      <div className="quiz-branch-options">
-        {question.nodes.map((node) => {
+      <div
+        className="quiz-branch-options"
+        role="group"
+        aria-labelledby="quiz-question"
+      >
+        {question.nodes.map((node, index) => {
           const isSelected = selectedNodeId === node.id;
           const isCorrect = node.id === question.correctNodeId;
           const className = [
@@ -260,10 +445,17 @@ function BranchChoiceQuestion({
             .join(" ");
 
           return (
-            <button key={node.id} className={className} type="button" onClick={() => onSelect(node.id)}>
-              <strong>{node.textRu}</strong>
-              <span>{node.detailRu}</span>
-            </button>
+            <QuizChoice
+              key={node.id}
+              className={className}
+              index={index}
+              text={node.textRu}
+              detail={node.detailRu}
+              isSelected={isSelected}
+              isCorrect={isCorrect}
+              showState={showState}
+              onSelect={() => onSelect(node.id)}
+            />
           );
         })}
       </div>
@@ -271,7 +463,15 @@ function BranchChoiceQuestion({
   );
 }
 
-function QuizResult({ result, onRestart }: { result: QuizScoreResult; onRestart: () => void }) {
+function QuizResult({
+  result,
+  onRestart,
+  headingRef,
+}: {
+  result: QuizScoreResult;
+  onRestart: () => void;
+  headingRef: RefObject<HTMLHeadingElement | null>;
+}) {
   const hasRecommendations = result.recommendedTopics.length > 0;
   const isPerfect = result.correct === result.total;
   const darwinTitle = isPerfect
@@ -287,14 +487,18 @@ function QuizResult({ result, onRestart }: { result: QuizScoreResult; onRestart:
 
   return (
     <div className="quiz-result">
-      <CheckCircle2 aria-hidden="true" size={28} />
-      <h3>Оценка Дарвина</h3>
-      <strong>
-        Ваш результат: {result.correct} из {result.total}
-      </strong>
-      <div className={isPerfect ? "quiz-darwin-note is-perfect" : "quiz-darwin-note"}>
-        <strong>{darwinTitle}</strong>
-        <p>{darwinCopy}</p>
+      <div className="quiz-result-summary">
+        <div>
+          <p className="quiz-result-label">Ваш результат</p>
+          <h2 className="quiz-score" ref={headingRef} tabIndex={-1}>
+            {result.correct} <span>из {result.total}</span>
+          </h2>
+        </div>
+        <div className="quiz-darwin-note">
+          <p className="quiz-result-label">Оценка Дарвина</p>
+          <h3>{darwinTitle}</h3>
+          <p>{darwinCopy}</p>
+        </div>
       </div>
 
       <section className="quiz-route" aria-labelledby="quiz-route-heading">
@@ -308,7 +512,7 @@ function QuizResult({ result, onRestart }: { result: QuizScoreResult; onRestart:
                 <div className="quiz-route-links">
                   {topic.links.map((link) => (
                     <Link key={link.href} to={link.href}>
-                      {link.labelRu}
+                      {link.labelRu} <ArrowRight aria-hidden="true" size={16} />
                     </Link>
                   ))}
                 </div>
@@ -318,17 +522,30 @@ function QuizResult({ result, onRestart }: { result: QuizScoreResult; onRestart:
         ) : (
           <div className="quiz-route-perfect">
             <strong>Вы уверенно видите дерево родства.</strong>
-            <p>Можно идти глубже: сравнить ветви, молекулярные следы и материалы для закрепления.</p>
+            <p>
+              Можно идти глубже: сравнить ветви, молекулярные следы и материалы
+              для закрепления.
+            </p>
             <div className="quiz-route-links">
-              <Link to="/cladogram">Дерево родства</Link>
-              <Link to="/genetics">РНК/ДНК</Link>
-              <Link to="/materials">Материалы</Link>
+              <Link to="/cladogram">
+                Дерево родства <ArrowRight aria-hidden="true" size={16} />
+              </Link>
+              <Link to="/genetics">
+                РНК/ДНК <ArrowRight aria-hidden="true" size={16} />
+              </Link>
+              <Link to="/materials">
+                Материалы <ArrowRight aria-hidden="true" size={16} />
+              </Link>
             </div>
           </div>
         )}
       </section>
 
-      <button className="button button-secondary button-md" type="button" onClick={onRestart}>
+      <button
+        className="button button-secondary button-md"
+        type="button"
+        onClick={onRestart}
+      >
         <RotateCcw aria-hidden="true" size={17} />
         Пройти ещё раз
       </button>

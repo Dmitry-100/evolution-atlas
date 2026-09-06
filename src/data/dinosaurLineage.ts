@@ -111,12 +111,9 @@ export const birdDinosaurBranch: DinosaurLineageStage[] = [
     whyMattersRu: "Первые динозавры — не карикатурные гиганты, а лёгкие подвижные животные с вертикально поставленными ногами.",
     evidenceRu: "Ранние находки вроде Eoraptor и Herrerasaurus показывают небольших триасовых динозавров с уже узнаваемыми особенностями таза и конечностей.",
     inherited: ["вертикальная постановка ног", "активное движение", "динозавровая ветвь"],
-    image: dinoImage(
-      "generated-early-dinosaurs.png",
-      "AI-реконструкция ранних динозавров на пути к птичьей ветви",
-      "AI-реконструкция / локальный визуальный слот",
-      "https://openai.com/",
-      "generated-reconstruction",
+    image: generatedDinoImage(
+      "early-dinosaurs-v2.jpg",
+      "AI-реконструкция небольшого раннего динозавра триаса: двуногое животное с длинным хвостом на берегу среди папоротников и хвощей",
     ),
     sources: [wiki("Dinosaur", "Dinosaur"), wiki("Eoraptor", "Eoraptor")],
   },
