@@ -1,0 +1,1145 @@
+{
+  "version": 3,
+  "worlds": 40,
+  "horizonTurns": 3,
+  "elapsedSeconds": 399,
+  "method": "Same starting states and event schedules; identical starting RNG, which can diverge after actions. Best valid target for each card. Two-card search fixes the best first action then searches the second (not a global optimum). Population and colony outcomes over three turns; scouting informational value is not measured by this score. Campaign ablation uses fixed heuristics, not human-optimal play.",
+  "byCard": [
+    {
+      "key": "bridge",
+      "samples": 190,
+      "delta": 130.453,
+      "colonies": 1.326,
+      "meanTargetDelta": 40.797,
+      "helped": 0.9,
+      "hurt": 0.026
+    },
+    {
+      "key": "divide",
+      "samples": 190,
+      "delta": 22.342,
+      "colonies": 0.168,
+      "meanTargetDelta": -17.831,
+      "helped": 0.584,
+      "hurt": 0.068
+    },
+    {
+      "key": "migrate",
+      "samples": 189,
+      "delta": 34.603,
+      "colonies": 0.238,
+      "meanTargetDelta": 0.756,
+      "helped": 0.772,
+      "hurt": 0.222
+    },
+    {
+      "key": "refuge",
+      "samples": 190,
+      "delta": 51.568,
+      "colonies": 0.337,
+      "meanTargetDelta": 5.55,
+      "helped": 0.763,
+      "hurt": 0.005
+    },
+    {
+      "key": "shade",
+      "samples": 190,
+      "delta": 39.437,
+      "colonies": 0.253,
+      "meanTargetDelta": -8.932,
+      "helped": 0.758,
+      "hurt": 0.026
+    },
+    {
+      "key": "food",
+      "samples": 190,
+      "delta": 47.332,
+      "colonies": 0.305,
+      "meanTargetDelta": -0.168,
+      "helped": 0.774,
+      "hurt": 0.021
+    },
+    {
+      "key": "mosaic",
+      "samples": 190,
+      "delta": 47.616,
+      "colonies": 0.3,
+      "meanTargetDelta": -0.677,
+      "helped": 0.816,
+      "hurt": 0.016
+    },
+    {
+      "key": "cover",
+      "samples": 190,
+      "delta": 48.174,
+      "colonies": 0.321,
+      "meanTargetDelta": 0.025,
+      "helped": 0.795,
+      "hurt": 0.011
+    },
+    {
+      "key": "seedbank",
+      "samples": 190,
+      "delta": 48.474,
+      "colonies": 0.316,
+      "meanTargetDelta": 2.497,
+      "helped": 0.758,
+      "hurt": 0.005
+    },
+    {
+      "key": "raft",
+      "samples": 190,
+      "delta": 164.316,
+      "colonies": 1.437,
+      "meanTargetDelta": 42.293,
+      "helped": 0.974,
+      "hurt": 0.026
+    },
+    {
+      "key": "scout",
+      "samples": 190,
+      "delta": 0,
+      "colonies": 0,
+      "meanTargetDelta": 0,
+      "helped": 0,
+      "hurt": 0
+    },
+    {
+      "key": "stores",
+      "samples": 150,
+      "delta": 89.713,
+      "colonies": 0.433,
+      "meanTargetDelta": 26.173,
+      "helped": 0.953,
+      "hurt": 0.013
+    },
+    {
+      "key": "territory",
+      "samples": 150,
+      "delta": 49.26,
+      "colonies": 0.367,
+      "meanTargetDelta": -0.574,
+      "helped": 0.773,
+      "hurt": 0.033
+    },
+    {
+      "key": "exchange",
+      "samples": 107,
+      "delta": 56.991,
+      "colonies": 0.449,
+      "meanTargetDelta": 1.123,
+      "helped": 0.794,
+      "hurt": 0.187
+    }
+  ],
+  "byStage": [
+    {
+      "key": "settlement/bridge",
+      "samples": 40,
+      "delta": 156,
+      "colonies": 1.3,
+      "helped": 0.875,
+      "hurt": 0
+    },
+    {
+      "key": "settlement/divide",
+      "samples": 40,
+      "delta": 3.825,
+      "colonies": 0,
+      "helped": 0.2,
+      "hurt": 0
+    },
+    {
+      "key": "settlement/migrate",
+      "samples": 40,
+      "delta": -7.5,
+      "colonies": -0.1,
+      "helped": 0.45,
+      "hurt": 0.55
+    },
+    {
+      "key": "settlement/refuge",
+      "samples": 40,
+      "delta": 44.225,
+      "colonies": 0.125,
+      "helped": 0.675,
+      "hurt": 0
+    },
+    {
+      "key": "settlement/shade",
+      "samples": 40,
+      "delta": 38.725,
+      "colonies": 0.15,
+      "helped": 0.65,
+      "hurt": 0
+    },
+    {
+      "key": "settlement/food",
+      "samples": 40,
+      "delta": 40.4,
+      "colonies": 0.125,
+      "helped": 0.725,
+      "hurt": 0
+    },
+    {
+      "key": "settlement/mosaic",
+      "samples": 40,
+      "delta": 50.6,
+      "colonies": 0.15,
+      "helped": 0.75,
+      "hurt": 0
+    },
+    {
+      "key": "settlement/cover",
+      "samples": 40,
+      "delta": 53.8,
+      "colonies": 0.125,
+      "helped": 0.775,
+      "hurt": 0
+    },
+    {
+      "key": "settlement/seedbank",
+      "samples": 40,
+      "delta": 41.275,
+      "colonies": 0.15,
+      "helped": 0.575,
+      "hurt": 0
+    },
+    {
+      "key": "settlement/raft",
+      "samples": 40,
+      "delta": 154.65,
+      "colonies": 0.95,
+      "helped": 0.925,
+      "hurt": 0.075
+    },
+    {
+      "key": "settlement/scout",
+      "samples": 40,
+      "delta": 0,
+      "colonies": 0,
+      "helped": 0,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/bridge",
+      "samples": 40,
+      "delta": 101.275,
+      "colonies": 1.675,
+      "helped": 0.975,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/divide",
+      "samples": 40,
+      "delta": 17.475,
+      "colonies": 0.025,
+      "helped": 0.625,
+      "hurt": 0.025
+    },
+    {
+      "key": "before_drought/migrate",
+      "samples": 39,
+      "delta": 27.385,
+      "colonies": 0.077,
+      "helped": 0.897,
+      "hurt": 0.103
+    },
+    {
+      "key": "before_drought/refuge",
+      "samples": 40,
+      "delta": 18.9,
+      "colonies": 0.05,
+      "helped": 0.675,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/shade",
+      "samples": 40,
+      "delta": 18.8,
+      "colonies": 0.05,
+      "helped": 0.8,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/food",
+      "samples": 40,
+      "delta": 23.3,
+      "colonies": 0.075,
+      "helped": 0.75,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/mosaic",
+      "samples": 40,
+      "delta": 20.5,
+      "colonies": 0.025,
+      "helped": 0.775,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/cover",
+      "samples": 40,
+      "delta": 20.475,
+      "colonies": 0.075,
+      "helped": 0.725,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/seedbank",
+      "samples": 40,
+      "delta": 22.175,
+      "colonies": 0.05,
+      "helped": 0.725,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/raft",
+      "samples": 40,
+      "delta": 147.325,
+      "colonies": 1.775,
+      "helped": 1,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/stores",
+      "samples": 40,
+      "delta": 75.7,
+      "colonies": 0.025,
+      "helped": 1,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/territory",
+      "samples": 40,
+      "delta": 18.325,
+      "colonies": 0.075,
+      "helped": 0.725,
+      "hurt": 0
+    },
+    {
+      "key": "before_drought/scout",
+      "samples": 40,
+      "delta": 0,
+      "colonies": 0,
+      "helped": 0,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/bridge",
+      "samples": 40,
+      "delta": 168.4,
+      "colonies": 1.075,
+      "helped": 0.925,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/divide",
+      "samples": 40,
+      "delta": 18.875,
+      "colonies": 0.025,
+      "helped": 0.775,
+      "hurt": 0.075
+    },
+    {
+      "key": "recovery/migrate",
+      "samples": 40,
+      "delta": 25.425,
+      "colonies": -0.05,
+      "helped": 0.9,
+      "hurt": 0.1
+    },
+    {
+      "key": "recovery/refuge",
+      "samples": 40,
+      "delta": 24.7,
+      "colonies": 0.025,
+      "helped": 0.775,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/shade",
+      "samples": 40,
+      "delta": 26.025,
+      "colonies": 0,
+      "helped": 0.875,
+      "hurt": 0.025
+    },
+    {
+      "key": "recovery/food",
+      "samples": 40,
+      "delta": 23.6,
+      "colonies": 0,
+      "helped": 0.825,
+      "hurt": 0.025
+    },
+    {
+      "key": "recovery/mosaic",
+      "samples": 40,
+      "delta": 32.175,
+      "colonies": 0,
+      "helped": 0.875,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/cover",
+      "samples": 40,
+      "delta": 22.775,
+      "colonies": 0,
+      "helped": 0.825,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/seedbank",
+      "samples": 40,
+      "delta": 23.3,
+      "colonies": -0.025,
+      "helped": 0.775,
+      "hurt": 0.025
+    },
+    {
+      "key": "recovery/raft",
+      "samples": 40,
+      "delta": 227.875,
+      "colonies": 1.275,
+      "helped": 1,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/stores",
+      "samples": 40,
+      "delta": 43.25,
+      "colonies": 0.025,
+      "helped": 0.95,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/territory",
+      "samples": 40,
+      "delta": 35.55,
+      "colonies": 0.025,
+      "helped": 0.875,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/scout",
+      "samples": 40,
+      "delta": 0,
+      "colonies": 0,
+      "helped": 0,
+      "hurt": 0
+    },
+    {
+      "key": "recovery/exchange",
+      "samples": 40,
+      "delta": 27.475,
+      "colonies": 0.05,
+      "helped": 0.725,
+      "hurt": 0.225
+    },
+    {
+      "key": "before_cold/bridge",
+      "samples": 40,
+      "delta": 152.475,
+      "colonies": 1.6,
+      "helped": 0.85,
+      "hurt": 0.1
+    },
+    {
+      "key": "before_cold/divide",
+      "samples": 40,
+      "delta": 60.025,
+      "colonies": 0.725,
+      "helped": 0.775,
+      "hurt": 0.1
+    },
+    {
+      "key": "before_cold/migrate",
+      "samples": 40,
+      "delta": 101.05,
+      "colonies": 1.075,
+      "helped": 0.825,
+      "hurt": 0.15
+    },
+    {
+      "key": "before_cold/refuge",
+      "samples": 40,
+      "delta": 143.85,
+      "colonies": 1.375,
+      "helped": 0.95,
+      "hurt": 0.025
+    },
+    {
+      "key": "before_cold/shade",
+      "samples": 40,
+      "delta": 90.55,
+      "colonies": 0.975,
+      "helped": 0.8,
+      "hurt": 0.1
+    },
+    {
+      "key": "before_cold/food",
+      "samples": 40,
+      "delta": 121.325,
+      "colonies": 1.225,
+      "helped": 0.875,
+      "hurt": 0.075
+    },
+    {
+      "key": "before_cold/mosaic",
+      "samples": 40,
+      "delta": 107.6,
+      "colonies": 1.2,
+      "helped": 0.875,
+      "hurt": 0.075
+    },
+    {
+      "key": "before_cold/cover",
+      "samples": 40,
+      "delta": 116.375,
+      "colonies": 1.3,
+      "helped": 0.875,
+      "hurt": 0.05
+    },
+    {
+      "key": "before_cold/seedbank",
+      "samples": 40,
+      "delta": 124.7,
+      "colonies": 1.2,
+      "helped": 0.9,
+      "hurt": 0
+    },
+    {
+      "key": "before_cold/raft",
+      "samples": 40,
+      "delta": 184.375,
+      "colonies": 1.85,
+      "helped": 1,
+      "hurt": 0
+    },
+    {
+      "key": "before_cold/stores",
+      "samples": 40,
+      "delta": 157.025,
+      "colonies": 1.525,
+      "helped": 0.875,
+      "hurt": 0.05
+    },
+    {
+      "key": "before_cold/territory",
+      "samples": 40,
+      "delta": 116.75,
+      "colonies": 1.25,
+      "helped": 0.825,
+      "hurt": 0.125
+    },
+    {
+      "key": "before_cold/scout",
+      "samples": 40,
+      "delta": 0,
+      "colonies": 0,
+      "helped": 0,
+      "hurt": 0
+    },
+    {
+      "key": "before_cold/exchange",
+      "samples": 40,
+      "delta": 111.525,
+      "colonies": 1.125,
+      "helped": 0.85,
+      "hurt": 0.15
+    },
+    {
+      "key": "before_eruption/bridge",
+      "samples": 30,
+      "delta": 55.333,
+      "colonies": 0.867,
+      "helped": 0.867,
+      "hurt": 0.033
+    },
+    {
+      "key": "before_eruption/divide",
+      "samples": 30,
+      "delta": 7.9,
+      "colonies": 0.033,
+      "helped": 0.533,
+      "hurt": 0.167
+    },
+    {
+      "key": "before_eruption/migrate",
+      "samples": 30,
+      "delta": 23.767,
+      "colonies": 0.167,
+      "helped": 0.8,
+      "hurt": 0.2
+    },
+    {
+      "key": "before_eruption/refuge",
+      "samples": 30,
+      "delta": 17.7,
+      "colonies": 0.033,
+      "helped": 0.733,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/shade",
+      "samples": 30,
+      "delta": 17.633,
+      "colonies": 0.033,
+      "helped": 0.633,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/food",
+      "samples": 30,
+      "delta": 21.6,
+      "colonies": 0.033,
+      "helped": 0.667,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/mosaic",
+      "samples": 30,
+      "delta": 20.4,
+      "colonies": 0.067,
+      "helped": 0.8,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/cover",
+      "samples": 30,
+      "delta": 20.533,
+      "colonies": 0.033,
+      "helped": 0.767,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/seedbank",
+      "samples": 30,
+      "delta": 25.067,
+      "colonies": 0.167,
+      "helped": 0.833,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/raft",
+      "samples": 30,
+      "delta": 88.367,
+      "colonies": 1.3,
+      "helped": 0.933,
+      "hurt": 0.067
+    },
+    {
+      "key": "before_eruption/stores",
+      "samples": 30,
+      "delta": 80.6,
+      "colonies": 0.067,
+      "helped": 1,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/territory",
+      "samples": 30,
+      "delta": 18.8,
+      "colonies": 0.033,
+      "helped": 0.633,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/scout",
+      "samples": 30,
+      "delta": 0,
+      "colonies": 0,
+      "helped": 0,
+      "hurt": 0
+    },
+    {
+      "key": "before_eruption/exchange",
+      "samples": 27,
+      "delta": 19.926,
+      "colonies": 0.037,
+      "helped": 0.815,
+      "hurt": 0.185
+    }
+  ],
+  "pairs": [
+    {
+      "key": "stores + mosaic",
+      "samples": 150,
+      "delta": 104.28,
+      "extra": 8.413,
+      "positive": 0.987
+    },
+    {
+      "key": "stores + food",
+      "samples": 150,
+      "delta": 98.46,
+      "extra": 4.327,
+      "positive": 0.987
+    },
+    {
+      "key": "stores + seedbank",
+      "samples": 150,
+      "delta": 96.767,
+      "extra": 0.147,
+      "positive": 0.96
+    },
+    {
+      "key": "migrate + stores",
+      "samples": 149,
+      "delta": 95.866,
+      "extra": -0.369,
+      "positive": 0.987
+    },
+    {
+      "key": "stores + shade",
+      "samples": 150,
+      "delta": 92.653,
+      "extra": -1.987,
+      "positive": 0.973
+    },
+    {
+      "key": "food + stores",
+      "samples": 150,
+      "delta": 91.193,
+      "extra": -2.94,
+      "positive": 0.98
+    },
+    {
+      "key": "seedbank + stores",
+      "samples": 150,
+      "delta": 91.147,
+      "extra": -5.473,
+      "positive": 0.967
+    },
+    {
+      "key": "stores + scout",
+      "samples": 150,
+      "delta": 89.713,
+      "extra": -0.527,
+      "positive": 0.953
+    },
+    {
+      "key": "scout + stores",
+      "samples": 150,
+      "delta": 89.713,
+      "extra": -0.527,
+      "positive": 0.953
+    },
+    {
+      "key": "mosaic + stores",
+      "samples": 150,
+      "delta": 87.927,
+      "extra": -7.94,
+      "positive": 0.967
+    },
+    {
+      "key": "divide + stores",
+      "samples": 150,
+      "delta": 84.38,
+      "extra": -8.7,
+      "positive": 0.98
+    },
+    {
+      "key": "stores + migrate",
+      "samples": 149,
+      "delta": 82.919,
+      "extra": -13.315,
+      "positive": 0.953
+    },
+    {
+      "key": "shade + stores",
+      "samples": 150,
+      "delta": 81.873,
+      "extra": -12.767,
+      "positive": 0.96
+    },
+    {
+      "key": "stores + divide",
+      "samples": 150,
+      "delta": 75.333,
+      "extra": -17.747,
+      "positive": 0.953
+    },
+    {
+      "key": "mosaic + seedbank",
+      "samples": 190,
+      "delta": 61.837,
+      "extra": -1.258,
+      "positive": 0.905
+    },
+    {
+      "key": "food + mosaic",
+      "samples": 190,
+      "delta": 60.268,
+      "extra": -1.342,
+      "positive": 0.911
+    },
+    {
+      "key": "mosaic + food",
+      "samples": 190,
+      "delta": 60.084,
+      "extra": -1.526,
+      "positive": 0.916
+    },
+    {
+      "key": "seedbank + mosaic",
+      "samples": 190,
+      "delta": 59.989,
+      "extra": -3.105,
+      "positive": 0.905
+    },
+    {
+      "key": "food + seedbank",
+      "samples": 190,
+      "delta": 59.137,
+      "extra": -2.142,
+      "positive": 0.874
+    },
+    {
+      "key": "seedbank + food",
+      "samples": 190,
+      "delta": 57.074,
+      "extra": -4.205,
+      "positive": 0.853
+    },
+    {
+      "key": "shade + seedbank",
+      "samples": 190,
+      "delta": 54.953,
+      "extra": -3.411,
+      "positive": 0.863
+    },
+    {
+      "key": "migrate + mosaic",
+      "samples": 189,
+      "delta": 54.778,
+      "extra": -5.407,
+      "positive": 0.857
+    },
+    {
+      "key": "migrate + seedbank",
+      "samples": 189,
+      "delta": 54.63,
+      "extra": -5.455,
+      "positive": 0.862
+    },
+    {
+      "key": "mosaic + shade",
+      "samples": 190,
+      "delta": 54.363,
+      "extra": -1.853,
+      "positive": 0.868
+    },
+    {
+      "key": "migrate + shade",
+      "samples": 189,
+      "delta": 54.021,
+      "extra": -0.714,
+      "positive": 0.862
+    },
+    {
+      "key": "migrate + food",
+      "samples": 189,
+      "delta": 53.439,
+      "extra": -5.942,
+      "positive": 0.862
+    },
+    {
+      "key": "shade + mosaic",
+      "samples": 190,
+      "delta": 53.289,
+      "extra": -2.926,
+      "positive": 0.879
+    },
+    {
+      "key": "seedbank + shade",
+      "samples": 190,
+      "delta": 52.979,
+      "extra": -5.384,
+      "positive": 0.847
+    },
+    {
+      "key": "shade + food",
+      "samples": 190,
+      "delta": 51.974,
+      "extra": -5.484,
+      "positive": 0.853
+    },
+    {
+      "key": "food + shade",
+      "samples": 190,
+      "delta": 51.774,
+      "extra": -5.684,
+      "positive": 0.842
+    },
+    {
+      "key": "divide + mosaic",
+      "samples": 190,
+      "delta": 50.268,
+      "extra": -2.489,
+      "positive": 0.842
+    },
+    {
+      "key": "seedbank + scout",
+      "samples": 190,
+      "delta": 48.474,
+      "extra": -0.005,
+      "positive": 0.758
+    },
+    {
+      "key": "scout + seedbank",
+      "samples": 190,
+      "delta": 48.474,
+      "extra": -0.005,
+      "positive": 0.758
+    },
+    {
+      "key": "mosaic + scout",
+      "samples": 190,
+      "delta": 47.616,
+      "extra": -0.768,
+      "positive": 0.816
+    },
+    {
+      "key": "scout + mosaic",
+      "samples": 190,
+      "delta": 47.616,
+      "extra": -0.768,
+      "positive": 0.816
+    },
+    {
+      "key": "divide + seedbank",
+      "samples": 190,
+      "delta": 47.526,
+      "extra": -4.9,
+      "positive": 0.774
+    },
+    {
+      "key": "food + scout",
+      "samples": 190,
+      "delta": 47.332,
+      "extra": -0.721,
+      "positive": 0.774
+    },
+    {
+      "key": "scout + food",
+      "samples": 190,
+      "delta": 47.332,
+      "extra": -0.721,
+      "positive": 0.774
+    },
+    {
+      "key": "divide + food",
+      "samples": 190,
+      "delta": 44.121,
+      "extra": -9.595,
+      "positive": 0.816
+    },
+    {
+      "key": "mosaic + divide",
+      "samples": 190,
+      "delta": 43.279,
+      "extra": -9.479,
+      "positive": 0.8
+    },
+    {
+      "key": "divide + shade",
+      "samples": 190,
+      "delta": 42.8,
+      "extra": -3.732,
+      "positive": 0.826
+    },
+    {
+      "key": "mosaic + migrate",
+      "samples": 189,
+      "delta": 40.651,
+      "extra": -19.534,
+      "positive": 0.804
+    },
+    {
+      "key": "seedbank + divide",
+      "samples": 190,
+      "delta": 39.663,
+      "extra": -12.763,
+      "positive": 0.732
+    },
+    {
+      "key": "shade + scout",
+      "samples": 190,
+      "delta": 39.437,
+      "extra": -1.226,
+      "positive": 0.758
+    },
+    {
+      "key": "scout + shade",
+      "samples": 190,
+      "delta": 39.437,
+      "extra": -1.226,
+      "positive": 0.758
+    },
+    {
+      "key": "food + migrate",
+      "samples": 189,
+      "delta": 38.825,
+      "extra": -20.556,
+      "positive": 0.81
+    },
+    {
+      "key": "food + divide",
+      "samples": 190,
+      "delta": 37.368,
+      "extra": -16.347,
+      "positive": 0.753
+    },
+    {
+      "key": "seedbank + migrate",
+      "samples": 189,
+      "delta": 37.169,
+      "extra": -22.915,
+      "positive": 0.794
+    },
+    {
+      "key": "migrate + divide",
+      "samples": 189,
+      "delta": 35.868,
+      "extra": -14.519,
+      "positive": 0.757
+    },
+    {
+      "key": "migrate + scout",
+      "samples": 189,
+      "delta": 34.603,
+      "extra": -10.693,
+      "positive": 0.772
+    },
+    {
+      "key": "scout + migrate",
+      "samples": 189,
+      "delta": 34.603,
+      "extra": -10.693,
+      "positive": 0.772
+    },
+    {
+      "key": "shade + migrate",
+      "samples": 189,
+      "delta": 33.693,
+      "extra": -21.042,
+      "positive": 0.741
+    },
+    {
+      "key": "shade + divide",
+      "samples": 190,
+      "delta": 30.353,
+      "extra": -16.179,
+      "positive": 0.763
+    },
+    {
+      "key": "divide + migrate",
+      "samples": 176,
+      "delta": 25.58,
+      "extra": -25.892,
+      "positive": 0.682
+    },
+    {
+      "key": "divide + scout",
+      "samples": 190,
+      "delta": 22.342,
+      "extra": -2.558,
+      "positive": 0.584
+    },
+    {
+      "key": "scout + divide",
+      "samples": 190,
+      "delta": 22.342,
+      "extra": -2.558,
+      "positive": 0.584
+    }
+  ],
+  "ablation": [
+    {
+      "key": "bridge",
+      "samples": 40,
+      "winDifference": 0,
+      "populationDifference": -0.25
+    },
+    {
+      "key": "divide",
+      "samples": 40,
+      "winDifference": -0.1,
+      "populationDifference": -42.125
+    },
+    {
+      "key": "migrate",
+      "samples": 40,
+      "winDifference": -0.2,
+      "populationDifference": -77.075
+    },
+    {
+      "key": "refuge",
+      "samples": 40,
+      "winDifference": 0.1,
+      "populationDifference": 11.425
+    },
+    {
+      "key": "shade",
+      "samples": 40,
+      "winDifference": -0.025,
+      "populationDifference": -8.5
+    },
+    {
+      "key": "food",
+      "samples": 40,
+      "winDifference": -0.125,
+      "populationDifference": -50.2
+    },
+    {
+      "key": "mosaic",
+      "samples": 40,
+      "winDifference": -0.15,
+      "populationDifference": -70.225
+    },
+    {
+      "key": "cover",
+      "samples": 40,
+      "winDifference": -0.05,
+      "populationDifference": -30.925
+    },
+    {
+      "key": "seedbank",
+      "samples": 40,
+      "winDifference": -0.075,
+      "populationDifference": -25.7
+    },
+    {
+      "key": "raft",
+      "samples": 40,
+      "winDifference": 0.025,
+      "populationDifference": 42.625
+    },
+    {
+      "key": "stores",
+      "samples": 40,
+      "winDifference": -0.15,
+      "populationDifference": -45.25
+    },
+    {
+      "key": "territory",
+      "samples": 40,
+      "winDifference": 0,
+      "populationDifference": -12.125
+    },
+    {
+      "key": "scout",
+      "samples": 40,
+      "winDifference": -0.075,
+      "populationDifference": -31.75
+    },
+    {
+      "key": "exchange",
+      "samples": 40,
+      "winDifference": 0,
+      "populationDifference": -1.125
+    }
+  ]
+}

@@ -89,7 +89,7 @@ function terrain(island: number) {
     baseColor = new THREE.Color(SURFACES[island]);
   const sand = new THREE.Color(island === 5 ? "#797665" : "#c1b280");
   const stone = new THREE.Color("#7a8279"),
-    snow = new THREE.Color("#d1ddd4");
+    snow = new THREE.Color("#787d65");
   function point(ring: number, sector: number) {
     const angle = (sector / sectors) * TAU,
       fraction = ring / rings;

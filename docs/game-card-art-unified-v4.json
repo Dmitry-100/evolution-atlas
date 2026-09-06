@@ -1,0 +1,44 @@
+[
+  {
+    "name": "divide",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card in a SINGLE UNIFIED NATURALIST DECK for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: A luminous cross-current meeting another current in a narrow ocean strait between low black lava Galapagos coasts, pale foam showing the barrier, no land bridge. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition, consistent with naturalist seedbank and raft card illustrations: horizon at upper third, subject centered in upper-middle half, gently darker quiet lower quarter for UI title added later. Grounded volcanic landscape, soft natural late afternoon light, restrained saturation. No text, no typography, no frame, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/divide-v4.jpg",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "migrate",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card in a SINGLE UNIFIED NATURALIST DECK for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: Three small fictional furry mammal-like quadrupeds arriving together on a low volcanic Galapagos coast from floating natural branches at the shore, another island across the ocean. No dinosaurs, no human boat. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition, consistent with naturalist seedbank and raft card illustrations: horizon at upper third, subject centered in upper-middle half, gently darker quiet lower quarter for UI title added later. Grounded volcanic landscape, soft natural late afternoon light, restrained saturation. No text, no typography, no frame, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/migrate-v4.jpg",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "refuge",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card in a SINGLE UNIFIED NATURALIST DECK for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: A sheltered volcanic lava-rock hollow protecting two small fictional furry mammal-like quadrupeds, an open coastal bay and distant low volcano outside the cave. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition, consistent with naturalist seedbank and raft card illustrations: horizon at upper third, subject centered in upper-middle half, gently darker quiet lower quarter for UI title added later. Grounded volcanic landscape, soft natural late afternoon light, restrained saturation. No text, no typography, no frame, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/refuge-v4.jpg",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "shade",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card in a SINGLE UNIFIED NATURALIST DECK for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: Droplets and delicate mist caught by coastal leaves and low trees over dark Galapagos lava, a cooler patch of shadow beside a turquoise bay, no tropical fantasy jungle. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition, consistent with naturalist seedbank and raft card illustrations: horizon at upper third, subject centered in upper-middle half, gently darker quiet lower quarter for UI title added later. Grounded volcanic landscape, soft natural late afternoon light, restrained saturation. No text, no typography, no frame, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/shade-v4.jpg",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "food",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card in a SINGLE UNIFIED NATURALIST DECK for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: Fresh unfurling green shoots growing through rain-moistened black volcanic rocks on a Galapagos slope, distant ocean and a low broad volcano. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition, consistent with naturalist seedbank and raft card illustrations: horizon at upper third, subject centered in upper-middle half, gently darker quiet lower quarter for UI title added later. Grounded volcanic landscape, soft natural late afternoon light, restrained saturation. No text, no typography, no frame, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/food-v4.jpg",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "mosaic",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card in a SINGLE UNIFIED NATURALIST DECK for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: A balanced mosaic of young green shoots and mature golden seed grasses growing together among black volcanic Galapagos stones beside a turquoise bay, two food resources clearly coexisting. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition, consistent with naturalist seedbank and raft card illustrations: horizon at upper third, subject centered in upper-middle half, gently darker quiet lower quarter for UI title added later. Grounded volcanic landscape, soft natural late afternoon light, restrained saturation. No text, no typography, no frame, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/mosaic-v4.jpg",
+    "tool": "built-in image_gen"
+  },
+  {
+    "name": "cover",
+    "prompt": "Use case: illustration-story. Asset: one premium illustrated game card in a SINGLE UNIFIED NATURALIST DECK for a Russian evolution browser game set in an imagined Galapagos archipelago. Subject: Low protective dense coastal shrubs and grasses among dark Galapagos lava rocks, a small fictional furry mammal-like quadruped sheltered inside, open ocean and low volcano behind. Style: rich natural history illustration with painterly realistic detail, elegant scientific expedition atmosphere, deep forest green shadows, muted olive and warm antique gold, dark teal ocean. Portrait 3:4 composition, consistent with naturalist seedbank and raft card illustrations: horizon at upper third, subject centered in upper-middle half, gently darker quiet lower quarter for UI title added later. Grounded volcanic landscape, soft natural late afternoon light, restrained saturation. No text, no typography, no frame, no UI, no watermark. One coherent image only.",
+    "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/cover-v4.jpg",
+    "tool": "built-in image_gen"
+  }
+]

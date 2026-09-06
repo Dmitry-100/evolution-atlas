@@ -1,0 +1,1392 @@
+@layer evolution-game {
+  .game-traits-help {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 6px;
+    padding: 0 0 8px;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: 11px var(--font-body);
+    text-align: left;
+    cursor: pointer;
+  }
+  .game-traits-help > span {
+    margin-left: auto;
+    font-size: 10px;
+    color: var(--gold);
+  }
+  .game-traits-help:hover {
+    color: var(--gold);
+  }
+  .game-traits-dialog {
+    width: min(520px, calc(100vw - 28px));
+  }
+  .game-turn-dialog {
+    width: min(530px, calc(100vw - 24px));
+  }
+  .game-turn-dialog > .game-dialog-heading {
+    margin-bottom: 18px;
+  }
+  .game-turn-dialog .game-dialog-heading h2 {
+    font-size: 34px;
+  }
+  .game-turn-population {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+  .game-turn-population > span {
+    grid-column: 1 / -1;
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .game-turn-population > strong {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font: 46px/1.2 var(--font-display);
+  }
+  .game-turn-population > small {
+    padding-bottom: 8px;
+    font-size: 12px;
+  }
+  .game-turn-population .is-growing {
+    color: var(--moss);
+  }
+  .game-turn-population .is-falling {
+    color: #d69e81;
+  }
+  .game-turn-facts {
+    display: flex;
+    gap: 25px;
+    padding: 10px 0;
+    margin: 10px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .game-turn-facts p {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .game-turn-facts svg {
+    color: var(--gold);
+  }
+  .game-turn-facts strong {
+    color: var(--text);
+  }
+  .game-turn-takeaway {
+    padding: 12px 14px;
+    background: #d3b77608;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+  }
+  .game-turn-takeaway p {
+    display: flex;
+    gap: 7px;
+    align-items: baseline;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 7px 0 0;
+  }
+  .game-turn-takeaway svg {
+    flex-shrink: 0;
+    color: var(--moss);
+  }
+  .game-turn-context {
+    font-size: 11px;
+    line-height: 1.6;
+    margin: 13px 0;
+    color: var(--muted);
+  }
+  .game-turn-context strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .game-turn-summary-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .game-turn-summary-actions .islands-primary {
+    padding: 11px 14px;
+    font-size: 12px;
+  }
+  @media (max-width: 600px) {
+    .game-turn-dialog {
+      padding: 20px;
+    }
+    .game-turn-dialog .game-dialog-heading h2 {
+      font-size: 28px;
+    }
+    .game-turn-population > strong {
+      font-size: 37px;
+      gap: 9px;
+    }
+    .game-turn-population > small {
+      font-size: 10px;
+    }
+    .game-turn-facts {
+      gap: 12px;
+    }
+    .game-turn-facts p {
+      font-size: 10px;
+      gap: 4px;
+    }
+    .game-turn-facts svg {
+      width: 13px;
+    }
+    .game-turn-takeaway {
+      padding: 10px;
+    }
+    .game-turn-takeaway p {
+      font-size: 12px;
+    }
+    .game-turn-summary-actions .islands-primary {
+      font-size: 10px;
+      padding: 11px 10px;
+      gap: 6px;
+    }
+    .game-turn-summary-actions .game-text-button {
+      font-size: 10px;
+    }
+  }
+  @media (max-height: 450px) and (min-width: 600px) {
+    .game-turn-dialog {
+      width: min(740px, calc(100vw - 24px));
+      padding: 16px 22px;
+    }
+    .game-turn-dialog > .game-dialog-heading {
+      margin-bottom: 10px;
+    }
+    .game-turn-dialog .game-dialog-heading h2 {
+      font-size: 25px;
+    }
+    .game-turn-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 20px;
+    }
+    .game-turn-population > strong {
+      font-size: 36px;
+    }
+    .game-turn-facts {
+      grid-row: 2;
+      margin: 0;
+      gap: 12px;
+    }
+    .game-turn-takeaway {
+      grid-column: 2;
+      grid-row: 1 / 3;
+    }
+    .game-turn-context {
+      margin: 0;
+      align-self: center;
+    }
+    .game-turn-summary-actions {
+      grid-column: 2;
+    }
+  }
+  .game-traits-simple > p {
+    margin: 0 0 15px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .game-traits-simple dl {
+    margin: 0 0 18px;
+  }
+  .game-traits-simple dl > div {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .game-traits-simple dt {
+    color: var(--gold);
+  }
+  .game-traits-simple dd {
+    margin: 0;
+    color: var(--text);
+  }
+  .game-card-copy strong {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .game-card-copy > span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    height: 2.8em;
+  }
+  .game-card-copy .game-card-topic {
+    display: block;
+    margin-top: 5px;
+    color: var(--gold);
+    font: 9px/1.2 var(--font-body);
+    letter-spacing: 0.03em;
+  }
+  .game-action-art {
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    min-height: 0;
+    max-height: none;
+    align-self: start;
+  }
+  .game-action-art img {
+    object-position: center;
+  }
+  .game-card-story {
+    grid-column: 1 / -1;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 15px 18px;
+    background: #d9ba7108;
+  }
+  .game-card-story h3 {
+    margin: 6px 0 8px;
+    font: 24px/1.15 var(--font-display);
+  }
+  .game-card-story p {
+    font: 13px/1.6 var(--font-body);
+    color: var(--muted);
+    margin: 0 0 12px;
+  }
+  .game-card-story > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .game-card-story a {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    color: var(--gold);
+    font-size: 11px;
+  }
+  @media (max-width: 600px) {
+    .game-action-art {
+      width: 126px;
+      min-height: 0;
+      max-height: none;
+      justify-self: center;
+    }
+    .game-card-copy .game-card-topic {
+      display: none;
+    }
+    .game-card-story {
+      padding: 12px;
+    }
+    .game-card-story h3 {
+      font-size: 21px;
+    }
+    .game-traits-simple dl > div {
+      grid-template-columns: 80px 1fr;
+      font-size: 12px;
+      gap: 8px;
+    }
+  }
+  .game-trait-help {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: inherit;
+    padding: 0;
+    background: none;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .game-trait-help:hover {
+    color: var(--gold);
+  }
+  .game-empty-population {
+    padding: 12px;
+    border: 1px dashed var(--line);
+    border-radius: 7px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .game-empty-population strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .game-empty-population p {
+    margin: 5px 0 0;
+  }
+  .game-trait-explanation > p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .game-trait-legend {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 22px 0;
+  }
+  .game-trait-legend article {
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: #ffffff03;
+    border-radius: 8px;
+  }
+  .game-trait-legend h3 {
+    margin: 9px 0;
+    font: 23px var(--font-display);
+  }
+  .game-trait-legend strong {
+    font: 12px var(--font-body);
+    color: var(--gold);
+  }
+  .game-trait-legend p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .game-trait-dot {
+    display: block;
+    width: 28px;
+    height: 4px;
+    border-radius: 3px;
+    background: var(--moss);
+  }
+  .game-trait-dot.variant-1 {
+    background: var(--gold);
+  }
+  .game-trait-dot.variant-2 {
+    background: var(--teal);
+  }
+  .game-food-budget {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin: 14px 0;
+  }
+  .game-dialog details > summary {
+    cursor: pointer;
+    color: var(--gold);
+    font-size: 13px;
+    padding: 5px 0;
+  }
+  .game-dialog details[open] > summary {
+    margin-bottom: 10px;
+  }
+  .game-food-budget p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .game-food-budget p span {
+    display: block;
+  }
+  .game-food-budget strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .game-animal-comparison {
+    border-top: 1px solid var(--line);
+    margin: 25px 0;
+    padding-top: 18px;
+  }
+  .game-animal-comparison h3 {
+    font: 25px var(--font-display);
+    margin: 0 0 10px;
+  }
+  .game-portraits {
+    display: grid;
+    grid-template-columns: 1fr 25px 1fr;
+    align-items: center;
+    gap: 8px;
+  }
+  .game-portraits figure {
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 8px;
+    background: radial-gradient(ellipse at 50% 40%, #afbc6120, transparent 70%);
+  }
+  .game-portraits > span {
+    font-size: 23px;
+    color: var(--gold);
+    text-align: center;
+  }
+  .game-portraits figcaption {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+    padding-bottom: 4px;
+  }
+  .game-creature-portrait {
+    display: block;
+    width: 100%;
+  }
+  .game-portrait-empty {
+    aspect-ratio: 240 / 128;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .game-change-list p {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    margin: 0;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .game-change-list strong {
+    white-space: nowrap;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .game-expedition-setup {
+    width: min(740px, calc(100vw - 28px));
+  }
+  .game-darwin-intro {
+    color: var(--text);
+    font: 19px/1.6 var(--font-display);
+    margin: 4px 0 20px;
+  }
+  .game-start-goal {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    border: 1px solid #d9ad6155;
+    background: linear-gradient(120deg, #d9ad6113, transparent);
+    border-radius: 9px;
+    padding: 20px;
+    margin: 12px 0 22px;
+  }
+  .game-start-goal > svg {
+    color: var(--gold);
+    flex: 0 0 auto;
+    margin-top: 5px;
+  }
+  .game-start-goal h3 {
+    margin: 0 0 7px;
+    font: 25px var(--font-display);
+  }
+  .game-start-goal p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .game-setup-fields,
+  .game-sandbox-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 13px;
+  }
+  .game-sandbox-controls {
+    padding: 16px;
+    border: 1px solid #82b5ad55;
+    border-radius: 8px;
+    margin: 15px 0;
+    background: #82b5ad09;
+  }
+  .game-sandbox-controls > p {
+    grid-column: 1 / -1;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .game-colony-tree label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .game-colony-tree input,
+  .game-share-expedition input {
+    border: 1px solid var(--line);
+    background: #0002;
+    border-radius: 5px;
+    color: var(--text);
+    font: 13px var(--font-body);
+    min-height: 38px;
+    padding: 9px 11px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .game-dialog input:focus-visible,
+  .game-trait-help:focus-visible,
+  .game-card-keep:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+  .game-tutorial-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text);
+    margin: 16px 0;
+  }
+  .game-tutorial-toggle input {
+    accent-color: var(--gold);
+    width: 16px;
+    height: 16px;
+  }
+  .game-tutorial {
+    position: absolute;
+    z-index: 8;
+    bottom: 30px;
+    left: 18px;
+    width: min(340px, calc(100% - 36px));
+    box-sizing: border-box;
+    padding: 15px 17px;
+    border: 1px solid #dfbe71b0;
+    border-radius: 9px;
+    background: #12211bf2;
+    box-shadow: 0 10px 35px #0005;
+    animation: game-menu-in 0.25s ease-out;
+  }
+  .game-tutorial > strong {
+    display: block;
+    color: var(--text);
+    font: 22px/1.15 var(--font-display);
+    margin: 7px 0;
+  }
+  .game-tutorial p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 8px 0 10px;
+  }
+  .game-tutorial .game-text-button {
+    font-size: 11px;
+    padding: 0;
+  }
+  .game-studio[data-tutorial="0"] .islands-map-node.is-selected {
+    outline: 2px solid var(--gold);
+    outline-offset: 6px;
+  }
+  .game-studio[data-tutorial="1"] .game-card-hand {
+    outline: 1px solid var(--gold);
+    outline-offset: 4px;
+    border-radius: 7px;
+  }
+  .game-studio[data-tutorial="2"] .game-command-footer > .islands-primary {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
+  .game-studio[data-tutorial] .game-orbit-hint {
+    visibility: hidden;
+  }
+  .game-card-keep {
+    position: absolute;
+    z-index: 3;
+    left: 8px;
+    top: 8px;
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 27px;
+    padding: 0;
+    color: #ded8be;
+    background: #14221bbc;
+    border: 1px solid #d9ad6150;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .game-card-keep.is-kept {
+    background: var(--gold);
+    color: #18231b;
+  }
+  .game-card-keep:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  .game-action-impact {
+    border: 1px solid #a5bc7145;
+    background: #a5bc710a;
+    border-radius: 7px;
+    padding: 13px;
+    margin-bottom: 15px;
+  }
+  .game-action-impact > strong {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--moss);
+  }
+  .game-action-impact p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin: 8px 0 0;
+  }
+  .game-field-note {
+    border-left: 2px solid var(--gold);
+    padding: 5px 0 5px 16px;
+    margin: 22px 0;
+  }
+  .game-field-note h3 {
+    font: 23px var(--font-display);
+    margin: 7px 0 10px;
+  }
+  .game-field-note p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .game-field-note a,
+  .game-journal a,
+  .game-discoveries a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--gold);
+  }
+  .game-journal {
+    width: min(800px, calc(100vw - 28px));
+  }
+  .game-journal .game-finale-tab-list {
+    margin-bottom: 20px;
+  }
+  .game-journal-mission {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 7px 15px;
+    border-bottom: 1px solid var(--line);
+    padding: 0 0 17px;
+    margin-bottom: 14px;
+  }
+  .game-journal-mission strong {
+    font: 24px var(--font-display);
+  }
+  .game-journal-mission span {
+    font-size: 12px;
+    color: var(--gold);
+    align-self: center;
+  }
+  .game-journal-mission p {
+    grid-column: 1/-1;
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .game-discoveries {
+    display: grid;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .game-discoveries article {
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: linear-gradient(110deg, #a1b76c0a, transparent);
+  }
+  .game-discoveries svg {
+    color: var(--moss);
+  }
+  .game-discoveries h3 {
+    font: 24px var(--font-display);
+    margin: 8px 0;
+  }
+  .game-discoveries p {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .game-colony-tree {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 13px;
+    margin: 18px 0;
+  }
+  .game-colony-tree li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 20px 1fr auto;
+    align-items: start;
+    gap: 12px;
+    border-left: 2px solid var(--moss);
+    border-radius: 0 8px 8px 0;
+    padding: 15px;
+    background: #a1b76c09;
+  }
+  .game-colony-tree li > svg {
+    color: var(--gold);
+    margin-top: 4px;
+  }
+  .game-colony-tree li > div > strong {
+    font: 23px var(--font-display);
+  }
+  .game-colony-tree li p {
+    color: var(--muted);
+    font-size: 11px;
+    margin: 6px 0 12px;
+  }
+  .game-colony-tree li > span {
+    color: var(--gold);
+    font: 25px var(--font-display);
+    text-align: right;
+  }
+  .game-colony-tree li small {
+    display: block;
+    font: 10px var(--font-body);
+    color: var(--muted);
+    margin-top: 5px;
+  }
+  .game-share-expedition {
+    margin-top: 25px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .game-share-expedition h3,
+  .game-attempt-comparison h3 {
+    font: 25px var(--font-display);
+  }
+  .game-share-expedition p,
+  .game-attempt-comparison p {
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .game-share-expedition input {
+    font-size: 11px;
+  }
+  .game-attempt-comparison svg {
+    display: block;
+    width: 100%;
+  }
+  .game-comparison-key {
+    display: inline-block;
+    width: 14px;
+    height: 3px;
+    margin: 0 5px 3px 12px;
+    background: #e8c675;
+  }
+  .game-comparison-key.previous {
+    background: #82b5ad;
+  }
+  .game-island-register {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .game-island-register article {
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .game-island-register span {
+    color: var(--gold);
+    font-size: 10px;
+  }
+  .game-island-register h3 {
+    font: 25px var(--font-display);
+    margin: 7px 0;
+  }
+  .game-island-register p {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+  }
+  @media (max-width: 600px) {
+    .game-tutorial {
+      left: 10px;
+      bottom: 28px;
+      width: calc(100% - 20px);
+      padding: 11px 13px;
+    }
+    .game-tutorial > strong {
+      font-size: 19px;
+    }
+    .game-tutorial p {
+      font-size: 11px;
+      line-height: 1.4;
+    }
+    .game-setup-fields,
+    .game-sandbox-controls,
+    .game-trait-legend {
+      grid-template-columns: 1fr;
+    }
+    .game-trait-legend article {
+      padding: 12px;
+    }
+    .game-trait-legend h3 {
+      font-size: 22px;
+    }
+    .game-trait-legend p {
+      margin-bottom: 0;
+    }
+    .game-darwin-intro {
+      font-size: 17px;
+    }
+    .game-start-goal {
+      padding: 14px;
+      gap: 10px;
+    }
+    .game-start-goal h3 {
+      font-size: 22px;
+    }
+    .game-journal-mission {
+      grid-template-columns: 1fr;
+    }
+    .game-colony-tree li {
+      grid-template-columns: 1fr auto;
+      gap: 7px;
+      padding: 12px;
+    }
+    .game-colony-tree li > svg {
+      display: none;
+    }
+    .game-colony-tree li > div > strong {
+      font-size: 20px;
+    }
+    .game-colony-tree li > span {
+      font-size: 22px;
+    }
+    .game-colony-tree li small {
+      max-width: 70px;
+    }
+    .game-island-register {
+      grid-template-columns: 1fr;
+    }
+    .game-card-keep {
+      width: 24px;
+      height: 24px;
+      top: 5px;
+      left: 5px;
+    }
+    .game-finale-tab-list {
+      flex-wrap: wrap;
+      gap: 0 14px;
+    }
+    .game-finale .game-finale-tab-list button {
+      flex: 0 1 auto;
+      padding: 10px 0;
+    }
+  }
+  @media (max-height: 650px) and (max-width: 600px) {
+    .game-tutorial {
+      bottom: 23px;
+      padding: 8px 10px;
+    }
+    .game-tutorial .game-eyebrow {
+      font-size: 8px;
+    }
+    .game-tutorial > strong {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+    .game-tutorial p {
+      font-size: 10px;
+      margin: 5px 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .game-tutorial {
+      animation: none;
+    }
+  }
+  .game-expedition-setup {
+    width: min(980px, calc(100vw - 36px));
+    padding: 0;
+    overflow: hidden;
+  }
+  .game-expedition-setup > .game-dialog-heading {
+    padding: 23px 28px 18px;
+    margin: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .game-expedition-setup > .game-dialog-heading h2 {
+    font-size: clamp(27px, 3vw, 36px);
+    line-height: 1.12;
+    margin-top: 7px;
+  }
+  .game-expedition-setup > .game-dialog-body {
+    display: grid;
+    grid-template-columns: 40% minmax(0, 1fr);
+    gap: 0;
+    max-height: calc(100dvh - 180px);
+    overflow-y: auto;
+  }
+  .game-expedition-hero {
+    margin: 0;
+    position: relative;
+    min-height: 560px;
+    overflow: hidden;
+    background: #182820;
+  }
+  .game-expedition-hero img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 48% 35%;
+  }
+  .game-expedition-hero::after {
+    position: absolute;
+    content: "";
+    inset: 0;
+    background: linear-gradient(180deg, #101b1400 48%, #0d1b16ee);
+  }
+  .game-expedition-hero figcaption {
+    position: absolute;
+    bottom: 26px;
+    left: 26px;
+    right: 20px;
+    z-index: 1;
+    color: #eee7ce;
+  }
+  .game-expedition-hero figcaption > span {
+    color: #e1bc73;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+  }
+  .game-expedition-hero figcaption > strong {
+    display: block;
+    font: 30px/1.16 var(--font-display);
+    margin: 10px 0 14px;
+  }
+  .game-expedition-hero figcaption > small {
+    font-size: 9px;
+    color: #bfbba8;
+  }
+  .game-expedition-brief {
+    padding: 23px 28px 18px;
+  }
+  .game-expedition-history {
+    font: 14px/1.65 var(--font-body);
+    color: var(--muted);
+    margin: 0 0 18px;
+  }
+  .game-expedition-brief .game-start-goal {
+    border: 0;
+    background: none;
+    padding: 0;
+    gap: 11px;
+    margin: 0 0 16px;
+  }
+  .game-expedition-brief .game-start-goal h3 {
+    font-size: 27px;
+    margin: 0 0 6px;
+  }
+  .game-expedition-brief .game-start-goal p {
+    font-size: 12px;
+    margin: 0;
+  }
+  .game-expedition-numbers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .game-expedition-numbers > span {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    border-right: 1px solid var(--line);
+  }
+  .game-expedition-numbers > span:last-child {
+    border: 0;
+  }
+  .game-expedition-numbers strong {
+    color: var(--gold);
+    font: 32px/1 var(--font-display);
+  }
+  .game-expedition-loop {
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 15px 0 18px;
+  }
+  .game-mission-description {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.45;
+    margin: 7px 0 12px;
+  }
+  .game-expedition-brief .game-tutorial-toggle {
+    font-size: 11px;
+    margin: 12px 0;
+  }
+  .game-expedition-brief > .islands-primary {
+    width: 100%;
+    justify-content: space-between;
+    min-height: 45px;
+  }
+  .game-expedition-model {
+    font-size: 9px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin: 10px 0 0;
+  }
+  @media (max-width: 680px) {
+    .game-expedition-setup {
+      width: min(520px, calc(100vw - 24px));
+    }
+    .game-expedition-setup > .game-dialog-heading {
+      padding: 17px 18px 14px;
+    }
+    .game-expedition-setup > .game-dialog-heading h2 {
+      font-size: 27px;
+    }
+    .game-expedition-setup > .game-dialog-body {
+      display: block;
+      max-height: calc(100dvh - 160px);
+    }
+    .game-expedition-hero {
+      min-height: 190px;
+      height: 190px;
+    }
+    .game-expedition-hero img {
+      object-position: 50% 10%;
+    }
+    .game-expedition-hero figcaption {
+      bottom: 13px;
+      left: 18px;
+    }
+    .game-expedition-hero figcaption > strong {
+      font-size: 23px;
+      margin: 6px 0 0;
+    }
+    .game-expedition-hero figcaption > small {
+      display: none;
+    }
+    .game-expedition-brief {
+      padding: 18px;
+    }
+    .game-expedition-history {
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+    .game-expedition-brief .game-start-goal h3 {
+      font-size: 25px;
+    }
+    .game-expedition-brief .game-start-goal > svg {
+      width: 21px;
+    }
+    .game-expedition-numbers strong {
+      font-size: 29px;
+    }
+    .game-expedition-numbers > span {
+      font-size: 10px;
+      gap: 5px;
+    }
+  }
+  @media (max-width: 680px) {
+    .game-expedition-brief > .islands-primary {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      box-shadow:
+        0 0 0 8px #132119,
+        0 -12px 18px #132119;
+    }
+  }
+
+  .game-expedition-brief .game-setup-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .game-expedition-brief .game-sandbox-controls {
+    margin: 0;
+    padding: 12px;
+    gap: 10px 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .game-expedition-brief .game-sandbox-controls p {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.5;
+    min-height: 30px;
+  }
+  .game-expedition-brief .game-mission-description {
+    min-height: 32px;
+    margin: 7px 0;
+  }
+  .game-select:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+  @media (max-width: 680px) {
+    .game-expedition-brief .game-select {
+      padding: 10px;
+      font-size: 11px;
+    }
+    .game-expedition-brief .game-field > span {
+      font-size: 10px;
+      min-height: 13px;
+    }
+    .game-expedition-brief .game-sandbox-controls {
+      padding: 10px;
+    }
+    .game-expedition-brief > .islands-primary {
+      bottom: 8px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .game-traits-dialog {
+      padding: 18px;
+    }
+    .game-traits-dialog > .game-dialog-heading {
+      margin-bottom: 12px;
+    }
+    .game-traits-dialog .game-dialog-heading h2 {
+      font-size: 29px;
+    }
+    .game-traits-simple > p {
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .game-traits-simple dl {
+      margin-bottom: 12px;
+    }
+    .game-traits-simple dl > div {
+      padding: 8px 0;
+    }
+  }
+}
+
+@layer evolution-game {
+  .game-creature-comparison {
+    margin: 8px 0;
+  }
+  .game-creature-stage {
+    position: relative;
+    height: 190px;
+    border-radius: 9px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 25% 60%, #dfc47a13, transparent 40%),
+      radial-gradient(ellipse at 75% 60%, #82b5ad16, transparent 40%);
+  }
+  .game-creature-stage canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    touch-action: pan-y;
+  }
+  .game-creature-stage canvas:active {
+    cursor: grabbing;
+  }
+  .game-creature-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+  .game-creature-arrow {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--gold);
+    font-size: 23px;
+    pointer-events: none;
+  }
+  .game-portrait-pause {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 27px;
+    height: 27px;
+    display: grid;
+    place-items: center;
+    color: var(--gold);
+    background: #13211ac9;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .game-creature-comparison figcaption {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .game-turn-evolution .game-creature-stage {
+    height: 115px;
+  }
+  .game-turn-evolution > p {
+    font-size: 12px;
+  }
+  .game-turn-evolution > small {
+    display: block;
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+  .game-turn-evolution .game-creature-comparison {
+    margin: 0;
+  }
+  .game-turn-summary.has-evolution .game-turn-takeaway {
+    padding: 10px 12px;
+  }
+  .game-discoveries article {
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+  }
+  .game-discoveries article > img,
+  .game-discoveries article > picture {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    border-radius: 5px;
+  }
+  .game-discoveries article > picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: inherit;
+  }
+  @media (max-width: 600px) {
+    .game-discoveries article {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+  .game-discovery-source {
+    display: inline-flex;
+    margin-left: 15px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .game-branch-difference {
+    border-top: 1px solid var(--line);
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+  .game-branch-difference > small,
+  .game-branch-isolation {
+    font-size: 10px;
+    color: var(--gold);
+  }
+  .game-branch-difference p strong {
+    font: inherit;
+    color: var(--text);
+  }
+  .game-branch-traits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 12px;
+    margin-top: 8px;
+  }
+  .game-branch-traits span {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .game-branch-traits b {
+    color: var(--text);
+    font-weight: 400;
+  }
+  @media (max-width: 600px) {
+    .game-creature-stage {
+      height: 150px;
+    }
+    .game-turn-evolution .game-creature-stage {
+      height: 90px;
+    }
+    .game-turn-dialog:has(.has-evolution) {
+      padding: 16px;
+    }
+    .game-turn-dialog:has(.has-evolution) .game-dialog-heading {
+      margin-bottom: 8px;
+    }
+    .game-turn-summary.has-evolution .game-turn-population > strong {
+      font-size: 31px;
+    }
+    .game-turn-summary.has-evolution .game-turn-facts {
+      margin: 6px 0;
+      padding: 7px 0;
+    }
+    .game-turn-summary.has-evolution .game-turn-context {
+      margin: 8px 0;
+      font-size: 10px;
+    }
+    .game-turn-summary.has-evolution .game-turn-takeaway > p {
+      font-size: 11px;
+      margin: 4px 0;
+    }
+    .game-turn-evolution > p {
+      font-size: 11px;
+      line-height: 1.4;
+      margin: 5px 0 0;
+    }
+    .game-turn-evolution .game-creature-comparison figcaption {
+      font-size: 10px;
+    }
+    .game-branch-traits {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-height: 450px) and (min-width: 600px) {
+    .game-turn-summary.has-evolution {
+      gap: 5px 16px;
+    }
+    .game-turn-evolution .game-creature-stage {
+      height: 80px;
+    }
+    .game-turn-summary.has-evolution .game-turn-takeaway {
+      padding: 6px 10px;
+    }
+    .game-turn-evolution > p {
+      font-size: 10px;
+      margin: 3px 0;
+    }
+    .game-turn-summary.has-evolution .game-turn-takeaway > p {
+      font-size: 10px;
+      margin: 3px 0;
+    }
+  }
+}
+@layer evolution-game {
+  .game-creature-fallback > div {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+  .game-creature-fallback > div svg {
+    min-width: 0;
+    flex: 1;
+  }
+}
+@layer evolution-game {
+  @media (max-height: 450px) and (min-width: 600px) {
+    .game-turn-evolution .game-creature-stage {
+      height: 60px;
+    }
+    .game-turn-summary.has-evolution .game-turn-context {
+      font-size: 10px;
+      line-height: 1.4;
+    }
+  }
+}

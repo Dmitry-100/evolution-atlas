@@ -7,17 +7,19 @@ export function GameSelect({
   onChange,
   options,
   placeholder = "Выберите",
+  disabled = false,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   options: { value: string; label: string; detail?: string }[];
   placeholder?: string;
+  disabled?: boolean;
 }) {
   return (
     <label className="game-field">
       <span>{label}</span>
-      <Select.Root value={value} onValueChange={onChange}>
+      <Select.Root value={value} onValueChange={onChange} disabled={disabled}>
         <Select.Trigger className="game-select" aria-label={label}>
           <Select.Value placeholder={placeholder} />
           <Select.Icon>

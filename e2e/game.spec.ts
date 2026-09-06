@@ -43,7 +43,7 @@ test("game starts, plans real migration, persists the draft and resolves exactly
   await page
     .getByRole("combobox", { name: "Соседний берег", exact: true })
     .click();
-  await page.getByRole("option", { name: /Ветровая равнина/ }).click();
+  await page.getByRole("option", { name: /Сантьяго/ }).click();
   await page.getByRole("button", { name: "Добавить в план" }).click();
   await expect(page.locator(".islands-draft")).toContainText("Расселение");
   await page.reload();
@@ -165,8 +165,10 @@ test("denied storage does not prevent play", async ({ page }) => {
   await page
     .getByRole("button", { name: "Начать экспедицию", exact: true })
     .click();
+  await page.getByRole("button", { name: "Отправиться к островам" }).click();
   await page.getByRole("button", { name: "Следующие поколения" }).click();
   await expect(page.locator(".islands-report")).toBeVisible();
+  await page.getByRole("button", { name: "Закрыть", exact: true }).click();
   await expect(page.getByRole("status")).toContainText(
     "не позволяет сохранить",
   );
@@ -192,7 +194,7 @@ test("small screen, reduced motion, keyboard and assets remain usable", async ({
       () => document.documentElement.scrollWidth <= window.innerWidth + 1,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: /^Тихая бухта: / }).click();
+  await page.getByRole("button", { name: /^Эспаньола: / }).click();
   await page.locator(".game-mobile-island").click();
   await expect(page.getByRole("dialog")).toContainText("Тёплое побережье");
   await page.getByRole("button", { name: "Закрыть", exact: true }).click();
@@ -346,6 +348,7 @@ test("a browser without WebGL retains a playable illustrated map", async ({
   await page
     .getByRole("button", { name: "Начать экспедицию", exact: true })
     .click();
+  await page.getByRole("button", { name: "Отправиться к островам" }).click();
   await page.getByRole("button", { name: "Следующие поколения" }).click();
   await expect(page.locator(".islands-report")).toBeVisible();
 });

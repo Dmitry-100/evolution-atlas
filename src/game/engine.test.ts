@@ -25,41 +25,71 @@ import {
 import { loadGame, parseGame, saveGame } from "./storage";
 
 describe("island evolution", () => {
-  it('conserves individuals during relocation and accounts for transit deaths', () => {
+  it("conserves individuals during relocation and accounts for transit deaths", () => {
     for (const survives of [true, false]) {
       const state = createGame(73);
-      const report = { ...resolveTurn(state).history[0], migrations: 0, transitLosses: 0 };
-      relocate(state, 0, 1, 0.25, () => survives ? 0 : 0.999999, report);
+      const report = {
+        ...resolveTurn(state).history[0],
+        migrations: 0,
+        transitLosses: 0,
+      };
+      relocate(state, 0, 1, 0.25, () => (survives ? 0 : 0.999999), report);
       expect(count(state.regions[0])).toBe(60);
       expect(count(state.regions[1])).toBe(survives ? 20 : 0);
       expect(total(state) + report.transitLosses).toBe(80);
       expect(report.migrations + report.transitLosses).toBe(20);
     }
   });
-  it('does not allow a second migration to spend individuals already leaving', () => {
+  it("does not allow a second migration to spend individuals already leaving", () => {
     const state = createGame(9);
-    state.regions[0].counts.fill(0); state.regions[0].counts[0] = 4;
+    state.regions[0].counts.fill(0);
+    state.regions[0].counts[0] = 4;
     state.hand = [2, 10, 3, 5];
-    const queued = addAction(state, { card: 2, region: 0, destination: 1, fraction: .25 });
-    expect(actionError(queued, { card: 10, region: 0, destination: 1, fraction: .25 })).toContain('слишком мала');
+    const queued = addAction(state, {
+      card: 2,
+      region: 0,
+      destination: 1,
+      fraction: 0.25,
+    });
+    expect(
+      actionError(queued, {
+        card: 10,
+        region: 0,
+        destination: 1,
+        fraction: 0.25,
+      }),
+    ).toContain("слишком мала");
   });
-  it('has stronger relative drift in small neutral populations without directional bias', () => {
+  it("has stronger relative drift in small neutral populations without directional bias", () => {
     const results: number[][] = [[], []];
     [20, 200].forEach((size, group) => {
       for (let run = 1; run <= 300; run++) {
         let seed = run;
-        const random = () => { const [v, next] = randomStep(seed); seed = next; return v; };
-        const counts = Array<number>(81).fill(0), a = profileIndex([1, 1, 0, 0]), b = profileIndex([1, 1, 2, 0]);
+        const random = () => {
+          const [v, next] = randomStep(seed);
+          seed = next;
+          return v;
+        };
+        const counts = Array<number>(81).fill(0),
+          a = profileIndex([1, 1, 0, 0]),
+          b = profileIndex([1, 1, 2, 0]);
         counts[a] = counts[b] = size / 2;
-        const env = { ...environment(createGame(1), 0), foodA: size, foodB: size, capacity: size, temperature: 0, predators: 0 };
+        const env = {
+          ...environment(createGame(1), 0),
+          foodA: size,
+          foodB: size,
+          capacity: size,
+          temperature: 0,
+          predators: 0,
+        };
         const offspring = generation(counts, env, random, 0).counts;
         results[group].push(offspring[a] / (offspring[a] + offspring[b]));
       }
     });
     const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
-    const variance = (xs: number[]) => mean(xs.map(x => (x - .5) ** 2));
-    expect(Math.abs(mean(results[0]) - .5)).toBeLessThan(.06);
-    expect(Math.abs(mean(results[1]) - .5)).toBeLessThan(.06);
+    const variance = (xs: number[]) => mean(xs.map((x) => (x - 0.5) ** 2));
+    expect(Math.abs(mean(results[0]) - 0.5)).toBeLessThan(0.06);
+    expect(Math.abs(mean(results[1]) - 0.5)).toBeLessThan(0.06);
     expect(variance(results[0])).toBeGreaterThan(variance(results[1]) * 3);
   });
   it("replays a whole campaign exactly, including saved reports and card swaps", () => {
@@ -228,8 +258,8 @@ describe("island evolution", () => {
   });
   it("has no universally free upgrade or unreachable card content", () => {
     expect(GENERATIONS).toBe(20);
-    expect(Object.keys(CARDS)).toHaveLength(8);
-    for (let id = 0; id < 16; id++)
+    expect(Object.keys(CARDS)).toHaveLength(14);
+    for (let id = 0; id < 22; id++)
       expect(CARDS[cardKind(id)].tradeoff.length).toBeGreaterThan(20);
     expect(REGIONS).toHaveLength(6);
   });

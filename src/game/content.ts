@@ -1,11 +1,18 @@
-import type { CardKind, EventKind, Profile, RegionDefinition } from "./types";
+import type {
+  CardKind,
+  EventKind,
+  GameAction,
+  Profile,
+  RegionDefinition,
+} from "./types";
 
 export const TURNS = 18;
 export const GENERATIONS = 20;
 export const MUTATION_RATE = 0.007;
 export const REGIONS: RegionDefinition[] = [
   {
-    name: "Зелёная колыбель",
+    name: "Санта-Крус",
+    subtitle: "Зелёная колыбель",
     biome: "Лесная низина",
     temperature: 0.1,
     foodA: 105,
@@ -17,7 +24,8 @@ export const REGIONS: RegionDefinition[] = [
     color: "#a8cf85",
   },
   {
-    name: "Ветровая равнина",
+    name: "Сантьяго",
+    subtitle: "Ветровая равнина",
     biome: "Открытые луга",
     temperature: 0.45,
     foodA: 45,
@@ -29,7 +37,8 @@ export const REGIONS: RegionDefinition[] = [
     color: "#ddc283",
   },
   {
-    name: "Холодный хребет",
+    name: "Исабела",
+    subtitle: "Холодный хребет",
     biome: "Горное плато",
     temperature: -0.8,
     foodA: 55,
@@ -41,7 +50,8 @@ export const REGIONS: RegionDefinition[] = [
     color: "#b0cbd7",
   },
   {
-    name: "Тихая бухта",
+    name: "Эспаньола",
+    subtitle: "Тихая бухта",
     biome: "Тёплое побережье",
     temperature: 0.9,
     foodA: 75,
@@ -53,7 +63,8 @@ export const REGIONS: RegionDefinition[] = [
     color: "#edcc91",
   },
   {
-    name: "Папоротниковый край",
+    name: "Сан-Кристобаль",
+    subtitle: "Папоротниковый край",
     biome: "Влажные заросли",
     temperature: 0.25,
     foodA: 120,
@@ -65,7 +76,8 @@ export const REGIONS: RegionDefinition[] = [
     color: "#79c0ae",
   },
   {
-    name: "Пепельный берег",
+    name: "Фернандина",
+    subtitle: "Пепельный берег",
     biome: "Вулканический остров",
     temperature: 0.5,
     foodA: 45,
@@ -126,19 +138,20 @@ export const CARDS: Record<
     tradeoff: string;
     duration: number;
     target: "region" | "edge" | "migration";
+    unlock?: number;
   }
 > = {
   bridge: {
-    title: "Сухопутный мост",
+    title: "Морской коридор",
     cost: 2,
-    description: "Открывает путь между соседними островами на 2 хода.",
+    description: "Попутное течение открывает морской путь на 2 хода.",
     tradeoff:
-      "По мосту существа расселяются сами. Популяции снова обмениваются наследуемыми вариантами.",
+      "По открытому пути существа расселяются сами. Популяции снова обмениваются наследуемыми вариантами.",
     duration: 2,
     target: "edge",
   },
   divide: {
-    title: "Разделить берега",
+    title: "Встречное течение",
     cost: 1,
     description: "Закрывает один путь на 2 хода.",
     tradeoff: "Изоляция остановит и возможное спасительное расселение.",
@@ -196,11 +209,82 @@ export const CARDS: Record<
     duration: 2,
     target: "region",
   },
+  seedbank: {
+    title: "Семенной сад",
+    cost: 1,
+    duration: 2,
+    target: "region",
+    unlock: 1,
+    description: "Добавляет 65 единиц семян, занимает 20 единиц побегов.",
+    tradeoff:
+      "Помогает питающимся семенами. Общий запас вырастет на 45; любителям побегов станет труднее.",
+  },
+  raft: {
+    title: "Плот из коряг",
+    cost: 2,
+    duration: 0,
+    target: "migration",
+    unlock: 1,
+    description: "Переносит 10% или 25% колонии через закрытый пролив.",
+    tradeoff:
+      "В модели шанс пережить открытое море — 40–70% в зависимости от способности к расселению. Постоянный путь не появляется.",
+  },
+  stores: {
+    title: "Сезонные запасы",
+    cost: 1,
+    duration: 3,
+    target: "region",
+    unlock: 4,
+    description:
+      "Меньше пищи сейчас, по 25 единиц обоих ресурсов в следующие 2 хода.",
+    tradeoff:
+      "В этом ходу недоступны 25% побегов и семян. Запасы добавляются после погодных потерь; откладывать их при голоде рискованно.",
+  },
+  territory: {
+    title: "Новая территория",
+    cost: 2,
+    duration: 3,
+    target: "region",
+    unlock: 4,
+    description:
+      "До 40 новых мест на 3 хода, но на 25% больше давления хищников.",
+    tradeoff:
+      "Максимум — 200 мест на острове. Пища не прибавляется: расширение помогает только колонии с достаточными ресурсами.",
+  },
+  scout: {
+    title: "Разведка берегов",
+    cost: 1,
+    duration: 3,
+    target: "region",
+    unlock: 1,
+    description: "Открывает локальные события двух следующих ходов.",
+    tradeoff:
+      "Информация вместо немедленной помощи. Крупные кризисы и без разведки видны на шкале; прогноз сохраняется в дневнике событий.",
+  },
+  exchange: {
+    title: "Обмен колониями",
+    cost: 2,
+    duration: 0,
+    target: "migration",
+    unlock: 7,
+    description:
+      "Две заселённые колонии обмениваются частью жителей по открытому пути.",
+    tradeoff:
+      "В обе стороны отправляются 10% или 25% исходной численности. Обмен переносит имеющиеся варианты, но часть переселенцев погибнет.",
+  },
 };
 export const CARD_KINDS = Object.keys(CARDS) as CardKind[];
 export function cardKind(id: number): CardKind {
-  return CARD_KINDS[id % CARD_KINDS.length];
+  // IDs 0–15 preserve the meaning of both copies in old saved games.
+  return CARD_KINDS[id < 16 ? id % 8 : id - 8];
 }
+export const DECK_SIZE = 22;
+export const DEFAULT_SETTINGS = {
+  mission: "survive",
+  mode: "expedition",
+  mutation: "normal",
+  migration: "normal",
+} as const;
 export const EVENTS: Record<
   EventKind,
   { title: string; description: string; icon: string; duration: number }
@@ -266,7 +350,7 @@ export const EVENTS: Record<
     duration: 2,
   },
   cold: {
-    title: "Долгая зима",
+    title: "Резкое похолодание",
     description:
       "Все острова остынут на 28°, пищи станет на 20% меньше. Холод продлится 2 хода. Тёплые берега и убежища могут сохранить популяции.",
     icon: "snow",
@@ -275,12 +359,58 @@ export const EVENTS: Record<
   eruption: {
     title: "Небо в пепле",
     description:
-      "Извержение ударит по Пепельному берегу. На всех островах запас пищи упадёт до 45% на 2 хода.",
+      "Извержение ударит по Фернандине. На всех островах запас пищи упадёт до 45% на 2 хода.",
     icon: "volcano",
     duration: 2,
   },
+  garua: {
+    title: "Туман гаруа",
+    description:
+      "На выбранном острове туман добавляет 25 единиц побегов и слегка охлаждает воздух на один ход.",
+    icon: "rain",
+    duration: 1,
+  },
+  elnino: {
+    title: "Тёплые дожди",
+    description:
+      "На выбранном острове теплеет на 4°, побегов становится на 45% больше, а семян — на 20% меньше. Условный наземный сценарий Эль-Ниньо.",
+    icon: "rain",
+    duration: 1,
+  },
+  castaways: {
+    title: "Гости на плавучих ветвях",
+    description:
+      "Течение несёт 8% крупнейшей другой колонии к этому берегу. Шанс пережить путь — 40–70%; прибытие не гарантировано.",
+    icon: "wave",
+    duration: 1,
+  },
+  reprieve: {
+    title: "Хищники отступили",
+    description:
+      "На этом острове хищников не будет два хода. Можно восстановить колонию, но пищи и места больше не станет.",
+    icon: "paw",
+    duration: 2,
+  },
+  passage: {
+    title: "Попутное течение",
+    description:
+      "На один ход течение открыло закрытый морской путь. Это шанс для расселения; само течение не переносит всю колонию.",
+    icon: "wave",
+    duration: 1,
+  },
 };
 export const CRISIS_TURNS = [5, 11, 17];
+export function cardDefinition(version: number, kind: CardKind) {
+  const card = CARDS[kind];
+  if (version < 3 && kind === "raft") return { ...card, cost: 1 };
+  if (version < 3 && kind === "stores")
+    return {
+      ...card,
+      description:
+        "Меньше пищи сейчас, по 40 единиц обоих ресурсов в следующие 2 хода.",
+    };
+  return card;
+}
 export const CHAPTERS = ["Расселение", "Разделение", "Сохранение линии"];
 export const LESSONS = [
   {
@@ -299,3 +429,7 @@ export const LESSONS = [
     label: "Вымирания в истории Земли",
   },
 ];
+
+export function describeAction(action: GameAction) {
+  return `${CARDS[cardKind(action.card)].title} · ${REGIONS[action.region].name}${action.destination === undefined ? "" : ` → ${REGIONS[action.destination].name}`}${action.fraction === undefined ? "" : ` · ${Math.round(action.fraction * 100)}%`}`;
+}

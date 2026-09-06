@@ -6,7 +6,13 @@ export type CardKind =
   | "shade"
   | "food"
   | "mosaic"
-  | "cover";
+  | "cover"
+  | "seedbank"
+  | "raft"
+  | "stores"
+  | "territory"
+  | "scout"
+  | "exchange";
 export type EventKind =
   | "calm"
   | "rain"
@@ -18,7 +24,12 @@ export type EventKind =
   | "flood"
   | "drought"
   | "cold"
-  | "eruption";
+  | "eruption"
+  | "garua"
+  | "elnino"
+  | "castaways"
+  | "reprieve"
+  | "passage";
 export type Phase = "planning" | "report" | "won" | "extinct";
 export type Profile = readonly [number, number, number, number];
 export type GameAction = {
@@ -32,12 +43,18 @@ export type Effect = {
   region: number;
   destination?: number;
   until: number;
+  starts?: number;
 };
-export type WorldEvent = { kind: EventKind; region: number };
+export type WorldEvent = {
+  kind: EventKind;
+  region: number;
+  destination?: number;
+};
 export type Region = { counts: number[] };
 export type RegionDefinition = {
   name: string;
   biome: string;
+  subtitle?: string;
   temperature: number;
   foodA: number;
   foodB: number;
@@ -62,9 +79,17 @@ export type TurnReport = {
   transitLosses: number;
   mutations: number;
   event: WorldEvent;
+  regionalTraits?: number[][][];
+  actions?: GameAction[];
+  regionalArrivals?: number[];
+  isolated?: boolean[];
+  regionalCounts?: number[][];
 };
 export type GameState = {
-  version: 1;
+  version: 1 | 2 | 3;
+  settings?: ExpeditionSettings;
+  kept?: number[];
+  lineages?: ColonyOrigin[];
   seed: number;
   runId: string;
   turn: number;
@@ -80,7 +105,22 @@ export type GameState = {
   swapped: boolean;
   history: TurnReport[];
 };
+export type ExpeditionSettings = {
+  mission: "survive" | "colonies" | "diversity";
+  mode: "expedition" | "sandbox";
+  mutation: "low" | "normal" | "high";
+  migration: "low" | "normal" | "high";
+};
+export type ColonyOrigin = {
+  island: number;
+  parent: number | null;
+  turn: number;
+};
 export type RunRecord = {
+  version?: 1 | 2 | 3;
+  settings?: ExpeditionSettings;
+  points?: number[];
+  actions?: string[][];
   runId: string;
   seed: number;
   outcome: "won" | "extinct";
