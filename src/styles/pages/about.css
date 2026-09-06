@@ -1,0 +1,134 @@
+@layer evolution-about {
+  .about-page .about-reading-note {
+    max-width: 92ch;
+    margin: 0.75rem 0 1.5rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .about-reading-note strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .about-page .about-origin-story {
+    grid-template-columns: minmax(180px, 260px) minmax(0, 78ch);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    margin: 0;
+    padding: 1.5rem 0 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .about-page .about-origin-story::before {
+    content: none;
+  }
+  .about-page .about-origin-story__copy {
+    display: block;
+    min-width: 0;
+    max-width: none;
+  }
+  .about-page .about-origin-story__copy h2 {
+    margin: 0 0 0.8rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .about-page .about-origin-story__copy p,
+  .about-page
+    .about-origin-story__copy
+    p:not(.eyebrow):not(.about-origin-story__lead) {
+    max-width: none;
+    margin: 0 0 0.8rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    color: var(--muted);
+    background: transparent;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+  .about-page .about-origin-story__copy .about-origin-story__lead {
+    color: var(--text);
+  }
+  .about-page .about-author {
+    width: 100%;
+    max-width: none;
+    gap: 0.75rem;
+  }
+  .about-page .about-author img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    box-shadow: none;
+  }
+  .about-page .about-author figcaption {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .about-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.5rem;
+    margin-top: 1.15rem;
+  }
+  .about-page .about-source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .about-page .about-actions > .button {
+    color: var(--text);
+  }
+  .about-page .about-source-link:hover {
+    color: var(--text);
+    text-decoration: underline;
+  }
+  .about-page a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
+  @media (max-width: 1000px) {
+    .about-page .about-origin-story {
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  @media (max-width: 720px) {
+    .about-page .about-reading-note {
+      margin-bottom: 1.25rem;
+    }
+    .about-page .about-origin-story {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      padding-top: 1.25rem;
+    }
+    .about-page .about-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .about-page .about-author img {
+      width: 112px;
+      flex: 0 0 112px;
+    }
+    .about-page .about-author figcaption {
+      display: block;
+    }
+    .about-page .about-author figcaption::before {
+      display: block;
+      margin-bottom: 0.65rem;
+    }
+  }
+}
