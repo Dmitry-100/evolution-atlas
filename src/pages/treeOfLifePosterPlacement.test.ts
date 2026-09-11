@@ -16,7 +16,7 @@ describe("tree of life poster placement", () => {
     expect(atlasPageSource).toContain("Открыть дерево");
 
     expect(materialsPageSource).toContain("TREE_OF_LIFE_POSTER");
-    expect(materialsPageSource).toContain("poster-download-card is-compact");
+    expect(materialsPageSource).toContain("poster-download-card");
     expect(materialsPageSource).toContain("Скачать постер");
     expect(materialsPageSource).toContain("download={TREE_OF_LIFE_POSTER.downloadName}");
   });

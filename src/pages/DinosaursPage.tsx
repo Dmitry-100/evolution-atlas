@@ -22,6 +22,7 @@ import {
 } from "react";
 import { Link } from "react-router-dom";
 import { StageDetailCard } from "../components/atlas/StageDetailCard";
+import { GlossaryTermById } from "../components/atlas/GlossaryTerm";
 import { MobileStageDetail } from "../components/atlas/mobile/MobileStageDetail";
 import { ConstellationField } from "../components/ui/constellation-field";
 import { FloatingPaths } from "../components/ui/floating-paths";
@@ -940,7 +941,19 @@ export function DinosaursPage() {
               <article>
                 <span className="eyebrow">Линия птиц</span>
                 <h3>Динозавры и птицы</h3>
-                <p>{dinosaurCommonAncestor.dinosaurBranchRu}</p>
+                <p>
+                  {dinosaurCommonAncestor.dinosaurBranchRu
+                    .split(/(диапсиды)/i)
+                    .map((part, index) =>
+                      part.toLowerCase() === "диапсиды" ? (
+                        <GlossaryTermById key={index} id="diapsids">
+                          {part}
+                        </GlossaryTermById>
+                      ) : (
+                        part
+                      ),
+                    )}
+                </p>
                 <button
                   className="dinosaur-reading-link"
                   type="button"
