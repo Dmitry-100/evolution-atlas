@@ -143,7 +143,7 @@
         "sha256": "45e90700efd10aab75585dbbc79f03af5fd56789141ff185faab744dbd0138a5"
       }
     ],
-    "productionVerification": "Ключевые тексты сопоставлены с опубликованными JS-файлами; точный commit публикации не установлен. Файлы и строки относятся к локальной ревизии. PDF и постер проверены также по хешу опубликованного файла, см. production-media.json при наличии.",
+    "productionVerification": "Ключевые тексты сопоставлены с опубликованными JS-файлами; точный commit публикации не установлен. Все 5 PDF и постер побайтно совпадают с опубликованными файлами (SHA-256); результаты в production-media.json. Файлы и строки привязаны к локальной ревизии.",
     "fingerprints": {
       "src/lib/cladogram.ts": "beb850a2eb18ca4e900339179c7978a3216da650269c411ba076e8bda2abeb0a",
       "src/data/lineage.ts": "b122bc68b699c609e4bba30a0c63c19d2eea79985dc1dcad9818e2373ea40be8",
@@ -166,7 +166,57 @@
       "src/data/extinctions.ts": "2ca01787f38d38e2fd009782ef096d40789e5f4846db986e7675e2ac09a06970",
       "public/assets/materials/evolutionary-advantage-genes-behavior.pdf": "d165dfacb20ff54a55867a29c8afd600c8372bff449cbc85d1ee8c3e2c856d9d",
       "src/data/luca.ts": "a45b3daf915b67fd1613e52dcda180315bf663d57fe72f5c6afe8dd375c23216"
-    }
+    },
+    "productionMedia": [
+      {
+        "url": "https://atlas.aidms.ru/assets/materials/cell-to-human-kids.pdf",
+        "file": "public/assets/materials/cell-to-human-kids.pdf",
+        "bytes": 1514726,
+        "remoteSha256": "6d95d129e9b51537124811532daa9b470a706d0c0c4986440e17e97ed5774419",
+        "localSha256": "6d95d129e9b51537124811532daa9b470a706d0c0c4986440e17e97ed5774419",
+        "identical": true
+      },
+      {
+        "url": "https://atlas.aidms.ru/assets/materials/homo-luca-sapiens.pdf",
+        "file": "public/assets/materials/homo-luca-sapiens.pdf",
+        "bytes": 2759973,
+        "remoteSha256": "4453092a7037f98c3e24ee1e4d9b994b7fc9d036458bef5ffc7db861deddaf05",
+        "localSha256": "4453092a7037f98c3e24ee1e4d9b994b7fc9d036458bef5ffc7db861deddaf05",
+        "identical": true
+      },
+      {
+        "url": "https://atlas.aidms.ru/assets/materials/path-from-cell-to-human.pdf",
+        "file": "public/assets/materials/path-from-cell-to-human.pdf",
+        "bytes": 1724261,
+        "remoteSha256": "5c56040512a889544d781d0360ae872078eb0a1a531e8a541a2efd51581f7160",
+        "localSha256": "5c56040512a889544d781d0360ae872078eb0a1a531e8a541a2efd51581f7160",
+        "identical": true
+      },
+      {
+        "url": "https://atlas.aidms.ru/assets/materials/evolutionary-advantage-genes-behavior.pdf",
+        "file": "public/assets/materials/evolutionary-advantage-genes-behavior.pdf",
+        "bytes": 1636940,
+        "remoteSha256": "d165dfacb20ff54a55867a29c8afd600c8372bff449cbc85d1ee8c3e2c856d9d",
+        "localSha256": "d165dfacb20ff54a55867a29c8afd600c8372bff449cbc85d1ee8c3e2c856d9d",
+        "identical": true
+      },
+      {
+        "url": "https://atlas.aidms.ru/assets/materials/six-planet-apocalypses.pdf",
+        "file": "public/assets/materials/six-planet-apocalypses.pdf",
+        "bytes": 2190006,
+        "remoteSha256": "a604552dde55f7ee33019b652b58faebe760b55eaa22e4ec3f10d40c7f95601c",
+        "localSha256": "a604552dde55f7ee33019b652b58faebe760b55eaa22e4ec3f10d40c7f95601c",
+        "identical": true
+      },
+      {
+        "url": "https://atlas.aidms.ru/assets/images/cladogram/tree-of-life-poster.f241714d773a.png",
+        "file": "public/assets/images/cladogram/tree-of-life-poster.png",
+        "bytes": 3218856,
+        "remoteSha256": "f241714d773a2d8671830bb0fe892f6f734a406b87bf98996b6ad29181af6b8e",
+        "localSha256": "f241714d773a2d8671830bb0fe892f6f734a406b87bf98996b6ad29181af6b8e",
+        "identical": true
+      }
+    ]
   },
   "rows": [
     {
@@ -2141,7 +2191,7 @@
     },
     {
       "section": "Карта признаков",
-      "scope": "Все 44 записей bodyTraits.ts и смысл уверенности/дат в интерфейсе",
+      "scope": "Все 44 признака в bodyTraits.ts и смысл уверенности/дат в интерфейсе",
       "result": "A09–A14. Базовая анатомия прочитана; датировки глубокого времени требуют V05.",
       "files": [
         "src/data/bodyTraits.ts",
