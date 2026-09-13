@@ -1,0 +1,2232 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "title": "Сверка портала «Достающее звено» с Антропогенез.РУ",
+    "date": "2026-09-13",
+    "portal": "https://atlas.aidms.ru",
+    "repository": "/Users/Sotnikov/code/evolution-atlas",
+    "commit": "4c4825c3721b14885b0f6fe7def23467e6718119",
+    "sourcePriority": "Антропогенез.РУ — основной ресурс по указанию пользователя. Внутренние противоречия ресурса не разрешаются механическим выбором одной страницы.",
+    "counts": {
+      "Правки": 33,
+      "Решения": 9,
+      "Допроверка": 6
+    },
+    "priorityCounts": {
+      "P1": 17,
+      "P2": 14,
+      "P3": 2
+    },
+    "sourceCount": 42,
+    "indexChapterCount": 199,
+    "portalChanged": false,
+    "productionEntry": "index-B7uDm1gd.js",
+    "productionAssets": [
+      {
+        "file": "microscope-D86dKJrl.js",
+        "sha256": "c4c0c7f95a038b945dc36f4d9344e1fe3a2f5be9c75736833c1ac2a7d9dde6e9"
+      },
+      {
+        "file": "GamePage-PkFs-2c0.js",
+        "sha256": "cef6155694633d7b1c5e91dcfd536a20a2be974cfcf864535e4f4cad273aef58"
+      },
+      {
+        "file": "AboutPage-s2EUnfQL.js",
+        "sha256": "396bc4b31b8ab2d484b0b809008f022b000f7a77fa21cdd881840091f5ba0431"
+      },
+      {
+        "file": "git-branch-B_nzWFuv.js",
+        "sha256": "6026abbff3c0fd429d273b375e2fc1e60943a468c2d3172fe3631bee8ebc318b"
+      },
+      {
+        "file": "QuizPage-CrUspBUF.js",
+        "sha256": "867d039c57aca88a306698fb388bc71489d6afcf854370fa2b4c23d23db95367"
+      },
+      {
+        "file": "jsx-runtime-CIJ-YYbd.js",
+        "sha256": "18e384befebeee896de031cc56f450524965aa416eddf19f3c82b785fa0dd3c9"
+      },
+      {
+        "file": "OrbitControls-Dm4HNPRZ.js",
+        "sha256": "ad914ca6517d2a6cb1106e7bde320454d051d9118b8341f1340e883b40a4dde2"
+      },
+      {
+        "file": "x-BCZZDsJZ.js",
+        "sha256": "e24b569b50ebd456287e7828081de0b115f39486eec7a131a7b5ee8b4848ead7"
+      },
+      {
+        "file": "ExtinctionsPage-CQUQ3Iru.js",
+        "sha256": "180bbf1941d3211f74b86d9e1b35dd6729bff7b1f7031269b1e5e46d83516488"
+      },
+      {
+        "file": "CladogramPage-DUOcTWO2.js",
+        "sha256": "2bdbb3394d134d413731d7ce1da437737bd8cd830cec00c0d1301369c232a9b5"
+      },
+      {
+        "file": "SourcesPage-DJJYULDu.js",
+        "sha256": "81bac47c05716966510ca2b46311c36102ba74b3b274a354f3bf563a061b1489"
+      },
+      {
+        "file": "curiosityFacts-BGrplz8r.js",
+        "sha256": "766c6e6f3cec0ccb33e59789eefeecdbfbb7c40e63cff509a44397ce858e06d3"
+      },
+      {
+        "file": "GeneticsPage-CwurPpQK.js",
+        "sha256": "641aa39cd6d6da3189f2c1e2458b894dc861f34eb2ea536e79a390e5f7a976f7"
+      },
+      {
+        "file": "index-B7uDm1gd.js",
+        "sha256": "c80f5cf1c5640ea898eac76b329636c5349b2bdc589682400c4cd3f21c1df7f9"
+      },
+      {
+        "file": "arrow-down-CX_ztIz6.js",
+        "sha256": "8e9c37335e60f30971956380f08d883799999099ec92f4aea4e9abb5654cee91"
+      },
+      {
+        "file": "sceneState-DWyYc_Wr.js",
+        "sha256": "e99b9e7cb0d825399b75d6f76638a6256a5d082de131b81ad55c9ab4faff1938"
+      },
+      {
+        "file": "MaterialsPage-BIokpNlA.js",
+        "sha256": "30515d55d9f420f7d2d93520b18965dcc349c52ee4a4bae44c068b87f4c2b715"
+      },
+      {
+        "file": "dist-BWH1azIz.js",
+        "sha256": "b49b5a9ad3a5f58f89f994dd20325b8d9832a90d9e57f1505f37bf40a76ed506"
+      },
+      {
+        "file": "PrimatesPage-hqQDFwRQ.js",
+        "sha256": "9debdbc1f7f486ec95244b7780702372ccee7393f436ac783761d905d1a7c4bc"
+      },
+      {
+        "file": "utils-BtRqtsxU.js",
+        "sha256": "1e0cca19dc02cdc47a3be88082f24cfb5e00aed2ee7c8f9fff5e4d44fd18f038"
+      },
+      {
+        "file": "wind-BPK_CtVB.js",
+        "sha256": "5cffbb7a6eb4adb70bebaa568981b58cd924337a45efb88154f39fd54da3220e"
+      },
+      {
+        "file": "DinosaursPage-D7MYAjCK.js",
+        "sha256": "d9e258cef6767c43f174665e0c5f9546286e7bb6a39d11ff2a50e7aa10c5b6a8"
+      },
+      {
+        "file": "migrationGlobeScene-4k0859ef.js",
+        "sha256": "8bedc8be6839ebd64ca814c1d2a86edb947edcc7acde4bdc259a4c8470a3632b"
+      },
+      {
+        "file": "BodyMapPage-CAUQMVK8.js",
+        "sha256": "623e8baee320f9ab6c145b0ee0ca8e6c5cb7e66dd4337c77ad6142b66b409640"
+      },
+      {
+        "file": "treeOfLifePoster-D3mD8sNb.js",
+        "sha256": "e69b8fd86d43c765cb0b677790ef1716bc225a9b39877230c0848900751d42b8"
+      },
+      {
+        "file": "CuriosityFacts-nYvLsy8f.js",
+        "sha256": "418428ddf37b69cbe72113cbc8c18bc93ee5888241bc82571fb7335302cab445"
+      },
+      {
+        "file": "TheoryPage-XtTz2lcc.js",
+        "sha256": "e94163ed0a44057400ba17b9949a6a929060404cf02f50fe7bc64fbf7ceac9a5"
+      },
+      {
+        "file": "network-CYdh2GNP.js",
+        "sha256": "7c99fb62a7ca96102fb5c16c9ddba4ddeabc3479e4d59837094318fe0f6332d1"
+      },
+      {
+        "file": "arrow-up-right-pq_ZwpV0.js",
+        "sha256": "c5235c54c8745388e71a096819470b8ad66bc7aac263ccb34ac662a63bc71888"
+      },
+      {
+        "file": "OriginOfLifePage-B61kKbmy.js",
+        "sha256": "45e90700efd10aab75585dbbc79f03af5fd56789141ff185faab744dbd0138a5"
+      }
+    ],
+    "productionVerification": "Ключевые тексты сопоставлены с опубликованными JS-файлами; точный commit публикации не установлен. Файлы и строки относятся к локальной ревизии. PDF и постер проверены также по хешу опубликованного файла, см. production-media.json при наличии.",
+    "fingerprints": {
+      "src/lib/cladogram.ts": "beb850a2eb18ca4e900339179c7978a3216da650269c411ba076e8bda2abeb0a",
+      "src/data/lineage.ts": "b122bc68b699c609e4bba30a0c63c19d2eea79985dc1dcad9818e2373ea40be8",
+      "src/components/atlas/StageDetailCard.tsx": "fc13078d06b9db3f1289125e19868c5ad427766143c05e483f9dea960a2e7fbf",
+      "src/data/glossary.ts": "5d00ecbee220d4294587aa50c2a7fa24caca854db73789cf9a749eeb54deba10",
+      "src/data/bodyTraits.ts": "51b047af6a704678e06e83de38a1076675c8b8cc1f9501dc545d0f409774a8c8",
+      "public/assets/materials/path-from-cell-to-human.pdf": "5c56040512a889544d781d0360ae872078eb0a1a531e8a541a2efd51581f7160",
+      "src/data/humanOrigins.ts": "1293958f34756475165bcde70476a95770eeb800830e531b3a4820ebf3fb6842",
+      "src/components/education/AfricaOriginMap.tsx": "d003f53e3cdac6b71e6cc0db358827a9512c66812e70ca4979f7924ca6c27291",
+      "src/data/quiz.ts": "21b50e49dd00989edb8eeb3348735f98335fb5c99aed4562a8a95fd6af377e68",
+      "src/data/scienceSources.ts": "17837cb9275e308b010b00c098900974b021d5fb3fa0969743e2589a17f94c42",
+      "src/lib/aiGuideContext.ts": "d90dad703de5142d07e2efc384f15f0820b7ded56d87c08dcf2406667334c951",
+      "public/assets/materials/cell-to-human-kids.pdf": "6d95d129e9b51537124811532daa9b470a706d0c0c4986440e17e97ed5774419",
+      "public/assets/materials/homo-luca-sapiens.pdf": "4453092a7037f98c3e24ee1e4d9b994b7fc9d036458bef5ffc7db861deddaf05",
+      "public/assets/images/cladogram/tree-of-life-poster.png": "f241714d773a2d8671830bb0fe892f6f734a406b87bf98996b6ad29181af6b8e",
+      "src/data/treeOfLifePoster.ts": "3787dbd8647d4404c3a054d0c013dc13b668f42ebe894d7ed9091d6939e600d3",
+      "public/assets/materials/six-planet-apocalypses.pdf": "a604552dde55f7ee33019b652b58faebe760b55eaa22e4ec3f10d40c7f95601c",
+      "src/data/dinosaurLineage.ts": "30f20356b0a93a0155dfa609dbc14dfd577cc3a09a3a5c260f43f83726688aab",
+      "src/data/genetics.ts": "bde236d35395edebd8e044e3587466669c29f56e32157d8adbc78cdce7cc1b37",
+      "src/data/extinctions.ts": "2ca01787f38d38e2fd009782ef096d40789e5f4846db986e7675e2ac09a06970",
+      "public/assets/materials/evolutionary-advantage-genes-behavior.pdf": "d165dfacb20ff54a55867a29c8afd600c8372bff449cbc85d1ee8c3e2c856d9d",
+      "src/data/luca.ts": "a45b3daf915b67fd1613e52dcda180315bf663d57fe72f5c6afe8dd375c23216"
+    }
+  },
+  "rows": [
+    {
+      "id": "A01",
+      "priority": "P1",
+      "kind": "Модель родства",
+      "topic": "Дерево: родство вычисляется по датам",
+      "portal": "В buildCladogram ветви получают ближайший более древний узел; кандидаты в предки собраны в один ствол по ageMa.",
+      "evidence": "В «Достающем звене» происхождение ранних гоминин и промежуточных Homo рассматривается как набор гипотез; схема 2024 содержит несколько одновременных ветвей.",
+      "diagnosis": "Хронологический сосед не обязательно предок. Замена даты карточки может изменить научный смысл дерева без изменения данных о родстве.",
+      "proposal": "Хранить связи и их уверенность явно, отдельно от дат. Ископаемые представители не должны автоматически становиться общими предками. Неподтверждённые связи обозначать как гипотезы.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/55/",
+        "https://antropogenez.ru/zveno-single/61/",
+        "https://antropogenez.ru/fileadmin/user_upload/Drevo_iyun_2024.pdf"
+      ],
+      "locations": [
+        {
+          "file": "src/lib/cladogram.ts",
+          "line": 630,
+          "page": null,
+          "anchor": "function findNearestOlderTrunkStage"
+        },
+        {
+          "file": "src/lib/cladogram.ts",
+          "line": 698,
+          "page": null,
+          "anchor": "export function buildCladogram"
+        }
+      ],
+      "related": "A02, A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A02",
+      "priority": "P1",
+      "kind": "Ошибка",
+      "topic": "Долгопяты внутри антропоидного узла",
+      "portal": "branch-tarsiers: parentId=anthropoids, ageMa=45; общий предок по умолчанию — «Предок антропоидов», 40 млн лет.",
+      "evidence": "Архицебус возрастом 54,8–55,8 млн лет обсуждается в контексте раннего разделения долгопятообразных и антропоидов.",
+      "diagnosis": "Долгопяты прикреплены к узлу Simiiformes, а вычисленный предок на 5 млн лет моложе самой ветви.",
+      "proposal": "Добавить общий узел сухоносых приматов до разделения Tarsiiformes и Simiiformes. Не приравнивать возраст архицебуса к точно установленной дате разделения.",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/314/",
+        "https://antropogenez.ru/zveno-single/45/"
+      ],
+      "locations": [
+        {
+          "file": "src/lib/cladogram.ts",
+          "line": 537,
+          "page": null,
+          "anchor": "id: \"branch-tarsiers\""
+        },
+        {
+          "file": "src/data/lineage.ts",
+          "line": 450,
+          "page": null,
+          "anchor": "id: \"anthropoids\""
+        }
+      ],
+      "related": "A01, A05",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A03",
+      "priority": "P1",
+      "kind": "Неоднозначность",
+      "topic": "Одна дата означает разные вещи",
+      "portal": "Карточки показывают только formatAgeRu(stage.ageMa): 4,4 млн для Ardipithecus, 3,2 млн для Australopithecus, 300 тыс. для Denisovans.",
+      "evidence": "Каталог и дерево различают виды, интервалы находок и предполагаемые связи; датировка экземпляра не равна возрасту всей группы.",
+      "diagnosis": "Возраст конкретной находки, начало летописи группы и время разделения линий выглядят одинаково. Карта признаков дополнительно связывает их с появлением признака.",
+      "proposal": "Добавить тип даты и пояснение: «возраст представленной находки», «известный интервал», «оценка разделения». Дату признака и уверенность хранить отдельно. Показывать статус представителя/кандидата в предки в карточке.",
+      "sources": [
+        "https://antropogenez.ru/catalog-hominids/",
+        "https://antropogenez.ru/fileadmin/user_upload/Drevo_iyun_2024.pdf"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 36,
+          "page": null,
+          "anchor": "export type EvolutionStage"
+        },
+        {
+          "file": "src/components/atlas/StageDetailCard.tsx",
+          "line": 130,
+          "page": null,
+          "anchor": "<p className=\"kicker\">"
+        },
+        {
+          "file": "src/data/glossary.ts",
+          "line": 236,
+          "page": null,
+          "anchor": "где признак входит"
+        }
+      ],
+      "related": "A07–A14, D01–D06",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A04",
+      "priority": "P2",
+      "kind": "Уточнение",
+      "topic": "Plesiadapis: название и набор признаков",
+      "portal": "«Древние приматы»; «деревья, хватание, острое зрение, ловкость»; «цепкий хват».",
+      "evidence": "Плезиадапиформы отделяются от настоящих приматов; описаны когти, боковая ориентация глазниц, примитивный мозг и медленное древесное передвижение.",
+      "diagnosis": "Текст переносит типичный образ ловкого зрительно ориентированного примата на специализированного раннего родственника.",
+      "proposal": "Название: «Плезиадапис — родственник ранних приматов». Текст: «Древесное млекопитающее с когтями и длинной мордой; его строение отличалось от хватательной кисти и зрительной специализации настоящих приматов».",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/515/",
+        "https://antropogenez.ru/zveno-single/44/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 432,
+          "page": null,
+          "anchor": "id: \"plesiadapis\""
+        }
+      ],
+      "related": "A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A05",
+      "priority": "P2",
+      "kind": "Уточнение",
+      "topic": "Антропоиды: 40 млн и пропущенные ранние приматы",
+      "portal": "После Plesiadapis 55 млн лет следует узел «Антропоиды», 40 млн лет; ранние настоящие приматы отдельно не представлены.",
+      "evidence": "Источник разбирает эоценовых адапоидов и омомисовых; для ранних антропоидов обсуждаются эосимиды около 55–45 млн лет.",
+      "diagnosis": "40 млн выглядит как дата возникновения группы; переход от плезиадаписа к антропоидам пропускает важную развилку.",
+      "proposal": "Обозначить 40 млн как выбранный срез либо дать диапазон со статусом ранних кандидатов; добавить пояснение о настоящих приматах раннего эоцена. Не заменять механически 40 на 55.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/45/",
+        "https://antropogenez.ru/zveno-single/47/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 450,
+          "page": null,
+          "anchor": "id: \"anthropoids\""
+        }
+      ],
+      "related": "A02, A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A06",
+      "priority": "P2",
+      "kind": "Уточнение",
+      "topic": "Ранние человекообразные: единый пакет адаптаций",
+      "portal": "«Ранние человекообразные теряют хвост и меняют плечевой пояс…», Proconsul, 20 млн лет.",
+      "evidence": "У ранних гоминоидов был мозаичный набор признаков; в описании проконсулид встречаются формы с хвостом и неспециализированными пропорциями конечностей.",
+      "diagnosis": "Обобщение создаёт впечатление синхронной утраты хвоста и современной специализации плеча у всей группы.",
+      "proposal": "«У ранних человекообразных постепенно складывались разные сочетания признаков. Проконсул иллюстрирует один из этапов; строение плеча и способы лазания ещё отличались от современных человекообразных».",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/51/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 510,
+          "page": null,
+          "anchor": "id: \"early-apes\""
+        }
+      ],
+      "related": "A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A07",
+      "priority": "P2",
+      "kind": "Уточнение",
+      "topic": "Ардипитеки: род и конкретный вид",
+      "portal": "Ardipithecus — 4,4 млн лет; карточка называется «Ардипитеки».",
+      "evidence": "Источник различает более древнего A. kadabba и A. ramidus; 4,4 млн относится к ramidus и знаменитому скелету Арди.",
+      "diagnosis": "Род представлен датой одного вида без подписи к значению даты.",
+      "proposal": "«Ардипитек рамидус (Ardipithecus ramidus), около 4,4 млн лет»; отдельно упомянуть A. kadabba. Если сохраняется название рода, показать его более широкий диапазон.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/55/",
+        "https://antropogenez.ru/zveno-single/57/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 555,
+          "page": null,
+          "anchor": "id: \"ardipithecus\""
+        }
+      ],
+      "related": "A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A08",
+      "priority": "P2",
+      "kind": "Уточнение",
+      "topic": "Австралопитеки: возраст Люси вместо истории группы",
+      "portal": "Australopithecus — 3,2 млн лет; «Австралопитеки», иллюстрация Люси.",
+      "evidence": "В каталоге A. anamensis старше 4 млн лет; другие виды существовали в разные интервалы. 3,2 млн — возраст Люси.",
+      "diagnosis": "Датировка экземпляра скрывает разнообразие и длительность существования рода.",
+      "proposal": "«Афарский австралопитек: Люси, около 3,2 млн лет» плюс диапазон вида; либо обзор рода с несколькими видами. Прямохождение описать как уже существующий признак.",
+      "sources": [
+        "https://antropogenez.ru/catalog-hominids/",
+        "https://antropogenez.ru/zveno-single/56/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 570,
+          "page": null,
+          "anchor": "id: \"australopithecus\""
+        },
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 378,
+          "page": null,
+          "anchor": "id: \"move-bipedalism\""
+        }
+      ],
+      "related": "A03, A21",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A09",
+      "priority": "P1",
+      "kind": "Несоответствие доказательству",
+      "topic": "Изменения таза отнесены к 7 млн лет",
+      "portal": "move-pelvis → hominins, 7 млн лет, «вероятно»; ранним гомининам приписана перестройка таза.",
+      "evidence": "Источник разводит признаки основания черепа у сахелантропа, бедренной кости у оррорина и таз ардипитека 4,4 млн лет.",
+      "diagnosis": "Гипотеза ранней двуногости подменяет конкретное анатомическое свидетельство строения таза.",
+      "proposal": "Показать таз Арди 4,4 млн лет как мозаичное свидетельство; для 7–6 млн лет назвать конкретные сохранившиеся кости и ограниченность вывода о походке.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/19/",
+        "https://antropogenez.ru/zveno-single/57/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 367,
+          "page": null,
+          "anchor": "id: \"move-pelvis\""
+        },
+        {
+          "file": "src/data/lineage.ts",
+          "line": 540,
+          "page": null,
+          "anchor": "id: \"hominins\""
+        }
+      ],
+      "related": "A03, A27",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A10",
+      "priority": "P1",
+      "kind": "Хронология признака",
+      "topic": "Каменные орудия закреплены за ранним Homo",
+      "portal": "brain-stone-tools → early-homo, 2,8 млн лет, «подтверждено»; пояснение карты говорит о вхождении признака в ветвь.",
+      "evidence": "Ломекви 3: каменные орудия около 3,3 млн лет, древнее челюсти LD 350-1. Олдувайская традиция рассматривается отдельно.",
+      "diagnosis": "Основной текст не говорит «самые первые», но привязка карты создаёт такое прочтение и не показывает до-Homo орудия.",
+      "proposal": "Добавить самостоятельное событие «Каменные орудия известны около 3,3 млн лет назад; изготовитель точно не установлен». У раннего Homo оставить развитие каменных технологий.",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/810/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 477,
+          "page": null,
+          "anchor": "id: \"brain-stone-tools\""
+        },
+        {
+          "file": "src/data/lineage.ts",
+          "line": 585,
+          "page": null,
+          "anchor": "id: \"early-homo\""
+        }
+      ],
+      "related": "A03, A23",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A11",
+      "priority": "P2",
+      "kind": "Несоответствие доказательству",
+      "topic": "Рост мозга привязан к челюсти LD 350-1",
+      "portal": "Узел 2,8 млн лет обоснован LD 350-1, а к нему прикреплён brain-brain-growth.",
+      "evidence": "LD 350-1 — фрагмент нижней челюсти. В обзоре ранних Homo размеры мозга обсуждаются по другим, более поздним черепам, включая KNM-ER 1470.",
+      "diagnosis": "Челюсть не позволяет восстановить объём мозга её обладателя; одна датировка объединяет разные находки.",
+      "proposal": "Отделить первое свидетельство Homo от ряда черепов, показывающих изменение мозга. Назвать конкретный череп и его дату; оставить оговорку о большой вариабельности.",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/810/",
+        "https://antropogenez.ru/zveno-single/749/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 466,
+          "page": null,
+          "anchor": "id: \"brain-brain-growth\""
+        },
+        {
+          "file": "src/data/lineage.ts",
+          "line": 585,
+          "page": null,
+          "anchor": "id: \"early-homo\""
+        }
+      ],
+      "related": "A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A12",
+      "priority": "P2",
+      "kind": "Хронология признака",
+      "topic": "Забота о слабых появляется лишь у гейдельбергского человека",
+      "portal": "brain-care → heidelbergensis, 700 тыс. лет; «Забота внутри группы — … условие выживания».",
+      "evidence": "Беззубый человек Dmanisi 3444 + 3900 датируется 1,7–1,8 млн лет; возможная помощь соплеменников — одна из интерпретаций.",
+      "diagnosis": "Более раннее вероятное свидетельство отсутствует; поведенческая интерпретация звучит как необходимое объяснение.",
+      "proposal": "Добавить пример Дманиси с формулировкой «возможная забота»; уточнить, что само выживание без зубов не доказывает единственный сценарий помощи.",
+      "sources": [
+        "https://antropogenez.ru/fossil/126/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 543,
+          "page": null,
+          "anchor": "id: \"brain-care\""
+        }
+      ],
+      "related": "A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A13",
+      "priority": "P1",
+      "kind": "Избыточная уверенность",
+      "topic": "Язык: sapiens, 300 тыс., «подтверждено»",
+      "portal": "brain-language → sapiens; confidence=solid; узел датирован 300 тыс. лет.",
+      "evidence": "В экспертных ответах обсуждается речь у неандертальцев; реконструкция речи по анатомии и генетике имеет ограничения.",
+      "diagnosis": "Наличие языка у современных людей, его возникновение и владение им ранними sapiens — разные утверждения.",
+      "proposal": "Оставить подтверждённым наличие языка у современных людей; происхождение обозначить как обсуждаемое. Не задавать 300 или 130 тыс. лет как установленный момент появления языка.",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/151/",
+        "https://antropogenez.ru/interview/773/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 554,
+          "page": null,
+          "anchor": "id: \"brain-language\""
+        },
+        {
+          "file": "public/assets/materials/path-from-cell-to-human.pdf",
+          "line": null,
+          "page": 15,
+          "anchor": null
+        }
+      ],
+      "related": "A03, A25, V02",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A14",
+      "priority": "P2",
+      "kind": "Избыточная уверенность",
+      "topic": "Символическое мышление как признак одного узла",
+      "portal": "brain-symbols → sapiens, 300 тыс. лет, «подтверждено».",
+      "evidence": "Источник рассматривает возможные украшения неандертальцев и древние структуры Брюникеля; символический смысл находок требует интерпретации.",
+      "diagnosis": "Происхождение когнитивной способности нельзя напрямую датировать возрастом вида; она не показана у родственных линий.",
+      "proposal": "Дать несколько конкретных археологических примеров с датами и отдельной уверенностью в символической интерпретации. Не обозначать весь комплекс установленным для 300 тыс. лет.",
+      "sources": [
+        "https://antropogenez.ru/article/1144/",
+        "https://antropogenez.ru/article/1067/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 565,
+          "page": null,
+          "anchor": "id: \"brain-symbols\""
+        }
+      ],
+      "related": "A03, A26",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A15",
+      "priority": "P2",
+      "kind": "Уточнение",
+      "topic": "Херто: скрыты архаичные черты",
+      "portal": "«поздние африканские находки Homo sapiens с хорошо выраженной современной морфологией».",
+      "evidence": "В Херто описаны Homo sapiens idaltu около 154–160 тыс. лет, сочетающие сапиентные и выраженные архаичные особенности.",
+      "diagnosis": "Текст делает находки похожими на полностью современных людей и обедняет важную мозаичность.",
+      "proposal": "«Ранние Homo sapiens из Херто, около 160 тыс. лет назад: сочетание современных и архаичных черт; часто выделяются как H. sapiens idaltu».",
+      "sources": [
+        "https://antropogenez.ru/location/208/",
+        "https://antropogenez.ru/zveno-single/261/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/humanOrigins.ts",
+          "line": 64,
+          "page": null,
+          "anchor": "id: \"herto\""
+        }
+      ],
+      "related": "D01",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A16",
+      "priority": "P2",
+      "kind": "Избыточная уверенность",
+      "topic": "Африканская мозаика как установленная модель",
+      "portal": "AFRICA_ORIGIN_NOTE: «современный Homo sapiens складывался в связанных популяциях по континенту».",
+      "evidence": "Статья 2018 года разбирает модель взаимодействующих африканских популяций и подчёркивает открытые вопросы об их вкладе и связях.",
+      "diagnosis": "Африканское происхождение и конкретная континентальная модель имеют разный уровень определённости. У маршрута likely есть, у вводного утверждения оговорки нет.",
+      "proposal": "«Homo sapiens сформировался в Африке. Одна из обсуждаемых моделей связывает его происхождение с взаимодействием нескольких африканских популяций».",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/719/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/humanOrigins.ts",
+          "line": 27,
+          "page": null,
+          "anchor": "export const AFRICA_ORIGIN_NOTE"
+        }
+      ],
+      "related": "A17",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A17",
+      "priority": "P1",
+      "kind": "Хронология / география",
+      "topic": "Бломбос включён в маршрут 315–160 тыс. лет",
+      "portal": "african-mosaic соединяет Jebel Irhoud → Omo → Herto → Blombos; дата 315–160 тыс.; Blombos датирован 100–70 тыс.",
+      "evidence": "Африканская модель не устанавливает такой последовательный маршрут между памятниками; в самом портале дата Бломбоса младше интервала линии.",
+      "diagnosis": "Схематическая оговорка о неточных путях не исправляет несовпадение периодов и не доказывает связи между этими четырьмя точками.",
+      "proposal": "Показывать это как распределение памятников разных эпох, без направленного маршрута; выделить Бломбос в более поздний культурный слой.",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/719/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/humanOrigins.ts",
+          "line": 99,
+          "page": null,
+          "anchor": "id: \"african-mosaic\""
+        },
+        {
+          "file": "src/data/humanOrigins.ts",
+          "line": 80,
+          "page": null,
+          "anchor": "id: \"blombos\""
+        },
+        {
+          "file": "src/components/education/AfricaOriginMap.tsx",
+          "line": 81,
+          "page": null,
+          "anchor": "Маршрут {"
+        }
+      ],
+      "related": "A16",
+      "basis": "Антропогенез.РУ + внутренняя сверка",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A18",
+      "priority": "P2",
+      "kind": "Уточнение",
+      "topic": "Восточная Азия: ранние даты без конкретных находок",
+      "portal": "«120–40 тыс. лет назад, с несколькими волнами», «ранние спорные находки», confidence=debated.",
+      "evidence": "Разбор Кузьмина 2021 года описывает пересмотр ряда китайских датировок: напрямую датированные зубы оказались голоценовыми.",
+      "diagnosis": "Оговорка о спорности уже есть. Однако диапазон не различает отвергнутые датировки и сохраняющиеся кандидаты.",
+      "proposal": "Назвать памятники и основание каждой ранней даты; исключить пересмотренные образцы из аргументов за 120 тыс. лет. Надёжное распространение и ранние гипотезы показывать отдельно.",
+      "sources": [
+        "https://antropogenez.ru/article/1143/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/humanOrigins.ts",
+          "line": 175,
+          "page": null,
+          "anchor": "id: \"east-asia\""
+        }
+      ],
+      "related": "",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A19",
+      "priority": "P2",
+      "kind": "Неоднозначность",
+      "topic": "Тест: неандертальцы «не предки»",
+      "portal": "На вопрос «Неандертальцы были нашими прямыми предками?» правильный ответ: «Нет, это близкая боковая ветвь».",
+      "evidence": "Источник описывает метисацию: часть предков ряда современных популяций принадлежала архаическим человеческим линиям.",
+      "diagnosis": "Объяснение теста признаёт смешение, но короткий ответ смешивает происхождение вида и генеалогическое происхождение отдельных людей.",
+      "proposal": "Спросить: «Были ли неандертальцы обязательной ступенью превращения в Homo sapiens?» Ответ: «Нет: родственная ветвь, внесшая часть наследия через смешение».",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/607/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/quiz.ts",
+          "line": 292,
+          "page": null,
+          "anchor": "\"Неандертальцы были нашими прямыми предками?\""
+        }
+      ],
+      "related": "A29",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A20",
+      "priority": "P2",
+      "kind": "Пробел источников",
+      "topic": "Приоритет Антропогенеза отсутствует в данных портала",
+      "portal": "В научных источниках, ссылках карточек и контексте AI-гида нет опорных страниц antropogenez.ru; карточка не выводит свои sources.",
+      "evidence": "У выбранного ресурса есть тематические главы, каталоги и более поздние разборы, которые расходятся с частью старых страниц.",
+      "diagnosis": "Будущая правка без источника, его версии и конкретного утверждения плохо воспроизводима; AI-гид получает те же исходные обобщения.",
+      "proposal": "Добавить прямые ссылки на использованные материалы к утверждениям и показывать их. Хранить дату проверки, смысл датировки и оговорку; в AI-контекст передавать эти же данные. Не сводить приоритет к одной ссылке на главную.",
+      "sources": [
+        "https://antropogenez.ru/zveno/",
+        "https://antropogenez.ru/catalog-hominids/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/scienceSources.ts",
+          "line": 19,
+          "page": null,
+          "anchor": "export const"
+        },
+        {
+          "file": "src/components/atlas/StageDetailCard.tsx",
+          "line": 21,
+          "page": null,
+          "anchor": "stage: Omit"
+        },
+        {
+          "file": "src/lib/aiGuideContext.ts",
+          "line": 98,
+          "page": null,
+          "anchor": "function summarizeStage"
+        }
+      ],
+      "related": "Все A/D",
+      "basis": "Наблюдение по коду; требование пользователя",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A21",
+      "priority": "P3",
+      "kind": "Пробел охвата",
+      "topic": "Нет парантропов",
+      "portal": "От «Австралопитеков» маршрут переходит к раннему Homo; самостоятельной ветви Paranthropus нет.",
+      "evidence": "Каталог и главы выделяют массивных австралопитековых — парантропов — как важную специализированную ветвь.",
+      "diagnosis": "Упрощение допустимо для короткого маршрута, но дерево слабо показывает параллельное разнообразие ранних гоминин.",
+      "proposal": "Добавить боковую карточку Paranthropus с примерами boisei/robustus; не встраивать её в цепь обязательных предков Homo.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/58/",
+        "https://antropogenez.ru/catalog-hominids/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 570,
+          "page": null,
+          "anchor": "id: \"australopithecus\""
+        },
+        {
+          "file": "src/lib/cladogram.ts",
+          "line": 698,
+          "page": null,
+          "anchor": "export function buildCladogram"
+        }
+      ],
+      "related": "A08; расширение по выбору",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A22",
+      "priority": "P3",
+      "kind": "Пробел охвата",
+      "topic": "Нет naledi, floresiensis и luzonensis в дереве",
+      "portal": "Боковые человеческие линии представлены прежде всего неандертальцами и денисовцами; три названные группы отсутствуют.",
+      "evidence": "Дерево 2024 показывает эти формы; обзор 2019 подробно разбирает Homo luzonensis.",
+      "diagnosis": "Это не ложное утверждение, но исчезает важный пример одновременного разнообразия людей и мозаичной эволюции.",
+      "proposal": "Добавить необязательный слой боковых человеческих линий с интервалами находок и неустановленным точным положением там, где оно спорно.",
+      "sources": [
+        "https://antropogenez.ru/fileadmin/user_upload/Drevo_iyun_2024.pdf",
+        "https://antropogenez.ru/article/1116/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 634,
+          "page": null,
+          "anchor": "id: \"neanderthals\""
+        }
+      ],
+      "related": "A24; расширение по выбору",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A23",
+      "priority": "P1",
+      "kind": "Ошибка",
+      "topic": "PDF: Homo habilis изготовил первые каменные орудия",
+      "portal": "Основная презентация, с. 11: «Первые каменные орудия», Homo habilis, 2,5 млн; детская, с. 10: «Хомо хабилис сделал первые каменные ножи».",
+      "evidence": "Ломекви 3 содержит орудия около 3,3 млн лет — старше известных ранних Homo.",
+      "diagnosis": "Прямое устаревшее утверждение о первенстве вида; сильнее, чем неоднозначная привязка в карте признаков.",
+      "proposal": "«Каменные орудия существовали до Homo habilis. Ранние Homo развивали каменные технологии». На основной шкале добавить Ломекви и не приписывать изготовителя без оговорки.",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/810/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/path-from-cell-to-human.pdf",
+          "line": null,
+          "page": 11,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/cell-to-human-kids.pdf",
+          "line": null,
+          "page": 10,
+          "anchor": null
+        }
+      ],
+      "related": "A10",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A24",
+      "priority": "P1",
+      "kind": "Ошибка",
+      "topic": "PDF: флоресские люди исчезли 17 тыс. лет назад",
+      "portal": "Основная презентация, с. 17: «17 тыс. лет назад — Исчезновение флоресийцев».",
+      "evidence": "В разборе 2016 года пересмотрены прежние даты: кости 100–60 тыс. лет, орудия в слоях 190–50 тыс. лет.",
+      "diagnosis": "Слайд воспроизводит отменённую интерпретацию поздних дат. Последняя находка сама по себе не устанавливает точный момент вымирания.",
+      "proposal": "«Поздние свидетельства Homo floresiensis относятся примерно к 60–50 тыс. лет назад; точное время исчезновения неизвестно». Убрать 17 тыс. как принятую дату.",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/566/",
+        "https://antropogenez.ru/fileadmin/user_upload/Drevo_iyun_2024.pdf"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/path-from-cell-to-human.pdf",
+          "line": null,
+          "page": 17,
+          "anchor": null
+        }
+      ],
+      "related": "A22",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A25",
+      "priority": "P1",
+      "kind": "Ошибка",
+      "topic": "PDF: охотничьи рисунки 130 тыс. лет назад",
+      "portal": "С. 15: «130 тыс. лет назад … рисуют охотничьи сцены. Появляется язык, похоронные обряды».",
+      "evidence": "В обзоре 2019 года описана сцена с Сулавеси с оценкой около 44 тыс. лет; обсуждение речи не даёт установленной даты её возникновения.",
+      "diagnosis": "Разные свидетельства искусства, украшений, погребений и речи объединены одной недоказанной датой.",
+      "proposal": "Разбить слайд на датированные примеры разных явлений. Для конкретного рисунка указать памятник и оценку из выбранной публикации; не называть 44 тыс. неизменным мировым рекордом. Для языка оставить неопределённую дату.",
+      "sources": [
+        "https://antropogenez.ru/article/1116/",
+        "https://antropogenez.ru/single-news/article/151/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/path-from-cell-to-human.pdf",
+          "line": null,
+          "page": 15,
+          "anchor": null
+        }
+      ],
+      "related": "A13, A14",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A26",
+      "priority": "P1",
+      "kind": "Ошибка / обобщение",
+      "topic": "PDF: полностью современный комплекс уже 300 тыс. лет назад",
+      "portal": "С. 14 основной: высокий лоб, грацильная анатомия, символизм и украшения при 300 тыс.; детская с. 11 соединяет эту дату с рисованием на стенах.",
+      "evidence": "Обзор Джебель-Ирхуда подчёркивает мозаичность лица и мозгового отдела; африканский обзор различает формирование анатомии и культурные изменения.",
+      "diagnosis": "Становление вида превращено в одномоментное появление сегодняшней анатомии и поздних культурных практик.",
+      "proposal": "«Около 300 тыс. лет назад в Африке жили ранние представители/близкие формы нашей линии. Современные черты складывались постепенно». Украшения и живопись вынести в отдельные датированные эпизоды.",
+      "sources": [
+        "https://antropogenez.ru/single-news/article/680/",
+        "https://antropogenez.ru/single-news/article/719/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/path-from-cell-to-human.pdf",
+          "line": null,
+          "page": 14,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/cell-to-human-kids.pdf",
+          "line": null,
+          "page": 11,
+          "anchor": null
+        }
+      ],
+      "related": "D01, A14, A25",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A27",
+      "priority": "P1",
+      "kind": "Ошибка / доказательство",
+      "topic": "PDF: реконструированный таз сахелантропа выдан за свидетельство",
+      "portal": "Научная презентация, с. 11: таз с подписью Sahelanthropus и «Evidence of habitual bipedalism». Детская с. 9 связывает его прямохождение с переноской инструментов.",
+      "evidence": "В описании ранней двуногости источник использует разные находки: сахелантропа характеризует основание черепа, а таз представлен ардипитеком.",
+      "diagnosis": "Таз другого эволюционного этапа выглядит как реально известный таз сахелантропа; поведенческие детали дополнительно не обоснованы.",
+      "proposal": "Заменить таз на документированное свидетельство и точное название находки. Иллюстрацию реконструкции явно подписать; убрать утверждения о сахелантроповых инструментах и впервые возникшей социальности.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/19/",
+        "https://antropogenez.ru/zveno-single/55/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 11,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/cell-to-human-kids.pdf",
+          "line": null,
+          "page": 9,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/path-from-cell-to-human.pdf",
+          "line": null,
+          "page": 10,
+          "anchor": null
+        }
+      ],
+      "related": "A09",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A28",
+      "priority": "P1",
+      "kind": "Ошибка / обобщение",
+      "topic": "Детский PDF: тиктаалик — первая рыба на суше и всеобщая прабабушка",
+      "portal": "С. 5: «Первая выбралась из воды благодаря “рукам-лёгким”»; «Стала прабабушкой всех зверей…».",
+      "evidence": "Рецензия на «Предшественников рыб» описывает тиктаалика как одну из нескольких переходных форм между лопастепёрыми и амфибиями.",
+      "diagnosis": "Переходная форма превращена в установленного прямого предка и единственного первопроходца; плавники и дыхание смешаны в несуществующий орган.",
+      "proposal": "«Тиктаалик показывает, как плавники могли становиться опорой. Он — один из родственников линии первых четвероногих; учёные не считают его доказанной прабабушкой всех наземных зверей».",
+      "sources": [
+        "https://antropogenez.ru/article/1001/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/cell-to-human-kids.pdf",
+          "line": null,
+          "page": 5,
+          "anchor": null
+        }
+      ],
+      "related": "A01",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A29",
+      "priority": "P1",
+      "kind": "Ошибка",
+      "topic": "Научный PDF: одинаковая архаичная примесь у всех sapiens",
+      "portal": "С. 18: «Современный Homo sapiens несёт 2–4% неандертальских и 0.2% денисовских последовательностей».",
+      "evidence": "Источник описывает различия денисовского наследия между популяциями, включая значительно большую долю у ряда жителей Океании.",
+      "diagnosis": "Процент представлен свойством всего вида; не указаны популяция, метод и интервал оценки.",
+      "proposal": "«Доля архаичного наследия различается между популяциями и людьми». Числа давать только вместе с исследованной популяцией, методикой и конкретной публикацией.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/607/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 18,
+          "anchor": null
+        }
+      ],
+      "related": "A19, V03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A30",
+      "priority": "P1",
+      "kind": "Внутренняя несогласованность",
+      "topic": "Постер дерева: перепутан порядок крупных узлов",
+      "portal": "На центральном стволе снизу вверх: первые четвероногие → эутерии → млекопитающие → цинодонты → терапсиды → амниоты. Эукариоты стоят напротив кембрия.",
+      "evidence": "Основной атлас задаёт другой порядок: четвероногие → амниоты → синапсиды → терапсиды → цинодонты → млекопитающие → эутерии.",
+      "diagnosis": "Постер противоречит собственным данным портала; геологическая колонка создаёт ложные соответствия высот и возраста. Это дополнительная внутренняя проверка, не отдельная датировка из Антропогенеза.",
+      "proposal": "Перерисовать структуру по явным связям данных. Если вертикаль не временная, убрать или отделить колонку периодов и сказать об этом прямо; если временная — согласовать все высоты с датами.",
+      "sources": [],
+      "locations": [
+        {
+          "file": "public/assets/images/cladogram/tree-of-life-poster.png",
+          "line": null,
+          "page": null,
+          "anchor": null
+        },
+        {
+          "file": "src/data/treeOfLifePoster.ts",
+          "line": 1,
+          "page": null,
+          "anchor": "export const TREE_OF_LIFE_POSTER"
+        },
+        {
+          "file": "src/data/lineage.ts",
+          "line": 311,
+          "page": null,
+          "anchor": "id: \"amniotes\""
+        }
+      ],
+      "related": "A01, A03",
+      "basis": "Внутренняя сверка портала",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A31",
+      "priority": "P1",
+      "kind": "Ошибка",
+      "topic": "PDF вымираний: шестое вымирание отнесено к мезозою",
+      "portal": "С. 8 озаглавлена «Шестое массовое вымирание» среди древних кризисов; с. 12 — «Шестое массовое вымирание (мел-палеогеновое)».",
+      "evidence": "В обсуждении форума противопоставлены нынешний кризис и пять прошлых массовых вымираний.",
+      "diagnosis": "Название шестого кризиса перепутано с древними событиями; слайд 14 того же файла уже относит шестое к человеческому воздействию.",
+      "proposal": "С. 12: «Мел-палеогеновое вымирание, 66 млн лет назад». Для с. 8 сначала определить описываемый кризис; «шестое» использовать лишь для современного обсуждаемого кризиса.",
+      "sources": [
+        "https://antropogenez.ru/forum17-itogi/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/six-planet-apocalypses.pdf",
+          "line": null,
+          "page": 8,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/six-planet-apocalypses.pdf",
+          "line": null,
+          "page": 12,
+          "anchor": null
+        }
+      ],
+      "related": "V06",
+      "basis": "Антропогенез.РУ + внутренняя сверка",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A32",
+      "priority": "P1",
+      "kind": "Ошибка",
+      "topic": "PDF вымираний: исчезновение архозавров освободило место динозаврам",
+      "portal": "С. 8: «Исчезновение архозавров» → «Освобождение ниши для динозавров», «Конец эпохи архозавров».",
+      "evidence": "В материале о динозаврах птицы названы живыми динозаврами. На основной странице портала динозавры и крокодилы сами входят в архозавров.",
+      "diagnosis": "Противопоставлены содержащая группа и её часть; архозавры не исчезли целиком.",
+      "proposal": "Назвать конкретные вымершие группы конкурентов и конкретное событие. Убрать тезис об исчезновении архозавров; сохранить принадлежность динозавров, птиц и крокодилов к этой группе.",
+      "sources": [
+        "https://antropogenez.ru/article/1026/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/six-planet-apocalypses.pdf",
+          "line": null,
+          "page": 8,
+          "anchor": null
+        },
+        {
+          "file": "src/data/dinosaurLineage.ts",
+          "line": 89,
+          "page": null,
+          "anchor": "id: \"archosaurs\""
+        }
+      ],
+      "related": "A31, D08",
+      "basis": "Антропогенез.РУ + внутренняя сверка",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "A33",
+      "priority": "P2",
+      "kind": "Уточнение",
+      "topic": "PDF: освоение огня сведено к одной дате",
+      "portal": "Основной PDF, с. 12: «800 тыс. лет назад: Освоение огня и приготовление пищи»; в карточке erectus 1,9 млн — «вероятное использование огня».",
+      "evidence": "В главе об архантропах различаются древние возможные следы огня и более поздние убедительные свидетельства его использования.",
+      "diagnosis": "Находка обожжённого материала, контроль огня, регулярное приготовление и самостоятельное добывание огня — разные события.",
+      "proposal": "Указать датированный пример и вид свидетельства; отдельно оговорить ранние спорные случаи. Не связывать весь набор с датой появления erectus или единственным порогом 800 тыс.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/129/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/path-from-cell-to-human.pdf",
+          "line": null,
+          "page": 12,
+          "anchor": null
+        },
+        {
+          "file": "src/data/lineage.ts",
+          "line": 604,
+          "page": null,
+          "anchor": "id: \"erectus\""
+        }
+      ],
+      "related": "D03",
+      "basis": "Антропогенез.РУ",
+      "group": "Правки",
+      "status": "К рассмотрению"
+    },
+    {
+      "id": "D01",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Возраст и определение Homo sapiens",
+      "portal": "Портал: 300 тыс. лет; Jebel Irhoud около 315 тыс.",
+      "evidence": "Старый каталог даёт Homo sapiens sapiens от 100 тыс.; статья 2017 разбирает возраст Ирхуда 315 ± 34 тыс. и спорит с однозначным отнесением к sapiens.",
+      "diagnosis": "На одном ресурсе различаются дата находки, определение вида и авторская интерпретация.",
+      "proposal": "Сохранить ~300 тыс. как возраст ранней линии при принятой широкой классификации; добавить мозаичность и спор об определении. Не заменять на 100 тыс. по старому каталогу.",
+      "sources": [
+        "https://antropogenez.ru/catalog-hominids/",
+        "https://antropogenez.ru/single-news/article/680/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 669,
+          "page": null,
+          "anchor": "id: \"sapiens\""
+        },
+        {
+          "file": "src/data/humanOrigins.ts",
+          "line": 32,
+          "page": null,
+          "anchor": "id: \"jebel-irhoud\""
+        }
+      ],
+      "related": "A26",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "D02",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Омо: 233 тыс. против старых 195 тыс.",
+      "portal": "Портал корректно говорит «233 тыс. или старше (нижняя оценка)».",
+      "evidence": "В старой главе Антропогенеза встречается 195 тыс.; работа Vidal et al. 2022 даёт минимальный возраст 233 ± 22 тыс.",
+      "diagnosis": "Это пересмотр датировки; здесь проверен также первоисточник, уже указанный на портале.",
+      "proposal": "Сохранить нижнюю оценку 233 тыс.; при детализации добавить ±22 тыс. и связь с перекрывающим туфом. Не откатывать к 195 тыс.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/261/",
+        "https://www.nature.com/articles/s41586-021-04275-8"
+      ],
+      "locations": [
+        {
+          "file": "src/data/humanOrigins.ts",
+          "line": 48,
+          "page": null,
+          "anchor": "id: \"omo-kibish\""
+        }
+      ],
+      "related": "",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "D03",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Homo erectus: 1,9 млн против узкой классификации",
+      "portal": "Портал: erectus 1,9 млн; иллюстрация/источники включают африканские формы.",
+      "evidence": "В каталоге ergaster отделён от erectus; глава прямо обсуждает широкое и узкое употребление названия erectus.",
+      "diagnosis": "Нельзя сравнивать начало широкого комплекса с датами только его азиатской части.",
+      "proposal": "Явно выбрать «Homo erectus в широком смысле, включая ранние африканские формы» либо разделить ergaster и erectus. Затем согласовать даты и иллюстрации.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/60/",
+        "https://antropogenez.ru/catalog-hominids/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 604,
+          "page": null,
+          "anchor": "id: \"erectus\""
+        }
+      ],
+      "related": "A03, A33",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "D04",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Гейдельбергский человек: 700 против 800 тыс.",
+      "portal": "Портал: 700 тыс.; положение в дереве уже названо спорным.",
+      "evidence": "Каталог даёт интервал 800–130 тыс.; глава подчёркивает неоднородность промежуточных форм.",
+      "diagnosis": "700 тыс. находится внутри интервала; это не доказанная ошибка числа, пока не сказано, что оно означает начало вида.",
+      "proposal": "Уточнить смысл даты и таксономическую концепцию, сохранить оговорку. Не превращать этого кандидата в доказанного предка всех поздних людей.",
+      "sources": [
+        "https://antropogenez.ru/catalog-hominids/",
+        "https://antropogenez.ru/zveno-single/61/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 619,
+          "page": null,
+          "anchor": "id: \"heidelbergensis\""
+        }
+      ],
+      "related": "A01, A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "D05",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Неандертальцы: 400 против 130 тыс.",
+      "portal": "Портал: 400 тыс.; источник в старой таблице: 130–28 тыс.",
+      "evidence": "Материал о Сима-де-лос-Уэсос обсуждает 430-тысячелетнюю популяцию, близкую по ядерной ДНК к неандертальской линии.",
+      "diagnosis": "Классические неандертальцы и ранняя линия — разные объекты датирования; поздняя граница старой таблицы тоже требует отдельной актуализации.",
+      "proposal": "Подписать 400 тыс. как раннюю неандертальскую линию. Для классических форм и последних находок дать отдельные интервалы; не заменять автоматически 400 на 130.",
+      "sources": [
+        "https://antropogenez.ru/catalog-hominids/",
+        "https://antropogenez.ru/article/859/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 634,
+          "page": null,
+          "anchor": "id: \"neanderthals\""
+        }
+      ],
+      "related": "A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "D06",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Денисовцы: 300 тыс. не равно дате разделения",
+      "portal": "Портал: 300 тыс.; общий предковый узел — heidelbergensis 700 тыс.",
+      "evidence": "В разборе ядерной ДНК Сима разделение неандертальской и денисовской линий помещено раньше 430 тыс. лет.",
+      "diagnosis": "Возраст представленных находок нельзя читать как время возникновения или расхождения генетической линии.",
+      "proposal": "Оставить 300 тыс. только с подписью о выбранном археологическом срезе. Генетическое разделение представить отдельным узлом с источником и диапазоном.",
+      "sources": [
+        "https://antropogenez.ru/article/859/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/lineage.ts",
+          "line": 649,
+          "page": null,
+          "anchor": "id: \"denisovans\""
+        },
+        {
+          "file": "src/lib/cladogram.ts",
+          "line": 610,
+          "page": null,
+          "anchor": "parentId: \"heidelbergensis\""
+        }
+      ],
+      "related": "A01, A03",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "D07",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Сходство ДНК человека и шимпанзе",
+      "portal": "Портал: 98–99% для напрямую сопоставимых участков; отдельно описаны другие метрики.",
+      "evidence": "Старая глава приводит разные оценки сходства, в том числе 94% и более высокие; процент зависит от того, что именно сравнивают.",
+      "diagnosis": "Разные знаменатели не образуют одного противоречия. Оговорка портала полезна и должна сохраниться.",
+      "proposal": "Не заменять проценты без одинаковой метрики. Добавить формальное определение выравнивания, учёт вставок/делеций и источник конкретного числа.",
+      "sources": [
+        "https://antropogenez.ru/zveno-single/25/",
+        "https://antropogenez.ru/article/75/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/genetics.ts",
+          "line": 58,
+          "page": null,
+          "anchor": "export const GENOME_COMPARISONS"
+        }
+      ],
+      "related": "",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "D08",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Птицы и динозавры: ресурс содержит несовместимые ответы",
+      "portal": "Портал: птицы — живые тероподные динозавры.",
+      "evidence": "В интервью 794 отрицается происхождение птиц от динозавров; в статье 1026 птицы прямо рассматриваются как живые динозавры.",
+      "diagnosis": "У выбранного сайта нет единого согласованного ответа на всех страницах. Нельзя молча выбрать устаревшую реплику и переписать целый раздел.",
+      "proposal": "Сохранить действующее объяснение портала, сослаться на соответствующий материал ресурса. Отметить конфликт интервью как редакционное расхождение источника.",
+      "sources": [
+        "https://antropogenez.ru/interview/794/",
+        "https://antropogenez.ru/article/1026/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/dinosaurLineage.ts",
+          "line": 121,
+          "page": null,
+          "anchor": "id: \"theropods\""
+        }
+      ],
+      "related": "A32",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "D09",
+      "priority": "P2",
+      "kind": "Трактовки источников",
+      "topic": "Причины мел-палеогенового вымирания",
+      "portal": "Портал ставит в центр удар астероида и его климатические последствия.",
+      "evidence": "В интервью 1003 изложен сценарий перестройки материков, переноса микроэлементов и кризиса планктона.",
+      "diagnosis": "Это содержательное расхождение объяснений; найденный ответ сам по себе не доказывает, что изложение портала ошибочно.",
+      "proposal": "Не заменять астероидный сценарий этой репликой. Для строгого согласования с выбранным источником нужен отдельный разбор его материалов о K–Pg и первичных данных.",
+      "sources": [
+        "https://antropogenez.ru/interview/1003/"
+      ],
+      "locations": [
+        {
+          "file": "src/data/extinctions.ts",
+          "line": 262,
+          "page": null,
+          "anchor": "id: \"cretaceous-paleogene\""
+        }
+      ],
+      "related": "",
+      "basis": "Антропогенез.РУ",
+      "group": "Решения",
+      "status": "Не заменять автоматически"
+    },
+    {
+      "id": "V01",
+      "priority": "P2",
+      "kind": "Требует проверки",
+      "topic": "Научный PDF: молекулярные механизмы",
+      "portal": "С. 5: enhancer CsB в интроне HoxD13 → shh, CRISPR; с. 6: вителлогенин → ApoB; с. 8: HLA-C/HLA-G 70 млн лет и β-casein → рост мозга.",
+      "evidence": "Прямого достаточного подтверждения в изученных материалах Антропогенеза не найдено; это не доказательство ложности.",
+      "diagnosis": "Очень конкретные генетические и экспериментальные утверждения без библиографии на слайдах. Термины и причинные стрелки требуют независимой проверки.",
+      "proposal": "Для каждого механизма найти исходную статью, организм эксперимента и границы вывода. До этого не считать научную презентацию проверенным справочником.",
+      "sources": [],
+      "locations": [
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 5,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 6,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 8,
+          "anchor": null
+        }
+      ],
+      "related": "",
+      "basis": "Граница выполненной проверки",
+      "group": "Допроверка",
+      "status": "Нужен первоисточник"
+    },
+    {
+      "id": "V02",
+      "priority": "P2",
+      "kind": "Требует проверки",
+      "topic": "Научный PDF: гены и происхождение языка",
+      "portal": "С. 9: SRGAP2C и рабочая память; с. 17: TBR1/CNTNAP2 обеспечивают рекурсивный синтаксис, FOXP2 sweep около 70 тыс. → расселение.",
+      "evidence": "Прямого достаточного подтверждения в изученных материалах Антропогенеза не найдено; это не доказательство ложности.",
+      "diagnosis": "Связи гена с нейробиологией, речью и историческим расселением поданы как доказанная последовательность. Экспертный материал о FOXP2 подчёркивает ограничения интерпретации.",
+      "proposal": "Проверить каждую причинную связь по первичной публикации; отделить ассоциации, модельные эксперименты и исторические гипотезы. Удалить точные даты без основания.",
+      "sources": [
+        "https://antropogenez.ru/interview/913/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 9,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 17,
+          "anchor": null
+        }
+      ],
+      "related": "",
+      "basis": "Граница выполненной проверки",
+      "group": "Допроверка",
+      "status": "Нужен первоисточник"
+    },
+    {
+      "id": "V03",
+      "priority": "P2",
+      "kind": "Требует проверки",
+      "topic": "Научный PDF: фенотипы, геномы и графики",
+      "portal": "С. 13: δ15N костей Turkana, MSTN и эффективность бега; с. 15: Altai/Denisovan, SCN9A, TRPM8, RUNX2, DEFB127; с. 18: направленный отбор polygenic score IQ.",
+      "evidence": "Прямого достаточного подтверждения в изученных материалах Антропогенеза не найдено; это не доказательство ложности.",
+      "diagnosis": "Не указаны образцы, публикации, величины ошибок и происхождение графиков; название Altai неоднозначно без идентификатора генома.",
+      "proposal": "Заменить графики на воспроизводимые данные с источником либо подписать как концептуальные схемы. Проверить, какие выводы относятся к неандертальцам, какие к денисовцам.",
+      "sources": [],
+      "locations": [
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 13,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 15,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/homo-luca-sapiens.pdf",
+          "line": null,
+          "page": 18,
+          "anchor": null
+        }
+      ],
+      "related": "",
+      "basis": "Граница выполненной проверки",
+      "group": "Допроверка",
+      "status": "Нужен первоисточник"
+    },
+    {
+      "id": "V04",
+      "priority": "P2",
+      "kind": "Требует проверки",
+      "topic": "PDF о поведении: слишком широкие биологические правила",
+      "portal": "С. 3: r — «доля общих генов»; с. 4: сёстры 75% без условий; с. 5–6: универсальные стратегии полов; с. 8: Schistocephalus solidus, рачок-бокоплав → утка.",
+      "evidence": "Прямого достаточного подтверждения в изученных материалах Антропогенеза не найдено; это не доказательство ложности.",
+      "diagnosis": "Нужно проверить определение родства, условия гаплодиплоидной модели и полный жизненный цикл паразита. Генетическое объяснение поведения не должно становиться универсальным правилом.",
+      "proposal": "Привязать каждый пример к конкретному виду и условиям; проверить цикл по паразитологическому первоисточнику. Эти пункты не включены в число подтверждённых расхождений с Антропогенезом.",
+      "sources": [],
+      "locations": [
+        {
+          "file": "public/assets/materials/evolutionary-advantage-genes-behavior.pdf",
+          "line": null,
+          "page": 3,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/evolutionary-advantage-genes-behavior.pdf",
+          "line": null,
+          "page": 4,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/evolutionary-advantage-genes-behavior.pdf",
+          "line": null,
+          "page": 5,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/evolutionary-advantage-genes-behavior.pdf",
+          "line": null,
+          "page": 8,
+          "anchor": null
+        }
+      ],
+      "related": "",
+      "basis": "Граница выполненной проверки",
+      "group": "Допроверка",
+      "status": "Нужен первоисточник"
+    },
+    {
+      "id": "V05",
+      "priority": "P2",
+      "kind": "Требует проверки",
+      "topic": "Глубокое время: даты и происхождение признаков",
+      "portal": "Лёгкие → tetrapods 365 млн; слуховые косточки → cynodonts 250 млн; кислородная атмосфера → cyanobacteria 2,7 млрд; разные даты эукариот и LUCA на страницах и в PDF.",
+      "evidence": "Прямого достаточного подтверждения в изученных материалах Антропогенеза не найдено; это не доказательство ложности.",
+      "diagnosis": "Датировки ранней жизни и постепенные анатомические преобразования нельзя целиком проверить по антропологическому каталогу. Есть смешение иллюстративных узлов и времени появления признака.",
+      "proposal": "После A03 провести отдельную сверку по профильным палеонтологическим и геохимическим первоисточникам; различать начало процесса и завершение комплекса признаков.",
+      "sources": [],
+      "locations": [
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 279,
+          "page": null,
+          "anchor": "id: \"body-lungs\""
+        },
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 422,
+          "page": null,
+          "anchor": "id: \"senses-ear-bones\""
+        },
+        {
+          "file": "src/data/bodyTraits.ts",
+          "line": 158,
+          "page": null,
+          "anchor": "id: \"cells-oxygen\""
+        },
+        {
+          "file": "src/data/luca.ts",
+          "line": 17,
+          "page": null,
+          "anchor": "export const"
+        }
+      ],
+      "related": "",
+      "basis": "Граница выполненной проверки",
+      "group": "Допроверка",
+      "status": "Нужен первоисточник"
+    },
+    {
+      "id": "V06",
+      "priority": "P2",
+      "kind": "Требует проверки",
+      "topic": "Вымирания: точные проценты и длительности",
+      "portal": "PDF: первая ордовикская волна 85% за 340 тыс.; все виды при пермском 90–96%; доминирование млекопитающих за 185 тыс.; человек разрушил экосистемы быстрее любого астероида.",
+      "evidence": "Прямого достаточного подтверждения в изученных материалах Антропогенеза не найдено; это не доказательство ложности.",
+      "diagnosis": "Метрики видов/родов/семейств, географический охват и интервалы смешаны. Форум Антропогенеза специально обращает внимание на несопоставимость масштабов прошлых и нынешнего кризисов.",
+      "proposal": "Проверить численные оценки и модели; снабдить цифры единицей, выборкой и источником. Убрать абсолютное сравнение с любым астероидом, если для него нет определённой метрики.",
+      "sources": [
+        "https://antropogenez.ru/forum17-itogi/"
+      ],
+      "locations": [
+        {
+          "file": "public/assets/materials/six-planet-apocalypses.pdf",
+          "line": null,
+          "page": 3,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/six-planet-apocalypses.pdf",
+          "line": null,
+          "page": 7,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/six-planet-apocalypses.pdf",
+          "line": null,
+          "page": 13,
+          "anchor": null
+        },
+        {
+          "file": "public/assets/materials/six-planet-apocalypses.pdf",
+          "line": null,
+          "page": 14,
+          "anchor": null
+        },
+        {
+          "file": "src/data/extinctions.ts",
+          "line": 51,
+          "page": null,
+          "anchor": "export const MASS_EXTINCTIONS"
+        }
+      ],
+      "related": "",
+      "basis": "Граница выполненной проверки",
+      "group": "Допроверка",
+      "status": "Нужен первоисточник"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "url": "https://antropogenez.ru/article/1001/",
+      "title": "Внутренний гетерострак. Рецензия на книгу «Предшественники рыб, бесчелюстные — начало пути к человеку» - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "a6d113e941b518c972f66c7e802d40686fcce238aa6dbda9dbf8084b6afaaf6f",
+      "usedBy": [
+        "A28"
+      ]
+    },
+    {
+      "id": "S02",
+      "url": "https://antropogenez.ru/article/1026/",
+      "title": "«Их скелеты продаются за миллионы долларов» - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "0b80053b6476e2741cad97b3377e7914a90d4f158f1bea687d8b942ee7c1c824",
+      "usedBy": [
+        "A32",
+        "D08"
+      ]
+    },
+    {
+      "id": "S03",
+      "url": "https://antropogenez.ru/article/1067/",
+      "title": "Пещера Брюникель - древнейшее свидетельство ритуальной деятельности - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "5a2c8babd0d1ac422bae83c8c41c1298d87f65aa035843e6e22725fc55e86168",
+      "usedBy": [
+        "A14"
+      ]
+    },
+    {
+      "id": "S04",
+      "url": "https://antropogenez.ru/article/1116/",
+      "title": "От кита-гибрида до женщины-викинга. Горячая десятка АНТРОПОГЕНЕЗ.РУ - 2019 - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "33201a3ee014eb6793e838bbb2140648969a26d87d91297b563140ecad97da63",
+      "usedBy": [
+        "A22",
+        "A25"
+      ]
+    },
+    {
+      "id": "S05",
+      "url": "https://antropogenez.ru/article/1143/",
+      "title": "“Где Брут живет, там Цезарь жить не может”: новые данные о хронологии Homo sapiens в Китае опровергают их раннее присутствие в Восточной Азии - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "744e90857b85c61df582f14c6f1ffe242330be0894dcede2316828bbb9735e50",
+      "usedBy": [
+        "A18"
+      ]
+    },
+    {
+      "id": "S06",
+      "url": "https://antropogenez.ru/article/1144/",
+      "title": "Птицы для неандертальских перьев - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "5982cf2cd8a06095cf3b872dd5c50b30a5ec55b3cd0a3420e34817b4a3adf557",
+      "usedBy": [
+        "A14"
+      ]
+    },
+    {
+      "id": "S07",
+      "url": "https://antropogenez.ru/article/75/",
+      "title": "Генетические отличия: человек и шимпанзе, их ДНК (гены, хромосомы) - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "1381973439539e64fed1e9627144d3013b62427ef33fb02cbe504828334b1df7",
+      "usedBy": [
+        "D07"
+      ]
+    },
+    {
+      "id": "S08",
+      "url": "https://antropogenez.ru/article/859/",
+      "title": "Новейшие денисовцы, древнейшая ДНК. 14 антропологических новостей из Лондона - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "f138856f3082e732cf3bd647578c5d92220343a4f6eae9857df20cd9de931edb",
+      "usedBy": [
+        "D05",
+        "D06"
+      ]
+    },
+    {
+      "id": "S09",
+      "url": "https://antropogenez.ru/catalog-hominids/",
+      "title": "Ископаемые люди. Древнейшие предки человека. Этапы эволюции гоминид - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "403a711a6150b2f5fbb1d6676ed76a8e00bec53b1267f41e7d84e276b7cc727d",
+      "usedBy": [
+        "A03",
+        "A08",
+        "A20",
+        "A21",
+        "D01",
+        "D03",
+        "D04",
+        "D05"
+      ]
+    },
+    {
+      "id": "S10",
+      "url": "https://antropogenez.ru/fileadmin/user_upload/Drevo_iyun_2024.pdf",
+      "title": "Древо эволюции человека — Георгий Попов, научный консультант С. Дробышевский",
+      "date": "июнь 2024",
+      "accessed": "2026-09-13",
+      "sha256": "5063ce6bf1de7b21585e368ace17ae1ce466cd11c6639fb8edc74befb3e6d288",
+      "usedBy": [
+        "A01",
+        "A03",
+        "A22",
+        "A24"
+      ]
+    },
+    {
+      "id": "S11",
+      "url": "https://antropogenez.ru/forum17-itogi/",
+      "title": "Учёные против мифов. Пробуждение Пингвохотепа. Итоги Форума - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "1218e008e83ddc1ff47fbbfa5533ce9b2a257e2b6d7f84c08f1632223a6ff874",
+      "usedBy": [
+        "A31",
+        "V06"
+      ]
+    },
+    {
+      "id": "S12",
+      "url": "https://antropogenez.ru/fossil/126/",
+      "title": "Дманиси 3444 + 3900 - D-3444 + D-3900 - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "96a1f1dac66232fe48db7717b762137331419a3b097fa0678b6b09687c1e6cff",
+      "usedBy": [
+        "A12"
+      ]
+    },
+    {
+      "id": "S13",
+      "url": "https://antropogenez.ru/interview/1003/",
+      "title": "Откуда хобот у слона и как работает ДНК? - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "77633ed2009e56fa343ccae466269bcad495b34c13fde4631fa205d42b67f071",
+      "usedBy": [
+        "D09"
+      ]
+    },
+    {
+      "id": "S14",
+      "url": "https://antropogenez.ru/interview/773/",
+      "title": "Любой народ - это сброд перемешанных племён... - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "eaa928f11b1bb0149e0dde74b502d924cc227dde6044819afee03c55b21e1885",
+      "usedBy": [
+        "A13"
+      ]
+    },
+    {
+      "id": "S15",
+      "url": "https://antropogenez.ru/interview/794/",
+      "title": "Вопросы с выставки. Часть 4 - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "9000c51ae8de75fe150f22bb98e47968205f17065f719ba0eee11eb7fdc06fbf",
+      "usedBy": [
+        "D08"
+      ]
+    },
+    {
+      "id": "S16",
+      "url": "https://antropogenez.ru/interview/913/",
+      "title": "Чтобы не было пурги в голове, надо внимательно читать - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "a174158b1fd5953fe5a6ec2c8a27b43647187fb98ebf71b5fd66d1466f60a37c",
+      "usedBy": [
+        "V02"
+      ]
+    },
+    {
+      "id": "S17",
+      "url": "https://antropogenez.ru/location/208/",
+      "title": "Херто, Herto. Homo sapiens idaltu - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "4f0bcda59514b87889e3a507aad43bddb5d3146b93a22cdbbd4490482175aeec",
+      "usedBy": [
+        "A15"
+      ]
+    },
+    {
+      "id": "S18",
+      "url": "https://antropogenez.ru/single-news/article/151/",
+      "title": "Древние гоминиды говорили «в нос»? - Антропогенез.РУ",
+      "date": "29.11.2011",
+      "accessed": "2026-09-13",
+      "sha256": "8c6ffa99e0d914da72c1acb056697c719e9e973682f3e9395ad309edb41a076e",
+      "usedBy": [
+        "A13",
+        "A25"
+      ]
+    },
+    {
+      "id": "S19",
+      "url": "https://antropogenez.ru/single-news/article/314/",
+      "title": "Archicebus achilles - скелет древнейшего примата - Антропогенез.РУ",
+      "date": "10.06.2013",
+      "accessed": "2026-09-13",
+      "sha256": "a9d42f2184e2bfba0b8d15ad3f78d03f2f231686bcecb1369ebbba2cf64cdb10",
+      "usedBy": [
+        "A02"
+      ]
+    },
+    {
+      "id": "S20",
+      "url": "https://antropogenez.ru/single-news/article/566/",
+      "title": "Хоббиты удаляются...  Хоббиты возвращаются! - Антропогенез.РУ",
+      "date": "01.04.2016",
+      "accessed": "2026-09-13",
+      "sha256": "1d6e9cd8c15ffd201c45d15d8a75138ddd5c18c83c630a5b1488c5ff15607bd6",
+      "usedBy": [
+        "A24"
+      ]
+    },
+    {
+      "id": "S21",
+      "url": "https://antropogenez.ru/single-news/article/680/",
+      "title": "Новые находки из Джебель Ирхуда и происхождение нашего вида - Антропогенез.РУ",
+      "date": "08.06.2017",
+      "accessed": "2026-09-13",
+      "sha256": "a999c97a06581f5324f9a8bbc46e41e5266974b374ac4da6544e402054362404",
+      "usedBy": [
+        "A26",
+        "D01"
+      ]
+    },
+    {
+      "id": "S22",
+      "url": "https://antropogenez.ru/single-news/article/719/",
+      "title": "Африканская прародина? Африканский мультирегионализм - Антропогенез.РУ",
+      "date": "29.07.2018",
+      "accessed": "2026-09-13",
+      "sha256": "14a71d4e10b5503808da2cd053d1a324f2138fdcb36691cc307d671b7ac90b7c",
+      "usedBy": [
+        "A16",
+        "A17",
+        "A26"
+      ]
+    },
+    {
+      "id": "S23",
+      "url": "https://antropogenez.ru/single-news/article/810/",
+      "title": "Древнейшие орудия труда из Леди-Герару - Антропогенез.РУ",
+      "date": "03.10.2019",
+      "accessed": "2026-09-13",
+      "sha256": "71afbb863755654bf0b2185f19744239d5fbd3c3b519cfd510e0fd97c165d606",
+      "usedBy": [
+        "A10",
+        "A11",
+        "A23"
+      ]
+    },
+    {
+      "id": "S24",
+      "url": "https://antropogenez.ru/zveno-single/129/",
+      "title": "Жилища древних людей. Приручение огня. Символизм - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "fbba4f6cda8e4c1e2a6041106c913a596876113d3c75754811ca30157f446195",
+      "usedBy": [
+        "A33"
+      ]
+    },
+    {
+      "id": "S25",
+      "url": "https://antropogenez.ru/zveno-single/19/",
+      "title": "Прямохождение человека. Различия человека и человекообразных обезьян - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "c37f7453c85b4bd408519a3db23e9a135a629f342e555a9f3ad7124941a518a7",
+      "usedBy": [
+        "A09",
+        "A27"
+      ]
+    },
+    {
+      "id": "S26",
+      "url": "https://antropogenez.ru/zveno-single/25/",
+      "title": "Генетика человека и обезьян. Почему человек произошёл от обезьяны - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "1ed66466db3f27f2278a0ecd94bc4da0368ff18ac4684f53104eaecc3a24b83d",
+      "usedBy": [
+        "D07"
+      ]
+    },
+    {
+      "id": "S27",
+      "url": "https://antropogenez.ru/zveno-single/261/",
+      "title": "Возникновение Homo sapiens. Возраст. Древнейшие находки - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "c7a1865fd74600bdabf74c24879e2314f860894052a539875f4bd91986e7dcb9",
+      "usedBy": [
+        "A15",
+        "D02"
+      ]
+    },
+    {
+      "id": "S28",
+      "url": "https://antropogenez.ru/zveno-single/44/",
+      "title": "От кого произошла обезьяна. Плезиадаписовые, плезиадапис - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "46af7e2c1b9ad7a0f3b47cb28391f756fa9337407af0c71a847d87b21f3cec9c",
+      "usedBy": [
+        "A04"
+      ]
+    },
+    {
+      "id": "S29",
+      "url": "https://antropogenez.ru/zveno-single/45/",
+      "title": "Ископаемые полуобезьяны: адапоиды и омомисовые - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "7ea4d0f51b7dfe7003aa6db65e2e96cec820347e3cdfb3eb56adf0dd50cbf0f4",
+      "usedBy": [
+        "A02",
+        "A05"
+      ]
+    },
+    {
+      "id": "S30",
+      "url": "https://antropogenez.ru/zveno-single/47/",
+      "title": "Возникновение высших приматов: эосимиды, амфипитециды и парапитециды - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "8b0d2bad50f19e053090e76f7a9bac14899f1f780512cd78bba478e5b3d15e75",
+      "usedBy": [
+        "A05"
+      ]
+    },
+    {
+      "id": "S31",
+      "url": "https://antropogenez.ru/zveno-single/51/",
+      "title": "Ископаемые обезьяны: гоминоиды - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "adf51c3d0447b06edb883f55ee29256c87b0505976fa7a86dfd850119024245e",
+      "usedBy": [
+        "A06"
+      ]
+    },
+    {
+      "id": "S32",
+      "url": "https://antropogenez.ru/zveno-single/515/",
+      "title": "Плезиадапиформы – предки приматов - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "0bae2028a5c210a4931e20f1743ba8ab02af1103624f2e05a095c5be52ea4271",
+      "usedBy": [
+        "A04"
+      ]
+    },
+    {
+      "id": "S33",
+      "url": "https://antropogenez.ru/zveno-single/55/",
+      "title": "Первые гоминиды. Австралопитеки ранние - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "add172495375cbe351c61ca6b96c9fbb40f94c3675941e6e9036f3dcc45c6a17",
+      "usedBy": [
+        "A01",
+        "A07",
+        "A27"
+      ]
+    },
+    {
+      "id": "S34",
+      "url": "https://antropogenez.ru/zveno-single/56/",
+      "title": "Австралопитеки грацильные. Как они выглядели? - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "6b49fcdb8b5ced761045c1c8d2ed40c01a5ec12c7a7e5f3e528183e4b95c3cbc",
+      "usedBy": [
+        "A08"
+      ]
+    },
+    {
+      "id": "S35",
+      "url": "https://antropogenez.ru/zveno-single/57/",
+      "title": "Ардипитек рамидус. Общий предок человека и обезьян (шимпанзе) - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "77a5591910a2c84b743b849d99352e910cfd2626e1f810ac714da9e869a3373f",
+      "usedBy": [
+        "A07",
+        "A09"
+      ]
+    },
+    {
+      "id": "S36",
+      "url": "https://antropogenez.ru/zveno-single/58/",
+      "title": "Австралопитеки массивные - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "752a07f6423b05b6f4a9861c69303d31e6732c3774d1fdd9d42d19849900fdf8",
+      "usedBy": [
+        "A21"
+      ]
+    },
+    {
+      "id": "S37",
+      "url": "https://antropogenez.ru/zveno-single/60/",
+      "title": "Архантропы - древнейшие люди. Питекантропы и синантропы - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "8e5ba9956a3230caa3bd2eb3044fec3e54cac489647521c82db6fc7f8b450393",
+      "usedBy": [
+        "D03"
+      ]
+    },
+    {
+      "id": "S38",
+      "url": "https://antropogenez.ru/zveno-single/607/",
+      "title": "О метисации предков австралийцев с денисовцами - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "f79486a5d1e78fd2f16fd65a36689064546fd327826bd401d1eb12f02ddac10e",
+      "usedBy": [
+        "A19",
+        "A29"
+      ]
+    },
+    {
+      "id": "S39",
+      "url": "https://antropogenez.ru/zveno-single/61/",
+      "title": "Предки неандертальцев и кроманьонцев - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "824c46bc734ca673fa7b540f017612bca2adc8f12b9b8a7f41da509664405d2b",
+      "usedBy": [
+        "A01",
+        "D04"
+      ]
+    },
+    {
+      "id": "S40",
+      "url": "https://antropogenez.ru/zveno-single/749/",
+      "title": "Заря Homo: древнейшие свидетельства - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "f22295cb01c369c6f3528b339bb6aec90a7775a7a38b21eab63a1f2847d36a04",
+      "usedBy": [
+        "A11"
+      ]
+    },
+    {
+      "id": "S41",
+      "url": "https://antropogenez.ru/zveno/",
+      "title": "Теория антропогенеза человека.  Проблемы антропологии. Учебник - Антропогенез.РУ",
+      "date": "не указана в прочитанном материале",
+      "accessed": "2026-09-13",
+      "sha256": "0f7e369b375e45e9bce9d13f3cbd73c709fb52211b4d88c4f571e39037c7945c",
+      "usedBy": [
+        "A20"
+      ]
+    },
+    {
+      "id": "S42",
+      "url": "https://www.nature.com/articles/s41586-021-04275-8",
+      "title": "Vidal et al. Age of the oldest known Homo sapiens from eastern Africa",
+      "date": "12.01.2022",
+      "accessed": "2026-09-13",
+      "sha256": null,
+      "usedBy": [
+        "D02"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "section": "Атлас и приматы",
+      "scope": "Все 38 карточек lineage.ts; основной акцент на приматах и человеке",
+      "result": "Проверены формулировки, даты, статусы и переходы; глубокое время частично вынесено в V05.",
+      "files": [
+        "src/data/lineage.ts",
+        "src/data/primateGroups.ts"
+      ]
+    },
+    {
+      "section": "Дерево родства",
+      "scope": "Построение ствола, боковые ветви, вычисление общего предка, статический постер",
+      "result": "A01–A03, A21–A22, A30. Проверка по данным и логике; не полный браузерный UX-аудит.",
+      "files": [
+        "src/lib/cladogram.ts",
+        "src/lib/accumulatedTraits.ts",
+        "src/data/treeOfLifePoster.ts"
+      ]
+    },
+    {
+      "section": "Карта признаков",
+      "scope": "Все 44 записей bodyTraits.ts и смысл уверенности/дат в интерфейсе",
+      "result": "A09–A14. Базовая анатомия прочитана; датировки глубокого времени требуют V05.",
+      "files": [
+        "src/data/bodyTraits.ts",
+        "src/pages/BodyMapPage.tsx",
+        "src/data/confidence.ts"
+      ]
+    },
+    {
+      "section": "Происхождение sapiens и миграции",
+      "scope": "4 памятника и 6 маршрутов",
+      "result": "A15–A18, D01–D02. Даты Европы, Сахула и Америки просмотрены, но не все получили достаточную независимую опору в выбранном ресурсе.",
+      "files": [
+        "src/data/humanOrigins.ts",
+        "src/components/education/AfricaOriginMap.tsx"
+      ]
+    },
+    {
+      "section": "Генетика",
+      "scope": "Сравнения геномов, хромосома 2, общность кода, ретровирусные вставки",
+      "result": "Базовые объяснения не дали оснований для правки; D07 сохраняет различение метрик. Детальная проверка каждого процента не заявляется.",
+      "files": [
+        "src/data/genetics.ts",
+        "src/pages/GeneticsPage.tsx"
+      ]
+    },
+    {
+      "section": "Теория, словарь, факты, тест",
+      "scope": "Научная теория и доказательства, терминология, короткие факты, вопросы теста",
+      "result": "Основные тезисы о ветвлении, общем предке и научной теории согласуются с источником; A19. Исторические названия групп на источнике не перенесены автоматически.",
+      "files": [
+        "src/data/evidence.ts",
+        "src/data/glossary.ts",
+        "src/data/curiosityFacts.ts",
+        "src/data/quiz.ts"
+      ]
+    },
+    {
+      "section": "Гид и источники",
+      "scope": "Текст экскурсии, набор научных ссылок, формирование AI-контекста",
+      "result": "A20; проверены данные, из которых собирается ответ. Самостоятельные живые ответы AI-гида не тестировались.",
+      "files": [
+        "src/data/guidedTour.ts",
+        "src/data/scienceSources.ts",
+        "src/lib/aiGuideContext.ts"
+      ]
+    },
+    {
+      "section": "Зарождение жизни",
+      "scope": "LUCA, шесть гипотез происхождения жизни, оговорки о неопределённости",
+      "result": "Прочитано; отсутствие единого завершённого сценария изложено осторожно. Полная источниковая проверка молекулярных механизмов вне этой таблицы.",
+      "files": [
+        "src/data/luca.ts",
+        "src/data/originHypotheses.ts"
+      ]
+    },
+    {
+      "section": "Динозавры и вымирания",
+      "scope": "Данные ветви птиц, основные события и причины кризисов, геологическая шкала",
+      "result": "Выборочная сверка с материалами ресурса: A31–A32, D08–D09, V06. Полная проверка всех процентов и видов не заявляется.",
+      "files": [
+        "src/data/dinosaurLineage.ts",
+        "src/data/extinctions.ts",
+        "src/data/geologicPeriods.ts"
+      ]
+    },
+    {
+      "section": "Пять PDF-презентаций",
+      "scope": "78 страниц: 18 + 12 + 18 + 12 + 18",
+      "result": "OCR всего текста; визуально перепроверены ключевые страницы, на которых основаны уверенные выводы. A23–A29, A31–A33; неподтверждённые механизмы V01–V06.",
+      "files": [
+        "public/assets/materials/path-from-cell-to-human.pdf",
+        "public/assets/materials/cell-to-human-kids.pdf",
+        "public/assets/materials/homo-luca-sapiens.pdf",
+        "public/assets/materials/evolutionary-advantage-genes-behavior.pdf",
+        "public/assets/materials/six-planet-apocalypses.pdf"
+      ]
+    },
+    {
+      "section": "За пределами проверки",
+      "scope": "Полные тексты рекомендованных книг, видео/аудио, анатомическая точность всех AI-иллюстраций, динамические ответы гида, игровые сценарии",
+      "result": "Не проверены полностью. Отсутствие строки в таблице не означает подтверждение каждого утверждения.",
+      "files": [
+        "src/data/materials.ts",
+        "src/pages/GamePage.tsx"
+      ]
+    }
+  ]
+}
