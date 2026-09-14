@@ -3,11 +3,12 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./e2e",
   snapshotPathTemplate: "{testDir}/__screenshots__/{arg}{ext}",
-  timeout: 30_000,
+  // Software-rendered WebGL and screenshots take longer on hosted Linux runners.
+  timeout: process.env.CI ? 90_000 : 30_000,
   // Parallel software-rendered WebGL backgrounds starve CI browser actions.
   workers: process.env.CI ? 1 : undefined,
   expect: {
-    timeout: 5_000,
+    timeout: process.env.CI ? 15_000 : 5_000,
     toHaveScreenshot: {
       animations: "disabled",
       // macOS and Linux rasterize the same fallback fonts differently. The

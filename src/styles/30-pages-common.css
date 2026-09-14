@@ -95,6 +95,10 @@
     text-wrap: pretty;
   }
 
+  .atlas-home .page-header-description {
+    max-width: 100%;
+  }
+
   .page-header::after {
     position: absolute;
     right: -8vw;

@@ -17,7 +17,7 @@ for (const width of [1440, 1100, 960, 820, 391, 320]) {
       testInfo.project.name !== "desktop",
       "Explicit responsive viewports.",
     );
-    test.setTimeout(60_000);
+    test.setTimeout(process.env.CI ? 180_000 : 60_000);
     await page.setViewportSize({ width, height: 860 });
     await page.goto("/body-map");
     await expect(page.locator(".body-map-canvas img")).toBeVisible();

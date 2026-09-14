@@ -45,7 +45,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        project: [desktop, mobile]
+        include:
+          - project: desktop
+            shard: 1/2
+            artifact: desktop-1
+          - project: desktop
+            shard: 2/2
+            artifact: desktop-2
+          - project: mobile
+            shard: 1/1
+            artifact: mobile
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,13 +77,13 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: E2E (${{ matrix.project }})
-        run: pnpm e2e --project=${{ matrix.project }}
+        run: pnpm e2e --project=${{ matrix.project }} --shard=${{ matrix.shard }}
 
       - name: Upload Playwright diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-${{ matrix.project }}-${{ github.run_attempt }}
+          name: playwright-${{ matrix.artifact }}-${{ github.run_attempt }}
           path: |
             playwright-report/
             test-results/
