@@ -1399,6 +1399,22 @@
     outline: none;
   }
 
+  .deep-stage-dot--comparison {
+    bottom: calc(4.7rem + 78px + var(--comparison-lane) * 40px);
+    height: 36px;
+  }
+
+  .deep-stage-dot--comparison::before {
+    position: absolute;
+    top: calc(100% - 12px);
+    left: 50%;
+    width: 1px;
+    height: calc(78px + var(--comparison-lane) * 40px);
+    background: rgba(232, 211, 164, 0.3);
+    content: "";
+    pointer-events: none;
+  }
+
   .deep-stage-dot span {
     position: absolute;
     left: 50%;

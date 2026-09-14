@@ -1170,6 +1170,10 @@ test.describe("Evolution Atlas", () => {
       page.locator(".stage-plate-media source[type='image/avif']"),
     ).toHaveCount(0);
 
+    for (const title of ["Денисовцы", "Неандертальцы"]) {
+      await page.getByRole("button", { name: new RegExp(`^${title},`) }).click();
+      await expect(page.locator(".stage-copy h2")).toHaveText(title);
+    }
     await page.getByRole("button", { name: /Homo sapiens,/i }).click();
     await expect(
       page.getByRole("heading", { name: "Homo sapiens", exact: true }),
