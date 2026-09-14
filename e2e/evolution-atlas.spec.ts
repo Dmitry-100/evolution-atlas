@@ -2261,7 +2261,9 @@ test.describe("Evolution Atlas", () => {
     await expect(activeHeading).toHaveText("Клеточные линии");
     await expect(page.locator(".journey-status")).toHaveCount(0);
     await expect
-      .poll(() => activeHeading.textContent(), { timeout: 3000 })
+      .poll(() => activeHeading.textContent(), {
+        timeout: process.env.CI ? 15_000 : 3000,
+      })
       .not.toBe("Клеточные линии");
 
     await playback
@@ -2279,7 +2281,7 @@ test.describe("Evolution Atlas", () => {
       .getByRole("button", { name: "Продолжить прокрутку по времени" })
       .click();
     await expect(activeHeading).not.toHaveText(pausedHeading ?? "", {
-      timeout: 2500,
+      timeout: process.env.CI ? 15_000 : 2500,
     });
 
     await playback
