@@ -1,3 +1,4 @@
+import { commonAncestorAgeLabel } from "../../lib/cladogram";
 import { useMemo, useRef } from "react";
 import {
   ArrowDown,
@@ -155,7 +156,7 @@ export function CladogramPanel({
                 <span className="cladogram-node-copy">
                   <small>корень дерева</small>
                   <strong>{tree.root.titleRu}</strong>
-                  <em>около {formatAgeRu(tree.root.ageMa)}</em>
+                  <em>{formatAgeRu(tree.root.ageMa)} · оценка модели</em>
                 </span>
               </div>
             </div>
@@ -249,7 +250,9 @@ export function CladogramPanel({
                           <small>
                             Общий предок: {branch.commonAncestor.titleRu}
                           </small>
-                          <em>{formatAgeRu(branch.commonAncestor.ageMa)}</em>
+                          <em>
+                            {commonAncestorAgeLabel(branch.commonAncestor)}
+                          </em>
                           {branch.isLivingComparison ? (
                             <span className="cladogram-living-badge">
                               живут сегодня

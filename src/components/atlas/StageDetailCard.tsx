@@ -1,3 +1,7 @@
+import {
+  STAGE_AGE_KIND_LABELS,
+  STAGE_TRAIT_DATE_NOTE,
+} from "../../data/lineage";
 import { Fingerprint, Maximize2, ScanSearch, Sparkles } from "lucide-react";
 import {
   useEffect,
@@ -18,7 +22,8 @@ import { OptimizedImage } from "../ui/optimized-image";
 import { GlossaryTerm } from "./GlossaryTerm";
 
 type StageDetailCardProps = {
-  stage: Omit<EvolutionStage, "eraId" | "lineageRole">;
+  stage: Omit<EvolutionStage, "eraId" | "lineageRole" | "ageKind"> &
+    Partial<Pick<EvolutionStage, "ageKind">>;
   className?: string;
   afterContent?: ReactNode;
   lightboxAriaLabel?: string;
@@ -127,7 +132,10 @@ export function StageDetailCard({
       </figure>
 
       <div className="stage-copy">
-        <p className="kicker">{formatAgeRu(stage.ageMa)}</p>
+        <p className="kicker">
+          {STAGE_AGE_KIND_LABELS[stage.ageKind ?? "milestone"]} ·{" "}
+          {formatAgeRu(stage.ageMa)}
+        </p>
         <h2>{stage.titleRu}</h2>
         <p className="latin">{stage.latin}</p>
         {glossaryTerm ? (
@@ -137,12 +145,16 @@ export function StageDetailCard({
           </div>
         ) : null}
         <p className="lead">{stage.summaryRu}</p>
+        {stage.ageNoteRu ? (
+          <p className="stage-date-note">{stage.ageNoteRu}</p>
+        ) : null}
 
         <div className="inheritance-box">
           <div className="box-title">
             <Fingerprint aria-hidden="true" size={20} />
             <span>Карта признаков</span>
           </div>
+          <p className="stage-trait-date-note">{STAGE_TRAIT_DATE_NOTE}</p>
           <ul>
             {stage.inherited.slice(0, 4).map((item) => (
               <li key={item}>{item}</li>
@@ -156,6 +168,17 @@ export function StageDetailCard({
             Открыть карту признаков
           </Link>
         </div>
+
+        {stage.environmentalEffects ? (
+          <div className="inheritance-box">
+            <strong>Изменения среды</strong>
+            <ul>
+              {stage.environmentalEffects.map((effect) => (
+                <li key={effect}>{effect}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
 
         <div className="why-box">
           <Sparkles aria-hidden="true" size={18} />

@@ -3,35 +3,21 @@ import "../styles/pages/materials.css";
 import { PageHeader } from "../components/ui/PageHeader";
 import {
   BookOpen,
-  ChevronDown,
-  Download,
   ExternalLink,
-  FileText,
-  GitFork,
   Landmark,
   MapPin,
   PlayCircle,
 } from "lucide-react";
-import { ImageLightbox } from "../components/ui/image-lightbox";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import {
   MUSEUM_RECOMMENDATIONS,
-  PORTAL_MATERIALS,
   READING_RECOMMENDATIONS,
   READING_TOPICS,
   type ReadingTopic,
   WATCH_RECOMMENDATIONS,
 } from "../data/materials";
-import { TREE_OF_LIFE_POSTER } from "../data/treeOfLifePoster";
 
 const materialSections = [
-  { id: "materials-poster", label: "Постер", icon: GitFork, count: 1 },
-  {
-    id: "materials-presentations",
-    label: "Презентации",
-    icon: FileText,
-    count: PORTAL_MATERIALS.length,
-  },
   {
     id: "materials-reading",
     label: "Книги",
@@ -52,16 +38,8 @@ const materialSections = [
   },
 ];
 
-const posterImage = {
-  src: TREE_OF_LIFE_POSTER.src,
-  alt: TREE_OF_LIFE_POSTER.altRu,
-  caption:
-    "Дерево жизни. Прокручивайте изображение, чтобы рассмотреть все ветви.",
-};
-
 export function MaterialsPage() {
   const pageRef = useRef<HTMLElement>(null);
-  const [isPosterOpen, setIsPosterOpen] = useState(false);
   const [readingTopic, setReadingTopic] = useState<ReadingTopic | "all">("all");
   const visibleBooks =
     readingTopic === "all"
@@ -92,10 +70,10 @@ export function MaterialsPage() {
     >
       <PageHeader
         eyebrow="Дополнительные материалы"
-        title="Презентации, книги, музеи и видео"
+        title="Книги, музеи и видео"
       >
-        Их можно читать отдельно или после разделов Атласа. PDF открываются
-        прямо в браузере.
+        Продолжите знакомство с эволюцией: книги для чтения, музеи для посещения
+        и лекции для просмотра после разделов Атласа.
       </PageHeader>
 
       <nav className="materials-page-nav" aria-label="Разделы материалов">
@@ -107,118 +85,6 @@ export function MaterialsPage() {
           </a>
         ))}
       </nav>
-
-      <section
-        id="materials-poster"
-        className="poster-download-card"
-        aria-labelledby="poster-download-title"
-      >
-        <button
-          type="button"
-          className="poster-download-media"
-          onClick={() => setIsPosterOpen(true)}
-          aria-label="Увеличить постер «Дерево жизни»"
-        >
-          <OptimizedImage
-            src={TREE_OF_LIFE_POSTER.previewSrc}
-            alt={TREE_OF_LIFE_POSTER.altRu}
-            loading="lazy"
-            decoding="async"
-          />
-        </button>
-        <div className="poster-download-copy">
-          <div className="materials-section-heading">
-            <GitFork aria-hidden="true" size={23} />
-            <div>
-              <p className="eyebrow">Постер</p>
-              <h2 id="poster-download-title">Дерево жизни</h2>
-              <p>
-                Обзорная карта родства: LUCA, крупные ветви жизни, развилка
-                амниот, отдельные пути человека и птиц.
-              </p>
-            </div>
-          </div>
-          <a
-            className="button button-secondary button-md"
-            href={TREE_OF_LIFE_POSTER.src}
-            download={TREE_OF_LIFE_POSTER.downloadName}
-          >
-            <Download aria-hidden="true" size={16} />
-            Скачать постер
-          </a>
-        </div>
-      </section>
-
-      <section
-        id="materials-presentations"
-        className="materials-recommendations"
-        aria-labelledby="presentations-title"
-      >
-        <div className="materials-section-heading">
-          <FileText aria-hidden="true" size={23} />
-          <div>
-            <p className="eyebrow">Готовые лекции</p>
-            <h2 id="presentations-title">Презентации</h2>
-            <p>
-              Пять маршрутов по Атласу — для самостоятельного чтения, занятий и
-              семейного просмотра.
-            </p>
-          </div>
-        </div>
-        <div className="materials-grid">
-          {PORTAL_MATERIALS.map((material) => (
-            <article key={material.id} className="material-card">
-              <div className="material-card-media" aria-hidden="true">
-                <OptimizedImage
-                  src={material.coverSrc}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div className="material-card-body">
-                <div className="material-card-kicker">
-                  <span>{material.slideCount} слайдов</span>
-                  <span>{material.audienceRu}</span>
-                </div>
-                <h3>{material.titleRu}</h3>
-                <p className="material-subtitle">{material.subtitleRu}</p>
-                <p>{material.summaryRu}</p>
-
-                <div className="material-tags" aria-label="Темы">
-                  {material.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-
-                <details className="material-highlights">
-                  <summary>
-                    Что внутри <ChevronDown aria-hidden="true" size={17} />
-                  </summary>
-                  <ul>
-                    {material.highlightsRu.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </details>
-
-                <div className="material-actions">
-                  <a
-                    className="button button-secondary button-sm"
-                    href={material.pdfHref}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <FileText aria-hidden="true" size={16} />
-                    Открыть PDF
-                    <ExternalLink aria-hidden="true" size={14} />
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
 
       <section
         id="materials-reading"
@@ -408,12 +274,6 @@ export function MaterialsPage() {
           ))}
         </div>
       </section>
-      <ImageLightbox
-        image={isPosterOpen ? posterImage : null}
-        ariaLabel="Постер «Дерево жизни»"
-        displayMode="natural"
-        onClose={() => setIsPosterOpen(false)}
-      />
     </section>
   );
 }

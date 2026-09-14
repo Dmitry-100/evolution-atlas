@@ -1,6 +1,6 @@
 import { PageHeader } from "../components/ui/PageHeader";
 import "../styles/pages/extinctions.css";
-import { ArrowRight, ChevronDown, FileText } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ImageLightbox } from "../components/ui/image-lightbox";
@@ -110,20 +110,6 @@ export function ExtinctionsPage() {
         резко обрушивали разнообразие жизни. Уцелевшие ветви потом занимали
         освободившиеся ниши.
       </PageHeader>
-
-      <a
-        className="extinction-pdf-link"
-        href="/assets/materials/six-planet-apocalypses.pdf"
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Открыть PDF: Шесть апокалипсисов планеты"
-      >
-        <FileText aria-hidden="true" size={17} />
-        <span>
-          Шесть апокалипсисов планеты <span>· PDF</span>
-        </span>
-        <ArrowRight aria-hidden="true" size={15} />
-      </a>
 
       <nav
         ref={navRef}

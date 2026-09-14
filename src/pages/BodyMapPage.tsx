@@ -23,7 +23,12 @@ import {
   type BodyTraitLayer,
   type BodyTraitLayerId,
 } from "../data/bodyTraits";
-import { getStageById, type EvolutionStage } from "../data/lineage";
+import {
+  getStageById,
+  STAGE_AGE_KIND_LABELS,
+  STAGE_TRAIT_DATE_NOTE,
+  type EvolutionStage,
+} from "../data/lineage";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { lockBodyScroll } from "../lib/bodyScrollLock";
 import { formatAgeRu } from "../lib/timeline";
@@ -239,6 +244,9 @@ function BodyTraitInspector({
         <h2 id="body-trait-title">{trait.titleRu}</h2>
         <ConfidenceBadge level={trait.confidence} />
       </div>
+      {trait.kind === "environment" ? (
+        <p className="eyebrow">Изменение среды</p>
+      ) : null}
       <p className="body-trait-note">{trait.noteRu}</p>
       {trait.traitRu.toLocaleLowerCase("ru") !==
       trait.titleRu.toLocaleLowerCase("ru") ? (
@@ -250,10 +258,14 @@ function BodyTraitInspector({
         <>
           <div className="body-trait-stage">
             <div className="body-trait-stage-copy">
-              <span>Предковый узел</span>
+              <span>Связанный этап</span>
               <strong>{stage.titleRu}</strong>
-              <small>{formatAgeRu(stage.ageMa)}</small>
+              <small>
+                {STAGE_AGE_KIND_LABELS[stage.ageKind]}:{" "}
+                {formatAgeRu(stage.ageMa)}
+              </small>
               <p className="body-trait-latin">{stage.latin}</p>
+              {stage.ageNoteRu ? <p>{stage.ageNoteRu}</p> : null}
             </div>
             <Link
               className="button button-secondary button-md"
@@ -415,8 +427,8 @@ export function BodyMapPage() {
         eyebrow="Карта признаков"
         title="Какие древние решения живут в нашем теле"
       >
-        Пять слоёв показывают, от каких предковых узлов наша линия унаследовала
-        клеточные механизмы, план тела, движение, чувства, мозг и поведение.
+        Пять слоёв связывают клеточные механизмы, план тела, движение, чувства и
+        поведение с этапами эволюции. {STAGE_TRAIT_DATE_NOTE}
       </PageHeader>
       <BodyLayerTabs
         layers={BODY_TRAIT_LAYERS}

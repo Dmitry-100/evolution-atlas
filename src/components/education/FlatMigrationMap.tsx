@@ -115,7 +115,9 @@ export function FlatMigrationMap({
         <path className="world-land" d={WORLD_LAND_PATH} />
         <path className="africa-land-highlight" d={AFRICA_LAND_PATH} />
         <g className="migration-routes">
-          {HUMAN_MIGRATION_ROUTES.map((route) =>
+          {HUMAN_MIGRATION_ROUTES.filter(
+            (route) => route.kind === "migration",
+          ).map((route) =>
             buildRouteSegments(route).map((segment, index, allSegments) => (
               <polyline
                 key={`${route.id}-${index}`}

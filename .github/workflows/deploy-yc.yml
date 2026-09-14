@@ -132,11 +132,13 @@ jobs:
           yc config set service-account-key "$RUNNER_TEMP/yc-key.json"
           yc config set folder-id "$YC_FOLDER_ID"
 
-      - name: Purge HTML and unhashed service files from CDN
+      - name: Purge HTML, service files and withdrawn media from CDN
         env:
           YC_CDN_RESOURCE_ID: ${{ secrets.YC_CDN_RESOURCE_ID }}
         run: |
           PURGE_PATHS="/,/index.html*,/favicon.png*,/favicon.svg*,/apple-touch-icon.png*,/icons.svg*,/asset-manifest.json*,/robots.txt*,/sitemap.xml*"
+          # Remove cached PDFs, covers and all fingerprinted poster variants.
+          PURGE_PATHS="${PURGE_PATHS},/assets/materials/*,/assets/images/cladogram/tree-of-life-poster*"
           while read -r route
           do
             PURGE_PATHS="${PURGE_PATHS},/${route}*,/${route}/index.html*"

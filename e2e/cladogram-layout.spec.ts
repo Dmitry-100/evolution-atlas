@@ -25,7 +25,7 @@ for (const width of [1440, 1100, 960, 820, 391, 320]) {
       treeFirst:
         document.querySelector(".cladogram-page-grid")!.getBoundingClientRect()
           .bottom <=
-        document.querySelector(".tree-of-life-poster")!.getBoundingClientRect()
+        document.querySelector(".theory-bridge-band")!.getBoundingClientRect()
           .top,
     }));
     expect(layout).toEqual({ overflow: false, treeFirst: true });
@@ -151,19 +151,7 @@ for (const width of [1440, 1100, 960, 820, 391, 320]) {
     await expect(
       page.locator('.cladogram-map button[aria-current="true"]'),
     ).toBeInViewport();
-    const poster = page.getByRole("button", {
-      name: "Рассмотреть постер дерева жизни крупно",
-      exact: true,
-    });
-    await poster.click();
-    await expect(
-      page.getByRole("dialog", {
-        name: "Постер дерева жизни крупно",
-        exact: true,
-      }),
-    ).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(poster).toBeFocused();
+    await expect(page.locator(".tree-of-life-poster")).toHaveCount(0);
   });
 }
 

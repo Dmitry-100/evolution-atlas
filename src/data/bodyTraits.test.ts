@@ -38,7 +38,7 @@ describe("body trait map data", () => {
 
       const stage = getStageById(trait.stageId);
       expect(stage, `${trait.id} stage exists`).toBeTruthy();
-      expect(stage?.inherited).toContain(trait.traitRu);
+      expect(trait.kind === "environment" ? stage?.environmentalEffects : stage?.inherited).toContain(trait.traitRu);
     }
   });
 

@@ -1,3 +1,4 @@
+import { STAGE_AGE_KIND_LABELS, STAGE_TRAIT_DATE_NOTE } from "../data/lineage";
 import {
   EVIDENCE_MODULES,
   SCIENTIFIC_THEORY_EXPLAINER,
@@ -15,7 +16,7 @@ import {
   type EvolutionStage,
   type SourceRef,
 } from "../data/lineage";
-import { PORTAL_MATERIALS, READING_RECOMMENDATIONS } from "../data/materials";
+import { READING_RECOMMENDATIONS } from "../data/materials";
 import { SCIENCE_SOURCE_GROUPS } from "../data/scienceSources";
 import { getStageHref } from "./atlasUrlState";
 import { publicRouteTitle } from "./publicRoutes";
@@ -98,6 +99,7 @@ function pushCitation(
 function summarizeStage(stage: EvolutionStage) {
   return [
     `Выбранный этап: ${stage.titleRu} (${stage.latin}), ${formatAgeRu(stage.ageMa)}.`,
+    `${STAGE_AGE_KIND_LABELS[stage.ageKind]}. ${stage.ageNoteRu ?? STAGE_TRAIT_DATE_NOTE}`,
     stage.summaryRu,
     `Почему важен: ${stage.whyMattersRu}`,
     `Унаследованные/ключевые признаки: ${stage.inherited.join(", ")}.`,
@@ -177,15 +179,9 @@ export function buildDarwinGuideContext(
     ),
   ].join("\n");
 
-  const materialsText = PORTAL_MATERIALS.map(
-    (material) =>
-      `${material.titleRu}: ${material.summaryRu} Подходит: ${material.audienceRu}.`,
-  ).join("\n");
-
   const bodyTraitsText = BODY_TRAIT_LAYERS.map((layer) => {
     const traits = BODY_TRAITS.filter((trait) => trait.layerId === layer.id)
-      .slice(0, 8)
-      .map((trait) => `${trait.titleRu} (${trait.stageId})`)
+      .map((trait) => `${trait.titleRu} (${trait.stageId}): ${trait.noteRu}`)
       .join(", ");
 
     return `${layer.titleRu}: ${layer.descriptionRu} Примеры признаков: ${traits}.`;
@@ -231,8 +227,6 @@ export function buildDarwinGuideContext(
       geneticsText,
       "Карта признаков:",
       bodyTraitsText,
-      "Материалы сайта:",
-      materialsText,
       "Рекомендации для продолжения:",
       booksText,
       "Источники контекста:",

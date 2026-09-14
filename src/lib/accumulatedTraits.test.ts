@@ -14,6 +14,15 @@ describe("accumulated traits", () => {
     expect(traits).not.toContain("родственная ветвь");
   });
 
+  it("does not turn a younger Denisovan fossil into inheritance from sapiens", () => {
+    const denisovans = getStageById("denisovans")!;
+    const traits = getAccumulatedTraitGroups(sortedStages, denisovans).flatMap((group) => group.traits);
+    expect(traits).toContain("генетическое наследие");
+    expect(traits).not.toContain("язык");
+    expect(traits).not.toContain("коллективное обучение");
+    expect(traits).not.toContain("кислородный фотосинтез");
+  });
+
   it("grows as the selected stage moves forward in time", () => {
     const chordates = getStageById("chordates");
     const sapiens = getStageById("sapiens");

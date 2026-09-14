@@ -16,6 +16,7 @@ export type HumanOriginSite = {
 
 export type HumanMigrationRoute = {
   id: string;
+  kind: "migration" | "evidence-distribution";
   titleRu: string;
   dateRu: string;
   summaryRu: string;
@@ -25,7 +26,7 @@ export type HumanMigrationRoute = {
 };
 
 export const AFRICA_ORIGIN_NOTE =
-  "Колыбель человечества — Африка, но не один сад Эдема: современный Homo sapiens складывался в связанных популяциях по континенту.";
+  "Колыбель человечества — Африка. По одной из поддержанных данными моделей Homo sapiens складывался в связанных популяциях по континенту; их точная география и история ещё обсуждаются.";
 
 export const HUMAN_ORIGIN_SITES: HumanOriginSite[] = [
   {
@@ -88,8 +89,8 @@ export const HUMAN_ORIGIN_SITES: HumanOriginSite[] = [
     latitude: -34.42,
     confidence: "solid",
     source: {
-      label: "Smithsonian: Homo sapiens",
-      url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens",
+      label: "Science: обработка охры в Blombos, около 100 тыс. лет",
+      url: "https://doi.org/10.1126/science.1211535",
     },
   },
 ];
@@ -97,10 +98,11 @@ export const HUMAN_ORIGIN_SITES: HumanOriginSite[] = [
 export const HUMAN_MIGRATION_ROUTES: HumanMigrationRoute[] = [
   {
     id: "african-mosaic",
+    kind: "evidence-distribution",
     titleRu: "Африканская мозаика",
-    dateRu: "примерно 315-160 тыс. лет назад",
+    dateRu: "находки примерно 315–70 тыс. лет назад",
     summaryRu:
-      "Ранние свидетельства Homo sapiens распределены по Африке: это лучше похоже на сеть связанных популяций, чем на одну точку происхождения.",
+      "Показано распределение находок, а не маршрут миграции. Jebel Irhoud, Omo и Herto иллюстрируют раннюю анатомическую историю; более поздний Blombos — культурные практики. Модель связанных африканских популяций опирается также на генетические данные.",
     points: [
       [-8.87, 31.85],
       [36.05, 5.4],
@@ -109,12 +111,13 @@ export const HUMAN_MIGRATION_ROUTES: HumanMigrationRoute[] = [
     ],
     confidence: "likely",
     source: {
-      label: "Smithsonian: Homo sapiens",
-      url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens",
+      label: "Nature: Ragsdale et al., 2023",
+      url: "https://www.nature.com/articles/s41586-023-06055-y",
     },
   },
   {
     id: "levant-arabia",
+    kind: "migration",
     titleRu: "Северный выход: Левант и Аравия",
     dateRu: "ранние волны 194-85 тыс.; главная волна около 60-50 тыс. лет назад",
     summaryRu:
@@ -134,6 +137,7 @@ export const HUMAN_MIGRATION_ROUTES: HumanMigrationRoute[] = [
   },
   {
     id: "southern-asia-sahul",
+    kind: "migration",
     titleRu: "Южная дуга к Сахулу",
     dateRu: "примерно 70-50 тыс.; Австралия до около 65-42 тыс. лет назад",
     summaryRu:
@@ -155,6 +159,7 @@ export const HUMAN_MIGRATION_ROUTES: HumanMigrationRoute[] = [
   },
   {
     id: "europe",
+    kind: "migration",
     titleRu: "Европейская ветвь",
     dateRu: "примерно 54-45 тыс. лет назад",
     summaryRu:
@@ -173,6 +178,7 @@ export const HUMAN_MIGRATION_ROUTES: HumanMigrationRoute[] = [
   },
   {
     id: "east-asia",
+    kind: "migration",
     titleRu: "Восточная Азия",
     dateRu: "примерно 120-40 тыс. лет назад, с несколькими волнами",
     summaryRu:
@@ -191,6 +197,7 @@ export const HUMAN_MIGRATION_ROUTES: HumanMigrationRoute[] = [
   },
   {
     id: "americas",
+    kind: "migration",
     titleRu: "Через Берингию в Америки",
     dateRu: "примерно 23-15 тыс. лет назад",
     summaryRu:

@@ -4,7 +4,7 @@ import { AFRICA_ORIGIN_NOTE, HUMAN_MIGRATION_ROUTES, HUMAN_ORIGIN_SITES } from "
 describe("human origins map data", () => {
   it("frames Africa as a connected origin region, not a single point", () => {
     expect(AFRICA_ORIGIN_NOTE).toContain("Африка");
-    expect(AFRICA_ORIGIN_NOTE).toContain("не один сад Эдема");
+    expect(AFRICA_ORIGIN_NOTE).toContain("одной из поддержанных данными моделей");
     expect(AFRICA_ORIGIN_NOTE).toContain("связанных популяциях");
   });
 

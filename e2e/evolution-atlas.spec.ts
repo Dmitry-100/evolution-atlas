@@ -511,7 +511,7 @@ test.describe("Evolution Atlas", () => {
     await expect(tour.getByText("Куда пойти дальше")).toBeVisible();
     await expect(tour.locator(".tour-next-step-card")).toHaveCount(3);
     await expect(
-      tour.getByRole("link", { name: /Путь от клетки к человеку/i }),
+      tour.getByRole("link", { name: /Атлас эволюции/i }),
     ).toBeVisible();
     await expect(tour.getByRole("link", { name: /Photon/i })).toBeVisible();
     await expect(
@@ -944,7 +944,7 @@ test.describe("Evolution Atlas", () => {
         exact: true,
       }),
     ).toBeVisible();
-    await expect(page.locator(".mobile-stage-row")).toHaveCount(17);
+    await expect(page.locator(".mobile-stage-row")).toHaveCount(18);
     await expect(page.locator(".africa-origin")).toBeVisible();
 
     await page
@@ -1219,7 +1219,7 @@ test.describe("Evolution Atlas", () => {
     await expect(page.locator(".primate-time-floating-paths")).toHaveCount(1);
     await expect(
       page.locator(".primate-stage-dots .deep-stage-dot"),
-    ).toHaveCount(17);
+    ).toHaveCount(18);
     await expect(page.locator(".primate-zone-bands button")).toHaveCount(3);
     await expect(page.getByText(/66 млн лет назад.*сегодня/i)).toBeVisible();
     await expect(page.getByText("Маршрут по эпохам")).toHaveCount(0);
@@ -1231,10 +1231,10 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
 
     await page
-      .getByRole("button", { name: /Древние приматы, 55 млн лет назад/i })
+      .getByRole("button", { name: /Плезиадапис: родственник приматов, 55 млн лет назад/i })
       .click();
     await expect(
-      page.getByRole("heading", { name: /Древние приматы/i }),
+      page.getByRole("heading", { name: /Плезиадапис: родственник приматов/i }),
     ).toBeVisible();
   });
 
@@ -1425,14 +1425,14 @@ test.describe("Evolution Atlas", () => {
     await expect(activeHeading).toHaveText("Ранние родственники приматов");
 
     await page.getByRole("button", { name: /Следующий этап/i }).click();
-    await expect(activeHeading).toHaveText("Древние приматы");
+    await expect(activeHeading).toHaveText("Плезиадапис: родственник приматов");
 
     await page.locator(".deep-time-axis").focus();
     await page.keyboard.press("ArrowRight");
-    await expect(activeHeading).toHaveText("Антропоиды");
+    await expect(activeHeading).toHaveText("Сухоносые приматы");
 
     await page.getByRole("button", { name: /Предыдущий этап/i }).click();
-    await expect(activeHeading).toHaveText("Древние приматы");
+    await expect(activeHeading).toHaveText("Плезиадапис: родственник приматов");
   });
 
   test("primates URL state restores selected stage", async ({
@@ -1554,7 +1554,7 @@ test.describe("Evolution Atlas", () => {
     await expect(
       cladogram
         .locator(".cladogram-branch")
-        .filter({ hasText: "Древние приматы" }),
+        .filter({ hasText: "Плезиадапис: родственник приматов" }),
     ).toHaveCount(0);
     await expect(
       cladogram.locator(".cladogram-row.has-branches"),
@@ -1762,7 +1762,7 @@ test.describe("Evolution Atlas", () => {
     await page.getByRole("button", { name: /Пальцы: Четвероногие/i }).click();
     await expect(page.locator(".body-trait-inspector")).toContainText("Пальцы");
     await expect(page.locator(".body-trait-inspector")).toContainText(
-      "Предковый узел",
+      "Связанный этап",
     );
     await expect(page.locator(".body-trait-stage img")).toBeVisible();
     await expect
@@ -2366,7 +2366,7 @@ test.describe("Evolution Atlas", () => {
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: /Открыть PDF/i }),
-    ).toHaveAttribute("href", "/assets/materials/six-planet-apocalypses.pdf");
+    ).toHaveCount(0);
     await expect(
       page
         .locator(".extinction-explanation dd", {
@@ -2495,41 +2495,16 @@ test.describe("Evolution Atlas", () => {
     expect(boxes?.copyTop).toBeGreaterThanOrEqual(boxes?.mediaBottom ?? 0);
   });
 
-  test("materials route exposes presentations and downloads", async ({
+  test("materials route exposes books, museums and videos", async ({
     page,
   }) => {
     test.slow();
     await page.goto("/materials");
     await expect(
-      page.getByRole("heading", { name: /Презентации, книги, музеи и видео/i }),
+      page.getByRole("heading", { name: /Книги, музеи и видео/i }),
     ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Путь от клетки к человеку" }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Шесть апокалипсисов планеты" }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", {
-        name: "От клетки до человека: детская версия",
-      }),
-    ).toBeVisible();
-    await expect(page.locator(".material-card")).toHaveCount(5);
-    await expect(
-      page.getByRole("link", { name: /Открыть PDF/i }).first(),
-    ).toHaveAttribute("href", /^\/assets\/materials\/.+\.pdf$/);
-    await expect(page.getByRole("link", { name: /Открыть PDF/i })).toHaveCount(
-      5,
-    );
-    await expect(page.getByRole("link", { name: /Скачать PPTX/i })).toHaveCount(
-      0,
-    );
-    await expect(page.getByText(/PPTX/i)).toHaveCount(0);
-    await expect(page.getByText("Как использовать на портале")).toHaveCount(0);
-    await expect(
-      page.getByText(/слайды хранятся|нативных страниц|публиковать целиком/i),
-    ).toHaveCount(0);
-    await expect(page.getByText("Что внутри").first()).toBeVisible();
+    await expect(page.locator('a[href$=".pdf"]')).toHaveCount(0);
+    await expect(page.locator(".poster-download-card")).toHaveCount(0);
     await expect(
       page.getByRole("heading", {
         name: "Что почитать",
@@ -2590,41 +2565,6 @@ test.describe("Evolution Atlas", () => {
         )
         .toBe(true);
     }
-  });
-
-  test("mobile materials cards use compact media without copy overlap", async ({
-    page,
-  }, testInfo) => {
-    test.skip(testInfo.project.name !== "mobile", "Mobile materials layout.");
-
-    await page.goto("/materials");
-    const firstCard = page.locator(".material-card").first();
-    const media = firstCard.locator(".material-card-media");
-    const copy = firstCard.locator(".material-card-body");
-
-    await expect(media).toBeVisible();
-    await expect(copy).toBeVisible();
-
-    const boxes = await firstCard.evaluate((card) => {
-      const mediaBox = card
-        .querySelector(".material-card-media")
-        ?.getBoundingClientRect();
-      const copyBox = card
-        .querySelector(".material-card-body")
-        ?.getBoundingClientRect();
-
-      return mediaBox && copyBox
-        ? {
-            mediaBottom: mediaBox.bottom,
-            mediaHeight: mediaBox.height,
-            copyTop: copyBox.top,
-          }
-        : null;
-    });
-
-    expect(boxes).not.toBeNull();
-    expect(boxes?.mediaHeight).toBeLessThanOrEqual(230);
-    expect(boxes?.copyTop).toBeGreaterThanOrEqual(boxes?.mediaBottom ?? 0);
   });
 
   test("dinosaurs route separates shared animal ancestors from the bird branch", async ({

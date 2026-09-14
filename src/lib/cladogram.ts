@@ -1,4 +1,6 @@
 import type { EvolutionStage, StageImage } from "../data/lineage";
+import { LUCA_EXHIBIT } from "../data/luca";
+import { formatAgeRu } from "./timeline";
 
 export type CladogramRoot = {
   id: "luca";
@@ -10,7 +12,8 @@ export type CladogramRoot = {
 
 export type CladogramCommonAncestor = {
   titleRu: string;
-  ageMa: number;
+  ageMa: number | null;
+  ageLabelRu?: string;
   scopeRu: string;
   relationRu: string;
 };
@@ -47,9 +50,9 @@ const cladogramRoot: CladogramRoot = {
   id: "luca",
   titleRu: "LUCA — общий предок всей современной жизни",
   latin: "last universal common ancestor",
-  ageMa: 3800,
+  ageMa: LUCA_EXHIBIT.ageMa,
   descriptionRu:
-    "LUCA - реконструируемый узел, от которого расходятся современные клеточные линии: бактерии, археи и линия эукариот.",
+    "LUCA — реконструируемый общий предок современных клеточных линий. Около 4,2 млрд лет — оценка одной модели; эукариоты возникли позже внутри архейной линии с участием бактериального эндосимбионта.",
 };
 
 const filePage = (fileName: string) =>
@@ -160,6 +163,7 @@ const ancestorTitleByStageId: Record<string, string> = {
   mammals: "Раннее млекопитающее",
   placentals: "Ранний плацентарный предок",
   "early-primates": "Ранний приматный предок",
+  haplorhini: "Предок сухоносых приматов",
   anthropoids: "Предок антропоидов",
   catarrhini: "Предок узконосых обезьян",
   "early-apes": "Предок человекообразных",
@@ -182,6 +186,7 @@ const ancestorScopeByStageId: Record<string, string> = {
   mammals: "млекопитающие",
   placentals: "плацентарные",
   "early-primates": "приматы",
+  haplorhini: "долгопяты и антропоиды",
   anthropoids: "обезьяны",
   catarrhini: "узконосые обезьяны",
   "early-apes": "человекообразные",
@@ -197,6 +202,13 @@ const commonAncestorOverrides: Record<string, CommonAncestorSeed> = {
     scopeRu: "вся современная клеточная жизнь",
     relationRu:
       "общий предок с нами, бактериями и археями - LUCA; после него клеточные линии пошли разными путями.",
+  },
+  cyanobacteria: {
+    titleRu: "LUCA",
+    ageMa: cladogramRoot.ageMa,
+    scopeRu: "вся современная клеточная жизнь",
+    relationRu:
+      "общий предок с нами и цианобактериями — LUCA. Кислородный фотосинтез появился позже в бактериальной ветви и изменил среду, в которой эволюционировали наши предки.",
   },
   "branch-plants-algae": {
     titleRu: "Эукариотический предок",
@@ -252,6 +264,28 @@ const commonAncestorOverrides: Record<string, CommonAncestorSeed> = {
     titleRu: "Ранний приматный предок",
     relationRu:
       "общий предок с нами, лемурами и лори - ранний приматный предок; дальше мокроносые приматы и наша линия разошлись.",
+  },
+  "branch-tarsiers": {
+    titleRu: "Предок сухоносых приматов",
+    ageMa: 55,
+    ageLabelRu: "Ранее 55 млн лет назад; точная дата неизвестна",
+    scopeRu: "долгопяты и антропоиды",
+    relationRu:
+      "общий предок с нами и долгопятами принадлежал к сухоносым приматам. Долгопяты и антропоиды — соседние ветви; Archicebus около 55 млн лет задаёт минимальный ориентир их древней истории.",
+  },
+  neanderthals: {
+    titleRu: "Предковые популяции поздних Homo",
+    ageMa: null,
+    ageLabelRu: "Точная дата и вид общего предка обсуждаются",
+    relationRu:
+      "Наш общий предок с неандертальцами жил до разделения поздних человеческих линий. Homo heidelbergensis показан как представитель возможного предкового круга, а не установленный вид общего предка.",
+  },
+  "branch-denisovans": {
+    titleRu: "Предковые популяции поздних Homo",
+    ageMa: null,
+    ageLabelRu: "Точная дата и вид общего предка обсуждаются",
+    relationRu:
+      "Денисовцы ближе к неандертальцам, чем к Homo sapiens. Общий предок с нами древнее разделения этих ветвей; его нельзя автоматически отождествлять с Homo heidelbergensis или датировать возрастом находок из пещеры.",
   },
   "old-world-monkeys": {
     titleRu: "Предок узконосых обезьян",
@@ -535,10 +569,10 @@ const contextBranches: ContextBranchSeed[] = [
   },
   {
     id: "branch-tarsiers",
-    parentId: "anthropoids",
+    parentId: "haplorhini",
     titleRu: "Долгопяты",
     latin: "Tarsiiformes",
-    ageMa: 45,
+    ageMa: 55,
     descriptionRu:
       "Долгопяты - близкие родственники обезьян и человекообразных, но не часть нашей прямой линии.",
     image: wikiLeadImage(
@@ -555,11 +589,7 @@ const contextBranches: ContextBranchSeed[] = [
     ageMa: 17,
     descriptionRu:
       "Малые человекообразные отделились раньше больших человекообразных и стали виртуозами движения в кронах.",
-    image: wikiLeadImage(
-      "branch-gibbons.jpg",
-      "Gibbon",
-      "Гиббон на дереве.",
-    ),
+    image: wikiLeadImage("branch-gibbons.jpg", "Gibbon", "Гиббон на дереве."),
   },
   {
     id: "branch-orangutans",
@@ -610,9 +640,9 @@ const contextBranches: ContextBranchSeed[] = [
     parentId: "heidelbergensis",
     titleRu: "Денисовцы",
     latin: "Denisovans",
-    ageMa: 0.3,
+    ageMa: 0.25,
     descriptionRu:
-      "Поздняя человеческая боковая ветвь известна прежде всего по ДНК и показывает, что рядом с Homo sapiens жили другие люди.",
+      "Родственная человеческая линия, близкая к неандертальцам. В Денисовой пещере её мтДНК известна из слоёв около 250 тыс. лет, останки — около 200 тыс. лет; эти даты не обозначают разделение линий.",
     image: localSourceImage(
       "/assets/images/source-backed/denisovan-reconstruction.webp",
       "https://s12.stc.yc.kpcdn.net/share/i/12/14570276/wr-960.webp",
@@ -627,15 +657,16 @@ function oldestFirst(stages: EvolutionStage[]) {
   return [...stages].sort((a, b) => b.ageMa - a.ageMa);
 }
 
-function findNearestOlderTrunkStage(
-  stage: EvolutionStage,
-  trunk: EvolutionStage[],
-) {
-  return (
-    [...trunk].reverse().find((candidate) => candidate.ageMa >= stage.ageMa) ??
-    trunk[trunk.length - 1]
-  );
-}
+// These links place comparative groups beside the relevant lineage. Fossil
+// milestones on the trunk do not assert direct ancestor-descendant relationships.
+const branchParentIds: Record<string, string> = {
+  prokaryotes: "cell-lines",
+  cyanobacteria: "cell-lines",
+  choanoflagellates: "eukaryotes",
+  "new-world-monkeys": "anthropoids",
+  "old-world-monkeys": "catarrhini",
+  neanderthals: "heidelbergensis",
+};
 
 function stageToBranch(
   stage: EvolutionStage,
@@ -651,10 +682,7 @@ function stageToBranch(
     kind: "stage",
     parent,
     stage,
-  } satisfies Omit<
-    CladogramBranch,
-    "commonAncestor" | "isLivingComparison"
-  >;
+  } satisfies Omit<CladogramBranch, "commonAncestor" | "isLivingComparison">;
 
   return {
     ...branch,
@@ -681,7 +709,8 @@ function getCommonAncestor(
 ): CladogramCommonAncestor {
   const override = commonAncestorOverrides[branch.id];
   const titleRu = override?.titleRu ?? getAncestorTitle(parent);
-  const ageMa = override?.ageMa ?? parent.ageMa;
+  const ageMa =
+    override?.ageMa === null ? null : (override?.ageMa ?? parent.ageMa);
   const scopeRu = override?.scopeRu ?? getAncestorScope(parent);
   const relationRu =
     override?.relationRu ??
@@ -690,6 +719,7 @@ function getCommonAncestor(
   return {
     titleRu,
     ageMa,
+    ageLabelRu: override?.ageLabelRu,
     scopeRu,
     relationRu,
   };
@@ -711,14 +741,17 @@ export function buildCladogram(stages: EvolutionStage[]): Cladogram {
         !routeOnlyBranchStageIds.has(stage.id),
     ),
   );
+  const trunkById = new Map(trunk.map((stage) => [stage.id, stage]));
   const branches = branchStages
     .map((stage) => {
-      const parent = findNearestOlderTrunkStage(stage, trunk);
+      const parentId = branchParentIds[stage.id];
+      if (!parentId)
+        throw new Error(`Missing cladogram parent for ${stage.id}`);
+      const parent = trunkById.get(parentId);
       return parent ? stageToBranch(stage, parent) : null;
     })
     .filter((branch): branch is CladogramBranch => branch !== null);
   const branchesById = new Set(branches.map((branch) => branch.id));
-  const trunkById = new Map(trunk.map((stage) => [stage.id, stage]));
   const explanatoryBranches = contextBranches.reduce<CladogramBranch[]>(
     (acc, branch) => {
       if (branchesById.has(branch.id)) {
@@ -766,4 +799,13 @@ export function buildCladogram(stages: EvolutionStage[]): Cladogram {
     branches: allBranches,
     livingBranches: allBranches.filter((branch) => branch.isLivingComparison),
   };
+}
+
+export function commonAncestorAgeLabel(ancestor: CladogramCommonAncestor) {
+  return (
+    ancestor.ageLabelRu ??
+    (ancestor.ageMa === null
+      ? "Точная дата неизвестна"
+      : `Ориентир: ${formatAgeRu(ancestor.ageMa)}`)
+  );
 }

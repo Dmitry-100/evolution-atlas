@@ -11,7 +11,7 @@
   }
   .materials-page-nav {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.5rem;
     padding: 0.75rem 0;
     margin: 0.25rem 0 1.5rem;
@@ -60,154 +60,13 @@
     font-size: 0.95rem;
     line-height: 1.6;
   }
-  .materials-page .poster-download-card {
-    grid-template-columns: minmax(180px, 230px) minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(1.5rem, 3vw, 3rem);
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    overflow: visible;
-    margin: 0;
-  }
-  .materials-page .poster-download-media {
-    display: block;
-    width: 100%;
-    padding: 0;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: transparent;
-    cursor: zoom-in;
-  }
-  .materials-page .poster-download-media img {
-    display: block;
-    width: 100%;
-    height: auto;
-    min-height: 0;
-    max-height: none;
-    aspect-ratio: 2 / 3;
-    object-fit: contain;
-  }
-  .materials-page .poster-download-copy {
-    gap: 1.1rem;
-    padding: 0;
-  }
-  .materials-page .poster-download-copy > .button {
-    margin-left: 2.25rem;
-  }
+
   .materials-page .materials-recommendations {
     margin-top: 2rem;
     padding-top: 2rem;
     border-top: 1px solid var(--line);
   }
-  .materials-page .materials-grid {
-    gap: 1.5rem;
-    margin-top: 1.4rem;
-  }
-  .materials-page .material-card {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: start;
-    gap: 1.5rem;
-    overflow: visible;
-    padding: 1.25rem;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    box-shadow: none;
-  }
-  .materials-page .material-card-media {
-    align-self: start;
-    width: 100%;
-    max-height: none;
-    overflow: hidden;
-    border: 0;
-    border-radius: calc(var(--radius) - 2px);
-    background: transparent;
-  }
-  .materials-page .material-card-media img {
-    display: block;
-    width: 100%;
-    height: auto;
-    min-height: 0;
-    max-height: none;
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
-  }
-  .materials-page .material-card-body {
-    padding: 0;
-  }
-  .materials-page .material-card-kicker {
-    gap: 0.5rem 0.8rem;
-    align-items: baseline;
-  }
-  .materials-page .material-card-kicker span {
-    border: 0;
-    padding: 0;
-    background: transparent;
-    font-size: 0.73rem;
-  }
-  .materials-page .material-card-kicker span:first-child {
-    flex-shrink: 0;
-    color: var(--gold);
-    font-weight: 700;
-  }
-  .materials-page .material-card h3 {
-    margin: 0.6rem 0 0.5rem;
-    font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2vw, 1.8rem);
-    font-weight: 400;
-    line-height: 1.2;
-  }
-  .materials-page .material-card p {
-    margin: 0.7rem 0;
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-  .materials-page .material-card .material-subtitle {
-    margin-top: 0;
-    color: var(--text-soft);
-    font-style: normal;
-    font-size: 0.82rem;
-  }
-  .materials-page .material-tags span {
-    font-size: 0.7rem;
-  }
-  .materials-page .material-highlights {
-    margin-top: 0.8rem;
-    padding: 0;
-  }
-  .material-highlights summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-    min-height: 44px;
-    list-style: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .material-highlights summary::-webkit-details-marker {
-    display: none;
-  }
-  .material-highlights summary svg {
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-  .material-highlights[open] summary svg {
-    transform: rotate(180deg);
-  }
-  .materials-page .material-highlights ul {
-    padding-bottom: 0.6rem;
-    font-size: 0.85rem;
-    line-height: 1.6;
-  }
-  .material-highlights li + li {
-    margin-top: 0.35rem;
-  }
-  .materials-page .material-actions {
-    margin-top: 0.35rem;
-  }
+
   .reading-filter-bar {
     margin: 1.25rem 0 1rem;
   }
@@ -347,9 +206,6 @@
     padding: 1.25rem;
   }
   @media (max-width: 1100px) {
-    .materials-page .material-card {
-      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
-    }
     .materials-page .reading-grid {
       grid-template-columns: 1fr;
     }
@@ -380,28 +236,12 @@
       font-size: 0.82rem;
       gap: 0.5rem;
     }
-    .materials-page .poster-download-card {
-      grid-template-columns: 150px minmax(0, 1fr);
-      gap: 1rem;
-    }
-    .materials-page .poster-download-copy > .button {
-      margin-left: 0;
-    }
-    .materials-page .poster-download-copy .materials-section-heading {
-      display: block;
-    }
-    .materials-page .poster-download-copy .materials-section-heading > svg {
-      display: none;
-    }
+
     .materials-page .materials-recommendations {
       margin-top: 1.5rem;
       padding-top: 1.5rem;
     }
-    .materials-page .material-card {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      padding: 1rem;
-    }
+
     .materials-page .museum-grid {
       grid-template-columns: 1fr;
     }
@@ -433,16 +273,6 @@
     }
   }
   @media (max-width: 480px) {
-    .materials-page .poster-download-card {
-      grid-template-columns: 1fr;
-    }
-    .materials-page .poster-download-media {
-      width: 190px;
-      justify-self: center;
-    }
-    .materials-page .poster-download-copy {
-      grid-row: 1;
-    }
     .materials-page .reading-card {
       grid-template-columns: 100px minmax(0, 1fr);
     }

@@ -218,7 +218,7 @@ describe("buildTourRoute", () => {
         plan.nextSteps.every((nextStep) => nextStep.href.length > 0),
       ).toBe(true);
       expect(plan.nextSteps.map((nextStep) => nextStep.labelRu).join("\n")).toMatch(
-        /Путь от клетки|Photon|Достающее|Происхождение|Квиз|Источники|лекции/i,
+        /Атлас|Карта признаков|Глобальные вымирания|Photon|Достающее|Происхождение|Квиз|Источники|лекции/i,
       );
     }
   });

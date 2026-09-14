@@ -19,7 +19,7 @@ export function TraitAccumulator({ groups }: TraitAccumulatorProps) {
         <Layers3 aria-hidden="true" size={23} />
         <div>
           <h2 id="trait-accumulator-heading">Карта признаков</h2>
-          <p>Новые признаки не заменяют старые, а надстраиваются поверх древнего наследия.</p>
+          <p>Новые признаки развиваются на основе древних структур; часть признаков меняется или утрачивается.</p>
         </div>
         <div className="trait-accumulator-actions">
           <strong className="trait-total">

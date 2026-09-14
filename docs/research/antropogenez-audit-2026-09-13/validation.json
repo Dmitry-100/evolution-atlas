@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-13",
+  "workbook": "/Users/Sotnikov/code/evolution-atlas/outputs/antropogenez-audit-2026-09-13/antropogenez-audit.xlsx",
+  "positions": 48,
+  "sourceCount": 42,
+  "sheets": [
+    {
+      "sheet": "Правки",
+      "tableRange": "A5:M38",
+      "hyperlinks": 32
+    },
+    {
+      "sheet": "Решения",
+      "tableRange": "A5:M14",
+      "hyperlinks": 9
+    },
+    {
+      "sheet": "Допроверка",
+      "tableRange": "A5:M11",
+      "hyperlinks": 2
+    },
+    {
+      "sheet": "Покрытие",
+      "tableRange": "A5:D16",
+      "hyperlinks": 0
+    },
+    {
+      "sheet": "Источники",
+      "tableRange": "A5:E47",
+      "hyperlinks": 42
+    }
+  ],
+  "linksAdded": 85,
+  "mediaMatched": 6,
+  "validation": "Все строки основных таблиц совпадают с audit.json; ID, ссылки, якоря, хеши, фильтры и закреплённые области проверены. Формул с ошибками нет.",
+  "sha256": "f6cd614ac44763cc7ab82cff6ea1541a70bf4694424d6bb395d7fae98d6d5880"
+}

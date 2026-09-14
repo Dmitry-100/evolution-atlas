@@ -570,15 +570,12 @@
   .theory-bridge-band,
   .wow-facts-band article,
   .dinosaur-facts-band article,
-  .tree-of-life-poster,
   .cladogram-panel,
   .cladogram-inspector,
   .trait-accumulator,
   .quiz-panel,
   .document-page,
   .source-card,
-  .poster-download-card,
-  .material-card,
   .about-card,
   .about-note,
   .extinction-overview article,
@@ -2568,6 +2565,13 @@
     align-items: center;
     color: var(--gold);
     font-weight: 800;
+  }
+
+  .stage-date-note,
+  .stage-trait-date-note {
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.6;
   }
 
   .inheritance-box ul {

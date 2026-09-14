@@ -7,7 +7,7 @@ import {
   Routes,
   useLocation,
   useNavigate,
-  useParams,
+  Navigate,
 } from "react-router-dom";
 import {
   BookOpen,
@@ -177,26 +177,6 @@ function getNavItemFromTabIndex(tabIndex: number | null) {
   if (!tab || tab.type === "separator") return null;
 
   return navItems.find((item) => item.to === tab.href) ?? null;
-}
-
-function LegacyMaterialRedirect({ cover = false }: { cover?: boolean }) {
-  const { fileName } = useParams();
-  const assetPath = fileName
-    ? `/assets/materials/${cover ? "covers/" : ""}${fileName}`
-    : "/materials";
-
-  useEffect(() => {
-    window.location.replace(assetPath);
-  }, [assetPath]);
-
-  return (
-    <section className="document-page">
-      <p>
-        Открываем материал. Если переход не сработал,{" "}
-        <a href={assetPath}>откройте его вручную</a>.
-      </p>
-    </section>
-  );
 }
 
 function getNavIndex(pathname: string) {
@@ -379,11 +359,11 @@ function AppSurface() {
               />
               <Route
                 path="/materials/:fileName"
-                element={<LegacyMaterialRedirect />}
+                element={<Navigate to="/materials" replace />}
               />
               <Route
                 path="/materials/covers/:fileName"
-                element={<LegacyMaterialRedirect cover />}
+                element={<Navigate to="/materials" replace />}
               />
               <Route
                 path={publicRoutePath("sources")}

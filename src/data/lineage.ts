@@ -1,6 +1,9 @@
 import { SOURCE_IMAGES } from "./sourceImages";
 
-export type StageImageKind = "source-backed" | "generated-reconstruction" | "local-plate";
+export type StageImageKind =
+  | "source-backed"
+  | "generated-reconstruction"
+  | "local-plate";
 
 export type SourceRef = {
   label: string;
@@ -39,12 +42,15 @@ export type EvolutionStage = {
   titleRu: string;
   latin: string;
   ageMa: number;
+  ageKind: "milestone" | "evidence" | "estimate";
+  ageNoteRu?: string;
   eraId: EvolutionEra["id"];
   lineageRole: LineageRole;
   isPrimateFocus?: boolean;
   summaryRu: string;
   whyMattersRu: string;
   inherited: string[];
+  environmentalEffects?: string[];
   image: StageImage;
   sources: SourceRef[];
 };
@@ -69,7 +75,8 @@ const plate = (
 ): StageImage => ({
   src: SOURCE_IMAGES[file]?.src ?? `/assets/images/source-backed/${file}.jpg`,
   altRu,
-  kind: SOURCE_IMAGES[file]?.kind ?? (SOURCE_IMAGES[file] ? "source-backed" : kind),
+  kind:
+    SOURCE_IMAGES[file]?.kind ?? (SOURCE_IMAGES[file] ? "source-backed" : kind),
   credit: SOURCE_IMAGES[file]?.credit ?? credit,
   license: SOURCE_IMAGES[file]?.license ?? "см. исходный источник",
   sourceUrl: SOURCE_IMAGES[file]?.sourceUrl ?? lineageFallbackSource.url,
@@ -77,13 +84,55 @@ const plate = (
 });
 
 export const ERAS: EvolutionEra[] = [
-  { id: "early-life", titleRu: "Клеточная жизнь", startsAtMa: 4000, endsAtMa: 538.8, color: "#6aa8ad" },
-  { id: "animals", titleRu: "Животные и хордовые", startsAtMa: 538.8, endsAtMa: 430, color: "#b6ba7a" },
-  { id: "fish", titleRu: "Рыбы и позвоночные", startsAtMa: 430, endsAtMa: 360, color: "#83a8bf" },
-  { id: "land", titleRu: "Выход на сушу", startsAtMa: 360, endsAtMa: 300, color: "#c5a05f" },
-  { id: "synapsids", titleRu: "Синапсиды", startsAtMa: 300, endsAtMa: 200, color: "#b47d56" },
-  { id: "mammals", titleRu: "Млекопитающие", startsAtMa: 200, endsAtMa: 66, color: "#91a96a" },
-  { id: "primates", titleRu: "Приматы и человек", startsAtMa: 66, endsAtMa: 0, color: "#d0a35b" },
+  {
+    id: "early-life",
+    titleRu: "Клеточная жизнь",
+    startsAtMa: 4000,
+    endsAtMa: 538.8,
+    color: "#6aa8ad",
+  },
+  {
+    id: "animals",
+    titleRu: "Животные и хордовые",
+    startsAtMa: 538.8,
+    endsAtMa: 430,
+    color: "#b6ba7a",
+  },
+  {
+    id: "fish",
+    titleRu: "Рыбы и позвоночные",
+    startsAtMa: 430,
+    endsAtMa: 360,
+    color: "#83a8bf",
+  },
+  {
+    id: "land",
+    titleRu: "Выход на сушу",
+    startsAtMa: 360,
+    endsAtMa: 300,
+    color: "#c5a05f",
+  },
+  {
+    id: "synapsids",
+    titleRu: "Синапсиды",
+    startsAtMa: 300,
+    endsAtMa: 200,
+    color: "#b47d56",
+  },
+  {
+    id: "mammals",
+    titleRu: "Млекопитающие",
+    startsAtMa: 200,
+    endsAtMa: 66,
+    color: "#91a96a",
+  },
+  {
+    id: "primates",
+    titleRu: "Приматы и человек",
+    startsAtMa: 66,
+    endsAtMa: 0,
+    color: "#d0a35b",
+  },
 ];
 
 export const STAGES: EvolutionStage[] = [
@@ -93,14 +142,25 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Клеточные линии",
     latin: "early cellular life",
     ageMa: 3800,
+    ageKind: "milestone",
+    ageNoteRu:
+      "3,8 млрд лет — ориентир для обсуждаемой ранней жизни, а не точная дата её возникновения или возраст LUCA.",
     eraId: "early-life",
     lineageRole: "foundation",
-    summaryRu: "Надежные микрофоссилии и строматолиты обычно относят примерно к 3,5 млрд лет назад; более древние признаки жизни обсуждаются, поэтому шкала округляет глубокий старт до 4 млрд лет.",
-    whyMattersRu: "Здесь начинается наследование: клеточные системы копируют информацию и отделяют себя мембраной. С этого начинается всё, что было дальше.",
+    summaryRu:
+      "Надежные микрофоссилии и строматолиты обычно относят примерно к 3,5 млрд лет назад; более древние признаки жизни обсуждаются, а отметка 3,8 млрд обозначает более древний, менее определённый этап.",
+    whyMattersRu:
+      "К этому этапу клеточные системы уже обладали наследованием и мембранами. Когда именно возникли эти механизмы, неизвестно.",
     inherited: ["мембраны", "обмен веществ", "наследуемая информация"],
-    image: plate("protocells", "Схематическая музейная пластина ранних протоклеток"),
+    image: plate(
+      "protocells",
+      "Схематическая музейная пластина ранних протоклеток",
+    ),
     sources: [
-      source("Understanding Evolution: origin of life", "https://evolution.berkeley.edu/from-soup-to-cells-the-origin-of-life/"),
+      source(
+        "Understanding Evolution: origin of life",
+        "https://evolution.berkeley.edu/from-soup-to-cells-the-origin-of-life/",
+      ),
       wiki("Protocell", "Protocell"),
     ],
   },
@@ -110,12 +170,20 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Прокариоты",
     latin: "Bacteria and Archaea",
     ageMa: 3500,
+    ageKind: "milestone",
     eraId: "early-life",
     lineageRole: "representative",
-    summaryRu: "Бактерии и археи стали долговечной архитектурой жизни: простые клетки, способные жить почти в любых условиях.",
-    whyMattersRu: "Базовая биохимия, рибосомы и ДНК-механизмы появились задолго до животных, но до сих пор работают в наших клетках.",
+    summaryRu:
+      "Бактерии и археи стали долговечной архитектурой жизни: простые клетки, способные жить почти в любых условиях.",
+    whyMattersRu:
+      "Базовая биохимия, рибосомы и ДНК-механизмы появились задолго до животных, но до сих пор работают в наших клетках.",
     inherited: ["ДНК/РНК-механизмы", "рибосомы", "клеточный обмен"],
-    image: plate("prokaryotes", "Микроскопическая пластина прокариот", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate(
+      "prokaryotes",
+      "Микроскопическая пластина прокариот",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [wiki("Prokaryote", "Prokaryote"), wiki("Archaea", "Archaea")],
   },
   {
@@ -124,14 +192,31 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Цианобактерии",
     latin: "Cyanobacteria",
     ageMa: 2700,
+    ageKind: "estimate",
+    ageNoteRu:
+      "2,7 млрд лет — приблизительный ориентир раннего кислородного фотосинтеза; устойчивое накопление кислорода в атмосфере началось позже.",
     eraId: "early-life",
     lineageRole: "representative",
-    summaryRu: "Кислородный фотосинтез изменил химию океанов и атмосферы, подготовив планету для более энергозатратной жизни.",
-    whyMattersRu: "Без кислородной революции сложные тела, активное движение и крупный мозг были бы практически невозможны.",
-    inherited: ["кислородная атмосфера", "аэробная энергетика", "фотосинтетические экосистемы"],
-    image: plate("cyanobacteria", "Строматолиты как след древней микробной жизни", "source-backed", "Wikimedia Commons / локальная обработка"),
+    summaryRu:
+      "Кислородный фотосинтез изменил химию океанов и атмосферы, подготовив планету для более энергозатратной жизни. Великое окислительное событие относят примерно к 2,4 млрд лет назад.",
+    whyMattersRu:
+      "Без кислородной революции сложные тела, активное движение и крупный мозг были бы практически невозможны.",
+    inherited: ["кислородный фотосинтез"],
+    environmentalEffects: [
+      "кислородная атмосфера",
+      "фотосинтетические экосистемы",
+    ],
+    image: plate(
+      "cyanobacteria",
+      "Строматолиты как след древней микробной жизни",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [
-      source("ASM: Great Oxidation Event", "https://asm.org/articles/2022/february/the-great-oxidation-event-how-cyanobacteria-change"),
+      source(
+        "ASM: Great Oxidation Event",
+        "https://asm.org/articles/2022/february/the-great-oxidation-event-how-cyanobacteria-change",
+      ),
       wiki("Cyanobacteria", "Cyanobacteria"),
       wiki("Great Oxidation Event", "Great_Oxidation_Event"),
     ],
@@ -142,14 +227,25 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Эукариоты",
     latin: "Eukaryota",
     ageMa: 1800,
+    ageKind: "milestone",
+    ageNoteRu:
+      "1,8 млрд лет — ориентир ранней истории эукариот; происхождение ядра и митохондрий не датируется одной установленной отметкой.",
     eraId: "early-life",
     lineageRole: "direct-lineage",
-    summaryRu: "Примерно в этой глубокой части докембрия у эукариотической клетки оформились ядро и митохондрии — внутренняя организация, без которой не собрать ткани и органы.",
-    whyMattersRu: "Митохондрии дали больше энергии, а ядро и внутренняя регуляция сделали возможными крупные многоклеточные тела.",
+    summaryRu:
+      "Примерно в этой глубокой части докембрия у эукариотической клетки оформились ядро и митохондрии — внутренняя организация, без которой не собрать ткани и органы.",
+    whyMattersRu:
+      "Митохондрии дали больше энергии, а ядро и внутренняя регуляция сделали возможными крупные многоклеточные тела.",
     inherited: ["ядро", "митохондрии", "сложная регуляция клетки"],
-    image: plate("eukaryotes", "Схема эукариотических клеток в музейной пластине"),
+    image: plate(
+      "eukaryotes",
+      "Схема эукариотических клеток в музейной пластине",
+    ),
     sources: [
-      source("Nature Scitable: origin of mitochondria", "https://www.nature.com/scitable/topicpage/the-origin-of-mitochondria-14232356/"),
+      source(
+        "Nature Scitable: origin of mitochondria",
+        "https://www.nature.com/scitable/topicpage/the-origin-of-mitochondria-14232356/",
+      ),
       wiki("Eukaryote", "Eukaryote"),
       wiki("Symbiogenesis", "Symbiogenesis"),
     ],
@@ -160,12 +256,20 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Родственники животных",
     latin: "Choanoflagellatea",
     ageMa: 900,
+    ageKind: "milestone",
     eraId: "early-life",
     lineageRole: "close-relative",
-    summaryRu: "Оценки глубокого расхождения с животной линией обсуждаются, но хоанофлагелляты показывают, как одноклеточные родственники животных могли использовать сигналы и кооперацию.",
-    whyMattersRu: "Отсюда виден путь от одиночной клетки к телу, где клетки общаются и делят роли.",
+    summaryRu:
+      "Оценки глубокого расхождения с животной линией обсуждаются, но хоанофлагелляты показывают, как одноклеточные родственники животных могли использовать сигналы и кооперацию.",
+    whyMattersRu:
+      "Отсюда виден путь от одиночной клетки к телу, где клетки общаются и делят роли.",
     inherited: ["клеточные сигналы", "адгезия", "предпосылки многоклеточности"],
-    image: plate("choanoflagellates", "Колония хоанофлагеллят", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate(
+      "choanoflagellates",
+      "Колония хоанофлагеллят",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [wiki("Choanoflagellate", "Choanoflagellate")],
   },
   {
@@ -174,13 +278,24 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Первые животные",
     latin: "early Metazoa",
     ageMa: 575,
+    ageKind: "milestone",
     eraId: "early-life",
     lineageRole: "representative",
-    summaryRu: "Примерно к позднему докембрию ранние многоклеточные животные начали строить тела из специализированных тканей и жить в сложных экосистемах.",
-    whyMattersRu: "Появляется сама идея животного тела: клетки работают вместе, и отбор начинает действовать на форму.",
+    summaryRu:
+      "Примерно к позднему докембрию ранние многоклеточные животные начали строить тела из специализированных тканей и жить в сложных экосистемах.",
+    whyMattersRu:
+      "Появляется сама идея животного тела: клетки работают вместе, и отбор начинает действовать на форму.",
     inherited: ["многоклеточность", "ткани", "эмбриональное развитие"],
-    image: plate("ediacaran", "Ископаемая форма эдиакарской биоты", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Ediacaran biota", "Ediacaran_biota"), wiki("Dickinsonia", "Dickinsonia")],
+    image: plate(
+      "ediacaran",
+      "Ископаемая форма эдиакарской биоты",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Ediacaran biota", "Ediacaran_biota"),
+      wiki("Dickinsonia", "Dickinsonia"),
+    ],
   },
   {
     id: "bilaterians",
@@ -188,12 +303,23 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Двусторонние животные",
     latin: "Bilateria",
     ageMa: 555,
+    ageKind: "milestone",
     eraId: "animals",
     lineageRole: "direct-lineage",
-    summaryRu: "У животных появляется перед и зад, верх и низ, направленное движение и более выраженная логика головы.",
-    whyMattersRu: "Наш план тела начинается здесь. Двусторонняя симметрия задаёт, где будет голова и куда направлено движение.",
-    inherited: ["двусторонняя симметрия", "передний отдел тела", "направленное движение"],
-    image: plate("bilaterians", "Ископаемое раннего двустороннего животного Kimberella", "source-backed"),
+    summaryRu:
+      "У животных появляется перед и зад, верх и низ, направленное движение и более выраженная логика головы.",
+    whyMattersRu:
+      "Наш план тела начинается здесь. Двусторонняя симметрия задаёт, где будет голова и куда направлено движение.",
+    inherited: [
+      "двусторонняя симметрия",
+      "передний отдел тела",
+      "направленное движение",
+    ],
+    image: plate(
+      "bilaterians",
+      "Ископаемое раннего двустороннего животного Kimberella",
+      "source-backed",
+    ),
     sources: [wiki("Bilateria", "Bilateria")],
   },
   {
@@ -202,16 +328,27 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Кембрийский взрыв",
     latin: "Cambrian explosion",
     ageMa: 538.8,
+    ageKind: "milestone",
     eraId: "animals",
     lineageRole: "representative",
     summaryRu:
       "В начале кембрия в ископаемой летописи резко возрастает разнообразие морских животных: панцири, глаза, хищничество и новые планы тела становятся заметными.",
     whyMattersRu:
       "Это не мгновенное чудо и не начало всех животных: эдиакарские и докембрийские линии уже существовали, но кембрийские фауны делают эволюционную радиацию особенно видимой.",
-    inherited: ["разнообразие планов тела", "минерализованные ткани", "новые морские ниши"],
-    image: plate("cambrian-explosion", "AI-реконструкция разнообразной кембрийской морской фауны"),
+    inherited: [
+      "разнообразие планов тела",
+      "минерализованные ткани",
+      "новые морские ниши",
+    ],
+    image: plate(
+      "cambrian-explosion",
+      "AI-реконструкция разнообразной кембрийской морской фауны",
+    ),
     sources: [
-      source("Understanding Evolution: The Cambrian explosion", "https://evolution.berkeley.edu/the-cambrian-explosion/"),
+      source(
+        "Understanding Evolution: The Cambrian explosion",
+        "https://evolution.berkeley.edu/the-cambrian-explosion/",
+      ),
       wiki("Cambrian explosion", "Cambrian_explosion"),
     ],
   },
@@ -221,16 +358,28 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Ранние хордовые",
     latin: "early Cambrian chordates",
     ageMa: 518,
+    ageKind: "milestone",
     eraId: "animals",
     lineageRole: "stem-form",
-    summaryRu: "Ранние хордовые получили внутреннюю ось тела и нервную трубку — черты, которые позже приведут к позвоночным.",
-    whyMattersRu: "Раннекембрийский узел. Pikaia и Metaspriggina известны позже, около 508–505 млн лет назад, поэтому здесь взята вся группа ранних хордовых, а не один вид.",
+    summaryRu:
+      "Ранние хордовые получили внутреннюю ось тела и нервную трубку — черты, которые позже приведут к позвоночным.",
+    whyMattersRu:
+      "Раннекембрийский узел. Pikaia и Metaspriggina известны позже, около 508–505 млн лет назад, поэтому здесь взята вся группа ранних хордовых, а не один вид.",
     inherited: ["хорда", "нервная трубка", "сегментированные мышцы"],
-    image: plate("early-chordates", "AI-реконструкция ранних хордовых на фоне кембрийской среды"),
+    image: plate(
+      "early-chordates",
+      "AI-реконструкция ранних хордовых на фоне кембрийской среды",
+    ),
     sources: [
       wiki("Chordate", "Chordate"),
-      source("Royal Ontario Museum: Pikaia", "https://burgess-shale.rom.on.ca/fossils/pikaia-gracilens/"),
-      source("Royal Ontario Museum: Metaspriggina", "https://burgess-shale.rom.on.ca/fossils/metaspriggina-walcotti/"),
+      source(
+        "Royal Ontario Museum: Pikaia",
+        "https://burgess-shale.rom.on.ca/fossils/pikaia-gracilens/",
+      ),
+      source(
+        "Royal Ontario Museum: Metaspriggina",
+        "https://burgess-shale.rom.on.ca/fossils/metaspriggina-walcotti/",
+      ),
     ],
   },
   {
@@ -239,13 +388,24 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Ранние позвоночные",
     latin: "Vertebrata",
     ageMa: 500,
+    ageKind: "milestone",
     eraId: "animals",
     lineageRole: "stem-form",
-    summaryRu: "Появляются опорные структуры и обособленный передний отдел нервной системы — заготовки позвоночника и черепа.",
-    whyMattersRu: "Позвоночный план дал телу защиту нервной системы, сильную ось движения и более сложные органы чувств.",
+    summaryRu:
+      "Появляются опорные структуры и обособленный передний отдел нервной системы — заготовки позвоночника и черепа.",
+    whyMattersRu:
+      "Позвоночный план дал телу защиту нервной системы, сильную ось движения и более сложные органы чувств.",
     inherited: ["череп", "позвоночная ось", "сложные органы чувств"],
-    image: plate("early-vertebrates", "Пластина раннего позвоночного", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Vertebrate", "Vertebrate"), wiki("Jawless fish", "Jawless_fish")],
+    image: plate(
+      "early-vertebrates",
+      "Пластина раннего позвоночного",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Vertebrate", "Vertebrate"),
+      wiki("Jawless fish", "Jawless_fish"),
+    ],
   },
   {
     id: "jawed-fish",
@@ -253,13 +413,19 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Челюстные рыбы",
     latin: "Gnathostomata",
     ageMa: 430,
+    ageKind: "milestone",
     eraId: "fish",
     lineageRole: "direct-lineage",
-    summaryRu: "Челюсти и парные плавники радикально расширили способы питания, движения и будущую схему конечностей.",
-    whyMattersRu: "Челюсти изменили экологию позвоночных, а парные придатки стали далеким архитектурным предком рук и ног.",
+    summaryRu:
+      "Челюсти и парные плавники радикально расширили способы питания, движения и будущую схему конечностей.",
+    whyMattersRu:
+      "Челюсти изменили экологию позвоночных, а парные придатки стали далеким архитектурным предком рук и ног.",
     inherited: ["челюсти", "зубы", "парные придатки"],
     image: plate("jawed-fish", "Реконструкция ранней челюстной рыбы"),
-    sources: [wiki("Gnathostomata", "Gnathostomata"), wiki("Entelognathus", "Entelognathus")],
+    sources: [
+      wiki("Gnathostomata", "Gnathostomata"),
+      wiki("Entelognathus", "Entelognathus"),
+    ],
   },
   {
     id: "lobe-finned",
@@ -267,13 +433,24 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Лопастеперые",
     latin: "Sarcopterygii",
     ageMa: 390,
+    ageKind: "milestone",
     eraId: "fish",
     lineageRole: "direct-lineage",
-    summaryRu: "Мясистые плавники лопастеперых уже несут кости, напоминающие будущую схему плеча, локтя и запястья.",
-    whyMattersRu: "Это один из самых важных мостов: конечность не появилась с нуля, она перестраивалась из плавника.",
+    summaryRu:
+      "Мясистые плавники лопастеперых уже несут кости, напоминающие будущую схему плеча, локтя и запястья.",
+    whyMattersRu:
+      "Это один из самых важных мостов: конечность не появилась с нуля, она перестраивалась из плавника.",
     inherited: ["плечевой пояс", "локтевая схема", "зачатки запястья"],
-    image: plate("lobe-finned", "Реконструкция лопастеперой рыбы", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Sarcopterygii", "Sarcopterygii"), wiki("Eusthenopteron", "Eusthenopteron")],
+    image: plate(
+      "lobe-finned",
+      "Реконструкция лопастеперой рыбы",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Sarcopterygii", "Sarcopterygii"),
+      wiki("Eusthenopteron", "Eusthenopteron"),
+    ],
   },
   {
     id: "tiktaalik",
@@ -281,15 +458,29 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Переход к суше",
     latin: "Tiktaalik-like forms",
     ageMa: 375,
+    ageKind: "milestone",
     eraId: "land",
     lineageRole: "stem-form",
-    summaryRu: "На мелководьях появляются формы с чертами рыб и будущих наземных позвоночных: подвижная шея и опора на плавники.",
-    whyMattersRu: "Tiktaalik особенно хорошо показывает, что эволюция не прыгает: одна структура постепенно получает новую механику.",
+    summaryRu:
+      "На мелководьях появляются формы с чертами рыб и будущих наземных позвоночных: подвижная шея и опора на плавники.",
+    whyMattersRu:
+      "Tiktaalik особенно хорошо показывает, что эволюция не прыгает: одна структура постепенно получает новую механику.",
     inherited: ["подвижная шея", "опора на плавники", "дыхание воздухом"],
-    image: plate("tiktaalik", "Реконструкция Tiktaalik в мелководной среде", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate(
+      "tiktaalik",
+      "Реконструкция Tiktaalik в мелководной среде",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [
-      source("Shubin Lab: Tiktaalik", "https://shubinlab.uchicago.edu/research-2-2/"),
-      source("Understanding Evolution: Tiktaalik", "https://evolution.berkeley.edu/evo-news/what-has-the-head-of-a-crocodile-and-the-gills-of-a-fish/"),
+      source(
+        "Shubin Lab: Tiktaalik",
+        "https://shubinlab.uchicago.edu/research-2-2/",
+      ),
+      source(
+        "Understanding Evolution: Tiktaalik",
+        "https://evolution.berkeley.edu/evo-news/what-has-the-head-of-a-crocodile-and-the-gills-of-a-fish/",
+      ),
       wiki("Tiktaalik", "Tiktaalik"),
     ],
   },
@@ -299,13 +490,24 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Четвероногие",
     latin: "Tetrapoda",
     ageMa: 365,
+    ageKind: "milestone",
     eraId: "land",
     lineageRole: "direct-lineage",
-    summaryRu: "Позвоночные начинают использовать конечности на мелководьях и суше, а пальцы становятся частью нового плана тела.",
-    whyMattersRu: "Четыре конечности, пальцы и легочное дыхание открыли линию наземных позвоночных, включая нас.",
+    summaryRu:
+      "Позвоночные начинают использовать конечности на мелководьях и суше, а пальцы становятся частью нового плана тела.",
+    whyMattersRu:
+      "Четыре конечности, пальцы и легочное дыхание открыли линию наземных позвоночных, включая нас.",
     inherited: ["четыре конечности", "пальцы", "легочное дыхание"],
-    image: plate("early-tetrapods", "Реконструкция раннего четвероногого Ichthyostega", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Tetrapod", "Tetrapod"), wiki("Acanthostega", "Acanthostega")],
+    image: plate(
+      "early-tetrapods",
+      "Реконструкция раннего четвероногого Ichthyostega",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Tetrapod", "Tetrapod"),
+      wiki("Acanthostega", "Acanthostega"),
+    ],
   },
   {
     id: "amniotes",
@@ -313,12 +515,22 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Амниоты",
     latin: "Amniota",
     ageMa: 320,
+    ageKind: "milestone",
     eraId: "land",
     lineageRole: "direct-lineage",
-    summaryRu: "Эмбрион получил защитные оболочки, и развитие стало меньше зависеть от водной среды вокруг организма.",
-    whyMattersRu: "Амниотическое яйцо и новые стратегии развития позволили позвоночным глубже освоить сушу.",
-    inherited: ["защищенное развитие", "эмбриональные оболочки", "сухопутная репродукция"],
-    image: plate("hylonomus-muse", "AI-реконструкция раннего амниотического предка в каменноугольном лесу"),
+    summaryRu:
+      "Эмбрион получил защитные оболочки, и развитие стало меньше зависеть от водной среды вокруг организма.",
+    whyMattersRu:
+      "Амниотическое яйцо и новые стратегии развития позволили позвоночным глубже освоить сушу.",
+    inherited: [
+      "защищенное развитие",
+      "эмбриональные оболочки",
+      "сухопутная репродукция",
+    ],
+    image: plate(
+      "hylonomus-muse",
+      "AI-реконструкция раннего амниотического предка в каменноугольном лесу",
+    ),
     sources: [wiki("Amniote", "Amniote"), wiki("Hylonomus", "Hylonomus")],
   },
   {
@@ -327,12 +539,24 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Синапсиды",
     latin: "Synapsida",
     ageMa: 300,
+    ageKind: "milestone",
     eraId: "synapsids",
     lineageRole: "direct-lineage",
-    summaryRu: "Древняя ветвь, из которой со временем возникли млекопитающие, перестраивала череп, зубы и обмен веществ.",
-    whyMattersRu: "Синапсиды могли выглядеть рептилиеподобно, но их линия ближе к нам, чем к динозаврам.",
-    inherited: ["особое строение черепа", "жевательная система", "линия млекопитающих"],
-    image: plate("synapsids", "Реконструкция раннего синапсида Dimetrodon", "source-backed", "Wikimedia Commons / локальная обработка"),
+    summaryRu:
+      "Древняя ветвь, из которой со временем возникли млекопитающие, перестраивала череп, зубы и обмен веществ.",
+    whyMattersRu:
+      "Синапсиды могли выглядеть рептилиеподобно, но их линия ближе к нам, чем к динозаврам.",
+    inherited: [
+      "особое строение черепа",
+      "жевательная система",
+      "линия млекопитающих",
+    ],
+    image: plate(
+      "synapsids",
+      "Реконструкция раннего синапсида Dimetrodon",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [wiki("Synapsid", "Synapsid"), wiki("Dimetrodon", "Dimetrodon")],
   },
   {
@@ -341,12 +565,19 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Терапсиды",
     latin: "Therapsida",
     ageMa: 270,
+    ageKind: "milestone",
     eraId: "synapsids",
     lineageRole: "direct-lineage",
-    summaryRu: "Терапсиды становятся подвижнее, а череп, зубы и поза тела все больше напоминают будущих млекопитающих.",
-    whyMattersRu: "Здесь усиливаются черты активного животного: разный тип зубов, сильное жевание и более высокая подвижность.",
+    summaryRu:
+      "Терапсиды становятся подвижнее, а череп, зубы и поза тела все больше напоминают будущих млекопитающих.",
+    whyMattersRu:
+      "Здесь усиливаются черты активного животного: разный тип зубов, сильное жевание и более высокая подвижность.",
     inherited: ["разные типы зубов", "активная поза", "сильные челюсти"],
-    image: plate("therapsids", "Реконструкция терапсида Lycaenops", "source-backed"),
+    image: plate(
+      "therapsids",
+      "Реконструкция терапсида Lycaenops",
+      "source-backed",
+    ),
     sources: [wiki("Therapsid", "Therapsid")],
   },
   {
@@ -355,13 +586,29 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Цинодонты",
     latin: "Cynodontia",
     ageMa: 250,
+    ageKind: "milestone",
     eraId: "synapsids",
     lineageRole: "direct-lineage",
-    summaryRu: "В этой группе усиливаются признаки млекопитающих: зубы, вероятная шерсть, активный обмен и забота о потомстве.",
-    whyMattersRu: "На цинодонтах видно, как 'млекопитающее' собиралось постепенно, по частям.",
-    inherited: ["дифференцированные зубы", "вероятная шерсть", "активный обмен", "слуховые косточки"],
-    image: plate("cynodonts", "Реконструкция цинодонта Thrinaxodon", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Cynodont", "Cynodontia"), wiki("Thrinaxodon", "Thrinaxodon")],
+    summaryRu:
+      "В этой группе усиливаются признаки млекопитающих: зубы, вероятная шерсть, активный обмен и забота о потомстве.",
+    whyMattersRu:
+      "На цинодонтах видно, как 'млекопитающее' собиралось постепенно, по частям.",
+    inherited: [
+      "дифференцированные зубы",
+      "вероятная шерсть",
+      "активный обмен",
+      "слуховые косточки",
+    ],
+    image: plate(
+      "cynodonts",
+      "Реконструкция цинодонта Thrinaxodon",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Cynodont", "Cynodontia"),
+      wiki("Thrinaxodon", "Thrinaxodon"),
+    ],
   },
   {
     id: "mammals",
@@ -369,14 +616,25 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Млекопитающие",
     latin: "Mammalia",
     ageMa: 200,
+    ageKind: "milestone",
     eraId: "mammals",
     lineageRole: "direct-lineage",
-    summaryRu: "Небольшие ночные животные переживали эпохи гигантов и накапливали слух, шерсть, молоко и заботу о потомстве.",
-    whyMattersRu: "До приматов уже появились черты, без которых невозможно представить человека: теплокровность, молоко и длительная забота.",
+    summaryRu:
+      "Небольшие ночные животные переживали эпохи гигантов и накапливали слух, шерсть, молоко и заботу о потомстве.",
+    whyMattersRu:
+      "До приматов уже появились черты, без которых невозможно представить человека: теплокровность, молоко и длительная забота.",
     inherited: ["шерсть", "молочные железы", "слуховые косточки"],
-    image: plate("early-mammals", "Реконструкция раннего млекопитающего Morganucodon", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate(
+      "early-mammals",
+      "Реконструкция раннего млекопитающего Morganucodon",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [
-      source("UCMP Berkeley: Mammalia", "https://ucmp.berkeley.edu/mammal/mammal.html"),
+      source(
+        "UCMP Berkeley: Mammalia",
+        "https://ucmp.berkeley.edu/mammal/mammal.html",
+      ),
       wiki("Mammalia", "Mammal"),
       wiki("Morganucodon", "Morganucodon"),
     ],
@@ -387,13 +645,29 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Ранние эутерии",
     latin: "Eutheria (Eomaia-like forms)",
     ageMa: 125,
+    ageKind: "milestone",
     eraId: "mammals",
     lineageRole: "direct-lineage",
-    summaryRu: "Eomaia и близкие ранние эутерии показывают ветвь, внутри которой позже возникнут настоящие плацентарные млекопитающие.",
-    whyMattersRu: "Это не готовая современная плацентарная группа, а более ранний узел: важна перестройка развития, из которой позже вырастет плацентарная стратегия.",
-    inherited: ["эутериевое развитие", "связь матери и эмбриона", "ранняя родительская забота"],
-    image: plate("eomaia-nt", "Реконструкция раннего эутериевого млекопитающего Eomaia", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Eutheria", "Eutheria"), wiki("Eomaia", "Eomaia"), source("Nature: Eomaia scansoria", "https://doi.org/10.1038/416816a")],
+    summaryRu:
+      "Eomaia и близкие ранние эутерии показывают ветвь, внутри которой позже возникнут настоящие плацентарные млекопитающие.",
+    whyMattersRu:
+      "Это не готовая современная плацентарная группа, а более ранний узел: важна перестройка развития, из которой позже вырастет плацентарная стратегия.",
+    inherited: [
+      "эутериевое развитие",
+      "связь матери и эмбриона",
+      "ранняя родительская забота",
+    ],
+    image: plate(
+      "eomaia-nt",
+      "Реконструкция раннего эутериевого млекопитающего Eomaia",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Eutheria", "Eutheria"),
+      wiki("Eomaia", "Eomaia"),
+      source("Nature: Eomaia scansoria", "https://doi.org/10.1038/416816a"),
+    ],
   },
   {
     id: "after-kpg",
@@ -401,13 +675,29 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "После вымирания динозавров",
     latin: "early Cenozoic mammals",
     ageMa: 66,
+    ageKind: "milestone",
     eraId: "mammals",
     lineageRole: "representative",
-    summaryRu: "После катастрофы на границе мела и палеогена мелкие млекопитающие быстро заняли новые экологические ниши.",
-    whyMattersRu: "Освободившиеся ниши ускорили разнообразие млекопитающих, внутри которого вскоре возникли ранние приматы.",
-    inherited: ["экологическая гибкость", "быстрое расселение", "пластичное питание"],
-    image: plate("after-kpg", "Реконструкция Purgatorius после мел-палеогенового вымирания", "source-backed"),
-    sources: [wiki("Cretaceous-Paleogene extinction event", "Cretaceous%E2%80%93Paleogene_extinction_event")],
+    summaryRu:
+      "После катастрофы на границе мела и палеогена мелкие млекопитающие быстро заняли новые экологические ниши.",
+    whyMattersRu:
+      "Освободившиеся ниши ускорили разнообразие млекопитающих, внутри которого вскоре возникли ранние приматы.",
+    inherited: [
+      "экологическая гибкость",
+      "быстрое расселение",
+      "пластичное питание",
+    ],
+    image: plate(
+      "after-kpg",
+      "Реконструкция Purgatorius после мел-палеогенового вымирания",
+      "source-backed",
+    ),
+    sources: [
+      wiki(
+        "Cretaceous-Paleogene extinction event",
+        "Cretaceous%E2%80%93Paleogene_extinction_event",
+      ),
+    ],
   },
   {
     id: "early-primates",
@@ -415,35 +705,101 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Ранние родственники приматов",
     latin: "Primatomorpha",
     ageMa: 66,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "direct-lineage",
     isPrimateFocus: true,
-    summaryRu: "В широком смысле это ранние родственники приматов вскоре после K-Pg: маленькие древесные млекопитающие, близкие к началу приматной ветви.",
-    whyMattersRu: "Именно здесь начинается короткий ответ: обезьяны выросли внутри более старой древесной линии родственников приматов, а не от современных обезьян.",
-    inherited: ["древесная ориентация", "путь к хватанию", "плодово-насекомоядное питание"],
-    image: plate("purgatorius-bw", "Реконструкция Purgatorius как раннего родственника приматов", "source-backed"),
+    summaryRu:
+      "В широком смысле это ранние родственники приматов вскоре после K-Pg: маленькие древесные млекопитающие, близкие к началу приматной ветви.",
+    whyMattersRu:
+      "Именно здесь начинается короткий ответ: обезьяны выросли внутри более старой древесной линии родственников приматов, а не от современных обезьян.",
+    inherited: [
+      "древесная ориентация",
+      "путь к хватанию",
+      "плодово-насекомоядное питание",
+    ],
+    image: plate(
+      "purgatorius-bw",
+      "Реконструкция Purgatorius как раннего родственника приматов",
+      "source-backed",
+    ),
     sources: [
       wiki("Primates", "Primate"),
       wiki("Purgatorius", "Purgatorius"),
-      source("University of Washington: earliest primate fossils", "https://www.washington.edu/news/2021/02/24/earliest-primate-fossils/"),
+      source(
+        "University of Washington: earliest primate fossils",
+        "https://www.washington.edu/news/2021/02/24/earliest-primate-fossils/",
+      ),
     ],
   },
   {
     id: "plesiadapis",
     slug: "plesiadapis",
-    titleRu: "Древние приматы",
+    titleRu: "Плезиадапис: родственник приматов",
     latin: "Plesiadapis cookei",
     ageMa: 55,
+    ageKind: "evidence",
+    ageNoteRu:
+      "Приблизительный возраст выбранного ископаемого представителя; происхождение приматов этим числом не датируется.",
     eraId: "primates",
     lineageRole: "close-relative",
     isPrimateFocus: true,
-    summaryRu: "Небольшие древесные млекопитающие из окружения ранних приматов еще не были обезьянами, но жили в той же эволюционной сцене.",
-    whyMattersRu: "По ним понятно, из какой среды выросли приматы: деревья, хватание, острое зрение, ловкость.",
+    summaryRu:
+      "Небольшие древесные млекопитающие из окружения ранних приматов еще не были обезьянами, но жили в той же эволюционной сцене.",
+    whyMattersRu:
+      "Плезиадапис помогает изучать древесный образ жизни ранних родственников приматов. Его нельзя автоматически наделять зрением современных обезьян.",
     inherited: ["пятипалые конечности", "цепкий хват", "древесная ловкость"],
-    image: plate("early-primates", "Реконструкция Plesiadapis как раннего родственника приматов", "source-backed"),
+    image: plate(
+      "early-primates",
+      "Реконструкция Plesiadapis как раннего родственника приматов",
+      "source-backed",
+    ),
     sources: [
+      source(
+        "Proceedings B: brain of Plesiadapis tricuspidens",
+        "https://doi.org/10.1098/rspb.2013.2792",
+      ),
       wiki("Plesiadapis", "Plesiadapis"),
-      source("Florida Museum: primate evolution", "https://www.floridamuseum.ufl.edu/fossil-horses/gallery/primate-evolution/"),
+      source(
+        "Florida Museum: primate evolution",
+        "https://www.floridamuseum.ufl.edu/fossil-horses/gallery/primate-evolution/",
+      ),
+    ],
+  },
+  {
+    id: "haplorhini",
+    slug: "haplorhini",
+    titleRu: "Сухоносые приматы",
+    latin: "Haplorhini",
+    ageMa: 55,
+    ageKind: "evidence",
+    ageNoteRu:
+      "Archicebus, отнесённый к ранней долгопятовой линии, жил около 55 млн лет назад. Общий предок долгопятов и антропоидов должен быть древнее; точная дата разделения неизвестна.",
+    eraId: "primates",
+    lineageRole: "direct-lineage",
+    isPrimateFocus: true,
+    summaryRu:
+      "Долгопяты и антропоиды — две родственные ветви сухоносых приматов. Долгопяты не входят в группу обезьян и человекообразных.",
+    whyMattersRu:
+      "Эта развилка отделяет родство от внешнего сходства: небольшой ночной долгопят ближе к обезьянам, чем к лемурам и лори.",
+    inherited: [
+      "общее происхождение долгопятов и антропоидов",
+      "приматный план тела",
+    ],
+    image: {
+      src: "/assets/images/cladogram/branch-tarsiers.jpg",
+      altRu:
+        "Современный долгопят как представитель одной из ветвей сухоносых приматов.",
+      kind: "source-backed",
+      credit: "Wikipedia / Wikimedia Commons",
+      license: "см. страницу изображения",
+      sourceUrl: "https://en.wikipedia.org/wiki/Tarsier",
+    },
+    sources: [
+      source(
+        "Nature: Archicebus and early haplorhine evolution",
+        "https://doi.org/10.1038/nature12200",
+      ),
     ],
   },
   {
@@ -452,14 +808,25 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Антропоиды",
     latin: "Anthropoidea / Simiiformes",
     ageMa: 40,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "direct-lineage",
     isPrimateFocus: true,
-    summaryRu: "Линия обезьян и человекообразных получает более сложное зрение, крупнее мозг и социальное поведение.",
-    whyMattersRu: "Это уже большая ветвь обезьян: отсюда дальше расходятся линии Нового Света, Старого Света и человекообразных.",
+    summaryRu:
+      "Линия обезьян и человекообразных получает более сложное зрение, крупнее мозг и социальное поведение.",
+    whyMattersRu:
+      "Это уже большая ветвь обезьян: отсюда дальше расходятся линии Нового Света, Старого Света и человекообразных.",
     inherited: ["социальное зрение", "крупнее мозг", "дневная активность"],
-    image: plate("anthropoids", "Реконструкции ранних антропоидов олигоцена", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Simian", "Simian"), wiki("Aegyptopithecus", "Aegyptopithecus")],
+    image: plate(
+      "anthropoids",
+      "Реконструкции ранних антропоидов олигоцена",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Simian", "Simian"),
+      wiki("Aegyptopithecus", "Aegyptopithecus"),
+    ],
   },
   {
     id: "new-world-monkeys",
@@ -467,14 +834,28 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Широконосые обезьяны",
     latin: "Platyrrhini",
     ageMa: 35,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "side-branch",
     isPrimateFocus: true,
-    summaryRu: "Одна из ветвей обезьян расселяется в Южной Америке и идет своим путем, сохраняя древесную ловкость.",
-    whyMattersRu: "Эта южноамериканская ветвь показывает, как обезьяны расходились и осваивали разные древесные стратегии.",
-    inherited: ["ветвление обезьян", "древесная ловкость", "социальное поведение"],
-    image: plate("new-world-monkeys", "Портрет широконосой обезьяны", "source-backed"),
-    sources: [wiki("New World monkey", "New_World_monkey"), wiki("Platyrrhini", "Platyrrhini")],
+    summaryRu:
+      "Одна из ветвей обезьян расселяется в Южной Америке и идет своим путем, сохраняя древесную ловкость.",
+    whyMattersRu:
+      "Эта южноамериканская ветвь показывает, как обезьяны расходились и осваивали разные древесные стратегии.",
+    inherited: [
+      "ветвление обезьян",
+      "древесная ловкость",
+      "социальное поведение",
+    ],
+    image: plate(
+      "new-world-monkeys",
+      "Портрет широконосой обезьяны",
+      "source-backed",
+    ),
+    sources: [
+      wiki("New World monkey", "New_World_monkey"),
+      wiki("Platyrrhini", "Platyrrhini"),
+    ],
   },
   {
     id: "catarrhini",
@@ -482,14 +863,25 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Узконосые обезьяны",
     latin: "Catarrhini",
     ageMa: 30,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "direct-lineage",
     isPrimateFocus: true,
-    summaryRu: "Около олигоцена общая линия мартышковых и человекообразных обезьян получает новые черты носа, зубов и социального поведения.",
-    whyMattersRu: "Здесь расходятся соседние ветви обезьян — речь ещё не о человеке.",
+    summaryRu:
+      "Около олигоцена общая линия мартышковых и человекообразных обезьян получает новые черты носа, зубов и социального поведения.",
+    whyMattersRu:
+      "Здесь расходятся соседние ветви обезьян — речь ещё не о человеке.",
     inherited: ["узконосый план", "зубная формула", "социальная сложность"],
-    image: plate("aegyptopithecus-nt", "Реконструкция Aegyptopithecus как раннего антропоида", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Catarrhini", "Catarrhini"), wiki("Old World monkey", "Old_World_monkey")],
+    image: plate(
+      "aegyptopithecus-nt",
+      "Реконструкция Aegyptopithecus как раннего антропоида",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Catarrhini", "Catarrhini"),
+      wiki("Old World monkey", "Old_World_monkey"),
+    ],
   },
   {
     id: "old-world-monkeys",
@@ -497,13 +889,21 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Мартышковые",
     latin: "Cercopithecoidea",
     ageMa: 24,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "side-branch",
     isPrimateFocus: true,
-    summaryRu: "Мартышковые обезьяны отделяются от линии человекообразных и развивают собственные успешные стратегии жизни.",
-    whyMattersRu: "Мартышковые показывают, насколько успешной стала соседняя ветвь узконосых обезьян.",
+    summaryRu:
+      "Мартышковые обезьяны отделяются от линии человекообразных и развивают собственные успешные стратегии жизни.",
+    whyMattersRu:
+      "Мартышковые показывают, насколько успешной стала соседняя ветвь узконосых обезьян.",
     inherited: ["социальность", "гибкое питание", "родственная ветвь"],
-    image: plate("old-world-monkeys", "Портрет современной мартышковой обезьяны как родственной ветви", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate(
+      "old-world-monkeys",
+      "Портрет современной мартышковой обезьяны как родственной ветви",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [wiki("Cercopithecoidea", "Cercopithecoidea")],
   },
   {
@@ -512,13 +912,21 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Ранние человекообразные",
     latin: "Hominoidea",
     ageMa: 20,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "direct-lineage",
     isPrimateFocus: true,
-    summaryRu: "Ранние человекообразные теряют хвост и меняют плечевой пояс для движения в кронах и более свободного лазания.",
-    whyMattersRu: "Отсюда начинается линия человекообразных: обезьяны без хвоста, с новой механикой плеча и долгим обучением.",
+    summaryRu:
+      "Ранние человекообразные теряют хвост и меняют плечевой пояс для движения в кронах и более свободного лазания.",
+    whyMattersRu:
+      "Отсюда начинается линия человекообразных: обезьяны без хвоста, с новой механикой плеча и долгим обучением.",
     inherited: ["отсутствие хвоста", "подвижное плечо", "длительное детство"],
-    image: plate("proconsul-nt", "Реконструкция Proconsul как раннего человекообразного", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate(
+      "proconsul-nt",
+      "Реконструкция Proconsul как раннего человекообразного",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [wiki("Ape", "Ape"), wiki("Proconsul", "Proconsul_(mammal)")],
   },
   {
@@ -527,14 +935,25 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Большие человекообразные",
     latin: "Hominidae",
     ageMa: 14,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "direct-lineage",
     isPrimateFocus: true,
-    summaryRu: "Ветвь больших человекообразных объединяет орангутанов, горилл, шимпанзе и людей в одну родственную семью.",
-    whyMattersRu: "С соседними ветвями нас связывает общий древний корень, а не современная обезьяна-предок.",
+    summaryRu:
+      "Ветвь больших человекообразных объединяет орангутанов, горилл, шимпанзе и людей в одну родственную семью.",
+    whyMattersRu:
+      "С соседними ветвями нас связывает общий древний корень, а не современная обезьяна-предок.",
     inherited: ["крупное тело", "длительное обучение", "сложная социальность"],
-    image: plate("great-apes", "Портрет большого человекообразного как близкой родственной ветви", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Hominidae", "Hominidae"), wiki("Pierolapithecus", "Pierolapithecus")],
+    image: plate(
+      "great-apes",
+      "Портрет большого человекообразного как близкой родственной ветви",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Hominidae", "Hominidae"),
+      wiki("Pierolapithecus", "Pierolapithecus"),
+    ],
   },
   {
     id: "hominins",
@@ -542,29 +961,65 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Ранние гоминины",
     latin: "Hominini",
     ageMa: 7,
+    ageKind: "estimate",
+    ageNoteRu:
+      "Ориентир ранней истории человеческой ветви. Детали походки и анатомии первых гоминин реконструируются по неполным находкам.",
     eraId: "primates",
     lineageRole: "stem-form",
     isPrimateFocus: true,
-    summaryRu: "Линия человека отделяется от ближайших родственников среди человекообразных, а походка начинает перестраиваться.",
-    whyMattersRu: "Люди не произошли от современных шимпанзе: после общего предка ветви пошли разными путями.",
+    summaryRu:
+      "Линия человека отделяется от ближайших родственников среди человекообразных, а походка начинает перестраиваться.",
+    whyMattersRu:
+      "Люди не произошли от современных шимпанзе: после общего предка ветви пошли разными путями.",
     inherited: ["изменения таза", "новая походка", "освобождение рук"],
-    image: plate("generated-early-hominin", "AI-реконструкция раннего гоминина на границе человеческой ветви", "generated-reconstruction"),
-    sources: [wiki("Hominini", "Hominini"), wiki("Sahelanthropus", "Sahelanthropus")],
+    image: plate(
+      "generated-early-hominin",
+      "AI-реконструкция раннего гоминина на границе человеческой ветви",
+      "generated-reconstruction",
+    ),
+    sources: [
+      source(
+        "Science Advances: Sahelanthropus bipedalism, 2026",
+        "https://doi.org/10.1126/sciadv.adv0130",
+      ),
+      wiki("Hominini", "Hominini"),
+      wiki("Sahelanthropus", "Sahelanthropus"),
+    ],
   },
   {
     id: "ardipithecus",
     slug: "ardipithecus",
-    titleRu: "Ардипитеки",
-    latin: "Ardipithecus",
+    titleRu: "Ардипитек рамидус",
+    latin: "Ardipithecus ramidus",
     ageMa: 4.4,
+    ageKind: "evidence",
+    ageNoteRu:
+      "Возраст находок Ardipithecus ramidus. Более древний вид A. kadabba известен примерно с 5,8–5,2 млн лет назад.",
     eraId: "primates",
     lineageRole: "stem-form",
     isPrimateFocus: true,
-    summaryRu: "Ардипитеки сочетают лазание по деревьям с более уверенной двуногой походкой на земле.",
-    whyMattersRu: "Переход был мозаичным: не резкий выход из леса, а жизнь между деревьями и открытыми пространствами.",
-    inherited: ["мозаичная походка", "лесная адаптация", "раннее прямохождение"],
-    image: plate("generated-ardipithecus", "AI-реконструкция Ardipithecus ramidus в лесистой среде", "generated-reconstruction"),
-    sources: [wiki("Ardipithecus", "Ardipithecus"), wiki("Ardipithecus ramidus", "Ardipithecus_ramidus")],
+    summaryRu:
+      "Ardipithecus ramidus сочетает лазание по деревьям с более уверенной двуногой походкой на земле.",
+    whyMattersRu:
+      "Переход был мозаичным: не резкий выход из леса, а жизнь между деревьями и открытыми пространствами.",
+    inherited: [
+      "мозаичная походка",
+      "лесная адаптация",
+      "раннее прямохождение",
+    ],
+    image: plate(
+      "generated-ardipithecus",
+      "AI-реконструкция Ardipithecus ramidus в лесистой среде",
+      "generated-reconstruction",
+    ),
+    sources: [
+      source(
+        "Smithsonian: Ardipithecus kadabba",
+        "https://humanorigins.si.edu/evidence/human-fossils/species/ardipithecus-kadabba",
+      ),
+      wiki("Ardipithecus", "Ardipithecus"),
+      wiki("Ardipithecus ramidus", "Ardipithecus_ramidus"),
+    ],
   },
   {
     id: "australopithecus",
@@ -572,14 +1027,31 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Австралопитеки",
     latin: "Australopithecus",
     ageMa: 3.2,
+    ageKind: "evidence",
+    ageNoteRu:
+      "Возраст Люси, Australopithecus afarensis. Род Australopithecus известен раньше: A. anamensis — примерно с 4,2 млн лет назад.",
     eraId: "primates",
     lineageRole: "direct-lineage",
     isPrimateFocus: true,
-    summaryRu: "Уверенное прямохождение сочетается с еще небольшим мозгом и частично древесными чертами тела.",
-    whyMattersRu: "Двуногость появилась раньше большого мозга: сначала изменились таз, стопа и походка.",
+    summaryRu:
+      "Уверенное прямохождение сочетается с еще небольшим мозгом и частично древесными чертами тела.",
+    whyMattersRu:
+      "Двуногость появилась раньше большого мозга: сначала изменились таз, стопа и походка.",
     inherited: ["двуногая походка", "свободные руки", "измененная стопа"],
-    image: plate("australopithecus-lucy-face", "Лицевая реконструкция Australopithecus afarensis", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Australopithecus afarensis", "Australopithecus_afarensis"), wiki("Lucy", "Lucy_(Australopithecus)")],
+    image: plate(
+      "australopithecus-lucy-face",
+      "Лицевая реконструкция Australopithecus afarensis",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      source(
+        "Smithsonian: Australopithecus anamensis",
+        "https://humanorigins.si.edu/evidence/human-fossils/species/australopithecus-anamensis",
+      ),
+      wiki("Australopithecus afarensis", "Australopithecus_afarensis"),
+      wiki("Lucy", "Lucy_(Australopithecus)"),
+    ],
   },
   {
     id: "early-homo",
@@ -587,15 +1059,32 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Ранний Homo",
     latin: "early Homo",
     ageMa: 2.8,
+    ageKind: "evidence",
+    ageNoteRu:
+      "Возраст челюсти LD 350-1. Это не дата появления каменных орудий: они известны по меньшей мере с 3,3 млн лет назад.",
     eraId: "primates",
     lineageRole: "stem-form",
     isPrimateFocus: true,
-    summaryRu: "Находка LD 350-1 из Ledi-Geraru сдвигает ранние свидетельства рода Homo примерно к 2,8 млн лет; позже усиливается системное использование каменных орудий.",
-    whyMattersRu: "Рост мозга, точный хват и гибкое питание помогали людям учиться и передавать опыт.",
+    summaryRu:
+      "Находка LD 350-1 из Ledi-Geraru сдвигает ранние свидетельства рода Homo примерно к 2,8 млн лет; орудия Ломекви возрастом 3,3 млн лет древнее этой находки, а их изготовитель неизвестен.",
+    whyMattersRu:
+      "Рост мозга, точный хват и гибкое питание помогали людям учиться и передавать опыт.",
     inherited: ["каменные орудия", "рост мозга", "точный хват"],
-    image: plate("early-homo", "Лицевая реконструкция раннего Homo habilis", "source-backed", "Wikimedia Commons / локальная обработка"),
+    image: plate(
+      "early-homo",
+      "Лицевая реконструкция раннего Homo habilis",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
     sources: [
-      source("Science: LD 350-1 from Ledi-Geraru", "https://www.science.org/doi/10.1126/science.aaa1343"),
+      source(
+        "Nature: Lomekwi 3 stone tools",
+        "https://www.nature.com/articles/nature14464",
+      ),
+      source(
+        "Science: LD 350-1 from Ledi-Geraru",
+        "https://www.science.org/doi/10.1126/science.aaa1343",
+      ),
       wiki("Homo habilis", "Homo_habilis"),
       wiki("Homo rudolfensis", "Homo_rudolfensis"),
     ],
@@ -606,14 +1095,29 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Homo erectus",
     latin: "Homo erectus",
     ageMa: 1.9,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "direct-lineage",
     isPrimateFocus: true,
-    summaryRu: "Высокое тело, дальние миграции, миллионы лет существования — Homo erectus один из самых успешных видов рода Homo.",
-    whyMattersRu: "Эта линия показывает человеческую выносливость и способность жить в разных средах задолго до Homo sapiens.",
-    inherited: ["выносливость", "дальние переходы", "вероятное управление огнем"],
-    image: plate("homo-erectus", "Музейная реконструкция Homo erectus", "source-backed", "Wikimedia Commons / локальная обработка"),
-    sources: [wiki("Homo erectus", "Homo_erectus"), wiki("Turkana Boy", "Turkana_Boy")],
+    summaryRu:
+      "Высокое тело, дальние миграции, миллионы лет существования — Homo erectus один из самых успешных видов рода Homo.",
+    whyMattersRu:
+      "Эта линия показывает человеческую выносливость и способность жить в разных средах задолго до Homo sapiens.",
+    inherited: [
+      "выносливость",
+      "дальние переходы",
+      "вероятное управление огнем",
+    ],
+    image: plate(
+      "homo-erectus",
+      "Музейная реконструкция Homo erectus",
+      "source-backed",
+      "Wikimedia Commons / локальная обработка",
+    ),
+    sources: [
+      wiki("Homo erectus", "Homo_erectus"),
+      wiki("Turkana Boy", "Turkana_Boy"),
+    ],
   },
   {
     id: "heidelbergensis",
@@ -621,14 +1125,25 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Гейдельбергский человек",
     latin: "Homo heidelbergensis",
     ageMa: 0.7,
+    ageKind: "milestone",
+    ageNoteRu:
+      "Ориентир начала широкого диапазона находок, относимых к Homo heidelbergensis. Границы этого таксона и его положение в родословной обсуждаются.",
     eraId: "primates",
     lineageRole: "stem-form",
     isPrimateFocus: true,
-    summaryRu: "Один из главных кандидатов на общий предковый круг поздних человеческих линий; точное место Homo heidelbergensis в дереве все еще обсуждается.",
-    whyMattersRu: "Поздняя часть шкалы показывает несколько человеческих ветвей, существовавших рядом.",
+    summaryRu:
+      "Один из главных кандидатов на общий предковый круг поздних человеческих линий; точное место Homo heidelbergensis в дереве все еще обсуждается.",
+    whyMattersRu:
+      "Поздняя часть шкалы показывает несколько человеческих ветвей, существовавших рядом.",
     inherited: ["коллективная охота", "забота о слабых", "крупная добыча"],
-    image: plate("heidelbergensis", "Музейная лицевая реконструкция Homo heidelbergensis"),
-    sources: [wiki("Homo heidelbergensis", "Homo_heidelbergensis"), wiki("Kabwe 1", "Kabwe_1")],
+    image: plate(
+      "heidelbergensis",
+      "Музейная лицевая реконструкция Homo heidelbergensis",
+    ),
+    sources: [
+      wiki("Homo heidelbergensis", "Homo_heidelbergensis"),
+      wiki("Kabwe 1", "Kabwe_1"),
+    ],
   },
   {
     id: "neanderthals",
@@ -636,21 +1151,37 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Неандертальцы",
     latin: "Homo neanderthalensis",
     ageMa: 0.4,
+    ageKind: "milestone",
     eraId: "primates",
     lineageRole: "side-branch",
     isPrimateFocus: true,
-    summaryRu: "Близкая родственная линия людей, с которой Homo sapiens частично смешивался в Евразии.",
-    whyMattersRu: "Неандертальцы — близкие нам люди, а не 'полуобезьяны'. Часть их генов есть у многих из нас сегодня.",
-    inherited: ["близкое родство", "генетическое наследие", "культурное поведение"],
-    image: plate("neanderthals", "Музейная лицевая реконструкция Homo neanderthalensis"),
-    sources: [wiki("Neanderthal", "Neanderthal"), wiki("Human evolution", "Human_evolution")],
+    summaryRu:
+      "Близкая родственная линия людей, с которой Homo sapiens частично смешивался в Евразии.",
+    whyMattersRu:
+      "Неандертальцы — близкие нам люди, а не 'полуобезьяны'. Часть их генов есть у многих из нас сегодня.",
+    inherited: [
+      "близкое родство",
+      "генетическое наследие",
+      "культурное поведение",
+    ],
+    image: plate(
+      "neanderthals",
+      "Музейная лицевая реконструкция Homo neanderthalensis",
+    ),
+    sources: [
+      wiki("Neanderthal", "Neanderthal"),
+      wiki("Human evolution", "Human_evolution"),
+    ],
   },
   {
     id: "denisovans",
     slug: "denisovans",
     titleRu: "Денисовцы",
     latin: "Denisovans",
-    ageMa: 0.3,
+    ageMa: 0.25,
+    ageKind: "evidence",
+    ageNoteRu:
+      "Около 250 тыс. лет — возраст слоёв Денисовой пещеры с денисовской мтДНК; известные останки в пещере — около 200 тыс. лет. Это не дата разделения линий.",
     eraId: "primates",
     lineageRole: "side-branch",
     isPrimateFocus: true,
@@ -658,10 +1189,25 @@ export const STAGES: EvolutionStage[] = [
       "Денисовцы — поздняя родственная линия людей, известная прежде всего по ДНК; она существовала рядом с Homo sapiens и неандертальцами.",
     whyMattersRu:
       "Как и неандертальцы, денисовцы оставили генетический вклад у части современных людей, особенно в Азии и Океании.",
-    inherited: ["древняя ДНК", "генетическое наследие", "смешение человеческих линий"],
-    image: plate("denisovans", "Портретная реконструкция денисовца", "source-backed"),
+    inherited: [
+      "древняя ДНК",
+      "генетическое наследие",
+      "смешение человеческих линий",
+    ],
+    image: plate(
+      "denisovans",
+      "Портретная реконструкция денисовца",
+      "source-backed",
+    ),
     sources: [
-      source("Nature: Genetic history of Denisovans", "https://www.nature.com/articles/nature09710"),
+      source(
+        "Nature Communications: Denisova Cave chronology, 2025",
+        "https://www.nature.com/articles/s41467-025-60140-6",
+      ),
+      source(
+        "Nature: Genetic history of Denisovans",
+        "https://www.nature.com/articles/nature09710",
+      ),
       wiki("Denisovan", "Denisovan"),
     ],
   },
@@ -671,17 +1217,35 @@ export const STAGES: EvolutionStage[] = [
     titleRu: "Homo sapiens",
     latin: "Homo sapiens",
     ageMa: 0.3,
+    ageKind: "evidence",
+    ageNoteRu:
+      "Приблизительный возраст ранних Homo sapiens. Современная анатомия складывалась постепенно; эта дата не означает одновременного появления языка и искусства.",
     eraId: "primates",
     lineageRole: "direct-lineage",
     isPrimateFocus: true,
-    summaryRu: "Наш вид возникает в Африке и постепенно расселяется по планете, создавая культуру, язык и сложные сообщества.",
-    whyMattersRu: "Homo sapiens — молодая ветвь с необычайно сильным коллективным обучением. Не вершина и не цель эволюции.",
+    summaryRu:
+      "Ранние Homo sapiens известны в Африке примерно 300 тыс. лет назад. Наш вид постепенно расселился по планете; анатомия и культурные практики менялись на протяжении его истории.",
+    whyMattersRu:
+      "Homo sapiens — молодая ветвь с необычайно сильным коллективным обучением. Не вершина и не цель эволюции.",
     inherited: ["язык", "символическое мышление", "коллективное обучение"],
-    image: plate("generated-homo-sapiens", "AI-реконструкция раннего Homo sapiens в африканском ландшафте", "generated-reconstruction"),
+    image: plate(
+      "generated-homo-sapiens",
+      "AI-реконструкция раннего Homo sapiens в африканском ландшафте",
+      "generated-reconstruction",
+    ),
     sources: [
-      source("Smithsonian: Homo sapiens", "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens"),
-      source("Smithsonian: Jebel Irhoud", "https://humanorigins.si.edu/research/whats-hot-human-origins/our-species-arose-least-300000-years-ago"),
-      source("Nature: new fossils from Jebel Irhoud", "https://www.nature.com/articles/nature22336"),
+      source(
+        "Smithsonian: Homo sapiens",
+        "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens",
+      ),
+      source(
+        "Smithsonian: Jebel Irhoud",
+        "https://humanorigins.si.edu/research/whats-hot-human-origins/our-species-arose-least-300000-years-ago",
+      ),
+      source(
+        "Nature: new fossils from Jebel Irhoud",
+        "https://www.nature.com/articles/nature22336",
+      ),
       wiki("Jebel Irhoud", "Jebel_Irhoud"),
       wiki("Homo sapiens", "Homo_sapiens"),
     ],
@@ -690,7 +1254,9 @@ export const STAGES: EvolutionStage[] = [
 
 export const sortedStages = [...STAGES].sort((a, b) => b.ageMa - a.ageMa);
 
-export const primateStages = sortedStages.filter((stage) => stage.isPrimateFocus);
+export const primateStages = sortedStages.filter(
+  (stage) => stage.isPrimateFocus,
+);
 
 export function getStageById(id: string) {
   return STAGES.find((stage) => stage.id === id);
@@ -699,3 +1265,12 @@ export function getStageById(id: string) {
 export function getEraById(id: string) {
   return ERAS.find((era) => era.id === id);
 }
+
+export const STAGE_AGE_KIND_LABELS = {
+  milestone: "Ориентир на шкале",
+  evidence: "Возраст свидетельства",
+  estimate: "Приблизительная оценка",
+} as const;
+
+export const STAGE_TRAIT_DATE_NOTE =
+  "Признаки характеризуют этап или группу; они не обязательно впервые возникли в указанную дату.";

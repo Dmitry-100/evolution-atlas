@@ -19,10 +19,10 @@ for (const width of [1440, 1280, 820, 721, 391]) {
       await page.locator(".primate-deep-axis").focus();
       await page.keyboard.press("ArrowRight");
       await expect(page).toHaveURL(/stage=ardipithecus/);
-      await expect(page.locator(".deep-time-selection")).toContainText("Ардипитеки");
+      await expect(page.locator(".deep-time-selection")).toContainText("Ардипитек рамидус");
     } else {
       await expect(page.locator(".mobile-era-group")).toHaveCount(3);
-      await expect(page.locator(".mobile-stage-row")).toHaveCount(17);
+      await expect(page.locator(".mobile-stage-row")).toHaveCount(18);
       await expect(page.locator(".mobile-selection-age")).toHaveText("20 млн лет назад");
     }
 

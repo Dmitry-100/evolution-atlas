@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-13",
+  "workbook": "/Users/Sotnikov/code/evolution-atlas/outputs/antropogenez-audit-2026-09-13/antropogenez-audit-rechecked.xlsx",
+  "positions": 48,
+  "details": 24,
+  "sources": 59,
+  "sheets": [
+    {
+      "sheet": "Перепроверка",
+      "dataRows": 48,
+      "range": "A5:M53",
+      "links": 87
+    },
+    {
+      "sheet": "Детали блоков",
+      "dataRows": 24,
+      "range": "A5:H29",
+      "links": 47
+    },
+    {
+      "sheet": "Источники",
+      "dataRows": 59,
+      "range": "A5:I64",
+      "links": 59
+    },
+    {
+      "sheet": "Метод",
+      "dataRows": 15,
+      "range": "A5:B20",
+      "links": 0
+    }
+  ],
+  "nativeHyperlinks": 193,
+  "sourceFilesUnchanged": true,
+  "sha256": "69a4f971e358880b27d2accc750959cc711185516e85c013f90e5c157ceec156",
+  "checks": "Все значения XLSX совпадают с моделью; ID, 24 подпункта, источники, якоря и хеши исходных файлов проверены. XML валиден, фильтры и закреплённые строки есть."
+}

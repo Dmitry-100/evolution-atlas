@@ -99,7 +99,7 @@ describe("editorial science copy", () => {
     expect(copy).toContain("Homo sapiens находится на выделенной ветви");
     expect(copy).toContain("Почти общий язык кодонов");
     expect(copy).toContain("не первый организм");
-    expect(copy).toContain("не один сад Эдема");
+    expect(copy).toContain("одной из поддержанных данными моделей");
   });
 
   it("does not bring back audited repetitive portal phrasing", () => {
