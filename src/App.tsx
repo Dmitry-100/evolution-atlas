@@ -7,7 +7,7 @@ import {
   Routes,
   useLocation,
   useNavigate,
-  useParams,
+  Navigate,
 } from "react-router-dom";
 import {
   BookOpen,
@@ -379,11 +379,11 @@ function AppSurface() {
               />
               <Route
                 path="/materials/:fileName"
-                element={<LegacyMaterialRedirect />}
+                element={<Navigate to="/materials" replace />}
               />
               <Route
                 path="/materials/covers/:fileName"
-                element={<LegacyMaterialRedirect cover />}
+                element={<Navigate to="/materials" replace />}
               />
               <Route
                 path={publicRoutePath("sources")}

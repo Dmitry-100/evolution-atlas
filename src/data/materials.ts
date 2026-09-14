@@ -1,16 +1,3 @@
-export type PortalMaterial = {
-  id: string;
-  titleRu: string;
-  subtitleRu: string;
-  audienceRu: string;
-  slideCount: number;
-  coverSrc: string;
-  pdfHref: string;
-  summaryRu: string;
-  highlightsRu: string[];
-  tags: string[];
-};
-
 export const READING_TOPICS = [
   { id: "human", labelRu: "Человек" },
   { id: "genetics", labelRu: "Генетика" },
@@ -55,97 +42,8 @@ export type MuseumRecommendation = {
   whyVisitRu: string;
 };
 
-const MATERIAL_ASSET_ROOT = "/assets/materials";
 const BOOK_ASSET_ROOT = "/assets/images/books";
 const WATCH_ASSET_ROOT = "/assets/images/watch";
-
-export const PORTAL_MATERIALS: PortalMaterial[] = [
-  {
-    id: "path-from-cell-to-human",
-    titleRu: "Путь от клетки к человеку",
-    subtitleRu: "Базовая лекция о большой линии эволюции",
-    audienceRu: "для коллег и взрослых без биологической подготовки",
-    slideCount: 18,
-    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/path-from-cell-to-human.jpg`,
-    pdfHref: `${MATERIAL_ASSET_ROOT}/path-from-cell-to-human.pdf`,
-    summaryRu:
-      "Ближе всего к Атласу: 4 млрд лет истории жизни — кислородная революция, выход на сушу, млекопитающие, приматы, Homo sapiens.",
-    highlightsRu: [
-      "показывает всю линию от ранних клеточных систем до Homo sapiens",
-      "объясняет, почему большая часть истории жизни прошла до появления приматов",
-      "показывает на одной шкале кислород, позвоночник, легкие, теплокровность и мозг",
-    ],
-    tags: ["базовый маршрут", "эволюция человека", "атлас"],
-  },
-  {
-    id: "six-planet-apocalypses",
-    titleRu: "Шесть апокалипсисов планеты",
-    subtitleRu: "Глобальные вымирания, причины и последствия",
-    audienceRu: "для раздела о кризисах биосферы",
-    slideCount: 18,
-    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/six-planet-apocalypses.jpg`,
-    pdfHref: `${MATERIAL_ASSET_ROOT}/six-planet-apocalypses.pdf`,
-    summaryRu:
-      "Готовая лекция для усиления страницы о вымираниях: ордовикское, девонское, пермское, триасово-юрское, мел-палеогеновое и современный кризис биоразнообразия.",
-    highlightsRu: [
-      "разбирает шесть крупных кризисов биоразнообразия, включая современный",
-      "показывает, что вымирания не обнуляли жизнь, а меняли состав экосистем",
-      "объясняет, почему после кризисов освобождались ниши для новых ветвей",
-    ],
-    tags: ["вымирания", "биосфера", "кризисы"],
-  },
-  {
-    id: "cell-to-human-kids",
-    titleRu: "От клетки до человека: детская версия",
-    subtitleRu: "Простое объяснение для детей и новичков",
-    audienceRu: "для детей примерно 12 лет и семейного просмотра",
-    slideCount: 12,
-    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/cell-to-human-kids.jpg`,
-    pdfHref: `${MATERIAL_ASSET_ROOT}/cell-to-human-kids.pdf`,
-    summaryRu:
-      "Детский вход в Атлас: клетки, митохондрии, Tiktaalik, рептилии, млекопитающие, приматы, первые Homo и культурное наследие.",
-    highlightsRu: [
-      "простым языком объясняет, как маленькие изменения накапливаются в большой истории",
-      "помогает детям увидеть связь между рыбой, четвероногими, млекопитающими и человеком",
-      "подходит как короткая семейная лекция перед основным Атласом",
-    ],
-    tags: ["детская версия", "простым языком", "новичкам"],
-  },
-  {
-    id: "homo-luca-sapiens",
-    titleRu: "Эволюция Homo: от LUCA к sapiens",
-    subtitleRu: "Продвинутый слой о молекулярной и когнитивной эволюции",
-    audienceRu: "для подготовленной аудитории",
-    slideCount: 18,
-    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/homo-luca-sapiens.jpg`,
-    pdfHref: `${MATERIAL_ASSET_ROOT}/homo-luca-sapiens.pdf`,
-    summaryRu:
-      "Плотная научная презентация: симбиогенез, генетическая регуляция, неокортекс, диета, язык, когнитивные функции и будущее Homo sapiens.",
-    highlightsRu: [
-      "идет глубже базового маршрута: от LUCA и митохондрий до нервной системы",
-      "связывает молекулярную эволюцию с мозгом, диетой, языком и культурой",
-      "подходит тем, кому после Атласа хочется более плотного научного слоя",
-    ],
-    tags: ["LUCA", "генетика", "мозг", "продвинутый"],
-  },
-  {
-    id: "evolutionary-advantage-genes-behavior",
-    titleRu: "Эволюционная выгода: гены и поведение",
-    subtitleRu: "Родственный отбор, мемы, фенотип и поведение",
-    audienceRu: "для отдельной лекции после базового атласа",
-    slideCount: 12,
-    coverSrc: `${MATERIAL_ASSET_ROOT}/covers/evolutionary-advantage-genes-behavior.jpg`,
-    pdfHref: `${MATERIAL_ASSET_ROOT}/evolutionary-advantage-genes-behavior.pdf`,
-    summaryRu:
-      "Материал про эволюционную логику поведения: репликаторы, альтруизм, родственный отбор, расширенный фенотип, культурная эволюция и ограничения геноцентризма.",
-    highlightsRu: [
-      "объясняет, как эволюция меняет поведение",
-      "разбирает родственный отбор, альтруизм, мемы и расширенный фенотип",
-      "хорошо подходит для дискуссии о том, где биология заканчивается и начинается культура",
-    ],
-    tags: ["поведение", "гены", "мемы", "культура"],
-  },
-];
 
 export const READING_RECOMMENDATIONS: ReadingRecommendation[] = [
   {

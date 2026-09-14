@@ -8,7 +8,6 @@ import {
   type TourStop,
 } from "../data/guidedTour";
 import {
-  PORTAL_MATERIALS,
   READING_RECOMMENDATIONS,
   WATCH_RECOMMENDATIONS,
 } from "../data/materials";
@@ -481,20 +480,6 @@ function factsFor(answers: GuidedTourAnswers) {
   }
 }
 
-function materialStep(id: string): TourNextStep {
-  const material = PORTAL_MATERIALS.find((item) => item.id === id);
-  if (!material) {
-    throw new Error(`Unknown portal material: ${id}`);
-  }
-
-  return {
-    kind: "presentation",
-    labelRu: material.titleRu,
-    href: material.pdfHref,
-    descriptionRu: material.subtitleRu,
-  };
-}
-
 function readingStep(id: string): TourNextStep {
   const book = READING_RECOMMENDATIONS.find((item) => item.id === id);
   if (!book) {
@@ -541,7 +526,7 @@ function nextStepsFor(answers: GuidedTourAnswers): TourNextStep[] | undefined {
   switch (answers.intent) {
     case "overview":
       return [
-        materialStep("path-from-cell-to-human"),
+        pageStep("Атлас эволюции", "/", "Вернитесь к шкале времени и карточкам этапов."),
         watchStep("photon-2017"),
         pageStep(
           "Проверить себя",
@@ -562,20 +547,20 @@ function nextStepsFor(answers: GuidedTourAnswers): TourNextStep[] | undefined {
       ];
     case "ancestors":
       return [
-        materialStep("path-from-cell-to-human"),
-        materialStep("homo-luca-sapiens"),
+        pageStep("Атлас эволюции", "/", "Вернитесь к шкале времени и карточкам этапов."),
+        readingStep("markov-human-evolution"),
         watchStep("drobyshevsky-lectures"),
       ];
     case "child":
       return [
-        materialStep("cell-to-human-kids"),
+        pageStep("Карта признаков", "/body-map", "Рассмотрите знакомые черты тела и их эволюционную историю."),
         pageStep(
           "Проверить себя",
           "/quiz",
           "Несколько вопросов закрепят историю без ощущения контрольной.",
           "quiz",
         ),
-        materialStep("path-from-cell-to-human"),
+        pageStep("Атлас эволюции", "/", "Вернитесь к шкале времени и карточкам этапов."),
       ];
     case "origin":
       return [
@@ -585,7 +570,7 @@ function nextStepsFor(answers: GuidedTourAnswers): TourNextStep[] | undefined {
       ];
     case "dinosaurs":
       return [
-        materialStep("six-planet-apocalypses"),
+        pageStep("Глобальные вымирания", "/extinctions", "Изучите причины кризисов и свидетельства изменений биосферы."),
         pageStep(
           "Источники по динозаврам",
           "/sources",
@@ -595,9 +580,9 @@ function nextStepsFor(answers: GuidedTourAnswers): TourNextStep[] | undefined {
       ];
     case "presenter":
       return [
-        materialStep("cell-to-human-kids"),
-        materialStep("path-from-cell-to-human"),
-        materialStep("six-planet-apocalypses"),
+        pageStep("Карта признаков", "/body-map", "Рассмотрите знакомые черты тела и их эволюционную историю."),
+        pageStep("Атлас эволюции", "/", "Вернитесь к шкале времени и карточкам этапов."),
+        pageStep("Глобальные вымирания", "/extinctions", "Изучите причины кризисов и свидетельства изменений биосферы."),
       ];
     case "custom":
       if (/жизн|происхожд|рнк-мир|клет/i.test(answers.freeText ?? "")) {
@@ -609,13 +594,13 @@ function nextStepsFor(answers: GuidedTourAnswers): TourNextStep[] | undefined {
       }
       if (/динозавр|птиц/i.test(answers.freeText ?? "")) {
         return [
-          materialStep("six-planet-apocalypses"),
+          pageStep("Глобальные вымирания", "/extinctions", "Изучите причины кризисов и свидетельства изменений биосферы."),
           pageStep("Источники по динозаврам", "/sources", "Проверьте ссылки по динозаврам, птицам и вымираниям."),
           watchStep("photon-2017"),
         ];
       }
       return [
-        materialStep("path-from-cell-to-human"),
+        pageStep("Атлас эволюции", "/", "Вернитесь к шкале времени и карточкам этапов."),
         readingStep("markov-human-evolution"),
         pageStep(
           "Проверить себя",
@@ -716,7 +701,7 @@ const PAGE_NARRATION_BY_ID: Record<string, string> = {
   "stage-after-kpg":
     "После K-Pg-кризиса мир не стал пустым, но освободил множество экологических мест. Маленькие млекопитающие, которые раньше жили в тени крупных динозавровых экосистем, начали быстро занимать новые роли. Никто не был назначен победителем заранее - просто после катастрофы освободилось место.",
   "page-materials":
-    "В материалах собраны PDF, книги и видео, которые можно показать другому человеку. Здесь легко выбрать глубину рассказа - короткую семейную версию, взрослый обзор или подробный научный маршрут.",
+    "В материалах собраны книги, музеи и видео для продолжения знакомства с эволюцией. Выберите тему и сопоставляйте рассказ с научными источниками портала.",
   "page-about":
     "Прежде чем показывать факты, полезно понять замысел портала. Здесь не лозунги и не лестница к человеку, а дерево родства, где наша линия - одна из многих. Это хорошая первая остановка для тех, кто собирается объяснять тему другим.",
   "page-sources":
@@ -892,7 +877,7 @@ function lookAtFor(stop: TourStop) {
     "page-dinosaurs":
       "На оси динозавровой ветви видно, где наша линия расходится с линией птиц.",
     "page-materials":
-      "Карточки ведут к PDF, книгам и видео для продолжения.",
+      "Карточки ведут к книгам, музеям и видео для продолжения.",
     "page-about":
       "Обратите внимание на верхний блок “О проекте”: он объясняет, зачем порталу дерево родства.",
     "page-sources":

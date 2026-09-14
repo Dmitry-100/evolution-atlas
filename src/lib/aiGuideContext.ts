@@ -15,7 +15,7 @@ import {
   type EvolutionStage,
   type SourceRef,
 } from "../data/lineage";
-import { PORTAL_MATERIALS, READING_RECOMMENDATIONS } from "../data/materials";
+import { READING_RECOMMENDATIONS } from "../data/materials";
 import { SCIENCE_SOURCE_GROUPS } from "../data/scienceSources";
 import { getStageHref } from "./atlasUrlState";
 import { publicRouteTitle } from "./publicRoutes";
@@ -177,11 +177,6 @@ export function buildDarwinGuideContext(
     ),
   ].join("\n");
 
-  const materialsText = PORTAL_MATERIALS.map(
-    (material) =>
-      `${material.titleRu}: ${material.summaryRu} Подходит: ${material.audienceRu}.`,
-  ).join("\n");
-
   const bodyTraitsText = BODY_TRAIT_LAYERS.map((layer) => {
     const traits = BODY_TRAITS.filter((trait) => trait.layerId === layer.id)
       .slice(0, 8)
@@ -231,8 +226,6 @@ export function buildDarwinGuideContext(
       geneticsText,
       "Карта признаков:",
       bodyTraitsText,
-      "Материалы сайта:",
-      materialsText,
       "Рекомендации для продолжения:",
       booksText,
       "Источники контекста:",
