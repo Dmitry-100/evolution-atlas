@@ -39,6 +39,12 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Install Chromium for production HTML checks
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Verify prerendered production pages
+        run: pnpm e2e:prerender
+
   e2e:
     needs: verify
     runs-on: ubuntu-latest

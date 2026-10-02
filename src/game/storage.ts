@@ -303,6 +303,7 @@ export type LoadResult = {
   issue: "unavailable" | "invalid" | null;
 };
 export function loadGame(storage?: StorageLike): LoadResult {
+  if (!storage && typeof window === "undefined") return { state: null, issue: null };
   try {
     const raw = (storage ?? window.localStorage).getItem(SAVE_KEY);
     if (!raw) return { state: null, issue: null };

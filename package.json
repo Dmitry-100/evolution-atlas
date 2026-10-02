@@ -12,6 +12,7 @@
     "test": "node ./node_modules/vitest/vitest.mjs run",
     "test:watch": "node ./node_modules/vitest/vitest.mjs",
     "e2e": "playwright test",
+    "e2e:prerender": "playwright test --config=playwright.prerender.config.ts",
     "e2e:game": "pnpm build && node scripts/prepare-game-preview.mjs && playwright test --config=playwright.game.config.ts",
     "game:balance": "node scripts/simulate-game-balance.mjs",
     "test:css-compat": "node scripts/assert-css-compat.mjs",

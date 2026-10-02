@@ -296,7 +296,7 @@ function PortalCompanions() {
   );
 }
 
-function AppSurface() {
+export function AppSurface() {
   const { pathname } = useLocation();
   const isGame = pathname === "/game" || pathname === "/game/";
   return (

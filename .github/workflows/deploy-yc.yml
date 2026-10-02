@@ -150,20 +150,24 @@ jobs:
           API_GATEWAY_URL: ${{ secrets.YC_API_GATEWAY_URL }}
         run: |
           test "$(curl --silent --output /dev/null --write-out '%{http_code}' https://atlas.aidms.ru/)" = "200"
-          curl --fail --silent https://atlas.aidms.ru/ | grep -q 'rel="canonical" href="https://atlas.aidms.ru/"'
+          PRODUCTION_HOME_HTML="$RUNNER_TEMP/production-home.html"
+          curl --fail --silent https://atlas.aidms.ru/ --output "$PRODUCTION_HOME_HTML"
+          grep -q 'rel="canonical" href="https://atlas.aidms.ru/"' "$PRODUCTION_HOME_HTML"
           jq -r '.[].path' config/public-routes.json | while read -r route
           do
-            test "$(curl --silent --output /dev/null --write-out '%{http_code}' "https://atlas.aidms.ru${route}")" = "200"
+            ROUTE_HTML="$RUNNER_TEMP/production-route.html"
+            curl --fail --silent "https://atlas.aidms.ru${route}" --output "$ROUTE_HTML"
+            grep -q 'data-seo-prerender="full"' "$ROUTE_HTML"
             EXPECTED_CANONICAL="https://atlas.aidms.ru${route}"
             if [ "$route" != "/" ]; then
-              curl --fail --silent "https://atlas.aidms.ru${route}" | grep -q "rel=\"canonical\" href=\"${EXPECTED_CANONICAL}\""
+              grep -q "rel=\"canonical\" href=\"${EXPECTED_CANONICAL}\"" "$ROUTE_HTML"
             fi
           done
           curl --fail --silent https://atlas.aidms.ru/robots.txt | grep -q 'Sitemap: https://atlas.aidms.ru/sitemap.xml'
           curl --fail --silent https://atlas.aidms.ru/sitemap.xml | grep -q '<loc>https://atlas.aidms.ru/genetics</loc>'
           HTML_CACHE=$(curl --silent --head https://atlas.aidms.ru/ | tr -d '\r' | awk 'BEGIN{IGNORECASE=1} /^cache-control:/{print substr($0,16)}')
           echo "$HTML_CACHE" | grep -Eqi 'no-cache|must-revalidate'
-          HASHED_ASSET=$(curl --fail --silent https://atlas.aidms.ru/ | grep -Eo '/assets/[^" ]+\.(js|css)' | head -1)
+          HASHED_ASSET=$(grep -Eo '/assets/[^" ]+\.(js|css)' "$PRODUCTION_HOME_HTML" | head -1)
           ASSET_CACHE=$(curl --silent --head "https://atlas.aidms.ru${HASHED_ASSET}" | tr -d '\r' | awk 'BEGIN{IGNORECASE=1} /^cache-control:/{print substr($0,16)}')
           echo "$ASSET_CACHE" | grep -q 'max-age=31536000'
           echo "$ASSET_CACHE" | grep -q 'immutable'

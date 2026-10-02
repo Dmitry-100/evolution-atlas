@@ -26,7 +26,9 @@ export function MigrationGlobe(props: Props) {
     "loading",
   );
   const [playing, setPlaying] = useState(
-    () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () =>
+      typeof window !== "undefined" &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
   const playingRef = useRef(playing);
   useEffect(() => {
