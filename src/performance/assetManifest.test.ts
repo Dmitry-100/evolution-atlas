@@ -6,11 +6,11 @@ describe("build-time raster manifest", () => {
     const manifest = createRasterAssetManifest("public");
 
     expect(
-      manifest["/assets/images/cladogram/tree-of-life-poster.avif"],
-    ).toMatch(/tree-of-life-poster\.[a-f0-9]{12}\.avif$/);
+      manifest["/assets/images/traits/body-plan.avif"],
+    ).toMatch(/body-plan\.[a-f0-9]{12}\.avif$/);
     expect(
-      manifest["/assets/images/cladogram/tree-of-life-poster.png"],
-    ).toMatch(/tree-of-life-poster\.[a-f0-9]{12}\.png$/);
+      manifest["/assets/images/traits/body-plan.png"],
+    ).toMatch(/body-plan\.[a-f0-9]{12}\.png$/);
     expect(
       manifest["/assets/images/social/evolution-atlas-preview-v2.jpg"],
     ).toBeUndefined();

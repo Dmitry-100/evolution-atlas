@@ -1,0 +1,390 @@
+[
+  {
+    "slide": 1,
+    "id": "cover",
+    "title": "Динозавр\nво дворе",
+    "time": "00:00–01:00",
+    "images": [
+      {
+        "key": "river",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/timeline-river-evolution-21-9.png"
+      }
+    ]
+  },
+  {
+    "slide": 2,
+    "id": "mystery",
+    "title": "Кто здесь динозавр?",
+    "time": "01:00–05:00",
+    "images": [
+      {
+        "key": "theropod",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/generated-branch/theropods.jpg"
+      },
+      {
+        "key": "shoebill",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/modern-birds.jpg"
+      },
+      {
+        "key": "chimp",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/chimpanzees-branch.jpg"
+      },
+      {
+        "key": "sapiens",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/generated-homo-sapiens.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 3,
+    "id": "early-life",
+    "title": "Когда ещё\nне было\nдинозавров",
+    "time": "05:00–07:00",
+    "images": [
+      {
+        "key": "cells",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/generated-atlas/cell-lines.png"
+      }
+    ]
+  },
+  {
+    "slide": 4,
+    "id": "sapiens",
+    "title": "Когда\nпоявились мы?",
+    "time": "07:00–09:00",
+    "images": [
+      {
+        "key": "sapiens",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/generated-homo-sapiens.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 5,
+    "id": "day",
+    "title": "Если история жизни — сутки…",
+    "time": "09:00–12:00",
+    "images": [
+      {
+        "key": "river",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/timeline-river-evolution-21-9.png"
+      }
+    ]
+  },
+  {
+    "slide": 6,
+    "id": "backbone",
+    "title": "У кого ещё\nесть позвоночник?",
+    "time": "12:00–14:00",
+    "images": [
+      {
+        "key": "body",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/traits/body-plan.png"
+      }
+    ]
+  },
+  {
+    "slide": 7,
+    "id": "jaws",
+    "title": "Челюсти:\nчто они умеют?",
+    "time": "14:00–16:00",
+    "images": [
+      {
+        "key": "jaws",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/generated-atlas/jawed-fish.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 8,
+    "id": "limbs",
+    "title": "Где наши\nчетыре конечности?",
+    "time": "16:00–18:00",
+    "images": [
+      {
+        "key": "movement",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/traits/movement.png"
+      }
+    ]
+  },
+  {
+    "slide": 9,
+    "id": "tiktaalik",
+    "title": "Рыба? Что-то ещё?",
+    "time": "18:00–20:00",
+    "images": [
+      {
+        "key": "tiktaalik",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/generated-atlas/tiktaalik.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 10,
+    "id": "beetles",
+    "title": "Кого легче\nзаметить?",
+    "time": "20:00–22:00",
+    "images": [
+      {
+        "key": "cover",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/cover-v4.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 11,
+    "id": "generation1",
+    "title": "Первое\nпоколение",
+    "time": "22:00–25:00",
+    "images": [
+      {
+        "key": "refuge",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/refuge-v4.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 12,
+    "id": "generation2",
+    "title": "Что изменилось?",
+    "time": "25:00–28:00",
+    "images": [
+      {
+        "key": "variation",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/discoveries/variation-v5.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 13,
+    "id": "snow",
+    "title": "А если фон\nстанет белым?",
+    "time": "28:00–30:00",
+    "images": [
+      {
+        "key": "mosaic",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/mosaic-v4.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 14,
+    "id": "selection",
+    "title": "Хоть один жук\nперекрасился?",
+    "time": "30:00–32:00",
+    "images": [
+      {
+        "key": "bottleneck",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/discoveries/bottleneck-v5.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 15,
+    "id": "feathers",
+    "title": "Перья — только для полёта?",
+    "time": "32:00–34:00",
+    "images": [
+      {
+        "key": "feathers",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/generated-branch/feathered-dinosaurs.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 16,
+    "id": "archaeopteryx",
+    "title": "Что здесь от птицы?",
+    "time": "34:00–36:00",
+    "images": [
+      {
+        "key": "archaeopteryx",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/generated-branch/archaeopteryx.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 17,
+    "id": "birds",
+    "title": "Птицы — живые динозавры",
+    "time": "36:00–38:00",
+    "images": [
+      {
+        "key": "birds",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/generated-branch/modern-birds.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 18,
+    "id": "extinction",
+    "title": "Что случилось с едой?",
+    "time": "38:00–40:00",
+    "images": [
+      {
+        "key": "extinction",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/extinctions/cretaceous-paleogene.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 19,
+    "id": "mystery-again",
+    "title": "Кто изменил свой ответ?",
+    "time": "40:00–42:00",
+    "images": [
+      {
+        "key": "theropod",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/generated-branch/theropods.jpg"
+      },
+      {
+        "key": "shoebill",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/modern-birds.jpg"
+      },
+      {
+        "key": "chimp",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/chimpanzees-branch.jpg"
+      },
+      {
+        "key": "sapiens",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/generated-homo-sapiens.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 20,
+    "id": "family",
+    "title": "Один родственник\nпроизошёл\nот другого?",
+    "time": "42:00–44:00",
+    "images": [
+      {
+        "key": "social",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/traits/brain-social.png"
+      }
+    ]
+  },
+  {
+    "slide": 21,
+    "id": "chimp",
+    "title": "Шимпанзе —\nнаш предок?",
+    "time": "44:00–46:00",
+    "images": [
+      {
+        "key": "chimp",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/chimpanzees-branch.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 22,
+    "id": "branches",
+    "title": "Почему обезьяны\nещё существуют?",
+    "time": "46:00–48:00",
+    "images": [
+      {
+        "key": "tree",
+        "path": "/Users/Sotnikov/code/evolution-atlas/output/playwright/evolution-tree.png"
+      }
+    ]
+  },
+  {
+    "slide": 23,
+    "id": "evidence",
+    "title": "Нас там не было. Откуда мы знаем?",
+    "time": "48:00–50:00",
+    "images": [
+      {
+        "key": "fossil",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/placentals.jpg"
+      },
+      {
+        "key": "dna",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/education/genetics-dna-generated.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 24,
+    "id": "quiz-beetles",
+    "title": "Жуки захотели\nспрятаться\nи перекрасились",
+    "time": "50:00–52:00",
+    "images": [
+      {
+        "key": "cover",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/cards/cover-v4.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 25,
+    "id": "quiz-chimp",
+    "title": "Современный\nшимпанзе —\nпредок человека",
+    "time": "52:00–53:00",
+    "images": [
+      {
+        "key": "chimp",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/source-backed/chimpanzees-branch.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 26,
+    "id": "quiz-birds",
+    "title": "Голубь —\nдинозавр",
+    "time": "53:00–54:00",
+    "images": [
+      {
+        "key": "birds",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/generated-branch/modern-birds.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 27,
+    "id": "quiz-goal",
+    "title": "У эволюции\nбыл план\nсоздать человека",
+    "time": "54:00–55:00",
+    "images": [
+      {
+        "key": "river",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/timeline-river-evolution-21-9.png"
+      }
+    ]
+  },
+  {
+    "slide": 28,
+    "id": "tell",
+    "title": "Что ты теперь можешь объяснить?",
+    "time": "55:00–56:00",
+    "images": [
+      {
+        "key": "beagle",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/darwin-beagle-v4.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 29,
+    "id": "questions",
+    "title": "Что ещё хочется узнать?",
+    "time": "56:00–59:00",
+    "images": [
+      {
+        "key": "islands",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/game/archipelago.jpg"
+      }
+    ]
+  },
+  {
+    "slide": 30,
+    "id": "finish",
+    "title": "Динозавр\nпо дороге домой",
+    "time": "59:00–60:00",
+    "images": [
+      {
+        "key": "birds",
+        "path": "/Users/Sotnikov/code/evolution-atlas/public/assets/images/dinosaurs/generated-branch/modern-birds.jpg"
+      }
+    ]
+  }
+]

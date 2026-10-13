@@ -73,10 +73,6 @@
     font-size: 0.88rem;
   }
 
-  .atlas-home .page-header-description {
-    max-width: 100%;
-  }
-
   .eyebrow,
   .kicker {
     margin: 0;
@@ -570,15 +566,12 @@
   .theory-bridge-band,
   .wow-facts-band article,
   .dinosaur-facts-band article,
-  .tree-of-life-poster,
   .cladogram-panel,
   .cladogram-inspector,
   .trait-accumulator,
   .quiz-panel,
   .document-page,
   .source-card,
-  .poster-download-card,
-  .material-card,
   .about-card,
   .about-note,
   .extinction-overview article,
@@ -1404,6 +1397,22 @@
   .deep-stage-dot:focus,
   .deep-stage-dot:focus-visible {
     outline: none;
+  }
+
+  .deep-stage-dot--comparison {
+    bottom: calc(4.7rem + 78px + var(--comparison-lane) * 40px);
+    height: 36px;
+  }
+
+  .deep-stage-dot--comparison::before {
+    position: absolute;
+    top: calc(100% - 12px);
+    left: 50%;
+    width: 1px;
+    height: calc(78px + var(--comparison-lane) * 40px);
+    background: rgba(232, 211, 164, 0.3);
+    content: "";
+    pointer-events: none;
   }
 
   .deep-stage-dot span {
@@ -2568,6 +2577,13 @@
     align-items: center;
     color: var(--gold);
     font-weight: 800;
+  }
+
+  .stage-date-note,
+  .stage-trait-date-note {
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.6;
   }
 
   .inheritance-box ul {

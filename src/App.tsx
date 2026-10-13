@@ -179,26 +179,6 @@ function getNavItemFromTabIndex(tabIndex: number | null) {
   return navItems.find((item) => item.to === tab.href) ?? null;
 }
 
-function LegacyMaterialRedirect({ cover = false }: { cover?: boolean }) {
-  const { fileName } = useParams();
-  const assetPath = fileName
-    ? `/assets/materials/${cover ? "covers/" : ""}${fileName}`
-    : "/materials";
-
-  useEffect(() => {
-    window.location.replace(assetPath);
-  }, [assetPath]);
-
-  return (
-    <section className="document-page">
-      <p>
-        Открываем материал. Если переход не сработал,{" "}
-        <a href={assetPath}>откройте его вручную</a>.
-      </p>
-    </section>
-  );
-}
-
 function getNavIndex(pathname: string) {
   const matchingIndex = navItems.findIndex((item) => {
     if (item.to === "/") return pathname === "/";
@@ -316,7 +296,7 @@ function PortalCompanions() {
   );
 }
 
-function AppSurface() {
+export function AppSurface() {
   const { pathname } = useLocation();
   const isGame = pathname === "/game" || pathname === "/game/";
   return (

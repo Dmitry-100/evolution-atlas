@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';
+import {Presentation,PresentationFile} from '@oai/artifact-tool';
+const p=Presentation.create({slideSize:{width:1280,height:720}});
+const s=p.slides.add();s.background.fill='#0C1718';
+const b=await fs.readFile('public/assets/images/dinosaurs/generated-branch/modern-birds.jpg');
+s.images.add({blob:b,contentType:'image/jpeg',position:{left:560,top:0,width:720,height:720},fit:'cover'});
+const t=s.shapes.add({geometry:'textbox',position:{left:48,top:140,width:500,height:300},fill:'none',line:{fill:'none',width:0}});t.text='Кто из них\nдинозавр?';t.text.style={typeface:'Trebuchet MS',fontSize:68,bold:true,color:'#F4EAD8',insets:0,wrap:'none',autoFit:'none'};
+const l=s.shapes.add({geometry:'textbox',position:{left:48,top:646,width:400,height:36},fill:'none',line:{fill:'none',width:0}});l.text='Открыть портал';l.text.style={typeface:'Trebuchet MS',fontSize:24,color:'#E2BB70',insets:0};l.text.get('Открыть портал').link={uri:'https://atlas.aidms.ru/dinosaurs',isExternal:true};
+s.speakerNotes.text='00:00–01:00\nСегодня мы начинаем путешествие.';
+await (await PresentationFile.exportPptx(p)).save('.codex-build/evolution-talk/probe.pptx');
+await fs.writeFile('.codex-build/evolution-talk/probe.png',new Uint8Array(await (await p.export({slide:s,format:'png',scale:1})).arrayBuffer()));
+console.log('probe ready');

@@ -29,6 +29,7 @@ export type BodyTrait = {
   layerId: BodyTraitLayerId;
   stageId: EvolutionStage["id"];
   traitRu: string;
+  kind?: "environment";
   titleRu: string;
   noteRu: string;
   anchor: BodyTraitAnchor;
@@ -156,6 +157,7 @@ export const BODY_TRAITS: BodyTrait[] = [
   },
   {
     id: "cells-oxygen",
+    kind: "environment",
     layerId: "cells-energy",
     stageId: "cyanobacteria",
     traitRu: "кислородная атмосфера",

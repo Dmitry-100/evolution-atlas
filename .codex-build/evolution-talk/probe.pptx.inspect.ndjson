@@ -1,0 +1,13 @@
+{"kind":"deck","id":"pr/ozrx55","name":"Deck"}
+{"kind":"layout","id":"ly/lcz6l8je","editable":false,"name":"Master","type":"master"}
+{"kind":"layout","id":"ly/xkb65gva","editable":false,"name":"Title Slide","type":"title","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"}]}
+{"kind":"layout","id":"ly/pwb6pwfi","editable":false,"name":"Section Header","type":"sectionHeader","placeholders":[{"name":"title","type":"title"}]}
+{"kind":"layout","id":"ly/3yhgzylk","editable":false,"name":"Title and Body","type":"tx","placeholders":[{"name":"title","type":"title"},{"name":"body","type":"body"}]}
+{"kind":"layout","id":"ly/gbehcnyl","editable":false,"name":"Title and Two Column","type":"twoColTx","placeholders":[{"name":"title","type":"title"},{"name":"Left column","type":"body"},{"name":"Right column","type":"body"}]}
+{"kind":"layout","id":"ly/kb2hkrm5","editable":false,"name":"Title and One Column","type":"tx","placeholders":[{"name":"title","type":"title"},{"name":"body","type":"body"}]}
+{"kind":"layout","id":"ly/ahs7ylwr","editable":false,"name":"Blank","type":"blank"}
+{"kind":"slide","id":"sl/yyd78q","slideIndex":0,"layout":{"id":"ly/ahs7ylwr","name":"Blank"},"title":"Кто из них","textShapes":2,"backgroundColor":"rgba(12,23,24,1)"}
+{"kind":"textbox","id":"sh/hg7ih0jy","slideIndex":0,"position":{"left":48,"top":140,"width":500,"height":300},"text":"Кто из них\nдинозавр?","geometry":"rect","lineWidth":0,"style":{"fontSize":68,"typeface":"Trebuchet MS","color":"#F4EAD8","bold":true,"alignment":"left"}}
+{"kind":"textbox","id":"sh/gfehov2d","slideIndex":0,"position":{"left":48,"top":646,"width":400,"height":36},"text":"Открыть портал","geometry":"rect","lineWidth":0,"style":{"fontSize":24,"typeface":"Trebuchet MS","color":"#E2BB70","alignment":"left"}}
+{"kind":"image","id":"im/36h03a9c","slideIndex":0,"position":{"left":560,"top":0,"width":720,"height":720},"fit":"cover","name":""}
+{"kind":"notes","id":"nt/yyd78q","slideIndex":0,"text":"00:00–01:00\nСегодня мы начинаем путешествие."}

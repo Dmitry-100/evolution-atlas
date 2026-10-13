@@ -178,6 +178,11 @@ export function DeepTimeAxis({
     () => extinctions.filter((event) => event.ageMa > 0),
     [extinctions],
   );
+  // Late Homo dates are too close to share a hit area on the full timeline.
+  // Keep their date-based x coordinates and lift comparative branches into rows.
+  const recentComparisons = stages.filter(
+    (stage) => stage.lineageRole === "side-branch" && stage.ageMa < 1,
+  );
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.key === "ArrowRight" && canStepNext) {
@@ -354,18 +359,25 @@ export function DeepTimeAxis({
         >
           {stages.map((stage) => {
             const position = visualTimePosition(stage.ageMa) * 100;
+            const comparisonLane = recentComparisons.findIndex(
+              (comparison) => comparison.id === stage.id,
+            );
             const isActive =
               activeItem.kind === "stage" && stage.id === activeItem.stage.id;
             return (
               <button
                 key={stage.id}
-                className={
-                  isActive ? "deep-stage-dot is-active" : "deep-stage-dot"
-                }
+                className={`deep-stage-dot${isActive ? " is-active" : ""}${comparisonLane >= 0 ? " deep-stage-dot--comparison" : ""}`}
                 data-tour-stop-id={`stage-${stage.id}`}
-                style={{ left: `${position}%` }}
+                style={
+                  {
+                    left: `${position}%`,
+                    "--comparison-lane": Math.max(0, comparisonLane),
+                  } as CSSProperties
+                }
                 type="button"
                 aria-label={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
+                title={`${stage.titleRu}, ${formatAgeRu(stage.ageMa)}`}
                 aria-current={isActive ? "true" : undefined}
                 onClick={() => onActivateItem(toStageTimelineItem(stage))}
               >

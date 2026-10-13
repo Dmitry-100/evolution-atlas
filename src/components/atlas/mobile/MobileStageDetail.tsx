@@ -1,13 +1,13 @@
 import { useState, type ReactNode } from "react";
 import { Maximize2, ScanSearch } from "lucide-react";
 import { Link } from "react-router-dom";
-import type { EvolutionStage } from "../../../data/lineage";
+import { STAGE_AGE_KIND_LABELS, STAGE_TRAIT_DATE_NOTE, type EvolutionStage } from "../../../data/lineage";
 import { formatAgeRu } from "../../../lib/timeline";
 import { ImageLightbox } from "../../ui/image-lightbox";
 import { OptimizedImage } from "../../ui/optimized-image";
 
 type MobileStageDetailProps = {
-  stage: Omit<EvolutionStage, "eraId" | "lineageRole">;
+  stage: Omit<EvolutionStage, "eraId" | "lineageRole" | "ageKind"> & Partial<Pick<EvolutionStage, "ageKind">>;
   className?: string;
   afterContent?: ReactNode;
   lightboxAriaLabel?: string;
@@ -43,10 +43,12 @@ export function MobileStageDetail({
         </span>
       </button>
       <div className="mobile-stage-detail-copy">
-        <span>{formatAgeRu(stage.ageMa)}</span>
+        <span>{STAGE_AGE_KIND_LABELS[stage.ageKind ?? "milestone"]} · {formatAgeRu(stage.ageMa)}</span>
         <h3>{stage.titleRu}</h3>
         <p className="latin">{stage.latin}</p>
         <p>{stage.summaryRu}</p>
+        {stage.ageNoteRu ? <p>{stage.ageNoteRu}</p> : null}
+        <p>{STAGE_TRAIT_DATE_NOTE}</p>
         <div className="mobile-stage-traits" aria-label="Карта признаков">
           {featuredTraits.map((trait) => (
             <span key={trait}>{trait}</span>
@@ -59,6 +61,7 @@ export function MobileStageDetail({
           <ScanSearch aria-hidden="true" size={15} />
           Карта признаков
         </Link>
+        {stage.environmentalEffects ? <p>Изменения среды: {stage.environmentalEffects.join(", ")}.</p> : null}
         <p className="mobile-stage-why">{stage.whyMattersRu}</p>
         {afterContent}
       </div>

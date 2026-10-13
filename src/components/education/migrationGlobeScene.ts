@@ -209,6 +209,9 @@ export function createMigrationGlobe(
       new THREE.MeshBasicMaterial({ color: "#e9c784" }),
     );
     dot.position.copy(points.at(-1)!);
+    line.visible = route.kind === "migration";
+    halo.visible = route.kind === "migration";
+    dot.visible = route.kind === "migration";
     scene.add(line, halo, dot);
     return { route, curve, line, halo, dot };
   });
@@ -274,7 +277,7 @@ export function createMigrationGlobe(
       const active = route.id === id;
       line.material.opacity = active ? 1 : 0.3;
       line.material.color.set(active ? "#ffdc91" : "#bfa775");
-      halo.visible = active;
+      halo.visible = active && route.kind === "migration";
       dot.material.color.set(active ? "#fff0bd" : "#bfa775");
     });
     const route = HUMAN_MIGRATION_ROUTES.find((item) => item.id === id);

@@ -12,7 +12,7 @@ import "../../styles/pages/migration-globe.css";
 const ROUTE_LABELS: Record<string, { title: string; region: string }> = {
   "african-mosaic": {
     title: "Африканская мозаика",
-    region: "Связанные популяции",
+    region: "Распределение находок",
   },
   "levant-arabia": { title: "Выход из Африки", region: "Левант и Аравия" },
   "southern-asia-sahul": { title: "Южная дуга", region: "Азия → Сахул" },
@@ -78,7 +78,10 @@ export function AfricaOriginMap() {
           >
             <div className="africa-site-meta">
               <span>
-                Маршрут {String(routeIndex + 1).padStart(2, "0")} / 06
+                {activeRoute.kind === "evidence-distribution"
+                  ? "Находки"
+                  : "Маршрут"}{" "}
+                {String(routeIndex + 1).padStart(2, "0")} / 06
               </span>
               <ConfidenceBadge level={activeRoute.confidence} />
             </div>
@@ -165,8 +168,10 @@ export function AfricaOriginMap() {
         ))}
       </div>
       <p className="migration-science-note">
-        Линии показывают предполагаемые направления, а не точные пути. Береговая
-        линия — современная; уровень моря и очертания суши менялись.
+        Африканские точки показывают находки разного возраста, без соединяющего
+        их маршрута. Линии за пределами этой подборки обозначают предполагаемые
+        направления миграций. Береговая линия — современная; уровень моря и
+        очертания суши менялись.
       </p>
     </section>
   );

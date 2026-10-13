@@ -3,7 +3,6 @@ import "../styles/pages/materials.css";
 import { PageHeader } from "../components/ui/PageHeader";
 import {
   BookOpen,
-  ChevronDown,
   ExternalLink,
   Landmark,
   MapPin,

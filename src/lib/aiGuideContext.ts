@@ -1,3 +1,4 @@
+import { STAGE_AGE_KIND_LABELS, STAGE_TRAIT_DATE_NOTE } from "../data/lineage";
 import {
   EVIDENCE_MODULES,
   SCIENTIFIC_THEORY_EXPLAINER,
@@ -98,6 +99,7 @@ function pushCitation(
 function summarizeStage(stage: EvolutionStage) {
   return [
     `Выбранный этап: ${stage.titleRu} (${stage.latin}), ${formatAgeRu(stage.ageMa)}.`,
+    `${STAGE_AGE_KIND_LABELS[stage.ageKind]}. ${stage.ageNoteRu ?? STAGE_TRAIT_DATE_NOTE}`,
     stage.summaryRu,
     `Почему важен: ${stage.whyMattersRu}`,
     `Унаследованные/ключевые признаки: ${stage.inherited.join(", ")}.`,
@@ -179,8 +181,7 @@ export function buildDarwinGuideContext(
 
   const bodyTraitsText = BODY_TRAIT_LAYERS.map((layer) => {
     const traits = BODY_TRAITS.filter((trait) => trait.layerId === layer.id)
-      .slice(0, 8)
-      .map((trait) => `${trait.titleRu} (${trait.stageId})`)
+      .map((trait) => `${trait.titleRu} (${trait.stageId}): ${trait.noteRu}`)
       .join(", ");
 
     return `${layer.titleRu}: ${layer.descriptionRu} Примеры признаков: ${traits}.`;

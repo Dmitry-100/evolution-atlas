@@ -135,7 +135,9 @@ export function GamePage() {
   );
   const [started, setStarted] = useState(false);
   const [setup, setSetup] = useState(false);
-  const [shared] = useState(() => sharedExpedition(window.location.search));
+  const [shared] = useState(() =>
+    sharedExpedition(typeof window === "undefined" ? "" : window.location.search),
+  );
   const [tutorial, setTutorial] = useState<number | null>(null);
   const [selected, setSelected] = useState(0);
   const [cardId, setCardId] = useState<number | null>(null);

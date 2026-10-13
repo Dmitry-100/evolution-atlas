@@ -32,7 +32,7 @@ describe("cladogram builder", () => {
     expect(tree.trunk.at(-1)?.id).toBe("sapiens");
   });
 
-  it("attaches representative, side, and close-relative branches to the nearest older trunk node", () => {
+  it("attaches comparison branches by explicit relationships", () => {
     const tree = buildCladogram(STAGES);
 
     expect(tree.branches.length).toBeGreaterThanOrEqual(25);
@@ -56,6 +56,30 @@ describe("cladogram builder", () => {
       tree.branches.find((branch) => branch.stage?.id === "neanderthals")
         ?.parent.id,
     ).toBe("heidelbergensis");
+  });
+
+  it("preserves topology when evidence dates change and keeps tarsiers outside anthropoids", () => {
+    const tree = buildCladogram(
+      STAGES.map((stage) =>
+        stage.id === "new-world-monkeys" ? { ...stage, ageMa: 25 } : stage,
+      ),
+    );
+    expect(
+      tree.branches.find((branch) => branch.id === "new-world-monkeys")?.parent
+        .id,
+    ).toBe("anthropoids");
+    const tarsiers = tree.branches.find(
+      (branch) => branch.id === "branch-tarsiers",
+    )!;
+    expect(tarsiers.parent.id).toBe("haplorhini");
+    expect(tarsiers.commonAncestor.ageMa).toBeGreaterThanOrEqual(55);
+    expect(tarsiers.commonAncestor.ageLabelRu).toContain(
+      "точная дата неизвестна",
+    );
+    expect(
+      tree.branches.find((branch) => branch.id === "branch-denisovans")
+        ?.commonAncestor.ageMa,
+    ).toBeNull();
   });
 
   it("omits route-only milestone stages from cladogram branches", () => {

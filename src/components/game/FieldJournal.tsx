@@ -340,7 +340,10 @@ export function FieldJournal({
   const [copied, setCopied] = useState(false);
   const [copyFailed, setCopyFailed] = useState(false);
   const mission = missionStatus(state),
-    link = expeditionLink(state, window.location.origin);
+    link = expeditionLink(
+      state,
+      typeof window === "undefined" ? "https://atlas.aidms.ru" : window.location.origin,
+    );
   return (
     <GameDialog
       open={open}

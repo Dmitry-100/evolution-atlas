@@ -20,8 +20,16 @@ import { ImageLightbox } from "../components/ui/image-lightbox";
 import { OptimizedImage } from "../components/ui/optimized-image";
 import { TooltipProvider } from "../components/ui/tooltip";
 import { CURIOSITY_FACT_PAGE_GROUPS } from "../data/curiosityFacts";
-import { sortedStages, type EvolutionStage } from "../data/lineage";
-import { buildCladogram, type CladogramBranch } from "../lib/cladogram";
+import {
+  sortedStages,
+  STAGE_AGE_KIND_LABELS,
+  type EvolutionStage,
+} from "../data/lineage";
+import {
+  buildCladogram,
+  commonAncestorAgeLabel,
+  type CladogramBranch,
+} from "../lib/cladogram";
 import { getStageHref } from "../lib/atlasUrlState";
 import { formatAgeRu } from "../lib/timeline";
 import { lockBodyScroll } from "../lib/bodyScrollLock";
@@ -31,7 +39,7 @@ function getStageFromParams(stageSlug: string | null) {
     sortedStages.find(
       (stage) => stage.slug === stageSlug || stage.id === stageSlug,
     ) ??
-    sortedStages.at(-1) ??
+    sortedStages.find((stage) => stage.id === "sapiens") ??
     sortedStages[0]
   );
 }
@@ -72,10 +80,12 @@ function CladogramInspector({
         <h2 id="cladogram-inspector-title">{inspectorTitle}</h2>
         {latin ? <p className="latin">{latin}</p> : null}
         <p className="cladogram-inspector-age">
-          {branch ? "Разделение ветвей: " : ""}
-          {formatAgeRu(branch?.commonAncestor.ageMa ?? stage.ageMa)}
+          {branch
+            ? commonAncestorAgeLabel(branch.commonAncestor)
+            : `${STAGE_AGE_KIND_LABELS[stage.ageKind]}: ${formatAgeRu(stage.ageMa)}`}
         </p>
         <p className="lead">{branch?.descriptionRu ?? stage.summaryRu}</p>
+        {!branch && stage.ageNoteRu ? <p>{stage.ageNoteRu}</p> : null}
       </div>
       <figure className="cladogram-inspector-media">
         <button
@@ -364,9 +374,10 @@ export function CladogramPage() {
             <div>
               <strong>Как читать дерево</strong>
               <p>
-                Сначала найдите выбранную ветвь, затем смотрите на подписи
-                “общий предок с нами”: они показывают, от какого узла расходятся
-                родственные линии.
+                Узлы объединяют родственные группы и ископаемые примеры.
+                Ископаемый представитель не обязательно был прямым предком
+                следующего. Возраст находки или этапа не равен дате разделения
+                ветвей.
               </p>
             </div>
           </div>

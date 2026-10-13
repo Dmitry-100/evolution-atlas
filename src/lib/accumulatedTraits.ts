@@ -47,7 +47,8 @@ function canContributeToPersonalLine(stage: EvolutionStage, activeStage: Evoluti
     return true;
   }
 
-  return stage.lineageRole !== "side-branch" && stage.lineageRole !== "close-relative";
+  // Cyanobacteria changed our environment; their photosynthesis is not a human trait.
+  return stage.id !== "cyanobacteria" && stage.lineageRole !== "side-branch" && stage.lineageRole !== "close-relative";
 }
 
 function categorizeTrait(trait: string) {
@@ -55,16 +56,26 @@ function categorizeTrait(trait: string) {
   return TRAIT_CATEGORIES.find((category) => category.keywords.some((keyword) => normalized.includes(keyword))) ?? TRAIT_CATEGORIES[1];
 }
 
+// Cutoffs follow the shared lineage, not the age of a side branch's fossil.
+const sharedLineageStageIds: Record<string, string> = {
+  "new-world-monkeys": "anthropoids",
+  "old-world-monkeys": "catarrhini",
+  neanderthals: "heidelbergensis",
+  denisovans: "heidelbergensis",
+};
+
 export function getAccumulatedTraitGroups(stages: EvolutionStage[], activeStage: EvolutionStage): AccumulatedTraitGroup[] {
   const groups = new Map<TraitCategoryId, AccumulatedTraitGroup>();
   const seen = new Set<string>();
+  const sharedStage = stages.find((stage) => stage.id === sharedLineageStageIds[activeStage.id]);
+  const sharedAgeMa = sharedStage?.ageMa ?? activeStage.ageMa;
 
   for (const category of TRAIT_CATEGORIES) {
     groups.set(category.id, { id: category.id, titleRu: category.titleRu, traits: [] });
   }
 
   for (const stage of stages) {
-    if (stage.ageMa < activeStage.ageMa || !canContributeToPersonalLine(stage, activeStage)) {
+    if ((stage.id !== activeStage.id && stage.ageMa < sharedAgeMa) || !canContributeToPersonalLine(stage, activeStage)) {
       continue;
     }
 

@@ -24,7 +24,13 @@
       "Развитие": 4,
       "Оставить": 7
     },
-    "policy": "Свежесть учитывается вместе с качеством метода, объектом датировки и границами вывода. Отсутствие упоминания на Антропогенезе не равно ошибке. Найденная новая гипотеза не равна консенсусу."
+    "policy": "Свежесть учитывается вместе с качеством метода, объектом датировки и границами вывода. Отсутствие упоминания на Антропогенезе не равно ошибке. Найденная новая гипотеза не равна консенсусу.",
+    "implementation": {
+      "date": "2026-09-14",
+      "branch": "codex/factual-accuracy-cleanup",
+      "report": "implementation.md",
+      "publication": "Requested by user on 2026-09-14; deployment outcome is recorded in GitHub Actions"
+    }
   },
   "rows": [
     {
@@ -67,7 +73,7 @@
         "confidence": "Высокая для кода; не оценка всех рёбер",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A02",
@@ -110,7 +116,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A03",
@@ -157,7 +163,7 @@
         "confidence": "Высокая для интерфейса",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A04",
@@ -194,7 +200,7 @@
         "confidence": "Средняя",
         "caveat": "Исследован другой вид того же рода; не переносить все детали анатомии автоматически."
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A05",
@@ -231,7 +237,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Не включено: расширение экспозиции, а не исправление ошибки"
     },
     {
       "id": "A06",
@@ -268,7 +274,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "A07",
@@ -305,7 +311,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A08",
@@ -348,7 +354,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A09",
@@ -391,7 +397,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A10",
@@ -433,7 +439,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A11",
@@ -474,7 +480,7 @@
         "confidence": "Высокая для прочтения текста",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "A12",
@@ -510,7 +516,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "A13",
@@ -553,7 +559,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A14",
@@ -591,7 +597,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A15",
@@ -628,7 +634,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "A16",
@@ -665,7 +671,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A17",
@@ -714,7 +720,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "A18",
@@ -752,7 +758,7 @@
         "confidence": "Средняя",
         "caveat": "Полный текст R05 не изучен; спор о связи натёков, слоя и зубов не разрешён этой проверкой."
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "A19",
@@ -789,7 +795,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "A20",
@@ -836,7 +842,7 @@
         "confidence": "Высокая; редакционная политика",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Не включено: расширение экспозиции, а не исправление ошибки"
     },
     {
       "id": "A21",
@@ -879,7 +885,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Не включено: расширение экспозиции, а не исправление ошибки"
     },
     {
       "id": "A22",
@@ -916,7 +922,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Не включено: расширение экспозиции, а не исправление ошибки"
     },
     {
       "id": "A23",
@@ -958,7 +964,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A24",
@@ -995,7 +1001,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A25",
@@ -1035,7 +1041,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A26",
@@ -1081,7 +1087,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A27",
@@ -1130,7 +1136,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A28",
@@ -1167,7 +1173,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A29",
@@ -1203,7 +1209,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A30",
@@ -1249,7 +1255,7 @@
         "confidence": "Высокая; внутренняя сверка и анатомическая преемственность",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A31",
@@ -1291,7 +1297,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A32",
@@ -1333,7 +1339,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "A33",
@@ -1375,7 +1381,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "D01",
@@ -1419,7 +1425,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "D02",
@@ -1456,7 +1462,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "D03",
@@ -1493,7 +1499,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "D04",
@@ -1530,7 +1536,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "D05",
@@ -1567,7 +1573,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "D06",
@@ -1610,7 +1616,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не внесено"
+      "implementationStatus": "Внесено в рабочую версию 2026-09-14"
     },
     {
       "id": "D07",
@@ -1648,7 +1654,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "D08",
@@ -1685,7 +1691,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "D09",
@@ -1721,7 +1727,7 @@
         "confidence": "Высокая",
         "caveat": ""
       },
-      "implementationStatus": "Не требуется"
+      "implementationStatus": "Сохранено по итогам перепроверки"
     },
     {
       "id": "V01",
@@ -1772,7 +1778,7 @@
         "confidence": "Зависит от подпункта",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "V02",
@@ -1816,7 +1822,7 @@
         "confidence": "Зависит от подпункта",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "V03",
@@ -1867,7 +1873,7 @@
         "confidence": "Зависит от подпункта",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "V04",
@@ -1921,7 +1927,7 @@
         "confidence": "Зависит от подпункта",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     },
     {
       "id": "V05",
@@ -1976,7 +1982,7 @@
         "confidence": "Зависит от подпункта",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Уточнения внесены; подтверждённые положения сохранены 2026-09-14"
     },
     {
       "id": "V06",
@@ -2039,7 +2045,7 @@
         "confidence": "Зависит от подпункта",
         "caveat": ""
       },
-      "implementationStatus": "Отдельное решение"
+      "implementationStatus": "Материал снят целиком по решению пользователя 2026-09-14"
     }
   ],
   "details": [
@@ -2055,7 +2061,8 @@
         "R29",
         "R49"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V01.2",
@@ -2067,7 +2074,8 @@
       "sourceIds": [
         "R31"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V01.3",
@@ -2079,7 +2087,8 @@
       "sourceIds": [
         "R30"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V01.4",
@@ -2091,7 +2100,8 @@
       "sourceIds": [
         "R50"
       ],
-      "confidence": "Недостаточная для фактического вердикта"
+      "confidence": "Недостаточная для фактического вердикта",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V02.1",
@@ -2103,7 +2113,8 @@
       "sourceIds": [
         "R33"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V02.2",
@@ -2115,7 +2126,8 @@
       "sourceIds": [
         "R32"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V02.3",
@@ -2127,7 +2139,8 @@
       "sourceIds": [
         "R19"
       ],
-      "confidence": "Недостаточная для точного механизма"
+      "confidence": "Недостаточная для точного механизма",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V03.1",
@@ -2137,7 +2150,8 @@
       "verdict": "Точные зависимости теплопотерь и стоимости шага не сопровождаются данными или методом. Подпись «Slow-Twitch (Type II)» внутренне конфликтует с соседним «Type I». Нельзя восстановить данные по общему рассказу об erectus.",
       "action": "Исправить конфликт подписей; числовые графики публиковать с источником, единицами и моделью. Не переносить экспериментальные эффекты MSTN на ископаемого человека без исследования.",
       "sourceIds": [],
-      "confidence": "Недостаточная для численных графиков"
+      "confidence": "Недостаточная для численных графиков",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V03.2",
@@ -2150,7 +2164,8 @@
         "R51",
         "R52"
       ],
-      "confidence": "Высокая для различия методов; данных графика нет"
+      "confidence": "Высокая для различия методов; данных графика нет",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V03.3",
@@ -2163,7 +2178,8 @@
         "R34",
         "R53"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V03.4",
@@ -2175,7 +2191,8 @@
       "sourceIds": [
         "R54"
       ],
-      "confidence": "Недостаточная для реконструкции фенотипов"
+      "confidence": "Недостаточная для реконструкции фенотипов",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V03.5",
@@ -2187,7 +2204,8 @@
       "sourceIds": [
         "R57"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V04.1",
@@ -2199,7 +2217,8 @@
       "sourceIds": [
         "R56"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V04.2",
@@ -2211,7 +2230,8 @@
       "sourceIds": [
         "R48"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V04.3",
@@ -2223,7 +2243,8 @@
       "sourceIds": [
         "R56"
       ],
-      "confidence": "Средняя; проверена логика обобщения, не каждая модель поведения"
+      "confidence": "Средняя; проверена логика обобщения, не каждая модель поведения",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V04.4",
@@ -2235,7 +2256,8 @@
       "sourceIds": [
         "R35"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V05.1",
@@ -2247,7 +2269,8 @@
       "sourceIds": [
         "R43"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Уточнение внесено 2026-09-14"
     },
     {
       "id": "V05.2",
@@ -2259,7 +2282,8 @@
       "sourceIds": [
         "R44"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Сохранено"
     },
     {
       "id": "V05.3",
@@ -2271,7 +2295,8 @@
       "sourceIds": [
         "R55"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Уточнение внесено 2026-09-14"
     },
     {
       "id": "V05.4",
@@ -2283,7 +2308,8 @@
       "sourceIds": [
         "R42"
       ],
-      "confidence": "Высокая для LUCA; точная универсальная дата эукариогенеза не установлена"
+      "confidence": "Высокая для LUCA; точная универсальная дата эукариогенеза не установлена",
+      "implementationStatus": "Уточнение внесено 2026-09-14"
     },
     {
       "id": "V06.1",
@@ -2295,7 +2321,8 @@
       "sourceIds": [
         "R47"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V06.2",
@@ -2307,7 +2334,8 @@
       "sourceIds": [
         "R45"
       ],
-      "confidence": "Высокая"
+      "confidence": "Высокая",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V06.3",
@@ -2319,7 +2347,8 @@
       "sourceIds": [
         "R46"
       ],
-      "confidence": "Недостаточная для числа 185 тыс."
+      "confidence": "Недостаточная для числа 185 тыс.",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     },
     {
       "id": "V06.4",
@@ -2331,7 +2360,8 @@
       "sourceIds": [
         "R39"
       ],
-      "confidence": "Недостаточная для универсального сравнения"
+      "confidence": "Недостаточная для универсального сравнения",
+      "implementationStatus": "Материал снят целиком 2026-09-14"
     }
   ],
   "sources": [

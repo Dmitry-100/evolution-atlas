@@ -1,4 +1,9 @@
-export type ScienceSourceKind = "primary" | "review" | "museum" | "education" | "data";
+export type ScienceSourceKind =
+  | "primary"
+  | "review"
+  | "museum"
+  | "education"
+  | "data";
 
 export type ScienceSource = {
   id: string;
@@ -28,7 +33,8 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
   {
     id: "luca",
     titleRu: "LUCA и древний корень жизни",
-    noteRu: "Источники о LUCA как реконструируемом общем предковом узле, а не первой жизни.",
+    noteRu:
+      "Источники о LUCA как реконструируемом общем предковом узле, а не первой жизни.",
     routeHref: "/origin-of-life",
     sources: [
       {
@@ -36,28 +42,32 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
         label: "Nature Ecology & Evolution: LUCA",
         url: "https://www.nature.com/articles/s41559-024-02461-1",
         kind: "primary",
-        noteRu: "Современная реконструкция природы LUCA и его возможной роли в ранней экосистеме Земли.",
+        noteRu:
+          "Современная реконструкция природы LUCA и его возможной роли в ранней экосистеме Земли.",
       },
       {
         id: "bristol-luca-explainer",
         label: "University of Bristol: LUCA explainer",
         url: "https://www.bristol.ac.uk/news/2024/july/luca.html",
         kind: "museum",
-        noteRu: "Доступное объяснение результатов статьи о LUCA и датировки около 4,2 млрд лет.",
+        noteRu:
+          "Доступное объяснение результатов статьи о LUCA и датировки около 4,2 млрд лет.",
       },
       {
         id: "woese-three-domains",
         label: "Woese et al.: three domains",
         url: "https://pubmed.ncbi.nlm.nih.gov/2112744/",
         kind: "primary",
-        noteRu: "Классическая работа о доменах Bacteria, Archaea и Eukarya как каркасе дерева жизни.",
+        noteRu:
+          "Классическая работа о доменах Bacteria, Archaea и Eukarya как каркасе дерева жизни.",
       },
     ],
   },
   {
     id: "origin",
     titleRu: "Абиогенез и гипотезы происхождения жизни",
-    noteRu: "Обзорные источники для РНК-мира, протоклеток, первичной химии и гидротермальных сценариев.",
+    noteRu:
+      "Обзорные источники для РНК-мира, протоклеток, первичной химии и гидротермальных сценариев.",
     routeHref: "/origin-of-life",
     sources: [
       {
@@ -65,28 +75,32 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
         label: "Understanding Evolution: From soup to cells",
         url: "https://evolution.berkeley.edu/from-soup-to-cells-the-origin-of-life/",
         kind: "education",
-        noteRu: "Учебный маршрут по переходу от химии к клеточным системам и наследованию.",
+        noteRu:
+          "Учебный маршрут по переходу от химии к клеточным системам и наследованию.",
       },
       {
         id: "berkeley-rna-world",
         label: "Understanding Evolution: RNA world",
         url: "https://evolution.berkeley.edu/from-the-origin-of-life-to-the-future-of-biotech/the-rna-world/",
         kind: "education",
-        noteRu: "Понятный разбор того, почему РНК-мир считается сильной рабочей моделью.",
+        noteRu:
+          "Понятный разбор того, почему РНК-мир считается сильной рабочей моделью.",
       },
       {
         id: "whoi-lost-city",
         label: "WHOI: Lost City vents",
         url: "https://www.whoi.edu/oceanus/feature/lost-city-pumps-life-essential-chemicals-at-rates-unseen-at-typical-black-smokers/",
         kind: "museum",
-        noteRu: "Материал о гидротермальных источниках и химии, важной для сценариев ранней жизни.",
+        noteRu:
+          "Материал о гидротермальных источниках и химии, важной для сценариев ранней жизни.",
       },
     ],
   },
   {
     id: "geologic-time",
     titleRu: "Геологическая шкала времени",
-    noteRu: "Источники для границ периодов, названий систем и привязки возрастов к породам и ископаемым.",
+    noteRu:
+      "Источники для границ периодов, названий систем и привязки возрастов к породам и ископаемым.",
     routeHref: "/",
     sources: [
       {
@@ -110,79 +124,164 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
   {
     id: "lineage",
     titleRu: "Большая линия от клеток к человеку",
-    noteRu: "Опорные источники для кислородной революции, митохондрий, переходных форм и масштаба эволюционного времени.",
+    noteRu:
+      "Опорные источники для кислородной революции, митохондрий, переходных форм и масштаба эволюционного времени.",
     routeHref: "/",
     sources: [
+      {
+        id: "accuracy-r55",
+        label: "Possible link between Earth’s rotation rate and oxygenation",
+        url: "https://www.nature.com/articles/s41561-021-00784-3",
+        kind: "primary",
+        noteRu:
+          "Великое окислительное событие и более ранний кислородный фотосинтез.",
+      },
+      {
+        id: "accuracy-r43",
+        label: "Lung evolution in vertebrates and the water-to-land transition",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9323002/",
+        kind: "primary",
+        noteRu: "Происхождение лёгких у костных рыб до выхода на сушу.",
+      },
       {
         id: "asm-great-oxidation",
         label: "ASM: Great Oxidation Event",
         url: "https://asm.org/articles/2022/february/the-great-oxidation-event-how-cyanobacteria-change",
         kind: "review",
-        noteRu: "Обзор роли цианобактерий и кислородного фотосинтеза в изменении атмосферы Земли.",
+        noteRu:
+          "Обзор роли цианобактерий и кислородного фотосинтеза в изменении атмосферы Земли.",
       },
       {
         id: "nature-mitochondria",
         label: "Nature Scitable: origin of mitochondria",
         url: "https://www.nature.com/scitable/topicpage/the-origin-of-mitochondria-14232356/",
         kind: "education",
-        noteRu: "Разбор эндосимбиотического происхождения митохондрий и эукариотической клетки.",
+        noteRu:
+          "Разбор эндосимбиотического происхождения митохондрий и эукариотической клетки.",
       },
       {
         id: "shubin-tiktaalik",
         label: "Shubin Lab: Tiktaalik",
         url: "https://shubinlab.uchicago.edu/research-2-2/",
         kind: "museum",
-        noteRu: "Источник от исследовательской группы, связанной с открытием Tiktaalik и переходом к конечностям.",
+        noteRu:
+          "Источник от исследовательской группы, связанной с открытием Tiktaalik и переходом к конечностям.",
       },
     ],
   },
   {
     id: "human-origins",
     titleRu: "Африка и происхождение Homo sapiens",
-    noteRu: "Источники для карты африканских находок и пан-африканской модели происхождения человека.",
+    noteRu:
+      "Источники для карты африканских находок и пан-африканской модели происхождения человека.",
     routeHref: "/primates",
     sources: [
+      {
+        id: "accuracy-r01",
+        label: "Age of the oldest known Homo sapiens from eastern Africa",
+        url: "https://www.nature.com/articles/s41586-021-04275-8",
+        kind: "primary",
+        noteRu: "Минимальный возраст Omo I и сопоставление с Herto.",
+      },
+      {
+        id: "accuracy-r02",
+        label: "A weakly structured stem for human origins in Africa",
+        url: "https://www.nature.com/articles/s41586-023-06055-y",
+        kind: "primary",
+        noteRu:
+          "Модель связанных предковых популяций в Африке; конкретная история остаётся предметом исследований.",
+      },
+      {
+        id: "accuracy-r59",
+        label:
+          "A 100,000-year-old ochre-processing workshop at Blombos Cave, South Africa",
+        url: "https://pubmed.ncbi.nlm.nih.gov/21998386/",
+        kind: "primary",
+        noteRu: "Обработка охры в Blombos около 100 тыс. лет назад.",
+      },
+      {
+        id: "accuracy-r10",
+        label:
+          "Pleistocene chronology and history of hominins and fauna at Denisova Cave",
+        url: "https://www.nature.com/articles/s41467-025-60140-6",
+        kind: "primary",
+        noteRu:
+          "Денисовская мтДНК в отложениях и останки: разные виды свидетельств и датировок.",
+      },
+      {
+        id: "accuracy-r17",
+        label:
+          "3.3-million-year-old stone tools from Lomekwi 3, West Turkana, Kenya",
+        url: "https://www.nature.com/articles/nature14464",
+        kind: "primary",
+        noteRu:
+          "Орудия Ломекви возрастом 3,3 млн лет; изготовитель неизвестен.",
+      },
+      {
+        id: "accuracy-r16",
+        label:
+          "Earliest evidence of hominin bipedalism in Sahelanthropus tchadensis",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12758524/",
+        kind: "primary",
+        noteRu:
+          "Аргументы о двуногости сахелантропа по бедренной и локтевым костям.",
+      },
+      {
+        id: "accuracy-r24",
+        label:
+          "Early Middle Stone Age personal ornaments from Bizmoune Cave, Essaouira, Morocco",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8457661/",
+        kind: "primary",
+        noteRu:
+          "Украшения из Bizmoune: отдельная датировка культурного свидетельства.",
+      },
       {
         id: "smithsonian-homo-sapiens",
         label: "Smithsonian: Homo sapiens",
         url: "https://humanorigins.si.edu/evidence/human-fossils/species/homo-sapiens",
         kind: "museum",
-        noteRu: "Обзор появления Homo sapiens, ранних находок и позднего расселения нашего вида.",
+        noteRu:
+          "Обзор появления Homo sapiens, ранних находок и позднего расселения нашего вида.",
       },
       {
         id: "smithsonian-jebel-irhoud",
         label: "Smithsonian: Jebel Irhoud",
         url: "https://humanorigins.si.edu/research/whats-hot-human-origins/our-species-arose-least-300000-years-ago",
         kind: "museum",
-        noteRu: "Объяснение значения марокканских находок Jebel Irhoud для ранней истории Homo sapiens.",
+        noteRu:
+          "Объяснение значения марокканских находок Jebel Irhoud для ранней истории Homo sapiens.",
       },
       {
         id: "nature-jebel-irhoud",
         label: "Nature: new fossils from Jebel Irhoud",
         url: "https://www.nature.com/articles/nature22336",
         kind: "primary",
-        noteRu: "Первичная статья о датировке и морфологии ранних Homo sapiens из Марокко.",
+        noteRu:
+          "Первичная статья о датировке и морфологии ранних Homo sapiens из Марокко.",
       },
       {
         id: "nhm-human-dispersal",
         label: "Natural History Museum: Homo sapiens dispersal",
         url: "https://www.nhm.ac.uk/discover/when-how-did-modern-humans-homo-sapiens-spread-out-of-africa.html",
         kind: "museum",
-        noteRu: "Обзор маршрутов расселения Homo sapiens, ранних волн, Европы, Азии, Австралии и Америк.",
+        noteRu:
+          "Обзор маршрутов расселения Homo sapiens, ранних волн, Европы, Азии, Австралии и Америк.",
       },
       {
         id: "natural-earth-map-data",
         label: "Natural Earth: public domain map data",
         url: "https://www.naturalearthdata.com/about/terms-of-use/",
         kind: "data",
-        noteRu: "Открытые картографические данные, использованные для локальной SVG-подложки карты мира.",
+        noteRu:
+          "Открытые картографические данные, использованные для локальной SVG-подложки карты мира.",
       },
     ],
   },
   {
     id: "genetics",
     titleRu: "Молекулярные доказательства",
-    noteRu: "Источники для хромосомы 2, вирусных вставок, общего генетического кода и сравнительной геномики.",
+    noteRu:
+      "Источники для хромосомы 2, вирусных вставок, общего генетического кода и сравнительной геномики.",
     routeHref: "/genetics",
     sources: [
       {
@@ -190,50 +289,75 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
         label: "NHGRI: chromosomes 2 and 4",
         url: "https://www.genome.gov/13514624/2005-release-scientists-analyze-chromosomes-2-and-4",
         kind: "museum",
-        noteRu: "Популярное объяснение анализа человеческой хромосомы 2 и ее связи с родством человекообразных.",
+        noteRu:
+          "Популярное объяснение анализа человеческой хромосомы 2 и ее связи с родством человекообразных.",
       },
       {
         id: "pnas-chromosome-2",
         label: "PNAS: origin of human chromosome 2",
         url: "https://www.pnas.org/doi/abs/10.1073/pnas.88.20.9051",
         kind: "primary",
-        noteRu: "Классическая статья о следах слияния предковых хромосом в человеческой хромосоме 2.",
+        noteRu:
+          "Классическая статья о следах слияния предковых хромосом в человеческой хромосоме 2.",
       },
       {
         id: "ncbi-herv",
         label: "NCBI Bookshelf: endogenous retroviruses",
         url: "https://www.ncbi.nlm.nih.gov/books/NBK6235/",
         kind: "review",
-        noteRu: "Обзор эндогенных ретровирусов как наследуемых вставок в геномах.",
+        noteRu:
+          "Обзор эндогенных ретровирусов как наследуемых вставок в геномах.",
       },
     ],
   },
   {
     id: "cladogram",
     titleRu: "Дерево родства и кладограммы",
-    noteRu: "Источники для объяснения ветвящегося родства, доменов жизни и синтетических деревьев.",
+    noteRu:
+      "Источники для объяснения ветвящегося родства, доменов жизни и синтетических деревьев.",
     routeHref: "/cladogram",
     sources: [
+      {
+        id: "accuracy-r11",
+        label:
+          "The oldest known primate skeleton and early haplorhine evolution",
+        url: "https://pubmed.ncbi.nlm.nih.gov/23739424/",
+        kind: "primary",
+        noteRu:
+          "Ранний сухоносый примат Archicebus и родство долгопятов с антропоидами.",
+      },
+      {
+        id: "accuracy-r12",
+        label:
+          "Endocranial morphology of Palaeocene Plesiadapis tricuspidens and evolution of the early primate brain",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3953834/",
+        kind: "primary",
+        noteRu:
+          "Анатомия мозга Plesiadapis tricuspidens: ограничения реконструкции зрения.",
+      },
       {
         id: "open-tree-life",
         label: "PNAS: Open Tree of Life",
         url: "https://www.pnas.org/doi/10.1073/pnas.1423041112",
         kind: "primary",
-        noteRu: "Статья о синтетическом дереве жизни как объединении разных филогенетических данных.",
+        noteRu:
+          "Статья о синтетическом дереве жизни как объединении разных филогенетических данных.",
       },
       {
         id: "berkeley-lines-evidence",
         label: "Understanding Evolution: Lines of evidence",
         url: "https://evolution.berkeley.edu/lines-of-evidence/",
         kind: "education",
-        noteRu: "Обзор того, как ископаемые, анатомия, ДНК и биогеография сходятся в дерево родства.",
+        noteRu:
+          "Обзор того, как ископаемые, анатомия, ДНК и биогеография сходятся в дерево родства.",
       },
     ],
   },
   {
     id: "dinosaurs",
     titleRu: "Динозавры, тероподы и птицы",
-    noteRu: "Источники для связи птиц с тероподами, переходных форм и перьев до полноценного полета.",
+    noteRu:
+      "Источники для связи птиц с тероподами, переходных форм и перьев до полноценного полета.",
     routeHref: "/dinosaurs",
     sources: [
       {
@@ -241,14 +365,16 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
         label: "UCMP: The origin of birds",
         url: "https://ucmp.berkeley.edu/diapsids/avians.html",
         kind: "education",
-        noteRu: "Классический образовательный обзор связи птиц с динозаврами и тероподами.",
+        noteRu:
+          "Классический образовательный обзор связи птиц с динозаврами и тероподами.",
       },
       {
         id: "nhm-dinosaurs-birds",
         label: "Natural History Museum: dinosaurs to birds",
         url: "https://www.nhm.ac.uk/discover/how-dinosaurs-evolved-into-birds.html",
         kind: "museum",
-        noteRu: "Музейный материал о переходе от динозавровых признаков к птичьей линии.",
+        noteRu:
+          "Музейный материал о переходе от динозавровых признаков к птичьей линии.",
       },
       {
         id: "nhm-archaeopteryx",
@@ -262,7 +388,8 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
   {
     id: "extinctions",
     titleRu: "Глобальные вымирания",
-    noteRu: "Источники для большой пятерки, K-Pg, современного кризиса биоразнообразия и роли человека.",
+    noteRu:
+      "Источники для большой пятерки, K-Pg, современного кризиса биоразнообразия и роли человека.",
     routeHref: "/extinctions",
     sources: [
       {
@@ -270,21 +397,24 @@ export const SCIENCE_SOURCE_GROUPS: ScienceSourceGroup[] = [
         label: "NPS: Mass extinctions through geologic time",
         url: "https://www.nps.gov/subjects/fossils/mass-extinctions-through-geologic-time.htm",
         kind: "education",
-        noteRu: "Обзор крупных вымираний в геологическом времени с привязкой к ископаемой летописи.",
+        noteRu:
+          "Обзор крупных вымираний в геологическом времени с привязкой к ископаемой летописи.",
       },
       {
         id: "nasa-chicxulub",
         label: "NASA: Chicxulub impact",
         url: "https://science.nasa.gov/earth/deep-impact-and-the-mass-extinction-of-species-65-million-years-ago/",
         kind: "museum",
-        noteRu: "Объяснение связи ударного события и мел-палеогенового кризиса.",
+        noteRu:
+          "Объяснение связи ударного события и мел-палеогенового кризиса.",
       },
       {
         id: "ipbes-global-assessment",
         label: "IPBES: Global Assessment",
         url: "https://www.ipbes.net/global-assessment",
         kind: "data",
-        noteRu: "Современный доклад о рисках для биоразнообразия и угрозе исчезновения видов.",
+        noteRu:
+          "Современный доклад о рисках для биоразнообразия и угрозе исчезновения видов.",
       },
     ],
   },

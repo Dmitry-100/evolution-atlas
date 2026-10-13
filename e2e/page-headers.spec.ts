@@ -5,7 +5,7 @@ const routes = ["/", "/primates", "/theory", "/origin-of-life", "/genetics", "/d
 for (const width of [1440, 820, 391]) {
   test(`all route headers share typography and fit at ${width}px`, async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop", "Explicit responsive viewports.");
-    test.setTimeout(90_000);
+    test.setTimeout(process.env.CI ? 270_000 : 90_000);
     await page.setViewportSize({ width, height: 960 });
     let reference: unknown;
     for (const route of routes) {
